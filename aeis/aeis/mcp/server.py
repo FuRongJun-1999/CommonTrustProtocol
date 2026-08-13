@@ -159,6 +159,9 @@ def _tools():
          "inputSchema": {"type": "object",
                          "properties": {"path": {"type": "string"}},
                          "required": ["path"]}},
+        {"name": "service_info",
+         "description": "服务信息（信任透明度）：身份/版本/协议/库状态/工具数。接入方应先调用以确认与哪个协议实例对话。",
+         "inputSchema": {"type": "object"}},
         {"name": "action_log",
          "description": "P0-1 行为日志（最近 N 条）：引擎自己做了什么的记录面。",
          "inputSchema": {"type": "object",
@@ -186,9 +189,18 @@ class AEISServer:
     """MCP server（stdio · JSON-RPC 2.0）"""
 
     def __init__(self, agent: Agent = None):
+        # 服务增强：DB 目录防御性创建（相对路径/新 clone 场景不会因目录缺失失败）
+        _db = os.environ.get("AEIS_DB", ":memory:")
+        if _db != ":memory:":
+            _dir = os.path.dirname(os.path.abspath(_db))
+            if _dir:
+                try:
+                    os.makedirs(_dir, exist_ok=True)
+                except Exception:
+                    pass
         self.agent = agent or Agent(
             identity=os.environ.get("AEIS_IDENTITY", "灵枢"),
-            db_path=os.environ.get("AEIS_DB", ":memory:"))
+            db_path=_db)
         self._tools = {t["name"]: t for t in _tools()}
 
     # ---- 工具分发 ----
@@ -238,6 +250,23 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.gap_trend(window=a.get("window", 30)))}], "isError": False}
         if name == "export":
             return {"content": [{"type": "text", "text": _dump(agent.export(a.get("path", "aeis_export.json")))}], "isError": False}
+        if name == "service_info":
+            import aeis
+            db = getattr(agent.engine.store, "db_path", "?")
+            try:
+                stats = agent.engine.store.get_stats()
+                total_nodes = sum(v for k, v in stats.items() if k.endswith("_nodes"))
+            except Exception:
+                total_nodes = "?"
+            return {"content": [{"type": "text", "text": _dump({
+                "server": SERVER_NAME, "server_version": SERVER_VERSION,
+                "library": "aeis", "library_version": aeis.__version__,
+                "engine": aeis.ENGINE_VERSION, "protocol": aeis.PROTOCOL,
+                "identity": getattr(agent, "identity", "?"),
+                "db_path": db, "total_nodes": total_nodes,
+                "tools": len(self._tools),
+                "note": "工程观测值；协议内容权利归协议方（MIT 工程实现）",
+            })}], "isError": False}
         if name == "action_log":
             return {"content": [{"type": "text", "text": _dump(agent.action_log(limit=a.get("limit", 50)))}], "isError": False}
         if name == "cognition":

@@ -1,0 +1,14 @@
+{
+  "mcp": {
+    "servers": {
+      "aeis": {
+        "command": "python",
+        "args": ["-m", "aeis.mcp.server"],
+        "env": {
+          "AEIS_DB": "./data/aeis_memory.db",
+          "AEIS_IDENTITY": "灵枢"
+        }
+      }
+    }
+  }
+}
