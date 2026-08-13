@@ -655,13 +655,23 @@ class LayeredStore:
             ph = ",".join("?" for _ in layers)
             conds.append(f"layer IN ({ph})")
             params.extend([l.value for l in layers])
-        conds.append("(content LIKE ? OR tags LIKE ?)")
-        params.extend([f"%{q}%", f"%{q}%"])
-        where = " AND ".join(conds)
+        like_cond = "(content LIKE ? OR tags LIKE ?)"
+        like_params = [f"%{q}%", f"%{q}%"]
+        where = " AND ".join(conds + [like_cond]) if conds else like_cond
         c = self.conn.cursor()
-        c.execute(f"SELECT * FROM nodes WHERE {where} LIMIT 200", params)
+        c.execute(f"SELECT * FROM nodes WHERE {where} LIMIT 200", params + like_params)
+        rows = c.fetchall()
+        if not rows:
+            # 检索增强（v1.12.1 · AEIS-BENCH-01 发现）：LIKE 预筛落空
+            # （查询为重组短语，原文无连续子串命中）→ 回退全表二元组 Jaccard。
+            # 节点量级小（千级），全表计算代价可忽略；消除连续性漏检。
+            if conds:
+                c.execute(f"SELECT * FROM nodes WHERE {' AND '.join(conds)} LIMIT 500", params)
+            else:
+                c.execute("SELECT * FROM nodes LIMIT 500")
+            rows = c.fetchall()
         scored = []
-        for row in c.fetchall():
+        for row in rows:
             node = STNode.from_row(tuple(row))
             sim = self.char_bigram_jaccard(q, node.content)
             tag_bonus = 0.05 if any(q in t for t in node.tags) else 0.0
