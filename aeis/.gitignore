@@ -1,0 +1,21 @@
+# 开发环境
+__pycache__/
+*.pyc
+venv/
+.venv/
+*.egg-info/
+
+# 模型与数据（体积大，按需下载）
+models/
+data/
+*.db
+*.wal
+
+# 测试临时文件
+_test_*
+backup_*.json
+backup_*.db
+
+# 环境配置（密钥不入库）
+.env
+*.secret

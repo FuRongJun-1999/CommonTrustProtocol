@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""灵枢 AEIS MCP server 冒烟测试（stdio 子进程 · JSON-RPC 2.0 协议）"""
+
+import json
+import os
+import subprocess
+import sys
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECT_ROOT)
+
+results = []
+
+
+def check(name, cond, extra=""):
+    results.append((name, bool(cond)))
+    print(f"  [{'PASS' if cond else 'FAIL'}] {name} {extra}")
+
+
+def main():
+    env = dict(os.environ)
+    env["PYTHONIOENCODING"] = "utf-8"
+    proc = subprocess.Popen(
+        [sys.executable, "-m", "aeis.mcp.server"],
+        stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE, cwd=PROJECT_ROOT, env=env)
+
+    def send(msg):
+        proc.stdin.write(json.dumps(msg).encode("utf-8") + b"\n")
+        proc.stdin.flush()
+
+    def recv(timeout=15):
+        proc.stdout.flush()
+        line = proc.stdout.readline()
+        return json.loads(line)
+
+    # ---- 握手 ----
+    send({"jsonrpc": "2.0", "id": 1, "method": "initialize",
+          "params": {"protocolVersion": "2024-11-05", "capabilities": {},
+                     "clientInfo": {"name": "smoke-test"}}})
+    r = recv()
+    check("initialize", r["result"]["serverInfo"]["name"] == "aeis-mcp" and
+          r["result"]["protocolVersion"] == "2024-11-05")
+
+    send({"jsonrpc": "2.0", "method": "notifications/initialized"})
+
+    send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
+    r = recv()
+    tools = r["result"]["tools"]
+    check("tools/list 24 tools", len(tools) == 24)
+    names = [t["name"] for t in tools]
+    check("tools core set", {"remember", "recall", "search", "distill",
+                             "calibrate", "lifecycle_step", "self_check",
+                             "cognition", "emotional_bias", "self_reliability"} <= set(names))
+
+    # ---- 记忆工具 ----
+    send({"jsonrpc": "2.0", "id": 3, "method": "tools/call",
+          "params": {"name": "remember",
+                     "arguments": {"content": "MCP冒烟测试记忆", "importance": 0.9, "tags": ["smoke"]}}})
+    r = recv()
+    node = json.loads(r["result"]["content"][0]["text"])
+    check("remember", node["content"] == "MCP冒烟测试记忆" and node["importance"] == 0.9)
+
+    send({"jsonrpc": "2.0", "id": 4, "method": "tools/call",
+          "params": {"name": "recall", "arguments": {"query": "冒烟测试"}}})
+    r = recv()
+    hits = json.loads(r["result"]["content"][0]["text"])
+    check("recall", len(hits) >= 1)
+
+    send({"jsonrpc": "2.0", "id": 5, "method": "tools/call",
+          "params": {"name": "search", "arguments": {"query": "冒烟"}}})
+    r = recv()
+    check("search", len(json.loads(r["result"]["content"][0]["text"])) >= 1)
+
+    # ---- 飞轮/校准 ----
+    send({"jsonrpc": "2.0", "id": 6, "method": "tools/call",
+          "params": {"name": "distill", "arguments": {}}})
+    r = recv()
+    check("distill", "distillation_standard_version" in
+          json.loads(r["result"]["content"][0]["text"]))
+
+    send({"jsonrpc": "2.0", "id": 7, "method": "tools/call",
+          "params": {"name": "calibrate", "arguments": {}}})
+    r = recv()
+    c = json.loads(r["result"]["content"][0]["text"])
+    check("calibrate 5 judgments", "judgment5_experiment" in c)
+
+    send({"jsonrpc": "2.0", "id": 8, "method": "tools/call",
+          "params": {"name": "flywheel_metrics", "arguments": {}}})
+    r = recv()
+    met = json.loads(r["result"]["content"][0]["text"])
+    check("flywheel_metrics", "reuse_rate" in met)
+
+    # ---- 关系/生命周期/元认知 ----
+    send({"jsonrpc": "2.0", "id": 9, "method": "tools/call",
+          "params": {"name": "relate",
+                     "arguments": {"source_id": node["id"], "target_id": node["id"],
+                                   "relation": "similar"}}})
+    r = recv()
+    check("relate", "source_evidence" in json.loads(r["result"]["content"][0]["text"]))
+
+    send({"jsonrpc": "2.0", "id": 10, "method": "tools/call",
+          "params": {"name": "lifecycle_step", "arguments": {}}})
+    r = recv()
+    check("lifecycle_step", "state" in json.loads(r["result"]["content"][0]["text"]))
+
+    send({"jsonrpc": "2.0", "id": 11, "method": "tools/call",
+          "params": {"name": "self_check", "arguments": {}}})
+    r = recv()
+    check("self_check", json.loads(r["result"]["content"][0]["text"])["integrity_ok"] is True)
+
+    send({"jsonrpc": "2.0", "id": 12, "method": "tools/call",
+          "params": {"name": "gap_trend", "arguments": {}}})
+    r = recv()
+    check("gap_trend", "trend" in json.loads(r["result"]["content"][0]["text"]))
+
+    # ---- 自我认知工具（v1.12） ----
+    send({"jsonrpc": "2.0", "id": 13, "method": "tools/call",
+          "params": {"name": "cognition", "arguments": {}}})
+    r = recv()
+    check("cognition", "bvc_score" in json.loads(r["result"]["content"][0]["text"]))
+    send({"jsonrpc": "2.0", "id": 14, "method": "tools/call",
+          "params": {"name": "action_log", "arguments": {}}})
+    r = recv()
+    check("action_log", isinstance(json.loads(r["result"]["content"][0]["text"]), list))
+    send({"jsonrpc": "2.0", "id": 15, "method": "tools/call",
+          "params": {"name": "emotional_bias", "arguments": {}}})
+    r = recv()
+    check("emotional_bias", "status" in json.loads(r["result"]["content"][0]["text"]))
+    send({"jsonrpc": "2.0", "id": 16, "method": "tools/call",
+          "params": {"name": "self_reliability", "arguments": {}}})
+    r = recv()
+    check("self_reliability", "status" in json.loads(r["result"]["content"][0]["text"]))
+    send({"jsonrpc": "2.0", "id": 17, "method": "tools/call",
+          "params": {"name": "learning_impact", "arguments": {}}})
+    r = recv()
+    check("learning_impact", "non-causal" in
+          json.loads(r["result"]["content"][0]["text"])["property"] or
+          "非因果" in json.loads(r["result"]["content"][0]["text"])["property"])
+
+    # ---- 错误处理 ----
+    send({"jsonrpc": "2.0", "id": 18, "method": "tools/call",
+          "params": {"name": "no_such_tool", "arguments": {}}})
+    r = recv()
+    check("unknown tool error", r.get("error", {}).get("code") == -32000)
+
+    send({"jsonrpc": "2.0", "id": 19, "method": "bogus_method"})
+    r = recv()
+    check("unknown method", r.get("error", {}).get("code") == -32601)
+
+    # ---- 关闭 ----
+    proc.stdin.close()
+    proc.wait(timeout=5)
+    err = proc.stderr.read().decode("utf-8", "replace")
+    check("clean stderr", "Traceback" not in err, err[:120])
+
+    passed = sum(1 for _, ok in results if ok)
+    total = len(results)
+    print(f"\n===== 灵枢 AEIS MCP 冒烟: {passed}/{total} 通过 =====")
+    sys.exit(0 if passed == total else 1)
+
+
+if __name__ == "__main__":
+    main()
