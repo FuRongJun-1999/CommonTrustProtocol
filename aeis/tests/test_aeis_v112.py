@@ -21,8 +21,8 @@ def check(name, cond, extra=""):
 
 
 # ============ 版本 ============
-check("version v0.2.0 / v1.12.0",
-      aeis.__version__ == "0.2.0" and aeis.ENGINE_VERSION == "v1.12.0")
+check("version v0.3.1 / v1.13.0",
+      aeis.__version__ == "0.3.1" and aeis.ENGINE_VERSION == "v1.13.0")
 check("SelfCognitionEngine exported", aeis.SelfCognitionEngine is not None)
 
 # ============ Agent 高层 API ============
