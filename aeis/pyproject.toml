@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aeis"
-version = "0.1.0"
+version = "0.3.0"
 description = "灵枢 AEIS — Agent Engineering Implementation Specification：基于智能论 v3.2 的智能体工程实现规范库（五层记忆 · 知识飞轮 · 生命周期 · MCP）"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -21,6 +21,9 @@ classifiers = [
 dependencies = []  # D-005：库核心纯标准库 · 零外部依赖
 
 [project.optional-dependencies]
+# 视觉感知（v1.13 · 可选扩展：YOLO 目标检测）
+vision = ["ultralytics>=8.0"]
+
 # 原灵枢草案（v2.9/v3.0 协议智能体本体 src/protocol_instance.py）运行时依赖，
 # 供后续本体重新搭建参考；与库核心解耦（2026-08-13 以新库为基准）。
 runtime = [

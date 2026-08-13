@@ -10,7 +10,7 @@ spacetime_memory_core · 智能论 v3.2 协议实例核心引擎
 - 蜂群奠基声明 六、分层：锚点层/结构层/知识层/情境层/自我层
 - 3.2 节 选择性遗忘边界：锚点层与结构层不可遗忘
 
-版本：v1.12 · 协议实例核心（基于 v1.11；v1.12 自我认知循环：行为日志面/反思闭环触发/一致性评分/情绪方向性偏好 d²D_norm/dt²/元认知校准/学习回写+效果测量；SELF-COGNITION-REV2）
+版本：v1.13 · 协议实例核心（基于 v1.12；v1.13 视觉感知：YOLO 外接（可选扩展·零依赖降级）/视觉→记忆闭环/身体能力声明；VISION-REV1）
 """
 
 import sqlite3
@@ -1110,6 +1110,21 @@ class SpacetimeMemoryEngine:
         self._self_cognition = None
         self._self_cognition_error = ""
         self._setup_v112()
+        # ---- v1.13 状态（视觉感知 · 身体能力） ----
+        self._vision_provider = None
+        self._vision_error = ""
+        self._setup_v113()
+
+    def _setup_v113(self):
+        """v1.13 视觉组件装配（可选扩展：ultralytics 缺失时优雅降级 Null）"""
+        self._vision_provider = None
+        try:
+            from vision import create_vision_provider
+            self._vision_provider = create_vision_provider()
+            if not self._vision_provider.available():
+                self._vision_error = "ultralytics 未安装（pip install ultralytics）"
+        except Exception as e:
+            self._vision_error = str(e)
 
     def _setup_v111(self):
         """v1.11 飞轮组件装配（惰性导入 · 零外部依赖）"""
@@ -1744,6 +1759,46 @@ class SpacetimeMemoryEngine:
         if not self._flywheel:
             return False
         return self._flywheel.recency_weighted_update(node_id, delta)
+
+    # ==================== v1.13 视觉感知与身体（VISION-REV1） ====================
+
+    def set_vision_provider(self, provider):
+        """v1.13 视觉提供者依赖注入（duck-typed：available()/detect()）"""
+        self._vision_provider = provider
+
+    def get_vision_provider(self):
+        """v1.13 视觉提供者查询"""
+        return self._vision_provider
+
+    def perceive_image(self, image_path: str, conf_threshold: float = 0.35,
+                       importance: float = 0.6) -> dict:
+        """v1.13 视觉感知闭环：YOLO 检测 → 摘要 → 知识层记忆（modality=image）"""
+        try:
+            from vision import perceive_image as _pi
+            return _pi(self, image_path, self._vision_provider,
+                       conf_threshold, importance)
+        except Exception as e:
+            return {"status": "vision_error", "error": str(e)}
+
+    def get_body_capabilities(self) -> dict:
+        """v1.13 身体能力声明（第 4 项：工具/模态作为自我的一部分）"""
+        vision_ok = self._vision_provider is not None and self._vision_provider.available()
+        return {
+            "modalities": {
+                "text": True,
+                "image": vision_ok,
+                "audio": False,
+                "video": False,
+            },
+            "vision": {"provider": self._vision_provider.name
+                       if self._vision_provider else "none",
+                       "available": vision_ok,
+                       "error": self._vision_error or None},
+            "memory": {"engine": "v1.13", "persistent": True},
+            "tools": ["search", "recall", "distill", "calibrate", "cognition",
+                      "lifecycle", "mcp"],
+            "note": "身体 = 感知（视觉/文本）+ 运动（工具/MCP）+ 记忆（灵枢）；能力声明供自我模型与对外接口使用",
+        }
 
     # ==================== v1.12 自我认知循环（SELF-COGNITION-REV2） ====================
 

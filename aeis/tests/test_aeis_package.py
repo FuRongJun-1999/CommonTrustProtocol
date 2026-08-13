@@ -28,7 +28,7 @@ ML, ET = aeis.MemoryLayer, aeis.EdgeType
 fw = eng._flywheel
 
 # ============ 版本与组件 ============
-check("version", aeis.__version__ == "0.2.0" and aeis.ENGINE_VERSION == "v1.12.0")
+check("version", aeis.__version__ == "0.3.1" and aeis.ENGINE_VERSION == "v1.13.0")
 check("flywheel assembled", fw is not None, f"err={eng._flywheel_error}")
 check("flywheel version", fw.DISTILL_STANDARD_VERSION == "v1.11.0")
 
