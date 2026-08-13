@@ -15,6 +15,7 @@ P0-5b 学习效果测量（learning_impact · 非因果声明）
 边界：一致性检测为行为↔声明的工程代理，不声称意识/自我觉察（盲区33）
 """
 
+import json
 import time
 from typing import Dict, List, Optional
 
@@ -45,8 +46,9 @@ class SelfCognitionEngine:
 
     def __init__(self, engine):
         self.engine = engine
-        # P0-1 行为日志面
+        # P0-1 行为日志面（OBS-REV1：双写持久化，构造时从表恢复历史）
         self.action_log: List[Dict] = []
+        self._restore_action_log()
         # P0-2 失调与候选
         self.dissonance_log: List[Dict] = []
         self.value_candidates: List[Dict] = []
@@ -60,11 +62,30 @@ class SelfCognitionEngine:
     # P0-1 行为日志面（1.1.1 节）
     # =====================================================================
 
+    def _restore_action_log(self, limit: int = None) -> None:
+        """OBS-REV1：从 action_logs 表恢复最近行为（进程重启后观测面连续）"""
+        try:
+            store = self.engine.store
+            rows = store.conn.execute(
+                "SELECT ts, action_type, summary, node_ids, outcome, context"
+                " FROM action_logs ORDER BY id DESC LIMIT ?",
+                (limit or self.ACTION_LOG_MAX,),
+            ).fetchall()
+            for r in reversed(rows):
+                self.action_log.append({
+                    "ts": r[0], "action_type": r[1], "summary": r[2],
+                    "node_ids": json.loads(r[3] or "[]"),
+                    "outcome": json.loads(r[4] or "{}"),
+                    "context": json.loads(r[5] or "{}"),
+                })
+        except Exception:
+            pass
+
     def log_action(self, action_type: str, summary: str = "",
                    node_ids: Optional[List[str]] = None,
                    outcome: Optional[Dict] = None,
                    context: Optional[Dict] = None) -> Dict:
-        """记录一次行为（决策/操作/交互摘要 · 环形缓冲）"""
+        """记录一次行为（决策/操作/交互摘要 · 环形缓冲 + 持久化双写）"""
         entry = {
             "ts": time.time(),
             "action_type": action_type,
@@ -76,6 +97,27 @@ class SelfCognitionEngine:
         self.action_log.append(entry)
         if len(self.action_log) > self.ACTION_LOG_MAX:
             self.action_log = self.action_log[-self.ACTION_LOG_MAX:]
+        # OBS-REV1：落库（跨进程保留），失败不阻断主流程
+        try:
+            store = self.engine.store
+            store.conn.execute(
+                "INSERT INTO action_logs (ts, action_type, summary, node_ids, outcome, context)"
+                " VALUES (?,?,?,?,?,?)",
+                (entry["ts"], entry["action_type"], entry["summary"],
+                 json.dumps(entry["node_ids"], ensure_ascii=False),
+                 json.dumps(entry["outcome"], ensure_ascii=False, default=str),
+                 json.dumps(entry["context"], ensure_ascii=False, default=str)),
+            )
+            store.conn.commit()
+            # 表只保留最近 2 倍缓冲上限，防无限增长
+            store.conn.execute(
+                "DELETE FROM action_logs WHERE id NOT IN"
+                " (SELECT id FROM action_logs ORDER BY id DESC LIMIT ?)",
+                (self.ACTION_LOG_MAX * 2,),
+            )
+            store.conn.commit()
+        except Exception:
+            pass
         return entry
 
     def get_action_log(self, limit: int = 50) -> List[Dict]:
@@ -136,6 +178,11 @@ class SelfCognitionEngine:
         report["bvc_score"] = score
         report["threshold"] = self.bvc_threshold
         report["actions_considered"] = min(len(self.action_log), 30)
+
+        # OBS-REV1：认知循环自记行为（心跳观测面持续有内容；
+        # 摘要不含冲突词，不影响自身一致性评分）
+        self.log_action("cognition", f"bvc={score:.2f}",
+                        None, {"bvc_score": score, "actions_considered": report["actions_considered"]})
 
         # 2. 失调检测
         if score >= self.bvc_threshold or not self.action_log:
