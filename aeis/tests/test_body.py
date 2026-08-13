@@ -136,15 +136,43 @@ def test_injection_detection():
     check("preflight 正常放行", p2["ok"] is True)
 
 
+def test_audio_device():
+    """批次 2 语音设备：TTS 实路径（edge-tts 免 key）+ record/ASR 优雅降级。"""
+    a = Agent(identity="body-audio", db_path=":memory:")
+    # 注册
+    devs = a.body_devices()
+    check("audio 设备注册", any(d["name"] == "audio" for d in devs["devices"]))
+    # TTS（edge-tts 已装则实路径；未装则验证降级容器）
+    r = a.device_call("audio", "speak", {"text": "语音设备测试"})
+    if r["ok"]:
+        check("TTS 合成文件", os.path.exists(r["data"]["path"]) and r["data"]["bytes"] > 0,
+              f"provider={r['data'].get('provider')}")
+    else:
+        check("TTS 优雅降级", "edge-tts" in r["error"] or "OPENAI" in r["error"], r["error"][:60])
+    check("audio 容器隔离", r["provenance"] == "device:audio" and r["is_directive"] is False)
+    # record 降级（本机一般无 sounddevice）——两种结果都接受：可用（有麦克风）或优雅失败
+    r2 = a.device_call("audio", "record", {"seconds": 1})
+    if r2["ok"]:
+        check("录音文件", os.path.exists(r2["data"]["path"]))
+    else:
+        check("录音优雅降级", "sounddevice" in r2["error"], r2["error"][:60])
+    # ASR 降级（无 key 时）或不可测（有 key 时跳过实调）
+    r3 = a.device_call("audio", "transcribe", {"path": "no_such.wav"})
+    if "OPENAI_API_KEY" in os.environ:
+        check("ASR 无文件拦截", not r3["ok"] and "不存在" in r3["error"])
+    else:
+        check("ASR 优雅降级", not r3["ok"] and ("ASR 不可用" in r3["error"] or "不存在" in r3["error"]))
+
+
 def test_engine_integration():
     a = Agent(identity="body-integration", db_path=":memory:")
     devs = a.body_devices()
-    check("引擎设备清单", devs["status"] == "ok" and len(devs["devices"]) == 3)
+    check("引擎设备清单", devs["status"] == "ok" and len(devs["devices"]) == 4)
     body = a.body()
-    check("身体能力含设备", "devices" in body and set(body["devices"]) == {"files", "process", "screen"})
+    check("身体能力含设备", "devices" in body and set(body["devices"]) == {"audio", "files", "process", "screen"})
     sync = a.sync_body_state()
-    check("身体状态同步含设备", "设备[files,process,screen]" in sync["state_description"],
-          f"desc={sync['state_description'][:80]}")
+    check("身体状态同步含设备", "设备[audio,files,process,screen]" in sync["state_description"],
+          f"desc={sync['state_description'][:90]}")
 
 
 def main():
@@ -154,6 +182,7 @@ def main():
     test_process_safety()
     test_screen_capture()
     test_injection_detection()
+    test_audio_device()
     test_engine_integration()
     print(f"\n===== BODY-REV1 身体层回归: {PASS}/{TOTAL} 通过 =====")
     return 0 if PASS == TOTAL else 1

@@ -20,19 +20,21 @@ from .security import (
 from .devices.screen import ScreenDevice
 from .devices.files import FilesDevice
 from .devices.process import ProcessDevice
+from .devices.audio import AudioDevice
 
 __all__ = [
     "BodyDevice", "DeviceResult", "BodyRegistry",
     "classify_external_text", "directive_scan", "result_to_memory_input",
     "sanitize_device_text",
-    "ScreenDevice", "FilesDevice", "ProcessDevice",
+    "ScreenDevice", "FilesDevice", "ProcessDevice", "AudioDevice",
 ]
 
 
 def build_default_registry(workspace: str = "") -> BodyRegistry:
-    """装配默认设备集（screen/files/process）。"""
+    """装配默认设备集（screen/files/process/audio）。"""
     registry = BodyRegistry(workspace=workspace)
     registry.register(ScreenDevice(workspace))
     registry.register(FilesDevice(workspace))
     registry.register(ProcessDevice(workspace))
+    registry.register(AudioDevice(workspace))
     return registry
