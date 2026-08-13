@@ -42,6 +42,13 @@ class FlywheelEngine:
         self.distill_log: List[Dict] = []
         self.calibration_log: List[Dict] = []
         self._last_stats: Dict = {}
+        # OBS-REV1：从 engine_meta 恢复统计基线（跨进程重启增长率连续）
+        try:
+            base = self._meta_get("flywheel_last_total")
+            if base is not None:
+                self._last_stats = {"total": int(base)}
+        except Exception:
+            pass
 
     # ==================== P0-1 蒸馏管线 ====================
 
@@ -146,11 +153,32 @@ class FlywheelEngine:
 
     # ==================== P0-2 飞轮度量（DEVIATION-004） ====================
 
+    def _meta_get(self, key: str, default: str = None) -> Optional[str]:
+        """engine_meta 读（OBS-REV1：工程状态跨进程持久化）"""
+        try:
+            row = self.engine.store.conn.execute(
+                "SELECT value FROM engine_meta WHERE key = ?", (key,)).fetchone()
+            return row[0] if row else default
+        except Exception:
+            return default
+
+    def _meta_set(self, key: str, value: str) -> None:
+        """engine_meta 写（upsert）"""
+        try:
+            conn = self.engine.store.conn
+            conn.execute(
+                "INSERT INTO engine_meta (key, value) VALUES (?, ?)"
+                " ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+                (key, value))
+            conn.commit()
+        except Exception:
+            pass
+
     def flywheel_metrics(self, window: int = 30) -> Dict:
         """操作化指标：
-        知识增长率 = 周期新增(节点+概念+技能+被拒路径) / 周期初总量
+        知识增长率 = 周期新增(全层节点+技能+被拒路径) / 周期初总量
         复用率 = 被引用去重节点数 / 总交互轮次（防操纵：同轮同节点去重）
-        蒸馏产出率 = 新可复用模式数 / 待蒸馏记录数
+        蒸馏产出率 = 可复用模式节点数 / 待蒸馏记录数
         性质：工程观测值，不参与信任计算"""
         stats = self.engine.store.get_stats()
         skills = 0
@@ -160,7 +188,8 @@ class FlywheelEngine:
             rejected = len(self.engine.list_rejected_paths())
         except Exception:
             pass
-        total_now = (stats.get("knowledge_nodes", 0) + stats.get("self_nodes", 0)
+        # OBS-REV1：全层节点口径（与 service_info total_nodes 一致）
+        total_now = (sum(v for k, v in stats.items() if k.endswith("_nodes"))
                      + skills + rejected)
         base = self._last_stats.get("total", total_now)
         growth = (total_now - base) / max(1, base)
@@ -178,12 +207,20 @@ class FlywheelEngine:
         interactions = max(1, getattr(self.engine, "_interaction_count", 1) or 1)
         reuse_rate = len(reuse_nodes) / interactions
 
-        # 蒸馏产出率
+        # 蒸馏产出率（OBS-REV1：patterns 以 reusable_pattern 标签节点数为准，
+        # 跨进程稳定——修复"distill 产出过模式但 metrics 计 0"；distill_log 保留为审计）
         total_input = sum(r["input"] for r in self.distill_log)
-        total_patterns = sum(r["patterns"] for r in self.distill_log)
+        try:
+            row = self.engine.store.conn.execute(
+                "SELECT COUNT(*) FROM nodes WHERE tags LIKE '%reusable_pattern%'").fetchone()
+            total_patterns = int(row[0]) if row else 0
+        except Exception:
+            total_patterns = sum(r["patterns"] for r in self.distill_log)
         distill_rate = total_patterns / max(1, total_input)
 
         self._last_stats = {"total": total_now}
+        # OBS-REV1：基线落库（进程重启后增长率连续）
+        self._meta_set("flywheel_last_total", str(total_now))
         return {
             "knowledge_growth_rate": round(growth, 4),
             "reuse_rate": round(reuse_rate, 4),

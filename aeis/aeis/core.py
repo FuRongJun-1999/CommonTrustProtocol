@@ -18,10 +18,31 @@ import json
 import time
 import math
 import uuid
+import os
+import hmac as _hmac
 import threading
 from typing import Optional, List, Dict, Any, Tuple, Set
 from dataclasses import dataclass, field, asdict
 from enum import Enum
+
+
+# =============================================================================
+# 设计者认证（D-007 用户身份识别·最小版）
+# =============================================================================
+
+def designer_key_configured() -> bool:
+    """设计者密钥是否已配置（AEIS_DESIGNER_KEY 环境变量）。"""
+    return bool(os.environ.get("AEIS_DESIGNER_KEY"))
+
+
+def verify_designer(designer_key) -> bool:
+    """设计者密钥验证（fail-closed）：未配置密钥或密钥不匹配一律拒绝。
+    密钥仅存在于服务环境变量（AEIS_DESIGNER_KEY），模型/自动化无法读取，
+    因此自动化会话与模型生成内容永远无法冒充设计者行使终裁权（D-007）。"""
+    expected = os.environ.get("AEIS_DESIGNER_KEY")
+    if not expected or not designer_key:
+        return False
+    return _hmac.compare_digest(str(designer_key), str(expected))
 
 
 # =============================================================================
@@ -371,6 +392,23 @@ class LayeredStore:
             CREATE TABLE IF NOT EXISTS escalation_points (
                 id TEXT PRIMARY KEY, code TEXT, trigger TEXT, condition TEXT, action TEXT,
                 severity TEXT DEFAULT 'medium', enabled INTEGER DEFAULT 1, created_at REAL
+            )
+        ''')
+        # ---- v1.14 观测持久化（OBS-REV1：行为日志/引擎元数据落库，跨进程稳定） ----
+        # P0-1 行为日志持久化：进程重启不清零，心跳/反思闭环可跨会话观测
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS action_logs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ts REAL, action_type TEXT, summary TEXT,
+                node_ids TEXT DEFAULT '[]',
+                outcome TEXT DEFAULT '{}',
+                context TEXT DEFAULT '{}'
+            )
+        ''')
+        # 引擎元数据（key-value）：飞轮基线等工程状态跨进程持久化
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS engine_meta (
+                key TEXT PRIMARY KEY, value TEXT
             )
         ''')
         self.conn.commit()
@@ -805,9 +843,13 @@ class LayeredStore:
                   (verified_by, proposal_id))
         self.conn.commit()
 
-    def adjudicate_promotion(self, proposal_id: str, adjudicated_by: str, approved: bool) -> Optional[str]:
-        """维生系统终裁。仅 status='verified'（经验证单元复核）的提案可终裁（D-003）。
+    def adjudicate_promotion(self, proposal_id: str, adjudicated_by: str, approved: bool,
+                             designer_key: str = None) -> Optional[str]:
+        """维生系统终裁（D-007 需设计者密钥）。仅 status='verified'（经验证单元复核）的提案可终裁（D-003）。
         终裁通过后才写入结构层（不可逆），拒绝则提案作废"""
+        if not verify_designer(designer_key):
+            raise PermissionError(
+                "D-007 设计者认证失败：密钥无效或未配置 AEIS_DESIGNER_KEY（fail-closed）")
         c = self.conn.cursor()
         c.execute("SELECT node_id, status FROM promotion_proposals WHERE id=?", (proposal_id,))
         row = c.fetchone()
@@ -994,8 +1036,11 @@ class LayeredStore:
         return True
 
     def adjudicate_verifier_standard(self, vid: str, adjudicator: str,
-                                     approved: bool) -> Optional[Dict]:
-        """维生系统终裁：仅 cs_approved（独立复核+条件空间复核通过）可终裁（A-2 制衡）"""
+                                     approved: bool, designer_key: str = None) -> Optional[Dict]:
+        """维生系统终裁（D-007 需设计者密钥）：仅 cs_approved（独立复核+条件空间复核通过）可终裁（A-2 制衡）"""
+        if not verify_designer(designer_key):
+            raise PermissionError(
+                "D-007 设计者认证失败：密钥无效或未配置 AEIS_DESIGNER_KEY（fail-closed）")
         c = self.conn.cursor()
         c.execute("SELECT * FROM verifier_standards WHERE id=?", (vid,))
         row = c.fetchone()
@@ -1510,8 +1555,16 @@ class SpacetimeMemoryEngine:
         """学习方向驱动：开放盲区列表"""
         return self.store.list_blindspots(status="open")
 
-    def resolve_blindspot(self, blindspot_id: str):
+    def resolve_blindspot(self, blindspot_id: str, resolved: bool = True,
+                          note: str = "", designer_key: str = None):
+        """盲区闭环（D-007 需设计者密钥：D-001 语义判定权在维生系统）。"""
+        if not verify_designer(designer_key):
+            raise PermissionError(
+                "D-007 设计者认证失败：密钥无效或未配置 AEIS_DESIGNER_KEY（fail-closed）")
+        if not resolved:
+            return False
         self.store.resolve_blindspot(blindspot_id)
+        return True
 
     # ==================== 情境层（M4） ====================
 
@@ -1570,9 +1623,11 @@ class SpacetimeMemoryEngine:
         """验证单元复核 + 3.3.1 条件空间复核（调用方记录复核结论）"""
         self.store.verify_promotion(proposal_id, verified_by)
 
-    def adjudicate_promotion(self, proposal_id: str, adjudicated_by: str, approved: bool) -> bool:
-        """维生系统终裁：仅经验证单元复核的提案可终裁；通过后才写结构层（不可逆）"""
-        node_id = self.store.adjudicate_promotion(proposal_id, adjudicated_by, approved)
+    def adjudicate_promotion(self, proposal_id: str, adjudicated_by: str, approved: bool,
+                             designer_key: str = None) -> bool:
+        """维生系统终裁（D-007 需设计者密钥）：仅经验证单元复核的提案可终裁；通过后才写结构层（不可逆）"""
+        node_id = self.store.adjudicate_promotion(proposal_id, adjudicated_by, approved,
+                                                  designer_key=designer_key)
         if node_id:
             node = self.store.get_node(node_id)
             if node and "promotion_pending" in node.tags:
@@ -1906,8 +1961,12 @@ class SpacetimeMemoryEngine:
             return {"status": "v110_not_ready", "error": self._lifecycle_error}
         return self._lifecycle.stop_lifecycle(source)
 
-    def resolve_crisis(self, directive: str) -> Dict:
-        """终裁检查点1：维生系统 P0 危机终裁指令（protect/freeze/rollback/continue/emergency_sleep）"""
+    def resolve_crisis(self, directive: str, designer_key: str = None) -> Dict:
+        """终裁检查点1：维生系统 P0 危机终裁指令（protect/freeze/rollback/continue/emergency_sleep）。
+        D-007 需设计者密钥（fail-closed）"""
+        if not verify_designer(designer_key):
+            raise PermissionError(
+                "D-007 设计者认证失败：密钥无效或未配置 AEIS_DESIGNER_KEY（fail-closed）")
         if not self._lifecycle:
             return {"status": "v110_not_ready", "error": self._lifecycle_error}
         result = self._lifecycle.resolve_crisis(directive)
@@ -2338,9 +2397,11 @@ class SpacetimeMemoryEngine:
         """A-2 第③步：条件空间复核（3.3.1 节，确认未违反通用价值观）"""
         return self.store.cs_review_verifier_standard(vid, reviewer, approved)
 
-    def adjudicate_verifier_standard(self, vid: str, adjudicator: str, approved: bool) -> bool:
-        """A-2 第④步：维生系统终裁。通过 → 应用配置 + 写入结构层（不可遗忘）"""
-        result = self.store.adjudicate_verifier_standard(vid, adjudicator, approved)
+    def adjudicate_verifier_standard(self, vid: str, adjudicator: str, approved: bool,
+                                     designer_key: str = None) -> bool:
+        """A-2 第④步：维生系统终裁（D-007 需设计者密钥）。通过 → 应用配置 + 写入结构层（不可遗忘）"""
+        result = self.store.adjudicate_verifier_standard(vid, adjudicator, approved,
+                                                         designer_key=designer_key)
         if not result:
             return False
         if result["status"] == "approved":
