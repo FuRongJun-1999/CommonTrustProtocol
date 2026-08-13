@@ -96,9 +96,9 @@ result_to_memory_input(result)
 | 进程执行 | executors/process | `process` 设备（禁 shell） | ✅ 已提取 |
 | 网络搜索 | web_search 插件 | `web_search`（博查） | ✅ 已有 |
 | 视觉理解 | VLM 双路径 | `see`（YOLO） | ✅ 已有 |
-| 语音（ASR/TTS/Realtime） | 前端采集+云端 | — | ⏳ 批次 2 |
-| 浏览器/CUA | browser-use/pyautogui | — | ⏳ 批次 3 |
-| Avatar 渲染 | 前端 WebGL | — | ⏳ 批次 4 |
+| 语音（ASR/TTS） | 前端采集+云端 provider | `audio` 设备（record/transcribe/speak，edge-tts 免 key + OpenAI 兼容） | ✅ 批次 2（Realtime 待批次 3） |
+| 浏览器/CUA | browser-use/pyautogui | — | ⏳ 批次 4 |
+| Avatar 渲染 | 前端 WebGL | — | ⏳ 批次 5 |
 
 每批新设备都经同一入口验收：**输出必须 DeviceResult 容器化、摄取必须过 security 过滤、
 任何情况不得进入提示词白名单之外的位置**。
