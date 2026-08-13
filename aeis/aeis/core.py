@@ -1821,10 +1821,31 @@ class SpacetimeMemoryEngine:
         return self._self_cognition.cognition_cycle()
 
     def cognition_report(self) -> dict:
-        """P0-2 认知报告（评分/失调/候选状态）"""
+        """P0-2 认知报告（评分/失调/候选状态 + 身体状态摘要·第 4 项）"""
         if not self._self_cognition:
             return {"status": "v112_not_ready", "error": self._self_cognition_error}
-        return self._self_cognition.cognition_report()
+        report = self._self_cognition.cognition_report()
+        try:
+            body = self.get_body_capabilities()
+            report["body"] = {"modalities": body["modalities"],
+                              "vision": body["vision"]["available"],
+                              "memory": body["memory"]["engine"]}
+        except Exception:
+            pass
+        return report
+
+    def sync_body_state(self) -> dict:
+        """第 4 项：身体状态同步到自我模型（身体 = 自我的一部分）。
+        更新 self_model.state_description 反映感知-运动能力。"""
+        body = self.get_body_capabilities()
+        mods = [m for m, ok in body["modalities"].items() if ok]
+        desc = (f"运行中 · 感知[{','.join(mods)}] · "
+                f"视觉({body['vision']['provider']}) · 记忆({body['memory']['engine']})")
+        try:
+            self.self_model.state_description = desc
+        except Exception:
+            pass
+        return {"status": "ok", "state_description": desc, "body": body}
 
     def apply_value_candidate(self, candidate_id: str, new_value: str = None) -> bool:
         """P0-2 价值迭代候选生效（验证单元复核后调用 · 经 record_value_change）"""
