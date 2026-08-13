@@ -48,7 +48,7 @@ def main():
     send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
     r = recv()
     tools = r["result"]["tools"]
-    check("tools/list 24 tools", len(tools) == 24)
+    check("tools/list 25 tools", len(tools) == 25)
     names = [t["name"] for t in tools]
     check("tools core set", {"remember", "recall", "search", "distill",
                              "calibrate", "lifecycle_step", "self_check",
@@ -139,13 +139,22 @@ def main():
           json.loads(r["result"]["content"][0]["text"])["property"] or
           "非因果" in json.loads(r["result"]["content"][0]["text"])["property"])
 
+    # ---- 服务信息（信任透明度） ----
+    send({"jsonrpc": "2.0", "id": 19, "method": "tools/call",
+          "params": {"name": "service_info", "arguments": {}}})
+    r = recv()
+    info = json.loads(r["result"]["content"][0]["text"])
+    check("service_info", info["server"] == "aeis-mcp" and
+          info["engine"] == "v1.12.0" and info["identity"] == "灵枢" and
+          info["tools"] == 25, str(info)[:120])
+
     # ---- 错误处理 ----
-    send({"jsonrpc": "2.0", "id": 18, "method": "tools/call",
+    send({"jsonrpc": "2.0", "id": 19, "method": "tools/call",
           "params": {"name": "no_such_tool", "arguments": {}}})
     r = recv()
     check("unknown tool error", r.get("error", {}).get("code") == -32000)
 
-    send({"jsonrpc": "2.0", "id": 19, "method": "bogus_method"})
+    send({"jsonrpc": "2.0", "id": 20, "method": "bogus_method"})
     r = recv()
     check("unknown method", r.get("error", {}).get("code") == -32601)
 
