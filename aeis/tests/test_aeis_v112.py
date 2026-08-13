@@ -55,19 +55,20 @@ check("P0-2 candidate applied", ok and "诚信优先" in agent2.engine.self_mode
 rep = agent2.cognition_report()
 check("P0-2 report", rep["candidates"][-1]["status"] == "applied")
 
-# P0-3 情绪方向性偏好
-agent.engine.record_info_gap(0.8)
-agent.engine.record_info_gap(0.7)
-agent.engine.record_info_gap(0.5)
-agent.engine.record_info_gap(0.2)
-b = agent.emotional_bias()
+# P0-3 情绪方向性偏好（独立引擎隔离：cognition_cycle 会写 gap 样本，避免污染）
+eng_emo = smc.SpacetimeMemoryEngine(identity="v112-emo")
+eng_emo.record_info_gap(0.8)
+eng_emo.record_info_gap(0.7)
+eng_emo.record_info_gap(0.5)
+eng_emo.record_info_gap(0.2)
+b = eng_emo.get_emotional_bias()
 check("P0-3 approaching", b["status"] == "approaching", f"got={b['status']}")
-agent.engine.record_info_gap(0.4)
-agent.engine.record_info_gap(0.7)
-agent.engine.record_info_gap(1.0)
-b = agent.emotional_bias()
+eng_emo.record_info_gap(0.4)
+eng_emo.record_info_gap(0.7)
+eng_emo.record_info_gap(1.0)
+b = eng_emo.get_emotional_bias()
 check("P0-3 avoiding", b["status"] == "avoiding", f"got={b['status']}")
-ts = agent.engine.self_model.trust_state
+ts = eng_emo.self_model.trust_state
 check("P0-3 E_weight untouched", set(ts) == {"p_trust", "p_gap", "t_total", "e_weight"})
 
 # P0-4 元认知校准
