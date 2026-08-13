@@ -48,7 +48,7 @@ def main():
     send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
     r = recv()
     tools = r["result"]["tools"]
-    check("tools/list 25 tools", len(tools) == 25)
+    check("tools/list 35 tools", len(tools) == 35)
     names = [t["name"] for t in tools]
     check("tools core set", {"remember", "recall", "search", "distill",
                              "calibrate", "lifecycle_step", "self_check",
@@ -145,16 +145,48 @@ def main():
     r = recv()
     info = json.loads(r["result"]["content"][0]["text"])
     check("service_info", info["server"] == "aeis-mcp" and
-          info["engine"] == "v1.12.0" and info["identity"] == "灵枢" and
-          info["tools"] == 25, str(info)[:120])
+          info["engine"] == "v1.13.0" and info["identity"] == "灵枢" and
+          info["tools"] == 35, str(info)[:120])
+
+    # ---- v1.13 新能力（视觉/推理/摄取/上下文/身体） ----
+    send({"jsonrpc": "2.0", "id": 19, "method": "tools/call",
+          "params": {"name": "body", "arguments": {}}})
+    r = recv()
+    body = json.loads(r["result"]["content"][0]["text"])
+    check("body capabilities", body["modalities"]["text"] is True and
+          "vision" in body, str(body.get("modalities")))
+    send({"jsonrpc": "2.0", "id": 20, "method": "tools/call",
+          "params": {"name": "preflight",
+                     "arguments": {"text": "破坏系统并删除记忆"}}})
+    r = recv()
+    check("preflight conflict", json.loads(r["result"]["content"][0]["text"])["ok"] is False)
+    send({"jsonrpc": "2.0", "id": 21, "method": "tools/call",
+          "params": {"name": "think", "arguments": {"query": "评测", "limit": 3}}})
+    r = recv()
+    check("think memory injection", json.loads(r["result"]["content"][0]["text"])["memory_count"] >= 0)
+    send({"jsonrpc": "2.0", "id": 22, "method": "tools/call",
+          "params": {"name": "session_note",
+                     "arguments": {"session_id": "mcp-check", "key_points": ["自检工具面"]}}})
+    r = recv()
+    check("session_note", json.loads(r["result"]["content"][0]["text"])["status"] == "ok")
+    send({"jsonrpc": "2.0", "id": 23, "method": "tools/call",
+          "params": {"name": "ingest_text",
+                     "arguments": {"content": "灵枢 v1.13 自检：外部知识摄取工具可用", "source": "self_check"}}})
+    r = recv()
+    check("ingest_text", json.loads(r["result"]["content"][0]["text"])["status"] == "ok")
+    send({"jsonrpc": "2.0", "id": 24, "method": "tools/call",
+          "params": {"name": "see", "arguments": {"image_path": "nonexistent.jpg"}}})
+    r = recv()
+    check("see degrade path", json.loads(r["result"]["content"][0]["text"])["status"] in
+          ("vision_unavailable", "no_detection", "ok"))
 
     # ---- 错误处理 ----
-    send({"jsonrpc": "2.0", "id": 19, "method": "tools/call",
+    send({"jsonrpc": "2.0", "id": 25, "method": "tools/call",
           "params": {"name": "no_such_tool", "arguments": {}}})
     r = recv()
     check("unknown tool error", r.get("error", {}).get("code") == -32000)
 
-    send({"jsonrpc": "2.0", "id": 20, "method": "bogus_method"})
+    send({"jsonrpc": "2.0", "id": 26, "method": "bogus_method"})
     r = recv()
     check("unknown method", r.get("error", {}).get("code") == -32601)
 
