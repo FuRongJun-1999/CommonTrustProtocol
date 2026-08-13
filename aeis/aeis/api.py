@@ -1,0 +1,273 @@
+# -*- coding: utf-8 -*-
+"""
+aeis.api · 灵枢高层接口 — 面向其他智能体的接入点
+=================================================
+Agent 类封装 SpacetimeMemoryEngine（v1.11），提供分组化的简洁方法面。
+协议语义（智能论 v3.2）：五层记忆 · 信息差 D_norm · 信任值 T_total ·
+条件空间 · 盲区 · 生命周期七相 · 知识飞轮。
+
+设计约束：
+- 零外部依赖（D-005）：全部基于核心引擎与标准库。
+- 薄封装：所有方法直接委托核心引擎，不复制逻辑。
+- AI 友好：每个方法含类型标注与协议语义说明。
+"""
+
+from typing import Dict, List, Optional, Tuple
+
+from .core import (
+    SpacetimeMemoryEngine, ConditionSpace, EdgeType, MemoryLayer,
+)
+
+
+class Agent:
+    """灵枢智能体 — 其他 AI 的协议接入点。
+
+    用法::
+
+        import aeis
+        agent = aeis.Agent(identity="助手", db_path="memory.db")
+        agent.remember("用户偏好简洁回答", tags=["preference"])
+        hits = agent.recall("偏好")
+        agent.distill()          # 知识飞轮：经验 → 可复用模式
+        agent.calibrate()        # 宇宙校准参照（方向性检查）
+        agent.close()
+    """
+
+    def __init__(self, identity: str = "智能体",
+                 db_path: str = ":memory:",
+                 role: str = "primary",
+                 data_dir: Optional[str] = None):
+        self.identity = identity
+        from .core import Role
+        role_enum = Role.PRIMARY if role in ("primary", "PRIMARY") else Role.SECONDARY
+        self.engine = SpacetimeMemoryEngine(db_path=db_path, identity=identity,
+                                            role=role_enum)
+        self._data_dir = data_dir
+
+    # =====================================================================
+    # 记忆层（五层记忆 · 3.2 节）
+    # =====================================================================
+
+    def remember(self, content: str, importance: float = 0.5,
+                 tags: Optional[List[str]] = None,
+                 entities: Optional[List[str]] = None,
+                 modality: str = "text",
+                 condition_space: Optional[ConditionSpace] = None):
+        """写入一条感知记忆（自动进入知识层）。
+
+        - content: 记忆内容（中文语义优先）
+        - importance: 重要性 [0,1]（近因/重要性参与召回加权）
+        - tags: 标签（如 learning_result / preference / anchor 语义标记）
+        - entities: 实体名列表（挂接实体注册表）
+        - modality: text / image / code 等
+        - 自动去重（中文二元组 Jaccard ≥ 动态阈值 → 提升原节点权重）
+        """
+        return self.engine.add_perception(
+            content, modality=modality, importance=importance,
+            tags=list(tags or []), entities=list(entities or []) or None,
+            condition_space=condition_space)
+
+    def recall(self, query: str, limit: int = 10) -> List[Tuple]:
+        """组合联想召回（内容相似 0.5 + 重要性 0.3 + 近因 0.2）。
+        返回 [(STNode, score)]。"""
+        return self.engine.recall(query, limit=limit)
+
+    def search(self, query: str, limit: int = 20) -> List[Tuple]:
+        """内容检索（LIKE 预筛 + 中文二元组 Jaccard 排序）。
+        返回 [(STNode, score)]；触发复用追踪（飞轮度量输入）。"""
+        return self.engine.search_content(query, limit=limit)
+
+    def timeline(self, limit: int = 50) -> List[Dict]:
+        """时间线（按时间倒序的记忆快照）。"""
+        return self.engine.timeline(limit=limit)
+
+    def what_happened(self, since: float, until: Optional[float] = None) -> List:
+        """时间窗口内发生了什么（时态查询）。"""
+        return self.engine.what_happened_at(since, until)
+
+    def anchors(self) -> List:
+        """锚点层记忆（不可遗忘的结构记忆，如协议副本）。"""
+        return self.engine.get_anchors()
+
+    # =====================================================================
+    # 关系与推理（图结构 · 条件空间）
+    # =====================================================================
+
+    def relate(self, source_id: str, target_id: str,
+               relation: str = "causal",
+               confidence: float = 0.5,
+               source_evidence: str = "extracted"):
+        """在两个节点间建立关系边。
+
+        - relation: causal / similar / sequential / spatial / hierarchical
+        - source_evidence: extracted（观察）/ inferred（推导）/ ambiguous
+        - 边默认未验证（待验证单元复核）
+        """
+        et = getattr(EdgeType, relation.upper(), EdgeType.CAUSAL)
+        return self.engine.add_edge(source_id, target_id, relation_type=et,
+                                    confidence=confidence,
+                                    source_evidence=source_evidence)
+
+    def reason(self, start_id: str, end_id: str = None,
+               max_depth: int = 5) -> List:
+        """因果推理：从起点出发的因果路径集合（List[List[STEdge]]）。"""
+        return self.engine.reason_causal(start_id, end_id, max_depth=max_depth)
+
+    def predict_routes(self, start_id: str = None, horizon: int = 3,
+                       blindspot_id: str = None) -> Dict:
+        """生成式预测：候选未来路线集合（盲区驱动 · T_pred 对齐）。"""
+        return self.engine.predict_routes(start_id=start_id,
+                                          blindspot_id=blindspot_id,
+                                          horizon=horizon)
+
+    def shortest_path(self, start_id: str, end_id: str, max_depth: int = 6) -> List[str]:
+        """多边类型最短路径（BFS）。"""
+        return self.engine.shortest_path(start_id, end_id, max_depth)
+
+    def subgraph(self, query: str, max_nodes: int = 15) -> Dict:
+        """语义检索作用域子图。"""
+        return self.engine.query_subgraph(query, max_nodes)
+
+    # =====================================================================
+    # 认知（盲区 · 学习 · 归纳）
+    # =====================================================================
+
+    def blindspots(self, status: str = None) -> List[Dict]:
+        """盲区注册表（D-001 语义判定：对人类文明级负面影响不写入）。"""
+        return self.engine.list_blindspots(status=status)
+
+    def learn(self, use_prediction: bool = True) -> Dict:
+        """一轮盲区学习（可预测盲区 → 预测路线假设 → 探索 → 终态判定）。"""
+        return self.engine.learn_next(use_prediction=use_prediction)
+
+    def induce(self) -> List:
+        """归纳/知识合成：并查集聚类 → 概念节点（SIMILAR 边 · inferred 证据）。"""
+        return self.engine.induce_concepts()
+
+    def resolve_blindspot(self, blindspot_id: str, resolved: bool = True,
+                          note: str = "") -> bool:
+        """盲区闭环。"""
+        return self.engine.resolve_blindspot(blindspot_id, resolved, note)
+
+    # =====================================================================
+    # 知识飞轮（v1.11 · FLYWHEEL-REV1）
+    # =====================================================================
+
+    def distill(self, source_filter: str = None) -> Dict:
+        """蒸馏管线：经验（被拒路径 + learning_result/induced）→ 可复用模式。
+        模式节点带 dsv:<标准版本> 标签；模式→成员 SIMILAR 边（inferred）。"""
+        return self.engine.evo_distill_cycle(source_filter)
+
+    def flywheel_report(self) -> Dict:
+        """飞轮度量（知识增长率 / 复用率 / 蒸馏产出率）。
+        性质：工程观测值，不参与信任值计算（DEVIATION-004）。"""
+        return self.engine.evo_flywheel_metrics()
+
+    def transfer_test(self) -> Dict:
+        """迁移测试：已对齐条件空间内新实体预测成功率（2×SE 显著性）。
+        样本 < 20 不构成迁移判定（DEVIATION-005）。"""
+        return self.engine.test_transfer_capability()
+
+    def calibrate(self) -> Dict:
+        """宇宙校准参照（元理论方向性检查 · 5 判据）。
+        定位：方向性检查工具，不替代工程验证/外部校准；非盲区33关闭依据。"""
+        return self.engine.universe_calibrate()
+
+    def mark_contested(self, node_id: str, reason: str) -> bool:
+        """标记争议（工作记忆深化）。"""
+        return self.engine.mark_contested(node_id, reason)
+
+    def reverify(self, node_id: str) -> bool:
+        """重验证（移除 stale · 置信度 +0.05）。"""
+        return self.engine.reverify(node_id)
+
+    # =====================================================================
+    # 生命周期（v1.10 · 七相工程映射）
+    # =====================================================================
+
+    def step(self) -> Dict:
+        """生命周期一步：感知 → 好奇 → 缩小信息差 → 信任 → 协作 → 巩固 → standby。
+        先消费事件队列（v1.11 P1-4 事件驱动）。"""
+        return self.engine.lifecycle_cycle()
+
+    def lifecycle_state(self) -> Dict:
+        """生命周期状态（cycle / state / 感知 d_norm），不执行一步。"""
+        lc = getattr(self.engine, "_lifecycle", None)
+        if lc is None:
+            return {"status": "v110_not_ready",
+                    "error": getattr(self.engine, "_lifecycle_error", "")}
+        state = getattr(lc, "state", "unknown")
+        cycle = getattr(lc, "cycle_count", 0)
+        return {"status": "ok", "state": state, "cycle": cycle}
+
+    def resolve_crisis(self, decision: str) -> bool:
+        """P0 危机终裁（维生系统接口）：decision ∈
+        (protect, freeze, rollback, continue, emergency_sleep)。"""
+        return self.engine.resolve_crisis(decision)
+
+    # =====================================================================
+    # 元认知与持久化
+    # =====================================================================
+
+    def self_check(self) -> Dict:
+        """自检：完整性 / 孤儿边 / 表统计。"""
+        return self.engine.verify_integrity()
+
+    # =====================================================================
+    # 自我认知循环（v1.12 · SELF-COGNITION-REV2）
+    # =====================================================================
+
+    def action_log(self, limit: int = 50) -> List[Dict]:
+        """P0-1 行为日志（最近 N 条，倒序）：引擎"自己做了什么"的记录面。"""
+        return self.engine.get_action_log(limit)
+
+    def action_stats(self) -> Dict:
+        """P0-1 行为日志聚合统计（按行为类型）。"""
+        return self.engine.action_log_stats()
+
+    def cognition_cycle(self) -> Dict:
+        """P0-2 自我认知循环一步：行为↔价值观对照 → 一致性评分 → 失调检测
+        → 触发链（detect_deviation）→ 价值迭代候选（pending_review，不自动生效）。"""
+        return self.engine.cognition_cycle()
+
+    def cognition_report(self) -> Dict:
+        """P0-2 认知报告（最近评分 / 失调记录 / 候选状态）。"""
+        return self.engine.cognition_report()
+
+    def apply_value_candidate(self, candidate_id: str, new_value: str = None) -> bool:
+        """P0-2 价值迭代候选生效（验证单元复核后调用 · 经 record_value_change
+        + 注意力基准联动，role='reflect' 权限规则）。"""
+        return self.engine.apply_value_candidate(candidate_id, new_value)
+
+    def emotional_bias(self) -> Dict:
+        """P0-3 情绪方向性偏好 d²D_norm/dt²（信息差二阶差分，短期曲率）。
+        独立通道，不参与信任值计算（E_weight 零改动）。"""
+        return self.engine.get_emotional_bias()
+
+    def self_reliability(self, window: int = 30) -> Dict:
+        """P0-4 元认知校准：预测命中率 vs 行为置信度 → 自我可靠性模型
+        （reliable / watch / degraded；输出归一化参考，不修改存储）。"""
+        return self.engine.get_self_reliability(window)
+
+    def learning_impact(self, window: int = 30) -> Dict:
+        """P0-5b 学习效果测量（模式命中率 vs D_norm 趋势 · 相关性观测，非因果声明）。"""
+        return self.engine.learning_impact(window)
+
+    def gap_trend(self, window: int = 30) -> Dict:
+        """信息差收敛趋势（A-4 线性回归斜率）。"""
+        return self.engine.get_gap_trend(window=window)
+
+    def export(self, path: str) -> Dict:
+        """全库导出（JSON · 灾备/迁移/摘要交换）。"""
+        return self.engine.export_all(path)
+
+    def import_backup(self, path: str) -> Dict:
+        """全库导入（恢复/合并）。"""
+        return self.engine.import_all(path)
+
+    def close(self):
+        """关闭引擎（释放连接）。"""
+        try:
+            self.engine.close()
+        except Exception:
+            pass

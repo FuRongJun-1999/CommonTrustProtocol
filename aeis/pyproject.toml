@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aeis"
+version = "0.1.0"
+description = "灵枢 AEIS — Agent Engineering Implementation Specification：基于智能论 v3.2 的智能体工程实现规范库（五层记忆 · 知识飞轮 · 生命周期 · MCP）"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "智能论 v3.2 协议框架 · 保留所有权利" }
+authors = [{ name = "荣 & zcode-肥鱼（智能论协议工程）" }]
+keywords = ["agent", "memory", "cognition", "protocol", "aeis", "智能体", "记忆", "灵枢"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []  # D-005：库核心纯标准库 · 零外部依赖
+
+[project.optional-dependencies]
+# 原灵枢草案（v2.9/v3.0 协议智能体本体 src/protocol_instance.py）运行时依赖，
+# 供后续本体重新搭建参考；与库核心解耦（2026-08-13 以新库为基准）。
+runtime = [
+    "flask>=2.0.0",
+    "requests>=2.28.0",
+    "chromadb>=0.4.0",
+    "sentence-transformers>=2.2.0",
+    "pyyaml>=6.0",
+    "beautifulsoup4",
+    "lxml",
+    "html2text",
+]
+
+[project.scripts]
+aeis-mcp = "aeis.mcp.server:main"
+
+[tool.setuptools]
+packages = ["aeis", "aeis.mcp"]

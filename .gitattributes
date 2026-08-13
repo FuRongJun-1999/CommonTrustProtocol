@@ -1,0 +1,7 @@
+# 统一 LF 行尾（防止跨平台 CRLF 噪音）
+* text=auto eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.sh text eol=lf
+*.toml text eol=lf
+*.yaml text eol=lf

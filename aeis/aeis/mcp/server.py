@@ -1,0 +1,317 @@
+# -*- coding: utf-8 -*-
+"""
+aeis.mcp.server · 灵枢 MCP server — 供其他智能体通过 MCP 协议调用
+================================================================
+零外部依赖实现（D-005）：stdio 传输 + JSON-RPC 2.0（换行分隔）。
+其他智能体（ZCode / Claude / 自研 Agent）通过 MCP 客户端接入后，
+可直接调用记忆/认知/飞轮工具，无需编写代码。
+
+传输协议：
+  - 每行一个 JSON 消息（UTF-8）
+  - 初始化序列：initialize → notifications/initialized → tools/list → tools/call
+
+启动：
+  python -m aeis.mcp.server            # 或安装后: aeis-mcp
+  AEIS_DB=memory.db AEIS_IDENTITY=助手 aeis-mcp   # 持久化配置
+
+工具面（18 项）：记忆（remember/recall/search/timeline）· 关系（relate/reason/
+predict_routes）· 认知（blindspots/learn/induce）· 飞轮（distill/flywheel_metrics/
+transfer_test/calibrate）· 生命周期（lifecycle_step）· 元认知（self_check/gap_trend/export）
+"""
+
+import json
+import os
+import sys
+
+from ..api import Agent
+from ..core import STNode, STEdge, ConditionSpace
+
+SERVER_NAME = "aeis-mcp"
+SERVER_VERSION = "0.1.0"
+PROTOCOL_VERSION = "2024-11-05"
+
+
+# ---------------------------------------------------------------------------
+# 序列化（节点/边/枚举 → JSON 安全结构）
+# ---------------------------------------------------------------------------
+
+def _serialize(obj):
+    if isinstance(obj, STNode):
+        return {
+            "id": obj.id, "content": obj.content, "modality": obj.modality,
+            "importance": obj.importance, "confidence": obj.confidence,
+            "layer": getattr(obj.layer, "value", str(obj.layer)),
+            "tags": list(obj.tags),
+            "access_count": obj.access_count,
+            "last_access": obj.last_access, "created_at": obj.created_at,
+            "entity_id": obj.entity_id,
+            "condition_space": json.loads(obj.condition_space.to_json())
+            if obj.condition_space else None,
+        }
+    if isinstance(obj, STEdge):
+        return {
+            "id": obj.id, "source_id": obj.source_id, "target_id": obj.target_id,
+            "relation_type": getattr(obj.relation_type, "value", str(obj.relation_type)),
+            "confidence": obj.confidence, "weight": obj.weight,
+            "verified": bool(obj.verified),
+            "created_at": obj.created_at, "last_verified": obj.last_verified,
+            "source_evidence": obj.source_evidence,
+        }
+    if isinstance(obj, ConditionSpace):
+        return json.loads(obj.to_json())
+    if isinstance(obj, (list, tuple)):
+        return [_serialize(x) for x in obj]
+    if isinstance(obj, dict):
+        return {str(k): _serialize(v) for k, v in obj.items()}
+    return obj
+
+
+def _dump(obj) -> str:
+    return json.dumps(_serialize(obj), ensure_ascii=False, default=str)
+
+
+# ---------------------------------------------------------------------------
+# 工具注册表
+# ---------------------------------------------------------------------------
+
+def _tools():
+    return [
+        {"name": "remember",
+         "description": "写入一条感知记忆（知识层，自动去重）。content 必填；importance 重要性[0,1]；tags 标签；entities 实体名列表。",
+         "inputSchema": {"type": "object",
+                         "properties": {"content": {"type": "string"},
+                                        "importance": {"type": "number"},
+                                        "tags": {"type": "array", "items": {"type": "string"}},
+                                        "entities": {"type": "array", "items": {"type": "string"}}},
+                         "required": ["content"]}},
+        {"name": "recall",
+         "description": "组合联想召回（内容相似0.5+重要性0.3+近因0.2）。返回 [(node, score)]。",
+         "inputSchema": {"type": "object",
+                         "properties": {"query": {"type": "string"}, "limit": {"type": "number"}},
+                         "required": ["query"]}},
+        {"name": "search",
+         "description": "内容检索（LIKE 预筛 + 中文二元组 Jaccard 排序），触发复用追踪。",
+         "inputSchema": {"type": "object",
+                         "properties": {"query": {"type": "string"}, "limit": {"type": "number"}},
+                         "required": ["query"]}},
+        {"name": "timeline",
+         "description": "记忆时间线（按时间倒序）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"limit": {"type": "number"}}}},
+        {"name": "relate",
+         "description": "在两个节点间建立关系边。relation: causal/similar/sequential/spatial/hierarchical；source_evidence: extracted/inferred/ambiguous。边默认未验证。",
+         "inputSchema": {"type": "object",
+                         "properties": {"source_id": {"type": "string"},
+                                        "target_id": {"type": "string"},
+                                        "relation": {"type": "string"},
+                                        "confidence": {"type": "number"},
+                                        "source_evidence": {"type": "string"}},
+                         "required": ["source_id", "target_id"]}},
+        {"name": "reason",
+         "description": "因果推理：从起点出发的因果路径集合。",
+         "inputSchema": {"type": "object",
+                         "properties": {"start_id": {"type": "string"},
+                                        "end_id": {"type": "string"},
+                                        "max_depth": {"type": "number"}},
+                         "required": ["start_id"]}},
+        {"name": "predict_routes",
+         "description": "生成式预测：候选未来路线集合（盲区驱动 · T_pred 对齐）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"start_id": {"type": "string"},
+                                        "horizon": {"type": "number"},
+                                        "blindspot_id": {"type": "string"}}}},
+        {"name": "blindspots",
+         "description": "盲区注册表（D-001 语义判定：对人类文明级负面影响不写入）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"status": {"type": "string"}}}},
+        {"name": "learn",
+         "description": "一轮盲区学习（可预测盲区 → 预测路线假设 → 探索 → 终态判定）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"use_prediction": {"type": "boolean"}}}},
+        {"name": "induce",
+         "description": "归纳/知识合成：聚类生成概念节点（SIMILAR 边 · inferred 证据）。",
+         "inputSchema": {"type": "object"}},
+        {"name": "distill",
+         "description": "知识飞轮蒸馏：经验（被拒路径 + learning_result/induced）→ 可复用模式节点。",
+         "inputSchema": {"type": "object",
+                         "properties": {"source_filter": {"type": "string"}}}},
+        {"name": "flywheel_metrics",
+         "description": "飞轮度量（知识增长率/复用率/蒸馏产出率）。工程观测值，不参与信任计算。",
+         "inputSchema": {"type": "object"}},
+        {"name": "transfer_test",
+         "description": "迁移测试：条件空间内新实体预测成功率（2×SE 显著性；样本<20 不判定）。",
+         "inputSchema": {"type": "object"}},
+        {"name": "calibrate",
+         "description": "宇宙校准参照（5 判据方向性检查）。元理论参照工具，非盲区33关闭依据。",
+         "inputSchema": {"type": "object"}},
+        {"name": "lifecycle_step",
+         "description": "生命周期一步（感知→好奇→缩小信息差→信任→协作→巩固→standby）。",
+         "inputSchema": {"type": "object"}},
+        {"name": "self_check",
+         "description": "完整性自检（孤儿边/表统计/integrity_ok）。",
+         "inputSchema": {"type": "object"}},
+        {"name": "gap_trend",
+         "description": "信息差收敛趋势（A-4 线性回归斜率；工程定义）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"window": {"type": "number"}}}},
+        {"name": "export",
+         "description": "全库导出到 JSON 文件（灾备/迁移）。返回导出统计。",
+         "inputSchema": {"type": "object",
+                         "properties": {"path": {"type": "string"}},
+                         "required": ["path"]}},
+        {"name": "action_log",
+         "description": "P0-1 行为日志（最近 N 条）：引擎自己做了什么的记录面。",
+         "inputSchema": {"type": "object",
+                         "properties": {"limit": {"type": "number"}}}},
+        {"name": "cognition",
+         "description": "P0-2 自我认知循环一步：行为↔价值观一致性评分 → 失调检测 → 价值迭代候选（pending_review 不自动生效）。",
+         "inputSchema": {"type": "object"}},
+        {"name": "cognition_report",
+         "description": "P0-2 认知报告（评分/失调记录/候选状态/待复核数）。",
+         "inputSchema": {"type": "object"}},
+        {"name": "emotional_bias",
+         "description": "P0-3 情绪方向性偏好 d²D_norm/dt²（approaching/avoiding/stable；独立通道，不参与信任计算）。",
+         "inputSchema": {"type": "object"}},
+        {"name": "self_reliability",
+         "description": "P0-4 元认知校准：预测命中率 vs 行为置信度 → 自我可靠性（reliable/watch/degraded）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"window": {"type": "number"}}}},
+        {"name": "learning_impact",
+         "description": "P0-5b 学习效果测量（模式命中率 vs D_norm 趋势；相关性观测，非因果声明）。",
+         "inputSchema": {"type": "object"}},
+    ]
+
+
+class AEISServer:
+    """MCP server（stdio · JSON-RPC 2.0）"""
+
+    def __init__(self, agent: Agent = None):
+        self.agent = agent or Agent(
+            identity=os.environ.get("AEIS_IDENTITY", "灵枢"),
+            db_path=os.environ.get("AEIS_DB", ":memory:"))
+        self._tools = {t["name"]: t for t in _tools()}
+
+    # ---- 工具分发 ----
+
+    def _call_tool(self, name: str, arguments: dict) -> dict:
+        a = dict(arguments or {})
+        agent = self.agent
+        if name == "remember":
+            r = agent.remember(a.get("content", ""), importance=a.get("importance", 0.5),
+                               tags=a.get("tags"), entities=a.get("entities"))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "recall":
+            return {"content": [{"type": "text", "text": _dump(agent.recall(a.get("query", ""), limit=a.get("limit", 10)))}], "isError": False}
+        if name == "search":
+            return {"content": [{"type": "text", "text": _dump(agent.search(a.get("query", ""), limit=a.get("limit", 20)))}], "isError": False}
+        if name == "timeline":
+            return {"content": [{"type": "text", "text": _dump(agent.timeline(limit=a.get("limit", 50)))}], "isError": False}
+        if name == "relate":
+            r = agent.relate(a["source_id"], a["target_id"],
+                             relation=a.get("relation", "causal"),
+                             confidence=a.get("confidence", 0.5),
+                             source_evidence=a.get("source_evidence", "extracted"))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "reason":
+            return {"content": [{"type": "text", "text": _dump(agent.reason(a.get("start_id"), a.get("end_id"), max_depth=a.get("max_depth", 5)))}], "isError": False}
+        if name == "predict_routes":
+            return {"content": [{"type": "text", "text": _dump(agent.predict_routes(a.get("start_id"), horizon=a.get("horizon", 3), blindspot_id=a.get("blindspot_id")))}], "isError": False}
+        if name == "blindspots":
+            return {"content": [{"type": "text", "text": _dump(agent.blindspots(a.get("status")))}], "isError": False}
+        if name == "learn":
+            return {"content": [{"type": "text", "text": _dump(agent.learn(use_prediction=a.get("use_prediction", True)))}], "isError": False}
+        if name == "induce":
+            return {"content": [{"type": "text", "text": _dump(agent.induce())}], "isError": False}
+        if name == "distill":
+            return {"content": [{"type": "text", "text": _dump(agent.distill(a.get("source_filter")))}], "isError": False}
+        if name == "flywheel_metrics":
+            return {"content": [{"type": "text", "text": _dump(agent.flywheel_report())}], "isError": False}
+        if name == "transfer_test":
+            return {"content": [{"type": "text", "text": _dump(agent.transfer_test())}], "isError": False}
+        if name == "calibrate":
+            return {"content": [{"type": "text", "text": _dump(agent.calibrate())}], "isError": False}
+        if name == "lifecycle_step":
+            return {"content": [{"type": "text", "text": _dump(agent.step())}], "isError": False}
+        if name == "self_check":
+            return {"content": [{"type": "text", "text": _dump(agent.self_check())}], "isError": False}
+        if name == "gap_trend":
+            return {"content": [{"type": "text", "text": _dump(agent.gap_trend(window=a.get("window", 30)))}], "isError": False}
+        if name == "export":
+            return {"content": [{"type": "text", "text": _dump(agent.export(a.get("path", "aeis_export.json")))}], "isError": False}
+        if name == "action_log":
+            return {"content": [{"type": "text", "text": _dump(agent.action_log(limit=a.get("limit", 50)))}], "isError": False}
+        if name == "cognition":
+            return {"content": [{"type": "text", "text": _dump(agent.cognition_cycle())}], "isError": False}
+        if name == "cognition_report":
+            return {"content": [{"type": "text", "text": _dump(agent.cognition_report())}], "isError": False}
+        if name == "emotional_bias":
+            return {"content": [{"type": "text", "text": _dump(agent.emotional_bias())}], "isError": False}
+        if name == "self_reliability":
+            return {"content": [{"type": "text", "text": _dump(agent.self_reliability(window=a.get("window", 30)))}], "isError": False}
+        if name == "learning_impact":
+            return {"content": [{"type": "text", "text": _dump(agent.learning_impact())}], "isError": False}
+        raise ValueError(f"unknown tool: {name}")
+
+    # ---- JSON-RPC 分发 ----
+
+    def handle(self, msg: dict):
+        """处理一条 JSON-RPC 消息，返回响应（通知返回 None）。"""
+        method = msg.get("method")
+        mid = msg.get("id")
+        if method == "initialize":
+            return {"jsonrpc": "2.0", "id": mid, "result": {
+                "protocolVersion": PROTOCOL_VERSION,
+                "capabilities": {"tools": {}},
+                "serverInfo": {"name": SERVER_NAME, "version": SERVER_VERSION}}}
+        if method == "notifications/initialized":
+            return None
+        if method == "ping":
+            return {"jsonrpc": "2.0", "id": mid, "result": {}}
+        if method == "tools/list":
+            return {"jsonrpc": "2.0", "id": mid, "result": {"tools": list(self._tools.values())}}
+        if method == "tools/call":
+            params = msg.get("params", {})
+            name = params.get("name", "")
+            arguments = params.get("arguments", {})
+            try:
+                result = self._call_tool(name, arguments)
+            except Exception as e:  # 工具级错误 → JSON-RPC 错误响应
+                return {"jsonrpc": "2.0", "id": mid, "error": {
+                    "code": -32000, "message": f"{name}: {e}"}}
+            return {"jsonrpc": "2.0", "id": mid, "result": result}
+        # 未知方法
+        if mid is not None:
+            return {"jsonrpc": "2.0", "id": mid, "error": {
+                "code": -32601, "message": f"method not found: {method}"}}
+        return None
+
+    def run(self):
+        """主循环：逐行读 stdio，写 stdout（UTF-8 换行分隔 JSON）。"""
+        stdin = sys.stdin.buffer
+        stdout = sys.stdout.buffer
+        while True:
+            line = stdin.readline()
+            if not line:
+                break
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                msg = json.loads(line.decode("utf-8"))
+                resp = self.handle(msg)
+            except Exception as e:
+                resp = {"jsonrpc": "2.0", "id": None,
+                        "error": {"code": -32700, "message": f"parse error: {e}"}}
+            if resp is not None:
+                payload = json.dumps(resp, ensure_ascii=False).encode("utf-8")
+                stdout.write(payload + b"\n")
+                stdout.flush()
+
+
+def main():
+    server = AEISServer()
+    server.run()
+
+
+if __name__ == "__main__":
+    main()
