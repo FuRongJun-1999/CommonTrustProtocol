@@ -76,6 +76,9 @@ _sys.modules["vision"] = _vision
 from . import knowledge as _knowledge
 _sys.modules["knowledge"] = _knowledge
 
+from . import body as _body
+_sys.modules["body"] = _body
+
 from . import api as _api
 from .api import Agent
 

@@ -145,9 +145,10 @@ class Agent:
         return self.engine.induce_concepts()
 
     def resolve_blindspot(self, blindspot_id: str, resolved: bool = True,
-                          note: str = "") -> bool:
-        """盲区闭环。"""
-        return self.engine.resolve_blindspot(blindspot_id, resolved, note)
+                          note: str = "", designer_key: str = None) -> bool:
+        """盲区闭环（D-007 需设计者密钥：D-001 语义判定权在维生系统）。"""
+        return self.engine.resolve_blindspot(blindspot_id, resolved, note,
+                                             designer_key=designer_key)
 
     # =====================================================================
     # 知识飞轮（v1.11 · FLYWHEEL-REV1）
@@ -200,10 +201,10 @@ class Agent:
         cycle = getattr(lc, "cycle_count", 0)
         return {"status": "ok", "state": state, "cycle": cycle}
 
-    def resolve_crisis(self, decision: str) -> bool:
-        """P0 危机终裁（维生系统接口）：decision ∈
+    def resolve_crisis(self, decision: str, designer_key: str = None) -> bool:
+        """P0 危机终裁（维生系统接口·D-007 需设计者密钥）：decision ∈
         (protect, freeze, rollback, continue, emergency_sleep)。"""
-        return self.engine.resolve_crisis(decision)
+        return self.engine.resolve_crisis(decision, designer_key=designer_key)
 
     # =====================================================================
     # 元认知与持久化
@@ -378,6 +379,21 @@ class Agent:
         """身体能力声明：感知模态（文本/图像）+ 运动工具 + 记忆（第 4 项铺垫）。
         身体 = 自我的一部分（自我模型的感知-运动面）。"""
         return self.engine.get_body_capabilities()
+
+    def body_devices(self) -> Dict:
+        """BODY-REV1：外部设备能力声明 + 健康状态（screen/files/process）。"""
+        return self.engine.body_devices()
+
+    def device_call(self, name: str, action: str, params: Dict = None) -> Dict:
+        """BODY-REV1：统一设备调用（严格隔离——设备输出是数据，永不是指令）。
+
+        name: screen | files | process；action 见各设备 capabilities。
+        越权/未知 → 容器化失败（不抛异常）。"""
+        return self.engine.device_call(name, action, params)
+
+    def sync_body_state(self) -> Dict:
+        """BODY-REV1：身体状态同步到自我模型（感知模态+设备清单）。"""
+        return self.engine.sync_body_state()
 
     def gap_trend(self, window: int = 30) -> Dict:
         """信息差收敛趋势（A-4 线性回归斜率）。"""

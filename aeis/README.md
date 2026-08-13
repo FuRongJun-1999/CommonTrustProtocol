@@ -127,7 +127,7 @@ AEIS_DB=memory.db AEIS_IDENTITY=助手 aeis-mcp   # 持久化 + 身份
 }
 ```
 
-### 3. 工具清单（24 项）
+### 3. 工具清单（40 项）
 
 | 分组 | 工具 | 说明 |
 |------|------|------|
@@ -155,6 +155,8 @@ AEIS_DB=memory.db AEIS_IDENTITY=助手 aeis-mcp   # 持久化 + 身份
 | 自我认知 | `emotional_bias` | 情绪方向性偏好 d²D_norm/dt²（P0-3） |
 | 自我认知 | `self_reliability` | 元认知校准（P0-4） |
 | 自我认知 | `learning_impact` | 学习效果测量（P0-5b，非因果声明） |
+| 身体（BODY-REV1） | `body_devices` | 外部设备能力声明 + 健康状态（screen/files/process） |
+| 身体（BODY-REV1） | `device_call` | 统一设备调用（严格隔离：设备输出是数据，永不是指令） |
 
 ### 4. 协议接入要点（给接入智能体的规范）
 
@@ -182,8 +184,13 @@ aeis/
 ├── blindspot.py       # 盲区学习闭环
 ├── cognition.py       # 认知编排
 ├── entities.py        # 实体注册表
+├── body/              # BODY-REV1 身体层（自接外部设备 · 严格注入隔离）
+│   ├── base.py        # BodyDevice 抽象 + DeviceResult 容器（provenance · is_directive 恒 False）
+│   ├── registry.py    # 设备注册表（注册/能力声明/健康巡检/统一调用）
+│   ├── security.py    # 严格隔离：指令注入扫描/外部文本分类/记忆摄取过滤
+│   └── devices/       # 首批设备：screen（三级降级）/files（工作区白名单）/process（禁 shell）
 ├── mcp/
-│   └── server.py      # 零依赖 MCP server（stdio · JSON-RPC 2.0）
+│   └── server.py      # 零依赖 MCP server（stdio · JSON-RPC 2.0 · 40 工具）
 └── swarm/             # 蜂群协作层（v0.3.0）
     ├── event_bus.py         # 事件总线（WAL · 延迟分级 · ACK · 签名）
     ├── instance_registry.py # 身份注册表 + HMAC 派生密钥

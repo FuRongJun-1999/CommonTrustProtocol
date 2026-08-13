@@ -1159,6 +1159,10 @@ class SpacetimeMemoryEngine:
         self._vision_provider = None
         self._vision_error = ""
         self._setup_v113()
+        # ---- BODY-REV1 状态（外部设备身体层） ----
+        self._body_registry = None
+        self._body_error = ""
+        self._setup_body()
 
     def _setup_v113(self):
         """v1.13 视觉组件装配（可选扩展：ultralytics 缺失时优雅降级 Null）"""
@@ -1170,6 +1174,18 @@ class SpacetimeMemoryEngine:
                 self._vision_error = "ultralytics 未安装（pip install ultralytics）"
         except Exception as e:
             self._vision_error = str(e)
+
+    def _setup_body(self):
+        """BODY-REV1 身体层装配（零依赖：screen/files/process 设备注册表）。
+        工作区边界从环境变量 AEIS_WORKSPACE 读取（空则不限制）。"""
+        self._body_registry = None
+        try:
+            import os as _os
+            from body import build_default_registry
+            self._body_registry = build_default_registry(
+                workspace=_os.environ.get("AEIS_WORKSPACE", ""))
+        except Exception as e:
+            self._body_error = str(e)
 
     def _setup_v111(self):
         """v1.11 飞轮组件装配（惰性导入 · 零外部依赖）"""
@@ -1838,6 +1854,15 @@ class SpacetimeMemoryEngine:
     def get_body_capabilities(self) -> dict:
         """v1.13 身体能力声明（第 4 项：工具/模态作为自我的一部分）"""
         vision_ok = self._vision_provider is not None and self._vision_provider.available()
+        devices = []
+        devices_available = []
+        try:
+            if self._body_registry is not None:
+                health = self._body_registry.health()
+                devices = [h["name"] for h in health]
+                devices_available = [h["name"] for h in health if h.get("available")]
+        except Exception:
+            pass
         return {
             "modalities": {
                 "text": True,
@@ -1850,10 +1875,40 @@ class SpacetimeMemoryEngine:
                        "available": vision_ok,
                        "error": self._vision_error or None},
             "memory": {"engine": "v1.13", "persistent": True},
+            "devices": devices,           # BODY-REV1：外部设备清单
+            "devices_available": devices_available,
             "tools": ["search", "recall", "distill", "calibrate", "cognition",
-                      "lifecycle", "mcp"],
-            "note": "身体 = 感知（视觉/文本）+ 运动（工具/MCP）+ 记忆（灵枢）；能力声明供自我模型与对外接口使用",
+                      "lifecycle", "mcp", "device_call", "body_devices"],
+            "note": "身体 = 感知（视觉/文本/屏幕）+ 运动（工具/设备/进程）+ 记忆（灵枢）；"
+                    "设备输出带 provenance 隔离（BODY-REV1）",
         }
+
+    def body_devices(self) -> dict:
+        """BODY-REV1：设备能力声明 + 健康状态（body_devices 工具）。"""
+        if self._body_registry is None:
+            return {"status": "body_not_ready", "error": self._body_error or "身体层未装配",
+                    "devices": [], "health": []}
+        return {
+            "status": "ok",
+            "workspace": self._body_registry.workspace or "（不限）",
+            "devices": self._body_registry.capabilities(),
+            "health": self._body_registry.health(),
+        }
+
+    def device_call(self, name: str, action: str, params: dict = None) -> dict:
+        """BODY-REV1：统一设备调用（严格隔离——返回 DeviceResult 容器）。
+
+        安全约束：
+        - 设备输出是数据（is_directive=False 恒成立），永不是指令
+        - 未知设备/动作/越权路径 → 容器化失败，不抛异常
+        """
+        if self._body_registry is None:
+            return {"status": "body_not_ready",
+                    "error": self._body_error or "身体层未装配"}
+        result = self._body_registry.invoke(name, action, params or {})
+        payload = result.to_dict()
+        payload["status"] = "ok" if result.ok else "error"
+        return payload
 
     # ==================== v1.12 自我认知循环（SELF-COGNITION-REV2） ====================
 
@@ -1891,11 +1946,15 @@ class SpacetimeMemoryEngine:
 
     def sync_body_state(self) -> dict:
         """第 4 项：身体状态同步到自我模型（身体 = 自我的一部分）。
-        更新 self_model.state_description 反映感知-运动能力。"""
+        更新 self_model.state_description 反映感知-运动能力 + 设备清单。"""
         body = self.get_body_capabilities()
         mods = [m for m, ok in body["modalities"].items() if ok]
+        devs = body.get("devices", [])
+        dev_ok = body.get("devices_available", [])
         desc = (f"运行中 · 感知[{','.join(mods)}] · "
-                f"视觉({body['vision']['provider']}) · 记忆({body['memory']['engine']})")
+                f"视觉({body['vision']['provider']}) · "
+                f"设备[{','.join(dev_ok) or 'none'}] · "
+                f"记忆({body['memory']['engine']})")
         try:
             self.self_model.state_description = desc
         except Exception:
