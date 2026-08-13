@@ -79,6 +79,11 @@ class YOLOVisionProvider(VisionProvider):
         self._load()
 
     def _load(self):
+        # 权重不存在时不触发 ultralytics 下载（避免无视觉场景的 6MB 下载负担）
+        if not os.path.exists(self.model_path):
+            self._load_error = "权重不存在（首次使用需先下载 yolov8n.pt）"
+            self._model = None
+            return
         try:
             from ultralytics import YOLO  # 可选依赖（D-005：核心不依赖）
             self._model = YOLO(self.model_path)

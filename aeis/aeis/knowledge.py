@@ -57,6 +57,26 @@ def _extract_entities(text: str, max_entities: int = 8) -> List[str]:
     return list(entities)[:max_entities]
 
 
+def ingest_search(engine, query: str, count: int = 5,
+                 tags: Optional[List[str]] = None,
+                 importance: float = 0.6) -> Dict:
+    """博查搜索摄取：搜索 query → 结果摘要（标题+摘要）写入知识层。
+    自主学习外部摄取的路径。"""
+    try:
+        from .web import WebTool
+        r = WebTool().search(query, count=count)
+    except Exception as e:
+        return {"status": "error", "reason": str(e)}
+    if r.get("status") != "ok" or not r.get("results"):
+        return {"status": "no_results", "query": query}
+    chunks = []
+    for i, res in enumerate(r["results"][:count]):
+        chunks.append(f"[搜索{i+1}] {res['name']}\n来源: {res['url']}\n{res['summary'] or res['snippet']}")
+    text = "\n\n".join(chunks)
+    return ingest_text(engine, text, source=f"search:{query[:30]}",
+                       tags=(tags or []) + ["web_search"], importance=importance)
+
+
 def ingest_text(engine, content: str, source: str = "manual",
                 tags: Optional[List[str]] = None,
                 importance: float = 0.6) -> Dict:
@@ -104,13 +124,24 @@ def ingest_file(engine, path: str, tags: Optional[List[str]] = None,
 
 def ingest_url(engine, url: str, tags: Optional[List[str]] = None,
                importance: float = 0.6, timeout: int = 30) -> Dict:
-    """URL 摄取：抓取页面文本 → 知识层（零依赖 urllib）"""
+    """URL 摄取：抓取页面文本 → 知识层。
+    优先 requests+bs4（web 工具，编码修复）；降级零依赖 urllib。"""
+    content = None
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "aeis-kb/1.0"})
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            raw = resp.read().decode("utf-8", errors="replace")
-    except Exception as e:
-        return {"status": "fetch_error", "url": url, "error": str(e)}
+        from .web import WebTool
+        fr = WebTool().fetch_page(url, format="markdown")
+        if fr.get("status") == "ok" and fr.get("content"):
+            content = fr["content"]
+    except Exception:
+        pass
+    if content is None:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "aeis-kb/1.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                raw = resp.read().decode("utf-8", errors="replace")
+            content = raw
+        except Exception as e:
+            return {"status": "fetch_error", "url": url, "error": str(e)}
     # 简单 HTML 去标签
     text = re.sub(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>", " ", raw)
     text = re.sub(r"<[^>]+>", " ", text)

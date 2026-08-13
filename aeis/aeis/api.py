@@ -321,9 +321,22 @@ class Agent:
 
     def ingest_url(self, url: str, tags: Optional[List[str]] = None,
                    importance: float = 0.6) -> Dict:
-        """外部知识摄取：URL 页面（零依赖 urllib 抓取 + 去标签）"""
+        """外部知识摄取：URL 页面（requests+bs4 优先，编码修复；urllib 降级）"""
         from .knowledge import ingest_url as _iu
         return _iu(self.engine, url, tags, importance)
+
+    def ingest_search(self, query: str, count: int = 5,
+                      tags: Optional[List[str]] = None,
+                      importance: float = 0.6) -> Dict:
+        """博查搜索摄取：搜索 query → 结果摘要写入知识层（自主学习外部摄取）。
+        需要环境变量 BOCHA_API_KEY。"""
+        from .knowledge import ingest_search as _is
+        return _is(self.engine, query, count, tags, importance)
+
+    def web_search(self, query: str, count: int = 5) -> Dict:
+        """博查实时搜索（不写入记忆，仅返回结果）。需要 BOCHA_API_KEY。"""
+        from .web import WebTool
+        return WebTool().search(query, count=count)
 
     def think(self, query: str, limit: int = 8) -> Dict:
         """推理前记忆注入：检索相关记忆（内容检索+组合联想+模式加权）
