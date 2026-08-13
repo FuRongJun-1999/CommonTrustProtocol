@@ -23,18 +23,19 @@ from .devices.process import ProcessDevice
 from .devices.audio import AudioDevice
 from .devices.control import ControlDevice
 from .devices.browser import BrowserDevice
+from .devices.realtime import RealtimeDevice
 
 __all__ = [
     "BodyDevice", "DeviceResult", "BodyRegistry",
     "classify_external_text", "directive_scan", "result_to_memory_input",
     "sanitize_device_text",
     "ScreenDevice", "FilesDevice", "ProcessDevice", "AudioDevice",
-    "ControlDevice", "BrowserDevice",
+    "ControlDevice", "BrowserDevice", "RealtimeDevice",
 ]
 
 
 def build_default_registry(workspace: str = "") -> BodyRegistry:
-    """装配默认设备集（screen/files/process/audio/control/browser）。"""
+    """装配默认设备集（screen/files/process/audio/control/browser/realtime）。"""
     registry = BodyRegistry(workspace=workspace)
     registry.register(ScreenDevice(workspace))
     registry.register(FilesDevice(workspace))
@@ -42,4 +43,5 @@ def build_default_registry(workspace: str = "") -> BodyRegistry:
     registry.register(AudioDevice(workspace))
     registry.register(ControlDevice(workspace))
     registry.register(BrowserDevice(workspace))
+    registry.register(RealtimeDevice(workspace))
     return registry

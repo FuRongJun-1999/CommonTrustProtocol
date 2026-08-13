@@ -206,12 +206,12 @@ def test_browser_device():
 def test_engine_integration():
     a = Agent(identity="body-integration", db_path=":memory:")
     devs = a.body_devices()
-    check("引擎设备清单", devs["status"] == "ok" and len(devs["devices"]) == 6)
+    check("引擎设备清单", devs["status"] == "ok" and len(devs["devices"]) == 7)
     body = a.body()
     check("身体能力含设备", "devices" in body and set(body["devices"]) ==
-          {"audio", "browser", "control", "files", "process", "screen"})
+          {"audio", "browser", "control", "files", "process", "realtime", "screen"})
     sync = a.sync_body_state()
-    # 状态同步用可用设备子集（browser 未装 playwright 时不可用，不在其中）
+    # 状态同步用可用设备子集（browser/realtime 未装依赖时不在其中）
     check("身体状态同步含设备", "设备[audio,control,files,process,screen]" in sync["state_description"],
           f"desc={sync['state_description'][:100]}")
 
