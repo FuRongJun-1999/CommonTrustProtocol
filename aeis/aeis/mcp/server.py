@@ -162,6 +162,60 @@ def _tools():
         {"name": "service_info",
          "description": "服务信息（信任透明度）：身份/版本/协议/库状态/工具数。接入方应先调用以确认与哪个协议实例对话。",
          "inputSchema": {"type": "object"}},
+        {"name": "see",
+         "description": "视觉感知（v1.13）：YOLO 目标检测 → 摘要写入知识层记忆（可检索）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"image_path": {"type": "string"},
+                                        "conf_threshold": {"type": "number"}},
+                         "required": ["image_path"]}},
+        {"name": "think",
+         "description": "推理记忆注入（v1.13）：检索相关记忆（内容+联想+模式加权）→ 推理上下文。",
+         "inputSchema": {"type": "object",
+                         "properties": {"query": {"type": "string"}, "limit": {"type": "number"}},
+                         "required": ["query"]}},
+        {"name": "preflight",
+         "description": "输出前反思（v1.13）：内容与价值观一致性检查，冲突词拦截。",
+         "inputSchema": {"type": "object",
+                         "properties": {"text": {"type": "string"}},
+                         "required": ["text"]}},
+        {"name": "ingest_text",
+         "description": "外部知识摄取：文本 → 知识层（source 标签·分块·实体提取）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"content": {"type": "string"},
+                                        "source": {"type": "string"},
+                                        "tags": {"type": "array", "items": {"type": "string"}}},
+                         "required": ["content"]}},
+        {"name": "ingest_file",
+         "description": "外部知识摄取：文件（txt/md/json/代码等按扩展名处理）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"path": {"type": "string"}},
+                         "required": ["path"]}},
+        {"name": "ingest_url",
+         "description": "外部知识摄取：URL 页面（零依赖抓取+去标签）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"url": {"type": "string"}},
+                         "required": ["url"]}},
+        {"name": "session_note",
+         "description": "上下文外部化：会话要点写入灵枢（session 标签，可恢复）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"session_id": {"type": "string"},
+                                        "key_points": {"type": "array", "items": {"type": "string"}}},
+                         "required": ["session_id", "key_points"]}},
+        {"name": "session_recall",
+         "description": "会话要点恢复：按 session 或语义检索灵枢中的会话记忆。",
+         "inputSchema": {"type": "object",
+                         "properties": {"session_id": {"type": "string"},
+                                        "query": {"type": "string"},
+                                        "limit": {"type": "number"}}}},
+        {"name": "compact_context",
+         "description": "上下文压缩：生成会话摘要节点（超长会话恢复入口）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"session_id": {"type": "string"},
+                                        "summary": {"type": "string"}},
+                         "required": ["session_id", "summary"]}},
+        {"name": "body",
+         "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
+         "inputSchema": {"type": "object"}},
         {"name": "action_log",
          "description": "P0-1 行为日志（最近 N 条）：引擎自己做了什么的记录面。",
          "inputSchema": {"type": "object",
@@ -267,6 +321,26 @@ class AEISServer:
                 "tools": len(self._tools),
                 "note": "工程观测值；协议内容权利归协议方（MIT 工程实现）",
             })}], "isError": False}
+        if name == "see":
+            return {"content": [{"type": "text", "text": _dump(agent.see(a.get("image_path", ""), conf_threshold=a.get("conf_threshold", 0.35)))}], "isError": False}
+        if name == "think":
+            return {"content": [{"type": "text", "text": _dump(agent.think(a.get("query", ""), limit=a.get("limit", 8)))}], "isError": False}
+        if name == "preflight":
+            return {"content": [{"type": "text", "text": _dump(agent.preflight(a.get("text", "")))}], "isError": False}
+        if name == "ingest_text":
+            return {"content": [{"type": "text", "text": _dump(agent.ingest_text(a.get("content", ""), source=a.get("source", "mcp"), tags=a.get("tags")))}], "isError": False}
+        if name == "ingest_file":
+            return {"content": [{"type": "text", "text": _dump(agent.ingest_file(a.get("path", "")))}], "isError": False}
+        if name == "ingest_url":
+            return {"content": [{"type": "text", "text": _dump(agent.ingest_url(a.get("url", "")))}], "isError": False}
+        if name == "session_note":
+            return {"content": [{"type": "text", "text": _dump(agent.session_note(a.get("session_id", "s"), a.get("key_points", [])))}], "isError": False}
+        if name == "session_recall":
+            return {"content": [{"type": "text", "text": _dump(agent.session_recall(session_id=a.get("session_id"), query=a.get("query"), limit=a.get("limit", 10)))}], "isError": False}
+        if name == "compact_context":
+            return {"content": [{"type": "text", "text": _dump(agent.compact_context(a.get("session_id", "s"), a.get("summary", "")))}], "isError": False}
+        if name == "body":
+            return {"content": [{"type": "text", "text": _dump(agent.body())}], "isError": False}
         if name == "action_log":
             return {"content": [{"type": "text", "text": _dump(agent.action_log(limit=a.get("limit", 50)))}], "isError": False}
         if name == "cognition":
