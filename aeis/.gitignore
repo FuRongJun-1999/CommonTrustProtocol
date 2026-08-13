@@ -19,3 +19,4 @@ backup_*.db
 # 环境配置（密钥不入库）
 .env
 *.secret
+.env
