@@ -70,6 +70,12 @@ _sys.modules["entity_registry"] = _entities
 from . import self_cognition as _self_cognition
 _sys.modules["self_cognition_engine"] = _self_cognition
 
+from . import vision as _vision
+_sys.modules["vision"] = _vision
+
+from . import knowledge as _knowledge
+_sys.modules["knowledge"] = _knowledge
+
 from . import api as _api
 from .api import Agent
 
@@ -90,9 +96,11 @@ from .blindspot import BlindSpotLearningLoop
 from .cognition import CognitiveOrchestrator
 from .entities import EntityRegistry
 from .self_cognition import SelfCognitionEngine
+from .vision import VisionProvider, YOLOVisionProvider, NullVisionProvider, create_vision_provider
+from .knowledge import ingest_text, ingest_file, ingest_url
 
-__version__ = "0.2.0"
-ENGINE_VERSION = "v1.12.0"
+__version__ = "0.3.1"
+ENGINE_VERSION = "v1.13.0"
 PROTOCOL = "智能论 v3.2"
 DISTILL_STANDARD_VERSION = _flywheel.FlywheelEngine.DISTILL_STANDARD_VERSION
 
@@ -104,5 +112,7 @@ __all__ = [
     "FlywheelEngine", "SemanticSpaceProvider", "AttentionPolicy",
     "PredictionEngine", "LifecycleEngine", "BlindSpotLearningLoop",
     "CognitiveOrchestrator", "EntityRegistry", "SelfCognitionEngine",
+    "VisionProvider", "YOLOVisionProvider", "NullVisionProvider", "create_vision_provider",
+    "ingest_text", "ingest_file", "ingest_url",
     "__version__", "ENGINE_VERSION", "PROTOCOL", "DISTILL_STANDARD_VERSION",
 ]

@@ -254,12 +254,76 @@ class Agent:
         return self.engine.learning_impact(window)
 
     # =====================================================================
+    # 上下文外部化（第 5 项：上下文通过灵枢解决）
+    # =====================================================================
+
+    def session_note(self, session_id: str, key_points: list,
+                     importance: float = 0.7) -> Dict:
+        """会话要点外部化：关键信息写入灵枢（session 标签），
+        上下文可释放后按需恢复。每个要点一个节点，可检索。"""
+        if isinstance(key_points, str):
+            key_points = [key_points]
+        nodes = []
+        for i, pt in enumerate(key_points):
+            node = self.remember(f"[会话{session_id}·要点{i+1}] {pt}",
+                                 importance=importance,
+                                 tags=[f"session:{session_id}", "context_external"])
+            nodes.append(node.id)
+        return {"status": "ok", "session": session_id,
+                "nodes": len(nodes), "node_ids": nodes}
+
+    def session_recall(self, session_id: str = None, query: str = None,
+                       limit: int = 10) -> List:
+        """会话要点恢复：检索灵枢中的会话记忆（按 session 或语义）。"""
+        if session_id:
+            nodes = self.engine.store.query_nodes(limit=200)
+            hits = [(n, 1.0) for n in nodes
+                    if any(t.startswith(f"session:{session_id}") for t in n.tags)]
+            hits.sort(key=lambda x: -x[0].importance)
+            return hits[:limit]
+        if query:
+            return self.recall(query, limit=limit)
+        return []
+
+    def compact_context(self, session_id: str, summary: str) -> Dict:
+        """上下文压缩：生成会话摘要节点（超长会话恢复入口）。
+        调用方：会话接近上下文上限时，写入摘要后释放旧上下文。"""
+        node = self.remember(f"[会话摘要·{session_id}] {summary}",
+                             importance=0.9,
+                             tags=[f"session:{session_id}", "context_summary"])
+        return {"status": "ok", "session": session_id, "node_id": node.id,
+                "note": "恢复路径：session_recall(session_id) 或 search('会话摘要')"}
+
+    # =====================================================================
     # 视觉与身体（v1.13 · VISION-REV1）
     # =====================================================================
 
     # =====================================================================
     # 推理强化（第 2 项：协议 + 反思 + 长记忆）
     # =====================================================================
+
+    # =====================================================================
+    # 外部知识摄取（第 3 项：记忆含外部知识）
+    # =====================================================================
+
+    def ingest_text(self, content: str, source: str = "manual",
+                    tags: Optional[List[str]] = None,
+                    importance: float = 0.6) -> Dict:
+        """外部知识摄取：文本 → 知识层（source 标签可追溯 · 实体提取 · 可检索）"""
+        from .knowledge import ingest_text as _it
+        return _it(self.engine, content, source, tags, importance)
+
+    def ingest_file(self, path: str, tags: Optional[List[str]] = None,
+                    importance: float = 0.6) -> Dict:
+        """外部知识摄取：文件（txt/md/json/代码等，按扩展名处理）"""
+        from .knowledge import ingest_file as _if
+        return _if(self.engine, path, tags, importance)
+
+    def ingest_url(self, url: str, tags: Optional[List[str]] = None,
+                   importance: float = 0.6) -> Dict:
+        """外部知识摄取：URL 页面（零依赖 urllib 抓取 + 去标签）"""
+        from .knowledge import ingest_url as _iu
+        return _iu(self.engine, url, tags, importance)
 
     def think(self, query: str, limit: int = 8) -> Dict:
         """推理前记忆注入：检索相关记忆（内容检索+组合联想+模式加权）
