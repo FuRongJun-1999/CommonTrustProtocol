@@ -56,7 +56,7 @@ rep = agent2.cognition_report()
 check("P0-2 report", rep["candidates"][-1]["status"] == "applied")
 
 # P0-3 情绪方向性偏好（独立引擎隔离：cognition_cycle 会写 gap 样本，避免污染）
-eng_emo = smc.SpacetimeMemoryEngine(identity="v112-emo")
+eng_emo = aeis.SpacetimeMemoryEngine(identity="v112-emo")
 eng_emo.record_info_gap(0.8)
 eng_emo.record_info_gap(0.7)
 eng_emo.record_info_gap(0.5)
