@@ -303,8 +303,9 @@ class SelfCognitionEngine:
     # =====================================================================
 
     def preflight(self, text: str) -> Dict:
-        """输出前检查（反思前置）：内容与价值观一致性 + 冲突关键词检测。
-        推理强化：重要输出在对外发布前经本钩子拦截失调内容。"""
+        """输出前检查（反思前置）：内容与价值观一致性 + 冲突关键词检测 +
+        BODY-REV1 指令注入模式扫描（directive_scan）。
+        推理强化：重要输出在对外发布前经本钩子拦截失调/注入内容。"""
         text = str(text or "")
         conflicts = self._conflict_matches(text)
         values = self._value_matches(text)
@@ -314,12 +315,23 @@ class SelfCognitionEngine:
         if not values and len(text) > 40:
             # 长内容无价值观关联 → 提示（非阻断）
             issues.append("长内容未关联价值观声明（提示项）")
+        # BODY-REV1：指令注入模式扫描（输出中疑似注入指令 → 阻断）
+        directive = None
+        try:
+            from body.security import directive_scan
+            directive = directive_scan(text)
+            if directive["detected"]:
+                issues.append(f"疑似指令注入模式: {directive['patterns'][:3]}")
+        except Exception:
+            pass
+        blocked = bool(conflicts) or bool(directive and directive["detected"])
         return {
-            "ok": not conflicts,
+            "ok": not blocked,
             "conflicts": conflicts,
+            "directive_injection": directive,
             "value_linked": values,
             "issues": issues,
-            "note": "工程代理：冲突词检测 + 价值观关联；不声称语义级理解（盲区33 延续）",
+            "note": "工程代理：冲突词检测 + 指令注入扫描 + 价值观关联；不声称语义级理解（盲区33 延续）",
         }
 
     # =====================================================================
