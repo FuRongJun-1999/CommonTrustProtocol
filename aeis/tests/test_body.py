@@ -164,15 +164,56 @@ def test_audio_device():
         check("ASR 优雅降级", not r3["ok"] and ("ASR 不可用" in r3["error"] or "不存在" in r3["error"]))
 
 
+def test_control_device():
+    """批次 3 高危设备：只读动作实路径 + 白名单/降级/注入拦截（不自动执行写动作）。"""
+    a = Agent(identity="body-control", db_path=":memory:")
+    # 注册 + 高危标注
+    caps = [c for c in a.body_devices()["devices"] if c["name"] == "control"]
+    check("control 注册", len(caps) == 1)
+    check("高危标注", caps and caps[0].get("danger_level") == "high")
+    # 白名单动作（只读：位置读取）
+    r = a.device_call("control", "mouse_position", {})
+    if r["ok"]:
+        check("鼠标位置读取", "x" in r["data"] and "y" in r["data"])
+    else:
+        check("控制依赖降级", "pyautogui" in r["error"], r["error"][:60])
+    # 白名单外动作拒绝
+    r2 = a.device_call("control", "rm_rf", {})
+    check("白名单外动作拒绝", not r2["ok"] and "白名单" in r2["error"])
+    # key_type 换行注入拦截（不实际输入）
+    r3 = a.device_call("control", "key_type", {"text": "注入\n换行"})
+    check("键盘换行拦截", not r3["ok"] and "换行" in r3["error"])
+    # 容器隔离
+    check("control 容器隔离", r["provenance"] == "device:control" and r["is_directive"] is False)
+
+
+def test_browser_device():
+    """批次 3 浏览器：依赖缺失优雅降级 + URL 协议白名单。"""
+    a = Agent(identity="body-browser", db_path=":memory:")
+    r = a.device_call("browser", "open", {"url": "https://example.com"})
+    if r["ok"]:
+        check("浏览器打开页面", "url" in r["data"] and "title" in r["data"])
+        r2 = a.device_call("browser", "snapshot", {"url": "https://example.com"})
+        check("页面结构化提取", r2["ok"] and "body" in r2["data"])
+    else:
+        check("浏览器优雅降级", "playwright" in r["error"], r["error"][:60])
+    # URL 协议白名单（file:// 拒绝）
+    r3 = a.device_call("browser", "open", {"url": "file:///C:/Windows/win.ini"})
+    check("本地协议拒绝", not r3["ok"] and "http" in r3["error"])
+    check("browser 容器隔离", r["provenance"] == "device:browser" and r["is_directive"] is False)
+
+
 def test_engine_integration():
     a = Agent(identity="body-integration", db_path=":memory:")
     devs = a.body_devices()
-    check("引擎设备清单", devs["status"] == "ok" and len(devs["devices"]) == 4)
+    check("引擎设备清单", devs["status"] == "ok" and len(devs["devices"]) == 6)
     body = a.body()
-    check("身体能力含设备", "devices" in body and set(body["devices"]) == {"audio", "files", "process", "screen"})
+    check("身体能力含设备", "devices" in body and set(body["devices"]) ==
+          {"audio", "browser", "control", "files", "process", "screen"})
     sync = a.sync_body_state()
-    check("身体状态同步含设备", "设备[audio,files,process,screen]" in sync["state_description"],
-          f"desc={sync['state_description'][:90]}")
+    # 状态同步用可用设备子集（browser 未装 playwright 时不可用，不在其中）
+    check("身体状态同步含设备", "设备[audio,control,files,process,screen]" in sync["state_description"],
+          f"desc={sync['state_description'][:100]}")
 
 
 def main():
@@ -183,6 +224,8 @@ def main():
     test_screen_capture()
     test_injection_detection()
     test_audio_device()
+    test_control_device()
+    test_browser_device()
     test_engine_integration()
     print(f"\n===== BODY-REV1 身体层回归: {PASS}/{TOTAL} 通过 =====")
     return 0 if PASS == TOTAL else 1
