@@ -253,6 +253,55 @@ class Agent:
         """P0-5b 学习效果测量（模式命中率 vs D_norm 趋势 · 相关性观测，非因果声明）。"""
         return self.engine.learning_impact(window)
 
+    # =====================================================================
+    # 视觉与身体（v1.13 · VISION-REV1）
+    # =====================================================================
+
+    # =====================================================================
+    # 推理强化（第 2 项：协议 + 反思 + 长记忆）
+    # =====================================================================
+
+    def think(self, query: str, limit: int = 8) -> Dict:
+        """推理前记忆注入：检索相关记忆（内容检索+组合联想+模式加权）
+        → 组合推理上下文。推理链：记忆支撑 → 协议推理 → 输出。
+        返回 {query, memory_count, context}——context 为按分数排序的记忆摘要。"""
+        results = []
+        seen = set()
+        for src in (self.search(query, limit=limit), self.recall(query, limit=limit)):
+            for node, score in src:
+                if node.id in seen:
+                    continue
+                seen.add(node.id)
+                results.append((node, score))
+        results.sort(key=lambda x: -x[1])
+        results = results[:limit]
+        context = []
+        for node, score in results:
+            tag = "[模式]" if "reusable_pattern" in node.tags else ""
+            context.append(f"{tag}{node.content[:120]} (score={score:.2f})")
+        return {"query": query, "memory_count": len(context),
+                "context": context,
+                "note": "记忆增强推理：检索结果作为推理上下文，非结论"}
+
+    def preflight(self, text: str) -> Dict:
+        """输出前反思钩子：内容与价值观一致性检查（冲突词拦截）。
+        推理强化：重要输出对外发布前调用，失调内容前置拦截。"""
+        sc = getattr(self.engine, "_self_cognition", None)
+        if sc is None:
+            return {"ok": True, "note": "自我认知组件未装配"}
+        return sc.preflight(text)
+
+    def see(self, image_path: str, conf_threshold: float = 0.35,
+            importance: float = 0.6) -> Dict:
+        """视觉感知：YOLO 目标检测 → 摘要写入知识层记忆（modality=image）。
+        检测结果可检索、可参与后续推理（第 1 项：视觉）。"""
+        return self.engine.perceive_image(image_path, conf_threshold, importance)
+
+    def body(self) -> Dict:
+        """身体能力声明：感知模态（文本/图像）+ 运动工具 + 记忆（第 4 项铺垫）。
+        身体 = 自我的一部分（自我模型的感知-运动面）。"""
+        return self.engine.get_body_capabilities()
+
     def gap_trend(self, window: int = 30) -> Dict:
         """信息差收敛趋势（A-4 线性回归斜率）。"""
         return self.engine.get_gap_trend(window=window)

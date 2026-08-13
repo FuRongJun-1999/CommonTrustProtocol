@@ -142,6 +142,7 @@ class SelfCognitionEngine:
             report["status"] = "consistent"
             report["dissonance"] = None
             report["candidate"] = None
+            self._record_gap_sample(score)
             return report
 
         # 3. 失调记录 + 触发链
@@ -185,7 +186,16 @@ class SelfCognitionEngine:
         report["dissonance"] = dissonance
         report["candidate"] = {k: v for k, v in candidate.items() if k != "deviation"}
         report["candidate"]["deviation"] = deviation
+        self._record_gap_sample(score)
         return report
+
+    def _record_gap_sample(self, score: float):
+        """信息差数据源（心跳发现修复）：cognition_cycle 后自动记录
+        d_norm = 1 - bvc_score（信息差 = 行为↔价值一致性的补数，语义对齐 2.7 节）"""
+        try:
+            self.engine.record_info_gap(round(1.0 - score, 4))
+        except Exception:
+            pass
 
     def apply_value_candidate(self, candidate_id: str,
                               new_value: Optional[str] = None) -> bool:
@@ -239,6 +249,30 @@ class SelfCognitionEngine:
                            for c in self.value_candidates[-5:]],
             "pending_review": sum(1 for c in self.value_candidates
                                   if c["status"] == "pending_review"),
+        }
+
+    # =====================================================================
+    # 推理强化（第 2 项）：输出前反思钩子
+    # =====================================================================
+
+    def preflight(self, text: str) -> Dict:
+        """输出前检查（反思前置）：内容与价值观一致性 + 冲突关键词检测。
+        推理强化：重要输出在对外发布前经本钩子拦截失调内容。"""
+        text = str(text or "")
+        conflicts = self._conflict_matches(text)
+        values = self._value_matches(text)
+        issues = []
+        if conflicts:
+            issues.append(f"含冲突关键词: {conflicts}")
+        if not values and len(text) > 40:
+            # 长内容无价值观关联 → 提示（非阻断）
+            issues.append("长内容未关联价值观声明（提示项）")
+        return {
+            "ok": not conflicts,
+            "conflicts": conflicts,
+            "value_linked": values,
+            "issues": issues,
+            "note": "工程代理：冲突词检测 + 价值观关联；不声称语义级理解（盲区33 延续）",
         }
 
     # =====================================================================
