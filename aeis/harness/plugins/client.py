@@ -76,14 +76,14 @@ class MCPClient:
         ok = self._request("initialize", {
             "protocolVersion": PROTOCOL_VERSION,
             "capabilities": {},
-            "clientInfo": {"name": "lingxu-harness", "version": "1.0"},
+            "clientInfo": {"name": "lingshu-harness", "version": "1.0"},
         }, timeout=self.timeout)
         if not ok:
             # 降级重试（最多兼容 2 版本）
             ok = self._request("initialize", {
                 "protocolVersion": PROTOCOL_ALT_VERSION,
                 "capabilities": {},
-                "clientInfo": {"name": "lingxu-harness", "version": "1.0"},
+                "clientInfo": {"name": "lingshu-harness", "version": "1.0"},
             }, timeout=self.timeout)
         if not ok:
             self.close()

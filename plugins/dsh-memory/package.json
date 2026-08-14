@@ -1,7 +1,7 @@
 {
   "name": "@furongjun1999/dsh-memory",
-  "version": "0.2.0",
-  "description": "灵枢（AEIS）DeepSeek Harness 插件：把灵枢的时空记忆/知识飞轮/自我认知接入 DSH，对话自动沉淀进记忆库",
+  "version": "0.2.1",
+  "description": "灵枢（Lingshu·líng shū）DeepSeek Harness 插件：完整大脑——长期记忆/知识飞轮/自我认知/递归反思接入 DSH，对话自动沉淀进记忆库",
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -24,7 +24,7 @@
     "memory",
     "agent",
     "aeis",
-    "lingxu"
+    "lingshu"
   ],
   "license": "MIT",
   "peerDependencies": {

@@ -1,5 +1,5 @@
 /**
- * LingxuBridge 真实集成测试：spawn 本机 AEIS，验证握手、工具发现、
+ * LingshuBridge 真实集成测试：spawn 本机 AEIS，验证握手、工具发现、
  * remember → recall 数据往返、错误处理与 dispose。
  */
 
@@ -8,7 +8,7 @@ import assert from 'node:assert/strict'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { LingxuBridge } from '../src/bridge.js'
+import { LingshuBridge } from '../src/bridge.js'
 
 /** AEIS 库源码目录（未安装时靠 PYTHONPATH 解析）。 */
 const AEIS_DIR = 'D:\\Program Files\\2_ai\\AEIS'
@@ -22,8 +22,8 @@ function safeCleanup(dir: string): void {
   }
 }
 
-function createBridge(dbPath: string): LingxuBridge {
-  return new LingxuBridge({
+function createBridge(dbPath: string): LingshuBridge {
+  return new LingshuBridge({
     python: 'python',
     args: ['-m', 'aeis.mcp.server'],
     env: {
@@ -39,7 +39,7 @@ function createBridge(dbPath: string): LingxuBridge {
 }
 
 test('握手：进程启动并完成 initialize 握手', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'lingxu-bridge-'))
+  const dir = mkdtempSync(join(tmpdir(), 'lingshu-bridge-'))
   const bridge = createBridge(join(dir, 'test.db'))
   bridge.start()
   try {
@@ -53,7 +53,7 @@ test('握手：进程启动并完成 initialize 握手', async () => {
 })
 
 test('工具发现：listTools 返回灵枢全部工具（含 remember/recall）', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'lingxu-bridge-'))
+  const dir = mkdtempSync(join(tmpdir(), 'lingshu-bridge-'))
   const bridge = createBridge(join(dir, 'test.db'))
   bridge.start()
   try {
@@ -71,7 +71,7 @@ test('工具发现：listTools 返回灵枢全部工具（含 remember/recall）
 })
 
 test('数据往返：remember → recall 命中写入的记忆', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'lingxu-bridge-'))
+  const dir = mkdtempSync(join(tmpdir(), 'lingshu-bridge-'))
   const bridge = createBridge(join(dir, 'test.db'))
   bridge.start()
   try {
@@ -95,7 +95,7 @@ test('数据往返：remember → recall 命中写入的记忆', async () => {
 })
 
 test('错误处理：调用不存在的工具应报错', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'lingxu-bridge-'))
+  const dir = mkdtempSync(join(tmpdir(), 'lingshu-bridge-'))
   const bridge = createBridge(join(dir, 'test.db'))
   bridge.start()
   try {
@@ -108,7 +108,7 @@ test('错误处理：调用不存在的工具应报错', async () => {
 })
 
 test('dispose：进程优雅退出', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'lingxu-bridge-'))
+  const dir = mkdtempSync(join(tmpdir(), 'lingshu-bridge-'))
   const bridge = createBridge(join(dir, 'test.db'))
   bridge.start()
   await bridge.waitReady()

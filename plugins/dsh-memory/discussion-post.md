@@ -1,8 +1,8 @@
 ---
-title: "Plugin: @furongjun1999/dsh-memory — Lingxu (灵枢) memory & cognition bridge, a full 'brain' for your agents"
+title: "Plugin: @furongjun1999/dsh-memory — Lingshu (灵枢) memory & cognition bridge, a full 'brain' for your agents"
 ---
 
-## 🧠 Lingxu Brain — DeepSeek Harness plugin
+## 🧠 Lingshu Brain — DeepSeek Harness plugin
 
 **@furongjun1999/dsh-memory** gives any DSH agent a complete cognitive "brain": cross-session long-term memory, knowledge flywheel, self-cognition, recursive reflection, and an importance-gated long-term memory system — **without requiring any local devices** (lightweight "brain mode", body excluded).
 
@@ -15,11 +15,11 @@ npm i @furongjun1999/dsh-memory
 cordis.yml:
 
 ```yaml
-- id: lingxu-memory
+- id: lingshu-memory
   name: '@furongjun1999/dsh-memory'
   config:
-    serverName: 'lingxu'
-    dbPath: 'D:/data/lingxu.db'   # SQLite, auto-created
+    serverName: 'lingshu'
+    dbPath: 'D:/data/lingshu.db'   # SQLite, auto-created
     tools: 'brain'                # 'brain' | 'core' | 'all' | [tool names]
 ```
 
@@ -27,7 +27,7 @@ cordis.yml:
 
 | Module | Tools |
 |---|---|
-| Memory | `lingxu_remember` `recall` `search` `timeline` `session_note` `session_recall` `compact_context` |
+| Memory | `lingshu_remember` `recall` `search` `timeline` `session_note` `session_recall` `compact_context` |
 | Reasoning | `think` `relate` `reason` `predict_routes` |
 | Cognition | `self_check` `gap_trend` `cognition` `cognition_report` `emotional_bias` `self_reliability` `action_log` `preflight` |
 | Reflection | `recursive_reflect` |
@@ -39,11 +39,11 @@ cordis.yml:
 
 ### Design highlights
 
-- **Auto-memory**: conversations are automatically persisted into the Lingxu memory database (deduplicated, importance-weighted).
+- **Auto-memory**: conversations are automatically persisted into the Lingshu memory database (deduplicated, importance-weighted).
 - **Dynamic schema**: tool list is pulled live from the memory engine at runtime — engine upgrades appear with zero plugin changes.
 - **Zero runtime deps**: hand-written stdio MCP bridge (no MCP SDK), same philosophy as the engine's zero-dependency core.
 - **Self-healing**: the bridge process auto-restarts with exponential backoff (1s→30s).
-- **Charter-governed**: activating the plugin declares acceptance of the **Lingxu Guardrail Charter** (public, enforceable, auditable rules; designee final arbitration; human protection chapter) — see the repo docs.
+- **Charter-governed**: activating the plugin declares acceptance of the **Lingshu Guardrail Charter** (public, enforceable, auditable rules; designee final arbitration; human protection chapter) — see the repo docs.
 
 ### Repo
 

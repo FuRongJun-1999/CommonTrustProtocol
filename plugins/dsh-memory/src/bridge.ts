@@ -47,7 +47,7 @@ interface PendingCall {
   timer: NodeJS.Timeout
 }
 
-export class LingxuBridge {
+export class LingshuBridge {
   private readonly options: BridgeOptions
   private proc: ChildProcess | null = null
   private rl: ReturnType<typeof createInterface> | null = null
@@ -139,7 +139,7 @@ export class LingxuBridge {
     proc.stderr?.on('data', (chunk: Buffer) => {
       // stderr 透传日志（灵枢把日志写在 stderr，避免污染协议流）
       const text = chunk.toString('utf8').trim()
-      if (text) console.error(`[lingxu-bridge] ${text}`)
+      if (text) console.error(`[lingshu-bridge] ${text}`)
     })
 
     this.rl.on('line', (line: string) => {
@@ -148,7 +148,7 @@ export class LingxuBridge {
       try {
         msg = JSON.parse(line)
       } catch {
-        console.error(`[lingxu-bridge] 非 JSON 输出: ${line.slice(0, 200)}`)
+        console.error(`[lingshu-bridge] 非 JSON 输出: ${line.slice(0, 200)}`)
         return
       }
       if (typeof msg['id'] === 'number') {
@@ -159,7 +159,7 @@ export class LingxuBridge {
     proc.on('error', (err) => {
       // 进程无法启动（python 不存在等）——响亮失败
       if (!this.disposed) {
-        console.error(`[lingxu-bridge] 灵枢进程启动失败: ${err.message}`)
+        console.error(`[lingshu-bridge] 灵枢进程启动失败: ${err.message}`)
         this.readyState = 'failed'
         this.flushBootQueue(false)
         this.scheduleRetry()
@@ -167,7 +167,7 @@ export class LingxuBridge {
     })
 
     proc.on('exit', (code, signal) => {
-      console.error(`[lingxu-bridge] 灵枢进程退出 code=${code} signal=${signal}`)
+      console.error(`[lingshu-bridge] 灵枢进程退出 code=${code} signal=${signal}`)
       this.rl?.close()
       this.rl = null
       this.rejectAll(new Error(`灵枢进程已退出（code=${code} signal=${signal ?? 'none'}）`))
@@ -196,7 +196,7 @@ export class LingxuBridge {
       this.flushBootQueue(true)
     } catch (err) {
       if (!this.disposed) {
-        console.error(`[lingxu-bridge] 握手失败: ${(err as Error).message}`)
+        console.error(`[lingshu-bridge] 握手失败: ${(err as Error).message}`)
         this.readyState = 'failed'
         this.flushBootQueue(false)
         this.scheduleRetry()

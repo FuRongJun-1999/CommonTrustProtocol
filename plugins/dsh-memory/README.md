@@ -9,7 +9,7 @@
 
 ## 特性
 
-- **工具桥接**：Agent 可直接调用 `lingxu_remember / recall / search / think` 等灵枢能力
+- **工具桥接**：Agent 可直接调用 `lingshu_remember / recall / search / think` 等灵枢能力
   （默认精选 12 个核心工具，可切换全部或自定义集合）
 - **自动记忆**：DSH 对话自动沉淀进灵枢记忆库——用户消息带重要性写入、去重，随会话累积
 - **动态 schema**：工具清单运行时从灵枢 `tools/list` 实时拉取，灵枢升级新增工具 DSH 侧零改动
@@ -22,7 +22,7 @@
 ┌─────────────────────────────────────────────┐
 │ DeepSeek Harness (cordis)                    │
 │                                             │
-│  Agent Loop ──┬── lingxu_remember/recall…   │
+│  Agent Loop ──┬── lingshu_remember/recall…   │
 │               │   (ctx.tools 注册)           │
 │  session/event│                              │
 │  (自动记忆钩子)│                              │
@@ -70,10 +70,10 @@ dsh plugin --profile <name> add <本插件本地路径或 git 地址>
 在 profile 的 `cordis.yml`（或 `cordis.patch.yml`）中追加：
 
 ```yaml
-- id: lingxu-memory
+- id: lingshu-memory
   name: '@furongjun1999/dsh-memory'
   config:
-    dbPath: 'D:/data/lingxu.db'        # 灵枢记忆库路径（目录自动创建）
+    dbPath: 'D:/data/lingshu.db'        # 灵枢记忆库路径（目录自动创建）
     identity: '灵枢'
     tools: 'core'
     memory:
@@ -90,10 +90,10 @@ dsh plugin --profile <name> add <本插件本地路径或 git 地址>
 
 | 字段 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| `serverName` | string | `lingxu` | 工具命名空间前缀（工具名 `lingxu_<name>`） |
+| `serverName` | string | `lingshu` | 工具命名空间前缀（工具名 `lingshu_<name>`） |
 | `python` | string | `python` | Python 可执行文件 |
 | `moduleArgs` | string[] | `['-m', 'aeis.mcp.server']` | 灵枢 server 启动参数 |
-| `dbPath` | string | `data/lingxu.db` | 记忆库 SQLite 路径（自动建目录） |
+| `dbPath` | string | `data/lingshu.db` | 记忆库 SQLite 路径（自动建目录） |
 | `identity` | string | `灵枢` | 灵枢身份标识 |
 | `env` | object | `{}` | 追加环境变量（`BOCHA_API_KEY` / `AEIS_DESIGNER_KEY`…） |
 | `tools` | `'core' \| 'all' \| string[]` | `'core'` | 暴露的工具集合 |
@@ -109,18 +109,18 @@ dsh plugin --profile <name> add <本插件本地路径或 git 地址>
 
 | 工具 | 说明 |
 |------|------|
-| `lingxu_remember` | 写入记忆（内容/重要性/标签/实体） |
-| `lingxu_recall` | 组合联想召回（相似+重要性+近因加权） |
-| `lingxu_search` | 内容检索（二元组 Jaccard） |
-| `lingxu_timeline` | 记忆时间线 |
-| `lingxu_think` | 推理前记忆注入（检索相关记忆构造上下文） |
-| `lingxu_relate` | 建立关系边（causal/similar/sequential…） |
-| `lingxu_predict_routes` | 生成式预测（未来路线集合） |
-| `lingxu_ingest_text` | 外部知识摄取（文本） |
-| `lingxu_ingest_url` | URL 页面摄取 |
-| `lingxu_session_note` | 会话要点外部化 |
-| `lingxu_self_check` | 完整性自检 |
-| `lingxu_service_info` | 灵枢服务状态 |
+| `lingshu_remember` | 写入记忆（内容/重要性/标签/实体） |
+| `lingshu_recall` | 组合联想召回（相似+重要性+近因加权） |
+| `lingshu_search` | 内容检索（二元组 Jaccard） |
+| `lingshu_timeline` | 记忆时间线 |
+| `lingshu_think` | 推理前记忆注入（检索相关记忆构造上下文） |
+| `lingshu_relate` | 建立关系边（causal/similar/sequential…） |
+| `lingshu_predict_routes` | 生成式预测（未来路线集合） |
+| `lingshu_ingest_text` | 外部知识摄取（文本） |
+| `lingshu_ingest_url` | URL 页面摄取 |
+| `lingshu_session_note` | 会话要点外部化 |
+| `lingshu_self_check` | 完整性自检 |
+| `lingshu_service_info` | 灵枢服务状态 |
 
 配置 `tools: 'all'` 可暴露全部 38 个工具（含视觉/自我认知/设计者裁决等）。
 

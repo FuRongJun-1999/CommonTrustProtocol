@@ -2,15 +2,15 @@
  * @furongjun1999/dsh-memory —— 灵枢（AEIS）DeepSeek Harness 插件
  *
  * 把灵枢的时空记忆/知识飞轮/自我认知接入 DSH：
- * - 工具桥接：Agent 可调用 lingxu_remember / recall / search / think 等
+ * - 工具桥接：Agent 可调用 lingshu_remember / recall / search / think 等
  * - 自动记忆：DSH 对话自动沉淀进灵枢记忆库（去重+重要性）
  *
  * 用法（cordis.yml）：
  * ```yaml
- * - id: lingxu-memory
+ * - id: lingshu-memory
  *   name: '@furongjun1999/dsh-memory'
  *   config:
- *     dbPath: 'D:/path/to/lingxu.db'
+ *     dbPath: 'D:/path/to/lingshu.db'
  *     identity: '灵枢'
  *     memory:
  *       userMessage: true
@@ -19,8 +19,8 @@
 
 import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
-import { LingxuBridge } from './bridge.js'
-import { registerLingxuTools, type ToolSelection } from './tools.js'
+import { LingshuBridge } from './bridge.js'
+import { registerLingshuTools, type ToolSelection } from './tools.js'
 import { installMemoryHooks, type MemoryHooksOptions } from './hooks.js'
 
 export const name = 'dsh-memory'
@@ -30,7 +30,7 @@ export const inject = ['tools']
 
 /** 插件配置。 */
 export interface Config {
-  /** 工具命名空间前缀（默认 lingxu → lingxu_remember）。 */
+  /** 工具命名空间前缀（默认 lingshu → lingshu_remember）。 */
   serverName: string
   /** Python 可执行文件（或 aeis-mcp console script）。 */
   python: string
@@ -57,10 +57,10 @@ export interface Config {
 }
 
 export const Config: z<Config> = z.object({
-  serverName: z.string().default('lingxu'),
+  serverName: z.string().default('lingshu'),
   python: z.string().default('python'),
   moduleArgs: z.array(String).default(['-m', 'aeis.mcp.server']),
-  dbPath: z.string().default('data/lingxu.db'),
+  dbPath: z.string().default('data/lingshu.db'),
   identity: z.string().default('灵枢'),
   env: z.dict(String).default({}),
   tools: z.union([z.const('core'), z.const('brain'), z.const('all'), z.array(String)]).default('brain'),
@@ -89,7 +89,7 @@ export async function apply(ctx: Context, config: Config): Promise<void> {
     `dsh-memory: 灵枢插件激活（大脑模式）· 接受护栏宪章 ${config.charter} —— ` +
     '接入即接受宪章约束（公开/可执行/可审计/设计者终裁）',
   )
-  const bridge = new LingxuBridge({
+  const bridge = new LingshuBridge({
     python: config.python,
     args: config.moduleArgs,
     env: {
@@ -113,7 +113,7 @@ export async function apply(ctx: Context, config: Config): Promise<void> {
     // 工具注册（就绪后执行；未就绪时 tools/list 会报错，由重连机制兜底）
     if (ready) {
       disposers.push(
-        await registerLingxuTools(ctx, bridge, {
+        await registerLingshuTools(ctx, bridge, {
           selection: config.tools,
           toolPrefix: `${config.serverName}_`,
         }),

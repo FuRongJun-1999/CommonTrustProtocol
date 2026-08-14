@@ -10,7 +10,7 @@ import '@deepseek-ai/dsh-session'
 import type { Context } from '@deepseek-ai/cordis'
 import type { SessionEvent } from '@deepseek-ai/dsh-session'
 import type { ContentBlock } from '@deepseek-ai/dsh-llm'
-import type { LingxuBridge } from './bridge.js'
+import type { LingshuBridge } from './bridge.js'
 
 /** 自动记忆开关。 */
 export interface MemoryHooksOptions {
@@ -36,7 +36,7 @@ function extractText(blocks: ContentBlock[]): string {
 }
 
 /** 安装自动记忆钩子（effect 作用域内，随插件卸载自动移除）。 */
-export function installMemoryHooks(ctx: Context, bridge: LingxuBridge, opts: MemoryHooksOptions): void {
+export function installMemoryHooks(ctx: Context, bridge: LingshuBridge, opts: MemoryHooksOptions): void {
   const memorize = (tool: string, args: Record<string, unknown>): void => {
     void bridge
       .callTool(tool, args)
