@@ -157,7 +157,7 @@ def test_mcp_visual_check():
     notify({"jsonrpc": "2.0", "method": "notifications/initialized"})
     r = send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
     names = [t["name"] for t in r["result"]["tools"]]
-    check("MCP 41 工具", len(names) == 41, f"count={len(names)}")
+    check("MCP 41 工具", len(names) == 42, f"count={len(names)}")
     check("visual_check 已注册", "visual_check" in names)
     proc.stdin.close()
     proc.wait(timeout=10)
