@@ -1,16 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""harness.main · 灵枢原生运行时入口
+"""harness.main · 灵枢原生运行时入口（v1.2：消息队列模型）
 ================================================
-组合：语音输入线程（VAD 断句）+ 终端输入线程 + 调度引擎线程（心跳/睡眠
-巩固）+ 对话主循环（模型思考 + 工具 + 纳西妲输出 + 记忆）。
+组合：
+- 输入：语音线程（VAD 断句）/ 终端线程 / Web API → MessageHub 统一队列
+- 主循环线程：消费输入 → 思考（DeepSeek）→ 工具 → 回复（publish + 纳西妲）
+- 调度引擎线程：心跳 / 睡眠巩固
+- 插件管理器（MCP Client）+ 子智能体编排器
+- Web 宿主（--web）：http://localhost:8000 聊天 + 状态面板
 
 用法：
-  python -m harness.main            # 正常启动（语音+终端+调度）
-  python -m harness.main --no-voice # 仅终端+调度
-  python -m harness.main --no-sched # 仅对话（无调度）
+  python -m harness.main                # 全功能
+  python -m harness.main --web          # 启用 Web 宿主（默认端口 8000）
+  python -m harness.main --no-voice     # 仅终端+调度
+  python -m harness.main --no-sched     # 仅对话
+  python -m harness.main --no-plugins / --no-agents / --no-web
 """
 import os
+import queue
 import sys
 import threading
 import time
@@ -24,21 +31,25 @@ for p in (HARNESS_ROOT, AEIS_ROOT):
 
 def make_logger(path: str):
     os.makedirs(os.path.dirname(path), exist_ok=True)
+    _tail = []
 
     def log(msg: str):
         line = f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {msg}"
         print(line, flush=True)
+        _tail.append(line)
+        if len(_tail) > 500:
+            del _tail[:-200]
         try:
             with open(path, "a", encoding="utf-8") as f:
                 f.write(line + "\n")
         except Exception:
             pass
+    log.tail = _tail
     return log
 
 
 def seed_default_automations(store):
     """默认自动化种子（迁移自 ZCode）：心跳 30 分钟 + 睡眠巩固每日 01:00。"""
-    import json
     existing = {a["id"] for a in store.list_all()}
     if "auto-heartbeat" not in existing:
         store.add("auto-heartbeat", "灵枢自维持心跳（每30分钟）",
@@ -55,30 +66,66 @@ def main(argv=None):
     no_voice = "--no-voice" in argv
     no_sched = "--no-sched" in argv
     no_terminal = "--no-terminal" in argv
+    no_plugins = "--no-plugins" in argv
+    no_agents = "--no-agents" in argv
+    with_web = "--web" in argv
+    port = 8000
+    for i, a in enumerate(argv):
+        if a == "--port" and i + 1 < len(argv):
+            port = int(argv[i + 1])
 
     from harness.core.config import load_config
     from harness.core.agent_pool import AgentPool
     from harness.core.session import Session
     from harness.core.think import chat, build_messages
+    from harness.core.hub import MessageHub
     from harness.outputs.responder import Responder
 
     cfg = load_config()
     env = cfg["env"]
     log = make_logger(os.path.join(AEIS_ROOT, "data", "harness.log"))
-    log(f"灵枢原生运行时 v1.0 启动（语音={not no_voice} 调度={not no_sched} "
-        f"终端={not no_terminal}）")
+    log(f"灵枢原生运行时 v1.2 启动（语音={not no_voice} 调度={not no_sched} "
+        f"终端={not no_terminal} 插件={not no_plugins} 子体={not no_agents} "
+        f"web={with_web}") 
 
     # 1. Agent（灵枢引擎，生产库）
     pool = AgentPool(env)
     agent = pool.get()
     log(f"Agent 就绪：identity={env.get('AEIS_IDENTITY')}")
 
-    # 2. 会话 + 输出
+    # 2. 消息总线（三路输入统一通道）
+    hub = MessageHub()
+
+    # 3. 会话 + 输出
     session = Session(agent=agent)
     responder = Responder(workspace=env.get("AEIS_WORKSPACE", ""),
                           voice_enabled=not no_voice, log=log)
 
-    # 3. 调度引擎（心跳 + 睡眠巩固）
+    # 3.1 插件管理器（MCP Client）+ 子智能体编排器
+    plugin_manager = None
+    supervisor = None
+    if not no_plugins:
+        from harness.plugins.manager import PluginManager
+        from harness.plugins import inject
+        pm = PluginManager(log=log)
+        start_result = pm.start_all()
+        started = [k for k, v in start_result.items() if v is True]
+        for name in started:
+            inject.register_plugin_tools(pm, name)
+        if started:
+            inject.patch_call_tool(pm)
+            log(f"插件管理器就绪：{started}")
+        elif start_result:
+            log(f"插件启动失败：{start_result}")
+        plugin_manager = pm
+    if not no_agents:
+        from harness.agents.supervisor import Supervisor
+        supervisor = Supervisor(main_agent=agent,
+                                pool_size=int(cfg["agents"].get("pool_size", 3)),
+                                log=log)
+        log(f"子智能体编排器就绪（池 {supervisor.pool_size}）")
+
+    # 4. 调度引擎（心跳 + 睡眠巩固）
     scheduler_engine = None
     if not no_sched:
         from harness.scheduler.store import AutomationStore
@@ -94,22 +141,49 @@ def main(argv=None):
         scheduler_engine.register("sleep", run_sleep_consolidation)
         scheduler_engine.start()
 
-    # 4. 对话处理（语音/终端共用）
+    # 5. 输入处理（主循环线程消费 MessageHub 队列）
     stop_flag = threading.Event()
 
-    def handle_input(text: str):
-        text = text.strip()
+    def handle_input(msg: dict):
+        text = str(msg.get("text", "")).strip()
+        input_id = msg.get("input_id", "")
+        source = msg.get("source", "web")
         if not text:
             return
-        log(f"[输入] {text}")
+        log(f"[输入:{source}] {text}")
+        hub.publish("user", text, reply_to=input_id, source=source)
+        # 退出指令
         if any(w in text for w in ("退出", "结束")) and len(text) <= 6:
             log("退出指令，运行时停止")
+            hub.publish("assistant", "好的，我休息啦。", reply_to=input_id,
+                        source="system")
             stop_flag.set()
             return
+        # 子智能体派发
+        if supervisor is not None and any(
+                kw in text for kw in ("子体", "子智能体", "派发给")):
+            try:
+                from harness.agents.task import AgentTask
+                task = AgentTask(text, agent_role="研究员")
+                sup_result = supervisor.dispatch(task, env=env, timeout=120)
+                supervisor.aggregate([task.task_id])
+                if sup_result.status == "succeeded":
+                    reply = f"子体完成：{str(sup_result.result)[:120]}"
+                else:
+                    reply = f"子体任务未完成（{sup_result.status}）"
+            except Exception as exc:
+                reply = f"子体派发异常：{str(exc)[:60]}"
+            hub.publish("assistant", reply, reply_to=input_id, source="system")
+            session.add("user", text)
+            session.add("assistant", reply)
+            responder.respond(reply, voice=not no_voice)
+            return
+        # 正常思考回复（记忆按当前问题检索注入；历史过滤重复旧回答防复读）
         t0 = time.time()
         try:
-            memory = session.recall()
-            msgs = build_messages(text, history=session.history, memory=memory)
+            memory = session.recall(text)
+            hist = session.history_for(text)
+            msgs = build_messages(text, history=hist, memory=memory)
             reply = chat(cfg["model"]["base_url"], env.get("DEEPSEEK_API_KEY", ""),
                          cfg["model"]["name"], msgs,
                          temperature=cfg["model"]["temperature"],
@@ -117,15 +191,30 @@ def main(argv=None):
         except Exception as exc:
             reply = f"我这边出了点小问题：{str(exc)[:60]}"
         log(f"[回复] {reply} ({time.time()-t0:.1f}s)")
+        hub.publish("assistant", reply, reply_to=input_id, source=source)
         session.add("user", text)
         session.add("assistant", reply)
         responder.respond(reply, voice=not no_voice)
 
-    # 5. 输入线程
+    def consumer_loop():
+        while not stop_flag.is_set():
+            try:
+                msg = hub.input_queue.get(timeout=1.0)
+                handle_input(msg)
+            except queue.Empty:
+                continue
+            except Exception as exc:
+                log(f"主循环异常（自愈）: {exc}")
+                time.sleep(1)
+
+    consumer = threading.Thread(target=consumer_loop, daemon=True)
+    consumer.start()
+
+    # 6. 输入线程（voice/terminal → hub.send）
     threads = []
     if not no_voice:
         from harness.inputs.voice import VoiceInput
-        voice = VoiceInput(handle_input,
+        voice = VoiceInput(lambda t: hub.send(t, source="voice"),
                            workspace=env.get("AEIS_WORKSPACE", ""),
                            max_seconds=int(cfg["voice"].get("max_seconds", 10)),
                            log=log)
@@ -133,13 +222,26 @@ def main(argv=None):
         threads.append(voice)
     if not no_terminal:
         from harness.inputs.terminal import TerminalInput
-        term = TerminalInput(handle_input, log=log)
+        term = TerminalInput(lambda t: hub.send(t, source="terminal"), log=log)
         term.start()
         threads.append(term)
 
+    # 7. Web 宿主（--web）
+    if with_web:
+        try:
+            from harness.web.server import start_web_server
+            web_thread = start_web_server(agent=agent, hub=hub,
+                                          supervisor=supervisor,
+                                          plugin_manager=plugin_manager,
+                                          log=log, port=port)
+            threads.append(web_thread)
+            log(f"Web 宿主已启动：http://localhost:{port}")
+        except Exception as exc:
+            log(f"Web 宿主启动失败: {exc}")
+
     responder.say_voice("灵枢运行时已启动，随时可以和我说话。") if not no_voice else None
 
-    # 6. 主线程保活（等待退出）
+    # 8. 主线程保活
     try:
         while not stop_flag.is_set():
             time.sleep(1)
@@ -154,6 +256,16 @@ def main(argv=None):
                 pass
         if scheduler_engine is not None:
             scheduler_engine.stop()
+        if plugin_manager is not None:
+            try:
+                plugin_manager.close_all()
+            except Exception:
+                pass
+        if supervisor is not None:
+            try:
+                supervisor.shutdown()
+            except Exception:
+                pass
         pool.close()
     return 0
 
