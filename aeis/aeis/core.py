@@ -1166,15 +1166,26 @@ class SpacetimeMemoryEngine:
         self._setup_body()
 
     def _setup_v113(self):
-        """v1.13 视觉组件装配（可选扩展：ultralytics 缺失时优雅降级 Null）"""
+        """v1.13 视觉组件装配（惰性：仅清状态，首次 perceive_image 才加载 YOLO/CLIP——
+        启动零负担，身体功能不再拖慢进程启动/MCP 握手）"""
         self._vision_provider = None
+        self._vision_error = ""
+
+    def _ensure_vision(self):
+        """惰性装配视觉 provider（首次视觉调用触发）。
+        返回 provider 或 None（失败时 _vision_error 记录原因）。"""
+        if self._vision_provider is not None:
+            return self._vision_provider
         try:
             from vision import create_vision_provider
-            self._vision_provider = create_vision_provider()
-            if not self._vision_provider.available():
-                self._vision_error = "ultralytics 未安装（pip install ultralytics）"
+            p = create_vision_provider()
+            if p is not None and p.available():
+                self._vision_provider = p
+                return p
+            self._vision_error = "ultralytics 未安装（pip install ultralytics）"
         except Exception as e:
             self._vision_error = str(e)
+        return None
 
     def _setup_body(self):
         """BODY-REV1 身体层装配（零依赖：screen/files/process 设备注册表）。
@@ -1845,17 +1856,27 @@ class SpacetimeMemoryEngine:
     def perceive_image(self, image_path: str, conf_threshold: float = 0.35,
                        importance: float = 0.6, classes: list = None) -> dict:
         """v1.13 视觉感知闭环：检测 → 摘要 → 知识层记忆（modality=image）。
-        classes：开放词汇检测词（中/英，YOLO-World 支持，默认文生图词表）"""
+        classes：开放词汇检测词（中/英，YOLO-World 支持，默认文生图词表）。
+        惰性：首次调用才加载 YOLO/CLIP 模型。"""
         try:
+            provider = self._ensure_vision()
             from vision import perceive_image as _pi
-            return _pi(self, image_path, self._vision_provider,
+            return _pi(self, image_path, provider,
                        conf_threshold, importance, classes)
         except Exception as e:
             return {"status": "vision_error", "error": str(e)}
 
     def get_body_capabilities(self) -> dict:
         """v1.13 身体能力声明（第 4 项：工具/模态作为自我的一部分）"""
-        vision_ok = self._vision_provider is not None and self._vision_provider.available()
+        # 惰性视觉：未装配时显示 "lazy"（首次调用加载），不阻塞能力查询
+        if self._vision_provider is None:
+            vision_ok = False
+            provider_name = "lazy"
+            vision_note = self._vision_error or "延迟装配（首次视觉调用时加载 YOLO/CLIP）"
+        else:
+            vision_ok = self._vision_provider.available()
+            provider_name = self._vision_provider.name
+            vision_note = self._vision_error or None
         devices = []
         devices_available = []
         try:
@@ -1872,10 +1893,9 @@ class SpacetimeMemoryEngine:
                 "audio": False,
                 "video": False,
             },
-            "vision": {"provider": self._vision_provider.name
-                       if self._vision_provider else "none",
+            "vision": {"provider": provider_name,
                        "available": vision_ok,
-                       "error": self._vision_error or None},
+                       "error": vision_note},
             "memory": {"engine": "v1.13", "persistent": True},
             "devices": devices,           # BODY-REV1：外部设备清单
             "devices_available": devices_available,
