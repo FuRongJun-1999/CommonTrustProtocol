@@ -8,6 +8,31 @@ import json
 import os
 
 
+# 停用字（关键词提取过滤虚词组合）
+_STOP_CHARS = set("我们之前一起了什么的否有没有在这是那怎样呢吗？?和与及对")
+
+def _keyword_query(query: str) -> str:
+    """从问题提取实词二元组（过滤停用字组合）→ 短关键词查询。
+    长口语查询的整句重叠率区分度低（12+ 二元组命中 1-2 个分数接近），
+    关键词化后（如"测试 游戏"）精确命中相关节点。"""
+    chars = [c for c in query if '\u4e00' <= c <= '\u9fff']
+    bigrams = []
+    for i in range(len(chars) - 1):
+        a, b = chars[i], chars[i + 1]
+        if a not in _STOP_CHARS and b not in _STOP_CHARS:
+            bigrams.append(a + b)
+    # 只保留不重叠的连续实词段（避免碎片噪声）
+    kept, skip = [], False
+    for i, bg in enumerate(bigrams):
+        if skip:
+            skip = False
+            continue
+        kept.append(bg)
+        if i + 1 < len(bigrams) and bigrams[i][1] == bigrams[i + 1][0]:
+            skip = True  # 连续实词只取前段（灵枢→后续→开发）
+    return " ".join(kept[:6]) if kept else query
+
+
 class Session:
     """简单多轮会话：历史列表 + 持久化到灵枢库（voice 标签）。"""
 
@@ -29,20 +54,24 @@ class Session:
             except Exception:
                 pass
 
-    def recall(self, query: str = None, limit: int = 6) -> list:
+    def recall(self, query: str = None, limit: int = 8) -> list:
         """从灵枢库召回相关记忆（按当前问题检索）。
         多样性策略：知识节点优先（防对话复读垄断），对话节点至多 2 条。"""
         if self.agent is None:
             return []
         try:
             q = query if query else "voice dialogue"
-            results = self.agent.search(q, limit * 2 + 4)
+            # 关键词化查询（实词提取，精确命中）
+            kq = _keyword_query(q)
+            results = self.agent.search(kq, limit * 2 + 4)
             knowledge, dialogue = [], []
             for node, _score in results:
                 tags = " ".join(node.tags or [])
                 if "dialogue" in tags or "voice" in tags:
-                    # 过滤"没找到"类失败复读（防幻觉锚点自我引用循环）
-                    if any(w in node.content for w in ("没找到", "没有找到", "找不到", "未找到")):
+                    # 只注入 user 消息（assistant 旧回复可能含过时/错误结论，
+                    # 会引导模型复述；且"没找到"类失败复读一律跳过）
+                    if "assistant" in tags or any(
+                            w in node.content for w in ("没找到", "没有找到", "找不到", "未找到")):
                         continue
                     dialogue.append(node.content)
                 else:

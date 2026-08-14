@@ -699,12 +699,13 @@ class LayeredStore:
 
     @staticmethod
     def expand_query_terms(query: str) -> list:
-        """查询同义词展开：原词 + 命中组内所有同义词 → 预筛词表。"""
+        """查询同义词展开：原查询整句 + 命中组词（含命中词本身，词级预筛）+ 组内同义词。
+        命中词本身必须加入——整句 LIKE 无法命中只含词级的节点。"""
         terms = [query]
         for group in LayeredStore.SYNONYM_GROUPS:
             for w in group:
                 if w in query:
-                    terms.extend(g for g in group if g not in query)
+                    terms.extend(g for g in group if g not in terms)
                     break
         return list(dict.fromkeys(terms))
 
@@ -741,21 +742,19 @@ class LayeredStore:
                 c.execute("SELECT * FROM nodes LIMIT 500")
             rows = c.fetchall()
         scored = []
-        # 扩展查询二元组并集（原查询 + 同义词），评分用查询重叠率
-        union_bigrams = set()
-        for t in terms:
-            union_bigrams |= self._bigrams(t)
+        # 评分用原查询二元组重叠率（召回导向）；扩展词只负责预筛召回不稀释评分
+        qb = self._bigrams(q)
         for row in rows:
             node = STNode.from_row(tuple(row))
             nb = self._bigrams(node.content)
-            # 查询重叠率（召回导向）：查询二元组被命中比例 / 并集规模
-            if union_bigrams:
-                sim = len(union_bigrams & nb) / len(union_bigrams)
+            if qb:
+                sim = len(qb & nb) / len(qb)
             else:
                 sim = 0.0
             tag_bonus = 0.05 if any(t in q or q in t for t in node.tags) else 0.0
             scored.append((node, min(1.0, sim + tag_bonus)))
-        scored.sort(key=lambda x: -x[1])
+        # 同分按重要性降序（高质量记忆优先，避免并列截断排挤重要节点）
+        scored.sort(key=lambda x: (-x[1], -x[0].importance))
         results = scored[:limit]
         for node, _ in results:
             self.increment_access(node.id)
