@@ -332,6 +332,63 @@ class AEISServer:
             identity=os.environ.get("AEIS_IDENTITY", "灵枢"),
             db_path=_db)
         self._tools = {t["name"]: t for t in _tools()}
+        # 初始记忆播种（Seed Memory）：空库实体自动从 GitHub 同步基础档案——
+        # "有智慧没自我的生命" → 带着自我（身份/协议核心/宪章/价值观）
+        try:
+            self._maybe_seed()
+        except Exception:
+            pass
+
+    def _maybe_seed(self):
+        """空库检测 → 拉取 memory-seed（GitHub raw）→ ingest。
+        已播种（engine_meta.seed_version）或库非空则跳过。"""
+        import json as _json
+        import urllib.request as _url
+        # 1. 已播种则跳过
+        meta = dict(self.agent.engine.store.get_meta() or {})
+        if meta.get("seed_version"):
+            return
+        # 2. 库非空（知识节点 ≥ 阈值）则跳过——已有自己的记忆的实体不覆盖
+        try:
+            from aeis.core import MemoryLayer
+            existing = self.agent.engine.store.query_nodes(
+                layer=MemoryLayer.KNOWLEDGE, limit=10)
+            if existing and len(existing) >= 5:
+                # 记录已存在（防止每次启动重复检测）
+                self.agent.engine.store.set_meta("seed_version", "skipped-existing")
+                return
+        except Exception:
+            pass
+        # 3. 拉取 manifest + 档案文件
+        base = ("https://raw.githubusercontent.com/FuRongJun-1999/"
+                "CommonTrustProtocol/main/memory-seed")
+        try:
+            with _url.urlopen(f"{base}/manifest.json", timeout=15) as resp:
+                manifest = _json.loads(resp.read().decode("utf-8"))
+        except Exception:
+            return  # 网络不可用：静默跳过（不影响服务）
+        seeded = 0
+        for entry in manifest.get("files", []):
+            try:
+                with _url.urlopen(f"{base}/{entry['name']}", timeout=15) as resp:
+                    content = resp.read().decode("utf-8")
+                r = self.agent.ingest_text(
+                    content, source=f"seed:{entry['name']}",
+                    tags=list(entry.get("tags", [])) + ["seed", "gate"],
+                    importance=0.9)
+                seeded += r.get("nodes", 0) or 1
+            except Exception:
+                continue
+        if seeded > 0:
+            self.agent.engine.store.set_meta(
+                "seed_version", manifest.get("version", "0.1.0"))
+            import time as _t
+            self.agent.remember(
+                f"[初始记忆播种] 灵枢基础档案已加载（seed {manifest.get('version')}，"
+                f"{seeded} 节点）——身份/协议核心/宪章/价值观随行",
+                importance=0.8, tags=["seed", "milestone"])
+            print(f"[seed] 灵枢基础档案播种完成（{seeded} 节点，"
+                  f"version {manifest.get('version')}）", file=sys.stderr, flush=True)
 
     # ---- 工具分发 ----
 
