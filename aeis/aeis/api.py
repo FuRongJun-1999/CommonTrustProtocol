@@ -396,6 +396,11 @@ class Agent:
         """BODY-REV1：身体状态同步到自我模型（感知模态+设备清单）。"""
         return self.engine.sync_body_state()
 
+    def vprim_query(self, action: str, params: dict = None) -> Dict:
+        """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
+        spatial（两 bbox 空间关系）/ count（视觉原语计数）/ anchors（锚点列表）"""
+        return self.engine.vprim_query(action, params)
+
     def recursive_reflect(self, claim: str, expected: str = None,
                           actual: str = None, context: str = None,
                           depth: int = 0, max_depth: int = 3) -> Dict:

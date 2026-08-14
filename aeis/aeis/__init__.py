@@ -79,6 +79,9 @@ _sys.modules["knowledge"] = _knowledge
 from . import body as _body
 _sys.modules["body"] = _body
 
+from . import vprim as _vprim
+_sys.modules["vprim"] = _vprim
+
 from . import api as _api
 from .api import Agent
 

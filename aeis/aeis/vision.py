@@ -206,9 +206,9 @@ def create_vision_provider(model_path: str = "yolov8n.pt") -> VisionProvider:
 def perceive_image(engine, image_path: str, provider: Optional[VisionProvider] = None,
                    conf_threshold: float = 0.35, importance: float = 0.6,
                    classes: Optional[list] = None) -> Dict:
-    """视觉感知闭环：检测 → 摘要文本 → 写入知识层（modality="image"）。
-    返回 {status, detections, node} —— 视觉输入成为可检索记忆。
-    classes：开放词汇检测词（中/英均可，YOLO-World 支持）。"""
+    """视觉感知闭环：检测 → 视觉原语（VPrim）→ 摘要 → 知识层记忆。
+    返回 {status, detections, vprims, node} —— 视觉输入成为可检索记忆，
+    且坐标锚点（bbox）随记忆持久化，供推理链精确指代（VPRIM-REV1）。"""
     prov = provider or getattr(engine, "_vision_provider", None)
     if prov is None or not prov.available():
         return {"status": "vision_unavailable",
@@ -216,10 +216,20 @@ def perceive_image(engine, image_path: str, provider: Optional[VisionProvider] =
     detections = prov.detect(image_path, conf_threshold, classes=classes)
     if not detections:
         return {"status": "no_detection", "detections": []}
-    summary = "；".join(f"{d.label}({d.confidence:.2f})" for d in detections[:10])
-    content = f"[视觉感知] {os.path.basename(image_path)} 检测到: {summary}"
+    # VPRIM-REV1：检测 → 视觉原语（空间锚点）
+    try:
+        from vprim import VPrim, vprims_to_scene_text
+        vprims = [VPrim(category=d.label, bbox=d.bbox, confidence=d.confidence,
+                        source=prov.name) for d in detections]
+        content = vprims_to_scene_text(vprims, os.path.basename(image_path))
+    except Exception:
+        vprims = []
+        summary = "；".join(f"{d.label}({d.confidence:.2f})" for d in detections[:10])
+        content = f"[视觉感知] {os.path.basename(image_path)} 检测到: {summary}"
     node = engine.add_perception(content, modality="image", importance=importance,
-                                 tags=["vision", "perception"],
+                                 tags=["vision", "perception", "vprim"],
                                  entities=[d.label for d in detections[:8]] or None)
-    return {"status": "ok", "detections": [d.to_dict() for d in detections],
+    return {"status": "ok",
+            "detections": [d.to_dict() for d in detections],
+            "vprims": [v.to_dict() for v in vprims],
             "node_id": node.id, "summary": content}
