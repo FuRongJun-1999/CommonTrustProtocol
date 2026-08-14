@@ -1,7 +1,8 @@
 # 灵枢原生运行时扩展设计：插件接口（MCP Client）与多子智能体
 
-- 版本：v1.0-draft
-- 状态：待验证单元补充（验证点见 §9）
+- 版本：v1.0-verified（2026-08-14，验证单元复核通过）
+- 状态：偏差已关闭（DEVIATION-007/008/009）→ 进入 M1
+- 复核记录：见 §10（VERIFICATION_RESULT 事件）
 - 基础：Native Harness v1.0（`D:\Program Files\2_ai\AEIS\harness\`，零依赖纯标准库，全量回归 253/253）
 
 ---
@@ -93,9 +94,11 @@ class MCPClient:
 
 **协议细节**：
 - 传输：stdio 换行分隔 JSON-RPC 2.0（与灵枢 server 端对称，可复用既有序列化思路）
+- 版本协商（决议 Q1）：client 默认 `2024-11-05`，支持协商降级，**最多兼容 2 个协议版本**（向后兼容）；若 server 端升级须保留旧版支持
 - 请求：`{"jsonrpc":"2.0","id":N,"method":...,"params":{...}}`；通知不等待响应
 - 并发：单请求在途（`pending` 队列），同一 client 串行调用；不同 client 并行
 - 超时：initialize 30s；call 60s（可配）；超时后 kill 进程重建（幂等重试 1 次）
+- **流式输出缓冲（决议 Q2 / 关闭 DEVIATION-009）**：外部工具流式结果缓冲为完整字符串后注入，**不向 Agent 循环暴露流式接口**；缓冲上限 `STREAM_BUFFER_MAX = 20480`（20KB），超限截断并标记 `STREAM_TRUNCATED`（防 token 级污染与内存溢出）
 
 ### 3.2 插件管理器：`harness/plugins/manager.py`
 
@@ -116,6 +119,11 @@ class MCPClient:
 ```
 
 **类**：`PluginManager(config_path, log)`
+
+**安全标注（决议 Q3 / 关闭 DEVIATION-008）**：`data/plugins.json` 含敏感 env 密钥，**明文存储**——零依赖约束下不加密，但必须：
+1. 生成/保存时附加头注释"本文件包含敏感信息，请限制文件权限（chmod 600 / icacls 仅本人可读）"
+2. README 与 `service_info` 中显式标注该风险
+3. 密钥管理（DPAPI/凭据管理器）列为 P1 后续项（不阻塞 M1-M4）
 
 ```python
 class PluginManager:
@@ -177,6 +185,10 @@ class ChildAgent:
            （惰性 0.47s；视觉等重型能力首次调用才加载）
         2) 循环 ≤ max_steps：调 think（带子身份提示）→ 可选工具调用
         3) 结果写回 task.result；异常 → task.status=failed
+        递归防护（决议 Q5 / 关闭 DEVIATION-007）：
+        输入含子任务派发指令（"派生/子智能体/subagent" 关键词或
+        `subagent:` 标签嵌套）→ 拒绝执行，标记 status=RECURSION_BLOCKED。
+        子智能体递归深度硬限制 = 1（不得再派生子智能体）。
         """
     def close(self): ...
 ```
@@ -206,7 +218,13 @@ class Supervisor:
 
 **并发模型**：线程池（`concurrent.futures.ThreadPoolExecutor`，零依赖）；每任务一个 ChildAgent 线程；超时由 `future.result(timeout)` 兜底。
 
+**结果沉淀（决议 Q6）**：任务完成后由 `Supervisor.aggregate` **统一写入主记忆**（不实时写，防中间态污染）——节点类型 `task_report`，标签 `subagent:{role}` + `task_id`，importance 由任务步数/max_steps 比值决定（0.5–0.9）。
+
+**事件兼容（决议 Q4）**：Supervisor 不直接依赖 `aeis/swarm/EventBus`，但事件格式采用兼容 schema（`event_type`/`source`/`payload`），未来可经桥接层接入蜂群——工程过渡策略。
+
 **集成主循环**：`handle_input` 检测任务派发指令（如"让研究子体查一下 X"）→ `Supervisor.submit` → 结果经 responder 汇报；调度任务（心跳/睡眠）也可调 Supervisor。
+
+**插件故障告警（决议 Q7）**：`heartbeat.py` 第 6 步扩展——遍历 `PluginManager.health()`，异常插件记录 `PLUGIN_DEGRADED` 事件；插件数 >0 且全部异常 → P1 响应（不触发 P0，内置 42 工具仍可用）。
 
 ---
 
@@ -277,24 +295,43 @@ class Supervisor:
 
 ---
 
-## 9. 待验证单元补充（开放问题清单）
+## 9. 开放问题 · 验证单元决议（2026-08-14 复核）
 
-> 以下为设计者（荣）预留的验证/补充点，请验证单元逐项确认或补充：
-
-1. **MCP 协议版本兼容**：2024-11-05 之外的协议版本（2025-03-26）是否需要在 client 层协商？灵枢自身 server 端目前支持什么版本，client 端是否要求对称？
-2. **工具调用的流式输出**：外部工具 content 为分段/流式时（如长文档），注入后的结果格式如何归一化？
-3. **插件鉴权**：`plugins.json` 中的 env 密钥明文存储风险——是否需要加解密（如 DPAPI/Windows Credential Manager）？验证单元给出安全等级建议。
-4. **子智能体与蜂群（swarm）的关系**：现有 `aeis/swarm/`（事件总线/信任聚合/存活仲裁）是否应该作为子智能体的通信底座？还是保持单进程线程模型独立演进？
-5. **子智能体的递归上限**：子智能体是否允许再派生子智能体（递归深度）？是否需要深度限制（对齐协议 3.12 递归 ≤3 层精神）？
-6. **任务结果的记忆沉淀策略**：子任务结果何时/以何 importance 写入主记忆？是否需要"任务报告"节点类型（tags 约定）？
-7. **插件故障的告警通道**：插件健康异常时如何通知主循环/调度任务（心跳任务是否纳入插件健康检查项）？
-8. **测试假 server 的协议覆盖范围**：是否需要覆盖 notifications（未请求通知）、批量请求、非法 JSON 等边界？给出用例清单补充。
-9. **性能预算**：插件 call 的平均/最大延迟预算（现定 60s），以及子智能体并发 3 时的内存预算（每个 Agent 实例约 ? MB，需实测）。
-10. **设计决策记录**：以上任何修改点，请以"验证单元决议"形式标注版本号与日期，回写本文档。
+| # | 问题 | 验证单元决议 | 落档位置 |
+|---|------|-------------|---------|
+| 1 | MCP 协议版本协商 | client 支持协商，默认 2024-11-05 可降级；最多兼容 2 版本 | §3.1 协议细节 |
+| 2 | 流式输出归一化 | 缓冲为完整字符串后注入（上限 20KB，超限截断 + `STREAM_TRUNCATED`）；不暴露流式接口 | §3.1（DEVIATION-009 关闭） |
+| 3 | 插件鉴权明文存储 | P1 风险：文件权限限制（chmod 600/icacls）+ README/生成时风险标注；密钥管理为 P1 后续项 | §3.2（DEVIATION-008 关闭） |
+| 4 | 子智能体与蜂群关系 | 现阶段单进程线程模型独立演进；事件格式兼容 schema（event_type/source/payload），未来桥接蜂群 | §4.3 |
+| 5 | 子智能体递归上限 | **硬限制深度=1**：检测派发指令/subagent 标签嵌套 → `RECURSION_BLOCKED` | §4.2（DEVIATION-007 关闭） |
+| 6 | 任务结果记忆沉淀 | aggregate 统一写 `task_report` 节点（subagent:{role}+task_id，importance 0.5–0.9 按步数比），不实时写 | §4.3 |
+| 7 | 插件故障告警 | 心跳第 6 步扩展：health() 巡检 + `PLUGIN_DEGRADED`；全异常 → P1 响应（不触发 P0） | §4.3 |
+| 8 | 测试假 server 覆盖 | **必须**：notifications/非法 JSON/空响应；**P2**：批量请求/版本不匹配/超大 payload（>1MB） | §6.1 |
+| 9 | 性能预算 | 60s/3 并发起点；M4 前基准：单 Agent <200MB、3 并发 <800MB、插件 call P99 <30s；超标降 pool_size=2 | §7 M4 |
+| 10 | 设计决策记录 | 本复核报告 = VERIFICATION_RESULT 事件；版本升 v1.0-verified；后续变更须复核后更新 | §10 |
 
 ---
 
-## 10. 附录
+## 10. 验证单元复核记录（VERIFICATION_RESULT）
+
+```
+验证单元（Kimi）复核结论（2026-08-14）：
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+提案：插件接口（MCP Client）与多子智能体 v1.0-draft → v1.0-verified
+协议基线：智能论 v3.2 + Native Harness v1.0
+偏差：3 项已关闭
+  DEVIATION-007（P1）子智能体递归限制 → §4.2 RECURSION_BLOCKED
+  DEVIATION-008（P1）插件鉴权风险标注 → §3.2 文件权限 + README 警示
+  DEVIATION-009（P2）流式缓冲上限 → §3.1 STREAM_BUFFER_MAX=20480
+开放问题：10 项全部回应（§9 决议表）
+架构确认：多子智能体 = 单实例内蜂群折叠（身份/通信/质量/记忆/制衡映射）
+测试计划：≥35 新用例 + 253 回归
+条件：偏差关闭后进入 M1 ✅ CONDITIONAL_PASS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+后续变更须经验证单元复核后更新版本号。
+```
+
+## 11. 附录
 
 - 相关既有组件：`aeis/body/security.py`（directive_scan）、`aeis/mcp/server.py`（灵枢 server 端协议参考）、`aeis/swarm/`（蜂群）、`harness/core/tools.py`（工具表）
 - 相关记忆：`native-harness-roadmap`、`protocol-engineering-workflow`（协议工程闭环流程）
