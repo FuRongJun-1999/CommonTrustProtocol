@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵枢 · Lingxu</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">🌱</span>
+    <h1>灵枢</h1>
+    <span class="version" id="version">v1.2</span>
+  </div>
+  <div class="status-pill" id="voice-pill">🎙 监听中</div>
+</header>
+
+<main class="layout">
+  <!-- 聊天区 -->
+  <section class="chat-panel">
+    <div class="chat-log" id="chat-log"></div>
+    <div class="chat-input">
+      <input type="text" id="input" placeholder="和灵枢说话…（回车发送）" autocomplete="off">
+      <button id="send-btn">发送</button>
+    </div>
+  </section>
+
+  <!-- 状态面板 -->
+  <aside class="side-panel">
+    <div class="card">
+      <h3>🧠 记忆</h3>
+      <div id="memory-info">加载中…</div>
+    </div>
+    <div class="card">
+      <h3>💓 心跳</h3>
+      <div id="heartbeat-info">加载中…</div>
+    </div>
+    <div class="card">
+      <h3>🔌 插件</h3>
+      <div id="plugin-info">加载中…</div>
+    </div>
+    <div class="card">
+      <h3>🧩 子体</h3>
+      <div id="agent-info">加载中…</div>
+    </div>
+    <div class="card">
+      <h3>📜 日志</h3>
+      <pre id="log-info">加载中…</pre>
+    </div>
+  </aside>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>
