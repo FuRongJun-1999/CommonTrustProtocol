@@ -44,6 +44,15 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --import tsx --test \"test/*.test.ts\""
+    "test": "npm run build && node --import tsx --test \"test/*.test.ts\"",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FuRongJun-1999/CommonTrustProtocol.git",
+    "directory": "plugins/dsh-memory"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
