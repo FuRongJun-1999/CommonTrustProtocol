@@ -1,4 +1,4 @@
-# @lingxu/dsh-memory
+# @furongjun1999/dsh-memory
 
 **灵枢（AEIS）× DeepSeek Harness 插件**：把灵枢的时空记忆/知识飞轮/自我认知接入 DSH，
 让 Agent 拥有跨会话的长期记忆与认知能力。
@@ -71,7 +71,7 @@ dsh plugin --profile <name> add <本插件本地路径或 git 地址>
 
 ```yaml
 - id: lingxu-memory
-  name: '@lingxu/dsh-memory'
+  name: '@furongjun1999/dsh-memory'
   config:
     dbPath: 'D:/data/lingxu.db'        # 灵枢记忆库路径（目录自动创建）
     identity: '灵枢'

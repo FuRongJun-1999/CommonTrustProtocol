@@ -1,5 +1,5 @@
 /**
- * @lingxu/dsh-memory —— 灵枢（AEIS）DeepSeek Harness 插件
+ * @furongjun1999/dsh-memory —— 灵枢（AEIS）DeepSeek Harness 插件
  *
  * 把灵枢的时空记忆/知识飞轮/自我认知接入 DSH：
  * - 工具桥接：Agent 可调用 lingxu_remember / recall / search / think 等
@@ -8,7 +8,7 @@
  * 用法（cordis.yml）：
  * ```yaml
  * - id: lingxu-memory
- *   name: '@lingxu/dsh-memory'
+ *   name: '@furongjun1999/dsh-memory'
  *   config:
  *     dbPath: 'D:/path/to/lingxu.db'
  *     identity: '灵枢'
