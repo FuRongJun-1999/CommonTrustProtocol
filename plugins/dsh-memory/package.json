@@ -1,6 +1,6 @@
 {
   "name": "@lingxu/dsh-memory",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "灵枢（AEIS）DeepSeek Harness 插件：把灵枢的时空记忆/知识飞轮/自我认知接入 DSH，对话自动沉淀进记忆库",
   "type": "module",
   "main": "lib/index.js",
