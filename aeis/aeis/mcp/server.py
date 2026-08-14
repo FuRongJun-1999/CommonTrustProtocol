@@ -218,6 +218,16 @@ def _tools():
         {"name": "body",
          "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
          "inputSchema": {"type": "object"}},
+        {"name": "recursive_reflect",
+         "description": "协议 3.12 递归验证反思 + 1.6.7 元反思（REFLECT-REV1）：元反思定标准 → 一级验证（预期vs实际）→ 二级反思（问1 隐藏前提/条件空间边界，问2 影响评估）→ 三级终裁（可逆性优先）→ 反思链归档。递归 ≤ 3 层（超出=结构性盲区）。claim 必填；expected/actual 可给一级验证输入。",
+         "inputSchema": {"type": "object",
+                         "properties": {"claim": {"type": "string"},
+                                        "expected": {"type": "string"},
+                                        "actual": {"type": "string"},
+                                        "context": {"type": "string"},
+                                        "depth": {"type": "number"},
+                                        "max_depth": {"type": "number"}},
+                         "required": ["claim"]}},
         {"name": "visual_check",
          "description": "视觉面 v1 思考路线：预期 vs 实际（基于记忆中的历史屏幕状态对照，回写记忆形成过去）。reference 可显式给预期截图；无预期无基线时建立基线。",
          "inputSchema": {"type": "object",
@@ -384,6 +394,11 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.compact_context(a.get("session_id", "s"), a.get("summary", "")))}], "isError": False}
         if name == "body":
             return {"content": [{"type": "text", "text": _dump(agent.body())}], "isError": False}
+        if name == "recursive_reflect":
+            return {"content": [{"type": "text", "text": _dump(agent.recursive_reflect(
+                a.get("claim", ""), expected=a.get("expected"), actual=a.get("actual"),
+                context=a.get("context"), depth=a.get("depth", 0),
+                max_depth=a.get("max_depth", 3)))}], "isError": False}
         if name == "visual_check":
             return {"content": [{"type": "text", "text": _dump(agent.visual_check(
                 reference=a.get("reference"), threshold=a.get("threshold", 0.1),

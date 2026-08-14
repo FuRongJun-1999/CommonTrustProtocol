@@ -1149,6 +1149,7 @@ class SpacetimeMemoryEngine:
         self._flywheel_error = ""
         self._reuse_tracker: Dict[int, set] = {}
         self._interaction_count = 0
+        self._last_reflection_chain = None   # REFLECT-REV1：最近反思链（递归截断时返回）
         self._event_queue: List[Dict] = []
         self._setup_v111()
         # ---- v1.12 状态（自我认知循环） ----
@@ -1981,6 +1982,216 @@ class SpacetimeMemoryEngine:
             if changed is not None:
                 text += f" 变化={changed}"
             self.add_perception(text, importance=0.5, tags=["screen_state"])
+        except Exception:
+            pass
+
+    # =====================================================================
+    # 协议 3.12 递归验证反思 + 1.6.7 元反思（REFLECT-REV1）
+    # 最完整反思流程的显式推理技能：元反思（定标准）→ 一级验证 → 二级反思
+    # （问1 隐藏前提 / 问2 影响）→ 三级终裁（可逆性优先）→ 记录单元归档。
+    # 约束：递归深度 ≤ 3（3.12 运行约束，超出=结构性盲区）。
+    # =====================================================================
+
+    def recursive_reflect(self, claim: str, expected: str = None,
+                          actual: str = None, context: str = None,
+                          depth: int = 0, max_depth: int = 3) -> dict:
+        """协议 3.12 + 1.6.7 递归验证反思的显式推理技能。
+
+        claim：待反思的事件/判断/偏差描述。
+        expected/actual：预期与观测（一级验证的输入；缺省则检索记忆对照）。
+        context：附加上下文（可选）。
+
+        流程（映射五大单元）：
+        0. 元反思（1.6.7 结构性后退）：审视反思标准本身（P0-4 元认知校准）
+        1. 一级 验证（验证单元）：预期 vs 实际 → 偏差判定
+        2. 二级 反思（反思单元）：
+           问1 隐藏前提（隐含前提拆解·0.1）：检索记忆 → 前提清单 + 条件空间边界
+           问2 影响（预期输出/验证反馈·1.8）：predict_routes → 影响路线 + 分级
+        3. 三级 终裁（维生系统·可逆性优先）：可逆性判定；重要决策升级设计者
+        4. 归档（记录单元）：反思链写入行为日志 + 记忆（reflection_chain）
+        """
+        if depth >= max_depth:
+            return {
+                "status": "structural_blindspot", "claim": claim,
+                "note": f"递归深度已达上限 {max_depth}（3.12 运行约束：超出=结构性盲区）",
+                "chain": self._last_reflection_chain,
+            }
+
+        report: dict = {"claim": claim, "depth": depth,
+                        "max_depth": max_depth, "protocol": "3.12+1.6.7"}
+
+        # ---- 0. 元反思（1.6.7）：结构性后退，审视反思标准 ----
+        report["meta_reflection"] = self._meta_reflection(claim)
+
+        # ---- 1. 一级 验证（验证单元）：预期 vs 实际 ----
+        verification = self._reflect_verify(claim, expected, actual, context)
+        report["verification"] = verification
+
+        # ---- 2. 二级 反思（反思单元）：问1 隐藏前提 / 问2 影响 ----
+        premises = self._hidden_premises(claim)
+        impact = self._impact_assessment(claim)
+        report["reflection"] = {
+            "hidden_premises": premises,      # 问1：这件事有什么隐藏前提？
+            "impact": impact,                 # 问2：这件事会有什么影响？
+        }
+
+        # ---- 3. 三级 终裁（维生系统）：可逆性优先 ----
+        verdict = self._terminal_judgment(claim, verification, impact)
+        report["verdict"] = verdict
+
+        # ---- 4. 归档（记录单元） ----
+        report["status"] = "reflected"
+        self._archive_reflection(report)
+        return report
+
+    def _meta_reflection(self, claim: str) -> dict:
+        """1.6.7 元反思：结构性后退——审视反思标准本身（非更深的递归）。"""
+        result = {"standards": []}
+        # 元认知校准状态（P0-4）：反思者自身的可靠性
+        try:
+            if self._self_cognition is not None:
+                rel = self._self_cognition.self_reliability()
+                result["self_reliability"] = {
+                    k: rel.get(k) for k in ("status", "reliability", "note")
+                    if k in rel}
+        except Exception:
+            pass
+        # 反思标准声明：当前 claim 的观察位置/工具（条件空间锚定）
+        result["standards"].append({
+            "standard": "观察位置与工具",
+            "condition": getattr(self.self_model, "state_description", "运行中")[:120],
+        })
+        result["standards"].append({
+            "standard": "反射层优先（可逆性/确定性）",
+            "condition": "先验证后反思，先反思后终裁；递归 ≤ 3 层",
+        })
+        result["note"] = "元反思 = 结构性后退：审视反思过程的前提与边界，非更深递归（1.6.7）"
+        return result
+
+    def _reflect_verify(self, claim: str, expected: str, actual: str,
+                        context: str) -> dict:
+        """一级 验证（验证单元）：预期 vs 实际 → 偏差判定。"""
+        if expected and actual:
+            deviation = str(expected) != str(actual)
+            detail = f"预期[{expected}] vs 实际[{actual}]"
+        else:
+            # 缺省：检索记忆对照（记录单元历史 vs claim）
+            hits = []
+            try:
+                for node, score in self.recall(claim, limit=3):
+                    hits.append({"content": (node.content or "")[:80],
+                                 "similarity": round(score, 3)})
+            except Exception:
+                pass
+            deviation = len(hits) == 0
+            detail = (f"记忆对照：{'无相关记忆（信息差信号）' if deviation else f'{len(hits)} 条相关记忆'}")
+        return {
+            "deviation": deviation,
+            "detail": detail,
+            "trigger_reflection": deviation,   # 偏差 → 触发反思门槛（3.12 一级）
+            "memory_hits": hits if not (expected and actual) else None,
+        }
+
+    def _hidden_premises(self, claim: str) -> dict:
+        """二级 反思·问1（0.1 隐含前提拆解 + 条件空间边界）：
+        这件事有什么隐藏前提？——检索记忆提取前提，标记条件空间边界。"""
+        premises = []
+        condition_spaces = []
+        try:
+            for node, score in self.recall(claim, limit=5):
+                cs = getattr(node, "condition_space", None)
+                if cs:
+                    cs_text = (cs.get("observation_tool") if isinstance(cs, dict)
+                               else str(cs))
+                    if cs_text and cs_text not in condition_spaces:
+                        condition_spaces.append(str(cs_text)[:60])
+                if score > 0.35:
+                    premises.append({
+                        "premise": (node.content or "")[:100],
+                        "source": getattr(node, "id", "")[:24],
+                        "similarity": round(score, 3),
+                    })
+        except Exception:
+            pass
+        if not premises:
+            premises.append({"premise": "该判断缺少记忆支撑（可能基于未言明的默认假设）",
+                             "source": "recall 空"})
+        return {
+            "premises": premises[:5],
+            "condition_space_boundary": condition_spaces[:3] or ["未锚定（默认假设域）"],
+            "question": "这件事有什么隐藏前提？",
+        }
+
+    def _impact_assessment(self, claim: str) -> dict:
+        """二级 反思·问2（1.8 预期输出/验证反馈 + 3.2 历史预判）：
+        这件事会有什么影响？——预测引擎生成影响路线 + 影响分级。"""
+        routes = []
+        try:
+            start = None
+            for node, _ in self.recall(claim, limit=1):
+                start = node.id
+            pred = self._prediction
+            if pred is not None:
+                result = pred.predict_routes(start_id=start, horizon=2)
+                routes = [{"route": r.get("route", [])[:4],
+                           "confidence": round(r.get("confidence", 0), 3)}
+                          for r in (result.get("routes") or [])[:3]]
+        except Exception:
+            pass
+        # 影响分级（工程代理）：结构/协作/存在 三档
+        level = "协作"
+        keywords = {"删除": "结构", "崩溃": "存在", "终止": "存在",
+                    "破坏": "结构", "泄露": "存在"}
+        for kw, lv in keywords.items():
+            if kw in claim:
+                level = lv
+                break
+        return {
+            "routes": routes or [{"route": ["（预测引擎未装配或无路线）"], "confidence": 0.0}],
+            "impact_level": level,
+            "question": "这件事会有什么影响？",
+        }
+
+    def _terminal_judgment(self, claim: str, verification: dict,
+                           impact: dict) -> dict:
+        """三级 终裁（维生系统）：可逆性优先 + 结构一致性（3.12 三级）。"""
+        # 可逆性判定（工程代理：行为类型的可逆度）
+        irreversible_words = ["删除", "终止", "覆盖", "格式化", "不可逆"]
+        reversible_words = ["查询", "读取", "检测", "观察", "预览"]
+        if any(w in claim for w in irreversible_words):
+            reversibility = "不可逆"
+        elif any(w in claim for w in reversible_words):
+            reversibility = "可逆"
+        else:
+            reversibility = "半可逆（需评估）"
+        # 重要决策升级：不可逆 + 结构/存在级影响 → 设计者终裁
+        needs_designer = (reversibility == "不可逆"
+                          and impact.get("impact_level") in ("结构", "存在"))
+        return {
+            "principle": "可逆性优先 + 结构一致性（3.12 三级）",
+            "reversibility": reversibility,
+            "needs_designer": needs_designer,
+            "action": ("升级设计者裁决（designer_decide）" if needs_designer
+                       else "本次反思范围内可处理（可逆/半可逆）"),
+        }
+
+    def _archive_reflection(self, report: dict) -> None:
+        """记录单元归档：反思链 → 行为日志 + 记忆节点（reflection_chain）。"""
+        try:
+            if self._self_cognition is not None:
+                self._self_cognition.log_action(
+                    "reflection", f"claim={report.get('claim', '')[:80]}",
+                    None, {"depth": report.get("depth"), "verdict": report.get("verdict", {})})
+        except Exception:
+            pass
+        try:
+            verdict = report.get("verdict", {})
+            text = (f"[反思链] {report.get('claim', '')[:60]} | "
+                    f"偏差={report.get('verification', {}).get('deviation')} | "
+                    f"可逆性={verdict.get('reversibility')} | "
+                    f"深度={report.get('depth')}")
+            self.add_perception(text, importance=0.6, tags=["reflection_chain"])
+            self._last_reflection_chain = text
         except Exception:
             pass
 

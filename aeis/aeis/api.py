@@ -396,6 +396,16 @@ class Agent:
         """BODY-REV1：身体状态同步到自我模型（感知模态+设备清单）。"""
         return self.engine.sync_body_state()
 
+    def recursive_reflect(self, claim: str, expected: str = None,
+                          actual: str = None, context: str = None,
+                          depth: int = 0, max_depth: int = 3) -> Dict:
+        """协议 3.12 递归验证反思 + 1.6.7 元反思（REFLECT-REV1 显式推理技能）。
+
+        元反思（定标准）→ 一级验证（预期vs实际）→ 二级反思（问1 隐藏前提
+        /问2 影响）→ 三级终裁（可逆性优先）→ 记录单元归档。递归 ≤ 3 层。"""
+        return self.engine.recursive_reflect(claim, expected, actual,
+                                             context, depth, max_depth)
+
     def visual_check(self, reference: str = None, threshold: float = 0.1,
                      remember: bool = True) -> Dict:
         """视觉面 v1 思考路线：预期 vs 实际（基于记忆中的历史屏幕状态对照）。
