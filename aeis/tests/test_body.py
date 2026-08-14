@@ -203,6 +203,33 @@ def test_browser_device():
     check("browser 容器隔离", r["provenance"] == "device:browser" and r["is_directive"] is False)
 
 
+def test_voice_say():
+    """语音输出：System.Speech 即时说话（零依赖，偶发 PowerShell 启动竞争→重试）。"""
+    a = Agent(identity="body-say", db_path=":memory:")
+    r = a.device_call("audio", "say", {"text": "语音测试"})
+    if not r["ok"]:  # 偶发竞争重试一次
+        r = a.device_call("audio", "say", {"text": "语音测试"})
+    check("say 语音输出", r["ok"] is True, (r.get("error") or "")[:60])
+    check("say 容器隔离", r["provenance"] == "device:audio" and r["is_directive"] is False)
+    r2 = a.device_call("audio", "say", {})
+    check("say 缺文本拦截", not r2["ok"])
+
+
+def test_voice_listen_stream():
+    """语音输入：实时监听断句——自动化只测降级/校验路径；
+    真实音频识别由手动验证（麦克风→sherpa 流式→断句，已实测通过）。"""
+    a = Agent(identity="body-stream", db_path=":memory:")
+    # 无模型目录 → 降级提示（不阻塞）
+    saved = os.environ.get("AEIS_ASR_MODEL_DIR")
+    if saved:
+        del os.environ["AEIS_ASR_MODEL_DIR"]
+    r = a.device_call("audio", "listen_stream", {"max_seconds": 2})
+    check("listen_stream 降级提示", not r["ok"] and "AEIS_ASR_MODEL_DIR" in (r.get("error") or ""),
+          (r.get("error") or "")[:50])
+    if saved:
+        os.environ["AEIS_ASR_MODEL_DIR"] = saved
+
+
 def test_engine_integration():
     a = Agent(identity="body-integration", db_path=":memory:")
     devs = a.body_devices()
@@ -224,6 +251,8 @@ def main():
     test_screen_capture()
     test_injection_detection()
     test_audio_device()
+    test_voice_say()
+    test_voice_listen_stream()
     test_control_device()
     test_browser_device()
     test_engine_integration()

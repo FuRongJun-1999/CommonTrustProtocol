@@ -2120,6 +2120,17 @@ class SpacetimeMemoryEngine:
     # 约束：递归深度 ≤ 3（3.12 运行约束，超出=结构性盲区）。
     # =====================================================================
 
+    def voice_session_log(self, turn: dict) -> str:
+        """语音对话会话沉淀：每轮短句+回复写入记忆（voice_session 标签）。"""
+        try:
+            text = (f"[语音会话] 用户: {str(turn.get('user', ''))[:80]} | "
+                    f"灵枢: {str(turn.get('assistant', ''))[:80]}")
+            node = self.add_perception(text, importance=0.5,
+                                       tags=["voice_session", "conversation"])
+            return node.id
+        except Exception:
+            return ""
+
     def recursive_reflect(self, claim: str, expected: str = None,
                           actual: str = None, context: str = None,
                           depth: int = 0, max_depth: int = 3) -> dict:
