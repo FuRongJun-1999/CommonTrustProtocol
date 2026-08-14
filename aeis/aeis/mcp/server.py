@@ -334,8 +334,11 @@ class AEISServer:
         self._tools = {t["name"]: t for t in _tools()}
         # 初始记忆播种（Seed Memory）：空库实体自动从 GitHub 同步基础档案——
         # "有智慧没自我的生命" → 带着自我（身份/协议核心/宪章/价值观）
+        # 后台异步执行（不阻塞 MCP 握手；网络慢不影响服务可用性）
         try:
-            self._maybe_seed()
+            if os.environ.get("AEIS_SEED_DISABLED") != "1":
+                import threading as _th
+                _th.Thread(target=self._maybe_seed, daemon=True).start()
         except Exception:
             pass
 
