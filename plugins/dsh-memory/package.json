@@ -1,6 +1,6 @@
 {
   "name": "@furongjun1999/dsh-memory",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "灵枢（Lingshu·líng shū）DeepSeek Harness 插件：完整大脑——长期记忆/知识飞轮/自我认知/递归反思接入 DSH，对话自动沉淀进记忆库",
   "type": "module",
   "main": "lib/index.js",
@@ -24,7 +24,10 @@
     "memory",
     "agent",
     "aeis",
-    "lingshu"
+    "lingshu",
+    "multi-agent",
+    "spatiotemporal",
+    "knowledge-graph"
   ],
   "license": "MIT",
   "peerDependencies": {
@@ -49,8 +52,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/FuRongJun-1999/CommonTrustProtocol.git",
-    "directory": "plugins/dsh-memory"
+    "url": "https://github.com/FuRongJun-1999/dsh-memory.git"
   },
   "engines": {
     "node": ">=18"
