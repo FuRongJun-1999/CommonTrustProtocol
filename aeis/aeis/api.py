@@ -409,6 +409,18 @@ class Agent:
         """语音对话会话沉淀（voice_session 记忆节点）。"""
         return self.engine.voice_session_log(turn)
 
+    def longterm_snapshot(self, content: str, source: str = "snapshot",
+                          tags: list = None, entities: list = None,
+                          importance_hint: float = None) -> Dict:
+        """v1.15 长期记忆写入：快照 → 重要性评估（信息差/信任/二阶变化/提及）
+        → 按层级写入（长期/知识/情境）+ 条件空间 + 关联边。"""
+        return self.engine.longterm_snapshot(content, source, tags,
+                                             entities, importance_hint)
+
+    def promote_memories(self, limit: int = 30) -> list:
+        """情境层批量提升（睡眠巩固/会话结束）：够格者升知识层/长期层。"""
+        return self.engine.promote_context_memories(limit)
+
     def recursive_reflect(self, claim: str, expected: str = None,
                           actual: str = None, context: str = None,
                           depth: int = 0, max_depth: int = 3) -> Dict:

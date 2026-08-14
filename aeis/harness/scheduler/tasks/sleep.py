@@ -58,7 +58,13 @@ def run_sleep_consolidation(agent, ctx) -> str:
     except Exception:
         report["predict"] = "skip"
 
-    # 7. sleep_report 写入灵枢记忆
+    # 7. 情境层提升（v1.15 LongTermMemoryGate：够格者升知识层/长期层）
+    try:
+        report["promote"] = agent.promote_memories(limit=30)
+    except Exception as exc:
+        report["promote"] = f"error: {exc}"
+
+    # 8. sleep_report 写入灵枢记忆
     summary = json.dumps(report, ensure_ascii=False)[:300]
     try:
         agent.remember(f"[睡眠巩固] {summary}", importance=0.6,

@@ -79,6 +79,9 @@ _sys.modules["knowledge"] = _knowledge
 from . import body as _body
 _sys.modules["body"] = _body
 
+from . import longterm_gate as _longterm_gate
+_sys.modules["longterm_gate"] = _longterm_gate
+
 from . import vprim as _vprim
 _sys.modules["vprim"] = _vprim
 

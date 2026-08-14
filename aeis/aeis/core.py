@@ -1194,6 +1194,8 @@ class SpacetimeMemoryEngine:
         # ---- v1.11 状态（知识飞轮） ----
         self._flywheel = None
         self._flywheel_error = ""
+        # ---- v1.15 状态（长期记忆写入决策器） ----
+        self._gate = None
         self._reuse_tracker: Dict[int, set] = {}
         self._interaction_count = 0
         self._last_reflection_chain = None   # REFLECT-REV1：最近反思链（递归截断时返回）
@@ -3437,3 +3439,32 @@ class SpacetimeMemoryEngine:
     def close(self):
         self.stop_auto_decay()
         self.store.close()
+
+    # ---- v1.15 长期记忆写入决策器（LongTermMemoryGate） ----
+
+    def _ensure_gate(self):
+        """惰性装配长期记忆门（零依赖）。"""
+        if self._gate is None:
+            from longterm_gate import LongTermMemoryGate
+            self._gate = LongTermMemoryGate(self)
+        return self._gate
+
+    def longterm_snapshot(self, content: str, source: str = "snapshot",
+                          tags: list = None, entities: list = None,
+                          importance_hint: float = None) -> dict:
+        """记忆快照 → 重要性评估 → 按层级写入（长期/知识/情境）+ 条件空间 + 关联。
+        主动沉淀机制：重要经验/会话结束/关键事件调用。"""
+        try:
+            gate = self._ensure_gate()
+            return gate.write_snapshot(content, source, tags, entities,
+                                       importance_hint)
+        except Exception as exc:
+            return {"status": "error", "error": str(exc)}
+
+    def promote_context_memories(self, limit: int = 30) -> list:
+        """情境层批量提升扫描（睡眠巩固/会话结束调用）：够格者升知识层/长期层。"""
+        try:
+            gate = self._ensure_gate()
+            return gate.promote_from_context(limit)
+        except Exception:
+            return []
