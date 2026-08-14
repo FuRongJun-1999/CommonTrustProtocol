@@ -429,6 +429,27 @@ class LayeredStore:
             self.conn.commit()
         return node.id
 
+    # ---- 引擎元数据（engine_meta key-value，跨进程持久化） ----
+
+    def get_meta(self, key: str = None) -> dict:
+        """读引擎元数据：key 指定返回 {key: value}，None 返回全部。"""
+        if key is not None:
+            c = self.conn.cursor()
+            c.execute("SELECT value FROM engine_meta WHERE key = ?", (key,))
+            row = c.fetchone()
+            return {key: row[0]} if row else {}
+        c = self.conn.cursor()
+        c.execute("SELECT key, value FROM engine_meta")
+        return dict(c.fetchall())
+
+    def set_meta(self, key: str, value: str) -> None:
+        """写引擎元数据（upsert）。"""
+        with self._lock:
+            c = self.conn.cursor()
+            c.execute("INSERT OR REPLACE INTO engine_meta (key, value) VALUES (?, ?)",
+                      (key, str(value)))
+            self.conn.commit()
+
     def get_node(self, node_id: str) -> Optional[STNode]:
         c = self.conn.cursor()
         c.execute("SELECT * FROM nodes WHERE id=?", (node_id,))
