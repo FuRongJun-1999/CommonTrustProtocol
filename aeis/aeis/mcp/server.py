@@ -163,10 +163,12 @@ def _tools():
          "description": "服务信息（信任透明度）：身份/版本/协议/库状态/工具数。接入方应先调用以确认与哪个协议实例对话。",
          "inputSchema": {"type": "object"}},
         {"name": "see",
-         "description": "视觉感知（v1.13）：YOLO 目标检测 → 摘要写入知识层记忆（可检索）。",
+         "description": "视觉感知：目标检测 → 摘要写入知识层记忆（可检索）。YOLO-World 开放词汇：默认文生图核心词表（动物/自然/武器/食物等）；classes 可指定检测词（中/英均可，如 ['狼','moon']）。",
          "inputSchema": {"type": "object",
                          "properties": {"image_path": {"type": "string"},
-                                        "conf_threshold": {"type": "number"}},
+                                        "conf_threshold": {"type": "number"},
+                                        "importance": {"type": "number"},
+                                        "classes": {"type": "array", "items": {"type": "string"}}},
                          "required": ["image_path"]}},
         {"name": "think",
          "description": "推理记忆注入（v1.13）：检索相关记忆（内容+联想+模式加权）→ 推理上下文。",
@@ -361,7 +363,9 @@ class AEISServer:
                 "note": "工程观测值；协议内容权利归协议方（MIT 工程实现）",
             })}], "isError": False}
         if name == "see":
-            return {"content": [{"type": "text", "text": _dump(agent.see(a.get("image_path", ""), conf_threshold=a.get("conf_threshold", 0.35)))}], "isError": False}
+            return {"content": [{"type": "text", "text": _dump(agent.see(
+                a.get("image_path", ""), conf_threshold=a.get("conf_threshold", 0.35),
+                importance=a.get("importance", 0.6), classes=a.get("classes")))}], "isError": False}
         if name == "think":
             return {"content": [{"type": "text", "text": _dump(agent.think(a.get("query", ""), limit=a.get("limit", 8)))}], "isError": False}
         if name == "preflight":

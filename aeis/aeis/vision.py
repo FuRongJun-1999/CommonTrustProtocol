@@ -16,6 +16,11 @@ import os
 import time
 from typing import Dict, List, Optional
 
+try:
+    from . import vision_categories as _categories
+except ImportError:  # 兼容引擎内绝对导入（sys.modules 别名机制）
+    import vision_categories as _categories
+
 # ---------------------------------------------------------------------------
 # 检测结果结构
 # ---------------------------------------------------------------------------
@@ -113,13 +118,80 @@ class YOLOVisionProvider(VisionProvider):
         return detections
 
 
+class YOLOWorldVisionProvider(VisionProvider):
+    """YOLO-World 开放词汇提供者（视觉面 v1 图像语义识别）。
+
+    与标准 YOLO 的区别：类别不是固定 80 类——用文生图词表
+    （vision_categories 核心物体词表）动态 set_classes，
+    且 see 支持 classes 参数指定任意检测词（中/英）。
+    """
+
+    name = "yoloworld"
+
+    def __init__(self, model_path: str = "yolov8s-world.pt",
+                 classes: Optional[list] = None):
+        self.model_path = model_path
+        self._model = None
+        self._load_error: Optional[str] = None
+        self._classes = classes or list(_categories.DEFAULT_CLASSES)
+        self._load()
+
+    def _load(self):
+        if not os.path.exists(self.model_path):
+            self._load_error = "权重不存在（首次使用需先下载 yolov8s-world.pt）"
+            self._model = None
+            return
+        try:
+            from ultralytics import YOLO  # 可选依赖（D-005：核心不依赖）
+            self._model = YOLO(self.model_path)
+            self._model.set_classes(self._classes)
+        except Exception as e:
+            self._load_error = f"{type(e).__name__}: {e}"
+            self._model = None
+
+    def available(self) -> bool:
+        return self._model is not None
+
+    def detect(self, image_path: str, conf_threshold: float = 0.35,
+               classes: Optional[list] = None) -> List[Detection]:
+        """目标检测（开放词汇：classes 可临时指定检测词，中/英均可）。"""
+        if self._model is None:
+            return []
+        if not os.path.exists(image_path):
+            return []
+        # 临时类别（set_classes 后恢复默认词表）
+        custom = None
+        if classes:
+            custom = _categories.normalize_classes(classes)
+            self._model.set_classes(custom)
+        try:
+            results = self._model(image_path, conf=conf_threshold, verbose=False)
+            detections = []
+            for r in results:
+                if r.boxes is None:
+                    continue
+                for box in r.boxes:
+                    label = r.names[int(box.cls)]
+                    conf = float(box.conf)
+                    x1, y1, x2, y2 = [float(v) for v in box.xyxy[0]]
+                    detections.append(Detection(label, conf, [x1, y1, x2, y2]))
+            return detections
+        finally:
+            if custom:
+                self._model.set_classes(self._classes)
+
+
 # ---------------------------------------------------------------------------
 # 工厂
 # ---------------------------------------------------------------------------
 
 
 def create_vision_provider(model_path: str = "yolov8n.pt") -> VisionProvider:
-    """创建视觉提供者：ultralytics 可用 → YOLO；否则 → Null（降级）"""
+    """创建视觉提供者：优先 YOLO-World（开放词汇·文生图词表）→
+    标准 YOLO → Null（降级）。"""
+    world = YOLOWorldVisionProvider()
+    if world.available():
+        return world
     provider = YOLOVisionProvider(model_path)
     if provider.available():
         return provider
@@ -132,14 +204,16 @@ def create_vision_provider(model_path: str = "yolov8n.pt") -> VisionProvider:
 
 
 def perceive_image(engine, image_path: str, provider: Optional[VisionProvider] = None,
-                   conf_threshold: float = 0.35, importance: float = 0.6) -> Dict:
+                   conf_threshold: float = 0.35, importance: float = 0.6,
+                   classes: Optional[list] = None) -> Dict:
     """视觉感知闭环：检测 → 摘要文本 → 写入知识层（modality="image"）。
-    返回 {status, detections, node} —— 视觉输入成为可检索记忆。"""
+    返回 {status, detections, node} —— 视觉输入成为可检索记忆。
+    classes：开放词汇检测词（中/英均可，YOLO-World 支持）。"""
     prov = provider or getattr(engine, "_vision_provider", None)
     if prov is None or not prov.available():
         return {"status": "vision_unavailable",
                 "note": "视觉提供者未装配（pip install ultralytics）"}
-    detections = prov.detect(image_path, conf_threshold)
+    detections = prov.detect(image_path, conf_threshold, classes=classes)
     if not detections:
         return {"status": "no_detection", "detections": []}
     summary = "；".join(f"{d.label}({d.confidence:.2f})" for d in detections[:10])
