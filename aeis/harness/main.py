@@ -195,6 +195,14 @@ def main(argv=None):
         session.add("user", text)
         session.add("assistant", reply)
         responder.respond(reply, voice=not no_voice)
+        # 长期记忆快照（v1.15）：对话快照经 LongTermMemoryGate 评估——
+        # 高价值（信息差/信任/提及）自动沉淀长期记忆，低价值丢弃
+        try:
+            agent.longterm_snapshot(
+                f"[对话] 用户: {text[:120]} → 灵枢: {reply[:180]}",
+                source="chat", tags=["dialogue_snapshot", "gate"])
+        except Exception:
+            pass
 
     def consumer_loop():
         while not stop_flag.is_set():
