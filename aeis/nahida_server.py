@@ -58,6 +58,17 @@ def main():
         tts = TTS(os.path.join(BASE, "GPT_SoVITS", "configs", "tts_infer.yaml"))
     print("READY", flush=True)
     last_request = time.time()
+    # Windows 兼容读 stdin：select 对管道不可用（WinError 10038 → 忙等空转 bug），
+    # 改用后台线程阻塞读 + queue.get(timeout)——EOF 时线程退出，自然触发空闲退出
+    import queue as _q
+    import threading
+    line_q = _q.Queue()
+
+    def _reader():
+        for ln in sys.stdin:
+            line_q.put(ln)
+
+    threading.Thread(target=_reader, daemon=True).start()
     while True:
         # 空闲超时节能：无请求自动退出（释放 GPU 显存）
         if IDLE_TIMEOUT > 0 and time.time() - last_request > IDLE_TIMEOUT:
@@ -65,17 +76,11 @@ def main():
                               "reason": f"空闲 {IDLE_TIMEOUT}s 自动退出（节能）"}),
                   flush=True)
             return 0
-        # 非阻塞检查 stdin（select 不可靠时用短轮询 + 超时）
-        import select
-        if not sys.stdin.isatty():
-            try:
-                ready, _, _ = select.select([sys.stdin], [], [], 1.0)
-            except Exception:
-                ready = []
-            if not ready:
-                continue
-        line = sys.stdin.readline()
-        if not line:
+        try:
+            line = line_q.get(timeout=1.0)
+        except _q.Empty:
+            continue
+        if line is None:
             break
         line = line.strip()
         if not line:

@@ -340,6 +340,19 @@ class AudioDevice(BodyDevice):
                 os.path.dirname(os.path.abspath(__file__)))))  # AEIS 根
             srv = os.path.join(sys_path, "nahida_server.py")
             py = r"D:\Program Files\ai_voice\GPT-SoVITS-v3lora-20250228\runtime\python.exe"
+            # 单例化：启动前清理所有旧 nahida_server 实例（防孤儿累积——
+            # harness 崩溃后旧实例成为孤儿进程，曾导致多实例 + CPU 忙等）
+            try:
+                import subprocess as _sp
+                _sp.run(
+                    ["powershell", "-NoProfile", "-Command",
+                     "Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" "
+                     "| Where-Object { $_.CommandLine -like '*nahida_server*' "
+                     "} | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }"],
+                    capture_output=True, timeout=15)
+                time.sleep(1)
+            except Exception:
+                pass
             proc = subprocess.Popen(
                 [py, srv], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
