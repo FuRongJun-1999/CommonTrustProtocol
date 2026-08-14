@@ -1974,6 +1974,57 @@ class SpacetimeMemoryEngine:
         return {"status": "ok", "expected": expected,
                 "consistent": not changed, **result}
 
+    def vprim_query(self, action: str, params: dict = None) -> dict:
+        """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
+        - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）
+        - count: 最近视觉原语记忆计数（params: category 可选）
+        - anchors: 最近视觉原语锚点列表（params: limit）"""
+        p = params or {}
+        try:
+            from vprim import (  # noqa: F401  sys.modules 别名（__init__ 注册）
+                VPrim, spatial_relation, count_vprims, parse_anchor)
+        except ImportError:
+            try:
+                from .vprim import (  # 相对导入兜底（包内调用）
+                    VPrim, spatial_relation, count_vprims, parse_anchor)
+            except Exception as e:
+                return {"status": "vprim_not_ready", "error": str(e)}
+        except Exception as e:
+            return {"status": "vprim_not_ready", "error": str(e)}
+        if action == "spatial":
+            a = p.get("a")
+            b = p.get("b")
+            if not a or not b or len(a) != 4 or len(b) != 4:
+                return {"status": "error", "error": "a/b 需为 [x1,y1,x2,y2]"}
+            return {"status": "ok", "spatial": spatial_relation(
+                tuple(float(v) for v in a), tuple(float(v) for v in b))}
+        if action == "count":
+            # 从最近 vprim 记忆节点解析锚点计数
+            vprims = self._load_vprims_from_memory(limit=int(p.get("limit", 5)))
+            result = count_vprims(vprims, category=p.get("category"))
+            result["status"] = "ok"
+            return result
+        if action == "anchors":
+            vprims = self._load_vprims_from_memory(limit=int(p.get("limit", 10)))
+            return {"status": "ok", "anchors": [v.to_dict() for v in vprims]}
+        return {"status": "error", "error": f"未知动作 {action}（可用: spatial/count/anchors）"}
+
+    def _load_vprims_from_memory(self, limit: int = 5) -> list:
+        """从记忆检索最近视觉原语（vprim 标签节点 → 解析坐标锚点）。"""
+        vprims = []
+        try:
+            from vprim import VPrim, parse_anchor  # noqa: F401
+            nodes = self.store.get_nodes_by_tag("vprim", limit=max(limit, 5))
+            for n in reversed(nodes[-limit:]):
+                text = n.content or ""
+                for token in text.split("；"):
+                    vp = parse_anchor(token)
+                    if vp is not None:
+                        vprims.append(vp)
+        except Exception:
+            pass
+        return vprims
+
     def _remember_screen_state(self, image_path: str, note: str,
                                changed: bool = None) -> None:
         """把屏幕状态写入情境层记忆（screen_state 标签，形成"过去"）。"""
@@ -2023,6 +2074,11 @@ class SpacetimeMemoryEngine:
         # ---- 0. 元反思（1.6.7）：结构性后退，审视反思标准 ----
         report["meta_reflection"] = self._meta_reflection(claim)
 
+        # VPRIM-REV1：claim 含视觉锚点（cat@(x1,y1,x2,y2)）时注入视觉上下文
+        vctx = self._vprim_context_for_claim(claim)
+        if vctx is not None:
+            report["vprim_context"] = vctx
+
         # ---- 1. 一级 验证（验证单元）：预期 vs 实际 ----
         verification = self._reflect_verify(claim, expected, actual, context)
         report["verification"] = verification
@@ -2043,6 +2099,39 @@ class SpacetimeMemoryEngine:
         report["status"] = "reflected"
         self._archive_reflection(report)
         return report
+
+    def _vprim_context_for_claim(self, claim: str):
+        """VPRIM-REV1：从 claim 提取视觉锚点，注入空间上下文（确定性）。
+
+        视觉原语 = 推理链的空间草稿纸：claim 引用锚点时，自动计算
+        锚点间的空间关系（指代差距的解法——坐标精确性替代语言近似）。
+        """
+        try:
+            from vprim import parse_anchor, spatial_relation
+        except ImportError:
+            try:
+                from .vprim import parse_anchor, spatial_relation
+            except Exception:
+                return None
+        anchors = []
+        import re as _re
+        for m in _re.finditer(r"[\w\-]+@\(\d+,\d+,\d+,\d+\)", claim):
+            vp = parse_anchor(m.group(0))
+            if vp is not None:
+                anchors.append(vp)
+        if len(anchors) < 2:
+            return None
+        relations = []
+        for i in range(len(anchors)):
+            for j in range(i + 1, len(anchors)):
+                rel = spatial_relation(anchors[i].bbox, anchors[j].bbox)
+                relations.append({
+                    "a": anchors[i].category, "b": anchors[j].category,
+                    "relation": rel["relation"], "distance": rel["distance"],
+                })
+        return {"anchors": [a.anchor_text() for a in anchors],
+                "relations": relations,
+                "note": "确定性空间原语（VPRIM-REV1）：坐标精确性替代语言近似"}
 
     def _meta_reflection(self, claim: str) -> dict:
         """1.6.7 元反思：结构性后退——审视反思标准本身（非更深的递归）。"""

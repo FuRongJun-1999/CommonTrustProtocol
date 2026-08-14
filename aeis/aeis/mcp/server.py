@@ -218,6 +218,12 @@ def _tools():
         {"name": "body",
          "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
          "inputSchema": {"type": "object"}},
+        {"name": "vprim",
+         "description": "VPRIM-REV1 视觉原语查询（确定性·零 LLM，语义时空图空间锚点）：action=spatial（两 bbox [x1,y1,x2,y2] 空间关系）/ count（视觉原语计数，category 可选）/ anchors（最近锚点列表）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "recursive_reflect",
          "description": "协议 3.12 递归验证反思 + 1.6.7 元反思（REFLECT-REV1）：元反思定标准 → 一级验证（预期vs实际）→ 二级反思（问1 隐藏前提/条件空间边界，问2 影响评估）→ 三级终裁（可逆性优先）→ 反思链归档。递归 ≤ 3 层（超出=结构性盲区）。claim 必填；expected/actual 可给一级验证输入。",
          "inputSchema": {"type": "object",
@@ -394,6 +400,9 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.compact_context(a.get("session_id", "s"), a.get("summary", "")))}], "isError": False}
         if name == "body":
             return {"content": [{"type": "text", "text": _dump(agent.body())}], "isError": False}
+        if name == "vprim":
+            return {"content": [{"type": "text", "text": _dump(agent.vprim_query(
+                a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "recursive_reflect":
             return {"content": [{"type": "text", "text": _dump(agent.recursive_reflect(
                 a.get("claim", ""), expected=a.get("expected"), actual=a.get("actual"),
