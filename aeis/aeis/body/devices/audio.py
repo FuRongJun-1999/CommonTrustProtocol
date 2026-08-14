@@ -245,8 +245,9 @@ class AudioDevice(BodyDevice):
 
     def _say(self, p: Dict) -> DeviceResult:
         """语音输出。引擎优先级：
-        cosyvoice（本地 GPU 高质量·zero-shot 音色克隆）→ System.Speech（零依赖兜底）。
-        engine 参数可显式指定：cosyvoice / system / edge。"""
+        nahida（GPT-SoVITS 纳西妲音色·常驻服务热加载）→ cosyvoice（zero-shot 克隆）
+        → System.Speech（零依赖兜底）。
+        engine 参数可显式指定：nahida / cosyvoice / system / edge。"""
         import subprocess
 
         text = str(p.get("text", "")).strip()
@@ -254,8 +255,25 @@ class AudioDevice(BodyDevice):
             return self._fail("缺少 text")
         if len(text) > 500:
             return self._fail(f"文本过长（{len(text)} 字符，上限 500）")
-        engine = str(p.get("engine", "cosyvoice"))
-        # CosyVoice 引擎（本地 GPU·卖萌音色）
+        engine = str(p.get("engine", "nahida"))
+        # 纳西妲引擎（本地 GPU·常驻服务·热加载）
+        if engine in ("nahida", "auto"):
+            try:
+                out = self._say_nahida(text)
+                if out:
+                    try:
+                        import winsound
+                        winsound.PlaySound(out, winsound.SND_FILENAME)
+                    except Exception:
+                        pass
+                    return self._r({"chars": len(text), "engine": "nahida",
+                                    "path": out}, "say",
+                                   text_summary=f"纳西妲语音输出 {len(text)} 字符")
+            except Exception as exc:
+                if engine == "nahida":
+                    return self._fail(f"纳西妲输出失败: {exc}")
+                # auto → 降级 CosyVoice
+        # CosyVoice 引擎（本地 GPU·zero-shot 音色克隆）
         if engine in ("cosyvoice", "auto"):
             try:
                 sys_path = os.path.dirname(os.path.dirname(os.path.dirname(
@@ -302,6 +320,58 @@ class AudioDevice(BodyDevice):
             return self._fail(f"语音输出异常: {exc}")
         return self._r({"chars": len(text), "engine": "system.speech"}, "say",
                        text_summary=f"已语音输出 {len(text)} 字符")
+
+    # ---- 纳西妲常驻服务（GPT-SoVITS） ----
+
+    _nahida_proc = None  # 类级单例：常驻进程跨调用保持热加载
+
+    def _say_nahida(self, text: str) -> str:
+        """纳西妲合成：常驻 GPT-SoVITS 服务（JSON-lines over stdio）。
+        首次启动加载模型（~110s，之后保持热加载），每次请求 ~1s 合成。"""
+        import json
+        import queue as _q
+        import random
+        import subprocess
+        import threading
+
+        proc = self._nahida_proc
+        if proc is None or proc.poll() is not None:
+            sys_path = os.path.dirname(os.path.dirname(os.path.dirname(
+                os.path.dirname(os.path.abspath(__file__)))))  # AEIS 根
+            srv = os.path.join(sys_path, "nahida_server.py")
+            py = r"D:\Program Files\ai_voice\GPT-SoVITS-v3lora-20250228\runtime\python.exe"
+            proc = subprocess.Popen(
+                [py, srv], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            # 等 READY（模型加载 ~110s）
+            line = proc.stdout.readline().decode("utf-8", "replace").strip()
+            if "READY" not in line:
+                proc.kill()
+                raise RuntimeError(f"纳西妲服务启动失败: {line[:100]}")
+            self._nahida_proc = proc
+        rid = f"{int(time.time() * 1000)}{random.randint(100, 999)}"
+        proc.stdin.write((json.dumps({"id": rid, "text": text}) + "\n").encode("utf-8"))
+        proc.stdin.flush()
+        q = _q.Queue()
+
+        def _reader():
+            try:
+                q.put(proc.stdout.readline().decode("utf-8", "replace").strip())
+            except Exception:
+                q.put(None)
+
+        th = threading.Thread(target=_reader, daemon=True)
+        th.start()
+        th.join(timeout=120)
+        if th.is_alive():
+            proc.kill()
+            self._nahida_proc = None
+            raise RuntimeError("纳西妲服务响应超时")
+        data = json.loads(q.get() or "{}")
+        if not data.get("ok"):
+            raise RuntimeError(data.get("error", "未知错误"))
+        return data["wav"]
 
     def _listen(self, p: Dict) -> DeviceResult:
         """语音输入：麦克风录音 → wav（sounddevice）→ ASR 转写（可用引擎）。
