@@ -103,7 +103,9 @@ class ScreenDevice(BodyDevice):
             return self._locate(params or {})
         if action == "diff":
             return self._diff(params or {})
-        return self._fail(f"未知动作 {action}（可用: capture/snapshot_region/locate/diff）")
+        if action == "read_text":
+            return self._read_text(params or {})
+        return self._fail(f"未知动作 {action}（可用: capture/snapshot_region/locate/diff/read_text）")
 
     # ---- 动作 ----
 
@@ -163,6 +165,60 @@ class ScreenDevice(BodyDevice):
         if self._backend == "pil":
             return self._imagegrab.grab()
         return None
+
+    def _read_text(self, p: Dict) -> DeviceResult:
+        """OCR 读屏文字（文字=状态：血量/费用/卡名/按钮——通用能力）。
+
+        管线（组合拳）：截图 → ROI 裁剪（可选）→ 降采样+灰度（高度压缩，
+        大字号数字信息不损失）→ rapidocr（本地 ONNX，零 API）→ 文字。
+        roi: [x1,y1,x2,y2] 可选；scale: 降采样倍率（默认 2 = 1/2 尺寸）。
+        """
+        try:
+            from rapidocr_onnxruntime import RapidOCR  # 可选依赖（本地 ONNX）
+            self._rapidocr = getattr(self, "_rapidocr", None) or RapidOCR()
+        except Exception as exc:
+            return self._fail(f"OCR 不可用：pip install rapidocr_onnxruntime（{exc}）")
+        roi = p.get("roi")
+        scale = max(1, min(int(p.get("scale", 2)), 8))
+        try:
+            image = self._grab() if not p.get("screen") else None
+            if image is None and p.get("screen"):
+                from PIL import Image  # type: ignore
+
+                image = Image.open(str(p.get("screen"))).convert("RGB")
+            if image is None:
+                return self._fail("截图失败")
+            if roi and len(roi) == 4:
+                x1, y1, x2, y2 = [int(v) for v in roi]
+                image = image.crop((x1, y1, x2, y2))
+            # 高度压缩：降采样 + 灰度（大字号文字信息不损失，速度倍增）
+            w, h = image.size
+            if scale > 1:
+                image = image.resize((max(1, w // scale), max(1, h // scale)))
+            gray = image.convert("L")
+            # OCR
+            result, _ = self._rapidocr(gray)
+            texts = []
+            boxes = []
+            if result:
+                for item in result:
+                    box, text, conf = item[0], item[1], item[2]
+                    texts.append(str(text))
+                    xs = [pt[0] for pt in box]
+                    ys = [pt[1] for pt in box]
+                    boxes.append({
+                        "text": str(text),
+                        "confidence": round(float(conf), 3),
+                        "bbox": [int(min(xs) * scale), int(min(ys) * scale),
+                                 int(max(xs) * scale), int(max(ys) * scale)],
+                    })
+            joined = " ".join(texts)
+            summary = f"识别 {len(texts)} 段文字（{len(joined)} 字符）"
+            return self._r({"text": joined, "segments": boxes,
+                            "count": len(texts)}, "read_text",
+                           text_summary=summary)
+        except Exception as exc:
+            return self._fail(f"OCR 异常: {exc}")
 
     # =====================================================================
     # 视觉面 v1（快速路线：locate 模板匹配 / diff 区域对比）
