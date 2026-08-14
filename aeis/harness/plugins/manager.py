@@ -108,11 +108,28 @@ class PluginManager:
         return tools
 
     def call(self, name: str, tool: str, params: dict) -> dict:
-        """容器化调用（含安全扫描，决议安全规则）。"""
+        """容器化调用（含安全扫描 + 动作分级闸门，决议安全规则）。"""
         from harness.plugins.security import scan_external
         client = self.get(name)
         if client is None:
             return {"ok": False, "data": None, "error": f"插件未连接: {name}"}
+        # 对抗护栏（规则2）：外部来源（低信任）——破坏级/执行级需授权
+        try:
+            from aeis.security.adversarial import SecurityGate
+            gate = SecurityGate()
+            tier = "destructive" if any(kw in str(params) for kw in
+                                        ("delete", "remove", "overwrite", "覆盖", "删除")) else "execute"
+            check = gate.check_action(source=f"plugin:{name}",
+                                      source_trust=SecurityGate.trust_for("external"),
+                                      tier=tier, target=str(params)[:80],
+                                      authorized=False, explicit_context=False)
+            if not check["allow"]:
+                ev = check["event"] or {}
+                self.log(f"[护栏] 插件 {name} 动作拦截: {check['reason']}")
+                return {"ok": False, "data": None, "error": check["reason"],
+                        "blocked": ev.get("event_type", "ACTION_BLOCKED")}
+        except Exception:
+            pass
         r = client.call(tool, params)
         if not r["ok"]:
             return r

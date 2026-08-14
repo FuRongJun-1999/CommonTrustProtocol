@@ -101,6 +101,11 @@ def main(argv=None):
     responder = Responder(workspace=env.get("AEIS_WORKSPACE", ""),
                           voice_enabled=not no_voice, log=log)
 
+    # 3.0 对抗安全护栏（ADVERSARIAL-GUARDRAIL · P0）
+    from aeis.security.adversarial import SecurityGate, AdversarialDetector
+    security_gate = SecurityGate()
+    detector = AdversarialDetector(security_gate)
+
     # 3.1 插件管理器（MCP Client）+ 子智能体编排器
     plugin_manager = None
     supervisor = None
@@ -151,6 +156,15 @@ def main(argv=None):
         if not text:
             return
         log(f"[输入:{source}] {text}")
+        # 对抗安全：输入扫描（身份冒充/攻击指令 → 冷静期 + 上报，不反击）
+        adv = detector.scan_text(text, source=f"input:{source}",
+                                 source_kind="designer" if source == "web" else "instance")
+        if adv["adversarial"]:
+            log(f"⚠ 对抗信号（{source}）: {adv['reason']}")
+            hub.publish("assistant",
+                        "检测到对抗性指令，已隔离并上报维生系统（不反击原则）。",
+                        reply_to=input_id, source="system")
+            return
         hub.publish("user", text, reply_to=input_id, source=source)
         # 退出指令
         if any(w in text for w in ("退出", "结束")) and len(text) <= 6:

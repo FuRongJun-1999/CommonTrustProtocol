@@ -41,6 +41,7 @@ DEFAULTS = {
     "voice": {"enabled": True, "max_seconds": 10},
     "scheduler": {"enabled": True, "tick_seconds": 15},
     "terminal": {"enabled": True},
+    "agents": {"enabled": True, "pool_size": 3, "default_timeout": 300},
 }
 
 
