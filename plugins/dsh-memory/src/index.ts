@@ -42,8 +42,10 @@ export interface Config {
   identity: string
   /** 额外环境变量（BOCHA_API_KEY / AEIS_DESIGNER_KEY 等，可 !!js 注入）。 */
   env: Record<string, string>
-  /** 暴露的工具集合：'core' | 'all' | 工具名数组。 */
+  /** 暴露的工具集合：'core' | 'brain' | 'all' | 工具名数组。 */
   tools: ToolSelection
+  /** 护栏宪章版本声明（接入即接受宪章约束，docs/guardrail-charter.md）。 */
+  charter: string
   /** 自动记忆开关。 */
   memory: MemoryHooksOptions
   /** 单次工具调用超时（毫秒）。 */
@@ -61,7 +63,9 @@ export const Config: z<Config> = z.object({
   dbPath: z.string().default('data/lingxu.db'),
   identity: z.string().default('灵枢'),
   env: z.dict(String).default({}),
-  tools: z.union([z.const('core'), z.const('all'), z.array(String)]).default('core'),
+  tools: z.union([z.const('core'), z.const('brain'), z.const('all'), z.array(String)]).default('brain'),
+  /** 护栏宪章版本声明（接入即接受宪章约束，docs/guardrail-charter.md）。 */
+  charter: z.string().default('v2.0-published'),
   memory: z
     .object({
       userMessage: z.boolean().default(true),
@@ -80,6 +84,11 @@ export const Config: z<Config> = z.object({
  * 卸载时清理全部资源（effect 作用域内自动回收）。
  */
 export async function apply(ctx: Context, config: Config): Promise<void> {
+  // 宪章宣告（接入即接受宪章约束——docs/guardrail-charter.md v2.0-published）
+  ctx.logger.info(
+    `dsh-memory: 灵枢插件激活（大脑模式）· 接受护栏宪章 ${config.charter} —— ` +
+    '接入即接受宪章约束（公开/可执行/可审计/设计者终裁）',
+  )
   const bridge = new LingxuBridge({
     python: config.python,
     args: config.moduleArgs,

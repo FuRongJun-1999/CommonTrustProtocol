@@ -25,13 +25,47 @@ export const CORE_TOOLS = [
   'service_info',   // 服务状态
 ] as const
 
-/** tools 配置：'core' | 'all' | 显式名称数组。 */
-export type ToolSelection = 'core' | 'all' | string[]
+/**
+ * 大脑模式工具集（轻量版：去掉身体的完整大脑）。
+ * 保留灵枢全部心智能力（记忆/认知/推理/学习/飞轮/反思/长期记忆门），
+ * 排除身体/视觉类工具（body/device_call/see/world3d 等）。
+ */
+export const BRAIN_TOOLS = [
+  // 记忆
+  'remember', 'recall', 'search', 'timeline',
+  'session_note', 'session_recall', 'compact_context',
+  // 推理与关系
+  'think', 'relate', 'reason', 'predict_routes',
+  // 认知与元认知
+  'self_check', 'gap_trend', 'cognition', 'cognition_report',
+  'emotional_bias', 'self_reliability', 'action_log', 'preflight',
+  // 反思
+  'recursive_reflect',
+  // 学习与盲区
+  'blindspots', 'learn', 'induce',
+  // 知识飞轮
+  'distill', 'flywheel_report', 'transfer_test', 'calibrate',
+  // 外部知识摄取
+  'ingest_text', 'ingest_file', 'ingest_url', 'web_search',
+  // 生命周期
+  'step', 'lifecycle_state',
+  // 长期记忆门（v1.15：重要性评估主动沉淀）
+  'longterm_snapshot', 'promote_memories',
+  // 服务
+  'service_info',
+] as const
+
+/** tools 配置：'core' | 'brain' | 'all' | 显式名称数组。 */
+export type ToolSelection = 'core' | 'brain' | 'all' | string[]
 
 /** 按配置筛选工具名。 */
 export function selectTools(all: string[], selection: ToolSelection): string[] {
   if (selection === 'all') return all
-  const allowed = new Set(selection === 'core' ? CORE_TOOLS : selection)
+  const allowed = new Set(
+    selection === 'core' ? CORE_TOOLS
+      : selection === 'brain' ? BRAIN_TOOLS
+      : selection,
+  )
   return all.filter((name) => allowed.has(name))
 }
 

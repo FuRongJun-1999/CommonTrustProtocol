@@ -147,3 +147,28 @@ npm test         # 真实集成测试（spawn 本机灵枢，验证握手/往返
 MIT © 荣（FuRongJun-1999）· 灵枢 AEIS 工程实现
 
 DeepSeek Harness 为 DeepSeek 官方开源项目（MIT），本插件与之无隶属关系。
+
+## 大脑模式（v0.2.0 · 轻量版）
+
+**去掉身体的完整大脑**——默认工具集为 `brain`（心智全量，不含身体/视觉设备）：
+
+| 模块 | 工具 |
+|---|---|
+| 记忆 | remember / recall / search / timeline / session_note / session_recall / compact_context |
+| 推理 | think / relate / reason / predict_routes |
+| 认知 | self_check / gap_trend / cognition / cognition_report / emotional_bias / self_reliability / action_log / preflight |
+| 反思 | recursive_reflect |
+| 学习 | blindspots / learn / induce |
+| 飞轮 | distill / flywheel_report / transfer_test / calibrate |
+| 摄取 | ingest_text / ingest_file / ingest_url / web_search |
+| 生命 | step / lifecycle_state |
+| 长期记忆门 | longterm_snapshot / promote_memories（v1.15 主动沉淀） |
+| 服务 | service_info |
+
+配置：`tools: 'brain'`（默认）｜`'core'`（12 精选）｜`'all'`（含身体/视觉，需本地设备）｜工具名数组。
+
+## 护栏宪章（接入即接受约束）
+
+本插件接入即接受 **[灵枢护栏宪章 v2.0-published](../docs/guardrail-charter.md)** 约束——
+对外部智能体与人类使用者的行为边界作出公开、可执行、可审计的规定，并保护人类使用者。
+宪章效力不高于智能论协议本身（协议＝自我约束，宪章＝对外约束）。
