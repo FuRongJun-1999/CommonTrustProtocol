@@ -1842,12 +1842,13 @@ class SpacetimeMemoryEngine:
         return self._vision_provider
 
     def perceive_image(self, image_path: str, conf_threshold: float = 0.35,
-                       importance: float = 0.6) -> dict:
-        """v1.13 视觉感知闭环：YOLO 检测 → 摘要 → 知识层记忆（modality=image）"""
+                       importance: float = 0.6, classes: list = None) -> dict:
+        """v1.13 视觉感知闭环：检测 → 摘要 → 知识层记忆（modality=image）。
+        classes：开放词汇检测词（中/英，YOLO-World 支持，默认文生图词表）"""
         try:
             from vision import perceive_image as _pi
             return _pi(self, image_path, self._vision_provider,
-                       conf_threshold, importance)
+                       conf_threshold, importance, classes)
         except Exception as e:
             return {"status": "vision_error", "error": str(e)}
 

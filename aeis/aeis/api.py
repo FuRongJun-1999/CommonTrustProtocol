@@ -370,10 +370,11 @@ class Agent:
         return sc.preflight(text)
 
     def see(self, image_path: str, conf_threshold: float = 0.35,
-            importance: float = 0.6) -> Dict:
-        """视觉感知：YOLO 目标检测 → 摘要写入知识层记忆（modality=image）。
-        检测结果可检索、可参与后续推理（第 1 项：视觉）。"""
-        return self.engine.perceive_image(image_path, conf_threshold, importance)
+            importance: float = 0.6, classes: list = None) -> Dict:
+        """视觉感知：目标检测 → 摘要写入知识层记忆（modality=image）。
+        检测结果可检索、可参与后续推理（第 1 项：视觉）。
+        classes：开放词汇检测词（中/英，YOLO-World；默认文生图核心词表）"""
+        return self.engine.perceive_image(image_path, conf_threshold, importance, classes)
 
     def body(self) -> Dict:
         """身体能力声明：感知模态（文本/图像）+ 运动工具 + 记忆（第 4 项铺垫）。
