@@ -32,6 +32,11 @@ EVENT_TYPES = (
     "HEARTBEAT",          # 心跳（存活监测）
     "INSTANCE_JOIN",      # 实例加入
     "INSTANCE_LEAVE",     # 实例离开
+    # ---- 对抗安全（ADVERSARIAL-GUARDRAIL · DEVIATION-010 关闭） ----
+    "ADVERSARIAL_SIGNAL",      # 对抗信号检测（疑似入侵/敌意行为）
+    "ACTION_BLOCKED",          # 动作分级拦截（越权/未授权破坏级动作）
+    "COUNTERATTACK_BLOCKED",   # 不反击拦截（报复性动作被阻断——最高优先）
+    "COOLDOWN_ENTERED",        # 冷静期进入（对抗信号后冻结 N 轮）
 )
 
 # 延迟分级（工程默认值 · DELIVERY-V1 通信延迟参数）

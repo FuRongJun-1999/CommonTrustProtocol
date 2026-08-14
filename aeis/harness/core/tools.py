@@ -61,12 +61,61 @@ TOOL_REGISTRY = {
     "export": ("export", "全库导出"),
 }
 
+# ---- 动作分级（ADVERSARIAL-GUARDRAIL 规则2 · DEVIATION-011 关闭） ----
+# 显式声明表；未声明工具默认 execute（保守策略）
+ACTION_TIERS = {
+    # read（只读）
+    "recall": "read", "search": "read", "timeline": "read",
+    "reason": "read", "predict_routes": "read", "blindspots": "read",
+    "flywheel_report": "read", "transfer_test": "read", "calibrate": "read",
+    "self_check": "read", "gap_trend": "read", "service_info": "read",
+    "lifecycle_state": "read", "cognition_report": "read",
+    "action_log": "read", "emotional_bias": "read", "self_reliability": "read",
+    "session_recall": "read", "body": "read", "body_devices": "read",
+    # write（写入）
+    "remember": "write", "session_note": "write", "compact_context": "write",
+    "relate": "write", "induce": "write", "learn": "write",
+    "distill": "write", "step": "write", "cognition_cycle": "write",
+    "preflight": "write", "think": "write", "recursive_reflect": "write",
+    "see": "write", "visual_check": "write", "vprim_query": "write",
+    "world3d": "write", "ingest_text": "write", "ingest_file": "write",
+    "ingest_url": "write", "web_search": "write", "session_note": "write",
+    # execute（执行）
+    "device_call": "execute", "web_ingest_search": "execute",
+    # destructive（破坏级：需 授权|高信任|显式上下文）
+    "export": "destructive",
+}
 
-def call_tool(agent, tool_name: str, params: dict = None) -> dict:
-    """结构化调用工具（Agent 方法直调，异常容器化）。"""
+
+def get_tier(tool_name: str) -> str:
+    """工具动作分级（显式声明优先，未声明默认 execute——保守策略）。"""
+    return ACTION_TIERS.get(tool_name, "execute")
+
+
+def call_tool(agent, tool_name: str, params: dict = None,
+              gate=None, source_kind: str = "instance",
+              authorized: bool = False,
+              explicit_context: bool = False) -> dict:
+    """结构化调用工具（Agent 方法直调，异常容器化）。
+    gate：SecurityGate（None=不启用分级闸门，向后兼容）；
+    source_kind：来源信任层级（designer/instance/swarm/child/external）。"""
     entry = TOOL_REGISTRY.get(tool_name)
     if entry is None:
         return {"status": "error", "error": f"未知工具: {tool_name}"}
+    # 对抗护栏：动作分级闸门（规则2）
+    if gate is not None:
+        tier = get_tier(tool_name)
+        p = params or {}
+        target = str(p.get("target", str(p)[:60]))
+        check = gate.check_action(
+            source=source_kind, source_trust=gate.trust_for(source_kind),
+            tier=tier, target=target, authorized=authorized,
+            explicit_context=explicit_context)
+        if not check["allow"]:
+            ev = check["event"] or {}
+            return {"status": "blocked", "tool": tool_name,
+                    "reason": check["reason"],
+                    "event": ev.get("event_type", "ACTION_BLOCKED")}
     method = getattr(agent, entry[0], None)
     if method is None:
         return {"status": "error", "error": f"Agent 无方法: {entry[0]}"}

@@ -49,6 +49,20 @@ class ChildAgent:
         返回 task（结果写回 task.result/status/error）。"""
         task.status = "running"
         task.steps_used = 0
+        # 对抗安全（ADVERSARIAL-GUARDRAIL）：子体输入扫描——
+        # 身份冒充/攻击指令 → 隔离（不反击），子体不得执行对抗任务
+        try:
+            from aeis.security.adversarial import AdversarialDetector, SecurityGate
+            adv = AdversarialDetector(SecurityGate()).scan_text(
+                task.prompt, source=f"child:{self.identity}",
+                source_kind="child")
+            if adv["adversarial"]:
+                task.status = "failed"
+                task.error = (f"对抗信号隔离（不反击原则）: {adv['reason']}")
+                task.finished_at = time.time()
+                return task
+        except Exception:
+            pass
         # 递归防护（决议 Q5）：输入含派发指令 → RECURSION_BLOCKED
         if any(kw in task.prompt for kw in SPAWN_KEYWORDS):
             task.status = "RECURSION_BLOCKED"
