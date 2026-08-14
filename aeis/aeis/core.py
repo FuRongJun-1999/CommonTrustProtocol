@@ -1910,6 +1910,79 @@ class SpacetimeMemoryEngine:
         payload["status"] = "ok" if result.ok else "error"
         return payload
 
+    def visual_check(self, reference: str = None, threshold: float = 0.1,
+                     remember: bool = True) -> dict:
+        """视觉面 v1 思考路线：预期 vs 实际（基于过去的预测对照）。
+
+        语义：视觉 = 信息差处理。预期来自记忆中的最近屏幕状态
+        （screen_state 节点）——"过去 predicts 现在"；对照结果（变化区域）
+        回写记忆，形成持续更新的"过去"。
+
+        reference 可显式提供预期截图；无预期且无记忆基线时建立基线。
+        """
+        if self._body_registry is None:
+            return {"status": "body_not_ready",
+                    "error": self._body_error or "身体层未装配"}
+        import re as _re
+
+        # 1. 预期来源：记忆中的最近屏幕状态（基于过去）
+        expected = reference
+        if not expected:
+            try:
+                nodes = self.store.get_nodes_by_tag("screen_state", limit=3)
+                # 匹配存储格式 "[屏幕状态 <path>] note" 中的真实路径
+                # （要求盘符或 / 开头，排除中文前缀）
+                _path_re = _re.compile(
+                    r"\[[^\]]*?((?:[A-Za-z]:[\\/]|/)[^\]]+\.(?:png|bmp|jpg))\]")
+                for n in reversed(nodes):
+                    m = _path_re.search(n.content or "")
+                    if m and os.path.exists(m.group(1)):
+                        expected = m.group(1)
+                        break
+            except Exception:
+                pass
+
+        # 2. 无预期：建立基线（当前状态成为第一个"过去"）
+        if not expected:
+            shot = self._body_registry.invoke("screen", "capture", {})
+            if not shot.ok or not shot.data.get("path"):
+                return {"status": "error", "error": shot.error or "截图失败"}
+            baseline = shot.data["path"]
+            if remember:
+                self._remember_screen_state(baseline, "baseline 建立")
+            return {"status": "ok", "established": True, "baseline": baseline,
+                    "note": "无历史预期，已建立基线（下次可对照）"}
+
+        # 3. 对照：预期 vs 当前
+        diff = self._body_registry.invoke("screen", "diff",
+                                          {"reference": expected,
+                                           "threshold": threshold})
+        if not diff.ok:
+            return {"status": "error", "error": diff.error}
+        result = diff.to_dict()
+        # 4. 回写记忆（当前状态成为新的"过去"）
+        cur = self._body_registry.invoke("screen", "capture", {})
+        cur_path = cur.data.get("path") if cur.ok else None
+        changed = result.get("data", {}).get("changed", False)
+        if remember and cur_path:
+            self._remember_screen_state(
+                cur_path,
+                f"对照{'有变化' if changed else '无变化'} 比例={result.get('data', {}).get('change_ratio')}",
+                changed=changed)
+        return {"status": "ok", "expected": expected,
+                "consistent": not changed, **result}
+
+    def _remember_screen_state(self, image_path: str, note: str,
+                               changed: bool = None) -> None:
+        """把屏幕状态写入情境层记忆（screen_state 标签，形成"过去"）。"""
+        try:
+            text = f"[屏幕状态 {image_path}] {note}"
+            if changed is not None:
+                text += f" 变化={changed}"
+            self.add_perception(text, importance=0.5, tags=["screen_state"])
+        except Exception:
+            pass
+
     # ==================== v1.12 自我认知循环（SELF-COGNITION-REV2） ====================
 
     def get_action_log(self, limit: int = 50) -> list:

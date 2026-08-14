@@ -395,6 +395,14 @@ class Agent:
         """BODY-REV1：身体状态同步到自我模型（感知模态+设备清单）。"""
         return self.engine.sync_body_state()
 
+    def visual_check(self, reference: str = None, threshold: float = 0.1,
+                     remember: bool = True) -> Dict:
+        """视觉面 v1 思考路线：预期 vs 实际（基于记忆中的历史屏幕状态对照）。
+
+        视觉 = 信息差处理：预期（过去）与当前帧的差异即新信息；
+        对照结果回写记忆形成持续更新的"过去"。"""
+        return self.engine.visual_check(reference, threshold, remember)
+
     def gap_trend(self, window: int = 30) -> Dict:
         """信息差收敛趋势（A-4 线性回归斜率）。"""
         return self.engine.get_gap_trend(window=window)
