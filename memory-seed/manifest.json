@@ -1,0 +1,12 @@
+{
+  "name": "lingshu-memory-seed",
+  "version": "0.1.0",
+  "description": "灵枢基础档案：供所有灵枢实体（含 DSH 插件实例）空库启动时播种的验证过的初始记忆",
+  "files": [
+    {"name": "identity.md", "tags": ["seed", "identity", "self"]},
+    {"name": "protocol-core.md", "tags": ["seed", "protocol", "knowledge"]},
+    {"name": "charter.md", "tags": ["seed", "charter", "law"]},
+    {"name": "values.md", "tags": ["seed", "values", "collaboration"]}
+  ],
+  "seed_note": "第一批验证过的知识（协议核心 + 宪章均为设计者与验证单元审核产物）；后续经条件论（条件空间理解论）验证的知识将扩展本包。"
+}
