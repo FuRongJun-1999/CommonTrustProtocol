@@ -5,7 +5,23 @@
 distill（有未蒸馏经验时）→ action_log 检查。Agent 方法直调。
 """
 import json
+import os
 import time
+
+# 心跳戳文件（自维持：guardian 检测新鲜度，失联则自动重启）
+STAMP_PATH = os.path.join(os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))),
+    "data", "heartbeat.stamp")
+
+
+def touch_stamp():
+    """写心跳戳（含时间与 run 摘要，供 guardian 新鲜度检测）。"""
+    try:
+        os.makedirs(os.path.dirname(STAMP_PATH), exist_ok=True)
+        with open(STAMP_PATH, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": time.time(), "pid": os.getpid()}))
+    except Exception:
+        pass
 
 
 def run_heartbeat(agent, ctx) -> str:
@@ -81,4 +97,5 @@ def run_heartbeat(agent, ctx) -> str:
     summary = " | ".join(lines)
     agent.remember(f"[心跳] {summary}", importance=0.4,
                    tags=["heartbeat", "self_sustaining"])
+    touch_stamp()  # 自维持：写心跳戳（guardian 检测）
     return f"心跳完成 ({time.time()-t0:.1f}s): {summary}"
