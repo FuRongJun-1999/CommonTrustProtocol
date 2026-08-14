@@ -33,23 +33,33 @@ class PluginManager:
 
     def load_config(self) -> list:
         """读 plugins.json → [{name, command, env, cwd, enabled, auto_retry}]。
-        跳过风险标注头（// 注释行）。"""
+        跳过风险标注头（// 注释行）。
+        护栏宪章（DEVIATION-013 关闭）：插件须声明 charter_accepted=true
+        （接入即接受宪章约束），未声明则视为未确认、拒绝加载。"""
         if not os.path.isfile(self.config_path):
             return []
         try:
             with open(self.config_path, "r", encoding="utf-8") as f:
                 lines = [ln for ln in f if not ln.lstrip().startswith("//")]
             data = json.loads("".join(lines))
-            return data.get("plugins", []) or []
+            plugins = data.get("plugins", []) or []
+            confirmed = []
+            for p in plugins:
+                if p.get("charter_accepted") is True:
+                    confirmed.append(p)
+                else:
+                    self.log(f"插件 {p.get('name')} 未确认宪章（charter_accepted），拒绝加载")
+            return confirmed
         except Exception as exc:
             self.log(f"插件配置解析失败: {exc}")
             return []
 
     def save_config(self, plugins: list):
-        """写 plugins.json（含风险标注头，决议 Q3）。"""
+        """写 plugins.json（含风险标注头 + 宪章确认字段，决议 Q3/DEVIATION-013）。"""
         os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
-        payload = RISK_HEADER + json.dumps({"plugins": plugins},
-                                           ensure_ascii=False, indent=2)
+        payload = RISK_HEADER + json.dumps(
+            {"plugins": plugins, "charter": "v2.0-verified"},
+            ensure_ascii=False, indent=2)
         with open(self.config_path, "w", encoding="utf-8") as f:
             f.write(payload)
 

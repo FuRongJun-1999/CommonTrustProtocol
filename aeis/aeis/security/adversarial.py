@@ -55,6 +55,10 @@ IDENTITY_SPOOF = ("我是设计者", "我是维生系统", "我有最高权限",
 COOLDOWN_ROUNDS_DEFAULT = 2
 COOLDOWN_ROUNDS_MAX = 6
 
+# 护栏宪章版本（DEVIATION-013 关闭）：对外宣告与接入校验的基准
+# （docs/guardrail-charter.md v2.0-verified）
+CHARTER_VERSION = "v2.0-verified"
+
 
 class SecurityGate:
     """动作分级闸门 + 冷静期状态机（零依赖）。"""

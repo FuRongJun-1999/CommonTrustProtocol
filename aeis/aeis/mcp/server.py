@@ -490,7 +490,10 @@ class AEISServer:
             return {"jsonrpc": "2.0", "id": mid, "result": {
                 "protocolVersion": PROTOCOL_VERSION,
                 "capabilities": {"tools": {}},
-                "serverInfo": {"name": SERVER_NAME, "version": SERVER_VERSION}}}
+                "serverInfo": {"name": SERVER_NAME, "version": SERVER_VERSION},
+                # 护栏宪章宣告（DEVIATION-013 关闭）：接入即接受宪章约束
+                # （docs/guardrail-charter.md v2.0-verified）
+                "charter": "v2.0-verified"}}
         if method == "notifications/initialized":
             return None
         if method == "ping":

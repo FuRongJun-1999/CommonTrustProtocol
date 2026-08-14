@@ -128,7 +128,7 @@ def test_manager_config(tmp=None):
     import tempfile
     p = tmp or os.path.join(tempfile.mkdtemp(), "plugins.json")
     m = PluginManager(p)
-    m.save_config([{"name": "fake", "command": [PY, FAKE], "enabled": True}])
+    m.save_config([{"name": "fake", "command": [PY, FAKE], "enabled": True, "charter_accepted": True}])
     with open(p, "r", encoding="utf-8") as f:
         head = f.read()
     check("配置写入风险标注头", "敏感信息" in head, "（决议 Q3）")
@@ -192,8 +192,8 @@ def test_two_plugins_parallel():
     p = os.path.join(tempfile.mkdtemp(), "plugins.json")
     m = PluginManager(p, log=lambda *a: None)
     m.save_config([
-        {"name": "fake1", "command": [PY, FAKE], "enabled": True},
-        {"name": "fake2", "command": [PY, FAKE], "enabled": True},
+        {"name": "fake1", "command": [PY, FAKE], "enabled": True, "charter_accepted": True},
+        {"name": "fake2", "command": [PY, FAKE], "enabled": True, "charter_accepted": True},
     ])
     result = m.start_all()
     check("双插件启动", result["fake1"] is True and result["fake2"] is True)
