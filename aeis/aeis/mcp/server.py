@@ -218,6 +218,12 @@ def _tools():
         {"name": "body",
          "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
          "inputSchema": {"type": "object"}},
+        {"name": "world3d",
+         "description": "WORLD3D-REV1 时空重建：语义 → 3D 空间与颜色（灵枢自己的文生图，确定性渲染零 LLM）。build（从记忆视觉原语重建 3D 世界）/ render（任意视角透视投影渲染，yaw/pitch/cx 相机参数；2D 是 3D 透视下的情况）/ status / add（手动添加 category+bbox）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "vprim",
          "description": "VPRIM-REV1 视觉原语查询（确定性·零 LLM，语义时空图空间锚点）：action=spatial（两 bbox [x1,y1,x2,y2] 空间关系）/ count（视觉原语计数，category 可选）/ anchors（最近锚点列表）。",
          "inputSchema": {"type": "object",
@@ -400,6 +406,9 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.compact_context(a.get("session_id", "s"), a.get("summary", "")))}], "isError": False}
         if name == "body":
             return {"content": [{"type": "text", "text": _dump(agent.body())}], "isError": False}
+        if name == "world3d":
+            return {"content": [{"type": "text", "text": _dump(agent.world3d(
+                a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "vprim":
             return {"content": [{"type": "text", "text": _dump(agent.vprim_query(
                 a.get("action", ""), a.get("params")))}], "isError": False}
