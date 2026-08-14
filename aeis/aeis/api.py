@@ -405,6 +405,10 @@ class Agent:
         spatial（两 bbox 空间关系）/ count（视觉原语计数）/ anchors（锚点列表）"""
         return self.engine.vprim_query(action, params)
 
+    def voice_session_log(self, turn: dict) -> str:
+        """语音对话会话沉淀（voice_session 记忆节点）。"""
+        return self.engine.voice_session_log(turn)
+
     def recursive_reflect(self, claim: str, expected: str = None,
                           actual: str = None, context: str = None,
                           depth: int = 0, max_depth: int = 3) -> Dict:
