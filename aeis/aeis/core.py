@@ -682,22 +682,53 @@ class LayeredStore:
             return 0.0
         return len(A & B) / len(A | B)
 
+    # ---- 检索增强（v1.14）：同义词扩展（词汇鸿沟缓解） ----
+    # 用户查询与存储文本词面差异大时（图像 vs 视觉）召回失败 → 同义词组展开。
+    SYNONYM_GROUPS = [
+        {"视觉", "图像", "画面", "图片", "影像", "视像"},
+        {"语义", "含义", "意思", "意义", "概念"},
+        {"识别", "检测", "感知", "探测", "发现"},
+        {"转换", "转化", "映射", "变换"},
+        {"实验", "试验", "集成", "实现", "验证", "测试"},
+        {"记忆", "记录", "库"},
+        {"智能", "智能体", "灵枢", "AI"},
+        {"语音", "声音", "音频", "说话"},
+        {"对话", "聊天", "交流"},
+    ]
+
+    @staticmethod
+    def expand_query_terms(query: str) -> list:
+        """查询同义词展开：原词 + 命中组内所有同义词 → 预筛词表。"""
+        terms = [query]
+        for group in LayeredStore.SYNONYM_GROUPS:
+            for w in group:
+                if w in query:
+                    terms.extend(g for g in group if g not in query)
+                    break
+        return list(dict.fromkeys(terms))
+
     def search_content(self, query: str, layers: List[MemoryLayer] = None,
                        limit: int = 20) -> List[Tuple[STNode, float]]:
-        """内容检索：LIKE 预筛 + 中文二元组 Jaccard 排序（命中计数反馈）"""
+        """内容检索：多词 OR 预筛（含同义词扩展）+ 二元组 Jaccard 取最大扩展相似度"""
         q = query.strip()
         if not q:
             return []
+        terms = self.expand_query_terms(q)
         conds, params = [], []
         if layers:
             ph = ",".join("?" for _ in layers)
             conds.append(f"layer IN ({ph})")
             params.extend([l.value for l in layers])
-        like_cond = "(content LIKE ? OR tags LIKE ?)"
-        like_params = [f"%{q}%", f"%{q}%"]
+        # 多词 OR 预筛（原查询 + 同义词任一命中即召回，提高召回率）
+        like_parts = []
+        like_params = []
+        for t in terms:
+            like_parts.append("content LIKE ? OR tags LIKE ?")
+            like_params.extend([f"%{t}%", f"%{t}%"])
+        like_cond = "(" + " OR ".join(like_parts) + ")"
         where = " AND ".join(conds + [like_cond]) if conds else like_cond
         c = self.conn.cursor()
-        c.execute(f"SELECT * FROM nodes WHERE {where} LIMIT 200", params + like_params)
+        c.execute(f"SELECT * FROM nodes WHERE {where} LIMIT 300", params + like_params)
         rows = c.fetchall()
         if not rows:
             # 检索增强（v1.12.1 · AEIS-BENCH-01 发现）：LIKE 预筛落空
@@ -709,16 +740,32 @@ class LayeredStore:
                 c.execute("SELECT * FROM nodes LIMIT 500")
             rows = c.fetchall()
         scored = []
+        # 扩展查询二元组并集（原查询 + 同义词），评分用查询重叠率
+        union_bigrams = set()
+        for t in terms:
+            union_bigrams |= self._bigrams(t)
         for row in rows:
             node = STNode.from_row(tuple(row))
-            sim = self.char_bigram_jaccard(q, node.content)
-            tag_bonus = 0.05 if any(q in t for t in node.tags) else 0.0
+            nb = self._bigrams(node.content)
+            # 查询重叠率（召回导向）：查询二元组被命中比例 / 并集规模
+            if union_bigrams:
+                sim = len(union_bigrams & nb) / len(union_bigrams)
+            else:
+                sim = 0.0
+            tag_bonus = 0.05 if any(t in q or q in t for t in node.tags) else 0.0
             scored.append((node, min(1.0, sim + tag_bonus)))
         scored.sort(key=lambda x: -x[1])
         results = scored[:limit]
         for node, _ in results:
             self.increment_access(node.id)
         return results
+
+    @staticmethod
+    def _bigrams(s: str) -> set:
+        s = "".join(s.split())
+        if len(s) <= 1:
+            return {s}
+        return {s[i:i + 2] for i in range(len(s) - 1)}
 
     def semantic_search(self, query: str, provider, limit: int = 10) -> List[STNode]:
         """语义检索（提供者 duck-typed 依赖注入，核心零外部 import · D-005）。
