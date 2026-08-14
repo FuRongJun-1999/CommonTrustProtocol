@@ -249,15 +249,20 @@ def main(argv=None):
         threads.append(term)
 
     # 7. Web 宿主（--web）
+    coding_manager = None
     if with_web:
         try:
+            from harness.coding.manager import CodingManager
+            coding_manager = CodingManager(env=env, log=log)
+            coding_manager.set_default_workspace(env.get("AEIS_WORKSPACE", ""))
             from harness.web.server import start_web_server
             web_thread = start_web_server(agent=agent, hub=hub,
                                           supervisor=supervisor,
                                           plugin_manager=plugin_manager,
-                                          log=log, port=port)
+                                          log=log, port=port,
+                                          coding_manager=coding_manager)
             threads.append(web_thread)
-            log(f"Web 宿主已启动：http://localhost:{port}")
+            log(f"Web 宿主已启动：http://localhost:{port}（编码能力已启用）")
         except Exception as exc:
             log(f"Web 宿主启动失败: {exc}")
 

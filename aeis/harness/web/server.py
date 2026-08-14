@@ -61,6 +61,7 @@ class WebHandler(BaseHTTPRequestHandler):
     supervisor = None
     plugin_manager = None
     logger = None
+    coding_manager = None
 
     # ---- 基础 ----
 
@@ -127,6 +128,24 @@ class WebHandler(BaseHTTPRequestHandler):
             n = int(q.get("n", ["30"])[0])
             tail = getattr(self.logger, "tail", [])[-n:]
             return self._json({"logs": tail})
+        if path == "/api/code":
+            # 编码任务列表
+            if self.coding_manager is None:
+                return self._json({"error": "编码能力未启用"}, 400)
+            return self._json({"tasks": self.coding_manager.list_tasks(10)})
+        if path.startswith("/api/code/"):
+            task_id = path[len("/api/code/"):]
+            if self.coding_manager is None:
+                return self._json({"error": "编码能力未启用"}, 400)
+            entry = self.coding_manager.get(task_id)
+            if entry is None:
+                return self._json({"error": f"任务不存在: {task_id}"}, 404)
+            return self._json({"task_id": task_id, "status": entry["status"],
+                               "task": entry["task"][:300],
+                               "result": entry.get("result"),
+                               "snapshots": entry.get("snapshots", []),
+                               "created_at": entry.get("created_at"),
+                               "finished_at": entry.get("finished_at")})
         return self._static(path)
 
     def do_POST(self):
@@ -161,17 +180,35 @@ class WebHandler(BaseHTTPRequestHandler):
             self.supervisor.aggregate([task.task_id])
             return self._json({"task_id": task.task_id, "status": task.status,
                                "result": task.result, "error": task.error})
+        if path == "/api/code":
+            if self.coding_manager is None:
+                return self._json({"error": "编码能力未启用"}, 400)
+            task = str(body.get("task", "")).strip()
+            workspace = str(body.get("workspace", "")).strip() or None
+            if not task:
+                return self._json({"error": "empty task"}, 400)
+            r = self.coding_manager.submit(task, workspace)
+            return self._json(r)
+        if path.startswith("/api/code/") and path.endswith("/revert"):
+            task_id = path[len("/api/code/"):-len("/revert")]
+            if self.coding_manager is None:
+                return self._json({"error": "编码能力未启用"}, 400)
+            snap = str(body.get("snapshot", "")).strip() or None
+            r = self.coding_manager.revert(task_id, snap)
+            return self._json(r)
         return self._json({"error": "not found"}, 404)
 
 
 def start_web_server(agent, hub, supervisor=None, plugin_manager=None,
-                     log=None, port: int = 8000) -> threading.Thread:
+                     log=None, port: int = 8000,
+                     coding_manager=None) -> threading.Thread:
     """启动 Web 宿主（线程）。返回线程对象（.stop() 停止）。"""
     WebHandler.agent = agent
     WebHandler.hub = hub
     WebHandler.supervisor = supervisor
     WebHandler.plugin_manager = plugin_manager
     WebHandler.logger = log or (lambda *a: None)
+    WebHandler.coding_manager = coding_manager
 
     httpd = ThreadingHTTPServer(("127.0.0.1", port), WebHandler)
 
