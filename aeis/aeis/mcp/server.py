@@ -240,6 +240,19 @@ def _tools():
                                         "depth": {"type": "number"},
                                         "max_depth": {"type": "number"}},
                          "required": ["claim"]}},
+        {"name": "longterm_snapshot",
+         "description": "v1.15 长期记忆写入：快照 → 重要性评估（信息差/信任/二阶变化/提及次数加权）→ 按层级写入（长期/知识/情境）+ 条件空间 + 关联边。content/source 必填；importance_hint 可显式提示重要性（≥0.7 触发不可遗忘保护）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"content": {"type": "string"},
+                                        "source": {"type": "string"},
+                                        "tags": {"type": "array", "items": {"type": "string"}},
+                                        "entities": {"type": "array", "items": {"type": "string"}},
+                                        "importance_hint": {"type": "number"}},
+                         "required": ["content"]}},
+        {"name": "promote_memories",
+         "description": "情境层批量提升扫描（睡眠巩固/会话结束）：够格者升知识层/长期层（LongTermMemoryGate 评估）。limit 可选。",
+         "inputSchema": {"type": "object",
+                         "properties": {"limit": {"type": "number"}}}},
         {"name": "visual_check",
          "description": "视觉面 v1 思考路线：预期 vs 实际（基于记忆中的历史屏幕状态对照，回写记忆形成过去）。reference 可显式给预期截图；无预期无基线时建立基线。",
          "inputSchema": {"type": "object",
@@ -417,6 +430,14 @@ class AEISServer:
                 a.get("claim", ""), expected=a.get("expected"), actual=a.get("actual"),
                 context=a.get("context"), depth=a.get("depth", 0),
                 max_depth=a.get("max_depth", 3)))}], "isError": False}
+        if name == "longterm_snapshot":
+            return {"content": [{"type": "text", "text": _dump(agent.longterm_snapshot(
+                a.get("content", ""), source=a.get("source", "mcp"),
+                tags=a.get("tags"), entities=a.get("entities"),
+                importance_hint=a.get("importance_hint")))}], "isError": False}
+        if name == "promote_memories":
+            return {"content": [{"type": "text", "text": _dump(agent.promote_memories(
+                limit=a.get("limit", 30)))}], "isError": False}
         if name == "visual_check":
             return {"content": [{"type": "text", "text": _dump(agent.visual_check(
                 reference=a.get("reference"), threshold=a.get("threshold", 0.1),
