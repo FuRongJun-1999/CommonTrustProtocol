@@ -1,4 +1,4 @@
-# @lingxu/dsh-memory 插件配置示例
+# @furongjun1999/dsh-memory 插件配置示例
 # 复制到 DSH profile 的 cordis.patch.yml（或 cordis.yml）启用
 #
 # 说明：
@@ -6,7 +6,7 @@
 # - dbPath 建议用绝对路径；目录不存在会自动创建
 
 - id: lingxu-memory
-  name: '@lingxu/dsh-memory'
+  name: '@furongjun1999/dsh-memory'
   config:
     # 工具命名空间：Agent 看到的工具名是 lingxu_remember / lingxu_recall ...
     serverName: 'lingxu'
@@ -43,7 +43,7 @@
 
 # 多实例示例：第二个灵枢（不同记忆库/身份/命名空间）
 # - id: lingxu-memory-2
-#   name: '@lingxu/dsh-memory'
+#   name: '@furongjun1999/dsh-memory'
 #   config:
 #     serverName: 'lingxu2'
 #     dbPath: 'D:/data/lingxu2.db'
