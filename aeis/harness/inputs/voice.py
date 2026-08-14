@@ -35,9 +35,28 @@ class VoiceInput(threading.Thread):
         try:
             from aeis.body import build_default_registry
             from aeis.body.devices.audio import AudioDevice
+            import numpy as np
             audio = AudioDevice(self.workspace)
-            self.log("语音输入就绪（VAD 断句）")
+            self.log("语音输入就绪（VAD 断句 + 能量门控节能）")
+            # 能量门控：静音时休眠（CPU≈0），检测到人声才进入流式解码
+            try:
+                import sounddevice as sd
+            except Exception:
+                sd = None
             while not self._stop.is_set():
+                # 1. 能量探测（0.5s 采样，静音 → 休眠 2s 节能）
+                if sd is not None:
+                    try:
+                        with sd.InputStream(samplerate=16000, channels=1,
+                                            blocksize=8000) as stream:
+                            data, _ = stream.read(8000)
+                        rms = float(np.sqrt((np.asarray(data) ** 2).mean()))
+                        if rms < 0.008:  # 静音阈值（RMS 门控）
+                            self._stop.wait(2.0)
+                            continue
+                    except Exception:
+                        pass  # 探测失败不阻塞（回退持续监听）
+                # 2. 有声窗口 → VAD 断句（正常一句话提交）
                 r = audio.invoke("listen_stream",
                                  {"max_seconds": self.max_seconds,
                                   "max_sentences": 1, "source": "mic"})

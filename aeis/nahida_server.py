@@ -7,14 +7,20 @@
        {"id": "..", "ok": false, "error": ".."}
 启动后打印 READY（模型加载完成）再开始服务。
 用途：灵枢 say 引擎 engine='nahida' 的后端——一次加载，每次说话只付推理成本。
+节能：空闲超时（NAHIDA_IDLE_TIMEOUT 秒，默认 1800=30 分钟）无请求自动退出，
+释放 GPU 显存（Windows 任务管理器电源标记高）；下次调用由 say 引擎自动拉起。
 """
-import sys, os, json, time, contextlib
+import json
+import os
+import sys
+import time, contextlib
 
 BASE = r"D:\Program Files\ai_voice\GPT-SoVITS-v3lora-20250228"
 os.chdir(BASE)  # yaml 内权重为相对路径，须以项目根为 cwd
 sys.path.insert(0, BASE)
 sys.path.insert(0, os.path.join(BASE, "GPT_SoVITS"))
 OUT_DIR = os.path.join(BASE, "output")
+IDLE_TIMEOUT = int(os.environ.get("NAHIDA_IDLE_TIMEOUT", "1800"))  # 30 分钟
 
 
 def _infer(tts, text):
@@ -51,10 +57,30 @@ def main():
         from TTS_infer_pack.TTS import TTS
         tts = TTS(os.path.join(BASE, "GPT_SoVITS", "configs", "tts_infer.yaml"))
     print("READY", flush=True)
-    for line in sys.stdin:
+    last_request = time.time()
+    while True:
+        # 空闲超时节能：无请求自动退出（释放 GPU 显存）
+        if IDLE_TIMEOUT > 0 and time.time() - last_request > IDLE_TIMEOUT:
+            print(json.dumps({"ok": True, "event": "IDLE_EXIT",
+                              "reason": f"空闲 {IDLE_TIMEOUT}s 自动退出（节能）"}),
+                  flush=True)
+            return 0
+        # 非阻塞检查 stdin（select 不可靠时用短轮询 + 超时）
+        import select
+        if not sys.stdin.isatty():
+            try:
+                ready, _, _ = select.select([sys.stdin], [], [], 1.0)
+            except Exception:
+                ready = []
+            if not ready:
+                continue
+        line = sys.stdin.readline()
+        if not line:
+            break
         line = line.strip()
         if not line:
             continue
+        last_request = time.time()
         try:
             req = json.loads(line)
             text = str(req.get("text", "")).strip()
