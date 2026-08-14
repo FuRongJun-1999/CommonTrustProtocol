@@ -216,6 +216,12 @@ def _tools():
         {"name": "body",
          "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
          "inputSchema": {"type": "object"}},
+        {"name": "visual_check",
+         "description": "视觉面 v1 思考路线：预期 vs 实际（基于记忆中的历史屏幕状态对照，回写记忆形成过去）。reference 可显式给预期截图；无预期无基线时建立基线。",
+         "inputSchema": {"type": "object",
+                         "properties": {"reference": {"type": "string"},
+                                        "threshold": {"type": "number"},
+                                        "remember": {"type": "boolean"}}}},
         {"name": "body_devices",
          "description": "BODY-REV1 外部设备：能力声明 + 健康状态（screen/files/process/audio/control/browser/realtime）。",
          "inputSchema": {"type": "object"}},
@@ -374,6 +380,10 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.compact_context(a.get("session_id", "s"), a.get("summary", "")))}], "isError": False}
         if name == "body":
             return {"content": [{"type": "text", "text": _dump(agent.body())}], "isError": False}
+        if name == "visual_check":
+            return {"content": [{"type": "text", "text": _dump(agent.visual_check(
+                reference=a.get("reference"), threshold=a.get("threshold", 0.1),
+                remember=a.get("remember", True)))}], "isError": False}
         if name == "body_devices":
             return {"content": [{"type": "text", "text": _dump(agent.body_devices())}], "isError": False}
         if name == "device_call":
