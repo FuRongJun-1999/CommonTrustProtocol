@@ -7,7 +7,7 @@
 
 import type { Context } from '@deepseek-ai/cordis'
 import { defineTool, type ParameterPropertySpec, type ParameterSchemaSpec, type ValueSchemaSpec } from '@deepseek-ai/dsh-tools'
-import type { LingxuBridge, McpTool } from './bridge.ts'
+import type { LingshuBridge, McpTool } from './bridge.ts'
 
 /** 默认暴露的核心工具集合（记忆/推理/摄取/元认知）。 */
 export const CORE_TOOLS = [
@@ -129,9 +129,9 @@ export function extractText(content: Array<{ type: string; text?: string; [key: 
 }
 
 /** 注册灵枢工具到 ctx.tools；返回取消注册函数。 */
-export async function registerLingxuTools(
+export async function registerLingshuTools(
   ctx: Context,
-  bridge: LingxuBridge,
+  bridge: LingshuBridge,
   opts: { selection: ToolSelection; toolPrefix: string },
 ): Promise<() => void> {
   const tools = await bridge.listTools()

@@ -30,7 +30,7 @@ def synthesize(text: str, ref_wav: str = DEFAULT_REF, ref_text: str = DEFAULT_RE
                out_wav: str = None, timeout: int = 120) -> str:
     """合成文本 → wav 文件（GPU）。返回输出路径。"""
     if out_wav is None:
-        out_wav = os.path.join(tempfile.gettempdir(), "lingxu_say.wav")
+        out_wav = os.path.join(tempfile.gettempdir(), "lingshu_say.wav")
     script = f'''
 import sys, os, time, torch
 sys.path.insert(0, {COSY_CODE!r})
