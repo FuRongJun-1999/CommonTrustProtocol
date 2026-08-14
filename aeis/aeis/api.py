@@ -396,6 +396,10 @@ class Agent:
         """BODY-REV1：身体状态同步到自我模型（感知模态+设备清单）。"""
         return self.engine.sync_body_state()
 
+    def world3d(self, action: str, params: dict = None) -> Dict:
+        """WORLD3D-REV1 时空重建：语义 → 3D 空间与颜色（build/render/status/add）。"""
+        return self.engine.world3d(action, params)
+
     def vprim_query(self, action: str, params: dict = None) -> Dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         spatial（两 bbox 空间关系）/ count（视觉原语计数）/ anchors（锚点列表）"""

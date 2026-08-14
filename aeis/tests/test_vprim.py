@@ -135,7 +135,7 @@ def test_mcp_tool():
     r = send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
     tools = {t["name"]: t for t in r["result"]["tools"]}
     check("vprim 工具", "vprim" in tools)
-    check("工具总数 43", len(tools) == 43, f"count={len(tools)}")
+    check("工具总数 43", len(tools) == 44, f"count={len(tools)}")
     proc.stdin.close()
     proc.wait(timeout=10)
 

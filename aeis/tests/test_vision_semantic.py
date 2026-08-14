@@ -96,7 +96,7 @@ def test_mcp_see_classes():
     if "see" in tools:
         props = tools["see"]["inputSchema"].get("properties", {})
         check("see classes 参数", "classes" in props, f"props={sorted(props.keys())}")
-    check("工具总数", len(tools) == 42, f"count={len(tools)}")
+    check("工具总数", len(tools) == 44, f"count={len(tools)}")
     proc.stdin.close()
     proc.wait(timeout=10)
 

@@ -1974,6 +1974,83 @@ class SpacetimeMemoryEngine:
         return {"status": "ok", "expected": expected,
                 "consistent": not changed, **result}
 
+    def world3d(self, action: str, params: dict = None) -> dict:
+        """WORLD3D-REV1 时空重建：语义 → 3D 空间与颜色（灵枢自己的文生图）。
+
+        - build: 从记忆中的视觉原语（vprim 标签）重建 3D 世界
+          （params: limit 记忆节点数, screen_w/h 参考视角）
+        - render: 渲染 3D 世界为图像（params: path 输出路径, yaw/pitch/cx
+          相机参数——任意视角透视投影；2D 是 3D 透视下的情况）
+        - status: 当前 3D 世界状态（物体/相机）
+        - add: 手动添加物体（params: category, bbox 或 center/size/color）"""
+        p = params or {}
+        try:
+            from world3d import World3D, Camera3D
+        except ImportError:
+            try:
+                from .world3d import World3D, Camera3D
+            except Exception as e:
+                return {"status": "world3d_not_ready", "error": str(e)}
+        # 世界状态（跨调用保持于引擎）
+        if not hasattr(self, "_world3d"):
+            self._world3d = World3D()
+
+        if action == "build":
+            try:
+                from vprim import VPrim, parse_anchor  # noqa: F401
+            except ImportError:
+                from .vprim import parse_anchor  # noqa: F401
+            world = World3D()
+            nodes = self.store.get_nodes_by_tag("vprim", limit=int(p.get("limit", 5)))
+            sw = int(p.get("screen_w", 800))
+            sh = int(p.get("screen_h", 600))
+            added = 0
+            for n in nodes:
+                text = n.content or ""
+                for token in text.split("；"):
+                    vp = parse_anchor(token)
+                    if vp is not None:
+                        world.add_vprim(vp, sw, sh)
+                        added += 1
+            self._world3d = world
+            return {"status": "ok", "objects": added,
+                    "scene": world.scene_text(),
+                    "detail": world.to_dict()}
+        if action == "render":
+            cam = Camera3D(yaw=float(p.get("yaw", 0)), pitch=float(p.get("pitch", 0)),
+                           cx=float(p.get("cx", 0)), cy=float(p.get("cy", 1.2)))
+            sw = int(p.get("screen_w", 800))
+            sh = int(p.get("screen_h", 600))
+            path = str(p.get("path", ""))
+            img = self._world3d.render(sw, sh, camera=cam)
+            if path:
+                img.save(path)
+                return {"status": "ok", "path": os.path.abspath(path),
+                        "scene": self._world3d.scene_text()}
+            import io as _io
+            buf = _io.BytesIO()
+            img.save(buf, format="PNG")
+            return {"status": "ok", "in_memory": True,
+                    "bytes": len(buf.getvalue()),
+                    "scene": self._world3d.scene_text()}
+        if action == "status":
+            return {"status": "ok", **self._world3d.to_dict()}
+        if action == "add":
+            try:
+                from vprim import VPrim, bbox_from_xywh  # noqa: F401
+            except ImportError:
+                from .vprim import VPrim  # noqa: F401
+            category = str(p.get("category", ""))
+            bbox = p.get("bbox")
+            if not category or not bbox or len(bbox) != 4:
+                return {"status": "error", "error": "category 与 bbox=[x1,y1,x2,y2] 必填"}
+            vp = VPrim(category, tuple(float(v) for v in bbox),
+                       float(p.get("confidence", 0.5)), source="manual")
+            self._world3d.add_vprim(vp, int(p.get("screen_w", 800)),
+                                    int(p.get("screen_h", 600)))
+            return {"status": "ok", "scene": self._world3d.scene_text()}
+        return {"status": "error", "error": f"未知动作 {action}（可用: build/render/status/add）"}
+
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）
