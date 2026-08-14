@@ -244,8 +244,9 @@ class AudioDevice(BodyDevice):
     # ---- 工具 ----
 
     def _say(self, p: Dict) -> DeviceResult:
-        """语音输出（即时说话·零依赖）：System.Speech 中文语音（Huihui）。
-        优先 Windows 内置 SAPI；可选 edge-tts 保存文件。"""
+        """语音输出。引擎优先级：
+        cosyvoice（本地 GPU 高质量·zero-shot 音色克隆）→ System.Speech（零依赖兜底）。
+        engine 参数可显式指定：cosyvoice / system / edge。"""
         import subprocess
 
         text = str(p.get("text", "")).strip()
@@ -253,6 +254,37 @@ class AudioDevice(BodyDevice):
             return self._fail("缺少 text")
         if len(text) > 500:
             return self._fail(f"文本过长（{len(text)} 字符，上限 500）")
+        engine = str(p.get("engine", "cosyvoice"))
+        # CosyVoice 引擎（本地 GPU·卖萌音色）
+        if engine in ("cosyvoice", "auto"):
+            try:
+                sys_path = os.path.dirname(os.path.dirname(os.path.dirname(
+                    os.path.dirname(os.path.abspath(__file__)))))  # AEIS 根
+                import importlib.util
+                spec = importlib.util.spec_from_file_location(
+                    "cosyvoice_tts", os.path.join(sys_path, "cosyvoice_tts.py"))
+                if spec and spec.loader:
+                    mod = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(mod)
+                    out = os.path.join(self.workspace or ".", "audio",
+                                       f"say_{int(time.time()*1000)}.wav")
+                    os.makedirs(os.path.dirname(out), exist_ok=True)
+                    mod.synthesize(text, out_wav=out, timeout=120)
+                    if os.path.getsize(out) > 1000:
+                        # 播放
+                        ref_wav = getattr(mod, "DEFAULT_REF", "")
+                        try:
+                            import winsound
+                            winsound.PlaySound(out, winsound.SND_FILENAME)
+                        except Exception:
+                            pass
+                        return self._r({"chars": len(text), "engine": "cosyvoice",
+                                        "path": os.path.abspath(out)}, "say",
+                                       text_summary=f"CosyVoice 语音输出 {len(text)} 字符")
+            except Exception as exc:
+                if engine == "cosyvoice":
+                    return self._fail(f"CosyVoice 输出失败: {exc}")
+                # auto → 降级 System.Speech
         voice = str(p.get("voice", ""))
         rate = str(p.get("rate", "0"))  # -10~10
         try:

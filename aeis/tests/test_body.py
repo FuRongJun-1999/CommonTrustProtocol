@@ -206,9 +206,9 @@ def test_browser_device():
 def test_voice_say():
     """语音输出：System.Speech 即时说话（零依赖，偶发 PowerShell 启动竞争→重试）。"""
     a = Agent(identity="body-say", db_path=":memory:")
-    r = a.device_call("audio", "say", {"text": "语音测试"})
+    r = a.device_call("audio", "say", {"text": "语音测试", "engine": "system"})
     if not r["ok"]:  # 偶发竞争重试一次
-        r = a.device_call("audio", "say", {"text": "语音测试"})
+        r = a.device_call("audio", "say", {"text": "语音测试", "engine": "system"})
     check("say 语音输出", r["ok"] is True, (r.get("error") or "")[:60])
     check("say 容器隔离", r["provenance"] == "device:audio" and r["is_directive"] is False)
     r2 = a.device_call("audio", "say", {})
