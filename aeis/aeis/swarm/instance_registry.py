@@ -60,11 +60,18 @@ class InstanceRegistry:
     def register(self, instance_id: str, role: str,
                  tendency: Optional[str] = None,
                  observation_rounds: int = 10,
-                 protocol_version: str = "v3.2") -> Dict:
-        """注册实例（身份声明 → 观察期 → 升级 → 职责分配，B4）"""
+                 protocol_version: str = "v3.2",
+                 charter_version: str = "") -> Dict:
+        """注册实例（身份声明 → 观察期 → 升级 → 职责分配，B4）。
+        护栏宪章（DEVIATION-013 关闭）：charter_version 未声明或与当前
+        宪章版本不匹配 → 观察期延长（双倍）；拒绝声明 → 保持观察态。"""
         assert role in ROLES, f"unknown role: {role}"
         if instance_id in self.instances:
             raise ValueError(f"instance already registered: {instance_id}")
+        # 宪章校验：未声明/不匹配 → 观察期延长
+        from aeis.security.adversarial import CHARTER_VERSION
+        if charter_version != CHARTER_VERSION:
+            observation_rounds = observation_rounds * 2  # 观察期延长
         entry = {
             "instance_id": instance_id,
             "role": role,
@@ -74,6 +81,7 @@ class InstanceRegistry:
             "status": "observing",       # observing → active（观察期后升级）
             "rounds_done": 0,
             "protocol_version": protocol_version,
+            "charter_version": charter_version or "未声明",
             "registered_at": time.time(),
             "joined_at": None,
         }
@@ -81,7 +89,9 @@ class InstanceRegistry:
         return dict(entry)
 
     def register_default_cluster(self, protocol_version: str = "v3.2") -> List[str]:
-        """注册默认六实例（千问/元宝/Kimi/豆包/荣/临时设计者）"""
+        """注册默认六实例（千问/元宝/Kimi/豆包/荣/临时设计者）。
+        内建实例为协议自身成员，自动接受宪章（DEVIATION-013）。"""
+        from aeis.security.adversarial import CHARTER_VERSION
         ids = []
         for role, name in (("record", "instance_qianwen"),
                            ("reflect", "instance_yuanbao"),
@@ -89,7 +99,8 @@ class InstanceRegistry:
                            ("output", "instance_doubao"),
                            ("vitals", "instance_rong"),
                            ("designer", "instance_designer")):
-            self.register(name, role, protocol_version=protocol_version)
+            self.register(name, role, protocol_version=protocol_version,
+                          charter_version=CHARTER_VERSION)
             ids.append(name)
         return ids
 

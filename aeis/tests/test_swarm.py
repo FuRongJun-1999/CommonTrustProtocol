@@ -12,6 +12,7 @@ sys.path.insert(0, PROJECT_ROOT)
 
 import aeis.swarm as swarm
 from aeis.swarm.event_bus import EventBus, EVENT_TYPES, DELAY_BANDS
+from aeis.security.adversarial import CHARTER_VERSION
 from aeis.swarm.instance_registry import InstanceRegistry, ROLES
 from aeis.swarm.trust_aggregator import TrustAggregator, alignment_from
 from aeis.swarm.survival import SurvivalArbiter
@@ -30,7 +31,7 @@ def check(name, cond, extra=""):
 check("swarm subpackage", all(hasattr(swarm, n) for n in
       ("EventBus", "InstanceRegistry", "TrustAggregator",
        "SurvivalArbiter", "ObserverIsolation")))
-check("event types", len(EVENT_TYPES) == 11 and "STRUCTURE_UPDATE" in EVENT_TYPES and "P0_LOG" in EVENT_TYPES)
+check("event types", len(EVENT_TYPES) == 15 and "STRUCTURE_UPDATE" in EVENT_TYPES and "P0_LOG" in EVENT_TYPES)
 check("delay bands", DELAY_BANDS == {"high": 0.5, "medium": 5.0, "low": 30.0})
 
 # ============ 身份注册 ============
