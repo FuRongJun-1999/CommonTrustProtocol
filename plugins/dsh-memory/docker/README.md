@@ -9,15 +9,20 @@
 ## 🚀 一键启动
 
 ```bash
-# 构建（复制 aeis 源码 → build）
-bash build.sh
-
-# 运行（记忆持久化到 lingshu-data 卷）
+# 方式 A：拉取现成镜像（无需构建，一行装完）
 docker run -d -p 8080:8080 -v lingshu-data:/data furongjun1999/lingshu
+
+# 方式 B：自行构建（拉取基础镜像可能较慢）
+bash build.sh
 
 # 验证
 curl http://127.0.0.1:8080/status
 ```
+
+> **不需要 Docker？** 在任意 Python 环境安装 aeis（零外部依赖）：
+> - 离线最稳：`pip install aeis-0.3.0-py3-none-any.whl`（位于 `aeis/dist/`）
+> - 在线：`pip install "aeis @ git+https://github.com/FuRongJun-1999/CommonTrustProtocol@main#subdirectory=aeis"`
+> - 然后 `python server.py` 即可跑 HTTP 记忆服务
 
 ## 🔧 HTTP API
 
