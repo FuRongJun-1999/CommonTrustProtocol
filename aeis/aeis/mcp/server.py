@@ -312,6 +312,45 @@ def _tools():
                                         "tags": {"type": "array", "items": {"type": "string"}},
                                         "importance": {"type": "number"}},
                          "required": ["query"]}},
+        {"name": "wisdom_verify",
+         "description": "智慧之书 · 自动验证（条件论判定 + 信息差 + 候选）——互维协议双通道验证的白箱通道（base_verify）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"knowledge": {"type": "string"},
+                                        "limit": {"type": "number"}},
+                         "required": ["knowledge"]}},
+        {"name": "wisdom_analyze",
+         "description": "智慧之书 · 外来知识分析（条件卡 + 候选 + 判定）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"knowledge": {"type": "string"},
+                                        "limit": {"type": "number"}},
+                         "required": ["knowledge"]}},
+        {"name": "wisdom_predict",
+         "description": "智慧之书 · 生成式预测（候选未来路线，白箱智能的预测生成化）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"knowledge": {"type": "string"},
+                                        "horizon": {"type": "number"},
+                                        "limit": {"type": "number"}},
+                         "required": ["knowledge"]}},
+        {"name": "wisdom_trust_judge",
+         "description": "智慧之书 · 信任上下文判定（内容 × 信任值 × 关系 → 条件化判定）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"knowledge": {"type": "string"},
+                                        "trust": {"type": "number"},
+                                        "relation": {"type": "string"},
+                                        "limit": {"type": "number"}},
+                         "required": ["knowledge"]}},
+        {"name": "wisdom_compose",
+         "description": "智慧之书 · 跨学科组合分析（Convergence Over Coverage）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"knowledge": {"type": "string"},
+                                        "limit": {"type": "number"}},
+                         "required": ["knowledge"]}},
+        {"name": "wisdom_respond",
+         "description": "智慧之书 · 出招查询（条件 → 命中学科出招）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"condition": {"type": "string"},
+                                        "limit": {"type": "number"}},
+                         "required": ["condition"]}},
     ]
 
 
@@ -559,6 +598,27 @@ class AEISServer:
                                     tags=a.get("tags"), importance=a.get("importance", 0.6))
             return {"content": [{"type": "text", "text": _dump(r)}],
                     "isError": r.get("status") == "unavailable"}
+        if name == "wisdom_verify":
+            r = agent.wisdom_verify(a.get("knowledge", ""), limit=a.get("limit", 5))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "wisdom_analyze":
+            r = agent.wisdom_analyze(a.get("knowledge", ""), limit=a.get("limit", 6))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "wisdom_predict":
+            r = agent.wisdom_predict(a.get("knowledge", ""),
+                                     horizon=a.get("horizon", 2), limit=a.get("limit", 4))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "wisdom_trust_judge":
+            r = agent.wisdom_trust_judge(a.get("knowledge", ""),
+                                         trust=a.get("trust"), relation=a.get("relation", "public"),
+                                         limit=a.get("limit", 4))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "wisdom_compose":
+            r = agent.wisdom_compose(a.get("knowledge", ""), limit=a.get("limit", 5))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "wisdom_respond":
+            r = agent.wisdom_respond(a.get("condition", ""), limit=a.get("limit", 3))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
         raise ValueError(f"unknown tool: {name}")
 
     # ---- JSON-RPC 分发 ----
