@@ -41,4 +41,6 @@ runtime = [
 aeis-mcp = "aeis.mcp.server:main"
 
 [tool.setuptools]
-packages = ["aeis", "aeis.mcp"]
+# body 子包（身体层）必须显式列出：否则干净安装缺失 body，__init__.py `from . import body`
+# 在父包部分初始化时报 circular import。vision/vprim 是扁平模块自动装入。
+packages = ["aeis", "aeis.mcp", "aeis.body"]
