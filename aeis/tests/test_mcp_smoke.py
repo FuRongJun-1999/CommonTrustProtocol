@@ -48,11 +48,13 @@ def main():
     send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
     r = recv()
     tools = r["result"]["tools"]
-    check("tools/list 46 tools", len(tools) == 46)
+    check("tools/list 52 tools", len(tools) == 52)
     names = [t["name"] for t in tools]
     check("tools core set", {"remember", "recall", "search", "distill",
                              "calibrate", "lifecycle_step", "self_check",
                              "cognition", "emotional_bias", "self_reliability"} <= set(names))
+    check("wisdom tools set", {"wisdom_verify", "wisdom_analyze", "wisdom_predict",
+                               "wisdom_trust_judge", "wisdom_compose", "wisdom_respond"} <= set(names))
 
     # ---- 记忆工具 ----
     send({"jsonrpc": "2.0", "id": 3, "method": "tools/call",
@@ -146,7 +148,7 @@ def main():
     info = json.loads(r["result"]["content"][0]["text"])
     check("service_info", info["server"] == "aeis-mcp" and
           info["engine"] == "v1.15.0" and info["identity"] == "灵枢" and
-          info["tools"] == 46, str(info)[:120])
+          info["tools"] == 52, str(info)[:120])
 
     # ---- v1.13 新能力（视觉/推理/摄取/上下文/身体） ----
     send({"jsonrpc": "2.0", "id": 19, "method": "tools/call",

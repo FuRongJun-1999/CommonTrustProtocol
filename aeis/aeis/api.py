@@ -451,6 +451,50 @@ class Agent:
         """全库导入（恢复/合并）。"""
         return self.engine.import_all(path)
 
+    # ---- 智慧之书（白箱智能引擎 · wisdom_book 条件论知识图谱） ----
+    _wisdom = None
+
+    def _get_wisdom(self):
+        """惰性加载智慧之书 ConditionDex（类级缓存，只建一次）。"""
+        if type(self)._wisdom is None:
+            import sys as _s
+            import os as _os
+            _pkg = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+            _wdir = _os.path.join(_pkg, "wisdom")
+            if _wdir not in _s.path:
+                _s.path.insert(0, _wdir)
+            import wisdom_book as _wb
+            dex = _wb.ConditionDex(fresh=True)
+            dex.seed_base()
+            type(self)._wisdom = dex
+        return self._wisdom
+
+    def wisdom_analyze(self, knowledge: str, limit: int = 6) -> Dict:
+        """智慧之书 · 外来知识分析（条件卡 + 候选 + 判定）。"""
+        return self._get_wisdom().dex_analyze(knowledge, limit=limit)
+
+    def wisdom_verify(self, knowledge: str, limit: int = 5) -> Dict:
+        """智慧之书 · 自动验证（P5 信息修复 · 基地裁判）——互维协议双通道的白箱通道。"""
+        return self._get_wisdom().dex_auto_verify(knowledge, limit=limit)
+
+    def wisdom_compose(self, knowledge: str, limit: int = 5) -> Dict:
+        """智慧之书 · 跨学科组合分析（Convergence Over Coverage）。"""
+        return self._get_wisdom().dex_compose(knowledge, limit=limit)
+
+    def wisdom_predict(self, knowledge: str, horizon: int = 2, limit: int = 4) -> Dict:
+        """智慧之书 · 生成式预测（候选未来路线）——白箱智能的预测生成化。"""
+        return self._get_wisdom().dex_predict(knowledge, horizon=horizon, limit=limit)
+
+    def wisdom_respond(self, condition: str, limit: int = 3) -> Dict:
+        """智慧之书 · 出招查询（条件 → 命中学科出招）。"""
+        return {"results": self._get_wisdom().dex_respond(condition, limit=limit)}
+
+    def wisdom_trust_judge(self, knowledge: str, trust: float = None,
+                           relation: str = "public", limit: int = 4) -> Dict:
+        """智慧之书 · 信任上下文判定（内容 × 信任值 × 关系 → 条件化判定）。"""
+        return self._get_wisdom().dex_trust_judge(
+            knowledge, trust=trust, relation=relation, limit=limit)
+
     def close(self):
         """关闭引擎（释放连接）。"""
         try:
