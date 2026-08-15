@@ -49,12 +49,27 @@ def make_logger(path: str):
 
 
 def seed_default_automations(store):
-    """默认自动化种子（迁移自 ZCode）：心跳 30 分钟 + 睡眠巩固每日 01:00。"""
+    """默认自动化种子（迁移自 ZCode）：心跳 10 分钟（互维协议 v1.1）+ 睡眠巩固每日 01:00。"""
+    import json as _json
     existing = {a["id"] for a in store.list_all()}
     if "auto-heartbeat" not in existing:
-        store.add("auto-heartbeat", "灵枢自维持心跳（每30分钟）",
-                  {"type": "interval", "minutes": 30}, "heartbeat",
+        store.add("auto-heartbeat", "灵枢自维持心跳（每10分钟·互维v1.1）",
+                  {"type": "interval", "minutes": 10}, "heartbeat",
                   prompt="自维持心跳 6 步循环", next_run_at=time.time() + 60)
+    else:
+        # v1.1 迁移：既有 30min 心跳 → 10min（不重建，保留 run 历史）
+        for a in store.list_all():
+            if a["id"] != "auto-heartbeat":
+                continue
+            try:
+                sched = _json.loads(a.get("schedule") or "{}")
+            except Exception:
+                sched = {}
+            if sched.get("minutes") != 10:
+                store.update_schedule("auto-heartbeat",
+                                      {"type": "interval", "minutes": 10},
+                                      title="灵枢自维持心跳（每10分钟·互维v1.1）")
+                print("[seed] 心跳频率迁移 30min → 10min（互维 v1.1）")
     if "auto-sleep" not in existing:
         store.add("auto-sleep", "灵枢睡眠巩固（每日 01:00）",
                   {"type": "daily", "hour": 1, "minute": 0}, "sleep",
