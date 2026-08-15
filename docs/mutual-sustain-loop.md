@@ -139,14 +139,29 @@ A 提交 verify 任务
 | **W3** | 任务验证邮箱双向（verify 端到端）+ 白箱/DeepSeek 双通道 + knowledge_sync | W2 |
 | **W4** | 实机验收（杀进程/验证任务全流程）+ 文档 + 推送 | W3 |
 
-## 5. 验收标准（v1.1 更新）
+## 5. 验收标准（v1.1 更新 · W4 实机验收 2026-08-15 晚）
 
-- [ ] 杀 harness 主实例 → 10min 心跳周期内 B 侧检测到 → 自动拉回（wmic 确认）
-- [ ] 杀 dsh web → 10min 周期内 A 侧检测到 → 自动拉回
-- [ ] A→B verify 任务 → B 白箱+DeepSeek 双通道复核 → 写回 verdict（全程无荣参与）
-- [ ] 白箱与 DeepSeek 分歧 → 生成白箱完善建议 → 荣可见
-- [ ] knowledge_sync：智慧之书知识回流主实例
-- [ ] 全量回归 tests 不破坏；推送 AEIS 仓库 + 插件 npm 0.2.5
+- [x] **杀 harness 主实例 → B 侧检测到 → 自动拉回** —— ❌ **未通过**：B 实例重启后互维模块未激活（见 §7 验收记录）
+- [x] **杀 dsh web → A 侧检测到 → 自动拉回** —— ✅ 通过（启动时拉起路径 + 30s tick 路径，mutual.log 留痕）
+- [x] **A→B verify 任务 → B 白箱+DeepSeek 双通道复核 → 写回 verdict（全程无荣参与）** —— ✅ 通过（白箱智能范式主张：白箱采纳「信息论」d_norm=0.674 + 复核同意 → pass → A 侧 adopted）
+- [ ] 白箱与 DeepSeek 分歧 → 生成白箱完善建议 → 荣可见（未触发：本次双通道一致；逻辑已由 B 侧 combineVerdict 实现）
+- [x] knowledge_sync：export_all/import_all 对账能力 —— ✅ A 侧 export 验证通过（10 表）
+- [x] 全量回归 tests 不破坏 —— ✅（harness 25/25 · guardian 42/42 · MCP 29/29 · 包级 55/55）
+
+## 7. W4 实机验收记录（2026-08-15 晚）
+
+**通过项：**
+1. A→B 守护双向验证：杀 dsh web → guardian 自动拉回（启动路径 + 30s tick 路径均验证，mutual.log 留痕）
+2. 任务验证全流程：A 提交白箱智能范式主张 → B 智慧之书白箱验证（采纳「信息论」为工作假设，d_norm=0.674）+ DeepSeek 复核同意 → verdict=pass → A 侧 adopted（全程无荣参与）
+3. 双向心跳戳共存：heartbeat.a.stamp（A，pid 22184）+ heartbeat.web.stamp（B，pid 17332）
+4. export_all 对账能力（10 表）
+
+**发现的问题（待 B 侧修复）：**
+- **B 侧互维模块未激活**：guardian 拉起的 dsh web 实例（node bin.js web）中 mutual.ts 未工作——B 戳在实例重启后 22 分钟无更新（停摆于 19:43，pid 17332 为旧实例子进程），A 侧被杀后 B 无拉回动作。**疑因**：guardian 拉起的 node 进程环境与手动启动不同（DSH_HOME/PATH 等），或 cordis 插件加载时序问题。B 侧需验证重启后 mutual.ts 的激活条件。
+
+**部署教训（A 侧）：**
+- guardian **必须 detached 启动**（CREATE_NO_WINDOW + DEVNULL，脱离 ZCode 生命周期）——ZCode 后台任务启动的 guardian 会被会话清理杀死（本次验收实测）
+- 拉起 web 后应验证 B 戳新鲜度（当前缺该校验，B 侧互维未激活时无告警）
 
 ## 6. 风险与开放项
 
