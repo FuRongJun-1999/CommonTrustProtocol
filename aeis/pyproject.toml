@@ -40,8 +40,7 @@ runtime = [
 [project.scripts]
 aeis-mcp = "aeis.mcp.server:main"
 
-[tool.setuptools]
-# body 子包（身体层）+ 其 devices 子包必须显式列出：否则干净安装缺失，__init__.py
-# `from . import body` 报 circular import / body 内 `from .devices...` 报 ModuleNotFoundError。
-# vision/vprim 是扁平模块自动装入。
-packages = ["aeis", "aeis.mcp", "aeis.body", "aeis.body.devices"]
+[tool.setuptools.packages.find]
+# 自动发现所有子包（body/mcp/security/swarm 及未来新增），避免逐一手写遗漏。
+# 显式手写 packages 曾漏 body/security/swarm → 干净安装缺失模块，import 报错。
+include = ["aeis", "aeis.*"]
