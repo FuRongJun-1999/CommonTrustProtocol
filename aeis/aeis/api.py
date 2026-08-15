@@ -78,8 +78,20 @@ class Agent:
         return self.engine.search_content(query, limit=limit)
 
     def timeline(self, limit: int = 50) -> List[Dict]:
-        """时间线（按时间倒序的记忆快照）。"""
-        return self.engine.timeline(limit=limit)
+        """时间线（按时间倒序的记忆快照）。
+
+        修复（2026-08-15）：原实现错误转发到 engine.timeline(node_id,...)
+        签名不匹配 → 必抛 TypeError。改用 get_timeline 时间范围查询。
+        """
+        nodes = self.engine.get_timeline(limit=limit)
+        out = []
+        for n in nodes:
+            d = {"content": getattr(n, "content", ""),
+                 "created_at": getattr(n, "created_at", getattr(n, "ts", 0))}
+            sa = getattr(n, "state_attributes", {}) or {}
+            d["importance"] = sa.get("importance") if isinstance(sa, dict) else None
+            out.append(d)
+        return out
 
     def what_happened(self, since: float, until: Optional[float] = None) -> List:
         """时间窗口内发生了什么（时态查询）。"""
