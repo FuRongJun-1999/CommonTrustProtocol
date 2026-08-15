@@ -43,11 +43,30 @@
 
 - Node.js ≥ 22.19（DeepSeek Harness 要求）
 - DeepSeek Harness（`npx @deepseek-ai/dsh web`）
-- 灵枢 AEIS 库：`pip install aeis`（或从源码设置 `PYTHONPATH`）
 
-### 本地安装插件
+### 安装灵枢大脑（aeis 库）
 
-本插件暂未发布 npm（待 DSH v0.1 API 稳定后发布），两种本地方式：
+**方式 A：本地 wheel 离线安装 ★ 最稳（不依赖网络）**
+
+在 `CommonTrustProtocol/aeis/dist/` 找到 `aeis-0.3.0-py3-none-any.whl`：
+
+```bash
+pip install aeis-0.3.0-py3-none-any.whl
+```
+
+> 单文件、离线可用、装一次管用。遇到网络不稳（GitHub clone 失败）时首选。
+
+**方式 B：git 安装（需网络）**
+
+```bash
+pip install "aeis @ git+https://github.com/FuRongJun-1999/CommonTrustProtocol@main#subdirectory=aeis"
+```
+
+> 依赖 GitHub 实时可达，网络不稳时可能失败。aeis 库核心**零外部依赖**（纯标准库），安装即得完整大脑（五层记忆 · 知识飞轮 · 安全护栏 · MCP · 身体层）。
+
+### 安装插件本体
+
+本插件为官方列表形态的**独立仓库**（`FuRongJun-1999/dsh-memory`），两种方式：
 
 **方式 A：从 GitHub 克隆**
 
