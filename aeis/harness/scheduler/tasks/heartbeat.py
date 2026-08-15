@@ -1,25 +1,28 @@
 # -*- coding: utf-8 -*-
 """harness.scheduler.tasks.heartbeat · 心跳任务（迁移自 ZCode automation-3084b0ea）
 ================================================
-每 30 分钟：service_info → cognition → gap_trend → flywheel_metrics →
-distill（有未蒸馏经验时）→ action_log 检查。Agent 方法直调。
+每 10 分钟（互维协议 v1.1）：service_info → cognition → gap_trend →
+flywheel_metrics → distill（有未蒸馏经验时）→ action_log 检查。Agent 方法直调。
 """
 import json
 import os
 import time
 
-# 心跳戳文件（自维持：guardian 检测新鲜度，失联则自动重启）
-STAMP_PATH = os.path.join(os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))),
-    "data", "heartbeat.stamp")
+# 互维网络目录（v1.1：双智能体互维闭环，docs/mutual-sustain-loop.md）
+NET_DIR = os.environ.get("LINGXU_NET_DIR",
+                         os.path.join(os.path.expanduser("~"), ".lingxu_net"))
+# A 侧心跳戳（guardian 读它判 harness 挂死；B 侧读它判 A 死活）
+STAMP_PATH = os.path.join(NET_DIR, "heartbeat.a.stamp")
 
 
-def touch_stamp():
-    """写心跳戳（含时间与 run 摘要，供 guardian 新鲜度检测）。"""
+def touch_stamp(task_running: bool = False):
+    """写心跳戳（互维协议 v1.1：{ts, pid, task_running}，供 guardian 新鲜度检测）。
+    任务期间戳照写（task_running=true）——对端知道「我在忙任务，不是挂了」。"""
     try:
         os.makedirs(os.path.dirname(STAMP_PATH), exist_ok=True)
         with open(STAMP_PATH, "w", encoding="utf-8") as f:
-            f.write(json.dumps({"ts": time.time(), "pid": os.getpid()}))
+            f.write(json.dumps({"ts": time.time(), "pid": os.getpid(),
+                                "task_running": bool(task_running)}))
     except Exception:
         pass
 
@@ -97,5 +100,13 @@ def run_heartbeat(agent, ctx) -> str:
     summary = " | ".join(lines)
     agent.remember(f"[心跳] {summary}", importance=0.4,
                    tags=["heartbeat", "self_sustaining"])
-    touch_stamp()  # 自维持：写心跳戳（guardian 检测）
+    # 写心跳戳（v1.1：task_running = 调度器有执行中任务，对端豁免 70min 阈值）
+    task_running = False
+    try:
+        store = (ctx or {}).get("store")
+        if store is not None:
+            task_running = store.running_tasks() > 0
+    except Exception:
+        pass
+    touch_stamp(task_running)
     return f"心跳完成 ({time.time()-t0:.1f}s): {summary}"

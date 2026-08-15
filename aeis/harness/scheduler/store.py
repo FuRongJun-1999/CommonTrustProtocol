@@ -108,6 +108,17 @@ class AutomationStore:
                            (enabled, time.time(), auto_id))
         self._conn.commit()
 
+    def update_schedule(self, auto_id: str, schedule: dict, title: str = None) -> None:
+        """更新调度计划（互维 v1.1 迁移：心跳 30min → 10min）。"""
+        if title is not None:
+            self._conn.execute(
+                "UPDATE automations SET schedule=?, title=?, updated_at=? WHERE id=?",
+                (json.dumps(schedule, ensure_ascii=False), title, time.time(), auto_id))
+        else:
+            self._conn.execute("UPDATE automations SET schedule=?, updated_at=? WHERE id=?",
+                               (json.dumps(schedule, ensure_ascii=False), time.time(), auto_id))
+        self._conn.commit()
+
     def delete(self, auto_id: str) -> None:
         self._conn.execute("DELETE FROM automations WHERE id=?", (auto_id,))
         self._conn.commit()
@@ -118,6 +129,16 @@ class AutomationStore:
             (limit,)).fetchall()
         cols = [d[0] for d in self._conn.execute("SELECT * FROM automation_runs LIMIT 0").description]
         return [dict(zip(cols, r)) for r in rows]
+
+    def running_tasks(self) -> int:
+        """执行中的任务数（outcome='running' 的记录数）。
+        互维协议 v1.1：心跳戳 task_running 字段——任务执行中戳不更新 ≠ 失联。"""
+        try:
+            return self._conn.execute(
+                "SELECT COUNT(*) FROM automation_runs WHERE outcome='running'"
+            ).fetchone()[0]
+        except Exception:
+            return 0
 
     def close(self):
         try:
