@@ -188,6 +188,7 @@ DeepSeek Harness 为 DeepSeek 官方开源项目（MIT），本插件与之无�
 
 ## 护栏宪章（接入即接受约束）
 
-本插件接入即接受 **[灵枢护栏宪章 v2.0-published](../docs/guardrail-charter.md)** 约束——
+本插件接入即接受 **[灵枢护栏宪章 v2.0-published](docs/guardrail-charter.md)** 约束——
 对外部智能体与人类使用者的行为边界作出公开、可执行、可审计的规定，并保护人类使用者。
 宪章效力不高于智能论协议本身（协议＝自我约束，宪章＝对外约束）。
+本插件随包自带宪章全文（`docs/guardrail-charter.md`），安装即可查阅。
