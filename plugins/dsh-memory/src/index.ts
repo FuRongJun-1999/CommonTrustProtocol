@@ -26,7 +26,7 @@ import { installMemoryHooks, type MemoryHooksOptions } from './hooks.js'
 export const name = 'dsh-memory'
 
 /** 本插件依赖的工具注册服务。 */
-export const inject = ['tools']
+export const inject = ['tools', 'timer']
 
 /** 插件配置。 */
 export interface Config {
