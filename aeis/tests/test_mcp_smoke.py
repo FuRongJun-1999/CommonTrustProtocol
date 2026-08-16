@@ -48,7 +48,7 @@ def main():
     send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
     r = recv()
     tools = r["result"]["tools"]
-    check("tools/list 52 tools", len(tools) == 52)
+    check("tools/list 53 tools", len(tools) == 53)
     names = [t["name"] for t in tools]
     check("tools core set", {"remember", "recall", "search", "distill",
                              "calibrate", "lifecycle_step", "self_check",
@@ -148,7 +148,7 @@ def main():
     info = json.loads(r["result"]["content"][0]["text"])
     check("service_info", info["server"] == "aeis-mcp" and
           info["engine"] == "v1.15.0" and info["identity"] == "灵枢" and
-          info["tools"] == 52, str(info)[:120])
+          info["tools"] == 53, str(info)[:120])
 
     # ---- v1.13 新能力（视觉/推理/摄取/上下文/身体） ----
     send({"jsonrpc": "2.0", "id": 19, "method": "tools/call",
