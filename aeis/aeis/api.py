@@ -404,6 +404,32 @@ class Agent:
         越权/未知 → 容器化失败（不抛异常）。"""
         return self.engine.device_call(name, action, params)
 
+    def run_command(self, command: list, cwd: str = None,
+                    timeout_ms: int = 15000, workspace: str = "") -> Dict:
+        """命令执行（独立于 body 装配，brain/core 等任意模式可用）。
+
+        安全约束（复用 body.process 引擎）：
+        - command 必须是参数列表（list），禁 shell 字符串/管道/重定向——防注入
+        - 超时终止（默认 15s，上限 120s）；输出截断（10k 字符）
+        - 若提供 workspace，cwd 须在其内（越界拒绝）
+        - 跨平台：win32 下 subprocess.run 正常工作（不依赖 bash/终端检查）
+
+        返回：{status, exit_code, stdout, stderr, elapsed_s, stdout_truncated, cwd}
+        """
+        try:
+            from aeis.body.devices.process import ProcessDevice
+            dev = ProcessDevice(workspace=workspace or "")
+            params = {"command": command, "cwd": cwd}
+            if timeout_ms:
+                params["timeout"] = max(0.5, min(timeout_ms / 1000.0, 120.0))
+            res = dev.invoke("run", params)
+            payload = res.to_dict()
+            payload["status"] = "ok" if res.ok else "error"
+            return payload
+        except Exception as exc:
+            return {"status": "error", "error": str(exc)}
+
+
     def sync_body_state(self) -> Dict:
         """BODY-REV1：身体状态同步到自我模型（感知模态+设备清单）。"""
         return self.engine.sync_body_state()
