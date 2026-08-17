@@ -145,40 +145,75 @@ def llm_complete(question, wisdom_reply, session_id="default"):
         return None, False
 
 
-def whitebox_check(dex, llm_reply, question=None):
-    """白箱后验校验（联合判断·v1.16）：LLM 回答 → 图谱锚定检测 + 诚实边界冲突。
-
-    回应 Kimi 的「联合判断机制」——白箱给 LLM 的回答戴上条件论缰绳：
-      - 强锚定（图谱检索高置信命中）→ anchored：LLM 回答与图谱一致，附卡可溯源
-      - 弱锚定/无 → unverified：LLM 回答超出图谱 → 标注「图谱外补充」
-      - 含诚实边界词（外星人/超光速/能保证…）→ warning：与「不知道就说不知道」可能冲突
-    用 graph_retrieve 而非 dex_auto_verify——后者做知识归属（K 算哪个学科），
-    前者做主张锚定（LLM 回答与图谱是否一致）。实测：错误主张「超光速可通信」
-    在图谱仅 0.009 锚定（词面重叠骗不过语义层）。
-    """
+def _claim_anchor(dex, sentence):
+    """单主张图谱锚定：一句 → (status, anchor) 或 (unverified, None)。"""
     top = None
     try:
         import semantic_translate as _st
-        hits = _st.graph_retrieve(dex, llm_reply, limit=2)
+        hits = _st.graph_retrieve(dex, sentence, limit=1)
         top = hits[0] if hits else None
     except Exception:
         top = None
-    status, anchor = "unverified", None
-    if top:
-        score = top.get("score") or 0
-        matched = top.get("matched") or []
-        strong = [m for m in matched if m not in ("语义", "字面")]
-        if score >= 0.30 and strong:
-            status = "anchored"
-            anchor = {"name": top.get("name"), "score": round(score, 3),
-                      "domain": top.get("domain"),
-                      "edu_level": top.get("edu_level")}
+    if not top:
+        return "unverified", None
+    score = top.get("score") or 0
+    matched = top.get("matched") or []
+    strong = [m for m in matched if m not in ("语义", "字面")]
+    if score >= 0.30 and strong:
+        return ("anchored",
+                {"name": top.get("name"), "score": round(score, 3),
+                 "domain": top.get("domain"), "edu_level": top.get("edu_level")})
+    return "unverified", None
+
+
+def whitebox_check(dex, llm_reply, question=None):
+    """白箱后验校验（联合判断·v1.16）：LLM 回答 → 主张级图谱锚定 + 诚实边界冲突。
+
+    回应 Kimi 的「联合判断机制」——白箱给 LLM 的回答戴上条件论缰绳。
+    v1.16 升级为主张级（Kimi 评审：整段打分会被词面包裹骗过——「量子纠缠可超光速」
+    混在物理词面里 D_norm 整体通过；逐主张锚定才能区分「正确句✓ / 越界句✗」）：
+      - 按句切分 LLM 回答 → 每句 graph_retrieve 锚定
+      - anchored：该句与图谱一致，附卡可溯源
+      - unverified：该句超出图谱 → 「图谱外补充」
+      - warning：该句含诚实边界词（超光速/外星人/能保证…）→ 「⚠️ 条件偏差警告」
+    回答级汇总：全 anchored → anchored；部分 → partial；全无 → unverified。
+    用 graph_retrieve 而非 dex_auto_verify——后者做知识归属（K 算哪个学科），
+    前者做主张锚定（回答与图谱是否一致）。实测：错误主张「超光速可通信」
+    在图谱仅 0.009 锚定（词面重叠骗不过语义层）。
+    """
+    import re as _re
+    # 1. 主张级：按句切分（中文句号/感叹/问号/分号/换行/项目符号）
+    raw_sents = _re.split(r"[。！？；\n•\-]+", llm_reply or "")
+    claims = []
+    for s in raw_sents:
+        s = s.strip().strip("#* ")
+        if len(s) < 4:
+            continue
+        status, anchor = _claim_anchor(dex, s)
+        warn = None
+        if any(w in s for w in ["外星人", "超光速", "能保证", "你懂吗", "长什么样"]):
+            warn = "诚实边界词"
+        claims.append({"sentence": s[:50], "status": status,
+                       "anchor": anchor, "warning": warn})
+    # 2. 回答级汇总
+    if not claims:
+        return {"status": "unverified", "claims": [], "anchor": None,
+                "warning": None}
+    anchored_n = sum(1 for c in claims if c["status"] == "anchored")
+    warned = [c for c in claims if c["warning"]]
+    if anchored_n == len(claims) and not warned:
+        status = "anchored"
+    elif anchored_n > 0:
+        status = "partial"
+    else:
+        status = "unverified"
     warning = None
-    if llm_reply and any(w in llm_reply for w in
-                         ["外星人", "超光速", "能保证", "你懂吗", "长什么样"]):
-        warning = ("回答涉及诚实边界词，与智慧之书『不知道就说不知道』原则可能冲突"
-                   "——请核对回答是否越过了未知/能力边界")
-    return {"status": status, "anchor": anchor, "warning": warning}
+    if warned:
+        warning = ("回答含诚实边界词（超光速/外星人/能保证…），与智慧之书"
+                   "『不知道就说不知道』原则可能冲突——请核对越界主张")
+    anchor = next((c["anchor"] for c in claims if c["anchor"]), None)
+    return {"status": status, "claims": claims, "anchor": anchor,
+            "warning": warning}
 
 
 def route_reply(question, wisdom_result, session_id="default", dex=None):
@@ -198,22 +233,28 @@ def route_reply(question, wisdom_result, session_id="default", dex=None):
     if ok:
         result["reply"] = llm_text
         result["route"] = "llm"
-        # 联合判断：白箱校验 LLM 回答（图谱锚定 + 诚实边界冲突）
+        # 联合判断：白箱校验 LLM 回答（主张级图谱锚定 + 诚实边界冲突）
         if dex is not None:
             try:
                 verify = whitebox_check(dex, llm_text, question)
                 result["llm_verify"] = verify
-                # 回答尾部标注（白箱给 LLM 戴条件论缰绳）
+                # 回答尾部标注（白箱给 LLM 戴条件论缰绳 · 主张级）
+                marks = []
                 if verify["status"] == "anchored" and verify["anchor"]:
                     a = verify["anchor"]
-                    result["reply"] += (f"\n（✓ 图谱锚定：{a['name']}，"
-                                        f"在{a.get('edu_level') or '通用'}条件下成立）")
-                elif verify["warning"]:
-                    result["reply"] += ("\n（⚠️ 条件偏差警告：该回答与智慧之书"
-                                        "诚实边界可能冲突，请谨慎采信）")
-                else:
-                    result["reply"] += ("\n（图谱外补充：该回答未在图谱锚定，"
-                                        "基于通用知识）")
+                    marks.append(f"✓ 图谱锚定：{a['name']}（{a.get('edu_level') or '通用'}条件）")
+                elif verify["status"] == "partial":
+                    a = verify["anchor"]
+                    part = [c["sentence"][:14] for c in verify["claims"]
+                            if c["status"] == "anchored"][:2]
+                    marks.append("✓ 部分图谱锚定：" +
+                                 (f"{a['name']}（{'、'.join(part)}…）"
+                                  if a else "多句命中"))
+                if verify["warning"]:
+                    marks.append("⚠️ 条件偏差警告：含诚实边界词，越界主张请谨慎采信")
+                if not marks:
+                    marks.append("图谱外补充：未在图谱锚定，基于通用知识")
+                result["reply"] += "\n（" + "；".join(marks) + "）"
             except Exception:
                 pass
     else:
