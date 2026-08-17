@@ -136,6 +136,11 @@ class CodeTestRunner:
                         "detail": f"输出意外包含「{expect_missing}」"}
             return {"lang": lang, "status": "pass", "output": out,
                     "detail": detail}
+        # 执行失败/编译失败：若期望的正是「编译错误含某词」（如 Rust 所有权
+        # 移动后使用→E0382），物理基底确认机制成立 → pass
+        if expect and expect in (out + detail):
+            return {"lang": lang, "status": "pass", "output": out,
+                    "detail": f"编译/运行失败但错误含期望「{expect}」（机制确认）"}
         return {"lang": lang, "status": "fail", "output": out,
                 "detail": f"执行失败: {detail}"}
 
@@ -180,7 +185,7 @@ LANG_EXECUTABLES = {
             "    println!(\"{}\", s);  // 若编译通过则物理基底判定卡错\n"
             "}\n"),
         "expect_missing": "编译成功",  # 期望编译失败（move 后使用）
-        "expect_contains": "use of moved value",
+        "expect_contains": "moved value",  # E0382: borrow of moved value
     },
     "TypeScript": {
         "lang": "typescript",
