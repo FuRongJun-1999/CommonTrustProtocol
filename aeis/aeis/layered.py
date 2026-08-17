@@ -291,8 +291,14 @@ def whitebox_check(dex, llm_reply, question=None):
         warning = ("回答含诚实边界词（超光速/外星人/能保证…），与智慧之书"
                    "『不知道就说不知道』原则可能冲突——请核对越界主张")
     anchor = next((c["anchor"] for c in claims if c["anchor"]), None)
+    # 元标注（回应 Kimi「幻觉传染」问题）：标注是检索结果，不是认知声明。
+    # 防止下游系统/人类把「图谱外」误读为「系统知道自己不知道」——
+    # 阈值是设计者参数，宁缺毋滥是策略选择，不是系统对自身局限性的感知。
+    meta_note = ("此标注为图谱检索结果（阈值+词表+克制条款匹配），非认知声明："
+                 "anchored=与图谱一致，unverified=图谱未覆盖，warning=触发边界词/克制条款；"
+                 "『图谱外』≠系统知道自己的盲区，只是检索未命中。")
     return {"status": status, "claims": claims, "anchor": anchor,
-            "warning": warning}
+            "warning": warning, "meta_note": meta_note}
 
 
 def route_reply(question, wisdom_result, session_id="default", dex=None):
