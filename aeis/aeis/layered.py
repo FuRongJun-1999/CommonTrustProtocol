@@ -24,8 +24,10 @@ SELF_CONFIDENCE = 0.30
 # （协议层卡有「克制『X』」，学科卡多是其他格式），动态匹配见 _counters_conflict。
 HONEST_BOUNDARY_WORDS = ["外星人", "超光速", "能保证", "你懂吗", "长什么样"]
 
-# counters 克制条款缓存（name → 克制『X』列表）
+# counters 克制条款缓存（name → counters 全文）
 _COUNTERS_CACHE = {}
+# 全卡名缓存（句子中提到的卡名也参与 counters 检测）
+_CARD_NAMES_CACHE = None
 
 
 def _bigram_set(text):
@@ -55,12 +57,29 @@ def _card_counters(dex, name):
 
 
 def _counters_conflict(dex, sentence, card_names):
-    """动态克制条款冲突（诚实边界 2.0）：句子 vs 命中卡 counters 全文。
+    """动态克制条款冲突（诚实边界 2.0）：句子 vs counters 全文。
     协议层卡 counters 是「越界主张」描述（替代/当作/克制…），
-    句子与 counters 二元组交集 ≥4 视为触发克制——越界主张被协议层条款拦住。
+    句子与 counters 二元组交集 ≥4 视为触发克制。
+    候选卡 = 检索命中的卡 ∪ 句子中直接提到的知识卡名（「信息论就是…」
+    检索可能命中语言学而非信息论，但句子含「信息论」→ 仍查信息论卡）。
     """
+    global _CARD_NAMES_CACHE
     qb = _bigram_set(sentence)
-    for name in card_names:
+    names = set(card_names)
+    # 句子中直接提到的卡名
+    if _CARD_NAMES_CACHE is None:
+        try:
+            from aeis.core import MemoryLayer as _ML
+            _CARD_NAMES_CACHE = [n.state_attributes.get("name")
+                                 for n in dex.store.query_nodes(
+                                     layer=_ML.KNOWLEDGE, limit=500)
+                                 if n.state_attributes.get("name")]
+        except Exception:
+            _CARD_NAMES_CACHE = []
+    for n in _CARD_NAMES_CACHE:
+        if n and n in sentence:
+            names.add(n)
+    for name in names:
         full = _card_counters(dex, name)
         if not full:
             continue
