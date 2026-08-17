@@ -145,10 +145,46 @@ def llm_complete(question, wisdom_reply, session_id="default"):
         return None, False
 
 
-def route_reply(question, wisdom_result, session_id="default"):
-    """分层入口：智慧之书结果 → 路由决策 → 需要时 LLM 续答。
+def whitebox_check(dex, llm_reply, question=None):
+    """白箱后验校验（联合判断·v1.16）：LLM 回答 → 图谱锚定检测 + 诚实边界冲突。
 
-    返回增强后的结果（含 route / wisdom_reply 字段）。
+    回应 Kimi 的「联合判断机制」——白箱给 LLM 的回答戴上条件论缰绳：
+      - 强锚定（图谱检索高置信命中）→ anchored：LLM 回答与图谱一致，附卡可溯源
+      - 弱锚定/无 → unverified：LLM 回答超出图谱 → 标注「图谱外补充」
+      - 含诚实边界词（外星人/超光速/能保证…）→ warning：与「不知道就说不知道」可能冲突
+    用 graph_retrieve 而非 dex_auto_verify——后者做知识归属（K 算哪个学科），
+    前者做主张锚定（LLM 回答与图谱是否一致）。实测：错误主张「超光速可通信」
+    在图谱仅 0.009 锚定（词面重叠骗不过语义层）。
+    """
+    top = None
+    try:
+        import semantic_translate as _st
+        hits = _st.graph_retrieve(dex, llm_reply, limit=2)
+        top = hits[0] if hits else None
+    except Exception:
+        top = None
+    status, anchor = "unverified", None
+    if top:
+        score = top.get("score") or 0
+        matched = top.get("matched") or []
+        strong = [m for m in matched if m not in ("语义", "字面")]
+        if score >= 0.30 and strong:
+            status = "anchored"
+            anchor = {"name": top.get("name"), "score": round(score, 3),
+                      "domain": top.get("domain"),
+                      "edu_level": top.get("edu_level")}
+    warning = None
+    if llm_reply and any(w in llm_reply for w in
+                         ["外星人", "超光速", "能保证", "你懂吗", "长什么样"]):
+        warning = ("回答涉及诚实边界词，与智慧之书『不知道就说不知道』原则可能冲突"
+                   "——请核对回答是否越过了未知/能力边界")
+    return {"status": status, "anchor": anchor, "warning": warning}
+
+
+def route_reply(question, wisdom_result, session_id="default", dex=None):
+    """分层入口：智慧之书结果 → 路由决策 → 需要时 LLM 续答 + 白箱校验。
+
+    返回增强后的结果（含 route / wisdom_reply / llm_verify 字段）。
     """
     route = _decide_route(wisdom_result)
     result = dict(wisdom_result)
@@ -162,6 +198,24 @@ def route_reply(question, wisdom_result, session_id="default"):
     if ok:
         result["reply"] = llm_text
         result["route"] = "llm"
+        # 联合判断：白箱校验 LLM 回答（图谱锚定 + 诚实边界冲突）
+        if dex is not None:
+            try:
+                verify = whitebox_check(dex, llm_text, question)
+                result["llm_verify"] = verify
+                # 回答尾部标注（白箱给 LLM 戴条件论缰绳）
+                if verify["status"] == "anchored" and verify["anchor"]:
+                    a = verify["anchor"]
+                    result["reply"] += (f"\n（✓ 图谱锚定：{a['name']}，"
+                                        f"在{a.get('edu_level') or '通用'}条件下成立）")
+                elif verify["warning"]:
+                    result["reply"] += ("\n（⚠️ 条件偏差警告：该回答与智慧之书"
+                                        "诚实边界可能冲突，请谨慎采信）")
+                else:
+                    result["reply"] += ("\n（图谱外补充：该回答未在图谱锚定，"
+                                        "基于通用知识）")
+            except Exception:
+                pass
     else:
         result["route"] = "self_fallback"  # LLM 不可用 → 回退智慧之书回答
     return result

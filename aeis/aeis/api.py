@@ -636,7 +636,8 @@ class Agent:
         result = self.wisdom_chat(message, session_id=session_id)
         try:
             from . import layered as _ly
-            return _ly.route_reply(message, result, session_id=session_id)
+            return _ly.route_reply(message, result, session_id=session_id,
+                                   dex=self._get_wisdom())
         except Exception:
             result["route"] = "self"  # 分层模块异常 → 不阻断，按自处理返回
             return result
