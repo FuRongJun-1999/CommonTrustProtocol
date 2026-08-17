@@ -139,7 +139,9 @@ def validate(card, dex=None, existing_counters=None):
         "detail": "; ".join(dom_issues) if dom_issues else f"domain={dom} edu={edu or '通用'}",
     })
 
-    # ---------- 5. 测试用例可执行性（物理基底闸门前置） ----------
+    # ---------- 5. 测试用例可执行性（物理基底闸门 · v1.16 升级为真执行） ----------
+    # 格式检查（可观测判据存在）是前置；tests.executable（lang/code）存在时
+    # **真跑**——代码运行/编译结果 = 物理信息基底裁决（爸爸外部参照）。
     tests = card.get("tests") or card.get("test_cases")
     tests_ok = True
     tests_detail = "无 tests 字段"
@@ -148,6 +150,27 @@ def validate(card, dex=None, existing_counters=None):
             t_keys = [k for k in ("topic", "expected", "observable", "propositions") if tests.get(k)]
             tests_ok = bool(t_keys)
             tests_detail = f"tests 含: {t_keys}" if t_keys else "tests 字段缺可观测判据"
+            # 真执行：tests.executable 存在 → 物理基底校准（代码类卡）
+            ex = tests.get("executable")
+            if ex and isinstance(ex, dict) and ex.get("lang") and ex.get("code"):
+                try:
+                    from code_test_runner import CodeTestRunner
+                    run_r = CodeTestRunner().run_card({"name": card.get("name"), "tests": tests})
+                    status = run_r.get("status", "error")
+                    if status == "pass":
+                        tests_ok = True
+                        tests_detail = (f"物理基底真跑 PASS: {run_r.get('detail','')}"
+                                        f"{' | out: '+run_r['output'][:40] if run_r.get('output') else ''}")
+                    elif status == "env_missing":
+                        tests_ok = True  # 环境缺失不判卡错（D-005 诚实降级），
+                        # 但标记待环境——格式仍通过，设计者终裁时可见
+                        tests_detail = f"物理基底：环境缺失（{run_r.get('detail','')[:50]}）——待环境"
+                    else:
+                        tests_ok = False
+                        tests_detail = f"物理基底真跑 FAIL: {run_r.get('detail','')[:120]}"
+                except Exception as e:
+                    tests_ok = False
+                    tests_detail = f"物理基底执行异常: {str(e)[:100]}"
         elif isinstance(tests, list) and tests:
             tests_ok = any(isinstance(t, dict) and ("observable" in t or "expected" in t)
                            for t in tests)
