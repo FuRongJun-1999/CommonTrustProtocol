@@ -20,3 +20,4 @@ backup_*.db
 .env
 *.secret
 .env
+!wisdom/wisdom-book-cloud.db
