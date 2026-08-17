@@ -12,10 +12,62 @@
 LLM 接入：DeepSeek API（DEEPSEEK_API_KEY 环境变量），openai 客户端。
 """
 import os
+import re as _re
 
 # 知识检索高置信阈值（实测：饿 0.72/串联 0.64/1+1 0.64/熵 0.38 均过；
 # 低置信噪声远低于 0.30）
 SELF_CONFIDENCE = 0.30
+
+# 诚实边界硬编码词（已知边界快路径，v1.16）：
+# 与智慧之书「不知道就说不知道」原则冲突的敏感主张词。
+# 注意：这是词表不是识别卡动态匹配——137 卡 counters 克制条款格式不统一
+# （协议层卡有「克制『X』」，学科卡多是其他格式），动态匹配见 _counters_conflict。
+HONEST_BOUNDARY_WORDS = ["外星人", "超光速", "能保证", "你懂吗", "长什么样"]
+
+# counters 克制条款缓存（name → 克制『X』列表）
+_COUNTERS_CACHE = {}
+
+
+def _bigram_set(text):
+    """二元组集合（去非中文/字母数字）。"""
+    t = _re.sub(r"[^\u4e00-\u9fffA-Za-z0-9]", "", text or "")
+    return {t[i:i + 2] for i in range(len(t) - 1)}
+
+
+def _card_counters(dex, name):
+    """取知识卡 response.counters 全文（克制条款，格式不统一：
+    协议层卡有「克制『X』」/「以X替代Y的越界主张」/「把X当作Y的越界主张」…）。"""
+    if name in _COUNTERS_CACHE:
+        return _COUNTERS_CACHE[name]
+    full = ""
+    try:
+        from aeis.core import MemoryLayer as _ML
+        for n in dex.store.query_nodes(layer=_ML.KNOWLEDGE, limit=500):
+            sa = n.state_attributes
+            if sa.get("name") != name:
+                continue
+            full = (sa.get("response") or {}).get("counters", "") or ""
+            break
+    except Exception:
+        pass
+    _COUNTERS_CACHE[name] = full
+    return full
+
+
+def _counters_conflict(dex, sentence, card_names):
+    """动态克制条款冲突（诚实边界 2.0）：句子 vs 命中卡 counters 全文。
+    协议层卡 counters 是「越界主张」描述（替代/当作/克制…），
+    句子与 counters 二元组交集 ≥4 视为触发克制——越界主张被协议层条款拦住。
+    """
+    qb = _bigram_set(sentence)
+    for name in card_names:
+        full = _card_counters(dex, name)
+        if not full:
+            continue
+        inter = len(qb & _bigram_set(full))
+        if inter >= 4:
+            return full[:40]
+    return None
 
 # LLM 配置
 LLM_BASE_URL = "https://api.deepseek.com"
@@ -146,24 +198,26 @@ def llm_complete(question, wisdom_reply, session_id="default"):
 
 
 def _claim_anchor(dex, sentence):
-    """单主张图谱锚定：一句 → (status, anchor) 或 (unverified, None)。"""
-    top = None
+    """单主张图谱锚定：一句 → (status, anchor, card_names) 或 (unverified, None, [])。"""
+    hits = []
     try:
         import semantic_translate as _st
-        hits = _st.graph_retrieve(dex, sentence, limit=1)
-        top = hits[0] if hits else None
+        hits = _st.graph_retrieve(dex, sentence, limit=2)
     except Exception:
-        top = None
+        hits = []
+    top = hits[0] if hits else None
+    card_names = [h.get("name") for h in hits if h.get("name")]
     if not top:
-        return "unverified", None
+        return "unverified", None, card_names
     score = top.get("score") or 0
     matched = top.get("matched") or []
     strong = [m for m in matched if m not in ("语义", "字面")]
     if score >= 0.30 and strong:
         return ("anchored",
                 {"name": top.get("name"), "score": round(score, 3),
-                 "domain": top.get("domain"), "edu_level": top.get("edu_level")})
-    return "unverified", None
+                 "domain": top.get("domain"), "edu_level": top.get("edu_level")},
+                card_names)
+    return "unverified", None, card_names
 
 
 def whitebox_check(dex, llm_reply, question=None):
@@ -189,10 +243,16 @@ def whitebox_check(dex, llm_reply, question=None):
         s = s.strip().strip("#* ")
         if len(s) < 4:
             continue
-        status, anchor = _claim_anchor(dex, s)
+        status, anchor, card_names = _claim_anchor(dex, s)
         warn = None
-        if any(w in s for w in ["外星人", "超光速", "能保证", "你懂吗", "长什么样"]):
+        # 硬编码边界词（已知边界快路径）
+        if any(w in s for w in HONEST_BOUNDARY_WORDS):
             warn = "诚实边界词"
+        # 动态克制条款（协议层卡 counters · 诚实边界 2.0）
+        if warn is None:
+            cc = _counters_conflict(dex, s, card_names)
+            if cc:
+                warn = f"触发克制条款：{cc[:24]}"
         claims.append({"sentence": s[:50], "status": status,
                        "anchor": anchor, "warning": warn})
     # 2. 回答级汇总
