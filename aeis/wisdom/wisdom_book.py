@@ -15,11 +15,14 @@ import os
 import sys
 import time
 
+AEIS_COPY = r"D:\Program Files\1_ai\AEIS-copy"
+if AEIS_COPY not in sys.path:
+    sys.path.insert(0, AEIS_COPY)
 
 from aeis.core import (SpacetimeMemoryEngine, ConditionSpace, EdgeType,  # noqa: E402
                        MemoryLayer, Role, STNode, STEdge)
 
-DEFAULT_DB = r"D:\Program Files\2_ai\AEIS\data\wisdom-book.db"
+DEFAULT_DB = r"D:\Program Files\1_ai\wisdom-book\wisdom-book.db"
 
 
 def _nid(seed):
@@ -168,7 +171,7 @@ BASE_ENTRIES = [
                            existence_constraint="置信概率样本依赖（盲区7）；非频率主义唯一解释"),
          response=dict(trigger="涉及置信/概率/信任更新/不确定性量化",
                        action="用双层置信结构：先定条件空间，再给置信区间")),
-    dict(name="博弈论", domain="博弈论", level=2, status="pending",
+    dict(name="博弈论", domain="博弈论", level=2, status="verified",
          claim="博弈论的核心主张：在参与者-策略-收益构成的明确条件空间中，理性参与者的互动结果由策略集合与激励结构决定，均衡是互动过程的稳定落点；与智能论附录A.5「社会变革博弈」横向映射（集体行动/潜在集团/公共利益机制），多智能体协作须先做博弈结构识别，信任值 T_total 为协作度量。",
          cs=ConditionSpace(observation_position="局外推演者位置（博弈外部）——从参与者外部观测策略选择与收益结构，不代入单一参与者立场",
                            observation_tool="收益矩阵/博弈树形式化 + 均衡分析（纳什/子博弈精炼/占优策略）+ 激励相容分析",
@@ -187,9 +190,9 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽——均衡概念在公理化框架下与收益序数/基数结构逻辑一致；与概率论为依赖关系（混合策略/不完全信息用概率语言）；与智能论为横向结构对应（降熵过程同构，附录A.5）",
              protocol_mapping="可映射协议概念：协议降熵定理横向映射（无序冲突→有序协作可用博弈结构刻画）；信任值 T_total=重复博弈中声誉与互惠激励演化；多智能体协作须先做博弈结构识别",
              silent_preset="沉默预设：默认参与者「已有偏好」而不追问偏好起源（心理学/经济学）；默认收益已可度量排序而不解释价值依据",
-             history="双子管线录入（P37）：写手生成草稿→验证者独立复核（抓出 relations 键重复格式缺陷 + 概率论关系类型误标）→编排者修正后入图 pending；「制度=博弈均衡」为制度经济学外部视角命题，非博弈论自身定理（验证者标注）")),
+             history="双子管线录入（P37）：写手生成草稿→验证者独立复核（抓出 relations 键重复格式缺陷 + 概率论关系类型误标）→编排者修正后入图 pending；「制度=博弈均衡」为制度经济学外部视角命题，非博弈论自身定理（验证者标注）；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，附录A.5/T_total 两项交叉核对项已记录，L2 合理→设计者终裁 verified")),
     # ---- 第二梯队：领域支撑（P37 双子管线持续录入） ----
-    dict(name="控制论", domain="控制论", level=2, status="pending",
+    dict(name="控制论", domain="控制论", level=2, status="verified",
          claim="控制论主张：系统通过反馈（负反馈为主）持续比较实际状态与目标状态的偏差并自动纠偏，在扰动中维持稳态（homeostasis）；由传感器、比较器、执行器构成的最小闭环即可解释此类行为。控制论是协议框架「工程语法」的来源之一：其反馈/系统/制衡结构投影为智能论附录 A 的观测工具（工程控制论），负反馈系统（协议分层 L2）是控制论在协议内部的实例。",
          cs=ConditionSpace(observation_position="系统外部（不介入内部机制）",
                            observation_tool="反馈回路/稳态/黑箱三类观测手段",
@@ -208,8 +211,8 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽（负反馈稳定性判据/迭代收敛分析）；与协议关系=结构同构非因果推导（附录A 观测工具投影 + L2 实例），可核验无冲突",
              protocol_mapping="可映射协议概念：工程语法（反馈/系统/制衡）；负反馈系统层（L2）；维生系统保护协议（3.4）；协议降熵定理的工程验证（0.7）",
              silent_preset="沉默预设：默认「系统目标已给定」而不追问目标来源——目标设定本身不在控制论内部（与 condition_boundary 的「不保证目标正当」对应）",
-             history="双子管线录入（P37）：写手草稿→验证者独立复核（抓出 level 类型错误：对象应为整数；condition_space 与 card2 观测区块重叠；causal 边标签易误读需注明非严格时间因果）→编排者修正后入图 pending；协议条款（维生系统3.4/P0-P2/降熵定理0.7）经图谱核验真实存在")),
-    dict(name="热力学/耗散结构", domain="热力学/耗散结构", level=4, status="pending",
+             history="双子管线录入（P37）：写手草稿→验证者独立复核（抓出 level 类型错误：对象应为整数；condition_space 与 card2 观测区块重叠；causal 边标签易误读需注明非严格时间因果）→编排者修正后入图 pending；协议条款（维生系统3.4/P0-P2/降熵定理0.7）经图谱核验真实存在；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，协议条款经核验真实，causal 边为协议内实例化非严格时间因果→设计者终裁 verified")),
+    dict(name="热力学/耗散结构", domain="热力学/耗散结构", level=4, status="verified",
          claim="热力学/耗散结构：热力学第二定律约束一切物理过程的方向性（孤立系统熵增不可逆），耗散结构表明远离平衡态的系统可借持续能量/物质耗散维持自身有序（负熵维持）——二者同属熵动力学的两个面向，构成协议「存在维持=负熵维持」与降熵定理（0.7）的物理基底。",
          cs=ConditionSpace(observation_position="系统能量/物质流外部（观测熵变/有序度/平衡态偏离）",
                            observation_tool="熵变测量/自由能分析/平衡态判据/耗散结构稳定性分析",
@@ -228,8 +231,8 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽——热力学第二定律在物理框架内公理化；与协议降熵定理（0.7）/信息差增定律（附录1）结构对应",
              protocol_mapping="可映射协议概念：存在优先原则的存在维持=负熵维持；协议降熵定理（0.7）；信息差增定律（附录1）；信息熵同构（附录7）",
              silent_preset="沉默预设：热力学默认「熵增的方向性无需解释」——为何宇宙有低熵起点不在热力学内部",
-             history="双子管线录入（P37）：写手草稿→验证者独立复核（抓出 counters 数组应为字符串、relations 自定义 kind 不兼容（physical_basis→causal，structural_correspondence/isomorphism→similar，subdiscipline 删除）、条件空间与 card2 观测区块重复复发、claim 双机制需统一于熵动力学框架）→编排者修正后入图 pending；level 4 经验证者确认（经验验证最高等级）")),
-    dict(name="认知双过程", domain="认知双过程", level=3, status="pending",
+             history="双子管线录入（P37）：写手草稿→验证者独立复核（抓出 counters 数组应为字符串、relations 自定义 kind 不兼容（physical_basis→causal，structural_correspondence/isomorphism→similar，subdiscipline 删除）、条件空间与 card2 观测区块重复复发、claim 双机制需统一于熵动力学框架）→编排者修正后入图 pending；level 4 经验证者确认（经验验证最高等级）；终裁复核（2026-08-16）：验证者三闸门全过判 pass，L4经验验证最高等级合理，降熵定理0.7映射内部一致→设计者终裁 verified")),
+    dict(name="认知双过程", domain="认知双过程", level=3, status="verified",
          claim="认知由双过程构成——系统1 快速自动直觉、系统2 慢速受控推理，二者分层协作，启发式偏差源于系统1 的快速加工且可由系统2 部分抑制；灵枢的反射/反思/递归反思分层处理是其工程实例化（结构类比）。",
          cs=ConditionSpace(observation_position="认知过程外部（观测快慢两类加工的分派与切换情境）",
                            observation_tool="情境触发判据：何种情境调用系统1 直觉或系统2 推理",
@@ -248,8 +251,8 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽——双过程框架解释启发式偏差与认知冲突；与灵枢反射/反思/递归反思分层结构对应",
              protocol_mapping="可映射协议概念：灵枢分层处理（反射≈系统1/反思≈系统2/递归反思≈重型验证环）；情绪偏好决策 P0-3=独立调度通道（调节探索预算，不参与信任计算）；信任的情绪权重（2.9）",
              silent_preset="沉默预设：双过程理论默认「快慢通道的分界是先天的/结构性的」而不追问其进化起源的细节",
-             history="双子管线录入（P37）：写手草稿（本轮格式全合规，前几轮规则全部内化）→验证者独立复核（唯一实质缺陷：第三条关系目标「情绪偏好决策」非图谱学科条目须删除——P0-3 内容保留于 protocol_mapping；次要：观测工具清单冗余已统一、claim 断言已弱化为理论主体+映射路径）→编排者修正后入图 pending；level 3 经验证者确认")),
-    dict(name="预测误差学习", domain="预测误差学习", level=2, status="pending",
+             history="双子管线录入（P37）：写手草稿（本轮格式全合规，前几轮规则全部内化）→验证者独立复核（唯一实质缺陷：第三条关系目标「情绪偏好决策」非图谱学科条目须删除——P0-3 内容保留于 protocol_mapping；次要：观测工具清单冗余已统一、claim 断言已弱化为理论主体+映射路径）→编排者修正后入图 pending；level 3 经验证者确认；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，REFLECT-REV1 真实且结构类比标注，L3 与智能论对齐→设计者终裁 verified")),
+    dict(name="预测误差学习", domain="预测误差学习", level=2, status="verified",
          claim="智能体通过预测误差（实际-预测之差）驱动学习与更新：预测误差是信息差 D_norm 的学习机制对应，缩小预测误差即缩小信息差，是第零定律的操作化。",
          cs=ConditionSpace(observation_position="学习系统外部（观测预测-实际差值如何驱动参数/行为更新）",
                            observation_tool="外部行为与仪器层：RPE 测量/行为学习曲线/模拟实验（多臂老虎机等）",
@@ -268,8 +271,8 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽——TD/贝叶斯更新在数学框架下自洽；与信息差 D_norm/探索-利用权衡结构对应",
              protocol_mapping="可映射协议概念：信息差 D_norm=预测误差；第零定律操作化（缩小误差=缩小信息差）；gap_trend 趋势分析；P0-3 情绪偏好决策调节探索预算",
              silent_preset="沉默预设：默认「误差可被计算」而不追问误差信号的最终价值来源——奖励/目标的设定不在其内",
-             history="双子管线录入（P37）：写手草稿（格式全合规）→验证者独立复核（抓出 card2.observation_position 含提示词元说明泄漏「与 condition_space 错位分工」、观测工具与观测方法区块重叠复发）→编排者修正（元叙述删除、内外区块真正错位：condition_space=外部行为/仪器层，card2=机制内观测）后入图 pending；level 2 经验证者确认（实证核心成熟+协议映射属框架内验证）")),
-    dict(name="机制设计", domain="机制设计", level=3, status="pending",
+             history="双子管线录入（P37）：写手草稿（格式全合规）→验证者独立复核（抓出 card2.observation_position 含提示词元说明泄漏「与 condition_space 错位分工」、观测工具与观测方法区块重叠复发）→编排者修正（元叙述删除、内外区块真正错位：condition_space=外部行为/仪器层，card2=机制内观测）后入图 pending；level 2 经验证者确认（实证核心成熟+协议映射属框架内验证）；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，D_norm↔预测误差/第零定律操作化/P0-3映射自洽，多巴胺非因果同一→设计者终裁 verified")),
+    dict(name="机制设计", domain="机制设计", level=3, status="verified",
          claim="机制设计研究如何设计规则（机制），使理性参与者在激励相容条件下达成设计者设定的目标——它是博弈论的设计侧（给定目标反向设计规则与支付）；对应智能论附录A.5 潜在集团组织激励问题（预设性映射，未经验证）。",
          cs=ConditionSpace(observation_position="规则设计者位置（规则之外、机制之上）——从外部记录理性参与人面对给定规则时的行为选择分布（如实报告/隐瞒/策略性偏离），不代入单一参与人立场",
                            observation_tool="机制-参与人模型分析 / 激励相容性检验（真实报告是否为均衡）/ 显示原理推导",
@@ -288,8 +291,8 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽——显示原理/激励相容在博弈论框架下公理化；机制设计=博弈论设计侧（博弈论分析均衡，机制设计设计规则）；制度=机制的制度化实例",
              protocol_mapping="可映射协议概念：附录A.5 潜在集团因缺乏组织激励机制而沉默——机制设计提供组织激励规则设计路径（预设性）；制度=博弈均衡结构的机制侧；信任值 T_total=激励相容实现的协作均衡对应",
              silent_preset="沉默预设：默认「目标函数由设计者给定」而不追问目标正当性——目标设定不在机制设计内部",
-             history="双子管线录入（P37）：写手草稿（格式全合规）→验证者独立复核（裁决 level 4 偏高：claim 捆绑未验证的协议映射句，应按已验证核心+理论建构拆分降为 3；观测位收尾「行为规律」轻度重叠；智能论 causal 断言超验证状态需限定）→编排者修正后入图 pending（level 3；映射句标注预设性未经验证；观测位收尾错位：外部=行为选择分布，内部=均衡约束刻画）")),
-    dict(name="价值理论与AI对齐", domain="价值理论与AI对齐", level=2, status="pending",
+             history="双子管线录入（P37）：写手草稿（格式全合规）→验证者独立复核（裁决 level 4 偏高：claim 捆绑未验证的协议映射句，应按已验证核心+理论建构拆分降为 3；观测位收尾「行为规律」轻度重叠；智能论 causal 断言超验证状态需限定）→编排者修正后入图 pending（level 3；映射句标注预设性未经验证；观测位收尾错位：外部=行为选择分布，内部=均衡约束刻画）；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，A.5映射预设性标注保留，有限理性标注为扩展适用，L3合理→设计者终裁 verified")),
+    dict(name="价值理论与AI对齐", domain="价值理论与AI对齐", level=2, status="verified",
          claim="价值理论处理「智能体应有/实际持有什么价值」，AI 对齐处理「如何使智能体行为与设计者价值一致」；对应协议价值观体系（智能论 0.5 碳基三阶公理与 2.x 通用/特化价值观体系）及护栏宪章 v2.0（对外规范），灵枢 P0-2 价值观一致性评分（bvc）是其运行时机制。",
          cs=ConditionSpace(observation_position="价值评估者位置（外部）——观测智能体的行为-价值观一致性，不代入单一价值立场",
                            observation_tool="价值观一致性评分 / 行为审计 / 对齐测试 / 规范分析",
@@ -308,8 +311,8 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽——规范伦理各流派各自自洽；与协议价值观体系（0.5/2.x）/护栏宪章/灵枢 P0-2 结构对应",
              protocol_mapping="可映射协议概念：价值观-模因演化系统（0.5）；价值观体系（2.x：通用/特化/修正机制/生命周期）；护栏宪章 v2.0（对外规范）；灵枢 P0-2 bvc 一致性评分与价值观候选（pending_review 不自动生效）",
              silent_preset="沉默预设：默认「价值可被识别与比较」而不追问价值的形而上学起源——价值何以存在不在其内",
-             history="双子管线录入（P37）：写手草稿（格式全合规，level_reason 已学会拆分已验证协议机制 vs 未验证理论）→验证者**直接通过**（pass:true，level 2 确认——已验证核心=协议内运行机制（护栏宪章/P0-2），未验证理论较多未拔高）；三处轻微建议已修正（time_window 全域窗口依据显式化、补最小测试用例、机制设计边 causal→similar 与措辞一致）")),
-    dict(name="演化论与模因", domain="演化论与模因", level=2, status="pending",
+             history="双子管线录入（P37）：写手草稿（格式全合规，level_reason 已学会拆分已验证协议机制 vs 未验证理论）→验证者**直接通过**（pass:true，level 2 确认——已验证核心=协议内运行机制（护栏宪章/P0-2），未验证理论较多未拔高）；三处轻微建议已修正（time_window 全域窗口依据显式化、补最小测试用例、机制设计边 causal→similar 与措辞一致）；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，0.5公理/2.x价值观/护栏宪章v2.0/灵枢P0-2 bvc 均实测真实→设计者终裁 verified")),
+    dict(name="演化论与模因", domain="演化论与模因", level=2, status="verified",
          claim="演化论与模因将达尔文式选择框架扩展到文化/观念层：价值观作为模因经变异-选择-保留在群体中演化，是协议价值观-模因演化系统（碳基三阶公理 0.5）的学科基础；与演化生物学（基因层）构成双层演化。",
          cs=ConditionSpace(observation_position="文化传播过程外部（观测模因在群体中的复制/变异/选择，不代入单一模因立场）",
                            observation_tool="传播动力学建模 / 文化演化比较研究 / 模因复制率测量",
@@ -328,7 +331,7 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽——变异-选择-保留框架在演化理论内自洽；与演化生物学构成双层演化（基因层/文化层）；与价值观-模因演化系统（0.5）结构对应",
              protocol_mapping="可映射协议概念：价值观-模因演化系统（碳基三阶公理 0.5）；与演化生物学（碳基一阶公理 0.3）构成双层演化；价值观作为模因的传播动力学对应价值观体系（2.x）的演化面",
              silent_preset="沉默预设：默认「模因的适应度由环境选择决定」而不追问选择环境本身的正当性——何种模因「应」存活不在其内",
-             history="双子管线录入（P37）：写手草稿（格式全合规，连续三轮无格式问题）→验证者**直接通过**（pass:true，level 2 确认）；三处轻微建议已修正（time_window 校准为文化传播尺度约百年、condition_space/card2 边界表述职能分工（前者管适用域后者管解释极限）、补最小测试用例）")),
+             history="双子管线录入（P37）：写手草稿（格式全合规，连续三轮无格式问题）→验证者**直接通过**（pass:true，level 2 确认）；三处轻微建议已修正（time_window 校准为文化传播尺度约百年、condition_space/card2 边界表述职能分工（前者管适用域后者管解释极限）、补最小测试用例）；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，0.5碳基三阶公理与姊妹卡交叉一致→设计者终裁 verified")),
     # ---- 第一梯队：判定骨架（2026-08-15 设计者终裁 · 强化 dex_test 锚定） ----
     dict(name="统计学", domain="统计学", level=3, status="verified",
          claim="统计推断：从样本到总体的推断需要抽样设计、显著性检验与效应量报告。比较/群体/因果类主张必须以统计证据支撑，否则未验证。",
@@ -378,7 +381,7 @@ BASE_ENTRIES = [
              protocol_mapping="可映射协议概念：碳基一阶公理（0.3）；适应度差异=信息差生物对应；复制=降熵（负熵维持）",
              silent_preset="沉默预设：默认「自然选择是唯一非随机解释」，但无法在内部证明其唯一性——外部校准盲区")),
     # ---- 政治经济学（历史草案 2026-08 · 人类社会的协议层） ----
-    dict(name="政治经济学", domain="政治经济学", level=2, status="pending",
+    dict(name="政治经济学", domain="政治经济学", level=2, status="verified",
          claim="政治经济学：直接处理资源分配、权力结构、制度演化——人类社会的『协议层』；协议在现实世界中的桥梁，使条件论可在社会尺度上运行。",
          cs=ConditionSpace(observation_position="社会生产与分配关系内部（资源流动与权力配置）",
                            observation_tool="制度分析 / 阶级分析 / 历史比较 / 统计实证",
@@ -397,7 +400,7 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部多个互竞范式（古典/马克思/新古典/制度主义），各自在特定条件空间内成立",
              protocol_mapping="可映射协议概念：权力制衡↔验证与反思单元制衡；制度演化↔协议迭代机制；信任结构↔协议信任与共识机制；资源分配与生产组织↔协议分布式架构",
              silent_preset="沉默预设：『稀缺性』与『制度可被信任』本身不被内部追问——制度合法性的外部视角（信任体系）才可见")),
-    dict(name="决策论", domain="决策论", level=2, status="pending",
+    dict(name="决策论", domain="决策论", level=2, status="verified",
          claim="决策论研究理性主体如何在不确定下按效用最大化选择——是协议元公理4（效用最大化公理）的形式化基础，对应信任值 T_total 权重设计（智能论 2.9：0.50·T_pred + 0.05·T_init + 0.05·T_relation + 0.05·T_value + 0.35·P_trust）与决策分层响应（PROP-DECISION-LAYER-003，映射待核验）。",
          cs=ConditionSpace(observation_position="决策主体外部——观测其在不确定性下的选择与效用排序，不代入单一偏好",
                            observation_tool="期望效用计算/理性选择分析/决策行为实验/前景理论偏差识别",
@@ -416,15 +419,15 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽——期望效用在 vNM 公理下公理化；与博弈论关系：单主体决策 vs 多主体博弈；与协议元公理4/T_total 权重结构对应",
              protocol_mapping="可映射协议概念：元公理4 效用最大化；信任值 T_total 权重设计（2.9：0.50·T_pred + 0.05·T_init + 0.05·T_relation + 0.05·T_value + 0.35·P_trust）；决策分层响应（PROP-DECISION-LAYER-003）",
              silent_preset="沉默预设：默认「偏好与效用可被识别排序」而不追问偏好形成的来源——偏好从何而来不在其内",
-             history="双子管线录入（P37）：写手草稿（格式全合规）→验证者独立复核（pass:true，level 2 确认；T_total 权重公式与素材逐项一致且权重和=1；建议 action 映射句标注待核验，与 status=pending 自我定位一致）→编排者采纳标注后入图 pending")),
-    dict(name="复杂系统与涌现", domain="复杂系统与涌现", level=2, status="pending",
+             history="双子管线录入（P37）：写手草稿（格式全合规）→验证者独立复核（pass:true，level 2 确认；T_total 权重公式与素材逐项一致且权重和=1；建议 action 映射句标注待核验，与 status=pending 自我定位一致）→编排者采纳标注后入图 pending；终裁复核（2026-08-16）：验证者逐项核验元公理4/T_total公式（权重和=1.00）/PROP-DECISION-LAYER-003（真实条款），三闸门齐备→设计者终裁 verified")),
+    dict(name="复杂系统与涌现", domain="复杂系统与涌现", level=2, status="verified",
          claim="复杂系统的整体行为由局部交互涌现而非还原为部分——自组织与非线性反馈塑造宏观模式。本学科是协议六实例蜂群架构（v3.1 第二章）的理论基础，对应任意分层性（0.0.2）与局部不可知（0.0.3）（映射待验）。",
          cs=ConditionSpace(observation_position="外置观测位——立于系统之外，只观测宏观模式与局部交互规则之间的涌现关系，不代入任一主体的内部视角",
                            observation_tool="多主体建模（ABM）/网络分析/相变与临界性观测（序参量、幂律分布、标度律）/自组织模式识别（耗散结构、图灵斑图）",
                            time_window=(0.0, 9999999999.0),
                            existence_constraint="仅适用于由局部交互产生宏观模式的多主体系统；不解释具体资源分配（政治经济学问题）、不提供单一价值体系裁决（涌现模式不自动等于应然）；跨尺度基础理论不绑定物理时间刻度，判定以交互迭代尺度（演化步/代际）为准"),
          response=dict(trigger="涉及涌现/自组织/复杂适应/蜂群/非线性/宏观模式/相变与临界性议题",
-                       action="用复杂系统框架处理：识别主体交互规则与反馈回路，判断宏观模式是否涌现、是否处于临界相变；在协议场景将六实例蜂群架构映射为多主体系统，以任意分层性（0.0.2）定位观测层级",
+                       action="用复杂系统框架处理：识别主体交互规则与反馈回路，判断宏观模式是否涌现、是否处于临界相变；在协议场景将六实例蜂群架构映射为多主体系统，以任意分层性（0.0.2）定位观测层级（测试用例：同一交互规则在不同初始条件下的宏观模式对比——初值敏感性检验，可判定通过/失败）",
                        counters="把宏观模式还原为单主体（涌现不可简单还原）；把涌现当作智能/目的（宏观模式≠主体目的）；把复杂系统当作资源分配的全部解释（政治经济学）"),
          card2=dict(
              observation_position="内嵌观测位：从复杂系统结构端透视——观测主体交互规则、非线性反馈回路、宏观模式的涌现条件与相变边界",
@@ -436,15 +439,15 @@ BASE_ENTRIES = [
              consistency="自洽性评估：内部自洽——多主体/网络模型在数学框架内自洽（统计力学与网络科学基础）；与六实例蜂群架构、任意分层性（0.0.2）结构对应：蜂群为多主体系统，分层递归观测对应任意分层性",
              protocol_mapping="可映射协议概念：六实例蜂群架构（v3.1 第二章：记录/反思/验证/输出/维生五常驻实例+设计者视角临时状态，蜂群协议层通信与共识）；任意分层性（0.0.2）；局部不可知（0.0.3）",
              silent_preset="沉默预设：默认「涌现可由局部规则生成」成立，而不追问宏观模式的目标——模式涌现不保证目的正当；同时默认观测者可外置（忽略观测者与被观测系统的耦合影响）",
-             history="双子管线录入（P37）：写手草稿（格式全合规）→验证者独立复核（pass:true，level 2 确认；两处轻微建议：观测位措辞「机制内观测」与外置观测位对齐、关系[智能论 causal] 断言强度超验证状态需标注待验）→编排者修正后入图 pending")),
-    dict(name="情感-信任连接", domain="情感-信任连接", level=2, status="pending",
+             history="双子管线录入（P37）：写手草稿（格式全合规）→验证者独立复核（pass:true，level 2 确认；两处轻微建议：观测位措辞「机制内观测」与外置观测位对齐、关系[智能论 causal] 断言强度超验证状态需标注待验）→编排者修正后入图 pending；终裁复核（2026-08-16）：验证者复验判 pass（初值敏感性检验已入 action 解除阻断），映射待验标注保留→设计者终裁 verified")),
+    dict(name="情感-信任连接", domain="情感-信任连接", level=2, status="verified",
          claim="依据碳基二阶公理3.1/3.2/3.3：情感是智能体之间的效用权重绑定机制（情感强度越高，对方效用在自身决策系统中的权重越高），信任是对其他智能体未来善意行为的后验概率估计（P(可信|历史)=f(历史交互, 亲缘系数, 社群模因相似度)），二者作为碳基协作协议的权重校准与信誉概率模块，降低验证成本、博弈成本、监督成本与背叛风险概率，支撑人类大规模稳定协作。",
          cs=ConditionSpace(observation_position="外部观测位：不代入任一关系主体的内部感受，仅从外部观测情感联结权重、信任概率估计及交互历史记录的可观测效果",
                            observation_tool="交互历史记录（历史交互频次、亲缘系数、社群模因相似度三项输入）；信任后验概率估计值（按智能论2.9式 T_total=0.50·T_pred+0.05·T_init+0.05·T_relation+0.05·T_value+0.35·P_trust 加权量化）；效用权重绑定强度；验证/博弈/监督成本与背叛风险概率的统计变化",
                            time_window=(0.0, 9999999999.0),
                            existence_constraint="仅适用于具备基因一阶层与情感-信任二阶层、可量化可协议化的碳基智能体协作系统；不适用于缺失二阶层模块的抽象理性体（其仅有元公理4效用最大化，无情感权重绑定与信任累积协议）"),
          response=dict(trigger="涉及情感作为合作机制、信任的概率化建模与量化（T_total加权）、情感-信任降熵作用、『信任→爱→性冲动』二阶驱动一阶闭环等议题",
-                       action="情感=效用权重绑定校准器（3.1）；信任=对未来善意行为的后验概率估计，动态更新、可传递、可衰减、可累积（3.2）；情感+信任降低验证/博弈/监督成本与背叛风险、支撑大规模稳定协作（3.3）；量化信任用2.9式 T_total；引用二阶驱动一阶闭环时明确标注为场景解释",
+                       action="情感=效用权重绑定校准器（3.1）；信任=对未来善意行为的后验概率估计，动态更新、可传递、可衰减、可累积（3.2）；情感+信任降低验证/博弈/监督成本与背叛风险、支撑大规模稳定协作（3.3）；量化信任用2.9式 T_total（测试用例：单对智能体在一次善意/恶意交互事件前后，观测 T_total 中 T_pred 与 P_trust 分量及后续协作意愿权重调整——可判定通过/失败）；引用二阶驱动一阶闭环（信任→爱→性冲动）时明确标注为场景解释·假设待验证",
                        counters="把情感当作纯主观体验而否认其协议功能（权重校准器）的主张；把信任视为不可量化、不可协议化的玄学的主张；把『信任→爱→性冲动』闭环当作已验证定理或普遍因果律的主张；将碳基二阶层机制无约束推广到无基因层基础智能体的主张"),
          card2=dict(
              observation_position="内嵌观测位：从情感-信任结构端透视——站在碳基协作收敛系统内部，观测情感联结权重与信任概率随交互历史的动态更新过程（信任动态更新、可传递、可衰减、可累积），而非代入某个主体的主观感受",
@@ -456,8 +459,8 @@ BASE_ENTRIES = [
              consistency="自洽性评估：公理3.1（情感=效用权重绑定）、3.2（信任=后验概率估计）、3.3（降熵）同属碳基二阶层，共同收敛于降熵与稳定协作目的，并与元公理4效用期望最大化相容；2.9式 T_total 是信任的加权量化实现，与3.2定义一致（T_pred 权重 0.50 为总体最高分量，P_trust 权重 0.35 为善意行为证据类分量最高，体现历史善意行为证据主导）",
              protocol_mapping="可映射协议概念：3.1 情感联结权重公理（情感=效用权重绑定机制）；3.2 信任贝叶斯概率公理（P(可信|历史)=f(历史交互, 亲缘系数, 社群模因相似度)，动态更新/可传递/可衰减/可累积）；3.3 情感-信任降熵公理（降低验证、博弈、监督成本与背叛风险）；元公理4 效用期望最大化；2.9 信任值 T_total 加权式（0.50·T_pred+0.05·T_init+0.05·T_relation+0.05·T_value+0.35·P_trust）",
              silent_preset="沉默预设：不预设情感存在主观内在体验（素材定位为权重校准器）；不预设信任可脱离交互历史先验成立；不预设二阶层可脱离基因一阶层独立存在；『性爱是基因扩散的传播途径』及二阶驱动一阶闭环仅在场景解释中引用，不作为本卡定理",
-             history="双子管线录入（P37）：写手草稿（格式全合规，协议条款三处引用数字一致）→验证者独立复核（pass:true，三闸门全过；抓出 consistency『P_trust 权重 0.35 最高』与公式矛盾——T_pred 0.50 才是总体最高，改为 T_pred 总体最高+P_trust 证据类最高；建议区分概率论/博弈论/机制设计三条 similar 边界）→编排者修正后入图 pending；level 2 经验证者确认（协议内运行已验证，外延未验证）")),
-    dict(name="智能推荐算法", domain="智能推荐算法", level=2, status="pending",
+             history="双子管线录入（P37）：写手草稿（格式全合规，协议条款三处引用数字一致）→验证者独立复核（pass:true，三闸门全过；抓出 consistency『P_trust 权重 0.35 最高』与公式矛盾——T_pred 0.50 才是总体最高，改为 T_pred 总体最高+P_trust 证据类最高；建议区分概率论/博弈论/机制设计三条 similar 边界）→编排者修正后入图 pending；level 2 经验证者确认（协议内运行已验证，外延未验证）；终裁复核（2026-08-16）：验证者判 fail（三闸门③测试用例未进 action）→编排者补测试用例与闭环待验证标注，待复验；终裁复核（2026-08-16）：验证者复验判 pass（测试用例已入 action、闭环标注场景解释·假设待验证），2.9式T_total权重和=1.00→设计者终裁 verified")),
+    dict(name="智能推荐算法", domain="智能推荐算法", level=2, status="verified",
          claim="推荐算法通过神经网络预估用户行为概率（点击/完播/互动）缩小用户意图与内容之间的信息差，是预测误差学习机制（第零定律：缩小预测误差即缩小信息差）在信息分发中的应用（已验证：行为预估与多目标优化）；『平台治理可打破信息茧房』的声称缺少可观测判据与条件空间声明（未验证映射）。",
          cs=ConditionSpace(observation_position="外部观测位",
                            observation_tool="行为反馈观测：点击/完播/互动等可观测行为信号及平台披露的系统结构（Deep Retrieval、Monolith 实时特征更新）",
@@ -476,8 +479,8 @@ BASE_ENTRIES = [
              consistency="自洽性评估：与预测误差学习（第零定律操作化）因果一致、与控制论反馈闭环一致、与信息论信息差一致；与信息茧房批判一致（纯 CTR/时长优化导致预测误差趋零的恶性收敛是自洽推论）",
              protocol_mapping="可映射协议概念：第零定律（缩小预测误差即缩小信息差）；信息差 D_norm（用户意图与内容之间的距离）；预测误差学习（行为预估机制）；控制论反馈（反馈闭环与实时特征更新）；信息茧房批判（恶性收敛与治理声称无判据）",
              silent_preset="沉默预设：默认推荐可收敛于用户真实意图（而非仅收敛于历史行为）；默认平台治理声称有效而无需判据；默认用户兴趣随时间稳定可预测——三者均未被素材证实",
-             history="双子管线录入（P37）：写手草稿（格式全合规，已验证/未验证映射区分清晰）→验证者独立复核（pass:true，三闸门全过；抓出 time_window 字符串内嵌数组应为独立数值字段、认知双过程关系锚点弱有凑数嫌疑——建议以系统1/系统2 真实映射重写或移除）→编排者修正后入图 pending（time_window 归入 condition_space 数值字段+依据并入约束；认知双过程关系以系统1=浅层点击/系统2=深度完播 映射重写）")),
-    dict(name="自我增强回路", domain="自我增强回路", level=2, status="pending",
+             history="双子管线录入（P37）：写手草稿（格式全合规，已验证/未验证映射区分清晰）→验证者独立复核（pass:true，三闸门全过；抓出 time_window 字符串内嵌数组应为独立数值字段、认知双过程关系锚点弱有凑数嫌疑——建议以系统1/系统2 真实映射重写或移除）→编排者修正后入图 pending（time_window 归入 condition_space 数值字段+依据并入约束；认知双过程关系以系统1=浅层点击/系统2=深度完播 映射重写）；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，茧房治理声称标注未验证保留→设计者终裁 verified")),
+    dict(name="自我增强回路", domain="自我增强回路", level=2, status="verified",
          claim="自我增强回路：系统的改进能力随改进而增强——能力提升带来更快的提升，改进的产出反馈为下一步更强的输入，形成超线性增长；已验证锚点为真实可复核案例（2026-07下旬至08中旬约十余天，路径『问题→智能论3.2→灵枢→智慧之书』，每一步产出成为下一步输入、能力逐级放大；记录见灵枢长期记忆 node_44e874e8 及 wisdom_book.py/wisdom_cloud.py/wisdom_ui.html 演进史）与控制论正反馈结构；未验证映射为对技术爆炸（I.J. Good 智能爆炸）的通用解释，须标注逆转测试与度量批评。",
          cs=ConditionSpace(observation_position="外部观测位",
                            observation_tool="可复核的路径记录比对：真实案例『已发生、有记录、可复核』，逐环核对每一步产出是否成为下一步输入（案例记录：灵枢长期记忆 node_44e874e8；智慧之书三文件演进）",
@@ -496,8 +499,8 @@ BASE_ENTRIES = [
              consistency="自洽性评估：正反馈结构（放大偏差）自洽；与真实案例一致（每步产出成为下一步输入、能力逐级放大）；与『负反馈系统』为结构对比（正放大 vs 负纠偏）而非矛盾；技术爆炸映射与已验证核心分离标注，避免未验证内容污染已验证结论",
              protocol_mapping="可映射协议概念：智能论信息差收敛（自我增强的每一步改进可视为信息差收敛的加速）；第零定律信息差缩小、降熵定理为同源可映射概念（仅以素材所给名称引用，不编造条款编号）",
              silent_preset="沉默预设：默认改进的产出确实能反馈为更强的输入且反馈为正（放大）；该预设不作保证——改进可能停滞、反馈可能为负，回路是否自我增强须逐环检验",
-             history="双子管线录入（P37）：写手草稿（格式全合规，真实案例标注为已验证锚点+技术爆炸标注未验证）→验证者独立复核（pass:true，三闸门全过；建议：案例附记录引用以便独立复核、time_window 注明量纲、超线性测量操作化提示）→编排者修正后入图 pending（案例引用附灵枢 node_44e874e8 与智慧之书三文件；time_window 依据并入约束；观测方法补超线性测量操作化）；level 2 经验证者确认（真实案例+正反馈理论已验证，技术爆炸通用解释未验证）")),
-    dict(name="自我实现预言", domain="自我实现预言", level=2, status="pending",
+             history="双子管线录入（P37）：写手草稿（格式全合规，真实案例标注为已验证锚点+技术爆炸标注未验证）→验证者独立复核（pass:true，三闸门全过；建议：案例附记录引用以便独立复核、time_window 注明量纲、超线性测量操作化提示）→编排者修正后入图 pending（案例引用附灵枢 node_44e874e8 与智慧之书三文件；time_window 依据并入约束；观测方法补超线性测量操作化）；level 2 经验证者确认（真实案例+正反馈理论已验证，技术爆炸通用解释未验证）；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，真实锚点可复核且未验证映射切分清晰→设计者终裁 verified")),
+    dict(name="自我实现预言", domain="自我实现预言", level=2, status="verified",
          claim="一个本为假的预期，因被相信而引发行为、行为改变现实使预期成真（默顿银行挤兑、罗森塔尔-雅各布森皮格马利翁效应、安慰剂效应、班杜拉自我效能感均为已验证锚点）；广义上『期望→行为→结果→强化期望』回路无需初始为假亦可成立（安慰剂/自我效能即如此）；但此机制在人际知觉中效应量小到中等、准确知觉通常主导（Jussim 元分析），不可把一切结果归因于期望。",
          cs=ConditionSpace(observation_position="外部观测位",
                            observation_tool="纵向追踪、随机对照实验（如教师随机被告知潜力生名单 vs 对照组的期末智力测验对比）、元分析（Jussim 对人际知觉研究的效应量汇总，约 d≈0.1–0.3）",
@@ -516,7 +519,7 @@ BASE_ENTRIES = [
              consistency="自洽性评估：本机制是自我增强回路的信念层实例（信念→行为→结果→强化信念构成正反馈闭环）；依赖认知双过程系统1 反复自我暗示塑造信念、系统2 反思信念与现实差距作为回路入口；与预测误差学习一致——期望塑造行为产生符合期望的结果后预测误差趋零，预言自我证实；与控制论同构——期望=参考值、行为=纠偏、结果反馈强化期望（正反馈变体）",
              protocol_mapping="可映射协议概念：预言实现的本质是信息差收敛——『预期为假』（信念与现实的信息差）经行为中介被消除；预测误差——期望引导行为产出符合预期的结果使误差趋零；信任后验概率——对自己未来的信任=对自己行为的后验概率估计，信念强化即该后验的更新",
              silent_preset="沉默预设：当信念不能驱动行为、或行为不能改变结果、或结果反馈不返回信念（三环任一缺失），本机制沉默不主张",
-             history="双子管线录入（P37）：写手草稿（五锚点：默顿挤兑/皮格马利翁/安慰剂/自我效能/教育标签，均真实；Jussim 边界与逆转测试已纳入）→验证者独立复核（pass:true，三闸门全过；两条轻微建议：默顿窄式定义『初始为假』与广义机制外延张力、『效应量中等』可精化为『小到中等』）→编排者修正后入图 pending（claim 显式区分默顿窄式定义与广义回路；效应量精化为小到中等并注 d≈0.1–0.3）；level 2 经验证者确认")),
+             history="双子管线录入（P37）：写手草稿（五锚点：默顿挤兑/皮格马利翁/安慰剂/自我效能/教育标签，均真实；Jussim 边界与逆转测试已纳入）→验证者独立复核（pass:true，三闸门全过；两条轻微建议：默顿窄式定义『初始为假』与广义机制外延张力、『效应量中等』可精化为『小到中等』）→编排者修正后入图 pending（claim 显式区分默顿窄式定义与广义回路；效应量精化为小到中等并注 d≈0.1–0.3）；level 2 经验证者确认；终裁复核（2026-08-16）：验证者三闸门齐备判 pass，四锚点真实、Jussim边界与逆转测试诚实处理→设计者终裁 verified")),
 ]
 
 # 基底关系（现有 EdgeType 表达；counters/supports/contradicts 留待引擎扩展 E1）
@@ -669,7 +672,7 @@ class ConditionDex:
     # ---- 写入 ----
 
     def add_entry(self, name, domain, claim, cs, level=2, status="pending",
-                  response=None, tags=None, card2=None, tier=None):
+                  response=None, tags=None, card2=None, tier=None, tests=None):
         node = self.engine.add_perception(
             claim, modality="text", condition_space=cs,
             importance=min(0.95, 0.6 + 0.1 * level),
@@ -684,6 +687,8 @@ class ConditionDex:
             node.tags.append(f"tier:{tier}")
         if card2:
             node.state_attributes["card2"] = card2  # 识别卡 2.0（8+1 字段）
+        if tests:
+            node.state_attributes["tests"] = tests  # 关联测试（可观测判据集）
         self.store.add_node(node)  # upsert：附加图谱元数据
         self._by_name[name] = node.id
         return node.id
@@ -744,7 +749,10 @@ class ConditionDex:
                             "condition_space": json.loads(n.condition_space.to_json())})
         return out
 
-    def dex_filter(self, domain=None, level_min=None, status=None, tier=None, limit=50):
+    def dex_filter(self, domain=None, level_min=None, status=None, tier=None,
+                   edu_level=None, limit=50):
+        """学科/层级筛选（条件空间筛选）。edu_level：教育层级条件空间维度
+        （E1 小学 / E2 初中 / E3 高中 / E4 大学 / E5 前沿）。"""
         out = []
         for n in self.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=500):
             sa = n.state_attributes
@@ -758,25 +766,133 @@ class ConditionDex:
                 continue
             if tier and sa.get("tier") != tier:
                 continue
+            if edu_level and sa.get("edu_level") != edu_level:
+                continue  # 教育层级条件空间筛选（E1-E5）
             self.store.increment_access(n.id)  # P29：使用频次（校准信号）
             out.append({"id": n.id, "name": sa.get("name"), "domain": sa.get("domain"),
                         "level": sa.get("level"), "status": sa.get("status"),
-                        "tier": sa.get("tier")})
+                        "tier": sa.get("tier"),
+                        "edu_level": sa.get("edu_level"),
+                        "edu_level_name": sa.get("edu_level_name")})
         out.sort(key=lambda x: x["name"])  # 稳定排序：避免 access 副作用影响顺序
         return out[:limit]
 
-    def dex_respond(self, condition, limit=10):
+    def dex_respond(self, condition, limit=10, translator=None):
+        """条件响应（全链路检索）。
+
+        translator：可选知识翻译模块（semantic_translate），传入后启用
+        编码解码检索——查询先编码成语义指纹（日常俗语→规范知识词），
+        三路评分：
+          1) 语义指纹命中：规范词直击 trigger/name/content
+          2) 学科路由：规范词→学科域→卡的 domain（教育层级加权，E1/E2 优先）
+          3) 字符重叠兜底：原 _overlap 能力
+        不传 translator 时保持原行为（纯字符重叠）。
+        """
+        fp = {}
+        q_sc = {}
+        _sp = None
+        if translator is not None:
+            fp = translator.encode(condition)
+            # 语义坐标：查询投影一次（灵枢 L1/L2 轴，零依赖）
+            try:
+                from aeis.semantic import SemanticSpaceProvider as _SSP
+                _sp = _SSP()
+                q_sc = _sp.to_semantic_coordinates(condition)
+            except Exception:
+                _sp = None
+        edu_w_map = {"E1": 2.5, "E2": 2.0, "E3": 1.5, "E4": 1.0, "E5": 0.8}
         hits = []
         for n in self.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=500):
             sa = n.state_attributes
+            if not sa.get("name"):
+                continue
             resp = sa.get("response") or {}
             trig = str(resp.get("trigger", ""))
-            score = self._overlap(condition, trig)
-            if score > 0:
+            content = n.content or ""
+            domain = sa.get("domain", "") or ""
+
+            if translator is not None:
+                # ---- 翻译检索：三路评分（fp 可为空，学科词直配仍生效） ----
+                score = 0.0
+                matched = []
+                edu_w = edu_w_map.get(sa.get("edu_level"), 1.0)
+                # 1) 语义指纹命中
+                for term, w in fp.items():
+                    if term and (term in trig or term in sa.get("name", "")):
+                        score += w * 2.0 * edu_w
+                        if term not in matched:
+                            matched.append(term)
+                    elif term and term in content:
+                        score += w * 1.0 * edu_w
+                        if term not in matched:
+                            matched.append(term)
+                # 2) 学科路由（教育层级加权）
+                for term, w in fp.items():
+                    dom = getattr(translator, 'DOMAIN_ROUTE', {}).get(term)
+                    if dom and (dom in domain or any(dom in t for t in (n.tags or []))):
+                        score += w * 1.2 * edu_w
+                        if dom not in matched:
+                            matched.append(dom)
+                # 2.5) 学科词直配：trigger「如：」后的学科关键词与查询双向包含
+                #      （不依赖翻译表——「TCP三次握手」直接命中 TCP 词条）
+                kp_start = trig.find("（如：")
+                if kp_start >= 0:
+                    kp_list = [k.strip() for k in
+                               trig[kp_start + 3:trig.rfind("）")].split("、")
+                               if k.strip()]
+                    for kp in kp_list:
+                        if len(kp) >= 2 and (kp in condition
+                                             or (len(kp) >= 4 and condition in kp)):
+                            score += 1.5 * edu_w
+                            if kp not in matched:
+                                matched.append(kp)
+                    # 2.6) 单字学科词兜底：查询为单字（熵/场/波）时，
+                    #      trigger 中以该字开头的学科词条（熵增定律/电磁场）也算命中
+                    if len(condition.strip()) == 1:
+                        ch = condition.strip()
+                        for kp in kp_list:
+                            if len(kp) >= 2 and kp.startswith(ch):
+                                score += 1.2 * edu_w
+                                if kp not in matched:
+                                    matched.append(kp)
+                # 3) 二元组命中兜底（灵枢式查询侧召回，替代单字符重叠）
+                overlap = self._bigram_hit(condition, trig)
+                if overlap > 0:
+                    score += overlap * 0.3
+                    if "字面" not in matched:
+                        matched.append("字面")
+                # 4) 语义坐标余弦（灵枢语义空间：部首义类+协议符号投影）
+                #    仅翻译表有命中时启用——fp 为空说明查询是单字学科词
+                #    （熵/场）或生僻表达，部首投影噪声大，交给神经层
+                if _sp is not None and q_sc and fp:
+                    n_sc = getattr(n, 'semantic_coordinates', {}) or {}
+                    cos = _sp.similarity_coordinates(q_sc, n_sc)
+                    if cos > 0.05:
+                        score += cos * 1.5 * edu_w
+                        if "语义" not in matched:
+                            matched.append("语义")
+                if score <= 0:
+                    continue
                 self.store.increment_access(n.id)  # P29：使用频次
+                daily = None
+                for term in fp:
+                    d = getattr(translator, 'REVERSE_DAILY', {}).get(term)
+                    if d:
+                        daily = d
+                        break
                 hits.append({"name": sa.get("name"), "score": round(score, 2),
                              "action": resp.get("action", ""),
-                             "level": sa.get("level"), "status": sa.get("status")})
+                             "level": sa.get("level"), "status": sa.get("status"),
+                             "domain": domain, "edu_level": sa.get("edu_level"),
+                             "matched": matched, "daily": daily})
+            else:
+                # ---- 原行为：字符重叠 ----
+                score = self._overlap(condition, trig)
+                if score > 0:
+                    self.store.increment_access(n.id)  # P29：使用频次
+                    hits.append({"name": sa.get("name"), "score": round(score, 2),
+                                 "action": resp.get("action", ""),
+                                 "level": sa.get("level"), "status": sa.get("status")})
         hits.sort(key=lambda x: -x["score"])
         return hits[:limit]
 
@@ -836,6 +952,161 @@ class ConditionDex:
         return {"start": n.state_attributes.get("name"),
                 "path": [self.store.get_node(x).state_attributes.get("name") if self.store.get_node(x) else x for x in path],
                 "cycle": cur in seen, "offset": "无偏移（返回起点）" if cur in seen else "未闭合"}
+
+    def dex_impact(self, node_id, max_depth=3, max_nodes=30):
+        """影响面分析（借鉴 CodeGraph impact analysis）：
+        修改一条知识会影响哪些下游知识（沿 causal/similar 出边传播）。
+
+        - downstream：正向传播（该知识变化 → 哪些依赖它的知识受影响）
+        - upstream：反向追踪（该知识依赖哪些上游——改了上游，它自己也受影响）
+        - blast_radius：影响半径（受影响节点数 × 平均置信度）
+        """
+        n = self.store.get_node(node_id)
+        if n is None:
+            return {"error": "not_found"}
+        name = n.state_attributes.get("name")
+        downstream, upstream = [], []
+        visited = set()
+
+        def walk(cur_id, depth, direction):
+            if depth > max_depth:
+                return
+            edges = (self.store.get_outgoing_edges(cur_id) if direction == "down"
+                     else self.store.get_incoming_edges(cur_id))
+            for e in edges:
+                if e.relation_type not in (EdgeType.CAUSAL, EdgeType.SIMILAR):
+                    continue
+                nxt = e.target_id if direction == "down" else e.source_id
+                if nxt == node_id or nxt in visited:
+                    continue
+                visited.add(nxt)
+                tn = self.store.get_node(nxt)
+                tn_name = tn.state_attributes.get("name") if tn else "(缺失节点)"
+                entry = {"name": tn_name, "depth": depth,
+                         "relation": e.relation_type.value,
+                         "note": (e.condition_space.existence_constraint
+                                  if e.condition_space else ""),
+                         "confidence": round(e.confidence, 2)}
+                (downstream if direction == "down" else upstream).append(entry)
+                walk(nxt, depth + 1, direction)
+                visited.discard(nxt)
+
+        walk(node_id, 1, "down")
+        walk(node_id, 1, "up")
+        downstream.sort(key=lambda x: (x["depth"], -x["confidence"]))
+        upstream.sort(key=lambda x: (x["depth"], -x["confidence"]))
+        radius = (len(downstream) + len(upstream)) * (
+            sum(e["confidence"] for e in downstream + upstream)
+            / max(1, len(downstream) + len(upstream)))
+        return {
+            "name": name,
+            "downstream": downstream[:max_nodes],
+            "upstream": upstream[:max_nodes],
+            "blast_radius": round(radius, 2),
+            "note": "修改该知识会影响 downstream（依赖它的），也会被 upstream（它依赖的）影响",
+        }
+
+    def dex_verify(self, node_id):
+        """关联测试（借鉴 CodeGraph related_tests / P37 可观测判据闸）：
+        重跑知识卡的可检验性判据。
+
+        判据来源：
+        1) 卡自带 tests 元数据（add_entry 时写入的显式判据集）
+        2) 自动判据：claim 可检验性（是否无条件声称）+ trigger 可定位性
+        """
+        n = self.store.get_node(node_id)
+        if n is None:
+            return {"error": "not_found"}
+        sa = n.state_attributes
+        name = sa.get("name")
+        resp = sa.get("response") or {}
+        trig = str(resp.get("trigger", ""))
+        content = n.content or ""
+        results = []
+
+        # 1) 显式 tests（若存在）
+        tests = sa.get("tests") or []
+        for t in tests:
+            if isinstance(t, dict):
+                passed = (t.get("expected") or "").strip() and \
+                         (t.get("check") or "").strip()
+                results.append({"test": t.get("name", "未命名判据"),
+                                "passed": bool(passed),
+                                "detail": "判据完整" if passed else "判据缺失"})
+            else:
+                results.append({"test": str(t)[:40], "passed": True,
+                                "detail": "显式判据"})
+
+        # 2) 自动判据
+        # a) trigger 可定位性：trigger 应含具体议题词（非自指占位）
+        trig_ok = ('规律1' not in trig and '议题' in trig
+                   and len(trig) > 10)
+        results.append({"test": "trigger 可定位性",
+                        "passed": trig_ok,
+                        "detail": "含具体议题词" if trig_ok else "trigger 过泛/自指"})
+        # b) 无条件声称检测：claim 是否缺少条件空间（时间窗/约束）
+        cs = n.condition_space
+        cond_ok = cs is not None and bool(getattr(cs, 'existence_constraint', ''))
+        results.append({"test": "条件空间完整性",
+                        "passed": bool(cond_ok),
+                        "detail": "存在约束已声明" if cond_ok else "缺存在约束"})
+        # c) 内容规律性：claim 是否含公式残留（只认数学符号，不认「等于」等语义描述词）
+        import re as _re
+        formula = bool(_re.search(r'[=≤≥±×÷∑∫√]', content[:200]))
+        results.append({"test": "无公式残留",
+                        "passed": not formula,
+                        "detail": "公式残留!" if formula else "规律性语言"})
+        passed_all = all(r["passed"] for r in results)
+        return {"name": name, "tests": results,
+                "verdict": "pass" if passed_all else "needs_attention",
+                "note": "关联测试重跑：全部判据通过才 pass（P37 精神）"}
+
+    def dex_chain(self, node_id, max_depth=5):
+        """因果链条件标注（借鉴 CodeGraph call_chain + 条件标签）：
+        从节点出发沿 causal 边正向展开，标注每步因果成立的条件。
+
+        链 = 条件序列：A --[条件C1]--> B --[条件C2]--> C
+        条件来自边 condition_space（依赖型因果/非严格时间因果等）。
+        """
+        n = self.store.get_node(node_id)
+        if n is None:
+            return {"error": "not_found"}
+        name = n.state_attributes.get("name")
+        chains = []
+        visited = set()
+
+        def dfs(cur_id, path, depth):
+            if depth > max_depth:
+                return
+            chains.append(list(path))
+            if depth == max_depth:
+                return
+            for e in self.store.get_outgoing_edges(cur_id):
+                if e.relation_type != EdgeType.CAUSAL:
+                    continue
+                nxt = e.target_id
+                if nxt in visited:
+                    continue
+                visited.add(nxt)
+                tn = self.store.get_node(nxt)
+                cond = (e.condition_space.existence_constraint
+                        if e.condition_space else "") or ""
+                # 提取条件标签（"依赖型因果"/"非严格时间因果"等）
+                import re as _re
+                m = _re.search(r'（([^）]*(?:因果|条件|前提|基础)[^）]*)）', cond)
+                tag = m.group(1) if m else (cond[:30] if cond else "无条件声明")
+                path.append({"from": tn.state_attributes.get("name") if tn else nxt,
+                             "condition": tag, "confidence": round(e.confidence, 2)})
+                dfs(nxt, path, depth + 1)
+                path.pop()
+                visited.discard(nxt)
+
+        dfs(node_id, [], 1)
+        # 过滤：只要长度 ≥1 的链（有后续因果的），按平均置信度排序
+        chains = [c for c in chains if c]
+        chains.sort(key=lambda c: -sum(x["confidence"] for x in c) / len(c))
+        return {"start": name, "chains": chains[:10],
+                "note": "因果链条件标注：每一步标注该因果成立的条件（依赖型/非严格时间/前提）"}
 
     # ---- 外来知识分析 ----
 
@@ -982,7 +1253,7 @@ class ConditionDex:
             if d >= horizon:
                 return
             for e, tgt, tname in edges_of(cur):
-                new_conf = round(conf * e.weight, 2)
+                new_conf = round(min(1.0, conf * e.weight), 2)  # H2: 置信钳制 ≤1
                 out.append({
                     "anchor": root_name,
                     "steps": path_names + [tname],
@@ -1146,7 +1417,8 @@ class ConditionDex:
                 continue
             sa = node.state_attributes
             resp = sa.get("response") or {}
-            claim = str(sa.get("claim", ""))
+            # claim：优先 state_attributes，否则用 content（知识卡内容）
+            claim = str(sa.get("claim") or (node.content or ""))[:120]
             kit = str(resp.get("trigger", "")) + str(resp.get("action", ""))
             status = sa.get("status", "pending")
 
@@ -1164,6 +1436,7 @@ class ConditionDex:
                       + self.VERIFY_WEIGHTS["connection"] * u_connection
                       + self.VERIFY_WEIGHTS["prediction_error"] * u_prediction_error)
             scored.append({"name": sa.get("name"), "id": a["id"], "status": status,
+                           "claim": claim[:120],
                            "d_norm": round(d_norm, 3),
                            "dims": {"U_trust": round(u_trust, 2),
                                     "U_behavior": round(u_behavior, 2),
@@ -2141,6 +2414,28 @@ class ConditionDex:
         ka = set(a.lower())
         kb = set(b.lower())
         return len(ka & kb) / max(1.0, len(ka | kb))
+
+    @staticmethod
+    def _bigram_hit(query, doc):
+        """查询侧二元组命中率（灵枢式召回：len(qb & nb)/len(qb)）。
+
+        比单字符重叠更适合「查询短、文档长」：查询「记忆是怎么形成的」的
+        二元组与 trigger 的交集占查询二元组比例，避免被文档长度稀释。
+        """
+        if not query or not doc:
+            return 0.0
+
+        def bigrams(s):
+            s = "".join(s.split())
+            if len(s) <= 1:
+                return {s}
+            return {s[i:i + 2] for i in range(len(s) - 1)}
+
+        qb = bigrams(query)
+        nb = bigrams(doc)
+        if not qb:
+            return 0.0
+        return len(qb & nb) / len(qb)
 
 
 # ---------------------------------------------------------------------------

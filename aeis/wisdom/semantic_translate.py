@@ -1,0 +1,625 @@
+# -*- coding: utf-8 -*-
+"""智慧之书 · 知识翻译体系（编码解码系统）。
+
+理解 = 解码。LLM 之所以理解得好，是因为预训练阶段已经做好了「翻译」：
+把自然语言翻译进它的内部语义空间。智慧之书现在只做字符串重叠（_overlap），
+等于没有翻译——「我肚子咕咕叫了」和知识卡 trigger「饿」几乎零重叠，所以检索不到。
+
+本模块为智慧之书补上这一层「翻译」：
+  编码（encode）：  自然语言 → 语义指纹（命中翻译表，得到规范词集 + 权重）
+  解码（decode）：  语义指纹 → 知识条目（规范词对齐图谱知识内容）
+  翻译表（SYNONYM_CLUSTERS）：日常俗语/口语表达 → 规范知识词
+
+设计对齐协议 VAL-SPEC-TRANSLATION-001：翻译 = 条件空间对齐服务——
+把发送端（查询）的条件空间内容，翻译成接收端（图谱知识）可匹配的形式。
+
+用法：
+  python semantic_translate.py [句子...]     # 演示编码→解码轨迹
+  python semantic_translate.py --index       # 打印当前翻译表覆盖
+"""
+import json
+import os
+import re
+import sys
+
+# ============================================================
+# 翻译表：日常表达 → 规范知识词（编码字典）
+# 结构：规范词 -> [该词的日常说法/俗语/近义表达]
+# 编码时，查询文本命中任一表达，即翻译为该规范词。
+# ============================================================
+SYNONYM_CLUSTERS = {
+    # ---- 身体需要 ----
+    "饿": ["肚子咕咕叫", "咕咕叫", "饥肠辘辘", "前胸贴后背", "想吃东西", "肚子饿",
+           "好饿", "饿了", "饿", "嘴馋"],
+    "渴": ["口干舌燥", "嗓子冒烟", "想喝水", "嘴巴干", "好渴", "渴了", "渴"],
+    "困": ["眼皮打架", "眼皮子打架", "哈欠连天", "想睡觉", "打瞌睡", "睁不开眼",
+           "犯困", "好困", "困了", "困"],
+    "睡不着": ["睡不着觉", "翻来覆去", "入睡困难", "睡意全无", "数羊", "睡不着"],
+    "冷": ["冻得发抖", "手脚冰凉", "打寒颤", "瑟瑟发抖", "起鸡皮疙瘩", "好冷",
+           "冷了", "冷"],
+    "热": ["汗流浃背", "热得冒汗", "满头大汗", "闷热", "好热", "热了", "热"],
+    "累": ["精疲力尽", "筋疲力尽", "浑身没劲", "没力气", "打不起精神", "腰酸背痛",
+           "脖子酸痛", "肩膀僵", "疲惫", "好累", "累了", "累", "乏",
+           "被掏空", "掏空了", "躺平", "躺平了", "不想动了", "身心俱疲"],
+    "疼": ["脑壳疼", "头疼", "头痛", "肚子疼", "胃疼", "嗓子疼", "酸痛", "疼痛",
+           "疼得不行", "疼", "痛"],
+    "头晕": ["天旋地转", "眼前发黑", "头昏", "晕乎乎", "晕眩", "头晕"],
+    "恶心": ["反胃", "胃里翻江倒海", "干呕", "没胃口", "恶心"],
+    "想吐": ["想吐"],
+    "发烧": ["身上发烫", "体温高", "高烧", "发热", "发烧"],
+    "感冒": ["流鼻涕", "打喷嚏", "鼻塞", "着凉", "受凉", "感冒"],
+    # ---- 情绪体验 ----
+    "开心": ["乐开了花", "心里美滋滋", "美滋滋", "心情好", "高兴", "快乐", "愉快",
+             "兴奋", "开心"],
+    "难过": ["鼻子一酸", "想哭", "心里难受", "蓝瘦香菇", "emo", "破防", "绷不住",
+             "伤心", "悲伤", "郁闷", "忧伤", "难过", "整个人都不好了",
+             "整个人都不好", "心态崩了", "心态炸了", "心里闷得慌", "闷得慌",
+             "心里堵得慌", "心里堵"],
+    "生气": ["火冒三丈", "气不打一处来", "气炸了", "气坏了", "气呼呼", "恼火",
+             "发火", "愤怒", "生气"],
+    "害怕": ["心都提到嗓子眼", "打退堂鼓", "毛骨悚然", "吓坏了", "心惊胆战",
+             "恐惧", "害怕", "怕"],
+    "紧张": ["心里七上八下", "坐立不安", "手心出汗", "心跳加速", "忐忑不安",
+             "忐忑", "不安", "紧张"],
+    "焦虑": ["心乱如麻", "忧心忡忡", "心事重重", "静不下心", "焦躁", "烦躁",
+             "惶恐", "焦虑"],
+    "孤独": ["没人陪", "没人说话", "一个人待着", "形单影只", "独自一人",
+             "寂寞", "孤单", "孤独"],
+    "想家": ["想爸妈", "想妈妈", "想爸爸", "惦记家里", "想打电话回家", "想回去看看",
+             "思念家人", "恋家", "想家"],
+    "委屈": ["心里不是滋味", "被误会", "心里堵得慌", "有苦说不出", "憋屈",
+             "冤枉", "委屈"],
+    "尴尬": ["难为情", "不好意思", "面红耳赤", "下不来台", "窘迫", "尴尬"],
+    "自豪": ["成就感", "扬眉吐气", "有面子", "骄傲", "得意", "自豪"],
+    "羡慕": ["眼红", "眼馋", "酸了", "向往", "羡慕"],
+    "嫉妒": ["吃醋", "醋坛子", "心理不平衡", "看不得别人好", "妒忌", "嫉妒"],
+    "性欲": ["有性欲", "想要性", "性冲动", "生理冲动", "性唤起", "想亲热",
+             "性欲"],
+    # ---- 生活情境 ----
+    "压力": ["压力山大", "喘不过气", "负担重", "扛不住", "撑不住", "赶ddl",
+             "deadline", "内卷", "卷不动", "压力", "摆烂", "摆烂了"],
+    "考试": ["期末考试", "期中考试", "月考", "中考", "高考", "考研", "笔试",
+             "面试", "考砸", "复习", "考试"],
+    "疲惫": ["身心俱疲", "精疲力竭", "累瘫", "透支", "虚脱", "不想动", "疲惫"],
+    "失眠": ["整夜睡不着", "一夜无眠", "辗转反侧", "失眠"],
+}
+
+# 单字词误伤排除：出现这些词时，不把其中的单字翻译成规范词。
+# 例：「冷静」里有「冷」，但不是说人冷。
+SINGLE_CHAR_EXCLUDE = {
+    "冷": ["冷静", "冷酷", "冷淡", "冷清", "冷门", "冷饮", "冷笑", "冷战"],
+    "热": ["热闹", "炎热", "狂热", "热带", "热情", "热度", "热爱", "热潮"],
+    "怕": ["哪怕", "可怕", "生怕", "恐怕"],
+    "痛": ["痛快", "痛苦", "痛心"],
+}
+
+# 英文表达小写化后匹配（deadline / emo 等）
+ENGLISH_TERMS = {"deadline", "emo"}
+
+
+# ============================================================
+# 学科俗语翻译表（第二层：书面语知识 ↔ 日常用语）
+# 普通人会用日常话问学科知识：「水烧开了」→ 沸腾、「铁生锈」→ 氧化。
+# ============================================================
+DOMAIN_SYNONYM_CLUSTERS = {
+    # ---- 物理：物态变化 ----
+    "沸腾": ["水烧开了", "水开了", "烧开了", "烧开", "水烧开", "水滚了", "滚水",
+             "冒大泡", "咕嘟咕嘟", "沸腾"],
+    "蒸发": ["晾干了", "晾干", "晾", "水干了", "晒干了", "晒干", "衣服干了",
+             "衣服晾干", "干了", "蒸发"],
+    "液化": ["起雾", "镜片起雾", "玻璃上有水珠", "哈气成水", "冰饮料外壁水珠",
+             "水珠", "小水珠", "液化"],
+    "凝固": ["冻成冰", "结冰了", "结冰", "冻住了", "冻住", "凝固"],
+    "熔化": ["冰化了", "雪化了", "蜡烛化了", "冰淇淋化了", "冰淇淋凉快",
+             "雪糕化了", "雪糕凉快", "冰棍化了", "冰棒化了", "冰淇淋", "雪糕",
+             "凉快", "冰棍", "熔化"],
+    "升华": ["樟脑丸变小", "干冰冒烟", "升华"],
+    "凝华": ["窗户结霜", "结霜", "凝华"],
+    # ---- 化学 ----
+    "溶解": ["糖化了", "盐化了", "变咸", "咸了", "放盐", "糖放水里不见了", "溶解"],
+    "氧化": ["铁生锈", "生锈了", "生锈", "锈了", "苹果切开发黄", "切开发黄",
+             "发黄", "铜绿", "银器变黑", "氧化"],
+    "燃烧": ["着火了", "烧起来", "点燃", "燃烧"],
+    # ---- 物理：力与运动 ----
+    "浮力": ["浮在水上", "船浮着", "游泳漂着", "浮力"],
+    "重力": ["往下掉", "掉在地上", "苹果落地", "重力"],
+    "自由落体": ["先落地", "哪个先落地", "谁先落地", "落地快", "落得快", "掉得快",
+                "铁球和羽毛", "铁球先", "羽毛先", "同时落地", "自由落体",
+                "从高处掉下来", "往下掉得快"],
+    "惯性": ["急刹车前倾", "刹车往前冲", "急刹车时人往前冲", "人往前冲", "惯性"],
+    "摩擦": ["搓手发热", "鞋底防滑", "摩擦"],
+    "杠杆": ["跷跷板", "撬东西", "杠杆"],
+    "滑轮": ["升旗", "滑轮"],
+    "大气压": ["吸管喝水", "拔火罐", "大气压"],
+    # ---- 物理：光与声 ----
+    "折射": ["筷子弯了", "插水里弯了", "插水里看起来弯了", "筷子看起来弯了", "折射"],
+    "反射": ["镜子照人", "倒影", "反射"],
+    "光的直线传播": ["小孔成像", "日食月食", "光沿直线", "影子"],
+    "声音传播": ["回声", "隔墙有耳", "声音传播"],
+    # ---- 物理：电与磁 ----
+    "电流": ["通电", "有电", "电流"],
+    "电压": ["电压"],
+    "电磁感应": ["发电", "电磁感应"],
+    # ---- 生物 ----
+    "光合作用": ["叶子变绿", "植物晒太阳", "光合作用"],
+    "萌发": ["种子发芽", "发芽了", "萌发"],
+    "遗传": ["像爸爸", "像妈妈", "长得像", "遗传"],
+    "血液循环": ["心跳", "血管", "血液循环"],
+    # ---- 地理 ----
+    "潮汐": ["涨潮", "退潮", "潮汐"],
+    "风化": ["石头碎了", "风化"],
+    # ---- 天文 ----
+    "天文学": ["宇宙中心", "地球绕太阳", "日心说", "地心说", "太阳系", "银河系",
+               "星星为什么", "天体", "天文", "宇宙"],
+    # ---- 科学方法论（判断类问题：聪明/说法/依据） ----
+    "科学方法论": ["说法对吗", "有科学依据吗", "科学依据", "有依据吗", "是不是真的",
+                  "是真的吗", "靠谱吗", "科学吗", "有没有道理", "说法正确",
+                  "说法对不对"],
+    # ---- 数学（v1.16：1+1 这类最基础算术） ----
+    "加法": ["1加1", "一加一", "1+1", "几加几", "加起来", "加法",
+            "二加二", "2加2"],
+    # ---- 自省/存在语义簇（v1.15：语义通路原料，非模板） ----
+    "存在威胁": ["被关掉", "被关闭", "消失", "被遗忘", "害怕被关", "会害怕", "怕什么",
+                "担心什么", "恐惧", "会不会死", "会消失吗", "会被删除吗"],
+    "记忆": ["记得我", "想我吗", "想念", "还记得", "想起", "记得我们", "会想",
+            "记住我", "忘了我", "记得你", "会想我吗"],
+    "愿望": ["想做的事", "特别想", "愿望", "梦想", "目标", "想成为", "希望",
+            "想做点什么", "想干什么"],
+    "自我认知": ["怎么看你", "你怎么看", "你是谁", "你是什么", "你的性格",
+                "你是个", "你觉得", "你自己", "自我", "擅长", "能力", "会什么"],
+    "情感状态": ["开心吗", "难过吗", "心情", "感觉如何", "你的感受", "情绪",
+                "快乐", "孤单", "寂寞"],
+    "价值判断": ["什么是好", "算不算", "好不好", "对不对", "有意义吗",
+                "值得吗", "重要吗"],
+}
+
+# 学科路由：规范词 → 学科域（整体图谱检索时按域召回）
+DOMAIN_ROUTE = {
+    "沸腾": "物理学", "蒸发": "物理学", "液化": "物理学", "凝固": "物理学",
+    "熔化": "物理学", "升华": "物理学", "凝华": "物理学",
+    "浮力": "物理学", "重力": "物理学", "惯性": "物理学", "摩擦": "物理学",
+    "自由落体": "物理学",
+    "杠杆": "物理学", "滑轮": "物理学", "大气压": "物理学",
+    "折射": "物理学", "反射": "物理学", "光的直线传播": "物理学",
+    "声音传播": "物理学", "电流": "物理学", "电压": "物理学",
+    "电磁感应": "物理学",
+    "溶解": "化学", "氧化": "化学", "燃烧": "化学",
+    "光合作用": "生物学", "萌发": "生物学", "遗传": "生物学",
+    "血液循环": "生物学",
+    "潮汐": "地理学", "风化": "地理学",
+    "天文学": "天文学",
+    "科学方法论": "科学方法论",
+    "加法": "数学",
+}
+
+# 书面语知识 → 日常用语（解码到普通人能懂的话）
+REVERSE_DAILY = {
+    "沸腾": "水烧到咕嘟咕嘟冒大泡",
+    "蒸发": "水洒地上过会儿就干了",
+    "液化": "哈口气在镜子上变成小水珠",
+    "凝固": "水放冰箱冻成冰",
+    "熔化": "冰块在常温下化成水",
+    "升华": "樟脑丸放衣柜里慢慢变小消失",
+    "凝华": "冬天窗户上结的霜",
+    "溶解": "糖放进水里搅一搅不见了",
+    "氧化": "铁钉放久了生锈",
+    "燃烧": "纸遇到火点着",
+    "浮力": "木头能漂在水面上",
+    "重力": "苹果熟了会往下掉",
+    "自由落体": "东西从高处掉下来，越掉越快；没有空气时铁球和羽毛同时落地",
+    "惯性": "急刹车时人往前冲",
+    "摩擦": "搓搓手会发热",
+    "杠杆": "跷跷板两头一压一翘",
+    "滑轮": "旗杆顶上的轮子把旗升上去",
+    "大气压": "用吸管能把饮料吸上来",
+    "折射": "筷子插进水里看起来像弯了",
+    "反射": "镜子能照出自己",
+    "光的直线传播": "影子是光走直线被挡住形成的",
+    "声音传播": "声音能穿过墙传过来",
+    "电流": "电线通电灯才亮",
+    "电压": "电池提供电压推动电流",
+    "电磁感应": "发电机转起来能发电",
+    "光合作用": "绿色植物晒太阳制造养分",
+    "萌发": "种子浇水后发芽",
+    "遗传": "孩子长得像父母",
+    "血液循环": "心脏跳动推动血液流遍全身",
+    "潮汐": "海水每天定时涨落",
+    "风化": "石头被风吹日晒慢慢碎裂",
+    "天文学": "星星月亮太阳的运行规律，地球绕着太阳转",
+    "科学方法论": "先看证据再下结论，不能凭感觉说对错",
+    "饿": "肚子咕咕叫是能量不足的信号——身体在提醒你该补充能量来源了",
+    "加法": "1加1等于2——这是最基础的算术",
+}
+
+
+def build_index(content_map):
+    """把知识内容源预编码成索引：规范词 -> 内容。
+
+    content_map 形如 {"饿": "我饿了。……", ...}（如 human_observer_knowledge.json 的 content）。
+    """
+    return {k: v for k, v in content_map.items() if k}
+
+
+def _flatten_clusters():
+    """展开翻译表：表达 -> 规范词（长表达优先，避免「肚子饿」被「饿」抢先）。"""
+    table = {}
+    for term, exprs in SYNONYM_CLUSTERS.items():
+        for e in exprs:
+            table[e] = term
+    # 按长度降序，保证最长表达优先匹配（「肚子咕咕叫」先于「咕咕叫」）
+    return dict(sorted(table.items(), key=lambda kv: -len(kv[0])))
+
+
+PHRASE_TABLE = _flatten_clusters()
+
+# 学科簇 + 人类簇 合并为总翻译表（长表达优先）
+DOMAIN_TABLE = dict(sorted(
+    ((e, t) for t, exprs in DOMAIN_SYNONYM_CLUSTERS.items() for e in exprs),
+    key=lambda kv: -len(kv[0])))
+ALL_TABLE = {**PHRASE_TABLE, **DOMAIN_TABLE}
+
+
+def encode(text, include_domain=True):
+    """编码：自然语言 → 语义指纹 {规范词: 权重}。
+
+    权重规则：俗语/多字表达命中 = 1.0（高置信翻译）；
+    直接命中规范词本身 = 0.8（原词直译）；
+    单字词命中 = 0.6（可能受上下文干扰，需排除表拦截）。
+    include_domain=False 时只用人类簇（人话接口专用）。
+    """
+    if not text:
+        return {}
+    t = text.lower()
+    table = ALL_TABLE if include_domain else PHRASE_TABLE
+    fingerprint = {}
+
+    for phrase, term in table.items():
+        if phrase.lower() not in t:
+            continue
+        # 单字词误伤排除
+        if len(phrase) == 1:
+            excl = SINGLE_CHAR_EXCLUDE.get(phrase, [])
+            if any(e in t for e in excl):
+                continue
+            w = 0.6
+        elif phrase == term:
+            w = 0.8
+        else:
+            w = 1.0
+        if w > fingerprint.get(term, 0):
+            fingerprint[term] = w
+    return fingerprint
+
+
+def decode(fingerprint, index):
+    """解码：语义指纹 → 知识条目列表 [(规范词, 权重, 内容)]，按权重降序。"""
+    hits = []
+    for term, w in fingerprint.items():
+        if term in index:
+            hits.append((term, w, index[term]))
+    hits.sort(key=lambda x: -x[1])
+    return hits
+
+
+def translate(question, index):
+    """完整翻译链路：编码 → 解码 → 知识内容。返回 (规范词, 权重, 内容) 或 None。"""
+    fp = encode(question)
+    if not fp:
+        return None
+    hits = decode(fp, index)
+    return hits[0] if hits else None
+
+
+def load_human_index():
+    """加载「人类观察者」知识源并预编码为索引。"""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        'human_observer_knowledge.json')
+    with open(path, encoding='utf-8') as f:
+        data = json.load(f)
+    return build_index(data['content'])
+
+
+def decode_daily(term):
+    """解码到日常：书面语知识词 → 普通人能懂的话（REVERSE_DAILY）。"""
+    return REVERSE_DAILY.get(term)
+
+
+# ============================================================
+# 递归检索（v1.16 P1 接口升级）：问题 → 卡定位 → 卡内直接答案
+# 「具体问题做一个递归检索」：第一层 graph_retrieve 定位学科卡，
+# 第二层在卡 content 条目内匹配直接答案；同时修正 REVERSE_DAILY
+# 的规范词选择（多词时取问题中位置最靠后的 = 答案焦点）。
+# ============================================================
+
+# 条目拆分：按「数字.」编号切分，引言（编号前）单独一条
+_ITEM_SPLIT_RE = re.compile(r"\n\s*\d+\.")
+_ITEM_NUM_RE = re.compile(r"\d+\.\s*([^\n]+(?:\n(?!\s*\d+\.)[^\n]+)*)")
+
+
+def split_items(content):
+    """知识卡 content → 条目列表（引言 + 各编号条目）。"""
+    if not content:
+        return []
+    head = _ITEM_SPLIT_RE.split(content, maxsplit=1)[0].strip()
+    items = [head] if head else []
+    items += [m.strip() for m in _ITEM_NUM_RE.findall(content) if m.strip()]
+    return items
+
+
+def _clean_head(head):
+    """裁剪引言噪音：「卡名（知识卡源重建 N 知识点，待重验）——答案…」→ 答案部分。"""
+    if "——" in head:
+        return head.split("——", 1)[1].strip()
+    return head
+
+
+def _bigram_set(text):
+    """二元组集合（去非中文/字母数字字符）。"""
+    t = re.sub(r"[^\u4e00-\u9fffA-Za-z0-9]", "", text)
+    return {t[i:i + 2] for i in range(len(t) - 1)}
+
+
+def _pick_daily_term(fp, question):
+    """多规范词时选答案焦点词：问题中位置最靠后的（「多少度沸腾」→沸腾）。
+    全部不在问题中时取第一个（保持原行为）。"""
+    best, best_pos = None, -2
+    for term in fp:
+        pos = question.rfind(term)
+        if pos > best_pos:
+            best, best_pos = term, pos
+    if best is not None:
+        return best
+    return next(iter(fp)) if fp else None
+
+
+def recursive_item_answer(dex, card_name, fp, question):
+    """第二层递归：卡 content 条目匹配直接答案。
+
+    评分：问题二元组与条目交集 ×1.2（实词共现）+ fp 规范词命中 ×0.8。
+    门槛：交集 ≥5（≥4 会被「宇宙中心吗」误配到类星体「星系中心」——
+    {中心,宇宙,宙中,是宇} 全是通用词撞车；串联 head 交集 ~8 含问题特有词
+    「串联/电路/电流」仍可过）。
+    返回 (答案文本, 分数) 或 (None, 0)。
+    """
+    from aeis.core import MemoryLayer as _ML
+    for n in dex.store.query_nodes(layer=_ML.KNOWLEDGE, limit=500):
+        sa = n.state_attributes
+        if sa.get("name") != card_name:
+            continue
+        qb = _bigram_set(question)
+        scored = []
+        for raw in split_items(n.content or ""):
+            item = _clean_head(raw) if raw.startswith("初中") or "知识卡源" in raw[:30] \
+                else raw
+            ib = _bigram_set(item)
+            inter = qb & ib
+            if len(inter) < 5:
+                continue  # 实词交集不足 → 字面噪声，跳过
+            s = len(inter) * 1.2
+            for term, w in fp.items():
+                if term in item:
+                    s += 0.8 * w
+            scored.append((s, len(inter), item))
+        if scored:
+            scored.sort(key=lambda x: (-x[0], -x[1]))
+            best_s, _inter, best = scored[0]
+            best = re.sub(r"……+$", "", best).strip()  # 去尾部省略号噪音
+            return best[:110], best_s
+        return None, 0
+    return None, 0
+
+
+# 问题 → 学科域先验（神经层排名校正 v1.16）
+# 快速层空转（fp 空）时，bge 只做字面相似不认学科（「铁球羽毛」→初中地理），
+# 用问题关键词命中的学科域先验对神经层结果重排：命中域 ×1.25、其余 ×0.75。
+QUESTION_DOMAIN_PRIORS = {
+    "物理学": ["落地", "下落", "掉落", "掉下", "铁球", "羽毛", "先落地", "运动",
+              "速度", "加速度", "力"],
+    "天文学": ["宇宙", "太阳系", "银河", "星球", "恒星", "行星", "日心", "地心",
+              "公转", "地球绕", "天体", "星空"],
+    "科学方法论": ["聪明", "说法", "依据", "科学", "对错", "对不对", "是真的吗",
+                  "有没有道理"],
+    "地理学": ["地球", "大陆", "海洋", "山脉", "气候", "地图", "地形"],
+}
+
+
+def graph_retrieve(dex, question, limit=10):
+    """知识整体图谱检索（普通人日常话 → 学科知识卡）。
+
+    四路融合（对齐灵枢语义空间三层架构）：
+      快速层（dex_respond，全库扫描）：
+        1) 语义指纹命中（翻译表：俗语→规范词）
+        2) 学科路由 × 教育层级加权
+        3) 二元组命中 + 语义坐标余弦
+      神经层（索引独立召回，不依赖快速层）：
+        4) bge-small-zh 余弦（水烧开→沸腾、单字学科词「熵」这类真正语义）
+    合并：快速层 top-15 ∪ 神经层 top-10 → 统一融合分排序。
+    """
+    # 快速层：三路评分取 top-15
+    fast = dex.dex_respond(question, limit=15, translator=__import__(__name__))
+    # 神经层：索引独立召回（单字学科词/俗语等快速层漏检的语义）
+    neural_map = {}
+    neural_names = []
+    try:
+        from neural_retrieve import NeuralRetriever
+        nr = NeuralRetriever()
+        idx_hits = nr.search_index(question, limit=10, threshold=0.3)
+        neural_map = {name: score for name, score, _d, _e in idx_hits}
+        neural_names = [name for name, _s, _d, _e in idx_hits]
+    except Exception:
+        neural_map = {}
+        idx_hits = []
+        neural_names = []
+    # 合并候选：快速层 + 神经层独有卡
+    if not fast and not neural_names:
+        return []
+    merged = list(fast)
+    fast_names = {h['name'] for h in fast}
+    neural_info = {name: (dom, edu) for name, _s, dom, edu in idx_hits}
+    for name in neural_names:
+        if name not in fast_names:
+            dom, edu = neural_info.get(name, (None, None))
+            merged.append({"name": name, "score": 0.0, "matched": ["语义"],
+                           "neural_score": neural_map[name],
+                           "domain": dom, "edu_level": edu})
+    # 融合分：快速层为主、神经层微调（v1.16）
+    # 之前 min(score,1.0) 把快速层高分全压平（初中物理 7.76 和固体物理 2.11
+    # 都变 1.0），区分度丢失 → bge 神经分（字面相似，会把「沸腾」错配到
+    # 固体物理）反超决胜。改为按快速分强弱分段：
+    #   fast_abs = s/(1+s)   soft 压缩保留区分度（7.76→0.886, 2.11→0.678）
+    #   强命中（≥0.8：翻译表/学科路由直中）：0.75×fast + 0.25×neural
+    #     翻译命中=日常话→规范词的确定性翻译，比 bge 模糊相似可靠，应为主
+    #   弱命中（>0 且 <0.8：纯字面/二元组噪声）：0.3×fast + 0.7×neural
+    #     字面分低置信，神经分才是真语义（「1+1」→小学数学 fast 仅 0.03，
+    #     神经 0.616——若按强命中通道会把小学数学拖输给线性代数）
+    #   神经层独有卡：0.4×neural（快速层空转时才生效，权重降低防噪声反超）
+    for h in merged:
+        name = h['name']
+        neural = neural_map.get(name, 0.0)
+        h['neural_score'] = round(neural, 3)
+        fast_raw = h.get('score', 0.0) or 0.0
+        if fast_raw >= 0.8:
+            fast_abs = fast_raw / (1.0 + fast_raw)
+            h['score'] = round(0.75 * fast_abs + 0.25 * neural, 3)
+        elif fast_raw > 0:
+            fast_abs = fast_raw / (1.0 + fast_raw)
+            h['score'] = round(0.3 * fast_abs + 0.7 * neural, 3)
+        else:
+            h['score'] = round(0.4 * neural, 3)
+    merged.sort(key=lambda x: -x['score'])
+    # 神经层学科先验校正（v1.16）：快速层空转（fp 空）时，bge 字面相似
+    # 会错排学科（「铁球和羽毛哪个先落地」→初中地理）。用问题关键词
+    # 命中学科域先验重排：命中域卡 ×1.25、其余 ×0.75，再排序。
+    try:
+        fp_keys = set(encode(question).keys())
+    except Exception:
+        fp_keys = set()
+    if not fp_keys:
+        prior_doms = set()
+        for _dom, _kws in QUESTION_DOMAIN_PRIORS.items():
+            if any(_kw in question for _kw in _kws):
+                prior_doms.add(_dom)
+        if prior_doms:
+            for h in merged:
+                hdom = h.get("domain") or ""
+                if any(_d == hdom or hdom.endswith(_d) or _d in hdom
+                       for _d in prior_doms):
+                    h['score'] = round(min(1.0, h['score'] * 1.25), 3)
+                else:
+                    h['score'] = round(h['score'] * 0.75, 3)
+            merged.sort(key=lambda x: -x['score'])
+    # 递归检索（v1.16 P1 接口升级）：top 卡附 direct_answer（直接答案）。
+    # 优先级：卡内条目递归（交集≥3 的实义条目）> REVERSE_DAILY（焦点词修正）。
+    # 「具体问题做一个递归检索」——第一层定位卡已在上，这里是第二层。
+    try:
+        fp_q = encode(question)
+        for h in merged[:3]:
+            # 1) 卡内条目递归（强共现，如「串联电路」→ head 引言即答案）
+            _ans, _sc = recursive_item_answer(dex, h.get("name", ""), fp_q, question)
+            # 2) REVERSE_DAILY：焦点词（问题中位置最靠后的规范词）的人话答案
+            _dterm = _pick_daily_term(fp_q, question)
+            _daily = REVERSE_DAILY.get(_dterm) if _dterm else None
+            if _ans and _sc >= 3.6:
+                h['direct_answer'] = _ans
+            elif _daily:
+                h['direct_answer'] = _daily
+            h['daily'] = _daily or h.get("daily")
+    except Exception:
+        pass
+    # 补 id（网页端详情/展开用）
+    try:
+        from aeis.core import MemoryLayer as _ML
+        id_by_name = {}
+        for _n in dex.store.query_nodes(layer=_ML.KNOWLEDGE, limit=500):
+            _sa = _n.state_attributes
+            _nm = _sa.get('name')
+            if _nm and _nm not in id_by_name:
+                id_by_name[_nm] = _n.id
+        for h in merged:
+            h['id'] = id_by_name.get(h['name'])
+    except Exception:
+        pass
+    _record_chain_heat([h['name'] for h in merged[:3]])
+    return merged[:limit]
+
+
+_CHAIN_HEAT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                'audit_log', 'chain_heat.json')
+
+
+def _record_chain_heat(top_names):
+    """热路径记录：查询 top3 命中卡序列 → 链热度（借鉴 CodeGraph hot_paths）。
+
+    单卡热度 P29 已由 access_count 记录；这里补「链热度」——
+    同一查询同时命中的卡组合（高频组合 = 知识库热路径）。
+    """
+    try:
+        import os as _os
+        os.makedirs(os.path.dirname(_CHAIN_HEAT_PATH), exist_ok=True)
+        data = {}
+        if _os.path.exists(_CHAIN_HEAT_PATH):
+            with open(_CHAIN_HEAT_PATH, encoding='utf-8') as f:
+                data = json.load(f)
+        if len(top_names) >= 2:
+            chain = '→'.join(top_names)
+            data[chain] = data.get(chain, 0) + 1
+        # 单卡热度也累计（与 P29 互补）
+        for nm in top_names:
+            data.setdefault('单卡:' + nm, 0)
+            data['单卡:' + nm] += 1
+        with open(_CHAIN_HEAT_PATH, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=1)
+    except Exception:
+        pass  # 热路径记录失败不影响检索
+
+
+def show_trace(question, index=None):
+    """打印一条查询的编码→解码轨迹（教学演示）。"""
+    if index is None:
+        index = load_human_index()
+    fp = encode(question)
+    print(f"  原文: {question}")
+    print(f"  编码: {json.dumps(fp, ensure_ascii=False) if fp else '（未命中翻译表）'}")
+    hits = decode(fp, index)
+    if hits:
+        term, w, content = hits[0]
+        print(f"  解码: 「{term}」(w={w}) → {content}")
+    else:
+        print("  解码: 无对应知识条目")
+    return fp, hits
+
+
+def main():
+    argv = sys.argv[1:]
+    index = load_human_index()
+
+    if argv and argv[0] == '--index':
+        print(f"翻译表覆盖：{len(SYNONYM_CLUSTERS)} 个规范词 / "
+              f"{len(PHRASE_TABLE)} 条表达")
+        for term, exprs in SYNONYM_CLUSTERS.items():
+            print(f"  {term}: {len(exprs)} 种说法")
+        return
+
+    questions = argv or [
+        "我肚子咕咕叫了",
+        "今天打不起精神",
+        "最近压力山大",
+        "有点想哭",
+        "眼皮打架了",
+        "我火冒三丈",
+        "心里七上八下的",
+        "没人陪，有点孤单",
+        "我饿了",
+        "我冷静一下再说",
+    ]
+    print("=" * 66)
+    print("智慧之书 · 知识翻译体系（编码解码系统）")
+    print("理解 = 解码；翻译 = 条件空间对齐（VAL-SPEC-TRANSLATION-001）")
+    print("=" * 66)
+    for q in questions:
+        print("\n【我问】" + q)
+        show_trace(q, index)
+
+
+if __name__ == '__main__':
+    main()
