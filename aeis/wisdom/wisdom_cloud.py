@@ -154,12 +154,6 @@ class DexHandler(BaseHTTPRequestHandler):
                     params.get("knowledge", ""),
                     limit=int(params.get("limit", 5)),
                     max_anchors=int(params.get("max_anchors", 3)))}
-            if op == "trust_judge":
-                return {"op": op, "results": d.dex_trust_judge(
-                    params.get("knowledge", ""),
-                    trust=params.get("trust"),
-                    relation=params.get("relation", "public"),
-                    limit=int(params.get("limit", 4)))}
             if op == "test":
                 return {"op": op, "results": d.dex_test(params.get("knowledge", ""))}
             if op == "battle":
