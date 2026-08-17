@@ -8,7 +8,7 @@ version = "0.3.0"
 description = "灵枢 AEIS — Agent Engineering Implementation Specification：基于智能论 v3.2 的智能体工程实现规范库（五层记忆 · 知识飞轮 · 生命周期 · MCP）"
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "智能论 v3.2 协议框架 · 保留所有权利" }
+license = { text = "MIT" }
 authors = [{ name = "荣 & zcode-肥鱼（智能论协议工程）" }]
 keywords = ["agent", "memory", "cognition", "protocol", "aeis", "智能体", "记忆", "灵枢"]
 classifiers = [
