@@ -128,6 +128,16 @@ def _tools():
          "description": "一轮盲区学习（可预测盲区 → 预测路线假设 → 探索 → 终态判定）。",
          "inputSchema": {"type": "object",
                          "properties": {"use_prediction": {"type": "boolean"}}}},
+        {"name": "prediction_feedback",
+         "description": "验证回路回填（协议 2.10 D₃ · D-006 动态校准）：预测 vs 实际结果对比 → 命中强化/未命中登记。回填累积样本使 self_reliability(P0-4)/T_pred D₃ 生效。hit 可省略（predicted==actual 自动命中）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"predicted_node_id": {"type": "string"},
+                                        "actual_node_id": {"type": "string"},
+                                        "hit": {"type": "boolean"},
+                                        "note": {"type": "string"}}}},
+        {"name": "prediction_stats",
+         "description": "预测引擎状态（routes 生成数 / hit 样本 / 命中率 / 动态阈值）。",
+         "inputSchema": {"type": "object"}},
         {"name": "induce",
          "description": "归纳/知识合成：聚类生成概念节点（SIMILAR 边 · inferred 证据）。",
          "inputSchema": {"type": "object"}},
@@ -147,6 +157,17 @@ def _tools():
         {"name": "lifecycle_step",
          "description": "生命周期一步（感知→好奇→缩小信息差→信任→协作→巩固→standby）。",
          "inputSchema": {"type": "object"}},
+        {"name": "lifecycle_state",
+         "description": "生命周期状态（cycle / state），不执行一步。",
+         "inputSchema": {"type": "object"}},
+        {"name": "start_lifecycle",
+         "description": "启动生命周期自发循环（后台线程 · 每 interval 秒一步自主运行：感知→好奇→缩小信息差→巩固）。中断权：维生系统>验证单元>用户>实例。",
+         "inputSchema": {"type": "object",
+                         "properties": {"interval": {"type": "number"}}}},
+        {"name": "stop_lifecycle",
+         "description": "中断生命周期自发循环（source: user/designer/verifier/vital_system）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"source": {"type": "string"}}}},
         {"name": "self_check",
          "description": "完整性自检（孤儿边/表统计/integrity_ok）。",
          "inputSchema": {"type": "object"}},
@@ -249,6 +270,25 @@ def _tools():
                                         "entities": {"type": "array", "items": {"type": "string"}},
                                         "importance_hint": {"type": "number"}},
                          "required": ["content"]}},
+        {"name": "prefeed",
+         "description": "H1 海马体前馈：新奇检测 → 高新奇输入当场强化编码（标记 novel_prefeed + importance 提升 + 与相关知识建边）——「看到新东西眼睛一亮，主动记住」。",
+         "inputSchema": {"type": "object",
+                         "properties": {"content": {"type": "string"},
+                                        "source": {"type": "string"},
+                                        "tags": {"type": "array", "items": {"type": "string"}},
+                                        "entities": {"type": "array", "items": {"type": "string"}}},
+                         "required": ["content"]}},
+        {"name": "pattern_separation",
+         "description": "H3 海马体模式分离：扫描相似节点对 → 建立分离边（条件差异显式化）。检索时命中相似节点会附「区别」提示——细化条件得到精确知识。",
+         "inputSchema": {"type": "object",
+                         "properties": {"limit": {"type": "number"}}}},
+        {"name": "reconstruct_scene",
+         "description": "H4 海马体情景重构：线索 → 条件空间下的信息复原。从部分片段重建完整记忆场景（沿 similar/causal 边 + 条件空间合成），输出标注「重构非回放」——回忆是当前条件下的分析恢复，不代表真实过去就是如此（0.0.3）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"clue": {"type": "string"},
+                                        "depth": {"type": "number"},
+                                        "max_nodes": {"type": "number"}},
+                         "required": ["clue"]}},
         {"name": "promote_memories",
          "description": "情境层批量提升扫描（睡眠巩固/会话结束）：够格者升知识层/长期层（LongTermMemoryGate 评估）。limit 可选。",
          "inputSchema": {"type": "object",
@@ -269,6 +309,14 @@ def _tools():
                                         "action": {"type": "string"},
                                         "params": {"type": "object"}},
                          "required": ["name", "action"]}},
+        {"name": "run_command",
+         "description": "命令执行（独立于 body 装配，任意模式可用）。command 必须是参数列表（禁 shell 字符串/管道/重定向——防注入）；跨平台（win32 下 subprocess.run 正常）。返回 {status, exit_code, stdout, stderr, elapsed_s, stdout_truncated}。",
+         "inputSchema": {"type": "object",
+                         "properties": {"command": {"type": "array", "items": {"type": "string"}},
+                                        "cwd": {"type": "string"},
+                                        "timeout_ms": {"type": "number"},
+                                        "workspace": {"type": "string"}},
+                         "required": ["command"]}},
         {"name": "action_log",
          "description": "P0-1 行为日志（最近 N 条）：引擎自己做了什么的记录面。",
          "inputSchema": {"type": "object",
@@ -351,6 +399,12 @@ def _tools():
                          "properties": {"condition": {"type": "string"},
                                         "limit": {"type": "number"}},
                          "required": ["condition"]}},
+        {"name": "wisdom_chat",
+         "description": "灵枢 · 信息分层对话（v1.16）：先语义识别分流——情感/闲聊/记忆/自省/知识查询走智慧之书自处理；智慧之书没把握/无法判断时自动转 LLM（DeepSeek 续答，智慧之书回答作上下文）。返回含 route 字段：self=自处理 / llm=LLM 续答 / self_fallback=LLM 不可用回退。",
+         "inputSchema": {"type": "object",
+                         "properties": {"message": {"type": "string"},
+                                        "session_id": {"type": "string"}},
+                         "required": ["message"]}},
     ]
 
 
@@ -461,6 +515,12 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.blindspots(a.get("status")))}], "isError": False}
         if name == "learn":
             return {"content": [{"type": "text", "text": _dump(agent.learn(use_prediction=a.get("use_prediction", True)))}], "isError": False}
+        if name == "prediction_feedback":
+            return {"content": [{"type": "text", "text": _dump(agent.prediction_feedback(
+                a.get("predicted_node_id"), a.get("actual_node_id"),
+                hit=a.get("hit"), note=a.get("note", "")))}], "isError": False}
+        if name == "prediction_stats":
+            return {"content": [{"type": "text", "text": _dump(agent.prediction_stats())}], "isError": False}
         if name == "induce":
             return {"content": [{"type": "text", "text": _dump(agent.induce())}], "isError": False}
         if name == "distill":
@@ -473,6 +533,12 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.calibrate())}], "isError": False}
         if name == "lifecycle_step":
             return {"content": [{"type": "text", "text": _dump(agent.step())}], "isError": False}
+        if name == "lifecycle_state":
+            return {"content": [{"type": "text", "text": _dump(agent.lifecycle_state())}], "isError": False}
+        if name == "start_lifecycle":
+            return {"content": [{"type": "text", "text": _dump(agent.start_lifecycle(interval=a.get("interval", 60.0)))}], "isError": False}
+        if name == "stop_lifecycle":
+            return {"content": [{"type": "text", "text": _dump(agent.stop_lifecycle(source=a.get("source", "user")))}], "isError": False}
         if name == "self_check":
             return {"content": [{"type": "text", "text": _dump(agent.self_check())}], "isError": False}
         if name == "gap_trend":
@@ -534,6 +600,17 @@ class AEISServer:
                 a.get("content", ""), source=a.get("source", "mcp"),
                 tags=a.get("tags"), entities=a.get("entities"),
                 importance_hint=a.get("importance_hint")))}], "isError": False}
+        if name == "prefeed":
+            return {"content": [{"type": "text", "text": _dump(agent.prefeed(
+                a.get("content", ""), source=a.get("source", "mcp"),
+                tags=a.get("tags"), entities=a.get("entities")))}], "isError": False}
+        if name == "pattern_separation":
+            return {"content": [{"type": "text", "text": _dump(agent.pattern_separation(
+                limit=a.get("limit", 150)))}], "isError": False}
+        if name == "reconstruct_scene":
+            return {"content": [{"type": "text", "text": _dump(agent.reconstruct_scene(
+                a.get("clue", ""), depth=a.get("depth", 2),
+                max_nodes=a.get("max_nodes", 8)))}], "isError": False}
         if name == "promote_memories":
             return {"content": [{"type": "text", "text": _dump(agent.promote_memories(
                 limit=a.get("limit", 30)))}], "isError": False}
@@ -545,6 +622,12 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.body_devices())}], "isError": False}
         if name == "device_call":
             result = agent.device_call(a.get("name", ""), a.get("action", ""), a.get("params"))
+            return {"content": [{"type": "text", "text": _dump(result)}],
+                    "isError": result.get("status") != "ok"}
+        if name == "run_command":
+            result = agent.run_command(a.get("command", []), cwd=a.get("cwd"),
+                                       timeout_ms=a.get("timeout_ms", 15000),
+                                       workspace=a.get("workspace", ""))
             return {"content": [{"type": "text", "text": _dump(result)}],
                     "isError": result.get("status") != "ok"}
         if name == "action_log":
@@ -619,6 +702,9 @@ class AEISServer:
         if name == "wisdom_respond":
             r = agent.wisdom_respond(a.get("condition", ""), limit=a.get("limit", 3))
             return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "wisdom_chat":
+            r = agent.chat(a.get("message", ""), session_id=a.get("session_id", "default"))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
         raise ValueError(f"unknown tool: {name}")
 
     # ---- JSON-RPC 分发 ----
@@ -682,6 +768,18 @@ class AEISServer:
 
 def main():
     server = AEISServer()
+    # 自主生命周期（v1.15 主动性）：MCP 启动即开始自发循环（感知→好奇→缩小信息差→巩固）
+    # 不依赖外部配置——「她自己醒来」；interval 可由 AEIS_LIFECYCLE_INTERVAL 覆盖，默认 120s
+    try:
+        interval = float(os.environ.get("AEIS_LIFECYCLE_INTERVAL", "120"))
+        res = server.agent.start_lifecycle(interval=interval)
+        import sys as _sys
+        _sys.stderr.write(f"[lifecycle] 自主循环已启动 interval={interval}s → {res.get('status')}\n")
+        _sys.stderr.flush()
+    except Exception as e:
+        import sys as _sys
+        _sys.stderr.write(f"[lifecycle] 启动失败: {e}\n")
+        _sys.stderr.flush()
     server.run()
 
 

@@ -67,6 +67,27 @@ class Agent:
             tags=list(tags or []), entities=list(entities or []) or None,
             condition_space=condition_space)
 
+    def prefeed(self, content: str, source: str = "input",
+                tags: Optional[List[str]] = None,
+                entities: Optional[List[str]] = None) -> Dict:
+        """H1 海马体前馈：新奇检测 → 高新奇输入当场强化编码
+        （标记 novel_prefeed + importance 提升 + 与相关知识建边）。
+        外部输入到达时调用——「看到新东西眼睛一亮，主动记住」。"""
+        return self.engine.prefeed_input(content, source,
+                                         list(tags or []), entities)
+
+    def pattern_separation(self, limit: int = 150) -> Dict:
+        """H3 海马体模式分离：扫描相似节点对 → 建立分离边（条件差异显式化）。
+        检索时命中相似节点会附「区别」提示——细化条件得到精确知识。"""
+        return self.engine.pattern_separation_scan(limit=limit)
+
+    def reconstruct_scene(self, clue: str, depth: int = 2,
+                          max_nodes: int = 8) -> Dict:
+        """H4 海马体情景重构：线索 → 条件空间下的信息复原。
+        从部分片段重建完整记忆场景；输出标注「重构非回放」。"""
+        return self.engine.reconstruct_scene(clue, depth=depth,
+                                             max_nodes=max_nodes)
+
     def recall(self, query: str, limit: int = 10) -> List[Tuple]:
         """组合联想召回（内容相似 0.5 + 重要性 0.3 + 近因 0.2）。
         返回 [(STNode, score)]。"""
@@ -78,20 +99,8 @@ class Agent:
         return self.engine.search_content(query, limit=limit)
 
     def timeline(self, limit: int = 50) -> List[Dict]:
-        """时间线（按时间倒序的记忆快照）。
-
-        修复（2026-08-15）：原实现错误转发到 engine.timeline(node_id,...)
-        签名不匹配 → 必抛 TypeError。改用 get_timeline 时间范围查询。
-        """
-        nodes = self.engine.get_timeline(limit=limit)
-        out = []
-        for n in nodes:
-            d = {"content": getattr(n, "content", ""),
-                 "created_at": getattr(n, "created_at", getattr(n, "ts", 0))}
-            sa = getattr(n, "state_attributes", {}) or {}
-            d["importance"] = sa.get("importance") if isinstance(sa, dict) else None
-            out.append(d)
-        return out
+        """时间线（按时间倒序的记忆快照）。"""
+        return self.engine.timeline(limit=limit)
 
     def what_happened(self, since: float, until: Optional[float] = None) -> List:
         """时间窗口内发生了什么（时态查询）。"""
@@ -151,6 +160,23 @@ class Agent:
     def learn(self, use_prediction: bool = True) -> Dict:
         """一轮盲区学习（可预测盲区 → 预测路线假设 → 探索 → 终态判定）。"""
         return self.engine.learn_next(use_prediction=use_prediction)
+
+    def prediction_feedback(self, predicted_node_id: str = None,
+                            actual_node_id: str = None, hit: bool = None,
+                            note: str = "") -> Dict:
+        """验证回路回填（协议 2.10 D₃ · D-006 动态校准）：
+        把「预测 vs 实际结果」的对比回填给预测引擎——
+        命中 → 路径强化（边置信度 +0.05）；未命中 → 衰减 + 被拒路径登记。
+        回填累积 _hit_history → self_reliability(P0-4)/T_pred D₃ 获得真实样本。
+        hit 可省略：传 predicted/actual 时自动判定（same → hit）。"""
+        if hit is None and predicted_node_id is not None:
+            hit = (predicted_node_id == actual_node_id)
+        return self.engine.update_prediction_feedback(
+            predicted_node_id or "", actual_node_id or "", bool(hit), note=note)
+
+    def prediction_stats(self) -> Dict:
+        """预测引擎状态（routes 生成数 / hit 样本 / 命中率 / 动态阈值）。"""
+        return self.engine.get_prediction_stats()
 
     def induce(self) -> List:
         """归纳/知识合成：并查集聚类 → 概念节点（SIMILAR 边 · inferred 证据）。"""
@@ -212,6 +238,15 @@ class Agent:
         state = getattr(lc, "state", "unknown")
         cycle = getattr(lc, "cycle_count", 0)
         return {"status": "ok", "state": state, "cycle": cycle}
+
+    def start_lifecycle(self, interval: float = 60.0) -> Dict:
+        """启动生命周期自发循环（后台线程 · 每 interval 秒一步）：
+        感知→好奇→缩小信息差→巩固 自动运行。中断权：维生系统>验证单元>用户>实例。"""
+        return self.engine.start_lifecycle(interval=interval)
+
+    def stop_lifecycle(self, source: str = "user") -> Dict:
+        """中断生命周期自发循环（source: user/designer/verifier/vital_system）。"""
+        return self.engine.stop_lifecycle(source=source)
 
     def resolve_crisis(self, decision: str, designer_key: str = None) -> bool:
         """P0 危机终裁（维生系统接口·D-007 需设计者密钥）：decision ∈
@@ -287,9 +322,10 @@ class Agent:
 
     def session_recall(self, session_id: str = None, query: str = None,
                        limit: int = 10) -> List:
-        """会话要点恢复：检索灵枢中的会话记忆（按 session 或语义）。"""
+        """会话要点恢复：检索灵枢中的会话记忆（按 session 或语义）。
+        v1.15：limit 提高到 1000（避免新节点在 200 之外漏检）。"""
         if session_id:
-            nodes = self.engine.store.query_nodes(limit=200)
+            nodes = self.engine.store.query_nodes(limit=1000)
             hits = [(n, 1.0) for n in nodes
                     if any(t.startswith(f"session:{session_id}") for t in n.tags)]
             hits.sort(key=lambda x: -x[0].importance)
@@ -404,32 +440,6 @@ class Agent:
         越权/未知 → 容器化失败（不抛异常）。"""
         return self.engine.device_call(name, action, params)
 
-    def run_command(self, command: list, cwd: str = None,
-                    timeout_ms: int = 15000, workspace: str = "") -> Dict:
-        """命令执行（独立于 body 装配，brain/core 等任意模式可用）。
-
-        安全约束（复用 body.process 引擎）：
-        - command 必须是参数列表（list），禁 shell 字符串/管道/重定向——防注入
-        - 超时终止（默认 15s，上限 120s）；输出截断（10k 字符）
-        - 若提供 workspace，cwd 须在其内（越界拒绝）
-        - 跨平台：win32 下 subprocess.run 正常工作（不依赖 bash/终端检查）
-
-        返回：{status, exit_code, stdout, stderr, elapsed_s, stdout_truncated, cwd}
-        """
-        try:
-            from aeis.body.devices.process import ProcessDevice
-            dev = ProcessDevice(workspace=workspace or "")
-            params = {"command": command, "cwd": cwd}
-            if timeout_ms:
-                params["timeout"] = max(0.5, min(timeout_ms / 1000.0, 120.0))
-            res = dev.invoke("run", params)
-            payload = res.to_dict()
-            payload["status"] = "ok" if res.ok else "error"
-            return payload
-        except Exception as exc:
-            return {"status": "error", "error": str(exc)}
-
-
     def sync_body_state(self) -> Dict:
         """BODY-REV1：身体状态同步到自我模型（感知模态+设备清单）。"""
         return self.engine.sync_body_state()
@@ -489,12 +499,23 @@ class Agent:
         """全库导入（恢复/合并）。"""
         return self.engine.import_all(path)
 
-    # ---- 智慧之书（白箱智能引擎 · wisdom_book 条件论知识图谱） ----
-    _wisdom = None
+    def close(self):
+        """关闭引擎（释放连接）。"""
+        try:
+            self.engine.close()
+        except Exception:
+            pass
+
+    # ---- 智慧之书桥接（lingshu-wisdom · 知识之书入口） ----
+    # 灵枢调用智慧之书（条件论知识图谱）作为主打工具：分析/验证/组合/出招。
+    # 零服务器依赖：直接实例化 wisdom_book 引擎（内存库，随包分发）。
+
+    _wisdom = None  # 惰性装配的智慧之书引擎
 
     def _get_wisdom(self):
-        """惰性加载智慧之书 ConditionDex（类级缓存，只建一次）。"""
-        if type(self)._wisdom is None:
+        """惰性装配智慧之书引擎（小脑接入 v1.15）。
+        优先加载全量知识库（137 卡 + 因果边），无则 fresh+seed_base 兜底。"""
+        if self._wisdom is None:
             import sys as _s
             import os as _os
             _pkg = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
@@ -502,8 +523,27 @@ class Agent:
             if _wdir not in _s.path:
                 _s.path.insert(0, _wdir)
             import wisdom_book as _wb
-            dex = _wb.ConditionDex(fresh=True)
-            dex.seed_base()
+            dex = None
+            # 优先：加载持久化知识库（137 卡全量 · 网页端同库）
+            _wdb = _os.path.join(_wdir, "wisdom-book-cloud.db")
+            if _os.path.exists(_wdb) and _os.path.getsize(_wdb) > 4096:
+                try:
+                    dex = _wb.ConditionDex(db_path=_wdb, fresh=False)
+                except Exception:
+                    dex = None
+            # 兜底：全新种子（新环境）
+            if dex is None:
+                dex = _wb.ConditionDex(fresh=True)
+                dex.seed_base()
+            # 填充 _by_name（全量节点名 → id，供四件套/关系查询）
+            try:
+                from aeis.core import MemoryLayer as _ML
+                for _n in dex.store.query_nodes(layer=_ML.KNOWLEDGE, limit=500):
+                    _nm = _n.state_attributes.get("name")
+                    if _nm and _nm not in dex._by_name:
+                        dex._by_name[_nm] = _n.id
+            except Exception:
+                pass
             type(self)._wisdom = dex
         return self._wisdom
 
@@ -512,7 +552,7 @@ class Agent:
         return self._get_wisdom().dex_analyze(knowledge, limit=limit)
 
     def wisdom_verify(self, knowledge: str, limit: int = 5) -> Dict:
-        """智慧之书 · 自动验证（P5 信息修复 · 基地裁判）——互维协议双通道的白箱通道。"""
+        """智慧之书 · 自动验证（P5 信息修复 · 基地裁判）。"""
         return self._get_wisdom().dex_auto_verify(knowledge, limit=limit)
 
     def wisdom_compose(self, knowledge: str, limit: int = 5) -> Dict:
@@ -520,22 +560,84 @@ class Agent:
         return self._get_wisdom().dex_compose(knowledge, limit=limit)
 
     def wisdom_predict(self, knowledge: str, horizon: int = 2, limit: int = 4) -> Dict:
-        """智慧之书 · 生成式预测（候选未来路线）——白箱智能的预测生成化。"""
+        """智慧之书 · 生成式预测（候选未来路线）。"""
         return self._get_wisdom().dex_predict(knowledge, horizon=horizon, limit=limit)
 
     def wisdom_respond(self, condition: str, limit: int = 3) -> Dict:
-        """智慧之书 · 出招查询（条件 → 命中学科出招）。"""
-        return {"results": self._get_wisdom().dex_respond(condition, limit=limit)}
-
-    def wisdom_trust_judge(self, knowledge: str, trust: float = None,
-                           relation: str = "public", limit: int = 4) -> Dict:
-        """智慧之书 · 信任上下文判定（内容 × 信任值 × 关系 → 条件化判定）。"""
-        return self._get_wisdom().dex_trust_judge(
-            knowledge, trust=trust, relation=relation, limit=limit)
-
-    def close(self):
-        """关闭引擎（释放连接）。"""
+        """智慧之书 · 出招查询（条件 → 命中学科出招）。
+        v1.15 脊椎通路：graph_retrieve 四路融合（翻译表+学科路由+二元组+神经索引），
+        返回含人话比方（daily）。"""
+        dex = self._get_wisdom()
         try:
-            self.engine.close()
+            import os as _os
+            import sys as _s
+            _pkg = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+            _wdir = _os.path.join(_pkg, "wisdom")
+            if _wdir not in _s.path:
+                _s.path.insert(0, _wdir)
+            import semantic_translate as _st
+            return {"results": _st.graph_retrieve(dex, condition, limit=limit)}
         except Exception:
-            pass
+            return {"results": dex.dex_respond(condition, limit=limit)}
+
+    def wisdom_chat(self, message: str, session_id: str = "default") -> Dict:
+        """智慧之书 · 普通人对话（小脑+脊椎完整神经反射弧）：
+        闲聊/情感/人话检索/诚实边界/会话记忆（chat_engine）。
+        大脑（灵枢）可直接发起对话，不需要独立 /chat 服务。
+        v1.15 H1：注入海马体前馈——真问题先过新奇检测，高新奇当场强化编码。
+        v1.15 S5：对话记忆接入灵枢长期层——session_note 写入（跨重启/跨 session
+        持久），「记得/刚才」先查灵枢记忆再查进程 dict。"""
+        dex = self._get_wisdom()
+        try:
+            import os as _os
+            import sys as _s
+            _pkg = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+            _wdir = _os.path.join(_pkg, "wisdom")
+            if _wdir not in _s.path:
+                _s.path.insert(0, _wdir)
+            import chat_engine as _ce
+            if not hasattr(type(self), "_chat_memory"):
+                type(self)._chat_memory = {}
+            # 注入灵枢记忆召回器：chat() 的「记得/刚才」优先查灵枢长期层
+            def _lingshu_memory_recall(sess, query=None, limit=6):
+                try:
+                    return self.session_recall(session_id=sess, query=query, limit=limit)
+                except Exception:
+                    return []
+            result = _ce.chat(dex, message, session_id=session_id,
+                              memory=type(self)._chat_memory,
+                              prefeed_fn=self.engine.prefeed_input,
+                              memory_recall_fn=_lingshu_memory_recall)
+            # S5：对话要点写入灵枢长期层（持久化，跨重启）
+            if message.strip() and len(message.strip()) >= 2:
+                try:
+                    self.session_note(session_id, [message[:60]],
+                                      importance=0.5)
+                except Exception:
+                    pass
+            return result
+        except Exception as e:
+            return {"reply": f"对话引擎未就绪（{e}）", "hits": [], "emotion": None,
+                    "honest": True}
+
+    def chat(self, message: str, session_id: str = "default") -> Dict:
+        """信息分层处理入口（v1.16）：
+        语义识别分流 → 智慧之书优先自处理 → 无法完成/无法判断走 LLM。
+
+        route 字段：
+          self           智慧之书已处理（情感/闲聊/记忆/自省/转折/高置信知识）
+          llm            智慧之书没把握 → DeepSeek 续答（智慧之书回答作上下文，
+                        wisdom_reply 字段保留原回答）
+          self_fallback  LLM 不可用 → 回退智慧之书回答
+
+        调用方（MCP 工具/网页端）按 route 消费：self 直接用 reply；
+        llm 时 reply 已是最终回答（wisdom_reply 可溯源）。
+        """
+        result = self.wisdom_chat(message, session_id=session_id)
+        try:
+            from . import layered as _ly
+            return _ly.route_reply(message, result, session_id=session_id)
+        except Exception:
+            result["route"] = "self"  # 分层模块异常 → 不阻断，按自处理返回
+            return result
+
