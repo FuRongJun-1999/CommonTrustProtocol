@@ -636,9 +636,78 @@ class Agent:
         result = self.wisdom_chat(message, session_id=session_id)
         try:
             from . import layered as _ly
-            return _ly.route_reply(message, result, session_id=session_id,
-                                   dex=self._get_wisdom())
+            layered_result = _ly.route_reply(message, result,
+                                             session_id=session_id,
+                                             dex=self._get_wisdom())
+            # 结构排斥常规化（回应 Kimi 最后一问）：白箱校验结果归档观测层，
+            # 供 history_recheck 回溯——旧回答放入新结构重新锚定。
+            # 归档的是「校验记录」不是「错误声明」——声称错误需外部校准者。
+            verify = layered_result.get("llm_verify")
+            if verify and layered_result.get("reply"):
+                try:
+                    self.remember(
+                        f"白箱校验原回答：{layered_result['reply'][:80]}"
+                        f" | 当时状态：{verify.get('status')}"
+                        f" | 警告：{verify.get('warning') or '无'}",
+                        importance=0.4,
+                        tags=["白箱校验", "llm_verify", verify.get("status") or "unknown"],
+                        entities=["白箱校验"])
+                except Exception:
+                    pass
+            return layered_result
         except Exception:
             result["route"] = "self"  # 分层模块异常 → 不阻断，按自处理返回
             return result
+
+    def history_recheck(self, limit: int = 5) -> Dict:
+        """结构排斥常规化（v1.16 · 回应 Kimi「结构拒绝能否工程化」）：
+        召回历史白箱校验记录（观测层），用当前图谱结构重新锚定，
+        标记「旧回答在当前结构不成立」。
+
+        边界声明：这是结构排斥的追溯，不是「系统声称自己过去错了」——
+        「知道错误」需要外部校准者（设计者/其他LLM）；系统只提供
+        「旧回答在新结构下无法复现」的结构材料。
+        """
+        try:
+            from . import layered as _ly
+        except Exception:
+            return {"error": "layered 不可用"}
+        dex = self._get_wisdom()
+        recs = self.search("白箱校验原回答", limit=limit * 8)
+        out = []
+        seen = set()
+        for n, _s in recs:
+            content = (n.content or "")
+            if "白箱校验原回答：" not in content:
+                continue
+            try:
+                old_reply = content.split("白箱校验原回答：")[1] \
+                                 .split(" | 当时状态：")[0].strip()
+                old_status = content.split(" | 当时状态：")[1] \
+                                    .split(" | 警告：")[0].strip()
+            except Exception:
+                continue
+            if old_reply in seen:
+                continue
+            seen.add(old_reply)
+            verify = _ly.whitebox_check(dex, old_reply)
+            new_status = verify.get("status", "unverified")
+            # 结构排斥：当时 anchored（白箱曾认可），现在部分/全部不锚定
+            # （旧主张在新结构下无法复现——检索链路升级后结构排斥）
+            rejected = old_status == "anchored" and new_status in ("unverified", "partial")
+            out.append({
+                "old_reply": old_reply[:60],
+                "old_status": old_status,
+                "new_status": new_status,
+                "rejected": rejected,
+                "warning": verify.get("warning"),
+            })
+            if len(out) >= limit:
+                break
+        return {
+            "rechecked": out,
+            "rejected_count": sum(1 for o in out if o["rejected"]),
+            "note": ("结构排斥=旧回答在当前图谱不成立（结构演化，非反思判断）；"
+                     "『过去错了』的声称需外部校准者确认"),
+        }
 
