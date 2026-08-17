@@ -21,6 +21,33 @@ import os
 sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 
+
+def _ensure_wisdom_deployed():
+    """自愈部署：智慧之书（aeis/wisdom）不在 site-packages 时从仓库复制。
+    pyproject 只打包 aeis 包，wisdom/ 平级目录需手动部署。"""
+    try:
+        import site as _site
+        sp = _site.getsitepackages()[0]
+    except Exception:
+        return
+    dst = os.path.join(sp, "wisdom")
+    src = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       "aeis", "wisdom")
+    if os.path.exists(os.path.join(dst, "wisdom_book.py")):
+        return  # 已部署
+    if not os.path.isdir(src):
+        return  # 仓库无 wisdom（仅 clone 了 knowledge-base）→ 用种子卡
+    import shutil
+    os.makedirs(dst, exist_ok=True)
+    for f in os.listdir(src):
+        p = os.path.join(src, f)
+        if os.path.isfile(p) and f.endswith((".py", ".json", ".npz", ".html")):
+            shutil.copy2(p, os.path.join(dst, f))
+    print("⚠️ 智慧之书已部署到 site-packages/wisdom（首次运行自动复制）")
+
+
+_ensure_wisdom_deployed()
+
 from aeis.api import Agent
 
 SESS = "demo"
