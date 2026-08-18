@@ -103,8 +103,15 @@ class LifecycleEngine:
         if self.cycle_count % self.MAINT_INTERVAL == 0:
             try:
                 self.engine.decay_cycle(factor=0.02, min_confidence=0.1)
-                decay_result = {"decayed": 1,
-                                "note": "记忆衰减周期：CONTEXT 短期记忆降权 + 未验证边衰减"}
+                # 主动遗忘决策器（v1.16 · J 维进化）：未被使用的记忆归档
+                try:
+                    fa = self.engine.forget_advisor()
+                    decay_result = {"decayed": 1,
+                                    "forget_advisor": fa,
+                                    "note": "记忆衰减周期：CONTEXT 短期记忆降权 + 主动遗忘归档"}
+                except Exception as _fa_e:
+                    decay_result = {"decayed": 1,
+                                    "note": f"记忆衰减周期（forget_advisor 异常: {_fa_e}）"}
             except Exception:
                 decay_result = {"decayed": 0, "note": "衰减执行异常"}
         report["memory_decay"] = decay_result

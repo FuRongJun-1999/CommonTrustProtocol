@@ -3457,6 +3457,57 @@ class SpacetimeMemoryEngine:
         """执行一次衰减周期（v1.16：透传 min_confidence 给 store 层）"""
         self.store.decay_cycle(factor, min_confidence=min_confidence)
 
+    def forget_advisor(self, stale_days: float = 30.0, low_value: float = 0.2,
+                       archived_imp: float = 0.1) -> Dict:
+        """主动遗忘决策器（v1.16 · J 维进化：被动时间衰减 → 主动价值遗忘）。
+
+        递归反思终裁（node_595c062c）：系统根据「记忆是否被使用」主动归档，
+        而非仅靠时间流逝。最小可行 v1——仅用可机械读信号：
+          ① 访问信号：CONTEXT 层 access_count==0 且 last_access 距今 > stale_days
+          ② 低价值信号：CONTEXT 层 importance < low_value
+        决策：归档（tags 加 archived + importance 降至 archived_imp）——
+        recall 的 importance 加权自然降权（可逆：恢复 importance 即解除）。
+        锚点/结构层 no_forget 保护；KNOWLEDGE 层不动（长期知识）。
+        """
+        import time as _t
+        now = _t.time()
+        archived = 0
+        kept = 0
+        with self.store._lock:
+            c = self.store.conn.cursor()
+            c.execute("SELECT id, content, importance, last_access, tags FROM nodes "
+                      "WHERE layer='context'")
+            for nid, content, imp, last_acc, tags in c.fetchall():
+                tags = json.loads(tags) if isinstance(tags, str) and tags else []
+                if "no_forget" in tags or "archived" in tags:
+                    continue  # 不可遗忘 / 已归档
+                stale = (last_acc is None or (now - (last_acc or 0)) > stale_days * 86400) \
+                    and self.store.get_node(nid) is not None
+                # 访问信号：从未被访问且久远
+                access_stale = (self.store.get_node(nid) or {}).get("access_count") if False else None
+                # 直接查 access_count
+                c2 = self.store.conn.cursor()
+                c2.execute("SELECT access_count FROM nodes WHERE id=?", (nid,))
+                row = c2.fetchone()
+                acc = row[0] if row else 0
+                signal = 0
+                if acc == 0 and (now - (last_acc or now)) > stale_days * 86400:
+                    signal += 1  # 访问信号
+                if (imp or 0.5) < low_value:
+                    signal += 1  # 低价值信号
+                if signal >= 1:
+                    # 归档：importance 降至 archived_imp + tags 加 archived
+                    new_imp = archived_imp
+                    new_tags = list(dict.fromkeys(tags + ["archived"]))
+                    c.execute("UPDATE nodes SET importance=?, tags=? WHERE id=?",
+                              (new_imp, json.dumps(new_tags, ensure_ascii=False), nid))
+                    archived += 1
+                else:
+                    kept += 1
+            self.store.conn.commit()
+        return {"archived": archived, "kept": kept,
+                "note": "主动遗忘：未被使用的 CONTEXT 记忆归档（importance 降权，可逆）"}
+
     def start_auto_decay(self, interval: float = 60.0):
         """启动后台衰减线程"""
         if self._running:
