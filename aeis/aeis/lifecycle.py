@@ -114,6 +114,19 @@ class LifecycleEngine:
                                     "note": f"记忆衰减周期（forget_advisor 异常: {_fa_e}）"}
             except Exception:
                 decay_result = {"decayed": 0, "note": "衰减执行异常"}
+            # 因果候选发现 + 验证（v1.16 · R 维进化：条件论对自身）
+            # 发现：被拒路径/预测未命中 → 因果候选（存观测层）
+            # 验证：候选对应被拒路径 consumed → 因果确认（物理基底校准）
+            try:
+                from causal_discover import CausalDiscoverer
+                cd = CausalDiscoverer(self.engine)
+                disc = cd.discover(limit=3, persist=True)
+                ver = cd.verify_candidates()
+                decay_result["causal_discover"] = {
+                    "new_candidates": len(disc.get("candidates", [])),
+                    "verify": ver}
+            except Exception as _cd_e:
+                decay_result["causal_discover"] = {"error": str(_cd_e)[:60]}
         report["memory_decay"] = decay_result
 
         # 5. standby 判定（终裁检查点2：暂停提交复核）
