@@ -22,6 +22,8 @@ class LifecycleEngine:
 
     P0_CRISIS_THRESHOLD = 0.9
     STANDBY_REQUIRED_ROUNDS = 3
+    SCAN_INTERVAL = 10          # v1.15：每 N 轮自主扫描一次盲区（自主盲区发现）
+    MAINT_INTERVAL = 6          # v1.16：每 N 轮执行记忆衰减（睡眠巩固·短期记忆降权）
 
     def __init__(self, engine, prediction=None, learning_loop=None, attention_policy=None):
         self.engine = engine
@@ -55,6 +57,25 @@ class LifecycleEngine:
             report["note"] = "等待维生系统终裁（30 秒无响应 → P0 默认保护 3.4 节）"
             return report
 
+        # 1.5 自主盲区发现（v1.15）：每 SCAN_INTERVAL 轮扫描行为数据 → 注册新盲区
+        # 信号：查询弱命中 / 被拒路径重复 / 知识稀疏 / 信息差停滞（scan_blindspots）
+        scan_result = {"scanned": 0, "registered": 0}
+        if self.cycle_count % self.SCAN_INTERVAL == 0:
+            try:
+                from scan_blindspots import BlindspotScanner
+                scanner = BlindspotScanner(self.engine)
+                sr = scanner.scan(limit=2, dry_run=False)
+                scan_result = {"scanned": sr.get("scanned", 0),
+                               "registered": len(sr.get("registered", []))}
+                if sr.get("registered"):
+                    self.engine.add_perception(
+                        f"[自主盲区发现] 注册 {len(sr['registered'])} 个新盲区："
+                        + "、".join(r["code"] for r in sr["registered"]),
+                        importance=0.6, tags=["观测层", "blindspot_scan", "self_discovery"])
+            except Exception:
+                pass
+        report["blindspot_scan"] = scan_result
+
         # 2. curiosity：好奇（开放盲区高优先 or 预测缺口）
         target = self._curiosity()
         report["curiosity"] = {"target": target["code"] if target else None,
@@ -73,6 +94,20 @@ class LifecycleEngine:
             report["consolidate"] = self.engine.consolidate_cycle()
         except Exception:
             report["consolidate"] = {}
+
+        # 4.5 睡眠巩固·记忆衰减（v1.16）：每 MAINT_INTERVAL 轮执行一次
+        # 「短期记忆自动减少权重」——CONTEXT 情境层 importance 指数衰减 +
+        # 未验证边置信度衰减（decay_cycle），锚点/结构层不可遗忘。
+        # 与 consolidate 同属「睡眠巩固」语义（P1-4：衰减+巩固+归纳）。
+        decay_result = {"decayed": 0, "note": "未到期"}
+        if self.cycle_count % self.MAINT_INTERVAL == 0:
+            try:
+                self.engine.decay_cycle(factor=0.02, min_confidence=0.1)
+                decay_result = {"decayed": 1,
+                                "note": "记忆衰减周期：CONTEXT 短期记忆降权 + 未验证边衰减"}
+            except Exception:
+                decay_result = {"decayed": 0, "note": "衰减执行异常"}
+        report["memory_decay"] = decay_result
 
         # 5. standby 判定（终裁检查点2：暂停提交复核）
         if self._should_standby():

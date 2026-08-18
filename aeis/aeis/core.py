@@ -655,6 +655,8 @@ class LayeredStore:
         """
         对未验证的边执行指数衰减。
         锚点层和结构层的节点不受影响（其关联边也不衰减）。
+        v1.16：短期记忆自动减少权重——CONTEXT（情境层）节点 importance
+        指数衰减（设计者设计：短期记忆随时间淡出，长期/知识层保留）。
         """
         with self._lock:
             c = self.conn.cursor()
@@ -684,6 +686,21 @@ class LayeredStore:
                     c.execute("DELETE FROM edges WHERE id=?", (edge.id,))
                 else:
                     c.execute("UPDATE edges SET confidence=? WHERE id=?", (new_conf, edge.id))
+            # 短期记忆自动减少权重（v1.16）：CONTEXT 情境层节点 importance 指数衰减。
+            # 锚点/结构层不可遗忘（上面已排除）；KNOWLEDGE 层是长期知识不衰减；
+            # CONTEXT 层（短期/情境记忆）随时间淡出——低于阈值删除（自然遗忘）。
+            c.execute('''
+                SELECT id, importance FROM nodes
+                WHERE layer='context' AND importance > ?
+            ''', (min_confidence,))
+            for nid, imp in c.fetchall():
+                new_imp = imp * (1 - factor)
+                if new_imp < min_confidence:
+                    c.execute("DELETE FROM nodes WHERE id=?", (nid,))
+                    c.execute("DELETE FROM edges WHERE source_id=? OR target_id=?",
+                              (nid, nid))
+                else:
+                    c.execute("UPDATE nodes SET importance=? WHERE id=?", (new_imp, nid))
             self.conn.commit()
 
     # ==================== 检索层（M1） ====================
@@ -1309,11 +1326,22 @@ class SpacetimeMemoryEngine:
             self._lifecycle_error = str(e)
 
     def _setup_v19(self):
-        """v1.9 预测组件装配（惰性导入 · AttentionPolicy 适配器 D-005）"""
+        """v1.9 预测组件装配（惰性导入 · AttentionPolicy 适配器 D-005）
+        v1.15：启动时从观测层验证记录重建 _hit_history（跨重启持久）"""
         self._prediction = None
         try:
             from prediction_engine import PredictionEngine
             self._prediction = PredictionEngine(self, self._attention_policy)
+            # 重建命中历史：观测层 [验证回路] 记录 → hit/miss 序列
+            try:
+                hits = []
+                for n in self.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=500):
+                    if "prediction_feedback" in (n.tags or []):
+                        hits.append("hit" in (n.tags or []))
+                if hits:
+                    self._prediction._hit_history = hits[-200:]
+            except Exception:
+                pass
         except Exception as e:
             self._prediction_error = str(e)
 
@@ -2632,11 +2660,31 @@ class SpacetimeMemoryEngine:
         return self._prediction.semantic_neighbors(node_id, k)
 
     def update_prediction_feedback(self, predicted_node_id: str,
-                                   actual_node_id: str, hit: bool) -> Dict:
-        """预测-验证闭环：命中强化 / 未命中衰减+被拒路径（盲区28 动态校准）"""
+                                   actual_node_id: str, hit: bool,
+                                   note: str = "") -> Dict:
+        """预测-验证闭环：命中强化 / 未命中衰减+被拒路径（盲区28 动态校准）
+        v1.15：note 透传 + 验证记录持久化（观测层 · 可回溯）"""
         if not self._prediction:
             return {"status": "v19_not_ready", "error": self._prediction_error}
-        return self._prediction.update_prediction_feedback(predicted_node_id, actual_node_id, hit)
+        result = self._prediction.update_prediction_feedback(
+            predicted_node_id, actual_node_id, hit, note=note)
+        # 验证记录归档（观测层：预测→实际→判定，可回溯审计）
+        try:
+            pn = self.store.get_node(predicted_node_id)
+            an = self.store.get_node(actual_node_id)
+            sa_p = pn.state_attributes if pn else {}
+            sa_a = an.state_attributes if an else {}
+            pname = sa_p.get("name") or (pn.content[:30] if pn else predicted_node_id)
+            aname = sa_a.get("name") or (an.content[:30] if an else actual_node_id)
+            self.add_perception(
+                f"[验证回路] 预测:{pname} → 实际:{aname} → "
+                f"{'命中' if hit else '未命中'}"
+                + (f"（{note}）" if note else ""),
+                importance=0.6, tags=["观测层", "验证回路", "prediction_feedback",
+                                      "hit" if hit else "miss"])
+        except Exception:
+            pass
+        return result
 
     def get_prediction_stats(self) -> Dict:
         """预测引擎统计（路线数/命中历史/动态阈值）"""
@@ -3195,9 +3243,10 @@ class SpacetimeMemoryEngine:
             return {"status": "v13_not_ready", "error": self._v13_error}
         return self._cognition.learning_cycle(input_signal, context)
 
-    def learn_next(self, force: bool = False) -> Dict:
+    def learn_next(self, force: bool = False, use_prediction: bool = True) -> Dict:
         """P0-3：盲区学习一步（委托闭环，第零定律操作化）
-        v1.12 P0-3：avoiding 情绪状态 → 探索预算下调（巩固优先）；force=True 可覆盖"""
+        v1.12 P0-3：avoiding 情绪状态 → 探索预算下调（巩固优先）；force=True 可覆盖
+        v1.15：use_prediction 转发给学习闭环（预测×盲区联动，与 api.learn 签名对齐）"""
         if not self._learning_loop:
             return {"status": "v13_not_ready", "error": self._v13_error}
         if not force and self._self_cognition is not None:
@@ -3206,7 +3255,7 @@ class SpacetimeMemoryEngine:
                 return {"status": "consolidation_priority",
                         "note": "情绪方向性偏好 avoiding → 探索预算下调（P0-3）",
                         "budget": self._self_cognition.exploration_budget()}
-        result = self._learning_loop.learn_next()
+        result = self._learning_loop.learn_next(use_prediction=use_prediction)
         self._note_action("learn", str(result.get("status", ""))[:80],
                           None, {"result": str(result)[:120]})
         return result
@@ -3404,9 +3453,9 @@ class SpacetimeMemoryEngine:
 
     # ==================== 衰减与维护 ====================
 
-    def decay_cycle(self, factor: float = 0.02):
-        """执行一次衰减周期"""
-        self.store.decay_cycle(factor)
+    def decay_cycle(self, factor: float = 0.02, min_confidence: float = 0.1):
+        """执行一次衰减周期（v1.16：透传 min_confidence 给 store 层）"""
+        self.store.decay_cycle(factor, min_confidence=min_confidence)
 
     def start_auto_decay(self, interval: float = 60.0):
         """启动后台衰减线程"""
@@ -3481,6 +3530,48 @@ class SpacetimeMemoryEngine:
                                        importance_hint)
         except Exception as exc:
             return {"status": "error", "error": str(exc)}
+
+    def prefeed_input(self, content: str, source: str = "input",
+                      tags: list = None, entities: list = None) -> dict:
+        """H1 海马体前馈：新奇检测 → 高新奇输入当场强化编码（标记+提权+建边）。
+        外部输入（对话/摄取/感知）到达时调用——「看到新东西眼睛一亮」。
+        返回 {novel, novelty, action, node_id, importance, links}"""
+        try:
+            gate = self._ensure_gate()
+            return gate.prefeed(content, source, tags, entities)
+        except Exception as exc:
+            return {"novel": False, "action": "error", "error": str(exc)}
+
+    def pattern_separation_scan(self, limit: int = 150) -> dict:
+        """H3 海马体模式分离：扫描相似节点对 → 建立分离边（条件差异显式化）。
+        检索时命中相似节点会附「这两个的区别」提示——细化条件得到精确知识。"""
+        try:
+            import sys as _s
+            _kb = r'D:\Program Files\2_ai\knowledge-base'
+            if _kb not in _s.path:
+                _s.path.insert(0, _kb)
+            from pattern_separation import PatternSeparation
+            ps = PatternSeparation(self)
+            return ps.scan(limit=limit)
+        except Exception as exc:
+            return {"created": 0, "error": str(exc)}
+
+    def reconstruct_scene(self, clue: str, depth: int = 2,
+                          max_nodes: int = 8) -> dict:
+        """H4 海马体情景重构：线索 → 条件空间下的信息复原。
+        从部分片段重建完整记忆场景（沿 similar/causal 边 + 条件空间合成），
+        输出显式标注「重构非回放」——回忆起的情景是当前条件下的分析恢复，
+        不代表真实发生的过去就是如此（0.0.3 局部不可知）。"""
+        try:
+            import sys as _s
+            _kb = r'D:\Program Files\2_ai\knowledge-base'
+            if _kb not in _s.path:
+                _s.path.insert(0, _kb)
+            from scene_reconstruction import SceneReconstruction
+            sr = SceneReconstruction(self)
+            return sr.reconstruct(clue, depth=depth, max_nodes=max_nodes)
+        except Exception as exc:
+            return {"scene": [], "error": str(exc)}
 
     def promote_context_memories(self, limit: int = 30) -> list:
         """情境层批量提升扫描（睡眠巩固/会话结束调用）：够格者升知识层/长期层。"""
