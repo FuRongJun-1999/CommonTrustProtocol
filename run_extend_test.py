@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
-"""跑 110 题扩展测试：评分 + route 记录，输出弱项分析"""
+"""跑 110 题扩展测试：评分 + route 记录，输出弱项分析
+
+可复现：默认 :memory: 临时记忆，智慧之书随包加载；AEIS_DB 可指定持久库。
+"""
 import sys, os
 sys.stdout.reconfigure(encoding="utf-8")
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
 sys.path.insert(0, r'C:\Users\FuRongJun\AppData\Local\Programs\Python\Python310\lib\site-packages')
 
 from extend_test_100 import QUESTIONS
 from aeis.api import Agent
 
-agent = Agent(identity="灵枢",
-              db_path=r'C:\Users\FuRongJun\.dsh\profiles\web\data\lingshu.db')
+agent = Agent(identity="灵枢", db_path=os.environ.get("AEIS_DB", ":memory:"))
 
 import re as _re
 
@@ -57,7 +61,7 @@ print(f"\nroute 分布: {dict(rc)}")
 
 # 保存结果
 import json
-with open(r"D:\Program Files\2_ai\knowledge-base\extend_110_results.json", "w", encoding="utf-8") as f:
+with open(os.path.join(HERE, "extend_110_results.json"), "w", encoding="utf-8") as f:
     json.dump(results, f, ensure_ascii=False, indent=1)
 print("\n结果已存 extend_110_results.json")
 agent.close()
