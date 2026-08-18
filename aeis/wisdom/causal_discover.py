@@ -135,10 +135,54 @@ class CausalDiscoverer:
             "note": "物理基底校准：因果候选必须通过可观测预测验证，非仅逻辑自洽",
         }
 
+    # ---------------- 验证闭环（v1.16 · 物理基底校准） ----------------
+    def verify_candidates(self, window=50):
+        """追踪已存观测层的因果候选状态：
+          - 候选对应的被拒路径仍 open（未修复）→ 候选成立（保持）
+          - 已 consumed（被修复/补足）→ 因果确认（resolve）
+          - 超过 window 轮仍无变化 → 保持待验证（不误杀）
+        返回状态统计。候选存观测层（tags: causal_candidate）。"""
+        from aeis.core import MemoryLayer
+        now = time.time()
+        open_paths = set()
+        consumed = set()
+        try:
+            for p in self.engine.list_rejected_paths() or []:
+                key = (p.get("description") or "")[:20]
+                if p.get("status") == "consumed":
+                    consumed.add(key)
+                else:
+                    open_paths.add(key)
+        except Exception:
+            pass
+        resolved, still_open, tracked = 0, 0, 0
+        for n in self.engine.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=500):
+            tags = n.tags or []
+            if "causal_candidate" not in tags:
+                continue
+            tracked += 1
+            content = (n.content or "")
+            # 候选对应的异常描述（存观测层时写入的键）
+            key = None
+            for t in tags:
+                if t.startswith("cc_key:"):
+                    key = t[7:]
+            if key and key in consumed:
+                n.tags = [t for t in n.tags if t != "status:candidate_open"]
+                n.tags = list(dict.fromkeys(n.tags + ["status:causal_confirmed"]))
+                self.engine.store.add_node(n)
+                resolved += 1
+            elif key and key in open_paths:
+                still_open += 1
+        return {"tracked": tracked, "resolved": resolved, "still_open": still_open,
+                "note": "验证闭环：被拒路径 consumed=因果确认；仍 open=候选成立待修复"}
+
     # ---------------- 主流程 ----------------
-    def discover(self, limit=5):
+    def discover(self, limit=5, persist=True):
         """七操作对自身：识别→声明→分离/逆转→循环。
-        返回因果候选（带可验证预测），交验证回路 + 设计者终裁。"""
+        返回因果候选（带可验证预测），交验证回路 + 设计者终裁。
+        persist=True：候选存观测层（tags: causal_candidate + cc_key），
+        供 verify_candidates 追踪（物理基底验证闭环）。"""
         # 1. 识别
         anomalies = self._scan_anomalies(limit=limit)
         if not anomalies:
@@ -150,6 +194,23 @@ class CausalDiscoverer:
             self._separate_invert(c)
         # 4. 循环（可观测预测）
         outputs = [self._cycle_predictions(c) for c in candidates]
+        # 5. 持久化到观测层（验证闭环追踪）
+        if persist:
+            for c in outputs:
+                key = (c.get("source_anomaly") or {}).get("description", "")[:20] \
+                    if False else (c.get("claim") or "")[:20]
+                # key = 候选对应异常描述（用于 verify 匹配 consumed）
+                key = ((c.get("source_anomaly") or {}).get("description") or "")[:20] \
+                    or key
+                try:
+                    self.engine.add_perception(
+                        f"[因果候选] {c['claim'][:60]}",
+                        importance=0.7,
+                        tags=["观测层", "causal_candidate",
+                              f"cc_key:{key}", "status:candidate_open"],
+                        condition_space=None)
+                except Exception:
+                    pass
         return {
             "candidates": outputs,
             "note": ("条件论对自身的使用：七操作处理自身行为数据（被拒路径/预测未命中）"
