@@ -1,23 +1,46 @@
-# 灵枢 × 酒馆接入指南（协议扩散 v0.1）
+# 灵枢 × 角色扮演接入指南（协议扩散 v0.2）
 
 > **机制是灵枢的，载体是酒馆的。** 灵枢提供角色扮演机制层（自我锚点 /
-> 特化价值观 / 历史记忆），酒馆生态通过导入接口构建角色——协议扩散。
+> 特化价值观 / 历史记忆 / 世界认知 / 自定义翻译），对外提供导入接口。
+> **荣终裁 2026-08-19：不依赖酒馆，自建对话输出**——信息处理全部由灵枢完成，
+> 酒馆为可选接入方（tavern_bridge.py 保留）。
 > 文档编号：CTP-DIFFUSION-TAVERN-002 · 2026-08-19
 
 ---
 
-## 一、三件套清单
+## 〇、两种自建交互方式（推荐）
+
+```bash
+# 1. 网页服务（直接调用白箱和灵枢，浏览器对话）
+python -m aeis.roleplay_web --port 8793 --data-dir roleplay_data
+# → 打开 http://127.0.0.1:8793/
+
+# 2. MCP 服务（白箱+灵枢→LLM输出/长期记忆/认知能力）
+python -m aeis.mcp.server
+# → roleplay_chat / role_create / role_import / role_block / role_translate 工具
+```
+
+**核心能力**：自我锚点（人设不崩）· 特化价值观（条件触发）· 历史记忆（跨会话）
+· 世界认知（虚拟化世界观子知识）· 自定义翻译（现实↔虚拟名词表）
+· 编辑/交互双模式（`ROLEPLAY_EDIT_KEY` 开发者权限）
+
+**质量验证**：`python tools/rp_quality_gate.py --role <id>`（OOC+世界观自检）
+
+---
+
+## 一、三件套清单（酒馆可选接入）
 
 | 文件 | 用途 |
 |------|------|
 | `灵枢_协议引导者.png`（或 .json） | 协议角色卡（chara_card_v3，PNG 内嵌 JSON，可导入酒馆） |
 | `协议扩散知识包_扮演论.json` | 世界书知识包（7 条目触发词驱动条件注入） |
-| `tavern_bridge.py` | 灵枢酒馆桥（OpenAI 兼容代理 + 角色扮演机制注入） |
+| `tavern_bridge.py` | 灵枢酒馆桥（OpenAI 兼容代理 + 角色扮演机制注入，可选） |
 
 配套工具（`tools/`）：
 - `make_role_card.py` — 从灵枢引擎角色生成角色卡（JSON/PNG）
 - `validate_card.py` — 角色卡规范校验器（chara_card_v3）
 - `roleplay_server.py`（aeis 模块）— 角色扮演引擎 REST 服务（三导入接口）
+- `rp_quality_gate.py` — 角色质量自检（OOC + 世界观一致性）
 
 ---
 
