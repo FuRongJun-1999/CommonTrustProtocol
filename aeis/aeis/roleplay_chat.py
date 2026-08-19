@@ -85,11 +85,22 @@ class LingshuChat:
     # 记忆辅助
     # ------------------------------------------------------------------
 
-    def _recall_mem(self, session_id: str, query: str, limit: int = 6) -> List[str]:
-        """长期记忆召回 → 文本行。"""
+    def _recall_mem(self, session_id: str, query: str, limit: int = 6,
+                    role_id: str = "") -> List[str]:
+        """长期记忆召回 → 文本行（按角色隔离：只召回该角色标签的记忆）。"""
         try:
-            hits = self.mem.recall(query, limit=limit)
-            return [(n.content or "")[:80] for n, _ in hits]
+            hits = self.mem.recall(query, limit=limit * 4)
+            out = []
+            for n, _s in hits:
+                tags = n.tags or []
+                # 角色对话记忆带 role:<rid> 标签——只召回当前角色的
+                if role_id:
+                    if f"role:{role_id}" not in tags:
+                        continue
+                out.append((n.content or "")[:80])
+                if len(out) >= limit:
+                    break
+            return out
         except Exception:
             return []
 
@@ -160,10 +171,12 @@ class LingshuChat:
 
         rid = role_id or self.role_id  # 运行时角色（请求优先）
         rp_block = self._role_system(rid)
+        # 会话上下文按 角色+session 隔离（防跨角色串扰——鲸鱼娘历史不能进协议引导者）
+        ctx_key = f"{rid}:{session_id}" if rid else f"_gen_:{session_id}"
 
-        # 0. 长期记忆召回（跨 session 持久，灵枢记忆）
-        mem_notes = self._recall_mem(session_id, message, limit=4)
-        ctx = self._session_ctx.get(session_id, [])
+        # 0. 长期记忆召回（跨 session 持久，灵枢记忆·按角色隔离）
+        mem_notes = self._recall_mem(session_id, message, limit=4, role_id=rid)
+        ctx = self._session_ctx.get(ctx_key, [])
         if ctx:
             mem_notes += [f"[本会话] {m}" for m in ctx[-3:]]
 
@@ -171,7 +184,7 @@ class LingshuChat:
         if _WISDOM_OK:
             try:
                 w = _wisdom_chat.chat(
-                    self.dex, message, session_id=session_id,
+                    self.dex, message, session_id=ctx_key,
                     memory=self._session_ctx,
                     memory_recall_fn=None,
                     prefeed_fn=self._prefeed)
@@ -188,9 +201,9 @@ class LingshuChat:
                     if is_task or wants_rp or whitebox_no_knowledge:
                         pass  # 走 LLM
                     else:
-                        # 白箱回答完成：写入会话上下文
-                        self._session_ctx.setdefault(session_id, []).append(message)
-                        self._session_ctx[session_id].append(w["reply"])
+                        # 白箱回答完成：写入会话上下文（按角色隔离）
+                        self._session_ctx.setdefault(ctx_key, []).append(message)
+                        self._session_ctx[ctx_key].append(w["reply"])
                         w["route"] = "whitebox"
                         w["role_id"] = rid
                         return w
@@ -211,15 +224,18 @@ class LingshuChat:
 
         reply = self._llm(system, message)
 
-        # 3. 写入记忆与上下文
+        # 3. 写入记忆与上下文（按角色隔离的 ctx_key + role 标签）
         try:
+            mem_tags = ["session", "chat", f"sess:{ctx_key}"]
+            if rid:
+                mem_tags.append(f"role:{rid}")
             self.mem.remember(
-                f"[对话 {session_id}] 用户：{message[:80]}｜灵枢：{reply[:80]}",
-                importance=0.5, tags=["session", "chat", f"sess:{session_id}"])
+                f"[对话 {ctx_key}] 用户：{message[:80]}｜灵枢：{reply[:80]}",
+                importance=0.5, tags=mem_tags)
         except Exception:
             pass
-        self._session_ctx.setdefault(session_id, []).append(message)
-        self._session_ctx[session_id].append(reply)
+        self._session_ctx.setdefault(ctx_key, []).append(message)
+        self._session_ctx[ctx_key].append(reply)
 
         return {"reply": reply, "route": "llm", "role_id": rid,
                 "memories": len(mem_notes)}
