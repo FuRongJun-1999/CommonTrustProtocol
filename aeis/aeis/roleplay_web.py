@@ -197,7 +197,7 @@ class Handler(BaseHTTPRequestHandler):
             if CHAT is None:
                 self._send_json(500, {"error": "chat pipeline not ready"})
                 return
-            result = CHAT.respond(message, session_id=session_id)
+            result = CHAT.respond(message, session_id=session_id, role_id=role_id)
             self._send_json(200, result)
             return
 

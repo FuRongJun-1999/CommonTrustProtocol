@@ -65,7 +65,7 @@ class LingshuChat:
                  upstream_key_var: str = "DEEPSEEK_API_KEY",
                  dex: Any = None):
         self.role_id = role_id
-        self.rp = RolePlayEngine(data_dir=data_dir) if role_id else None
+        self.rp = RolePlayEngine(data_dir=data_dir)  # 始终创建（运行时 role_id 指定）
         # 灵枢记忆 Agent（同一库：长期记忆/认知）
         self.mem = Agent(identity=role_id or "灵枢", db_path=db_path or ":memory:")
         self.upstream_base = upstream_base or os.environ.get(
@@ -104,12 +104,13 @@ class LingshuChat:
     # 角色扮演注入块
     # ------------------------------------------------------------------
 
-    def _role_system(self) -> str:
-        """角色扮演注入块（锚点/价值观/条件空间）。"""
-        if not self.rp or not self.role_id:
+    def _role_system(self, role_id: str = "") -> str:
+        """角色扮演注入块（锚点/价值观/条件空间）。role_id 可运行时指定。"""
+        rid = role_id or self.role_id
+        if not self.rp or not rid:
             return ""
         try:
-            return self.rp.build_role_block(self.role_id)
+            return self.rp.build_role_block(rid)
         except Exception:
             return ""
 
@@ -146,11 +147,19 @@ class LingshuChat:
     # 主入口
     # ------------------------------------------------------------------
 
-    def respond(self, message: str, session_id: str = "default") -> Dict[str, Any]:
-        """统一对话入口：白箱 → 角色扮演 → 记忆 → LLM。"""
+    def respond(self, message: str, session_id: str = "default",
+                role_id: str = "") -> Dict[str, Any]:
+        """统一对话入口：白箱 → 角色扮演 → 记忆 → LLM。
+
+        role_id 可运行时指定（覆盖实例级 self.role_id）——网页/MCP 按请求
+        传入不同角色，无需重建实例。
+        """
         message = (message or "").strip()
         if not message:
             return {"reply": "我在呢，想说点什么？", "route": "empty"}
+
+        rid = role_id or self.role_id  # 运行时角色（请求优先）
+        rp_block = self._role_system(rid)
 
         # 0. 长期记忆召回（跨 session 持久，灵枢记忆）
         mem_notes = self._recall_mem(session_id, message, limit=4)
@@ -172,7 +181,7 @@ class LingshuChat:
                     # 扮演意图路由：角色扮演场景（有 role_id）且消息含扮演/角色
                     # 类意图时，即使白箱有诚实兜底，也应交给 LLM 扮演回答——
                     # 扮演场景下诚实边界由 LLM 注入的角色机制承载（rp_honest）。
-                    wants_rp = self.role_id and _is_roleplay_intent(message)
+                    wants_rp = rid and _is_roleplay_intent(message)
                     # 白箱无把握兜底（honest 且无知识命中）→ 交 LLM
                     # （对话界面里白箱是优先判断器，不是最终拦截器）
                     whitebox_no_knowledge = bool(w.get("honest")) and not w.get("hits")
@@ -183,13 +192,13 @@ class LingshuChat:
                         self._session_ctx.setdefault(session_id, []).append(message)
                         self._session_ctx[session_id].append(w["reply"])
                         w["route"] = "whitebox"
-                        w["role_id"] = self.role_id
+                        w["role_id"] = rid
                         return w
             except Exception:
                 pass
 
         # 2. 任务类 / 白箱未覆盖 → LLM + 角色扮演注入
-        role_block = self._role_system()
+        role_block = rp_block
         sys_parts = []
         if role_block:
             sys_parts.append(role_block)
@@ -212,7 +221,7 @@ class LingshuChat:
         self._session_ctx.setdefault(session_id, []).append(message)
         self._session_ctx[session_id].append(reply)
 
-        return {"reply": reply, "route": "llm", "role_id": self.role_id,
+        return {"reply": reply, "route": "llm", "role_id": rid,
                 "memories": len(mem_notes)}
 
     def close(self) -> None:
