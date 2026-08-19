@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 import uuid
 from pathlib import Path
@@ -320,6 +321,110 @@ class RolePlayEngine:
             m["memories"] = 0
         self._save_meta()
         return {"ok": True, "removed": removed}
+
+    # ------------------------------------------------------------------
+    # 文件导入（价值观/记忆/锚点 通用 · 支持 JSON / 文本 / Markdown）
+    # ------------------------------------------------------------------
+
+    def import_file(self, role_id: str, path: str,
+                    kind: str = "values") -> Dict[str, Any]:
+        """从文件导入人设（需编辑权限，调用方先 check_edit_key）。
+
+        kind ∈ values / memory / anchor
+        格式（按扩展名自动识别）：
+          .json    结构化数组：[{"name","condition","body"} or {"content",...}]
+          .md      以「## 名称」分条；条目内「条件：」「内容：」字段行
+          .txt     每行一条；「条件：内容」或纯内容
+        """
+        p = Path(path)
+        if not p.exists():
+            return {"error": f"文件不存在: {path}"}
+        text = p.read_text(encoding="utf-8", errors="replace")
+
+        # ---- JSON ----
+        if p.suffix.lower() == ".json":
+            try:
+                data = json.loads(text)
+            except Exception as e:
+                return {"error": f"JSON 解析失败: {e}"}
+            if not isinstance(data, list):
+                data = [data]
+            if kind == "values":
+                items = []
+                for it in data:
+                    if not isinstance(it, dict):
+                        continue
+                    items.append({
+                        "name": it.get("name", (it.get("content") or "")[:12]),
+                        "condition": it.get("condition", ""),
+                        "priority": it.get("priority", 0.8),
+                        "body": it.get("body") or it.get("content", ""),
+                    })
+                return self.import_values(role_id, items)
+            elif kind == "memory":
+                items = [{"content": it.get("content", ""),
+                          "importance": it.get("importance", 0.6),
+                          "tags": it.get("tags", [])}
+                         for it in data if isinstance(it, dict)]
+                return self.import_memory(role_id, items)
+            else:  # anchor
+                items = [{"content": it.get("content", ""),
+                          "immutable": it.get("immutable", True),
+                          "importance": it.get("importance", 1.0)}
+                         for it in data if isinstance(it, dict)]
+                return self.import_anchor(role_id, items)
+
+        # ---- Markdown（## 名称 分条） ----
+        if p.suffix.lower() == ".md":
+            blocks = re.split(r"^##\s+", text, flags=re.MULTILINE)
+            entries = []
+            for b in blocks:
+                b = b.strip()
+                if not b:
+                    continue
+                lines = b.splitlines()
+                name = lines[0].strip() if lines else ""
+                cond = ""
+                body_lines = []
+                for ln in lines[1:]:
+                    ln = ln.strip()
+                    if ln.startswith("条件") or ln.startswith("触发"):
+                        cond = ln.split("：", 1)[-1].split(":", 1)[-1].strip()
+                    elif ln.startswith("内容"):
+                        body_lines.append(ln.split("：", 1)[-1].split(":", 1)[-1].strip())
+                    elif ln and not ln.startswith("-"):
+                        body_lines.append(ln)
+                entries.append({"name": name, "condition": cond,
+                                "body": "\n".join(body_lines) or name})
+            if kind == "values":
+                return self.import_values(role_id, entries)
+            elif kind == "memory":
+                items = [{"content": f"{e['name']}：{e['body']}"} for e in entries]
+                return self.import_memory(role_id, items)
+            else:
+                items = [{"content": f"{e['name']}：{e['body']}"} for e in entries]
+                return self.import_anchor(role_id, items)
+
+        # ---- 文本（每行一条） ----
+        lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+        if kind == "values":
+            items = []
+            for ln in lines:
+                if "：" in ln:
+                    cond, body = ln.split("：", 1)
+                    items.append({"name": body[:12], "condition": cond.strip(),
+                                  "body": body.strip()})
+                else:
+                    items.append({"name": ln[:12], "condition": "", "body": ln})
+            return self.import_values(role_id, items)
+        elif kind == "memory":
+            items = [{"content": ln, "importance": 0.6, "tags": ["背景"]}
+                     for ln in lines]
+            return self.import_memory(role_id, items)
+        else:
+            items = [{"content": ln, "immutable": True, "importance": 1.0}
+                     for ln in lines]
+            return self.import_anchor(role_id, items)
 
     # ------------------------------------------------------------------
     # 接口三：特化价值观导入（价值观 → STRUCTURE 层，带适用条件）

@@ -20,6 +20,7 @@ import json
 import os
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from typing import Any, Dict
 from urllib.parse import parse_qs, urlparse
 
@@ -86,6 +87,16 @@ PAGE = """<!DOCTYPE html>
     <button id="btnAdd">＋ 加入人设</button>
     <button id="btnClear">清空人设</button>
     <span class="info" id="editInfo"></span>
+  </div>
+  <div class="controls" id="importRow" style="display:none;margin-top:6px;">
+    <span class="info">文件导入：</span>
+    <select id="impKind">
+      <option value="values">特化价值观</option>
+      <option value="memory">历史记忆</option>
+      <option value="anchor">自我锚点</option>
+    </select>
+    <input type="file" id="impFile" accept=".json,.md,.txt" style="flex:1">
+    <button id="btnImpFile">导入文件</button>
   </div>
   <div class="controls" style="margin-top:6px;">
     <button id="btnView">查看当前人设（只读）</button>
@@ -177,6 +188,7 @@ const editModeInfo = document.getElementById("editModeInfo");
 const editModeInfo2 = document.getElementById("editModeInfo2");
 const editPanel = document.getElementById("editPanel");
 const editBtns = document.getElementById("editBtns");
+const importRow = document.getElementById("importRow");
 
 let editMode = false;  // 交互模式默认（人设只读）
 let editKeyVal = "";
@@ -185,7 +197,8 @@ function setEditMode(on) {
   editMode = on;
   editPanel.style.display = on ? "flex" : "none";
   editBtns.style.display = on ? "flex" : "none";
-  editModeInfo.textContent = on ? "✓ 编辑模式（可增删改）" : "交互模式（人设只读）";
+  importRow.style.display = on ? "flex" : "none";
+  editModeInfo.textContent = on ? "✓ 编辑模式（可增删改+文件导入）" : "交互模式（人设只读）";
 }
 
 editKind.onchange = () => { condRow.style.display = (editKind.value === "values") ? "flex" : "none"; };
@@ -239,6 +252,25 @@ document.getElementById("btnClear").onclick = async () => {
 };
 
 document.getElementById("btnView").onclick = viewRole;
+
+// 文件导入（编辑模式）
+document.getElementById("btnImpFile").onclick = async () => {
+  if (!editMode) { alert("先进入编辑模式"); return; }
+  const rid = roleSel.value;
+  if (!rid) { alert("先选择角色"); return; }
+  const fileInput = document.getElementById("impFile");
+  if (!fileInput.files.length) { alert("选择文件"); return; }
+  const file = fileInput.files[0];
+  const text = await file.text();
+  const kind = document.getElementById("impKind").value;
+  const r = await api("/api/roles/" + rid + "/import", {
+    kind: kind, filename: file.name, content: text, edit_key: editKeyVal
+  });
+  if (r.error) { editInfo.textContent = "✗ " + r.error; return; }
+  editInfo.textContent = "✓ 导入完成 " + JSON.stringify(r);
+  fileInput.value = "";
+  await viewRole();
+};
 
 async function viewRole() {
   const rid = roleSel.value;
@@ -388,6 +420,35 @@ class Handler(BaseHTTPRequestHandler):
                 r = getattr(RP, fn)(rid, items if isinstance(items, list) else [])
                 self._send_json(200, r)
                 return
+
+        # 编辑模式：文件导入（values/memory/anchor，需 edit_key）
+        if path.endswith("/import") and path.startswith("/api/roles/"):
+            rid = path[len("/api/roles/"):-len("/import")]
+            if RP is None or rid not in RP.list_roles():
+                self._send_json(404, {"error": f"role not found: {rid}"})
+                return
+            if not RP.check_edit_key(body.get("edit_key", "")):
+                self._send_json(403, {"error": "编辑权限不足：需要 ROLEPLAY_EDIT_KEY"})
+                return
+            kind = body.get("kind", "values")
+            filename = body.get("filename", "import.txt")
+            content = body.get("content", "")
+            # 写入临时文件（带正确扩展名以识别格式）
+            import tempfile as _tf
+            suffix = Path(filename).suffix or ".txt"
+            tmp = _tf.NamedTemporaryFile("w", suffix=suffix, encoding="utf-8",
+                                         delete=False, dir=_tf.gettempdir())
+            tmp.write(content)
+            tmp.close()
+            try:
+                r = RP.import_file(rid, tmp.name, kind=kind)
+            finally:
+                try:
+                    os.remove(tmp.name)
+                except Exception:
+                    pass
+            self._send_json(200, r)
+            return
 
         # 编辑模式：修改锚点（需 edit_key）
         if path.endswith("/anchor/update") and path.startswith("/api/roles/"):
