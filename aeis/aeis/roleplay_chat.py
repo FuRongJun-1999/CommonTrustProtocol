@@ -215,7 +215,16 @@ class LingshuChat:
                     # 通用闲聊暴露身份：白箱 chitchat 回答含「我是灵枢」时
                     # 角色场景下应让角色自我介绍（否则鲸鱼娘说自己是灵枢）
                     leaks_id = rid and bool(w.get("chitchat")) and ("灵枢" in (w.get("reply") or ""))
-                    wants_rp = wants_rp or leaks_id
+                    # 通用闲聊话术泄漏（2026-08-19 100 轮测试发现）：
+                    # 白箱 chitchat 回答如「不客气！能帮上忙我就开心」「天气好心情
+                    # 亮堂」是通用客服话术，无角色特征——角色场景下应让角色用自己的
+                    # 视角回应（鲸鱼娘该说「海里的天气可不一样」而非通用话术）。
+                    # 判定：回复不含角色特征词（鲸鱼/海/深海/水母等）→ 通用话术
+                    _ROLE_HINT = ("鲸鱼", "海", "深海", "水母", "珊瑚", "尾巴",
+                                  "章鱼", "海龟", "鱼", "浪", "潮", "蓝")
+                    generic_chat = rid and bool(w.get("chitchat")) and not any(
+                        h in (w.get("reply") or "") for h in _ROLE_HINT)
+                    wants_rp = wants_rp or leaks_id or generic_chat
                     # 白箱记忆路径：白箱说「第一次聊」但角色库有跨会话记忆 →
                     # 交给 LLM（带 mem_notes 召回），避免角色失忆
                     has_role_mem = rid and bool(mem_notes)
