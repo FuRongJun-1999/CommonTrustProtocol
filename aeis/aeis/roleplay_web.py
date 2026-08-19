@@ -140,9 +140,16 @@ async function api(path, body) {
   return r.json();
 }
 
+function showErr(msg) {
+  const el = document.getElementById("routeInfo");
+  if (el) el.textContent = "⚠️ " + msg;
+  console.error(msg);
+}
+
 async function loadRoles() {
   try {
     const r = await fetch("/api/roles");
+    if (!r.ok) { showErr("角色列表加载失败 HTTP " + r.status); return; }
     const data = await r.json();
     roleSel.innerHTML = '<option value="">通用（无角色）</option>';
     (data.roles || []).forEach(x => {
@@ -150,7 +157,8 @@ async function loadRoles() {
       o.value = x.role_id; o.textContent = x.name + " (" + x.role_id + ")";
       roleSel.appendChild(o);
     });
-  } catch (e) { /* 服务未就绪 */ }
+    if (data.roles && data.roles.length === 0) showErr("角色库为空");
+  } catch (e) { showErr("无法连接灵枢服务: " + e.message); }
 }
 
 async function send() {
@@ -159,9 +167,11 @@ async function send() {
   inputEl.value = "";
   addMsg(text, "user");
   const roleId = roleSel.value;
-  const r = await api("/api/chat", {message: text, session_id: sessionId, role_id: roleId});
-  addMsg(r.reply || "(无回复)", "bot", r.route);
-  routeInfo.textContent = "route: " + (r.route || "?");
+  try {
+    const r = await api("/api/chat", {message: text, session_id: sessionId, role_id: roleId});
+    addMsg(r.reply || "(无回复)", "bot", r.route);
+    routeInfo.textContent = "route: " + (r.route || "?");
+  } catch (e) { showErr("对话失败: " + e.message); }
 }
 
 document.getElementById("send").onclick = send;
@@ -170,8 +180,12 @@ document.getElementById("newRole").onclick = async () => {
   const name = document.getElementById("roleName").value.trim();
   if (!name) { alert("先输入角色名"); return; }
   const rid = "role-" + Date.now();
-  const r = await api("/api/roles", {role_id: rid, name: name});
-  if (r.role_id) { await loadRoles(); roleSel.value = rid; syncEditRole(); }
+  try {
+    const r = await api("/api/roles", {role_id: rid, name: name});
+    if (r.error) { showErr("新建失败: " + r.error); return; }
+    if (r.role_id) { await loadRoles(); roleSel.value = rid; syncEditRole(); }
+    else showErr("新建失败: 无 role_id 返回");
+  } catch (e) { showErr("新建失败: " + e.message); }
 };
 
 // ---- 人设编辑器（编辑模式 / 交互模式） ----
@@ -503,7 +517,9 @@ def main() -> None:
     global CHAT, RP
     ap = argparse.ArgumentParser(description="灵枢角色扮演网页服务")
     ap.add_argument("--port", type=int, default=int(os.environ.get("ROLEPLAY_WEB_PORT", "8793")))
-    ap.add_argument("--data-dir", default=os.environ.get("AEIS_ROLEPLAY_DATA", "roleplay_data"))
+    ap.add_argument("--data-dir", default=os.environ.get(
+        "AEIS_ROLEPLAY_DATA",
+        r"D:\Program Files\2_ai\knowledge-base\roleplay_data"))
     ap.add_argument("--host", default=os.environ.get("ROLEPLAY_HOST", "127.0.0.1"))
     args = ap.parse_args()
 
