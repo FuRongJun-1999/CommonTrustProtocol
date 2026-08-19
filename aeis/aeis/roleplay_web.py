@@ -65,6 +65,12 @@ PAGE = """<!DOCTYPE html>
 <div class="rp-editor" style="border:1px solid #2a2a3a;border-radius:8px;padding:10px;margin-bottom:12px;background:#1a1a24;">
   <div style="margin-bottom:6px;color:#8ab4f8;font-size:14px;">人设编辑器（自我锚点 / 价值观 / 记忆）— 当前角色: <b id="editRole">—</b></div>
   <div class="controls" style="margin-bottom:6px;">
+    <span class="info">编辑模式（开发者）：</span>
+    <input id="editKey" type="password" placeholder="ROLEPLAY_EDIT_KEY" style="width:160px">
+    <button id="btnEditMode">进入编辑模式</button>
+    <span class="info" id="editModeInfo"></span>
+  </div>
+  <div class="controls" style="margin-bottom:6px;" id="editPanel" style="display:none;">
     <select id="editKind">
       <option value="anchor">自我锚点（人设核心·不可遗忘）</option>
       <option value="values">特化价值观（带触发条件）</option>
@@ -76,10 +82,15 @@ PAGE = """<!DOCTYPE html>
     <input id="editCond" placeholder="触发条件（价值观用，如：涉及物理事实时）" style="flex:1">
     <input id="editImportance" placeholder="重要性 0-1" value="1.0" style="width:100px">
   </div>
-  <div class="controls">
+  <div class="controls" id="editBtns" style="display:none;">
     <button id="btnAdd">＋ 加入人设</button>
-    <button id="btnView">查看当前人设</button>
+    <button id="btnClear">清空人设</button>
     <span class="info" id="editInfo"></span>
+  </div>
+  <div class="controls" style="margin-top:6px;">
+    <button id="btnView">查看当前人设（只读）</button>
+    <button id="btnManage">管理锚点（列表+删除）</button>
+    <span class="info" id="editModeInfo2"></span>
   </div>
   <pre id="editOut" style="font-size:12px;color:#9a9abc;white-space:pre-wrap;max-height:160px;overflow-y:auto;margin:6px 0 0;"></pre>
 </div>
@@ -152,7 +163,7 @@ document.getElementById("newRole").onclick = async () => {
   if (r.role_id) { await loadRoles(); roleSel.value = rid; syncEditRole(); }
 };
 
-// ---- 人设编辑器 ----
+// ---- 人设编辑器（编辑模式 / 交互模式） ----
 const editKind = document.getElementById("editKind");
 const editContent = document.getElementById("editContent");
 const editCond = document.getElementById("editCond");
@@ -161,23 +172,48 @@ const condRow = document.getElementById("condRow");
 const editOut = document.getElementById("editOut");
 const editInfo = document.getElementById("editInfo");
 const editRole = document.getElementById("editRole");
+const editKey = document.getElementById("editKey");
+const editModeInfo = document.getElementById("editModeInfo");
+const editModeInfo2 = document.getElementById("editModeInfo2");
+const editPanel = document.getElementById("editPanel");
+const editBtns = document.getElementById("editBtns");
+
+let editMode = false;  // 交互模式默认（人设只读）
+let editKeyVal = "";
+
+function setEditMode(on) {
+  editMode = on;
+  editPanel.style.display = on ? "flex" : "none";
+  editBtns.style.display = on ? "flex" : "none";
+  editModeInfo.textContent = on ? "✓ 编辑模式（可增删改）" : "交互模式（人设只读）";
+}
 
 editKind.onchange = () => { condRow.style.display = (editKind.value === "values") ? "flex" : "none"; };
+
+document.getElementById("btnEditMode").onclick = () => {
+  const k = editKey.value.trim();
+  if (!k) { alert("输入编辑密钥"); return; }
+  editKeyVal = k;
+  setEditMode(true);
+  editKey.value = "";
+};
 
 function syncEditRole() {
   editRole.textContent = roleSel.value ? roleSel.value : "（先选择/新建角色）";
   editOut.textContent = "";
+  setEditMode(false);  // 切角色回到交互模式
 }
 
 roleSel.onchange = syncEditRole;
 
 document.getElementById("btnAdd").onclick = async () => {
+  if (!editMode) { alert("先进入编辑模式（输入密钥）"); return; }
   const rid = roleSel.value;
   if (!rid) { alert("先在顶部选择或新建角色"); return; }
   const content = editContent.value.trim();
   if (!content) { alert("输入内容"); return; }
   const kind = editKind.value;
-  const body = {role_id: rid, kind: kind, items: []};
+  const body = {role_id: rid, kind: kind, items: [], edit_key: editKeyVal};
   if (kind === "anchor") {
     body.items = [{content: content, immutable: true, importance: parseFloat(editImportance.value) || 1.0}];
   } else if (kind === "values") {
@@ -187,8 +223,18 @@ document.getElementById("btnAdd").onclick = async () => {
     body.items = [{content: content, importance: parseFloat(editImportance.value) || 0.6, tags: ["背景"]}];
   }
   const r = await api("/api/roles/" + rid + "/" + kind, body);
+  if (r.error) { editInfo.textContent = "✗ " + r.error; return; }
   editInfo.textContent = (r.added !== undefined) ? "✓ 已加入 " + r.added + " 条" : JSON.stringify(r);
   editContent.value = ""; editCond.value = "";
+  await viewRole();
+};
+
+document.getElementById("btnClear").onclick = async () => {
+  if (!editMode) { alert("先进入编辑模式"); return; }
+  const rid = roleSel.value;
+  if (!rid || !confirm("清空该角色全部人设？")) return;
+  const r = await api("/api/roles/" + rid + "/clear", {edit_key: editKeyVal});
+  editInfo.textContent = r.removed ? "✓ 已清空 " + JSON.stringify(r.removed) : JSON.stringify(r);
   await viewRole();
 };
 
@@ -203,8 +249,34 @@ async function viewRole() {
   editOut.textContent = data.block || "(空)";
 }
 
+// 管理锚点：列表 + 删除（编辑模式可删）
+document.getElementById("btnManage").onclick = async () => {
+  const rid = roleSel.value;
+  if (!rid) { alert("先选择角色"); return; }
+  const r = await fetch("/api/roles/" + rid + "/anchors");
+  const data = await r.json();
+  const list = data.anchors || [];
+  if (!list.length) { editOut.textContent = "（无锚点）"; return; }
+  const lines = list.map((a, i) => {
+    const delBtn = editMode ? `  [删:${a.node_id.slice(-6)}]` : "";
+    return `${i + 1}. ${a.content}${delBtn}`;
+  });
+  editOut.textContent = lines.join("\n") + (editMode ? "\n\n（删除格式：输「删:<后6位>」后点查看）" : "\n\n（编辑模式可删除）");
+  if (editMode) {
+    const delId = prompt("输入要删除的锚点后 6 位：");
+    if (delId) {
+      const target = list.find(a => a.node_id.slice(-6) === delId.trim());
+      if (target) {
+        const dr = await api("/api/roles/" + rid + "/anchor/delete", {node_id: target.node_id, edit_key: editKeyVal});
+        editOut.textContent = JSON.stringify(dr);
+      } else { editOut.textContent = "未找到该锚点"; }
+    }
+  }
+};
+
 loadRoles();
 syncEditRole();
+setEditMode(false);
 </script>
 </body>
 </html>"""
@@ -244,6 +316,15 @@ class Handler(BaseHTTPRequestHandler):
             rid = parsed.path[len("/api/roles/"):-len("/block")]
             if rid in RP.list_roles():
                 self._send_json(200, {"role_id": rid, "block": RP.build_role_block(rid)})
+                return
+            self._send_json(404, {"error": "role not found"})
+            return
+        # 锚点列表（只读，无需密钥——交互模式可查看）
+        if parsed.path.endswith("/anchors") and parsed.path.startswith("/api/roles/") and RP:
+            rid = parsed.path[len("/api/roles/"):-len("/anchors")]
+            if rid in RP.list_roles():
+                self._send_json(200, {"role_id": rid,
+                                      "anchors": RP.list_anchors(rid)})
                 return
             self._send_json(404, {"error": "role not found"})
             return
@@ -290,7 +371,7 @@ class Handler(BaseHTTPRequestHandler):
             self._send_json(200, r)
             return
 
-        # 三导入接口
+        # 三导入接口（编辑模式：需 edit_key——角色人设=嵌套扮演设定，开发者权限）
         for action, fn in (("memory", "import_memory"), ("anchor", "import_anchor"),
                            ("values", "import_values")):
             suffix = f"/{action}"
@@ -299,10 +380,55 @@ class Handler(BaseHTTPRequestHandler):
                 if RP is None or rid not in RP.list_roles():
                     self._send_json(404, {"error": f"role not found: {rid}"})
                     return
+                # 写入人设 = 编辑操作，需编辑密钥
+                if not RP.check_edit_key(body.get("edit_key", "")):
+                    self._send_json(403, {"error": "编辑权限不足：需要 ROLEPLAY_EDIT_KEY（编辑模式）"})
+                    return
                 items = body.get("items", [])
                 r = getattr(RP, fn)(rid, items if isinstance(items, list) else [])
                 self._send_json(200, r)
                 return
+
+        # 编辑模式：修改锚点（需 edit_key）
+        if path.endswith("/anchor/update") and path.startswith("/api/roles/"):
+            rid = path[len("/api/roles/"):-len("/anchor/update")]
+            if RP is None or rid not in RP.list_roles():
+                self._send_json(404, {"error": f"role not found: {rid}"})
+                return
+            if not RP.check_edit_key(body.get("edit_key", "")):
+                self._send_json(403, {"error": "编辑权限不足：需要 ROLEPLAY_EDIT_KEY"})
+                return
+            r = RP.update_anchor(rid, body.get("node_id", ""),
+                                 content=body.get("content"),
+                                 importance=body.get("importance"))
+            self._send_json(200, r)
+            return
+
+        # 编辑模式：删除锚点（需 edit_key）
+        if path.endswith("/anchor/delete") and path.startswith("/api/roles/"):
+            rid = path[len("/api/roles/"):-len("/anchor/delete")]
+            if RP is None or rid not in RP.list_roles():
+                self._send_json(404, {"error": f"role not found: {rid}"})
+                return
+            if not RP.check_edit_key(body.get("edit_key", "")):
+                self._send_json(403, {"error": "编辑权限不足：需要 ROLEPLAY_EDIT_KEY"})
+                return
+            r = RP.delete_anchor(rid, body.get("node_id", ""))
+            self._send_json(200, r)
+            return
+
+        # 编辑模式：清空人设（需 edit_key）
+        if path.endswith("/clear") and path.startswith("/api/roles/"):
+            rid = path[len("/api/roles/"):-len("/clear")]
+            if RP is None or rid not in RP.list_roles():
+                self._send_json(404, {"error": f"role not found: {rid}"})
+                return
+            if not RP.check_edit_key(body.get("edit_key", "")):
+                self._send_json(403, {"error": "编辑权限不足：需要 ROLEPLAY_EDIT_KEY"})
+                return
+            r = RP.clear_role(rid, body.get("kind", "all"))
+            self._send_json(200, r)
+            return
 
         self._send_json(404, {"error": f"not found: {self.path}"})
 
