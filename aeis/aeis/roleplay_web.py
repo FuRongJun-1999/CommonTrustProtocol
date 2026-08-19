@@ -62,6 +62,27 @@ PAGE = """<!DOCTYPE html>
   <input id="roleName" placeholder="角色名（新建时用）" style="width:140px">
   <span class="info" id="routeInfo"></span>
 </div>
+<div class="rp-editor" style="border:1px solid #2a2a3a;border-radius:8px;padding:10px;margin-bottom:12px;background:#1a1a24;">
+  <div style="margin-bottom:6px;color:#8ab4f8;font-size:14px;">人设编辑器（自我锚点 / 价值观 / 记忆）— 当前角色: <b id="editRole">—</b></div>
+  <div class="controls" style="margin-bottom:6px;">
+    <select id="editKind">
+      <option value="anchor">自我锚点（人设核心·不可遗忘）</option>
+      <option value="values">特化价值观（带触发条件）</option>
+      <option value="memory">历史记忆（背景经历）</option>
+    </select>
+    <input id="editContent" placeholder="内容…（锚点如：我是谁/性格核心/底线）" style="flex:1">
+  </div>
+  <div class="controls" id="condRow" style="display:none;margin-bottom:6px;">
+    <input id="editCond" placeholder="触发条件（价值观用，如：涉及物理事实时）" style="flex:1">
+    <input id="editImportance" placeholder="重要性 0-1" value="1.0" style="width:100px">
+  </div>
+  <div class="controls">
+    <button id="btnAdd">＋ 加入人设</button>
+    <button id="btnView">查看当前人设</button>
+    <span class="info" id="editInfo"></span>
+  </div>
+  <pre id="editOut" style="font-size:12px;color:#9a9abc;white-space:pre-wrap;max-height:160px;overflow-y:auto;margin:6px 0 0;"></pre>
+</div>
 <div id="chat"></div>
 <div class="controls">
   <input id="input" placeholder="说点什么…" autocomplete="off">
@@ -128,9 +149,62 @@ document.getElementById("newRole").onclick = async () => {
   if (!name) { alert("先输入角色名"); return; }
   const rid = "role-" + Date.now();
   const r = await api("/api/roles", {role_id: rid, name: name});
-  if (r.role_id) { await loadRoles(); roleSel.value = rid; }
+  if (r.role_id) { await loadRoles(); roleSel.value = rid; syncEditRole(); }
 };
+
+// ---- 人设编辑器 ----
+const editKind = document.getElementById("editKind");
+const editContent = document.getElementById("editContent");
+const editCond = document.getElementById("editCond");
+const editImportance = document.getElementById("editImportance");
+const condRow = document.getElementById("condRow");
+const editOut = document.getElementById("editOut");
+const editInfo = document.getElementById("editInfo");
+const editRole = document.getElementById("editRole");
+
+editKind.onchange = () => { condRow.style.display = (editKind.value === "values") ? "flex" : "none"; };
+
+function syncEditRole() {
+  editRole.textContent = roleSel.value ? roleSel.value : "（先选择/新建角色）";
+  editOut.textContent = "";
+}
+
+roleSel.onchange = syncEditRole;
+
+document.getElementById("btnAdd").onclick = async () => {
+  const rid = roleSel.value;
+  if (!rid) { alert("先在顶部选择或新建角色"); return; }
+  const content = editContent.value.trim();
+  if (!content) { alert("输入内容"); return; }
+  const kind = editKind.value;
+  const body = {role_id: rid, kind: kind, items: []};
+  if (kind === "anchor") {
+    body.items = [{content: content, immutable: true, importance: parseFloat(editImportance.value) || 1.0}];
+  } else if (kind === "values") {
+    body.items = [{name: content.split("：")[0] || content, condition: editCond.value.trim(),
+                   priority: parseFloat(editImportance.value) || 0.8, body: content}];
+  } else {
+    body.items = [{content: content, importance: parseFloat(editImportance.value) || 0.6, tags: ["背景"]}];
+  }
+  const r = await api("/api/roles/" + rid + "/" + kind, body);
+  editInfo.textContent = (r.added !== undefined) ? "✓ 已加入 " + r.added + " 条" : JSON.stringify(r);
+  editContent.value = ""; editCond.value = "";
+  await viewRole();
+};
+
+document.getElementById("btnView").onclick = viewRole;
+
+async function viewRole() {
+  const rid = roleSel.value;
+  if (!rid) { alert("先选择角色"); return; }
+  editOut.textContent = "读取中…";
+  const r = await fetch("/api/roles/" + rid + "/block");
+  const data = await r.json();
+  editOut.textContent = data.block || "(空)";
+}
+
 loadRoles();
+syncEditRole();
 </script>
 </body>
 </html>"""
