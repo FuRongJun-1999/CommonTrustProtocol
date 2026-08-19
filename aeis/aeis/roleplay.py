@@ -143,9 +143,9 @@ class RolePlayEngine:
             importance = float(m.get("importance", 0.6))
             tags = list(m.get("tags", []) or []) + ["roleplay", f"role:{role_id}"]
             entities = list(m.get("entities", []) or [])
-            node_id = agent.remember(
+            node = agent.remember(
                 content, importance=importance, tags=tags, entities=entities)
-            added.append(node_id)
+            added.append(node.id if hasattr(node, "id") else str(node))
         self._meta[role_id]["memories"] += len(added)
         self._save_meta()
         return {"role_id": role_id, "added": len(added), "node_ids": added}
@@ -182,9 +182,10 @@ class RolePlayEngine:
                 agent.engine.store.tag_node(node_id, "no_forget")
                 agent.engine.store.tag_node(node_id, f"role:{role_id}")
             else:
-                node_id = agent.remember(
+                node = agent.remember(
                     content, importance=importance,
                     tags=["roleplay", "anchor", f"role:{role_id}"])
+                node_id = node.id if hasattr(node, "id") else str(node)
             added.append(node_id)
         self._meta[role_id]["anchors"] += len(added)
         self._save_meta()
