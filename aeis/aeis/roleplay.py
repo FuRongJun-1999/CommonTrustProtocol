@@ -147,7 +147,16 @@ class RolePlayEngine:
             node = agent.remember(
                 content, importance=importance, tags=tags, entities=entities)
             added.append(node.id if hasattr(node, "id") else str(node))
-        self._meta[role_id]["memories"] += len(added)
+        # 计数 = 实际统计（覆盖而非累加——重复导入不虚增）
+        try:
+            from .core import MemoryLayer as _ML
+            _agent = self._agent(role_id)
+            _real = sum(1 for n in _agent.engine.store.query_nodes(
+                layer=_ML.KNOWLEDGE, limit=500)
+                if "roleplay" in (n.tags or []) and f"role:{role_id}" in (n.tags or []))
+        except Exception:
+            _real = len(added)
+        self._meta[role_id]["memories"] = _real
         self._save_meta()
         return {"role_id": role_id, "added": len(added), "node_ids": added}
 
@@ -188,7 +197,9 @@ class RolePlayEngine:
                     tags=["roleplay", "anchor", f"role:{role_id}"])
                 node_id = node.id if hasattr(node, "id") else str(node)
             added.append(node_id)
-        self._meta[role_id]["anchors"] += len(added)
+        # 计数 = 实际统计（覆盖而非累加——重复导入不虚增）
+        agent = self._agent(role_id)
+        self._meta[role_id]["anchors"] = len(agent.engine.get_anchors())
         self._save_meta()
         return {"role_id": role_id, "added": len(added), "node_ids": added}
 
@@ -503,7 +514,16 @@ class RolePlayEngine:
             if condition:
                 agent.engine.store.tag_node(node_id, f"cond:{condition}")
             added.append(node_id)
-        self._meta[role_id]["values"] += len(added)
+        # 计数 = 实际统计（覆盖而非累加）
+        try:
+            from .core import MemoryLayer as _ML
+            _agent = self._agent(role_id)
+            _real = sum(1 for n in _agent.engine.store.query_nodes(
+                layer=_ML.STRUCTURE, limit=100)
+                if "val-spec" in (n.tags or []))
+        except Exception:
+            _real = len(added)
+        self._meta[role_id]["values"] = _real
         self._save_meta()
         return {"role_id": role_id, "added": len(added), "node_ids": added}
 
