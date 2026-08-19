@@ -347,6 +347,43 @@ class RolePlayEngine:
                 data = json.loads(text)
             except Exception as e:
                 return {"error": f"JSON 解析失败: {e}"}
+
+            # ---- 世界书（Lorebook）格式识别：顶层有 entries 且条目含 keys ----
+            # SillyTavern 世界书：触发词 keys → 注入文本 content。
+            # 转灵枢记忆：content → 记忆内容；keys → 实体标签（ent:<key>），
+            # 对话中触发词出现时灵枢可按实体召回该记忆（条件空间声明）。
+            if isinstance(data, dict) and isinstance(data.get("entries"), list) \
+                    and data["entries"] and isinstance(data["entries"][0], dict) \
+                    and ("keys" in data["entries"][0] or "key" in data["entries"][0]):
+                items = []
+                for e in data["entries"]:
+                    if not isinstance(e, dict):
+                        continue
+                    content = (e.get("content") or "").strip()
+                    if not content:
+                        continue
+                    keys = e.get("keys") or e.get("key") or []
+                    if isinstance(keys, str):
+                        keys = [keys]
+                    tags = ["lorebook", f"lb:{data.get('name','lorebook')}"]
+                    # 触发词转实体标签（中文/英文均保留，小写化英文）
+                    entities = []
+                    for k in keys:
+                        k = str(k).strip()
+                        if not k:
+                            continue
+                        entities.append(k)
+                        tags.append(f"key:{k.lower() if k.isascii() else k}")
+                    if e.get("comment"):
+                        tags.append(f"cmt:{e.get('comment')[:40]}")
+                    items.append({
+                        "content": f"[世界书·{data.get('name','lorebook')}] {content}",
+                        "importance": 0.7 if e.get("constant") else 0.6,
+                        "tags": tags,
+                        "entities": entities,
+                    })
+                return self.import_memory(role_id, items)
+
             if not isinstance(data, list):
                 data = [data]
             if kind == "values":

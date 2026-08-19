@@ -87,9 +87,18 @@ class LingshuChat:
 
     def _recall_mem(self, session_id: str, query: str, limit: int = 6,
                     role_id: str = "") -> List[str]:
-        """长期记忆召回 → 文本行（按角色隔离：只召回该角色标签的记忆）。"""
+        """长期记忆召回 → 文本行（按角色隔离：只召回该角色标签的记忆）。
+
+        有 role_id 时查角色库（self.rp 的角色 Agent，含世界书导入的知识层
+        记忆）；无角色时查 self.mem（通用内存库）。
+        """
         try:
-            hits = self.mem.recall(query, limit=limit * 4)
+            if role_id and self.rp is not None:
+                # 角色库：直接查角色 Agent 的记忆（知识层，含世界书记忆）
+                agent = self.rp._agent(role_id)
+                hits = agent.recall(query, limit=limit * 4)
+            else:
+                hits = self.mem.recall(query, limit=limit * 4)
             out = []
             for n, _s in hits:
                 tags = n.tags or []
@@ -97,7 +106,7 @@ class LingshuChat:
                 if role_id:
                     if f"role:{role_id}" not in tags:
                         continue
-                out.append((n.content or "")[:80])
+                out.append((n.content or "")[:100])
                 if len(out) >= limit:
                     break
             return out
