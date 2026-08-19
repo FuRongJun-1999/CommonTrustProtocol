@@ -14,7 +14,7 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = r'D:\Program Files\1_ai\catgirl-protocol-interface\models\bge-small-zh-v1.5'
+MODEL_PATH = r'D:\Program Files\2_ai\CommonTrustProtocol\aeis\models\bge-small-zh-v1.5'
 INDEX_NPZ = os.path.join(HERE, 'neural_index.npz')
 INDEX_META = os.path.join(HERE, 'neural_index.json')
 

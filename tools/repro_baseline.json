@@ -1,9 +1,9 @@
 {
   "date": "2026-08-19",
-  "accuracy": 0.43243243243243246,
-  "direct_rate": 0.7477477477477478,
+  "accuracy": 0.5405405405405406,
+  "direct_rate": 0.8378378378378378,
   "graph_nodes": 3061,
   "knowledge_points": 2836,
-  "locked_min_score": 0.39,
+  "locked_min_score": 0.5,
   "note": "可复现纪律锁定基准（随包图谱 + 当前代码）"
 }
