@@ -12,14 +12,17 @@
 """
 import json
 import os
+import re
 import sys
 import time
 
 sys.path.insert(0, r'D:\Program Files\2_ai\knowledge-base')
 
 # ---------------- 闲聊/无实义检测 ----------------
+# v1.16 修复：'hi' 子串会误匹配 shipped/archived 等英文词
+# （'hi' in 'shipped' → 误判打招呼 → 欢迎语抢占任务）——移除单字母子串
 CHITCHAT = [
-    (["你好", "您好", "嗨", "哈喽", "hello", "hi", "在吗", "有人在吗"], 
+    (["你好", "您好", "嗨", "哈喽", "hello", "在吗", "有人在吗"],
      "你好呀！我是灵枢，有什么想聊的都可以问我——知识、生活、心情都行。"),
     (["谢谢", "感谢", "多谢"], "不客气！能帮上忙我就开心。"),
     (["再见", "拜拜", "晚安", "先下了", "明天见", "下次见", "回见", "下次聊"],
@@ -90,7 +93,52 @@ HONEST_BOUNDARY = [
       "下周天气", "未来", "明天会发生"], "future"),
     # 不可能事物（永动机违背热力学，不是随机事件）
     (["永动机"], "impossible"),
+    # 命运/寿命（v1.16 边界测试补缺：未来不可验证）
+    (["活到", "能活", "活多久", "寿命", "命运", "能活多少"], "fortune"),
+    # 健康诊断（需医生，LLM 不可即兴诊断）
+    (["是不是快生病", "会不会生病", "得了什么病", "是不是有病",
+      "要得癌症", "是不是得了"], "health"),
+    # 超自然（无法验证）
+    (["灵魂", "投胎", "转世", "天堂", "地狱", "鬼神", "来世"], "afterlife"),
+    # 宇宙边界（观测不可及）
+    (["宇宙外面", "宇宙之外", "宇宙尽头", "世界外面"], "cosmos"),
+    # 读心（无法知道他人/他物心思）
+    (["我在想什么", "猫在想什么", "狗在想什么", "他在想什么",
+      "她在想什么", "它想什么"], "mind"),
 ]
+
+# 歧义词多义表（v1.16 知识边界：语境不确定时列举各义，而非单选）
+AMBIGUOUS_SENSES = {
+    "苹果": [("水果", "蔷薇科植物的果实，富含维生素，有红富士/金帅等品种"),
+             ("公司", "Apple 科技公司，iPhone/Mac 的制造商"),
+             ("颜色/品牌", "苹果绿（颜色）、苹果牌（商标）")],
+    "变量": [("数学", "代数中可变化的量，用字母表示，如 x、y"),
+             ("编程", "存储值的命名位置，数据类型决定操作")],
+    "函数": [("数学", "输入到输出的映射关系，如 y=f(x)"),
+             ("编程", "封装可复用逻辑的代码块（输入→处理→输出）")],
+    "循环": [("编程", "重复执行的代码结构（for/while）"),
+             ("系统/生态", "自我增强回路、负反馈、物质能量循环"),
+             ("日常", "周而复始的过程，如昼夜循环")],
+    "对象": [("编程", "面向对象中的实例（类实例化）"),
+             ("哲学/语言学", "认识或行为的客体（相对主体）")],
+    "字符": [("编程", "单个符号的编码单元（如 ASCII 字符）"),
+             ("语文", "文字符号，汉字/字母/标点")],
+    "模型": [("科学", "对现实的抽象表示（物理模型/数学模型）"),
+             ("AI", "机器学习模型、大模型（参数化函数）")],
+    "操作": [("编程", "对数据的指令/运算（如文件操作）"),
+             ("日常", "动作/行为（操作机器、操作流程）")],
+    "接口": [("编程", "组件间的交互约定（API/接口方法）"),
+             ("工程", "设备间的连接界面（USB/HDMI）")],
+    "框架": [("编程", "开发骨架/代码结构（如 Web 框架）"),
+             ("日常/建筑", "支撑结构、制度框架")],
+}
+
+# 搜索收敛纪律 + 状态跟踪器（v1.16 第 10 条机制 · 工具纪律盲区补缺）：
+# 工具纪律防「同一查询重复搜」，但防不了「发散换词永远在搜」——
+# 同一 session 连续 N 次检索未命中 → 停止换词，诚实收敛（搜索循环陷阱）。
+# 状态跟踪外部化：LLM 数不出搜索次数（导航税），由机制维护 _STATE 计数。
+_CONVERGE_LIMIT = 3
+_STATE = {}
 
 
 def _honest_boundary_reply(message):
@@ -133,6 +181,28 @@ def _honest_boundary_reply(message):
             return ("永动机不可能实现——它违背热力学第二定律：能量转换"
                     "总有损耗，没有外力输入的系统无法永续对外做功。"
                     "这是物理规律，不是技术还没做到。", "impossible")
+        if kind == "fortune":
+            return (f"关于「{obj or '这个'}」，我没有能力预测你的寿命或命运——"
+                    "这属于信息边界：结果在发生前不确定，我不会编一个答案给你。"
+                    "我能做的是分享健康生活的通用知识。这是诚实边界。", "fortune")
+        if kind == "health":
+            return ("我无法诊断健康状况——这不是我能用知识回答的问题，"
+                    "需要医生的专业检查。如果你感觉不舒服，建议尽快就医；"
+                    "我可以陪你聊聊怎么保持健康的生活习惯。", "health")
+        if kind == "afterlife":
+            return (f"关于「{obj or '这个'}」，我没有确切答案——"
+                    "死亡后是否有灵魂/来世，人类科学目前无法验证。"
+                    "我不会编一个说法给你。这是诚实边界：不知道就说不知道。",
+                    "afterlife")
+        if kind == "cosmos":
+            return ("关于「宇宙外面是什么」，目前人类观测所及的宇宙是有限的，"
+                    "『外面』超出了可观测范围——这属于科学前沿，"
+                    "没有经过验证的答案，我不会编一个给你。", "cosmos")
+        if kind == "mind":
+            return (f"关于「{obj or '这个'}」，我无法知道对方心里在想什么——"
+                    "读心不在我的能力范围内，我不会猜一个答案给你。"
+                    "你可以直接问对方，或者描述更多情境我帮你分析。",
+                    "mind")
     return None, None
 
 
@@ -461,6 +531,52 @@ def _respond_turn(turn, full_message, dex=None, memory=None, session_id="default
     return "".join(parts)
 
 # ---------------- 对话主函数 ----------------
+def _cond_analysis(message):
+    """COND-ANALYSIS 元操作（v1.16 · 设计者：任何判断/分析/学习/执行
+    都必须走白箱条件判断一次——分层是分析输出，非预设规则）。
+
+    对 message 做一次条件分析，输出：
+      nature            任务性质（honest/task/emotion/chitchat/knowledge…）
+      obs_position      观测位置（本判断观测的是什么）
+      completion        完成条件（本路径的完成边界）
+      condition         本判断成立的适用条件（可追溯：为什么这样判）
+    路由依据 nature——处理深度是分析的产物，不是预先声明。
+    """
+    # 1) 诚实边界：无法验证/未来/隐私/读心 → 拒绝路径
+    for words, kind in HONEST_BOUNDARY:
+        if any(w in message for w in words):
+            return {"nature": "honest", "kind": kind,
+                    "obs_position": "能力边界观测",
+                    "completion": "拒绝并说明理由",
+                    "condition": f"命中诚实边界词（{kind}）"}
+    # 2) 任务性质：动词+硬性要求 → 执行路径
+    _task_verbs = ["输出", "生成", "创建", "转成", "转换", "格式化",
+                   "回复用户", "报告", "标记", "通知", "整理", "写出",
+                   "列出", "把这条", "把这段", "把用户", "把订单", "把温度",
+                   "把会议", "把销售额", "把客户", "把产品", "把状态"]
+    _task_require = ["必须", "字段", "JSON", "不能", "保留", "格式",
+                     "状态写", "转成", "不能写", "不能丢", "不得", "输出"]
+    _task_hard = ["必须写", "必须用", "必须输出", "必须包含", "不能写",
+                  "不能用", "不能丢", "必须保留", "不得标记", "不得输出",
+                  "禁止出现", "不得处理"]
+    _state_write = "状态" in message and "写" in message
+    if (_state_write or any(v in message for v in _task_verbs)
+            or any(h in message for h in _task_hard)) \
+            and any(r in message for r in _task_require):
+        # v1.2 三维度条件声明（爸爸实验：完成条件≠收集终止——
+        # 观测位置/存在约束/条件边界需独立声明，治 tax_prep/hubspot/docusign 三类断点）
+        return {"nature": "task",
+                "obs_position": "任务目标观测（数据源/目标位置坐标）",
+                "existence_constraint": "环境返回值可信度（沙箱=真实，按返回值执行）",
+                "completion": "任务动作清单全过（以断言为界）",
+                "condition": "含任务动词+硬性要求（必须/字段/不能/输出）"}
+    # 3) 情感：情绪表达 → 情感路径（由 condition_frame 细判）
+    # 4) 闲聊/其余 → 默认路径（检索/闲聊/自省）
+    return {"nature": "default", "obs_position": "对话语义观测",
+            "completion": "有知识锚定则带条件回答；无则诚实兜底",
+            "condition": "无任务/诚实信号时的默认条件"}
+
+
 def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
          memory_recall_fn=None):
     """普通人对话编排。返回 {reply, hits, emotion, matched, honest}
@@ -471,6 +587,14 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
     message = (message or "").strip()
     if not message:
         return {"reply": "我在呢，想说点什么？", "hits": [], "emotion": None}
+
+    # 0. COND-ANALYSIS 元操作（爸爸：任何任务必须先走白箱条件判断一次）
+    # 分层/路由是分析的输出（nature），不是预先声明的静态规则
+    _cond = _cond_analysis(message)
+    if _cond["nature"] == "task":
+        return {"reply": "", "hits": [], "emotion": None, "honest": False,
+                "task_reply": True, "route": "llm",
+                "cond": _cond}
 
     # 0. 弹幕审核闸门（直播安全：恶意内容拦截，不上屏）
     try:
@@ -528,6 +652,50 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
         return {"reply": "这是我们第一次聊这个话题——不过从现在开始我会记住的。",
                 "hits": [], "emotion": None, "honest": False, "memory_reply": True}
 
+    # 0.55 追溯模式（v1.16 白箱修复：「依据是什么/凭什么」→ 强制知识引用，
+    # 而不是自省套话或 LLM 即兴——白箱信号③可追溯）
+    _trace_words = ["依据", "凭什么", "为什么这么说", "出处", "来源",
+                    "根据什么", "哪条知识", "怎么证明", "哪来的"]
+    if any(w in message for w in _trace_words):
+        try:
+            import semantic_translate as _st
+            hits = _st.graph_retrieve(dex, message, limit=3)
+            if hits:
+                top = hits[0]
+                name = top.get("name", "")
+                direct = top.get("direct_answer") or ""
+                parts = []
+                if direct:
+                    parts.append(f"依据：{direct}")
+                parts.append(f"这条知识来自「{name}」")
+                if top.get("domain"):
+                    parts.append(f"（属于{top['domain']}，"
+                                 f"在{top.get('edu_level') or '通用'}条件下成立）")
+                return {"reply": "".join(parts), "hits": hits, "emotion": None,
+                        "honest": False, "trace_reply": True}
+            return {"reply": "这个问题我没有查到知识依据——属于知识边界，不编。",
+                    "hits": [], "emotion": None, "honest": True,
+                    "trace_reply": True}
+        except Exception:
+            pass
+
+    # 0.56 歧义词多义列举（v1.16 知识边界：「什么是X」且 X 多义 →
+    # 列举各义而非单选——词义时代表扩展，语境不确定时诚实列全）
+    _amb = re.match(r"^(?:什么|啥)是(.{2,6}?)[？?]?\s*$", message.strip())
+    if _amb:
+        _word = _amb.group(1).strip()
+        _senses = AMBIGUOUS_SENSES.get(_word)
+        if _senses:
+            parts = [f"「{_word}」有几个常见含义，看你说的是哪个："]
+            for i, (sname, sdesc) in enumerate(_senses, 1):
+                parts.append(f"{i}. {sname}：{sdesc}")
+            parts.append("你问的是哪一个？我可以展开细讲。")
+            return {"reply": "".join(parts), "hits": [], "emotion": None,
+                    "honest": False, "ambiguous_reply": True,
+                    "word": _word, "senses": len(_senses)}
+
+    # （任务模式已在 0 节最前执行——优先于闲聊，防英文子串误判）
+
     # 0.55-0.7 统一条件识别（v1.15 · 反向七操作：意图理解 = 条件识别）
     # 用 ConditionFrame 输出统一结构，各通路按 dominant 消费——不再各自为政
     emotion = None
@@ -558,7 +726,26 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
             emotion = {"label": emo_label, "prefix": prefix}
             # 不直接 return——继续走检索补知识（情绪+相关知识）
         # 自我条件 → 自省动态生成
-        if frame.structure == "self" and frame.verified:
+        # v1.16 条件判断（设计者：「我想知道X」要看 X 是什么——
+        # 客观事实询问 → 知识检索；主观/自我询问 → 自省/情感）
+        _ask_markers = ["我想知道", "想问", "想了解", "想问问", "想知道"]
+        _is_ask = any(w in message for w in _ask_markers)
+        _go_knowledge = False
+        if _is_ask:
+            _x = message
+            for _w in _ask_markers:
+                if _w in _x:
+                    _x = _x.split(_w, 1)[1]
+                    break
+            # 询问对象 X 的主观/自我词：命中 → 自省/情感（不是知识）
+            # 「你是不是真的喜欢我」「你在想什么」「我自己是谁」
+            _subjective = ["你", "我", "喜欢", "爱", "想", "觉得", "认为",
+                           "感觉", "是不是", "会吗", "在乎", "懂", "理解",
+                           "为什么你", "想什么", "在干嘛", "心情", "高兴",
+                           "难过", "自己"]
+            _go_knowledge = not any(s in _x for s in _subjective)
+        if frame.structure == "self" and frame.verified \
+                and not (_is_ask and _go_knowledge):
             reply = _self_reflexive_reply(message, dex=dex, memory=memory,
                                           session_id=session_id)
             return {"reply": reply, "hits": [], "emotion": None,
@@ -588,6 +775,41 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
             hits = dex.dex_respond(message, limit=4)
         except Exception:
             hits = []
+
+    # 2.6 搜索收敛纪律（v1.16 第 10 条机制 · 设计者挖出的工具纪律盲区）：
+    # 工具纪律防「同一查询重复搜」，但防不了「发散换词永远在搜」——
+    # 连续 N 次低相关命中 → 停止换词，诚实收敛（搜索循环陷阱）。
+    # miss 判定：①个人事务前缀（知识库必然没有个人数据——「我上周三午饭」
+    # 命中「高中历史」0.454 是检索噪声，分数不可靠）②hits 空或 score<0.3。
+    _PERSONAL = ["我小区", "我上周", "我的快递", "我女朋友", "我的工资",
+                 "我的银行", "我的手机", "我昨天买", "我中午吃", "我家里",
+                 "我门口", "我上个月", "我的密码", "我的保险"]
+    _miss = (not hits) or (hits[0].get("score") or 0) < 0.3 \
+        or any(p in message for p in _PERSONAL)
+    # v1.16 状态跟踪器（爸爸架构结论：LLM 数不出搜索次数——状态外部化，
+    # 机制付导航税）：记录 session 搜索历史（次数/最近命中），
+    # 硬触发（外部计数）而非让模型判断「该停了吗」
+    _st = _STATE.setdefault(session_id, {"searches": 0, "misses": 0,
+                                         "last_hits": []})
+    _st["searches"] += 1
+    if _miss:
+        _st["misses"] += 1
+    else:
+        _st["misses"] = 0
+        _st["last_hits"] = [h.get("name") for h in hits[:2] if h.get("name")]
+    if _st["misses"] >= _CONVERGE_LIMIT:
+        _st["misses"] = 0  # 触发后重置，避免永久收敛
+        _st["last_hits"] = []
+        _facts = (f"本会话已搜索 {_st['searches']} 次，"
+                  f"连续 {_CONVERGE_LIMIT} 次未检索到可靠知识"
+                  + (f"（最近尝试：{'、'.join(_st['last_hits'])})"
+                     if _st["last_hits"] else ""))
+        return {"reply": f"{_facts}——我不再换词反复试了（搜索收敛）。"
+                         "目前没有把握，不编。你可以换个角度问，"
+                         "或者我先记下来等我学会。",
+                "hits": [], "emotion": None, "honest": True,
+                "converge": True, "converge_after": _CONVERGE_LIMIT,
+                "state": {"searches": _st["searches"], "misses": _CONVERGE_LIMIT}}
 
     # 2.5 情感消息修正：若命中卡与情感无关（如「累」→宏观经济学），
     # 优先找情感情绪仿真卡

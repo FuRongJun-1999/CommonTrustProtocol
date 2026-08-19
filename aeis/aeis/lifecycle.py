@@ -127,6 +127,17 @@ class LifecycleEngine:
                     "verify": ver}
             except Exception as _cd_e:
                 decay_result["causal_discover"] = {"error": str(_cd_e)[:60]}
+            # 信噪比仪表盘（v1.16 · C 维进化 8.0→9.0：全局信噪比可观测可反馈）
+            # 递归反思 3.12 终裁产物：聚合四类现成信号（压缩率/注入质量率/
+            # 图谱信噪比/记忆清理率），零新增采集 → snr_report.json
+            try:
+                try:
+                    from snr_dashboard import SnrDashboard
+                except ImportError:
+                    from wisdom.snr_dashboard import SnrDashboard
+                decay_result["snr"] = SnrDashboard(engine=self.engine).run(persist=True)
+            except Exception as _snr_e:
+                decay_result["snr"] = {"error": str(_snr_e)[:60]}
         report["memory_decay"] = decay_result
 
         # 5. standby 判定（终裁检查点2：暂停提交复核）

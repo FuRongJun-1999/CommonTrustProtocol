@@ -169,8 +169,9 @@ def _decide_route(result):
     if result.get("emotion"):
         return "self"
     if result.get("chitchat") or result.get("memory_reply") \
-            or result.get("self_reflexive") or result.get("turn"):
-        return "self"
+            or result.get("self_reflexive") or result.get("turn") \
+            or result.get("trace_reply"):
+        return "self"  # trace_reply（v1.16）：「依据是什么」→ 知识引用已是完整回答
     hits = result.get("hits") or []
     if not hits:
         return "llm"  # 无命中诚实边界 → 智慧之书没把握 → LLM
@@ -188,8 +189,16 @@ def _decide_route(result):
     return "llm"
 
 
-def llm_complete(question, wisdom_reply, session_id="default"):
+# 注入位置实验开关（v1.16）："user"=决策点注入（现状）/ "system"=静态注入
+_DISCIPLINE_LOCATION = "user"
+
+
+def llm_complete(question, wisdom_reply, session_id="default",
+                 task_reply: bool = False):
     """LLM 续答：原问题 + 智慧之书初步回答 → LLM 最终回答。
+    task_reply（v1.16）：数据搬运/指令类任务——直接执行输出，不寒暄。
+    注入位置实验（v1.16）：_DISCIPLINE_LOCATION 控制纪律块放 system（静态）
+    还是 user 末尾（决策点）——验证「注入位置决定效果」（读而不应用现象）。
 
     返回 (llm_reply, ok)；ok=False 表示不可用/失败（调用方回退）。
     """
@@ -197,14 +206,68 @@ def llm_complete(question, wisdom_reply, session_id="default"):
     if client is None:
         return None, False
     try:
+        # v1.16 任务模式：数据搬运/指令类任务直接执行，不寒暄不反问
+        task_extra = ""
+        if task_reply:
+            task_extra = ("\n\n【这是一条数据处理任务】直接执行并输出结果："
+                          "不要寒暄、不要解释、不要反问确认。"
+                          "严格满足要求：必须包含的字段/关键词/词汇一个不能少，"
+                          "禁止使用的词不能用，格式按要求。")
+            # v1.16 蒸馏机制：状态词规范表注入（失败根因 → 规范约束 → 不再犯）
+            try:
+                import json as _json
+                import os as _os
+                _pkg = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+                _tp = _os.path.join(_pkg, "wisdom", "status_terms.json")
+                if _os.path.exists(_tp):
+                    _terms = _json.load(open(_tp, encoding="utf-8")).get("terms", {})
+                    _lines = []
+                    for _cat, _map in _terms.items():
+                        for _std, _forbid in _map.items():
+                            if _forbid:
+                                _lines.append(
+                                    f"{_cat}：状态词必须用「{_std}」，"
+                                    f"禁止用{'、'.join(_forbid)}")
+                    if _lines:
+                        task_extra += "\n\n【系统状态词规范】\n" + "\n".join(_lines)
+            except Exception:
+                pass
+            # v1.16 任务执行纪律注入（374 失败蒸馏：只读不写/数据搬运断裂/
+            # 路由过滤错误 → 6 条纪律 → 任务模式约束）
+            try:
+                import json as _json2
+                import os as _os2
+                _pkg2 = _os2.path.dirname(_os2.path.dirname(_os2.path.abspath(__file__)))
+                _tp2 = _os2.path.join(_pkg2, "wisdom", "task_discipline.json")
+                if _os2.path.exists(_tp2):
+                    _disc = _json2.load(open(_tp2, encoding="utf-8")).get("disciplines", [])
+                    if _disc:
+                        task_extra += "\n\n【任务执行纪律（带适用条件）】\n"
+                        for _i, _d in enumerate(_disc, 1):
+                            if isinstance(_d, dict):
+                                _r = _d.get("rule", "")
+                                _c = _d.get("condition", "")
+                                task_extra += (f"{_i}. {_r}"
+                                               + (f"（适用条件：{_c}）" if _c else ""))
+                            else:
+                                task_extra += f"{_i}. {_d}"
+            except Exception:
+                pass
         resp = client.chat.completions.create(
             model=LLM_MODEL,
             messages=[
-                {"role": "system", "content": LLM_SYSTEM_PROMPT},
+                {"role": "system", "content":
+                    ("你是一个严格的数据处理执行器。用户给出任务指令时，"
+                     "直接执行并输出结果。禁止寒暄、禁止反问确认、"
+                     "禁止解释、禁止使用欢迎语。"
+                     "严格满足所有字段/词汇/格式要求。"
+                     + (task_extra if _DISCIPLINE_LOCATION == "system" else "")
+                     if task_reply else LLM_SYSTEM_PROMPT)},
                 {"role": "user", "content":
                  f"用户问题：{question}\n\n"
                  f"智慧之书初步回答：{wisdom_reply}\n\n"
-                 f"（会话 {session_id}）请给出最终回答。"},
+                 f"（会话 {session_id}）请给出最终回答。"
+                 + (task_extra if _DISCIPLINE_LOCATION == "user" else "")},
             ],
             max_tokens=LLM_MAX_TOKENS,
             temperature=LLM_TEMPERATURE,
@@ -313,8 +376,10 @@ def route_reply(question, wisdom_result, session_id="default", dex=None):
         return result
     # llm 路：智慧之书回答放入上下文
     result["wisdom_reply"] = result.get("reply", "")
+    # v1.16 任务模式：数据搬运/指令类任务（chat_engine 检测 task_reply）
+    task_flag = bool(result.get("task_reply"))
     llm_text, ok = llm_complete(question, result["wisdom_reply"],
-                                session_id=session_id)
+                                session_id=session_id, task_reply=task_flag)
     if ok:
         result["reply"] = llm_text
         result["route"] = "llm"

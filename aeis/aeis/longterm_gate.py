@@ -78,15 +78,39 @@ class LongTermMemoryGate:
         return max(-0.5, min(0.5, d1[-1] - d1[0]))
 
     def _novelty(self, content: str, existing_id: str = None) -> float:
-        """新信息度：1 - 与最相似现有节点的相似度。"""
+        """新信息度（v1.15 改：核心词新颖比例，非整句相似度）。
+
+        海马体识别的是「新信息成分」——句子里有多少**核心词**是库里没见过的。
+        旧算法用整句相似度，会因「库里有相关节点」误判为不新。
+        新算法：提取输入的核心词（3-4 字片段，短词是噪音不算），
+        统计其中未在任何现有节点出现过的比例。
+        """
         try:
-            results = self.engine.store.search_content(content, limit=1)
-            if results:
-                best = results[0][1]
-                # 自身重复提及（同节点）不视为新颖
-                if existing_id and results[0][0].id == existing_id:
-                    return 0.0
-                return max(0.0, min(1.0, 1.0 - best))
+            import re as _re
+            text = _re.sub('[^\u4e00-\u9fffA-Za-z0-9]', '', content or "")
+            # 核心词：4 字片段为主，3 字为辅（短二元组太碎、易误判）
+            grams = set()
+            for n in (4, 3):
+                for i in range(len(text) - n + 1):
+                    g = text[i:i + n]
+                    if g and not _re.match(r'^[\dA-Za-z_]+$', g):
+                        grams.add(g)
+            if not grams:
+                return 0.5
+            # 已有知识的核心词表（合并采样）
+            known = set()
+            for node in self.engine.store.query_nodes(limit=80):
+                c = _re.sub('[^\u4e00-\u9fffA-Za-z0-9]', '', node.content or "")
+                for n in (4, 3):
+                    for i in range(len(c) - n + 1):
+                        g = c[i:i + n]
+                        if len(g) == n and not _re.match(r'^[\dA-Za-z_]+$', g):
+                            known.add(g)
+            if not known:
+                return 0.5
+            novel_grams = sum(1 for g in grams if g not in known)
+            ratio = novel_grams / max(1, len(grams))
+            return max(0.0, min(1.0, ratio))
         except Exception:
             pass
         return 0.5  # 无参照：中性
@@ -207,6 +231,62 @@ class LongTermMemoryGate:
             except Exception:
                 result["links"] = 0
         return result
+
+    # ---- 前馈新奇检测（H1 · 海马体学习：新颖→当场强化编码） ----
+
+    NOVEL_TRIGGER = 0.75   # 新奇度阈值：1-相似度 ≥ 0.75 → 判定「新东西」
+    NOVEL_BOOST = 0.15     # 新奇输入 importance 提升
+    NOVEL_EDGE_SIM = 0.25  # 与相关知识的建边最低相似度
+
+    def prefeed(self, content: str, source: str = "input",
+                tags: list = None, entities: list = None) -> dict:
+        """海马体式前馈：输入到来时先检测新奇度，高新奇 → 当场强化编码。
+
+        返回 {novel, novelty, action, node_id, importance, links}
+        - novel=True：触发了强化编码（标记 novel_prefeed + importance 提升 + 建边）
+        - novel=False：常规路径（novelty 未达阈值，不干预）
+        """
+        engine = self.engine
+        try:
+            novelty = self._novelty(content)
+        except Exception:
+            novelty = 0.5
+        if novelty < self.NOVEL_TRIGGER:
+            return {"novel": False, "novelty": round(novelty, 3),
+                    "action": "routine"}
+
+        # 高新奇 → 强化编码：importance 提升 + 标签 + 建边
+        base_imp = self.evaluate(content, source, tags).get("importance", 0.5)
+        imp = min(1.0, base_imp + self.NOVEL_BOOST)
+        tags_all = list(dict.fromkeys((tags or []) + ["novel_prefeed", "gate"]))
+        node_id = None
+        links = 0
+        try:
+            node = engine.add_perception(
+                content, importance=imp, tags=tags_all, entities=entities or None)
+            node_id = getattr(node, "id", None)
+            # 与相关知识建边（信息差驱动的关联）
+            try:
+                rel = engine.store.search_content(content, limit=3)
+                for other, sim in rel:
+                    if other.id != node_id and sim >= self.NOVEL_EDGE_SIM:
+                        engine.add_edge(node_id, other.id,
+                                        relation_type="similar",
+                                        source_evidence="inferred")
+                        links += 1
+            except Exception:
+                pass
+            # 长期层 → 保护
+            if imp >= self.LONG_TERM_THRESHOLD:
+                try:
+                    engine.protect_node(node_id, f"Prefeed:{source}")
+                except Exception:
+                    pass
+        except Exception:
+            pass
+        return {"novel": True, "novelty": round(novelty, 3),
+                "action": "prefeed_boost", "node_id": node_id,
+                "importance": round(imp, 3), "links": links}
 
     def promote_from_context(self, limit: int = 30) -> list:
         """情境层批量提升扫描（睡眠巩固/会话结束时调用）：

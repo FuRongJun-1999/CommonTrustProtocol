@@ -112,7 +112,7 @@ DOMAIN_SYNONYM_CLUSTERS = {
     "凝固": ["冻成冰", "结冰了", "结冰", "冻住了", "冻住", "凝固"],
     "熔化": ["冰化了", "雪化了", "蜡烛化了", "冰淇淋化了", "冰淇淋凉快",
              "雪糕化了", "雪糕凉快", "冰棍化了", "冰棒化了", "冰淇淋", "雪糕",
-             "凉快", "冰棍", "熔化"],
+             "冰棍", "熔化"],
     "升华": ["樟脑丸变小", "干冰冒烟", "升华"],
     "凝华": ["窗户结霜", "结霜", "凝华"],
     # ---- 化学 ----
@@ -589,7 +589,97 @@ def recursive_item_answer(dex, card_name, fp, question):
     返回 (答案文本, 分数) 或 (None, 0)。
     """
     from aeis.core import MemoryLayer as _ML
-    for n in dex.store.query_nodes(layer=_ML.KNOWLEDGE, limit=500):
+    from aeis.core import STNode as _STNode
+    # v1.16 知识点级精确命中（卡⊃知识点嵌套子图）：
+    # 问题规范词直接命中该卡的知识点子节点 → 精确答案（比卡 content 整卡解析更准）
+    try:
+        card_row = dex.store.conn.execute(
+            "SELECT id FROM nodes WHERE layer='knowledge' "
+            "AND state_attributes LIKE ? AND tags NOT LIKE '%knowledge_point%' "
+            "LIMIT 1", ('%"name": "' + card_name + '%',)).fetchone()
+        if card_row:
+            card_prefix = card_row[0][:16]
+            best_kp, best_s = None, 0.0
+            best_name_hit = False  # 名命中（强）：fp 词 in 知识点名 或 名 in 问题
+            for r in dex.store.conn.execute(
+                    "SELECT state_attributes, content FROM nodes WHERE layer='knowledge' "
+                    "AND tags LIKE ? AND tags LIKE ?",
+                    ('%knowledge_point%', '%card:' + card_prefix + '%')).fetchall():
+                _sa = r[0] or "{}"
+                try:
+                    import json as _json
+                    _pname = _json.loads(_sa).get("name", "")
+                except Exception:
+                    _pname = ""
+                item = (r[1] or "")
+                s = 0.0
+                name_hit = bool(_pname and _pname in question)
+                for term, w in fp.items():
+                    if _pname and term in _pname:
+                        s += w * 2.0
+                        name_hit = True
+                    elif term in item:
+                        # 内容命中降权（防「重力」in 浮力内容「…所受的重力…」错配）
+                        s += w * 0.5
+                # 问题关键词窗口匹配（白箱条件感知）：
+                # 「气压」→「沸点与气压」名、「高压锅」→ 内容「高压锅内超过100°C」。
+                # 名匹配 2-3 字；内容匹配只 3 字（防「重力」2 字泛词误配浮力内容）
+                if not name_hit and _pname:
+                    _chars = [ch for ch in question if "\u4e00" <= ch <= "\u9fff"]
+                    for _L in (4, 3, 2):
+                        for _i in range(len(_chars) - _L + 1):
+                            _w = "".join(_chars[_i:_i + _L])
+                            if _w in _pname:
+                                # 窗口越长越精确：4字2.0/3字1.5/2字1.0
+                                # （「类型擦除」4字 > 「类型」2字——编译到JS+类型擦除 赢）
+                                s += {4: 2.0, 3: 1.5, 2: 1.0}[_L]
+                                name_hit = True
+                                break
+                        if name_hit:
+                            break
+                    if not name_hit:
+                        _content_head = (item or "")[:100]
+                        for _i in range(len(_chars) - 2):
+                            _w = "".join(_chars[_i:_i + 3])
+                            if _w in _content_head:
+                                s += 1.5
+                                name_hit = True
+                                break
+                    # 英文词匹配（v1.16：KKT/API/SVM 等缩写不在翻译表）
+                    if not name_hit:
+                        for _m in re.finditer(r"[A-Za-z]{2,}", question):
+                            _ew = _m.group(0).lower()
+                            if _ew in (_pname or "").lower() \
+                                    or _ew in (item or "")[:100].lower():
+                                s += 1.5
+                                name_hit = True
+                                break
+                # bigram 仅加分，不作命中依据（v1.16 修复：
+                # 「1加1等于几」↔「棵数等于段数加1」bigram 巧合抢答）
+                if s > 0:
+                    inter = _bigram_set(question) & _bigram_set(item[:120])
+                    if len(inter) >= 2:
+                        s += len(inter) * 1.2
+                if s > best_s:
+                    best_s, best_kp, best_name_hit = s, item, name_hit
+            if best_kp:
+                if best_name_hit:
+                    # 名命中=高置信精确（密度/重力）→ 优先采用
+                    return best_kp[:200], max(best_s, 3.6)
+                # 纯内容命中（沸腾 in 汽化和液化）→ 低分兜底，
+                # 不抢 REVERSE_DAILY 人话答案（「重力」→浮力内容命中错配修复）
+                return best_kp[:200], min(max(best_s, 0.5), 3.0)
+    except Exception:
+        pass
+    # v1.16 修复：主库 11045 节点，limit=500 可能不含目标卡 → SQL 精确预过滤
+    try:
+        _rows = dex.store.conn.execute(
+            "SELECT * FROM nodes WHERE layer='knowledge' AND state_attributes LIKE ?",
+            ('%"name": "' + card_name + '%',)).fetchall()
+        _targets = [_STNode.from_row(tuple(r)) for r in _rows]
+    except Exception:
+        _targets = []
+    for n in _targets:
         sa = n.state_attributes
         if sa.get("name") != card_name:
             continue
@@ -611,7 +701,16 @@ def recursive_item_answer(dex, card_name, fp, question):
             scored.sort(key=lambda x: (-x[0], -x[1]))
             best_s, _inter, best = scored[0]
             best = re.sub(r"……+$", "", best).strip()  # 去尾部省略号噪音
-            return best[:110], best_s
+            # v1.16 修复：110 字符截断砍掉条目尾部的关键知识点
+            # （TypeScript 卡「②编译到 JS+类型擦除」的擦除/JS 在 110 之后）。
+            # 改智能截断：优先 160 字符内分号边界断，避免关键词被腰斩。
+            _cut = 160
+            if len(best) > _cut:
+                _seg = best[:_cut]
+                _cut_at = max(_seg.rfind("；"), _seg.rfind("。"),
+                              _seg.rfind("，"), _seg.rfind(";"))
+                best = _seg[:_cut_at + 1] if _cut_at > 60 else _seg
+            return best, best_s
         return None, 0
     return None, 0
 
@@ -621,7 +720,8 @@ def recursive_item_answer(dex, card_name, fp, question):
 # 用问题关键词命中的学科域先验对神经层结果重排：命中域 ×1.25、其余 ×0.75。
 QUESTION_DOMAIN_PRIORS = {
     "物理学": ["落地", "下落", "掉落", "掉下", "铁球", "羽毛", "先落地", "运动",
-              "速度", "加速度", "力"],
+              "速度", "加速度", "力", "光", "镜子", "入射", "折射", "色散",
+              "反射定律", "透镜", "焦距", "电流", "电压", "电阻", "功率"],
     "天文学": ["宇宙", "太阳系", "银河", "星球", "恒星", "行星", "日心", "地心",
               "公转", "地球绕", "天体", "星空"],
     "科学方法论": ["聪明", "说法", "依据", "科学", "对错", "对不对", "是真的吗",
@@ -694,27 +794,34 @@ def graph_retrieve(dex, question, limit=10):
         else:
             h['score'] = round(0.4 * neural, 3)
     merged.sort(key=lambda x: -x['score'])
-    # 神经层学科先验校正（v1.16）：快速层空转（fp 空）时，bge 字面相似
-    # 会错排学科（「铁球和羽毛哪个先落地」→初中地理）。用问题关键词
-    # 命中学科域先验重排：命中域卡 ×1.25、其余 ×0.75，再排序。
+    # 神经层学科先验校正（v1.16）：bge 字面相似会错排学科
+    # （「铁球羽毛」→初中地理、「光的反射定律」→初中生物神经反射）。
+    # 问题关键词命中学科域先验 → 命中域卡 ×1.25、其余 ×0.75，再排序。
+    # v1.16 修复：fp 非空时也评估（「反射定律」fp 含反射词，但物理先验仍需压生物）
     try:
         fp_keys = set(encode(question).keys())
     except Exception:
         fp_keys = set()
-    if not fp_keys:
-        prior_doms = set()
-        for _dom, _kws in QUESTION_DOMAIN_PRIORS.items():
-            if any(_kw in question for _kw in _kws):
-                prior_doms.add(_dom)
-        if prior_doms:
-            for h in merged:
-                hdom = h.get("domain") or ""
-                if any(_d == hdom or hdom.endswith(_d) or _d in hdom
-                       for _d in prior_doms):
-                    h['score'] = round(min(1.0, h['score'] * 1.25), 3)
-                else:
-                    h['score'] = round(h['score'] * 0.75, 3)
-            merged.sort(key=lambda x: -x['score'])
+    prior_doms = set()
+    for _dom, _kws in QUESTION_DOMAIN_PRIORS.items():
+        if any(_kw in question for _kw in _kws):
+            prior_doms.add(_dom)
+    if prior_doms:
+        for h in merged:
+            hdom = h.get("domain") or ""
+            # v1.16 修复：宽松匹配——「物理学」先验要覆盖「初中物理/高中物理」
+            # （学科卡 domain 带学段前缀）；_dm 去「学」后缀（物理学→物理）
+            hit = False
+            for _d in prior_doms:
+                _dm = _d.rstrip("学")
+                if _dm and (_dm in hdom or hdom in _dm):
+                    hit = True
+                    break
+            if hit:
+                h['score'] = round(min(1.0, h['score'] * 1.25), 3)
+            else:
+                h['score'] = round(h['score'] * 0.75, 3)
+        merged.sort(key=lambda x: -x['score'])
     # 递归检索（v1.16 P1 接口升级）：top 卡附 direct_answer（直接答案）。
     # 优先级：卡内条目递归（交集≥3 的实义条目）> REVERSE_DAILY（焦点词修正）。
     # 「具体问题做一个递归检索」——第一层定位卡已在上，这里是第二层。
@@ -725,12 +832,30 @@ def graph_retrieve(dex, question, limit=10):
             _ans, _sc = recursive_item_answer(dex, h.get("name", ""), fp_q, question)
             # 2) REVERSE_DAILY：焦点词（问题中位置最靠后的规范词）的人话答案
             _dterm = _pick_daily_term(fp_q, question)
-            _daily = REVERSE_DAILY.get(_dterm) if _dterm else None
+            # v1.16 白箱条件感知修复：问题含条件变体词（珠峰/高压锅/海拔/气压等）
+            # 时不用人话兜底答案（「水烧到咕嘟咕嘟冒大泡」无条件），
+            # 走知识点/整卡答案——条件变化必须条件化回答。
+            _daily = None
+            if _dterm and not any(
+                    w in question for w in
+                    ("珠峰", "珠穆朗玛", "高原", "山顶", "高压锅", "海拔",
+                     "气压", "高压", "低压", "潜水", "太空", "真空", "深海")):
+                _daily = REVERSE_DAILY.get(_dterm)
             if _ans and _sc >= 3.6:
                 h['direct_answer'] = _ans
             elif _daily:
                 h['direct_answer'] = _daily
-            h['daily'] = _daily or h.get("daily")
+            # 条件词问题：人话比喻（daily/decode_daily）也会覆盖条件答案，一并清掉
+            h['daily'] = _daily
+            if _daily is None and any(
+                    w in question for w in
+                    ("珠峰", "珠穆朗玛", "高原", "山顶", "高压锅", "海拔",
+                     "气压", "高压", "低压", "潜水", "太空", "真空", "深海")):
+                h['matched'] = []
+        # v1.16 跨卡精确答案优先：有 direct_answer 的卡排前
+        # （「KKT和条件论」→ 约束优化卡的条件论映射知识点 而非 条件论元层卡）
+        merged.sort(key=lambda x: (0 if x.get("direct_answer") else 1,
+                                   -x.get("score", 0)))
     except Exception:
         pass
     # 补 id（网页端详情/展开用）

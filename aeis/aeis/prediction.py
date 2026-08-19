@@ -138,18 +138,57 @@ class PredictionEngine:
         return self._generate_routes(start_id, horizon, max_branches)
 
     def _generate_routes(self, start_id: str, horizon: int, max_branches: int) -> Dict:
-        """路线图生成（原 predict_routes 主体）"""
+        """路线图生成（原 predict_routes 主体）
+        v1.15 H2：预演规划——每条路线附带「条件空间序列层」，
+        每个路径节点标注该步成立的预测条件（来自边/节点条件空间的存在约束）。"""
         routes = []
 
-        def dfs(current: str, path: List[str], depth: int, conf: float):
+        def _cs_label(node_id: str, edge_cs=None) -> str:
+            """提取条件标签：边条件空间 → 节点条件空间 → 待定。
+            优先取存在约束（existence_constraint），截断至 40 字。"""
+            if edge_cs is not None:
+                try:
+                    import json as _json
+                    d = _json.loads(edge_cs.to_json())
+                    ec = str(d.get("existence_constraint", "")).strip()
+                    if ec:
+                        return ec[:40]
+                except Exception:
+                    pass
+            try:
+                n = self.engine.store.get_node(node_id)
+                if n is not None and n.condition_space is not None:
+                    import json as _json
+                    d = _json.loads(n.condition_space.to_json())
+                    ec = str(d.get("existence_constraint", "")).strip()
+                    if ec:
+                        return ec[:40]
+            except Exception:
+                pass
+            return "待定（条件空间未声明）"
+
+        def dfs(current: str, path: List[str], conditions: List[str],
+                depth: int, conf: float):
             if depth >= horizon:
                 return
             for nid, ec, src in self._branch_candidates(current)[:max_branches]:
                 new_path = path + [nid]
-                routes.append({"path": new_path, "conf": round(conf * ec, 4), "source": src})
-                dfs(nid, new_path, depth + 1, conf * ec)
+                # 该步条件：优先取 current→nid 边的条件空间
+                edge_cs = None
+                try:
+                    for e in self.engine.store.get_outgoing_edges(current):
+                        if e.target_id == nid and e.relation_type.value in ("causal", "sequential"):
+                            edge_cs = e.condition_space
+                            break
+                except Exception:
+                    pass
+                cond = _cs_label(nid, edge_cs)
+                new_conds = conditions + [cond]
+                routes.append({"path": new_path, "conf": round(conf * ec, 4),
+                               "source": src, "conditions": new_conds})
+                dfs(nid, new_path, new_conds, depth + 1, conf * ec)
 
-        dfs(start_id, [start_id], 0, 1.0)
+        dfs(start_id, [start_id], ["起点（观测条件）"], 0, 1.0)
         scored = []
         for r in routes:
             s = self._score_route(r)
@@ -160,7 +199,8 @@ class PredictionEngine:
                                     "routes": len(scored), "ts": time.time()})
         return {"routes": scored,
                 "meta": {"horizon": horizon, "start": start_id,
-                         "note": "候选未来集合，非必然未来（0.0.3 局部不可知）"}}
+                         "note": "候选未来集合，非必然未来（0.0.3 局部不可知）；"
+                                 "每条路线含条件空间序列（预演规划 H2）"}}
 
     def _find_blindspot(self, blindspot_id: str) -> Optional[Dict]:
         try:
@@ -250,8 +290,10 @@ class PredictionEngine:
     # ==================== 验证闭环（盲区28 · D-006 动态校准） ====================
 
     def update_prediction_feedback(self, predicted_node_id: str,
-                                   actual_node_id: str, hit: bool) -> Dict:
-        """命中：路径强化（边置信度 +0.05）/ 未命中：衰减 + 被拒路径登记"""
+                                   actual_node_id: str, hit: bool,
+                                   note: str = "") -> Dict:
+        """命中：路径强化（边置信度 +0.05）/ 未命中：衰减 + 被拒路径登记
+        v1.15：note 记录到验证条目（可审计）"""
         self._hit_history.append(hit)
         if len(self._hit_history) > 200:
             self._hit_history = self._hit_history[-200:]
@@ -263,7 +305,8 @@ class PredictionEngine:
             try:
                 self.engine.register_rejected_path(
                     path_type="prediction",
-                    description=f"预测未命中：{predicted_node_id}",
+                    description=f"预测未命中：{predicted_node_id}"
+                                + (f"（{note}）" if note else ""),
                     reason=f"实际节点：{actual_node_id}")
             except Exception:
                 pass
