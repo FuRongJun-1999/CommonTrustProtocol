@@ -116,6 +116,97 @@ class RolePlayEngine:
         self._save_meta()
         return {"role_id": role_id, "meta": meta}
 
+    # ------------------------------------------------------------------
+    # 自定义翻译功能（名词替换表 · 现实世界 ↔ 虚拟世界）
+    # ------------------------------------------------------------------
+    # 荣终裁 2026-08-19：建立现实世界和扮演虚拟世界的名词替换参照。
+    # 用途：条件空间对齐——用户输入现实词 → 替换为虚拟词喂给角色
+    # （角色在虚拟世界语境回应）；角色输出虚拟词 → 可选替换回现实词
+    # （或保留虚拟词增加沉浸感）。
+    # 存储：角色 meta 的 translations 字段（随角色持久化）
+    # 权限：导入需编辑密钥（check_edit_key）
+    # ------------------------------------------------------------------
+
+    def import_translate(self, role_id: str,
+                         mappings: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """导入名词替换表（现实词 → 虚拟词）。
+
+        mappings: [{"real": str, "virtual": str, "note": str}, ...]
+        real=现实世界词 / virtual=扮演虚拟世界对应词
+        """
+        self._agent(role_id)  # 确保角色存在
+        meta = self._meta.setdefault(role_id, {"created_at": time.time()})
+        trans = meta.setdefault("translations", [])
+        added = 0
+        for m in mappings:
+            real = (m.get("real") or "").strip()
+            virtual = (m.get("virtual") or "").strip()
+            if not real or not virtual:
+                continue
+            # 覆盖同 real 词
+            for t in trans:
+                if t.get("real") == real:
+                    t["virtual"] = virtual
+                    if m.get("note"):
+                        t["note"] = m["note"]
+                    added += 1
+                    break
+            else:
+                trans.append({"real": real, "virtual": virtual,
+                              "note": m.get("note", "")})
+                added += 1
+        meta["translations"] = trans
+        self._save_meta()
+        return {"role_id": role_id, "added": added,
+                "total": len(trans), "translations": trans}
+
+    def get_translate(self, role_id: str) -> List[Dict[str, str]]:
+        """获取角色名词替换表。"""
+        meta = self._meta.get(role_id, {})
+        return meta.get("translations", [])
+
+    def translate_input(self, role_id: str, text: str) -> str:
+        """输入翻译：用户现实词 → 角色虚拟词（按表替换）。"""
+        mappings = self.get_translate(role_id)
+        if not mappings or not text:
+            return text
+        out = text
+        # 长词优先（避免「星」先替换「星星」的子串问题）
+        for m in sorted(mappings, key=lambda x: -len(x.get("real", ""))):
+            real = m.get("real", "")
+            virtual = m.get("virtual", "")
+            if real and virtual and real in out:
+                out = out.replace(real, virtual)
+        return out
+
+    def translate_output(self, role_id: str, text: str) -> str:
+        """输出翻译：角色虚拟词 → 用户现实词（可逆替换）。"""
+        mappings = self.get_translate(role_id)
+        if not mappings or not text:
+            return text
+        out = text
+        for m in sorted(mappings, key=lambda x: -len(x.get("virtual", ""))):
+            virtual = m.get("virtual", "")
+            real = m.get("real", "")
+            if real and virtual and virtual in out:
+                out = out.replace(virtual, real)
+        return out
+
+    def _translate_block(self, role_id: str) -> str:
+        """翻译表注入块（告知 LLM 映射，增强沉浸感）。"""
+        mappings = self.get_translate(role_id)
+        if not mappings:
+            return ""
+        lines = ["\n# 世界名词翻译（你所在世界的称呼）",
+                 "在你的世界里，以下现实名词对应不同的称呼："]
+        for m in mappings:
+            real = m.get("real", "")
+            virtual = m.get("virtual", "")
+            note = m.get("note", "")
+            suffix = f"（{note}）" if note else ""
+            lines.append(f"- 现实称「{real}」→ 你称「{virtual}」{suffix}")
+        return "\n".join(lines)
+
     def list_roles(self) -> List[str]:
         """列出全部角色 id。"""
         return sorted(self._meta.keys())
@@ -574,6 +665,11 @@ class RolePlayEngine:
                 for n in conditional[:8]:
                     conds = [t[5:] for t in (n.tags or []) if t.startswith("cond:")]
                     lines.append(f"- [当：{'/'.join(conds)}] {n.content}")
+        except Exception:
+            pass
+        # 世界名词翻译表（现实 → 虚拟世界称呼，增强沉浸感）
+        try:
+            lines.append(self._translate_block(role_id))
         except Exception:
             pass
         return "\n".join(lines)

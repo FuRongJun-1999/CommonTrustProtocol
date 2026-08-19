@@ -374,6 +374,15 @@ class Handler(BaseHTTPRequestHandler):
                 return
             self._send_json(404, {"error": "role not found"})
             return
+        # 翻译表查看（只读）
+        if parsed.path.endswith("/translate") and parsed.path.startswith("/api/roles/") and RP:
+            rid = parsed.path[len("/api/roles/"):-len("/translate")]
+            if rid in RP.list_roles():
+                self._send_json(200, {"role_id": rid,
+                                      "translations": RP.get_translate(rid)})
+                return
+            self._send_json(404, {"error": "role not found"})
+            return
         self._send_json(404, {"error": f"not found: {self.path}"})
 
     def do_POST(self) -> None:
@@ -400,6 +409,20 @@ class Handler(BaseHTTPRequestHandler):
                 return
             result = CHAT.respond(message, session_id=session_id, role_id=role_id)
             self._send_json(200, result)
+            return
+
+        # 翻译表：导入（需 edit_key）
+        if path.endswith("/translate") and path.startswith("/api/roles/"):
+            rid = path[len("/api/roles/"):-len("/translate")]
+            if RP is None or rid not in RP.list_roles():
+                self._send_json(404, {"error": f"role not found: {rid}"})
+                return
+            if not RP.check_edit_key(body.get("edit_key", "")):
+                self._send_json(403, {"error": "编辑权限不足：需要 ROLEPLAY_EDIT_KEY"})
+                return
+            mappings = body.get("mappings", [])
+            r = RP.import_translate(rid, mappings if isinstance(mappings, list) else [])
+            self._send_json(200, r)
             return
 
         # 创建角色

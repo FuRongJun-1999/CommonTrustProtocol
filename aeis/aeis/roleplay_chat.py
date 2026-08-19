@@ -179,6 +179,15 @@ class LingshuChat:
             return {"reply": "我在呢，想说点什么？", "route": "empty"}
 
         rid = role_id or self.role_id  # 运行时角色（请求优先）
+        # 输入翻译（自定义名词替换表）：用户现实词 → 角色虚拟词
+        # （条件空间对齐——角色在自己的世界语境中理解）
+        if rid and self.rp is not None:
+            try:
+                translated = self.rp.translate_input(rid, message)
+                if translated != message:
+                    message = translated
+            except Exception:
+                pass
         rp_block = self._role_system(rid)
         # 会话上下文按 角色+session 隔离（防跨角色串扰——鲸鱼娘历史不能进协议引导者）
         ctx_key = f"{rid}:{session_id}" if rid else f"_gen_:{session_id}"
@@ -240,6 +249,12 @@ class LingshuChat:
                         self._session_ctx[ctx_key].append(w["reply"])
                         w["route"] = "whitebox"
                         w["role_id"] = rid
+                        # 输出翻译（虚拟词 → 现实词）：默认保留，开关开启才翻译
+                        if os.environ.get("ROLEPLAY_OUT_TRANSLATE") == "1" and rid and self.rp is not None:
+                            try:
+                                w["reply"] = self.rp.translate_output(rid, w["reply"])
+                            except Exception:
+                                pass
                         return w
             except Exception:
                 pass
@@ -282,7 +297,16 @@ class LingshuChat:
         self._session_ctx.setdefault(ctx_key, []).append(message)
         self._session_ctx[ctx_key].append(reply)
 
-        return {"reply": reply, "route": "llm", "role_id": rid,
+        # 输出翻译（虚拟词 → 现实词）：默认保留虚拟词（沉浸感），
+        # ROLEPLAY_OUT_TRANSLATE=1 时翻译回现实词（用户可理解）
+        out_reply = reply
+        if os.environ.get("ROLEPLAY_OUT_TRANSLATE") == "1" and rid and self.rp is not None:
+            try:
+                out_reply = self.rp.translate_output(rid, out_reply)
+            except Exception:
+                pass
+
+        return {"reply": out_reply, "route": "llm", "role_id": rid,
                 "memories": len(mem_notes)}
 
     def close(self) -> None:
