@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """鲸鱼娘 100 轮长对话压力测试执行器。
 
 同一 session 跑 100 轮，记录每轮 route/reply/时长，
@@ -10,9 +10,9 @@ from collections import Counter
 sys.stdout.reconfigure(encoding="utf-8")
 BASE = "http://127.0.0.1:8793"
 RID = "role-1787113781424"
-SID = "whale-100"
+SID = "whale-100-v2"
 
-turns = json.load(open(r"D:\Program Files\2_ai\knowledge-base\whale_100_turns.json", encoding="utf-8"))
+turns = json.load(open(r"D:\Program Files\2_ai\knowledge-base\whale_100_turns_v2.json", encoding="utf-8"))
 
 def chat(msg, sid):
     body = json.dumps({"message": msg, "session_id": sid, "role_id": RID}).encode("utf-8")
@@ -41,9 +41,9 @@ total = time.time() - t0
 print(f"\n=== 100 轮完成，总用时 {total:.0f}s（平均 {total/100:.1f}s/轮） ===")
 
 # 保存结果
-with open(r"D:\Program Files\2_ai\knowledge-base\whale_100_results.json", "w", encoding="utf-8") as f:
+with open(r"D:\Program Files\2_ai\knowledge-base\whale_100_results_v2.json", "w", encoding="utf-8") as f:
     json.dump(results, f, ensure_ascii=False, indent=1)
-print("结果已存 whale_100_results.json")
+print("结果已存 whale_100_results_v2.json")
 
 # ---- 分析 ----
 print("\n=== route 分布（白箱边界） ===")
@@ -104,3 +104,4 @@ else:
     print("✓ 无机械重复")
 
 print("\n=== 测试完成 ===")
+
