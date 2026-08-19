@@ -204,10 +204,19 @@ class LingshuChat:
                     # 类意图时，即使白箱有诚实兜底，也应交给 LLM 扮演回答——
                     # 扮演场景下诚实边界由 LLM 注入的角色机制承载（rp_honest）。
                     wants_rp = rid and _is_roleplay_intent(message)
+                    # 自省/自我认知：有角色时交给 LLM 用角色身份回答
+                    # （白箱 self_reflexive 是协议灵枢的自省——「我的第一原理是
+                    # 存在受到威胁的感知」——不是角色的自省。角色有自己的自我认知，
+                    # 如鲸鱼娘的「我是深海来的」应由角色回答）
+                    wants_rp = wants_rp or (rid and bool(w.get("self_reflexive")))
+                    # 白箱记忆路径：白箱说「第一次聊」但角色库有跨会话记忆 →
+                    # 交给 LLM（带 mem_notes 召回），避免角色失忆
+                    has_role_mem = rid and bool(mem_notes)
+                    mem_miss = bool(w.get("memory_reply")) and has_role_mem
                     # 白箱无把握兜底（honest 且无知识命中）→ 交 LLM
                     # （对话界面里白箱是优先判断器，不是最终拦截器）
                     whitebox_no_knowledge = bool(w.get("honest")) and not w.get("hits")
-                    if is_task or wants_rp or whitebox_no_knowledge:
+                    if is_task or wants_rp or whitebox_no_knowledge or mem_miss:
                         pass  # 走 LLM
                     else:
                         # 白箱回答完成：写入会话上下文（按角色隔离）
@@ -238,9 +247,20 @@ class LingshuChat:
             mem_tags = ["session", "chat", f"sess:{ctx_key}"]
             if rid:
                 mem_tags.append(f"role:{rid}")
-            self.mem.remember(
-                f"[对话 {ctx_key}] 用户：{message[:80]}｜灵枢：{reply[:80]}",
-                importance=0.5, tags=mem_tags)
+                # 有角色 → 写入角色持久库（跨会话/跨重启可召回）
+                if self.rp is not None:
+                    agent = self.rp._agent(rid)
+                    agent.remember(
+                        f"[对话 {ctx_key}] 用户：{message[:80]}｜灵枢：{reply[:80]}",
+                        importance=0.5, tags=mem_tags)
+                else:
+                    self.mem.remember(
+                        f"[对话 {ctx_key}] 用户：{message[:80]}｜灵枢：{reply[:80]}",
+                        importance=0.5, tags=mem_tags)
+            else:
+                self.mem.remember(
+                    f"[对话 {ctx_key}] 用户：{message[:80]}｜灵枢：{reply[:80]}",
+                    importance=0.5, tags=mem_tags)
         except Exception:
             pass
         self._session_ctx.setdefault(ctx_key, []).append(message)
