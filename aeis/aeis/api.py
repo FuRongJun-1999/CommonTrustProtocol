@@ -754,7 +754,7 @@ class Agent:
             lc = LingshuChat(data_dir=data_dir or "roleplay_data",
                              role_id=role_id, db_path=":memory:")
             try:
-                return lc.respond(message, session_id=session_id)
+                return lc.respond(message, session_id=session_id, role_id=role_id)
             finally:
                 lc.close()
         except Exception as e:
