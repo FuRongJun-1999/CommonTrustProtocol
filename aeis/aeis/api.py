@@ -734,3 +734,30 @@ class Agent:
                      "『过去错了』的声称需外部校准者确认"),
         }
 
+    # =====================================================================
+    # 角色扮演对话（扮演论 v3.3 · 白箱 + 角色注入 + 长期记忆 + LLM）
+    # =====================================================================
+
+    def roleplay_chat(self, message: str, session_id: str = "default",
+                      role_id: str = "", data_dir: str = "") -> Dict:
+        """统一角色扮演对话入口（MCP / 网页共用，信息处理全部由灵枢完成）：
+        白箱优先（诚实边界/自省/闲聊/知识）→ 角色扮演意图/白箱无把握 → LLM
+        （注入角色条件空间/自我锚点/价值观 + 诚实边界机制）。
+
+        依赖 aeis.roleplay_chat.LingshuChat（零外部依赖管线）。
+        """
+        try:
+            from .roleplay_chat import LingshuChat
+        except Exception:
+            return {"reply": "角色扮演管线未就绪", "route": "error", "honest": True}
+        try:
+            lc = LingshuChat(data_dir=data_dir or "roleplay_data",
+                             role_id=role_id, db_path=":memory:")
+            try:
+                return lc.respond(message, session_id=session_id)
+            finally:
+                lc.close()
+        except Exception as e:
+            return {"reply": f"角色扮演对话失败（{e}）", "route": "error",
+                    "honest": True}
+

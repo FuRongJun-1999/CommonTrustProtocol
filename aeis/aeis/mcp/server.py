@@ -405,6 +405,38 @@ def _tools():
                          "properties": {"message": {"type": "string"},
                                         "session_id": {"type": "string"}},
                          "required": ["message"]}},
+        {"name": "roleplay_chat",
+         "description": "灵枢 · 角色扮演对话（扮演论 v3.3）：白箱优先（诚实边界/自省/闲聊/知识）→ 角色扮演意图/白箱无把握 → LLM（注入角色条件空间/自我锚点/价值观 + 诚实边界）。role_id 指定角色（如 protocol-guide）；信息处理全部由灵枢完成。返回含 route 字段：whitebox=白箱回答 / llm=LLM 扮演回答 / error。",
+         "inputSchema": {"type": "object",
+                         "properties": {"message": {"type": "string"},
+                                        "session_id": {"type": "string"},
+                                        "role_id": {"type": "string"},
+                                        "data_dir": {"type": "string"}},
+                         "required": ["message"]}},
+        {"name": "role_create",
+         "description": "灵枢 · 创建角色（角色卡 = 条件空间声明起点）。role_id 必填；name/scenario/first_mes 可选。",
+         "inputSchema": {"type": "object",
+                         "properties": {"role_id": {"type": "string"},
+                                        "name": {"type": "string"},
+                                        "scenario": {"type": "string"},
+                                        "first_mes": {"type": "string"},
+                                        "data_dir": {"type": "string"}},
+                         "required": ["role_id"]}},
+        {"name": "role_import",
+         "description": "灵枢 · 角色导入三接口（扮演论）：kind ∈ memory(历史→知识层)/anchor(自我锚点→SELF层 no_forget)/values(特化价值观→STRUCTURE层带条件)。items 为条目数组。",
+         "inputSchema": {"type": "object",
+                         "properties": {"role_id": {"type": "string"},
+                                        "kind": {"type": "string"},
+                                        "items": {"type": "array",
+                                                  "items": {"type": "object"}},
+                                        "data_dir": {"type": "string"}},
+                         "required": ["role_id", "kind", "items"]}},
+        {"name": "role_block",
+         "description": "灵枢 · 角色扮演注入块（锚点/价值观/条件空间组装，供外部前端注入）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"role_id": {"type": "string"},
+                                        "data_dir": {"type": "string"}},
+                         "required": ["role_id"]}},
     ]
 
 
@@ -705,6 +737,54 @@ class AEISServer:
         if name == "wisdom_chat":
             r = agent.chat(a.get("message", ""), session_id=a.get("session_id", "default"))
             return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "roleplay_chat":
+            r = agent.roleplay_chat(
+                a.get("message", ""), session_id=a.get("session_id", "default"),
+                role_id=a.get("role_id", ""), data_dir=a.get("data_dir", ""))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "role_create":
+            from ..roleplay import RolePlayEngine
+            rp = RolePlayEngine(data_dir=a.get("data_dir", "") or "roleplay_data")
+            try:
+                r = rp.create_role(a.get("role_id", ""), name=a.get("name", ""),
+                                   scenario=a.get("scenario", ""),
+                                   first_mes=a.get("first_mes", ""))
+                return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+            finally:
+                rp.close()
+        if name == "role_import":
+            from ..roleplay import RolePlayEngine
+            rp = RolePlayEngine(data_dir=a.get("data_dir", "") or "roleplay_data")
+            try:
+                rid = a.get("role_id", "")
+                kind = a.get("kind", "")
+                items = a.get("items", [])
+                fn = {"memory": rp.import_memory, "anchor": rp.import_anchor,
+                      "values": rp.import_values}.get(kind)
+                if fn is None:
+                    return {"content": [{"type": "text",
+                                         "text": _dump({"error": f"未知 kind: {kind}"})}],
+                            "isError": True}
+                r = fn(rid, items if isinstance(items, list) else [])
+                return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+            finally:
+                rp.close()
+        if name == "role_block":
+            from ..roleplay import RolePlayEngine
+            rp = RolePlayEngine(data_dir=a.get("data_dir", "") or "roleplay_data")
+            try:
+                rid = a.get("role_id", "")
+                if rid not in rp.list_roles():
+                    return {"content": [{"type": "text",
+                                         "text": _dump({"error": f"role not found: {rid}",
+                                                        "roles": rp.list_roles()})}],
+                            "isError": True}
+                return {"content": [{"type": "text",
+                                     "text": _dump({"role_id": rid,
+                                                    "block": rp.build_role_block(rid)})}],
+                        "isError": False}
+            finally:
+                rp.close()
         raise ValueError(f"unknown tool: {name}")
 
     # ---- JSON-RPC 分发 ----
