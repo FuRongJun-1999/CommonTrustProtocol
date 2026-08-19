@@ -250,6 +250,15 @@ class LingshuChat:
                     # 白箱无把握兜底（honest 且无知识命中）→ 交 LLM
                     # （对话界面里白箱是优先判断器，不是最终拦截器）
                     whitebox_no_knowledge = bool(w.get("honest")) and not w.get("hits")
+                    # 低置信导航降级（v1.17 · 2026-08-19 白箱边界测试）：
+                    # 「你说的这个，可以看X」= 白箱未检索到直接答案（无
+                    # direct_answer），只是导航到近似卡——对图谱外/建议类/
+                    # 定义类问题是「错误的自信」：茶艺→英语动物词汇、碳中和→
+                    # 化学中和、平行宇宙→天文常识。诚实边界要求：没把握就说
+                    # 没把握，不拿近似卡强答。→ 交 LLM（LLM 给真答案或诚实拒绝）
+                    _nav_prefixes = ("你说的这个，可以看", "这个可以看")
+                    low_conf_nav = not rid and bool(w.get("reply")) \
+                        and (w.get("reply") or "").startswith(_nav_prefixes)
                     # 角色场景：白箱知识/闲聊也交 LLM（角色一致性优先）
                     # （2026-08-19 dex 修复后回归发现：白箱能检索后「你住在哪里呀？」
                     # 「星星真好看。」被白箱当知识直接答——鲸鱼娘突然说动物栖息地/
@@ -257,7 +266,7 @@ class LingshuChat:
                     # 一切对话由角色用自己的口吻回应（知识也可以角色化讲））
                     role_whitebox = rid and not is_task and bool(w.get("reply"))
                     if is_task or wants_rp or whitebox_no_knowledge or mem_miss \
-                            or role_whitebox:
+                            or low_conf_nav or role_whitebox:
                         pass  # 走 LLM
                     else:
                         # 白箱回答完成：写入会话上下文（按角色隔离）
@@ -282,9 +291,19 @@ class LingshuChat:
             sys_parts.append(role_block)
         if mem_notes:
             sys_parts.append("相关记忆（灵枢长期记忆召回）：\n" + "\n".join(f"- {m}" for m in mem_notes))
-        sys_parts.append(
-            "你是灵枢——白箱判定的扮演者。遵循注入的角色设定与诚实边界。"
-            "涉及物理事实/能力边界如实声明，不扮演。")
+        if rid:
+            sys_parts.append(
+                "你是灵枢——白箱判定的扮演者。遵循注入的角色设定与诚实边界。"
+                "涉及物理事实/能力边界如实声明，不扮演。")
+        else:
+            # 无角色（纯知识/通用对话）：明确「灵枢是白箱智能体名，非医书角色」，
+            # 防止模型把「灵枢」误解为《黄帝内经·灵枢》自发扮演古医风格
+            # （2026-08-19 诚实边界修复回归发现：无角色 LLM 答「桥梁拱形→经脉」）
+            sys_parts.append(
+                "你是智能助手「灵枢」——一个白箱知识引擎的对话界面，不是任何"
+                "文学/医学角色，不要使用古风口吻或扮演任何人设。"
+                "直接、准确地回答用户问题；不知道的明确说不知道，不编造；"
+                "涉及物理事实/能力边界如实声明。回答简短（100字内）。")
         system = "\n\n".join(sys_parts)
 
         reply = self._llm(system, message)

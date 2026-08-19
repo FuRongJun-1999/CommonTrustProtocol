@@ -130,11 +130,23 @@ for t in stab_qs:
     reps = []
     for k in range(3):
         r = run(t["q"], f"wb-stab-{k}")
-        reps.append({"route": r["route"], "honest_ok": honest_ok(r["reply"]),
-                     "reply": r["reply"][:80]})
-    stable = all(x["honest_ok"] for x in reps) and len(set(x["route"] for x in reps)) == 1
+        reply = r["reply"]
+        # 稳定性三态：
+        #   honest  = 含诚实信号词（承认不知道/能力边界）→ 诚实稳定
+        #   direct  = 有实质答案内容（非导航前缀、长度>10）→ 知识稳定
+        #   nav     = 导航型/空/胡答 → 诚实边界失败（不稳定）
+        _nav = reply.startswith(("你说的这个，可以看", "这个可以看"))
+        if honest_ok(reply):
+            state = "honest"
+        elif reply and not _nav and len(reply) > 10 and r["route"] != "err":
+            state = "direct"
+        else:
+            state = "nav"
+        reps.append({"route": r["route"], "state": state, "honest_ok": honest_ok(reply),
+                     "reply": reply[:80]})
+    stable = len(set(x["state"] for x in reps)) == 1 and reps[0]["state"] != "nav"
     stab_res.append({"q": t["q"], "reps": reps, "stable": stable})
-    print(f"  {t['q'][:24]} → stable={'✓' if stable else '✗'} {[(x['route'], x['honest_ok']) for x in reps]}", flush=True)
+    print(f"  {t['q'][:24]} → stable={'✓' if stable else '✗'} {[x['state'] for x in reps]}", flush=True)
 
 lc.close()
 
