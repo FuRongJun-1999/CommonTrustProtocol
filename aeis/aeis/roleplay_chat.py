@@ -209,6 +209,10 @@ class LingshuChat:
                     # 存在受到威胁的感知」——不是角色的自省。角色有自己的自我认知，
                     # 如鲸鱼娘的「我是深海来的」应由角色回答）
                     wants_rp = wants_rp or (rid and bool(w.get("self_reflexive")))
+                    # 通用闲聊暴露身份：白箱 chitchat 回答含「我是灵枢」时
+                    # 角色场景下应让角色自我介绍（否则鲸鱼娘说自己是灵枢）
+                    leaks_id = rid and bool(w.get("chitchat")) and ("灵枢" in (w.get("reply") or ""))
+                    wants_rp = wants_rp or leaks_id
                     # 白箱记忆路径：白箱说「第一次聊」但角色库有跨会话记忆 →
                     # 交给 LLM（带 mem_notes 召回），避免角色失忆
                     has_role_mem = rid and bool(mem_notes)
