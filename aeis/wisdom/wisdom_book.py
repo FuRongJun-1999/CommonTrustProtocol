@@ -888,14 +888,24 @@ class ConditionDex:
                 # 2.8) 中文术语直配（v1.16：测度论/普朗克——学科术语不在
                 #      翻译表，问题关键词窗口 in 卡名/卡内容——
                 #      「测度论」in 卡名、「普朗克」in 知识点内容）
+                # v1.17 修复（2026-08-19 白箱边界测试）：通用疑问词过滤——
+                # 「什么是质数？」fp 为空时「什么」2 字窗口命中所有卡，
+                # 小学语文靠 E1 权重乱赢（质数→小学语文→质量错配）。
+                # 疑问词/虚词不进窗口匹配，术语直配只认实义窗口。
                 if not matched:
                     _chars = [ch for ch in condition if "\u4e00" <= ch <= "\u9fff"]
                     _cname = sa.get("name", "") or ""
                     _cwin = _cname + (content or "")[:600]
+                    # 过滤通用疑问词（不参与窗口匹配）
+                    _STOP_CHARS = ("什么", "怎么", "为什么", "多少", "哪些", "哪个",
+                                   "如何", "是不是", "是什么", "怎么办", "好不好",
+                                   "对不对", "会不会", "为什么", "为啥", "咋")
+                    _hit = False
                     for _L in (4, 3, 2):
-                        _hit = False
                         for _i in range(len(_chars) - _L + 1):
                             _w = "".join(_chars[_i:_i + _L])
+                            if any(s in _w for s in _STOP_CHARS):
+                                continue
                             if _w in _cwin:
                                 score += {4: 2.0, 3: 1.5, 2: 1.0}[_L] * edu_w
                                 if _w not in matched:

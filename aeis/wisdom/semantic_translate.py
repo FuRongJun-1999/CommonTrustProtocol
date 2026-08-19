@@ -784,17 +784,29 @@ def graph_retrieve(dex, question, limit=10):
     # 「圆的周长」快速层错配初中地理 2.04（强命中 0.503）压过神经层
     # 正确「圆的周长与面积」0.703（0.281）。语义层高置信应盖过快
     # 速层字面噪声（错误卡靠学科路由硬加权拿高分）。
+    # v1.17 修复（2026-08-19 白箱边界测试 52 例检索噪声）：
+    #  ①神经层独有卡（不在快速层 top）也享受 0.85×neural 优先——
+    #    之前只在 fast_raw<0.8 时走此通道，「概率基本性质→概率论卡」
+    #    神经 0.654 却因不在快速层按 0.4×0.654=0.262 计分，被快速层
+    #    噪声「小学英语 3.78」压过 → 答成动物词汇。
+    #  ②快速层字面高分 + 神经低分（<0.35，语义不匹配）降权——
+    #    「质数→质量」「概率→小学英语」靠二元组/学科路由硬加权拿高分，
+    #    bge 语义分低证明不相关 → 0.55×fast_abs 而非 0.75×。
     for h in merged:
         name = h['name']
         neural = neural_map.get(name, 0.0)
         h['neural_score'] = round(neural, 3)
         fast_raw = h.get('score', 0.0) or 0.0
-        if neural >= 0.6 and fast_raw < 0.8:
-            # 神经层高置信 + 快速层弱/无 → 语义优先
+        if neural >= 0.6:
+            # 神经层高置信（语义真命中）→ 语义优先（含神经层独有卡）
             h['score'] = round(0.85 * neural + 0.15 * fast_raw / (1.0 + fast_raw), 3)
         elif fast_raw >= 0.8:
             fast_abs = fast_raw / (1.0 + fast_raw)
-            h['score'] = round(0.75 * fast_abs + 0.25 * neural, 3)
+            if neural < 0.35:
+                # 字面高分但语义低 → 检索噪声，降权
+                h['score'] = round(0.55 * fast_abs + 0.1 * neural, 3)
+            else:
+                h['score'] = round(0.75 * fast_abs + 0.25 * neural, 3)
         elif fast_raw > 0:
             fast_abs = fast_raw / (1.0 + fast_raw)
             h['score'] = round(0.3 * fast_abs + 0.7 * neural, 3)

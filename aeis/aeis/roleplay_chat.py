@@ -78,7 +78,16 @@ class LingshuChat:
             import subprocess
             key = os.environ.get(upstream_key_var, "") or _machine_env(upstream_key_var)
         self.upstream_key = key
+        # 白箱图谱检索器：显式传入优先；否则复用 Agent 的 _get_wisdom()
+        # （2026-08-19 白箱边界测试发现：dex=None 时 graph_retrieve 抛异常
+        # → hits=[] → 纯知识也全走 LLM，「白箱优先」形同虚设。Agent 内部
+        # 有完整 dex 构造逻辑（随包图谱回退），直接复用）
         self.dex = dex
+        if self.dex is None:
+            try:
+                self.dex = self.mem._get_wisdom()
+            except Exception:
+                self.dex = None
         self._session_ctx: Dict[str, List[str]] = {}
 
     # ------------------------------------------------------------------
@@ -241,7 +250,14 @@ class LingshuChat:
                     # 白箱无把握兜底（honest 且无知识命中）→ 交 LLM
                     # （对话界面里白箱是优先判断器，不是最终拦截器）
                     whitebox_no_knowledge = bool(w.get("honest")) and not w.get("hits")
-                    if is_task or wants_rp or whitebox_no_knowledge or mem_miss:
+                    # 角色场景：白箱知识/闲聊也交 LLM（角色一致性优先）
+                    # （2026-08-19 dex 修复后回归发现：白箱能检索后「你住在哪里呀？」
+                    # 「星星真好看。」被白箱当知识直接答——鲸鱼娘突然说动物栖息地/
+                    # 激光知识 = 新形式 OOC。角色场景下白箱只做任务识别，
+                    # 一切对话由角色用自己的口吻回应（知识也可以角色化讲））
+                    role_whitebox = rid and not is_task and bool(w.get("reply"))
+                    if is_task or wants_rp or whitebox_no_knowledge or mem_miss \
+                            or role_whitebox:
                         pass  # 走 LLM
                     else:
                         # 白箱回答完成：写入会话上下文（按角色隔离）
