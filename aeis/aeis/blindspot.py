@@ -51,7 +51,9 @@ class BlindSpotLearningLoop:
     # ---- 学习一步 ----
 
     def learn_next(self, use_prediction: bool = True) -> Dict:
-        """从开放盲区中选取一个，探索并判定终态（v1.10：use_prediction=预测验证模式）"""
+        """从开放盲区中选取一个，探索并判定终态（v1.10：use_prediction=预测验证模式）
+        v1.15：预测路线持久化为「待验证预测」（pending_prediction），
+        供 prediction_feedback 回填对比（协议 2.10 D₃ · D-006 动态校准）。"""
         bs = self.get_next_candidate()
         if not bs:
             return {"status": "no_open_blindspot", "blindspot": None}
@@ -59,12 +61,30 @@ class BlindSpotLearningLoop:
         attempts = bs.get("attempts", 0) + 1
         # v1.10 预测×盲区联动：可预测盲区 → 预测路线作为探索假设（不可知盲区跳过）
         predicted = []
+        pending_ids = []
         if use_prediction and bs.get("predictability", "pending_assessment") != "unknowable":
             try:
                 if hasattr(self.engine, "predict_routes"):
                     pr = self.engine.predict_routes(blindspot_id=bs["id"])
                     if pr.get("routes"):
                         predicted = [r["path"] for r in pr["routes"][:3]]
+                        # v1.15 持久化：每条预测路线 → 待验证预测节点
+                        for i, path in enumerate(predicted[:3]):
+                            try:
+                                names = []
+                                for nid in path:
+                                    n = self.engine.store.get_node(nid)
+                                    names.append(n.state_attributes.get("name") if n else nid)
+                                pid = self.engine.add_perception(
+                                    f"[待验证预测] 盲区 {bs.get('code', '')} 路线{i + 1}: "
+                                    + " → ".join(str(x) for x in names),
+                                    importance=0.55,
+                                    tags=["观测层", "pending_prediction",
+                                          "prediction_route", f"blindspot:{bs['id']}"],
+                                    condition_space=None)
+                                pending_ids.append({"route_id": pid, "path": path})
+                            except Exception:
+                                pass
             except Exception:
                 pass
         evidence = self._explore(bs, predicted)
@@ -84,7 +104,8 @@ class BlindSpotLearningLoop:
         except Exception:
             pass
         return {"status": terminal, "blindspot": bs, "evidence": evidence,
-                "attempts": attempts, "predicted_routes": len(predicted)}
+                "attempts": attempts, "predicted_routes": len(predicted),
+                "pending_predictions": pending_ids}
 
     # ---- 内部 ----
 

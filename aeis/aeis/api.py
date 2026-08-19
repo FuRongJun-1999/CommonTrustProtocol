@@ -514,7 +514,9 @@ class Agent:
 
     def _get_wisdom(self):
         """惰性装配智慧之书引擎（小脑接入 v1.15）。
-        优先加载全量知识库（137 卡 + 因果边），无则 fresh+seed_base 兜底。"""
+        统一知识源（v1.16 迁移后）：Agent 绑定持久库 → 智慧之书检索同库
+        （主库含 75 学科卡+学段卡+元学科卡，图谱信噪比 95%+）；
+        :memory: 或库不可用时回退随包小库（137 卡），再兜底 fresh+seed_base。"""
         if self._wisdom is None:
             import sys as _s
             import os as _os
@@ -524,13 +526,23 @@ class Agent:
                 _s.path.insert(0, _wdir)
             import wisdom_book as _wb
             dex = None
-            # 优先：加载持久化知识库（137 卡全量 · 网页端同库）
-            _wdb = _os.path.join(_wdir, "wisdom-book-cloud.db")
-            if _os.path.exists(_wdb) and _os.path.getsize(_wdb) > 4096:
+            # 优先：Agent 绑定持久库 → 同一知识源（迁移后的主库）
+            _agent_db = getattr(getattr(self.engine, "store", None), "db_path", None) \
+                or ":memory:"
+            if _agent_db != ":memory:" and _os.path.exists(_agent_db) \
+                    and _os.path.getsize(_agent_db) > 4096:
                 try:
-                    dex = _wb.ConditionDex(db_path=_wdb, fresh=False)
+                    dex = _wb.ConditionDex(db_path=_agent_db, fresh=False)
                 except Exception:
                     dex = None
+            # 回退：随包持久化知识库（137 卡全量 · 网页端同库）
+            if dex is None:
+                _wdb = _os.path.join(_wdir, "wisdom-book-cloud.db")
+                if _os.path.exists(_wdb) and _os.path.getsize(_wdb) > 4096:
+                    try:
+                        dex = _wb.ConditionDex(db_path=_wdb, fresh=False)
+                    except Exception:
+                        dex = None
             # 兜底：全新种子（新环境）
             if dex is None:
                 dex = _wb.ConditionDex(fresh=True)
@@ -615,6 +627,17 @@ class Agent:
                                       importance=0.5)
                 except Exception:
                     pass
+            # S6（v1.16 打地基）：对话摄入 CONTEXT 情境层——
+            # 短期记忆原料（记忆衰减/主动遗忘的作用层）。
+            # 此前 chat 从不写 CONTEXT → memory_purge 恒 100%（情境层空）。
+            try:
+                reply_snip = (result.get("reply") or "")[:60]
+                self.engine.add_context(
+                    f"[会话 {session_id}] 用户：{message[:80]}｜灵枢：{reply_snip}",
+                    importance=0.5, tags=["session", "chat_ingest",
+                                          f"sess:{session_id}"])
+            except Exception:
+                pass
             return result
         except Exception as e:
             return {"reply": f"对话引擎未就绪（{e}）", "hits": [], "emotion": None,

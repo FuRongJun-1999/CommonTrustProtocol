@@ -19,6 +19,7 @@ import os
 import sys
 import re
 import time
+from typing import Optional
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -123,6 +124,7 @@ class CausalDiscoverer:
         return {
             "candidate_id": f"cc_{abs(hash(candidate['claim'])) % 10**8}",
             "claim": candidate["claim"],
+            "source_anomaly": candidate.get("source_anomaly"),
             "predictions": [
                 {"observable": f"重复处理同特征输入，若机制性原因存在，失败模式应可复现",
                  "verify_method": "prediction_feedback（验证回路）",
@@ -148,7 +150,7 @@ class CausalDiscoverer:
         consumed = set()
         try:
             for p in self.engine.list_rejected_paths() or []:
-                key = (p.get("description") or "")[:20]
+                key = ((p.get("description") or "")[:20]).strip("「」 \t")
                 if p.get("status") == "consumed":
                     consumed.add(key)
                 else:
@@ -166,16 +168,81 @@ class CausalDiscoverer:
             key = None
             for t in tags:
                 if t.startswith("cc_key:"):
-                    key = t[7:]
+                    key = t[7:].strip("「」 \t")
             if key and key in consumed:
                 n.tags = [t for t in n.tags if t != "status:candidate_open"]
                 n.tags = list(dict.fromkeys(n.tags + ["status:causal_confirmed"]))
                 self.engine.store.add_node(n)
                 resolved += 1
+                # 因果确认 → 写入 verified causal 边（v1.16 补断链：
+                # 确认只改 tag 从不入图 → 主库 causal 边永远为 0）
+                try:
+                    target_id = self._resolve_causal_target(n)
+                    if target_id and not self._has_causal_edge(n.id, target_id):
+                        from aeis.core import EdgeType
+                        edge = self.engine.add_edge(
+                            n.id, target_id, relation_type=EdgeType.CAUSAL,
+                            confidence=0.6, source_evidence="extracted")
+                        self.engine.verify_edge(edge.id, 0.6)
+                except Exception:
+                    pass
             elif key and key in open_paths:
                 still_open += 1
         return {"tracked": tracked, "resolved": resolved, "still_open": still_open,
-                "note": "验证闭环：被拒路径 consumed=因果确认；仍 open=候选成立待修复"}
+                "note": "验证闭环：被拒路径 consumed=因果确认（入 causal 边）；仍 open=候选成立待修复"}
+
+    # ---------------- causal 边目标解析 ----------------
+    def _resolve_causal_target(self, candidate_node) -> Optional[str]:
+        """确认的候选 → causal 边 target：从候选 claim 提取真实知识节点。
+        prediction 类候选 claim 含 node_xxx（直接提取）；query 类候选无节点 id，
+        从「」引号段提取实体词 → SQL LIKE 图谱检索（去噪音词）。"""
+        import re
+        content = candidate_node.content or ""
+        nids = re.findall(r"node_[a-f0-9_]+", content)
+        if nids:
+            return nids[-1]  # 实际节点（claim 尾部）
+        # query 类：提取「」引号段 → 实体词 → LIKE 检索
+        quoted = re.findall(r"「([^」]+)」", content)
+        noise = {"用户问", "检索不到", "翻译表缺", "图谱无此", "常识卡缺失",
+                 "可能存在", "因果相关", "重复失败", "机制性原因", "预测未命中",
+                 "实际节点", "未知因果", "的线索"}
+        words = []
+        for seg in quoted:
+            seg_clean = seg.replace("「", "").replace("」", "")
+            for piece in re.split(r"[→\-、，。！？\s]+", seg_clean):
+                # 剥离 noise 前缀（如「翻译表缺沸点」→「沸点」）
+                for np_ in sorted(noise, key=len, reverse=True):
+                    if piece.startswith(np_):
+                        piece = piece[len(np_):]
+                        break
+                for w in re.findall(r"[\u4e00-\u9fff]{2,6}", piece):
+                    if w not in noise and w not in words:
+                        words.append(w)
+        # 短实体词优先（2-4 字 = 主题词；长串易 miss 或命中泛节点）
+        words.sort(key=len)
+        conn = self.engine.store.conn
+        self_id = getattr(candidate_node, "id", "") or ""
+        for w in words:
+            try:
+                row = conn.execute(
+                    "SELECT id FROM nodes WHERE content LIKE ? AND id != ? "
+                    "ORDER BY importance DESC, length(content) LIMIT 1",
+                    ('%' + w + '%', self_id)).fetchone()
+                if row:
+                    return row[0]
+            except Exception:
+                continue
+        return None
+
+    def _has_causal_edge(self, source_id: str, target_id: str) -> bool:
+        """幂等：避免重复写入同一条 causal 边"""
+        try:
+            row = self.engine.store.conn.execute(
+                "SELECT id FROM edges WHERE source_id=? AND target_id=? "
+                "AND relation_type='causal'", (source_id, target_id)).fetchone()
+            return row is not None
+        except Exception:
+            return False
 
     # ---------------- 主流程 ----------------
     def discover(self, limit=5, persist=True):
@@ -197,11 +264,9 @@ class CausalDiscoverer:
         # 5. 持久化到观测层（验证闭环追踪）
         if persist:
             for c in outputs:
-                key = (c.get("source_anomaly") or {}).get("description", "")[:20] \
-                    if False else (c.get("claim") or "")[:20]
-                # key = 候选对应异常描述（用于 verify 匹配 consumed）
-                key = ((c.get("source_anomaly") or {}).get("description") or "")[:20] \
-                    or key
+                key = (c.get("source_anomaly") or {}).get("description", "")[:20]
+                # 规范化匹配键：全角引号「」是 claim 排版，非描述内容（v1.16 修 cc_key bug）
+                key = key.strip("「」 \t") or (c.get("claim") or "")[:20]
                 try:
                     self.engine.add_perception(
                         f"[因果候选] {c['claim'][:60]}",

@@ -84,6 +84,7 @@ class EdgeType(Enum):
     SEQUENTIAL = "sequential"
     CORRELATIONAL = "correlational"
     CYCLIC = "cyclic"
+    HIERARCHICAL = "hierarchical"   # v1.16：知识归属/包含层级（卡⊃知识点、元学科⊃学段）
     SPATIAL_ADJACENT = "spatial_adjacent"
     SPATIAL_CONTAINS = "spatial_contains"
     SPATIAL_CONNECTED = "spatial_connected"
@@ -190,7 +191,7 @@ class STEdge:
             confidence=row[5], weight=row[6],
             verified=bool(row[7]),
             created_at=row[8],
-            last_verified=row[9] if row[9] > 0 else None,
+            last_verified=row[9] if row[9] is not None and row[9] > 0 else None,
             source_evidence=row[10] if len(row) > 10 else "extracted"
         )
 
@@ -278,13 +279,23 @@ class LayeredStore:
     - 本地层（知识层、情境层、自我层）：实例独立，允许信息差
     """
 
-    IMMUTABLE_LAYERS = {MemoryLayer.ANCHOR, MemoryLayer.STRUCTURE}
+    IMMUTABLE_LAYERS = {MemoryLayer.ANCHOR, MemoryLayer.STRUCTURE,
+                        MemoryLayer.SELF}  # v1.16 扮演论：SELF 层=自我锚点（扮演依据）不可遗忘
 
     def __init__(self, db_path: str = ":memory:", role: Role = Role.PRIMARY):
         self.db_path = db_path
         self.role = role
-        self.conn = sqlite3.connect(db_path, check_same_thread=False)
+        self.conn = sqlite3.connect(db_path, check_same_thread=False,
+                                    timeout=10)
         self.conn.row_factory = sqlite3.Row
+        # v1.16 图架构增强：WAL 模式（读写不互锁，MCP 长事务不再阻塞其他连接）
+        # + busy_timeout（锁等待而非立即报错）
+        if db_path != ":memory:":
+            try:
+                self.conn.execute("PRAGMA journal_mode=WAL")
+                self.conn.execute("PRAGMA busy_timeout=10000")
+            except Exception:
+                pass
         self._init_tables()
         self._lock = threading.Lock()
 
@@ -549,6 +560,95 @@ class LayeredStore:
     def get_layer_nodes(self, layer: MemoryLayer) -> List[STNode]:
         return self.query_nodes(layer=layer)
 
+    # ---------- v1.16 图架构增强：有界遍历 + 子图嵌套 ----------
+
+    def traverse(self, start_id: str, relation_types: List[str] = None,
+                 direction: str = "out", max_depth: int = 5,
+                 min_importance: float = 0.0, max_nodes: int = 500) -> List[Dict]:
+        """有界图遍历（迭代 BFS，防无界递归爆炸——裸 CTE 全图展开会超时）。
+        relation_types: 边类型过滤（None=全部；如 ['causal']）
+        direction: out（出边）/ in（入边）/ both
+        返回 [{node_id, depth, edge_id, direction, importance}] 按 importance 降序。
+        """
+        c = self.conn.cursor()
+        rel_clause, params = "", []
+        if relation_types:
+            ph = ",".join("?" * len(relation_types))
+            rel_clause = f" AND e.relation_type IN ({ph})"
+            params = list(relation_types)
+        frontier = [start_id]
+        visited = {start_id}
+        result = []
+        for depth in range(1, max_depth + 1):
+            if not frontier or len(visited) > max_nodes:
+                break
+            nxt = []
+            for nid in frontier:
+                if direction in ("out", "both"):
+                    for row in c.execute(
+                            f"SELECT e.target_id AS tid, e.id AS eid FROM edges e "
+                            f"WHERE e.source_id=?{rel_clause}",
+                            [nid] + params).fetchall():
+                        if row["tid"] not in visited:
+                            visited.add(row["tid"]); nxt.append(row["tid"])
+                            result.append({"node_id": row["tid"], "depth": depth,
+                                           "edge_id": row["eid"], "direction": "out"})
+                if direction in ("in", "both"):
+                    for row in c.execute(
+                            f"SELECT e.source_id AS sid, e.id AS eid FROM edges e "
+                            f"WHERE e.target_id=?{rel_clause}",
+                            [nid] + params).fetchall():
+                        if row["sid"] not in visited:
+                            visited.add(row["sid"]); nxt.append(row["sid"])
+                            result.append({"node_id": row["sid"], "depth": depth,
+                                           "edge_id": row["eid"], "direction": "in"})
+            frontier = nxt
+        # importance 补全 + 过滤 + 排序
+        if result:
+            ids = list({r["node_id"] for r in result})
+            ph = ",".join("?" * len(ids))
+            imp = {row["id"]: row["importance"] for row in
+                   c.execute(f"SELECT id, importance FROM nodes WHERE id IN ({ph})",
+                             ids).fetchall()}
+            result = [r for r in result
+                      if imp.get(r["node_id"], 0.0) >= min_importance]
+            for r in result:
+                r["importance"] = imp.get(r["node_id"], 0.0)
+            result.sort(key=lambda x: (-x["importance"], x["depth"]))
+        return result[:max_nodes]
+
+    def subgraph(self, root_id: str, max_depth: int = 3,
+                 relation_types: List[str] = None) -> Dict:
+        """子图嵌套查询（图架构增强）：根节点 + 子节点递归 + 子图内部边。
+        例：历史学（元学科）⊃ 初中历史/高中历史（hierarchical 归属嵌套）。
+        返回 {root, node_count, edge_count, nodes: {id: {name, importance}}, edges}
+        """
+        nodes = self.traverse(root_id, relation_types=relation_types or
+                              ["hierarchical", "causal", "similar"],
+                              direction="out", max_depth=max_depth)
+        node_ids = [root_id] + [r["node_id"] for r in nodes]
+        c = self.conn.cursor()
+        ph = ",".join("?" * len(node_ids))
+        edges = []
+        for row in c.execute(
+                f"SELECT source_id, target_id, relation_type FROM edges "
+                f"WHERE source_id IN ({ph}) AND target_id IN ({ph})",
+                node_ids + node_ids).fetchall():
+            edges.append({"source": row[0], "target": row[1],
+                          "relation_type": row[2]})
+        names = {}
+        for row in c.execute(
+                f"SELECT id, state_attributes, importance FROM nodes "
+                f"WHERE id IN ({ph})", node_ids).fetchall():
+            try:
+                nm = json.loads(row["state_attributes"] or "{}").get("name", "") \
+                    or row["id"][:24]
+            except Exception:
+                nm = row["id"][:24]
+            names[row["id"]] = {"name": nm, "importance": row["importance"]}
+        return {"root": root_id, "node_count": len(node_ids),
+                "edge_count": len(edges), "nodes": names, "edges": edges}
+
     def spatiotemporal_query(self, center_node_id: str, time_radius: float = 300.0,
                              space_metric: str = None, space_radius: float = 0.5,
                              max_results: int = 20) -> List[Tuple[STNode, float]]:
@@ -594,11 +694,15 @@ class LayeredStore:
 
     # ---------- 因果推理 ----------
 
-    def infer_causal_paths(self, start_id: str, end_id: str, max_depth: int = 5) -> List[List[STEdge]]:
+    def infer_causal_paths(self, start_id: str, end_id: str, max_depth: int = 5,
+                           relation_types: List[str] = None) -> List[List[STEdge]]:
         """
-        传递闭包因果推理：找出从 start 到 end 的所有因果路径
-        仅考虑 relation_type 为 CAUSAL 的边
+        传递闭包因果推理：找出从 start 到 end 的所有路径。
+        v1.16 图架构增强：relation_types 可多类型（默认 causal；
+        传 ['causal','similar','hierarchical'] 可做相似递推/归属层级推理）。
         """
+        types = relation_types or ["causal"]
+        type_set = {t.lower() for t in types}
         all_paths = []
         visited = set()
 
@@ -613,7 +717,7 @@ class LayeredStore:
             visited.add(current_id)
             edges = self.get_outgoing_edges(current_id)
             for edge in edges:
-                if edge.relation_type == EdgeType.CAUSAL:
+                if edge.relation_type.value in type_set:
                     path.append(edge)
                     dfs(edge.target_id, path, depth + 1)
                     path.pop()
@@ -1542,31 +1646,63 @@ class SpacetimeMemoryEngine:
     # ==================== 因果推理 ====================
 
     def reason_causal(self, start_id: str, end_id: str = None,
-                      max_depth: int = 5) -> List[List[STEdge]]:
+                      max_depth: int = 5, relation_types: List[str] = None,
+                      importance_weighted: bool = False,
+                      include_subgraph: bool = False) -> List[List[STEdge]]:
         """
-        因果推理：
-        - 如果指定 end_id，查找从 start 到 end 的所有因果路径
-        - 如果未指定 end_id，返回从 start 出发的所有因果链（每条链最长为 max_depth）
+        因果推理（v1.16 图架构增强）：
+        - 指定 end_id：查找 start→end 的所有路径（relation_types 可多类型）
+        - 未指定：返回从 start 出发的所有链（每条链最长 max_depth）
+        - importance_weighted：路径排序加权（节点 importance 均值）
+        - include_subgraph：结果附尾节点知识点子图（嵌套感知）
         """
         if end_id:
-            return self.store.infer_causal_paths(start_id, end_id, max_depth)
+            paths = self.store.infer_causal_paths(start_id, end_id, max_depth,
+                                                  relation_types=relation_types)
         else:
-            # 广度遍历，收集所有因果链
             chains = []
             def collect(current_id: str, path: List[STEdge], depth: int):
                 if depth > max_depth:
                     return
                 edges = self.store.get_outgoing_edges(current_id)
-                causal_edges = [e for e in edges if e.relation_type == EdgeType.CAUSAL]
-                if not causal_edges and path:
+                if relation_types:
+                    tset = {t.lower() for t in relation_types}
+                    kept = [e for e in edges if e.relation_type.value in tset]
+                else:
+                    kept = [e for e in edges if e.relation_type == EdgeType.CAUSAL]
+                if not kept and path:
                     chains.append(list(path))
                     return
-                for e in causal_edges:
+                for e in kept:
                     path.append(e)
                     collect(e.target_id, path, depth+1)
                     path.pop()
             collect(start_id, [], 0)
-            return chains
+            paths = chains
+        # importance 加权排序
+        if importance_weighted and paths:
+            def _imp_mean(p):
+                ids = [e.source_id for e in p] + [p[-1].target_id]
+                ph = ",".join("?" * len(ids))
+                rows = self.store.conn.execute(
+                    f"SELECT id, importance FROM nodes WHERE id IN ({ph})",
+                    ids).fetchall()
+                imp = {r[0]: r[1] for r in rows}
+                vals = [imp.get(i, 0.5) for i in ids]
+                return sum(vals) / len(vals) if vals else 0.5
+            paths.sort(key=lambda p: (-_imp_mean(p), len(p)))
+        # 子图感知：尾节点知识点子图
+        if include_subgraph:
+            decorated = []
+            for p in paths:
+                tail = p[-1].target_id if p else start_id
+                try:
+                    sg = self.store.subgraph(tail, max_depth=2)
+                except Exception:
+                    sg = None
+                decorated.append({"path": p, "subgraph": sg})
+            return decorated
+        return paths
 
     # ==================== 自我认知层 ====================
 
@@ -3034,6 +3170,22 @@ class SpacetimeMemoryEngine:
                   for p in paths]
         scored.sort(key=lambda x: -x[1])
         return [p for p, s in scored if s > 0.15][:limit]
+
+    # ---------- v1.16 图架构增强透传 ----------
+    def traverse(self, start_id: str, relation_types: List[str] = None,
+                 direction: str = "out", max_depth: int = 5,
+                 min_importance: float = 0.0, max_nodes: int = 500) -> List[Dict]:
+        """有界图遍历（importance 降序；relation_types 过滤因果/相似/归属）"""
+        return self.store.traverse(start_id, relation_types=relation_types,
+                                   direction=direction, max_depth=max_depth,
+                                   min_importance=min_importance,
+                                   max_nodes=max_nodes)
+
+    def subgraph(self, root_id: str, max_depth: int = 3,
+                 relation_types: List[str] = None) -> Dict:
+        """子图嵌套查询（根 + hierarchical 子节点递归 + 内部边）"""
+        return self.store.subgraph(root_id, max_depth=max_depth,
+                                   relation_types=relation_types)
 
     def mark_rejected_path_consumed(self, rejected_id: str):
         self.store.mark_rejected_path_consumed(rejected_id)

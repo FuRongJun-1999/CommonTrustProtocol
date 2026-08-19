@@ -801,13 +801,31 @@ class ConditionDex:
             except Exception:
                 _sp = None
         edu_w_map = {"E1": 2.5, "E2": 2.0, "E3": 1.5, "E4": 1.0, "E5": 0.8}
+        # v1.16 学段先验：问题含「定律/公式/原理/定理」等系统概念时，
+        # E1 小学（现象层）不优先——「光的反射定律」该命中初中物理而非小学科学
+        if any(w in condition for w in ("定律", "公式", "原理", "定理", "规律")):
+            edu_w_map["E1"] = 0.8
         hits = []
-        for n in self.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=500):
+        # v1.16 性能优化：主库 11045 节点，全量遍历慢（1000 条测试 5.28s/条）。
+        # SQL 预过滤「有名字的卡」（学科卡/元层卡/元学科卡 state_attributes 含 name；
+        # 工作记录/感知记忆大多无 name）→ 只遍历 ~110 张卡，快 ~100 倍。
+        from aeis.core import STNode as _STNode
+        try:
+            _rows = self.store.conn.execute(
+                "SELECT * FROM nodes WHERE layer='knowledge' "
+                "AND state_attributes LIKE '%\"name\"%' "
+                "AND tags NOT LIKE '%knowledge_point%'").fetchall()
+            _nodes = [_STNode.from_row(tuple(r)) for r in _rows]
+        except Exception:
+            _nodes = self.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=50000)
+        for n in _nodes:
             sa = n.state_attributes
             if not sa.get("name"):
                 continue
             resp = sa.get("response") or {}
-            trig = str(resp.get("trigger", ""))
+            # v1.16 修复：学科卡（迁移自 *_knowledge.json）无 response.trigger →
+            # 快速层全 miss（只靠神经层）。无 trigger 时用 content 前 200 字符兜底。
+            trig = str(resp.get("trigger", "") or "") or (n.content or "")[:200]
             content = n.content or ""
             domain = sa.get("domain", "") or ""
 
@@ -855,6 +873,37 @@ class ConditionDex:
                                 score += 1.2 * edu_w
                                 if kp not in matched:
                                     matched.append(kp)
+                # 2.7) 英文缩写兜底（v1.16：KKT/SVM/API 不在翻译表，
+                #      查卡名与 content 开头——「KKT条件」命中约束优化卡）
+                if not matched:
+                    import re as _re2
+                    for _m in _re2.finditer(r"[A-Za-z]{2,}", condition):
+                        _ew = _m.group(0).lower()
+                        if _ew in (sa.get("name", "") or "").lower() \
+                                or _ew in (content or "")[:200].lower():
+                            score += 1.5 * edu_w
+                            if _ew not in matched:
+                                matched.append(_ew)
+                            break
+                # 2.8) 中文术语直配（v1.16：测度论/普朗克——学科术语不在
+                #      翻译表，问题关键词窗口 in 卡名/卡内容——
+                #      「测度论」in 卡名、「普朗克」in 知识点内容）
+                if not matched:
+                    _chars = [ch for ch in condition if "\u4e00" <= ch <= "\u9fff"]
+                    _cname = sa.get("name", "") or ""
+                    _cwin = _cname + (content or "")[:600]
+                    for _L in (4, 3, 2):
+                        _hit = False
+                        for _i in range(len(_chars) - _L + 1):
+                            _w = "".join(_chars[_i:_i + _L])
+                            if _w in _cwin:
+                                score += {4: 2.0, 3: 1.5, 2: 1.0}[_L] * edu_w
+                                if _w not in matched:
+                                    matched.append(_w)
+                                _hit = True
+                                break
+                        if _hit:
+                            break
                 # 3) 二元组命中兜底（灵枢式查询侧召回，替代单字符重叠）
                 overlap = self._bigram_hit(condition, trig)
                 if overlap > 0:
