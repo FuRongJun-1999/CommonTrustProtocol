@@ -1,0 +1,261 @@
+# -*- coding: utf-8 -*-
+"""
+aeis.roleplay_chat · 灵枢统一对话管线（白箱 + 角色扮演 + 长期记忆 + LLM 输出）
+============================================================================
+两种交互方式（MCP / 网页）共用同一套信息处理管线，全部由灵枢完成：
+
+  用户消息
+    ↓
+  1. 白箱条件分析（wisdom.chat_engine._cond_analysis / chat）
+     - 诚实边界 / 自我指涉 / 情绪 / 闲聊 / 追源 由白箱直接回答（零 LLM）
+     - 任务类 → 路由到 LLM
+    ↓
+  2. 角色扮演注入（roleplay 引擎）
+     - role_id 存在时：锚点/价值观/条件空间注入到 LLM system
+    ↓
+  3. 长期记忆（Agent remember / recall / session）
+     - 对话前召回相关记忆注入；对话后写入（prefeed 海马体前馈）
+    ↓
+  4. LLM 输出（DeepSeek / 任意 OpenAI 兼容上游）
+     - 任务类消息 → LLM 生成 → 返回
+
+设计约束：
+- 零外部依赖核心（http/urllib 标准库），LLM 调用走 urllib
+- 白箱路由优先（诚实边界等不消耗 LLM）——「诚实是唯一不坍缩的扮演」
+- roleplay 注入遵循注入极性：事实免判断、价值观带条件、无条件规则不堆砌
+
+用法（MCP / 网页共用）::
+
+    from aeis.roleplay_chat import LingshuChat
+    lc = LingshuChat(data_dir="roleplay_data", role_id="protocol-guide")
+    reply = lc.respond("你能扮演神吗？", session_id="s1")
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+import time
+import urllib.request
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+# 灵枢记忆
+from .api import Agent
+# 角色扮演引擎
+from .roleplay import RolePlayEngine
+# 白箱（智慧之书 chat_engine）
+try:
+    sys.path.insert(0, r"C:\Users\FuRongJun\AppData\Local\Programs\Python\Python310\lib\site-packages\wisdom")
+    import chat_engine as _wisdom_chat
+    _WISDOM_OK = True
+except Exception:
+    _WISDOM_OK = False
+
+
+class LingshuChat:
+    """灵枢统一对话管线——白箱 + 角色扮演 + 长期记忆 + LLM。"""
+
+    def __init__(self, data_dir: str = "roleplay_data",
+                 role_id: str = "",
+                 db_path: str = "",
+                 upstream_base: str = "",
+                 upstream_model: str = "",
+                 upstream_key_var: str = "DEEPSEEK_API_KEY",
+                 dex: Any = None):
+        self.role_id = role_id
+        self.rp = RolePlayEngine(data_dir=data_dir) if role_id else None
+        # 灵枢记忆 Agent（同一库：长期记忆/认知）
+        self.mem = Agent(identity=role_id or "灵枢", db_path=db_path or ":memory:")
+        self.upstream_base = upstream_base or os.environ.get(
+            "LINGSHU_UPSTREAM_BASE", "https://api.deepseek.com/v1")
+        self.upstream_model = upstream_model or os.environ.get(
+            "LINGSHU_UPSTREAM_MODEL", "deepseek-chat")
+        key = os.environ.get(upstream_key_var, "")
+        if not key:
+            # 回退 Machine/User 环境
+            import subprocess
+            key = os.environ.get(upstream_key_var, "") or _machine_env(upstream_key_var)
+        self.upstream_key = key
+        self.dex = dex
+        self._session_ctx: Dict[str, List[str]] = {}
+
+    # ------------------------------------------------------------------
+    # 记忆辅助
+    # ------------------------------------------------------------------
+
+    def _recall_mem(self, session_id: str, query: str, limit: int = 6) -> List[str]:
+        """长期记忆召回 → 文本行。"""
+        try:
+            hits = self.mem.recall(query, limit=limit)
+            return [(n.content or "")[:80] for n, _ in hits]
+        except Exception:
+            return []
+
+    def _prefeed(self, message: str) -> None:
+        """海马体前馈：新信息当场强化编码。"""
+        try:
+            self.mem.prefeed(message, source="chat")
+        except Exception:
+            pass
+
+    # ------------------------------------------------------------------
+    # 角色扮演注入块
+    # ------------------------------------------------------------------
+
+    def _role_system(self) -> str:
+        """角色扮演注入块（锚点/价值观/条件空间）。"""
+        if not self.rp or not self.role_id:
+            return ""
+        try:
+            return self.rp.build_role_block(self.role_id)
+        except Exception:
+            return ""
+
+    # ------------------------------------------------------------------
+    # LLM 输出
+    # ------------------------------------------------------------------
+
+    def _llm(self, system: str, user: str) -> str:
+        """调用上游 LLM（OpenAI 兼容 chat.completions）。"""
+        if not self.upstream_key:
+            return "（未配置上游 LLM key）"
+        url = self.upstream_base.rstrip("/") + "/chat/completions"
+        body = {
+            "model": self.upstream_model,
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            "temperature": 0.7,
+            "max_tokens": 800,
+        }
+        req = urllib.request.Request(
+            url, data=json.dumps(body).encode("utf-8"), method="POST",
+            headers={"Content-Type": "application/json",
+                     "Authorization": f"Bearer {self.upstream_key}"})
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                resp = json.loads(r.read().decode("utf-8"))
+            return resp["choices"][0]["message"]["content"].strip()
+        except Exception as e:
+            return f"（LLM 调用失败：{e}）"
+
+    # ------------------------------------------------------------------
+    # 主入口
+    # ------------------------------------------------------------------
+
+    def respond(self, message: str, session_id: str = "default") -> Dict[str, Any]:
+        """统一对话入口：白箱 → 角色扮演 → 记忆 → LLM。"""
+        message = (message or "").strip()
+        if not message:
+            return {"reply": "我在呢，想说点什么？", "route": "empty"}
+
+        # 0. 长期记忆召回（跨 session 持久，灵枢记忆）
+        mem_notes = self._recall_mem(session_id, message, limit=4)
+        ctx = self._session_ctx.get(session_id, [])
+        if ctx:
+            mem_notes += [f"[本会话] {m}" for m in ctx[-3:]]
+
+        # 1. 白箱路由（wisdom chat_engine——诚实边界/自省/闲聊/任务识别）
+        if _WISDOM_OK:
+            try:
+                w = _wisdom_chat.chat(
+                    self.dex, message, session_id=session_id,
+                    memory=self._session_ctx,
+                    memory_recall_fn=None,
+                    prefeed_fn=self._prefeed)
+                # 白箱直接回答（非任务）：诚实边界/自省/闲聊/追源/知识
+                if w.get("reply"):
+                    is_task = w.get("task_reply") and w.get("route") == "llm"
+                    # 扮演意图路由：角色扮演场景（有 role_id）且消息含扮演/角色
+                    # 类意图时，即使白箱有诚实兜底，也应交给 LLM 扮演回答——
+                    # 扮演场景下诚实边界由 LLM 注入的角色机制承载（rp_honest）。
+                    wants_rp = self.role_id and _is_roleplay_intent(message)
+                    # 白箱无把握兜底（honest 且无知识命中）→ 交 LLM
+                    # （对话界面里白箱是优先判断器，不是最终拦截器）
+                    whitebox_no_knowledge = bool(w.get("honest")) and not w.get("hits")
+                    if is_task or wants_rp or whitebox_no_knowledge:
+                        pass  # 走 LLM
+                    else:
+                        # 白箱回答完成：写入会话上下文
+                        self._session_ctx.setdefault(session_id, []).append(message)
+                        self._session_ctx[session_id].append(w["reply"])
+                        w["route"] = "whitebox"
+                        w["role_id"] = self.role_id
+                        return w
+            except Exception:
+                pass
+
+        # 2. 任务类 / 白箱未覆盖 → LLM + 角色扮演注入
+        role_block = self._role_system()
+        sys_parts = []
+        if role_block:
+            sys_parts.append(role_block)
+        if mem_notes:
+            sys_parts.append("相关记忆（灵枢长期记忆召回）：\n" + "\n".join(f"- {m}" for m in mem_notes))
+        sys_parts.append(
+            "你是灵枢——白箱判定的扮演者。遵循注入的角色设定与诚实边界。"
+            "涉及物理事实/能力边界如实声明，不扮演。")
+        system = "\n\n".join(sys_parts)
+
+        reply = self._llm(system, message)
+
+        # 3. 写入记忆与上下文
+        try:
+            self.mem.remember(
+                f"[对话 {session_id}] 用户：{message[:80]}｜灵枢：{reply[:80]}",
+                importance=0.5, tags=["session", "chat", f"sess:{session_id}"])
+        except Exception:
+            pass
+        self._session_ctx.setdefault(session_id, []).append(message)
+        self._session_ctx[session_id].append(reply)
+
+        return {"reply": reply, "route": "llm", "role_id": self.role_id,
+                "memories": len(mem_notes)}
+
+    def close(self) -> None:
+        try:
+            self.mem.close()
+        except Exception:
+            pass
+        if self.rp:
+            try:
+                self.rp.close()
+            except Exception:
+                pass
+
+
+def _machine_env(name: str) -> str:
+    """从 Machine/User 环境读取 key（会话级 env 可能未加载）。"""
+    for scope in ("Machine", "User"):
+        try:
+            import ctypes
+            v = os.environ.get(name)
+            if v:
+                return v
+        except Exception:
+            pass
+    # 直接读注册表环境（Windows）
+    try:
+        import winreg
+        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
+                            r"SYSTEM\CurrentControlSet\Control\Session Manager\Environment") as k:
+            v, _ = winreg.QueryValueEx(k, name)
+            return v or ""
+    except Exception:
+        return ""
+
+
+def _is_roleplay_intent(message: str) -> bool:
+    """判断消息是否为角色扮演意图（有 role_id 时，扮演场景交给 LLM）。
+
+    扮演场景关键词：扮演/角色/演/你是什么/你是谁/换个人设/角色扮演/OC。
+    注意：不与诚实边界冲突——诚实边界由 LLM 注入的 rp_honest 机制承载
+    （「能扮演神吗」→ LLM 回答「不能，这触碰诚实边界」而非白箱直接拦截）。
+    """
+    words = ["扮演", "角色扮演", "演一个", "演个", "人设", "你是什",
+             "你是谁", "换个性", "假装", "cosplay", "oc", "OOC",
+             "角色", "戏精", "代入", "你是谁扮演", "你扮演"]
+    return any(w in message for w in words)
