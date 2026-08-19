@@ -192,11 +192,147 @@ class RolePlayEngine:
         return {"role_id": role_id, "added": len(added), "node_ids": added}
 
     # ------------------------------------------------------------------
+    # 编辑能力（编辑模式·开发者权限 ROLEPLAY_EDIT_KEY）
+    # ------------------------------------------------------------------
+    # 权限分层（荣终裁 2026-08-19）：
+    #   交互模式（默认）  人设只读，仅对话
+    #   编辑模式          需 ROLEPLAY_EDIT_KEY（开发者密码）→ 增/改/删角色人设
+    #                     角色人设是「嵌套条件空间内的扮演设定」，无需设计者
+    #                     最高权限；修改灵枢自身锚点才需设计者验证（AEIS_DESIGNER_KEY）
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def check_edit_key(key: str) -> bool:
+        """编辑模式权限校验：ROLEPLAY_EDIT_KEY 环境变量（fail-closed）。"""
+        expected = os.environ.get("ROLEPLAY_EDIT_KEY", "")
+        if not expected:
+            return False  # 未配置编辑密钥 → 编辑模式关闭（fail-closed）
+        return key == expected
+
+    def list_anchors(self, role_id: str) -> List[Dict[str, Any]]:
+        """列出角色当前全部锚点（含 node_id，供编辑定位）。"""
+        agent = self._agent(role_id)
+        out = []
+        for a in agent.engine.get_anchors():
+            out.append({"node_id": a.id, "content": a.content,
+                        "importance": a.importance})
+        return out
+
+    def update_anchor(self, role_id: str, node_id: str,
+                      content: str = None, importance: float = None) -> Dict:
+        """修改锚点内容（需编辑权限，调用方先 check_edit_key）。"""
+        agent = self._agent(role_id)
+        node = agent.engine.store.get_node(node_id)
+        if node is None or node.layer.value not in ("anchor", "self"):
+            return {"error": f"锚点不存在或不可编辑: {node_id}"}
+        # 直接 SQL 更新（store 无通用 update_node，走 conn）
+        sets, vals = [], []
+        if content is not None:
+            sets.append("content=?")
+            vals.append(str(content).strip())
+        if importance is not None:
+            sets.append("importance=?")
+            vals.append(float(importance))
+        if not sets:
+            return {"error": "无可更新字段"}
+        vals.append(node_id)
+        with agent.engine.store.conn:
+            agent.engine.store.conn.execute(
+                f"UPDATE nodes SET {', '.join(sets)} WHERE id=?", vals)
+        node2 = agent.engine.store.get_node(node_id)
+        return {"ok": True, "node_id": node_id,
+                "content": node2.content, "importance": node2.importance}
+
+    def delete_anchor(self, role_id: str, node_id: str) -> Dict:
+        """删除锚点（需编辑权限）。
+
+        引擎级 delete_node 对 IMMUTABLE_LAYERS（anchor/self）拒绝删除——
+        那是保护「不可遗忘」的默认防线；编辑模式下开发者已授权（check_edit_key），
+        角色人设是嵌套条件空间内的扮演设定，直接 SQL 删除覆盖保护。
+        """
+        agent = self._agent(role_id)
+        node = agent.engine.store.get_node(node_id)
+        if node is None or node.layer.value not in ("anchor", "self"):
+            return {"error": f"锚点不存在或不可删除: {node_id}"}
+        with agent.engine.store.conn:
+            agent.engine.store.conn.execute(
+                "DELETE FROM nodes WHERE id=?", (node_id,))
+            agent.engine.store.conn.execute(
+                "DELETE FROM edges WHERE source_id=? OR target_id=?",
+                (node_id, node_id))
+        n = self._meta.get(role_id, {}).get("anchors", 0)
+        self._meta[role_id]["anchors"] = max(0, n - 1)
+        self._save_meta()
+        return {"ok": True, "node_id": node_id}
+
+    def clear_role(self, role_id: str, kind: str = "all") -> Dict:
+        """清空角色人设（all/anchor/values/memory；需编辑权限）。
+
+        编辑模式下整体重写人设用（先清后导）。锚点层 delete 需逐节点
+        （IMMUTABLE_LAYERS 保护由引擎层处理，此处是开发者编辑授权）。"""
+        agent = self._agent(role_id)
+        removed = {"anchor": 0, "values": 0, "memory": 0}
+        # 锚点（编辑授权下直接 SQL 删除，覆盖 IMMUTABLE_LAYERS 保护）
+        if kind in ("all", "anchor"):
+            for a in agent.engine.get_anchors():
+                try:
+                    with agent.engine.store.conn:
+                        agent.engine.store.conn.execute(
+                            "DELETE FROM nodes WHERE id=?", (a.id,))
+                        agent.engine.store.conn.execute(
+                            "DELETE FROM edges WHERE source_id=? OR target_id=?",
+                            (a.id, a.id))
+                    removed["anchor"] += 1
+                except Exception:
+                    pass
+        # 价值观（STRUCTURE 层 val-spec 标签）
+        if kind in ("all", "values"):
+            try:
+                from .core import MemoryLayer
+                for n in agent.engine.store.query_nodes(layer=MemoryLayer.STRUCTURE, limit=100):
+                    if "val-spec" in (n.tags or []):
+                        try:
+                            agent.engine.store.delete_node(n.id)
+                            removed["values"] += 1
+                        except Exception:
+                            pass
+            except Exception:
+                pass
+        # 记忆（KNOWLEDGE 层 roleplay 标签）
+        if kind in ("all", "memory"):
+            try:
+                from .core import MemoryLayer
+                for n in agent.engine.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=200):
+                    if "roleplay" in (n.tags or []) and f"role:{role_id}" in (n.tags or []):
+                        try:
+                            agent.engine.store.delete_node(n.id)
+                            removed["memory"] += 1
+                        except Exception:
+                            pass
+            except Exception:
+                pass
+        m = self._meta.get(role_id, {})
+        if kind in ("all", "anchor"):
+            m["anchors"] = 0
+        if kind in ("all", "values"):
+            m["values"] = 0
+        if kind in ("all", "memory"):
+            m["memories"] = 0
+        self._save_meta()
+        return {"ok": True, "removed": removed}
+
+    # ------------------------------------------------------------------
     # 接口三：特化价值观导入（价值观 → STRUCTURE 层，带适用条件）
     # ------------------------------------------------------------------
 
     def import_values(self, role_id: str,
                       values: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """导入特化价值观（条件化价值，带适用条件）。
+
+        values: [{"name": str, "condition": str, "priority": int, "body": str}, ...]
+        condition = 触发条件（条件空间即触发时机——注入极性定律：
+        带条件规则在触发点注入，不无条件堆砌）
+        """
         """导入特化价值观（条件化价值，带适用条件）。
 
         values: [{"name": str, "condition": str, "priority": int, "body": str}, ...]
