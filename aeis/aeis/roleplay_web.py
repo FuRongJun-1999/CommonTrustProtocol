@@ -307,7 +307,7 @@ document.getElementById("btnManage").onclick = async () => {
     const delBtn = editMode ? `  [删:${a.node_id.slice(-6)}]` : "";
     return `${i + 1}. ${a.content}${delBtn}`;
   });
-  editOut.textContent = lines.join("\n") + (editMode ? "\n\n（删除格式：输「删:<后6位>」后点查看）" : "\n\n（编辑模式可删除）");
+  editOut.textContent = lines.join("\\n") + (editMode ? "\\n\\n（删除格式：输「删:<后6位>」后点查看）" : "\\n\\n（编辑模式可删除）");
   if (editMode) {
     const delId = prompt("输入要删除的锚点后 6 位：");
     if (delId) {
