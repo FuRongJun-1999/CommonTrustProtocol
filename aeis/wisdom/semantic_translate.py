@@ -780,12 +780,19 @@ def graph_retrieve(dex, question, limit=10):
     #     字面分低置信，神经分才是真语义（「1+1」→小学数学 fast 仅 0.03，
     #     神经 0.616——若按强命中通道会把小学数学拖输给线性代数）
     #   神经层独有卡：0.4×neural（快速层空转时才生效，权重降低防噪声反超）
+    # v1.16 修复（2026-08-19）：神经层高置信（≥0.6）时优先——
+    # 「圆的周长」快速层错配初中地理 2.04（强命中 0.503）压过神经层
+    # 正确「圆的周长与面积」0.703（0.281）。语义层高置信应盖过快
+    # 速层字面噪声（错误卡靠学科路由硬加权拿高分）。
     for h in merged:
         name = h['name']
         neural = neural_map.get(name, 0.0)
         h['neural_score'] = round(neural, 3)
         fast_raw = h.get('score', 0.0) or 0.0
-        if fast_raw >= 0.8:
+        if neural >= 0.6 and fast_raw < 0.8:
+            # 神经层高置信 + 快速层弱/无 → 语义优先
+            h['score'] = round(0.85 * neural + 0.15 * fast_raw / (1.0 + fast_raw), 3)
+        elif fast_raw >= 0.8:
             fast_abs = fast_raw / (1.0 + fast_raw)
             h['score'] = round(0.75 * fast_abs + 0.25 * neural, 3)
         elif fast_raw > 0:
@@ -828,6 +835,36 @@ def graph_retrieve(dex, question, limit=10):
     try:
         fp_q = encode(question)
         for h in merged[:3]:
+            # v1.16 修复（2026-08-19）：神经层条目（node_subject_xxx·知识点名）
+            # 是知识点节点——直接从知识点内容取答案，不走卡名递归
+            # （卡名递归查不到 node_subject 前缀的知识点节点 → ans=None）。
+            _nm = h.get("name", "")
+            if _nm.startswith(("node_subject_", "node_stage_")):
+                # 从「卡前缀·知识点名」定位知识点节点（kp_xxx + card:<前缀> 标签）
+                _parts = _nm.split("·")
+                _card_prefix = _parts[0]
+                _kp_name = _parts[-1] if len(_parts) > 1 else _nm
+                _row = None
+                try:
+                    _row = dex.store.conn.execute(
+                        "SELECT content FROM nodes WHERE tags LIKE ? AND tags LIKE ? "
+                        "AND state_attributes LIKE ? LIMIT 1",
+                        ('%knowledge_point%', '%card:' + _card_prefix + '%',
+                         '%"name": "' + _kp_name + '"%')).fetchone()
+                except Exception:
+                    _row = None
+                if _row and _row[0]:
+                    _c = _row[0].strip()
+                    # 智能截断（160 字符内分号边界）
+                    _cut = 160
+                    if len(_c) > _cut:
+                        _seg = _c[:_cut]
+                        _cut_at = max(_seg.rfind("；"), _seg.rfind("。"),
+                                      _seg.rfind("，"), _seg.rfind(";"))
+                        _c = _seg[:_cut_at + 1] if _cut_at > 60 else _seg
+                    h['direct_answer'] = _c
+                    h['name'] = _kp_name  # 规范化显示名
+                continue
             # 1) 卡内条目递归（强共现，如「串联电路」→ head 引言即答案）
             _ans, _sc = recursive_item_answer(dex, h.get("name", ""), fp_q, question)
             # 2) REVERSE_DAILY：焦点词（问题中位置最靠后的规范词）的人话答案
