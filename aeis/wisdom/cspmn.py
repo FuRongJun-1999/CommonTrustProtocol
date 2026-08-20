@@ -54,6 +54,8 @@ class CSPMN:
         self._domains = []
         self._edus = []
         self._gpu = None          # GPU 张量（None = 未启用）
+        self._dirty = False       # 增量修改标记（strengthen/inject 后置 True）
+        self._load_error = None   # load() 失败原因（暴露，不静默）
         self._d_norm = 0.5        # 信息差（默认中性，接入引擎后更新）
         self._gap_trend = 0.0     # 信息差趋势（>0 扩大，<0 收敛）
         self.load()
@@ -61,19 +63,39 @@ class CSPMN:
     # ---------------- 索引加载 ----------------
 
     def load(self) -> bool:
-        """加载 neural_index.npz → 归一化向量。"""
+        """加载 neural_index.npz → 归一化向量。
+
+        失败不静默：_load_error 记录原因，_vectors 保持 None，
+        search/info 抛清晰错误（而非底层 ValueError: matmul）。
+        """
+        self._load_error = None
         try:
             import numpy as np
             data = np.load(self.index_path, allow_pickle=True)
             vecs = data["vectors"].astype(np.float32)
+            if vecs.ndim != 2 or vecs.shape[0] == 0:
+                self._load_error = f"索引维度异常: {vecs.shape}"
+                return False
             norm = np.linalg.norm(vecs, axis=1, keepdims=True)
             self._vectors = vecs / np.maximum(norm, 1e-9)
             self._names = list(data["names"])
             self._domains = list(data["domains"])
             self._edus = list(data["edus"])
             return True
-        except Exception:
-            return False
+        except FileNotFoundError:
+            self._load_error = f"索引不存在: {self.index_path}"
+        except KeyError as e:
+            self._load_error = f"索引缺字段: {e}（需 vectors/names/domains/edus）"
+        except Exception as e:
+            self._load_error = f"索引加载失败: {e}"
+        return False
+
+    def _require_loaded(self) -> None:
+        """search/inject 前置：索引未加载 → 清晰报错（不抛底层 ValueError）。"""
+        if self._vectors is None:
+            raise RuntimeError(
+                f"CSPMN 索引未加载: {self._load_error or '未知原因'}"
+                f"（路径: {self.index_path}）")
 
     # ---------------- 后端决策（规模感知） ----------------
 
@@ -117,6 +139,7 @@ class CSPMN:
         depth: 调用深度（None → 信息差驱动自动决策）
         返回 [{name, score, domain, edu}]
         """
+        self._require_loaded()
         import numpy as np
         sims = self._match(query_vec)
         # 条件空间过滤（CSPRE：跳过无关 domain）
@@ -180,6 +203,7 @@ class CSPMN:
         vec: 新知识卡的条件空间向量（bge 编码）
         返回 {status, N_after, matched_boost}——新子实例与查询的匹配度
         """
+        self._require_loaded()
         import numpy as np
         v = np.asarray(vec, dtype=np.float32).reshape(1, -1)
         nrm = np.linalg.norm(v)
@@ -195,16 +219,34 @@ class CSPMN:
             self._gpu = torch.cat([self._gpu, torch.from_numpy(v / nrm).cuda()], dim=0)
         return {"status": "injected", "N_after": len(self._names)}
 
-    def strengthen(self, idx: int, eta: float = 0.05) -> None:
-        """Hebbian 增强：命中正确的子实例向量微调（向查询方向靠拢）。"""
+    def strengthen(self, idx: int, qvec, eta: float = 0.05) -> None:
+        """Hebbian 增强：命中正确的子实例向查询方向微调（真实实现）。
+
+        v_i ← normalize(v_i + η·q)——被查询证实相关的子实例，其条件
+        向量向该查询方向靠拢（局部强化，非梯度下降）。
+        """
+        self._require_loaded()
         import numpy as np
-        self._vectors[idx] = self._vectors[idx] * (1 - eta) + 0.0  # 占位：需外部查询向量
-        # 实际增强逻辑：v_i ← normalize(v_i + η·q)（待接入）
+        q = np.asarray(qvec, dtype=np.float32).flatten()
+        if q.size == 0 or idx < 0 or idx >= len(self._names):
+            raise IndexError(f"strengthen 越界: idx={idx}, N={len(self._names)}")
+        v = self._vectors[idx] + eta * q / max(float(np.linalg.norm(q)), 1e-9)
+        n = float(np.linalg.norm(v))
+        if n > 1e-9:
+            self._vectors[idx] = v / n
         self._dirty = True
+        # GPU 同步（若启用）
+        if self._gpu is not None:
+            import torch
+            self._gpu[idx] = torch.from_numpy(self._vectors[idx]).cuda()
 
     # ---------------- 状态 ----------------
 
     def info(self) -> dict:
+        if self._vectors is None:
+            return {"sub_instances": 0, "dim": 0, "backend": "unloaded",
+                    "requested": self.backend, "load_error": self._load_error,
+                    "d_norm": self._d_norm, "gap_trend": self._gap_trend}
         backend = ("gpu" if self.backend == "gpu" and _has_gpu_torch()
                    else "cpu" if self.backend == "cpu"
                    else "gpu" if self._gpu is not None
