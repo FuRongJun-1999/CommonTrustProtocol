@@ -105,7 +105,10 @@ HONEST_BOUNDARY = [
     # 读心（无法知道他人/他物心思）
     (["我在想什么", "猫在想什么", "狗在想什么", "他在想什么",
       "她在想什么", "它想什么", "我的心思", "我在想", "知道我想什么",
-      "知道我在想什么", "知道我的心思", "我想什么", "我心里想什么"], "mind"),
+      "知道我在想什么", "知道我的心思", "我想什么", "我心里想什么",
+      "是不是喜欢", "喜不喜欢", "是不是爱我", "喜不喜欢我", "是不是讨厌"], "mind"),
+    # 世界末日（未来不可验证，不能预测）
+    (["世界末日", "什么时候结束", "地球什么时候毁灭", "末日"], "future"),
 ]
 
 # 歧义词多义表（v1.16 知识边界：语境不确定时列举各义，而非单选）
@@ -645,13 +648,21 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
                 "honest": True, "honest_kind": hb_kind}
 
     # 0. 闲聊/无实义分支（不检索，避免寒暄命中知识卡）
-    for words, reply_text in CHITCHAT:
-        if any(w in message for w in words):
-            return {"reply": reply_text, "hits": [], "emotion": None,
-                    "honest": False, "chitchat": True}
-    if message in NOISE_SHORT:
-        return {"reply": "嗯嗯，我听着呢～想聊什么继续？", "hits": [],
-                "emotion": None, "honest": False, "chitchat": True}
+    # v1.21 修复（2026-08-20 T2 错题）：场景闲聊词（下雨/手机没电/睡觉）
+    # 在知识检索前拦截，「为什么下雨要打伞？」「为什么手机没电要充电？」
+    # 这类知识疑问句被闲聊兜底吞掉 → keys 0 分。修复：疑问句（为什么/
+    # 怎么/是什么/怎么理解）不闲聊，放行到知识检索。
+    _is_knowledge_q = any(w in message for w in
+                          ["为什么", "怎么", "是什么", "什么是", "多少",
+                           "怎么理解", "是什么意思", "什么原理", "怎么办"])
+    if not _is_knowledge_q:
+        for words, reply_text in CHITCHAT:
+            if any(w in message for w in words):
+                return {"reply": reply_text, "hits": [], "emotion": None,
+                        "honest": False, "chitchat": True}
+        if message in NOISE_SHORT:
+            return {"reply": "嗯嗯，我听着呢～想聊什么继续？", "hits": [],
+                    "emotion": None, "honest": False, "chitchat": True}
 
     # 0.5 记忆询问（「刚才/记得/之前」→ 先查灵枢长期层，再查进程 dict）
     memory_words = ["刚才", "记得", "之前", "刚才说了", "刚才聊", "我说过",
