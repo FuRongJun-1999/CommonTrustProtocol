@@ -866,6 +866,88 @@ def _domain_matches(domain_filter: str, node_domain: str) -> bool:
     return bool(dm and (dm in node_domain or node_domain in dm))
 
 
+# 通用疑问词/虚词（第二层条目导航用：不参与焦点词提取）
+_FOCUS_STOP = ("什么", "怎么", "为什么", "多少", "哪些", "哪个", "如何", "是",
+               "的", "了", "吗", "呢", "啊", "呀", "吧", "求", "公式", "内容",
+               "定义", "解释", "请", "给", "一下", "分别", "之间的", "关系")
+
+
+def _extract_focus_words(question: str) -> list:
+    """提取问题焦点词（第二层条目导航）：问题实义词（≥2字窗口），
+    用于校验 direct_answer 是否回应问题（子条件分析）。
+
+    「三角形的内角和是多少度？」→ 焦点词含「内角」「三角形」
+    「一元二次方程求根公式」→ 「求根」「方程」
+    空 → 不干预（保守：无法提取焦点时不做条目降权）
+    """
+    if not question:
+        return []
+    try:
+        import re as _re
+        chars = [c for c in question if "\u4e00" <= c <= "\u9fff"]
+        focus = set()
+        # 4字/3字窗口（实义词），跳过含疑问词的窗口
+        for L in (4, 3):
+            for i in range(len(chars) - L + 1):
+                w = "".join(chars[i:i + L])
+                if any(s in w for s in _FOCUS_STOP):
+                    continue
+                focus.add(w)
+        # 2字窗口补（「内角」「求根」）
+        for i in range(len(chars) - 1):
+            w = "".join(chars[i:i + 2])
+            if w not in ("是什么", "多少", "怎么", "为什么", "公式", "内容",
+                         "定义", "关系", "分别", "之间", "一下", "多少度"):
+                focus.add(w)
+        # 长度优先排序（更长的焦点词更精确）
+        return sorted(focus, key=lambda x: -len(x))[:8]
+    except Exception:
+        return []
+
+
+def _extract_tail_focus(question: str) -> list:
+    """提取问题【尾部焦点词】（v1.19 第二层条目导航核心）：
+
+    答案焦点通常在句尾实义词——「内角和是多少度」→「内角和」、
+    「求根公式」→「求根」、「通项公式」→「通项」。题干主语
+    （三角形/方程/水）不算焦点（面积条目也含「三角形」但非答案焦点）。
+
+    从问题末尾往前扫，找第一个未被疑问词污染的 ≥2 字实义词。
+    返回列表（可能多个），空 → 不干预。
+    """
+    if not question:
+        return []
+    try:
+        import re as _re
+        # 去标点/数字，保留中文
+        text = _re.sub(r"[^\u4e00-\u9fff]", "", question)
+        if not text:
+            return []
+        focus = set()
+        # 从末尾往前：取最后 8 字符窗口，优先末位实义词
+        # （「求根公式」→求根；「通项公式」→通项——公式是后缀词，
+        #  实义词在公式前）。跳过疑问词/泛词。
+        tail = text[-8:]
+        for L in (4, 3, 2):
+            for i in range(len(tail) - L + 1):
+                w = tail[i:i + L]
+                if any(s in w for s in ("是什么", "多少", "怎么", "为什么",
+                                        "多少度", "是多少", "等于")):
+                    continue
+                # 「X公式/X定义/X内容」→ 取 X（公式前的实义词）
+                if w.endswith(("公式", "定义", "内容")):
+                    w = w[:-2]
+                if len(w) < 2:
+                    continue
+                if w in ("三角形", "方程", "水的", "一个", "什么", "的", "是"):
+                    continue
+                focus.add(w)
+        # 优先长词（更精确），最多返回 3 个
+        return sorted(focus, key=lambda x: -len(x))[:3]
+    except Exception:
+        return []
+
+
 def graph_retrieve(dex, question, limit=10):
     """知识整体图谱检索（普通人日常话 → 学科知识卡）。
 
@@ -1084,6 +1166,26 @@ def graph_retrieve(dex, question, limit=10):
             # 带条件空间声明的返回（白箱可解释）
             for h in merged[:limit]:
                 h['cond_space'] = _df
+    except Exception:
+        pass
+    # 第二层条目导航（v1.19 · 2026-08-20 荣：条目错配=递归中的子条件分析
+    # 错误——第一层路由到学科域，第二层要路由到条目）。
+    # 用问题【尾部焦点词】校验 direct_answer：句尾实义词是答案焦点
+    # （「内角和是多少度」→内角和；「求根公式」→求根），题干主语
+    # （三角形/方程）不算——面积条目含「三角形」但非答案焦点。
+    # 不回应尾焦点的 direct（内角和→面积、求根→一元一次）降权。
+    try:
+        _tail_focus = _extract_tail_focus(question)
+        if _tail_focus:
+            for h in merged:
+                d = h.get("direct_answer") or ""
+                if d and not any(f in d for f in _tail_focus):
+                    h['score'] = round(h['score'] * 0.7, 4)
+            # 含焦点的卡直接排前（不只降权——避免降权后空 direct 卡上位）
+            merged.sort(key=lambda x: (
+                0 if (x.get("direct_answer") or "") and any(
+                    f in x["direct_answer"] for f in _tail_focus) else 1,
+                -x.get("score", 0)))
     except Exception:
         pass
     _record_chain_heat([h['name'] for h in merged[:3]])
