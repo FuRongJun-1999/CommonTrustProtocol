@@ -1188,6 +1188,36 @@ def graph_retrieve(dex, question, limit=10):
                 -x.get("score", 0)))
     except Exception:
         pass
+    # 第三层路由（v1.20 · 2026-08-20 荣：对话集——过去有人问过类似问题，
+    # 寻路方式是怎样；形成长期记忆/技能；白箱绑定灵枢）。
+    # 触发：第一/二层路由结果不佳（top score < 0.5 = 检索弱/可能盲区）
+    # 时，查历史经验库（route_memory）：语义相似问题 → 已验证路径补强
+    # （荣：不随意切片，在可能的语义中匹配——bge 语义余弦）。
+    # 防固化错误：仅取 verified=True 的历史路径；无匹配或未验证 → 不干预。
+    try:
+        _top_score = merged[0].get("score", 0) if merged else 0
+        if _top_score < 0.5:
+            from route_memory import RouteMemory
+            _rm = RouteMemory()
+            _hist = _rm.recall(question, threshold=0.6)
+            if _hist:
+                _best = _hist[0]
+                if _best.get("verified"):
+                    # 历史已验证路径 → 把链上卡名加入 merged（提升命中）
+                    _hist_names = _best.get("chain", [])
+                    for h in merged:
+                        if h.get("name") in _hist_names:
+                            h['score'] = round(min(1.0, h['score'] + 0.3), 4)
+                    merged.sort(key=lambda x: -x['score'])
+                    # 记录本次查询（经验库更新——白箱绑定灵枢）
+                    try:
+                        _rm.record(question,
+                                   [h.get("name", "") for h in merged[:3]],
+                                   verified=False)  # 本次未经验证，待验证
+                    except Exception:
+                        pass
+    except Exception:
+        pass
     _record_chain_heat([h['name'] for h in merged[:3]])
     return merged[:limit]
 
