@@ -957,15 +957,17 @@ def _extract_tail_focus(question: str) -> list:
         for L in (4, 3, 2):
             for i in range(len(tail) - L + 1):
                 w = tail[i:i + L]
-                if any(s in w for s in ("是什么", "多少", "怎么", "为什么",
-                                        "多少度", "是多少", "等于")):
+                # 含疑问词/结构词的窗口丢弃（碎片「公式是/是什/什么是」不是焦点）
+                if any(s in w for s in ("什么", "多少", "怎么", "为什么",
+                                        "多少度", "是多少", "等于", "公式是",
+                                        "是什", "的什么", "一个", "是", "么")):
                     continue
                 # 「X公式/X定义/X内容」→ 取 X（公式前的实义词）
                 if w.endswith(("公式", "定义", "内容")):
                     w = w[:-2]
                 if len(w) < 2:
                     continue
-                if w in ("三角形", "方程", "水的", "一个", "什么", "的", "是"):
+                if w in ("三角形", "方程", "水的", "一个", "的", "是"):
                     continue
                 focus.add(w)
         # 优先长词（更精确），最多返回 3 个
