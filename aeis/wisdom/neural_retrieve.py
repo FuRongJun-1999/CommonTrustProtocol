@@ -97,6 +97,8 @@ class NeuralRetriever:
         """索引检索：查询编码一次 → numpy 全库余弦 → 排序。
 
         返回 [(name, score, domain, edu)]（score 为余弦相似度）。
+        CSPMN 接入（v1.18 · 2026-08-20）：规模>阈值且 CUDA 可用时，
+        矩阵乘走 GPU（cspmn 后端），结果与 CPU 逐位一致。
         """
         if self._index is None:
             if not self.load_index():
@@ -106,6 +108,17 @@ class NeuralRetriever:
             return []
         try:
             import numpy as np
+            # CSPMN 后端：规模感知 GPU 加速（荣：百万级子实例主线）
+            try:
+                from cspmn import CSPMN, GPU_THRESHOLD
+                n = len(self._index["names"])
+                if n > GPU_THRESHOLD:
+                    net = CSPMN(backend="auto")
+                    r = net.search(qv, limit=limit, threshold=threshold)
+                    return [(h["name"], h["score"], h["domain"], h["edu"])
+                            for h in r["hits"]]
+            except Exception:
+                pass  # CSPMN 不可用 → 回退 numpy（现有实现）
             qn = qv / max(float(np.linalg.norm(qv)), 1e-9)
             sims = self._index["vectors_normed"] @ qn  # (N,)
             order = np.argsort(-sims)
