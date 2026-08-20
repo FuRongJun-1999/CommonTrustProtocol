@@ -2,3 +2,5 @@ plugins/dsh-memory/*.tgz
 
 __pycache__/
 *.pyc
+
+logs/
