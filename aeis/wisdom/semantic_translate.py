@@ -759,7 +759,75 @@ QUESTION_DOMAIN_PRIORS = {
                 "递归", "Python", "调试", "bug", "Bug", "多线程", "线程",
                 "封装", "继承", "多态", "算法", "数据结构", "数组", "指针",
                 "面向对象", "对象", "类", "语法", "编译", "解释型", "GIL"],
+    # v1.18 数学域先验（2026-08-20 CSPRE Step1 补缺）：
+    # 「圆的周长/三角形内角和/概率」等常见数学定义题此前未命中（DOMAIN_ROUTE
+    # 只有 加法/勾股定理/等差数列 等）→ 补数学高频词，扩大导航覆盖
+    "数学": ["周长", "面积", "内角", "三角形", "圆", "概率", "质数", "偶数",
+            "奇数", "方程", "函数定义", "导数", "积分", "数列", "定理",
+            "公理", "几何", "代数", "微积分", "矩阵", "向量", "概率论"],
+    "化学": ["酸碱", "中和", "化学变化", "元素", "分子", "原子", "化合物",
+            "溶液", "氧化还原", "电解", "燃烧", "催化剂", "盐"],
+    "生物学": ["光合作用", "细胞", "基因", "遗传", "生物", "进化", "生态",
+              "免疫", "神经", "植物", "动物", "微生物"],
 }
+
+
+def classify_condition_space(question: str) -> dict:
+    """学科级条件空间识别（CSPRE Step1 · 2026-08-20）。
+
+    问题 → 学科域（条件空间）硬分类：
+      1. DOMAIN_ROUTE 规范词命中（翻译表：俗语→规范词→学科域）
+      2. QUESTION_DOMAIN_PRIORS 问题关键词命中
+      3. 均未命中 → {"domain": None, "confidence": 0, "nav": False}
+
+    返回 {domain, confidence, matched}——domain=None 表示无法分类
+    （走全库检索 + 诚实边界，不做定向导航）。
+    """
+    # 1. 翻译表规范词 → 学科域（DOMAIN_ROUTE 已有，如 沸腾→物理学）
+    route_hits = []
+    try:
+        fp = encode(question)
+        for term, dom in DOMAIN_ROUTE.items():
+            if term in fp:
+                route_hits.append((dom, fp.get(term, 1.0)))
+    except Exception:
+        route_hits = []
+    # 2. 问题关键词先验 → 学科域
+    prior_hits = []
+    for dom, kws in QUESTION_DOMAIN_PRIORS.items():
+        hit_kws = [k for k in kws if k in question]
+        if hit_kws:
+            prior_hits.append((dom, len(hit_kws)))
+    # 合并：翻译表命中优先（确定性），先验补充
+    best = None
+    if route_hits:
+        # 多命中取最高权重
+        from collections import Counter
+        dom_score = Counter()
+        for dom, w in route_hits:
+            dom_score[dom] += w
+        top_dom, top_w = dom_score.most_common(1)[0]
+        best = {"domain": top_dom, "confidence": min(1.0, 0.6 + 0.1 * top_w),
+                "matched": [d for d, _ in route_hits], "nav": True}
+    elif prior_hits:
+        prior_hits.sort(key=lambda x: -x[1])
+        top_dom, n = prior_hits[0]
+        best = {"domain": top_dom,
+                "confidence": min(1.0, 0.5 + 0.1 * n),
+                "matched": [d for d, _ in prior_hits], "nav": True}
+    if best is None:
+        return {"domain": None, "confidence": 0.0, "matched": [],
+                "nav": False}
+    return best
+
+
+def _domain_matches(domain_filter: str, node_domain: str) -> bool:
+    """学科域匹配（宽松）：「数学」匹配「初中数学/高中数学/数学分析…」。
+    去「学」后缀双向包含（与 v1.16 先验校正一致）。"""
+    if not domain_filter or not node_domain:
+        return True
+    dm = domain_filter.rstrip("学")
+    return bool(dm and (dm in node_domain or node_domain in dm))
 
 
 def graph_retrieve(dex, question, limit=10):
@@ -963,6 +1031,23 @@ def graph_retrieve(dex, question, limit=10):
                 id_by_name[_nm] = _n.id
         for h in merged:
             h['id'] = id_by_name.get(h['name'])
+    except Exception:
+        pass
+    # CSPRE 学科级导航（v1.18 · 2026-08-20）：分类命中 → 非目标学科降权
+    # （「什么是函数呀」→编程域 → 数学卡 ×0.75，压跨学科噪声；
+    #  分类未命中 nav=False → 不干预，走全库+诚实边界）
+    try:
+        _cs = classify_condition_space(question)
+        if _cs.get("nav"):
+            _df = _cs["domain"]
+            for h in merged:
+                hdom = h.get("domain") or ""
+                if not _domain_matches(_df, hdom):
+                    h['score'] = round(h['score'] * 0.75, 4)
+            merged.sort(key=lambda x: -x['score'])
+            # 带条件空间声明的返回（白箱可解释）
+            for h in merged[:limit]:
+                h['cond_space'] = _df
     except Exception:
         pass
     _record_chain_heat([h['name'] for h in merged[:3]])
