@@ -14,7 +14,34 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = r'D:\Program Files\2_ai\CommonTrustProtocol\aeis\models\bge-small-zh-v1.5'
+# v1.22 可移植性修复（2026-08-20 · 外部测试报告 P0-2）：
+# 原硬编码作者本机模型路径 → 换机器即失效（模型不可用 → 神经层整体降级）。
+# 改为环境变量 AEIS_BGE_PATH 优先，再按候选路径自动探测（仓库内 models/
+# 相对路径 + 随包目录），最后才落到作者本机路径。
+_AEIS_BGE_DEFAULT = os.environ.get(
+    'AEIS_BGE_PATH',
+    r'D:\Program Files\2_ai\CommonTrustProtocol\aeis\models\bge-small-zh-v1.5')
+def _probe_bge_path():
+    """探测 bge 模型目录：环境变量（显式指定即用，不探测）>
+    仓库相对 > 随包相对 > 本机默认。"""
+    env_p = os.environ.get('AEIS_BGE_PATH', '').strip()
+    if env_p:
+        return env_p  # 用户显式指定 → 用用户的（可移植性契约）
+    cands = [
+        _AEIS_BGE_DEFAULT,
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                     'models', 'bge-small-zh-v1.5'),
+        os.path.join(HERE, 'models', 'bge-small-zh-v1.5'),
+    ]
+    for p in cands:
+        try:
+            if os.path.isdir(p) and os.path.exists(
+                    os.path.join(p, 'config.json')):
+                return p
+        except Exception:
+            continue
+    return _AEIS_BGE_DEFAULT
+MODEL_PATH = _probe_bge_path()
 INDEX_NPZ = os.path.join(HERE, 'neural_index.npz')
 INDEX_META = os.path.join(HERE, 'neural_index.json')
 

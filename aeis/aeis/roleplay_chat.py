@@ -46,8 +46,17 @@ from .api import Agent
 # 角色扮演引擎
 from .roleplay import RolePlayEngine
 # 白箱（智慧之书 chat_engine）
+# v1.22 可移植性修复（2026-08-20 · 外部测试报告 P0-1）：
+# 原硬编码作者本机 site-packages 路径 → 非作者机器 _WISDOM_OK=False，
+# 角色扮演白箱优先机制整体失效。改为仓库内相对路径优先
+# （aeis/wisdom 或 site-packages/wisdom），全部 try/except。
 try:
-    sys.path.insert(0, r"C:\Users\FuRongJun\AppData\Local\Programs\Python\Python310\lib\site-packages\wisdom")
+    _pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    for _wdir in (os.path.join(_pkg_root, "wisdom"),
+                  os.path.join(os.path.dirname(_pkg_root), "wisdom"),
+                  r"C:\Users\FuRongJun\AppData\Local\Programs\Python\Python310\lib\site-packages\wisdom"):
+        if os.path.isdir(_wdir) and _wdir not in sys.path:
+            sys.path.insert(0, _wdir)
     import chat_engine as _wisdom_chat
     _WISDOM_OK = True
 except Exception:

@@ -63,6 +63,15 @@ class ConditionSpace:
     @classmethod
     def from_json(cls, s: str) -> 'ConditionSpace':
         d = json.loads(s)
+        # v1.22 健壮性：外部卡 condition_space 可能缺字段 → 补默认
+        # （否则 KeyError/TypeError 崩掉整条检索链）
+        d.setdefault('observation_position', '外部观测位')
+        d.setdefault('observation_tool', '文本语义分析')
+        d.setdefault('existence_constraint', '（未声明）')
+        if 'time_window' not in d:
+            d['time_window'] = (0.0, 0.0)
+        elif not isinstance(d['time_window'], (tuple, list)):
+            d['time_window'] = (d['time_window'], d['time_window'])
         d['time_window'] = tuple(d['time_window'])
         return cls(**d)
 
@@ -1272,6 +1281,169 @@ class LayeredStore:
         node = self.get_node(node_id)
         if node and node.importance is not None and node.importance < floor:
             self.update_node_importance(node_id, round(floor - node.importance, 4))
+
+    # ==================== 洞察条件层（v1.0 引擎化 · 设计规格 lingshu-insight-layer-design.md） ====================
+
+    INSIGHT_DEFAULT_CONDITIONS = {
+        "memory_retrievability": 0.5,   # C1 记忆可得性
+        "outside_observer": "none",      # C2 外部观察者
+        "cross_domain": [],              # C3 跨域映射
+        "premise_questioned": False,     # C4 前提质疑
+        "pressure": "medium",            # C5 反思空间压力
+        "continuity_turns": 1,           # C6 连续性
+        "externalized": False,           # C7 外部化
+        "tone": "calm",                  # C8 情绪基调（P0-3 独立通道）
+    }
+
+    def _normalize_conditions(self, conditions: dict) -> dict:
+        """规范化条件快照（C1–C8 + confidence）：显式提供=0.7，默认值=0.3（未自动提取）。"""
+        vals = dict(self.INSIGHT_DEFAULT_CONDITIONS)
+        given = set()
+        if conditions:
+            for k, v in conditions.items():
+                if k in vals:
+                    vals[k] = v
+                    given.add(k)
+        conf = {k: (0.7 if k in given else 0.3) for k in vals}
+        return {"values": vals, "confidence": conf}
+
+    def insight_record(self, content: str, conditions: dict = None,
+                       source: str = "", importance: float = 0.7) -> Dict:
+        """记录洞见事件：insight_event 节点 + 条件快照（C1–C8）+ verification=pending。
+
+        conditions 可显式提供（自动提取待 I2 接入）；未提供时用中性默认 + 低置信。
+        """
+        now = time.time()
+        nid = f"insight_{uuid.uuid4().hex[:8]}_{int(now * 1000)}"
+        cond_pack = self._normalize_conditions(conditions)
+        sa = {"insight": {
+            "conditions": cond_pack,
+            "verification": {"level": None, "evidence": [], "status": "pending", "updated_at": now},
+            "source": source,
+        }}
+        node = STNode(
+            id=nid, content=f"【洞见事件】{content}", modality="text",
+            spatial_coordinates={}, temporal_coordinate=now,
+            condition_space=ConditionSpace(
+                "协议实例·认知循环", "洞察条件层记录",
+                (now, now + 3600), "协议实例运行中"),
+            importance=importance, confidence=0.5,
+            layer=MemoryLayer.KNOWLEDGE,
+            access_count=0, last_access=now, created_at=now,
+            tags=["insight_event", "pending", "insight-layer"],
+            semantic_coordinates={}, state_attributes=sa,  # dict（to_row 自行序列化）
+            entity_id=None,
+        )
+        self.add_node(node)
+        return {"node_id": nid, "status": "pending",
+                "conditions": cond_pack["values"], "importance": importance}
+
+    def insight_verify(self, insight_id: str, level: str = "V2",
+                       evidence: object = None) -> Dict:
+        """提交验证证据（§4.3）：V2/V3（或 V1 且证据≥3=多次复现）→ verified；否则 pending。
+
+        evidence 可为字符串或字符串列表（追加）。
+        """
+        node = self.get_node(insight_id)
+        if node is None or "insight_event" not in node.tags:
+            return {"error": f"非洞见事件节点: {insight_id}"}
+        now = time.time()
+        sa = node.state_attributes or {}
+        ins = sa.get("insight", {}) if isinstance(sa, dict) else {}
+        ver = ins.get("verification", {}) if isinstance(ins, dict) else {}
+        ev = list(ver.get("evidence", []))
+        if evidence:
+            add = evidence if isinstance(evidence, list) else [evidence]
+            ev = ev + [e for e in add if e not in ev]
+        level = (level or "").upper()
+        status = "pending"
+        if level in ("V2", "V3"):
+            status = "verified"
+        elif level == "V1":
+            status = "verified" if len(ev) >= 3 else "pending"
+        elif level in ("REFUTED", "X"):
+            status = "refuted"
+        ver = {"level": level, "evidence": ev, "status": status, "updated_at": now}
+        ins["verification"] = ver
+        sa["insight"] = ins
+        tags = [t for t in node.tags
+                if t not in ("pending", "verified", "refuted", "V1", "V2", "V3")]
+        tags += ["insight_event", status, level]
+        new_imp = node.importance
+        if status == "verified" and (new_imp is None or new_imp < 0.9):
+            new_imp = 0.9
+        c = self.conn.cursor()
+        c.execute("UPDATE nodes SET state_attributes=?, tags=?, importance=? WHERE id=?",
+                  (json.dumps(sa, ensure_ascii=False), json.dumps(tags, ensure_ascii=False),
+                   new_imp, insight_id))
+        self.conn.commit()
+        return {"node_id": insight_id, "level": level, "status": status,
+                "evidence_count": len(ev), "importance": new_imp}
+
+    def insight_report(self, window: int = None) -> Dict:
+        """CER 报告：条件有效洞见率（样本<20 不判定 · 2×SE 显著性 · P0-4 框架复用）。
+
+        候选=全部 insight_event 节点；验证状态优先读 state_attributes，
+        旧样本（无结构化 verification）按 tags 兜底（verified/refuted/pending）。
+        """
+        c = self.conn.cursor()
+        c.execute("SELECT id, tags, state_attributes FROM nodes WHERE tags LIKE '%insight_event%'")
+        rows = c.fetchall()
+        candidates = []
+        for nid, tags_str, sa_str in rows:
+            tags = json.loads(tags_str) if isinstance(tags_str, str) and tags_str else []
+            sa = json.loads(sa_str) if isinstance(sa_str, str) and sa_str else {}
+            ins = sa.get("insight", {}) if isinstance(sa, dict) else {}
+            ver = ins.get("verification", {}) if isinstance(ins, dict) else {}
+            status = ver.get("status")
+            if not status:
+                status = ("verified" if any("verified" in t for t in tags)
+                          else "refuted" if "refuted" in tags else "pending")
+            conditions = (ins.get("conditions") or {}).get("values", {}) if isinstance(ins, dict) else {}
+            candidates.append({"id": nid, "status": status, "conditions": conditions})
+        n = len(candidates)
+        nv = sum(1 for x in candidates if x["status"] == "verified")
+        cer = nv / n if n else 0.0
+        se = math.sqrt(cer * (1 - cer) / n) if n else 0.0
+        layer_status = "degraded" if n < 20 else ("watch" if n < 40 else "reliable")
+        cond_stats = []
+        for k in ("premise_questioned", "externalized", "pressure", "tone", "cross_domain"):
+            with_ = [x for x in candidates if x["conditions"].get(k)]
+            without = [x for x in candidates if not x["conditions"].get(k)]
+            if len(with_) >= 5 and len(without) >= 5:
+                p1 = sum(1 for x in with_ if x["status"] == "verified") / len(with_)
+                p0 = sum(1 for x in without if x["status"] == "verified") / len(without)
+                se1 = math.sqrt(max(p1 * (1 - p1) / len(with_), 1e-4))
+                se0 = math.sqrt(max(p0 * (1 - p0) / len(without), 1e-4))
+                diff = p1 - p0
+                sig = abs(diff) >= 2 * math.sqrt(se1 ** 2 + se0 ** 2)
+                cond_stats.append({
+                    "condition": k, "n_with": len(with_), "n_without": len(without),
+                    "cer_with": round(p1, 3), "cer_without": round(p0, 3),
+                    "diff": round(diff, 3), "significant": sig,
+                    "judge": "确认" if (sig and diff > 0) else ("反证" if sig else "不判定")})
+        return {"total": n, "verified": nv, "pending": n - nv,
+                "cer": round(cer, 3), "se": round(se, 4),
+                "layer_status": layer_status,
+                "note": "样本<20 不判定（与迁移测试同标准）" if n < 20 else "样本达标，可出显著性",
+                "conditions": cond_stats,
+                "sample_ids": [x["id"] for x in candidates]}
+
+    def insight_window(self, conditions: dict = None) -> Dict:
+        """当前洞察窗口检测。默认假设（待统计确认）：C1≥0.6 ∧ 跨域 ∧ 低压力 → 窗口开。
+
+        conditions 传入当前会话快照；缺省字段不参与判定。
+        """
+        cond = conditions or {}
+        c1 = cond.get("memory_retrievability")
+        c3 = cond.get("cross_domain")
+        c5 = cond.get("pressure")
+        open_ = ((c1 is None or c1 >= 0.6)
+                 and (c3 is None or (isinstance(c3, list) and len(c3) > 0))
+                 and (c5 is None or c5 == "low"))
+        return {"window_open": open_,
+                "assumption": "默认假设 C1≥0.6 ∧ 跨域 ∧ 低压力（未经统计确认）",
+                "conditions": {"memory_retrievability": c1, "cross_domain": c3, "pressure": c5}}
 
     def append_skill_procedure(self, skill_id: str, step: str):
         """技能程序追加（P1-3 技能获取：版本+1）"""
