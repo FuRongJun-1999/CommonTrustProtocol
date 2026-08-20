@@ -551,13 +551,28 @@ def decode_daily(term):
 # 条目拆分：按「数字.」编号切分，引言（编号前）单独一条
 _ITEM_SPLIT_RE = re.compile(r"\n\s*\d+\.")
 _ITEM_NUM_RE = re.compile(r"\d+\.\s*([^\n]+(?:\n(?!\s*\d+\.)[^\n]+)*)")
+# v1.18：支持「①②③」圆圈编号（Python/Rust/TypeScript 卡用 ①动态类型…③GIL…，
+# 此前 split_items 只认「1.」不切分 → 整卡当一条 → direct_answer 截 200 字符
+# 只到①，③GIL 被砍掉。补圆圈编号切分（②③④⑤⑥⑦⑧⑨⑩）。
+_ITEM_CIRCLE_RE = re.compile(
+    r"([①②③④⑤⑥⑦⑧⑨⑩])\s*([^\n①-⑩]+(?:\n(?!\s*[①-⑩])[^\n①-⑩]+)*)")
 
 
 def split_items(content):
-    """知识卡 content → 条目列表（引言 + 各编号条目）。"""
+    """知识卡 content → 条目列表（引言 + 各编号条目）。
+
+    v1.18：同时支持「1.」数字编号和「①②③」圆圈编号。
+    """
     if not content:
         return []
     head = _ITEM_SPLIT_RE.split(content, maxsplit=1)[0].strip()
+    # 圆圈编号：切分点找第一个「①」前的部分为引言
+    cidx = content.find("①")
+    if cidx >= 0:
+        head = content[:cidx].strip()
+        items = [head] if head else []
+        items += [m[1].strip() for m in _ITEM_CIRCLE_RE.findall(content) if m[1].strip()]
+        return items
     items = [head] if head else []
     items += [m.strip() for m in _ITEM_NUM_RE.findall(content) if m.strip()]
     return items
@@ -713,12 +728,19 @@ def recursive_item_answer(dex, card_name, fp, question):
                 else raw
             ib = _bigram_set(item)
             inter = qb & ib
-            if len(inter) < 5:
+            # v1.18：门槛 5→4（Python 卡 GIL 条目与问题「多线程/不并行」交集
+            # 因中英混合 bigram 偏少，5 门槛把正确条目滤掉 → 引言当选）。
+            # 且引言（卡名行）降权——引言是标题不是答案。
+            if len(inter) < 4:
                 continue  # 实词交集不足 → 字面噪声，跳过
             s = len(inter) * 1.2
             for term, w in fp.items():
                 if term in item:
                     s += 0.8 * w
+            # 引言降权：以卡名/「规律性/概述/介绍」开头 = 标题行
+            if len(item) < 30 or item.startswith(("Python", "Rust", "TypeScript",
+                                                  "规律性", "概述", "介绍")):
+                s *= 0.5
             scored.append((s, len(inter), item))
         if scored:
             scored.sort(key=lambda x: (-x[0], -x[1]))
@@ -758,7 +780,8 @@ QUESTION_DOMAIN_PRIORS = {
                 "变量呀", "函数怎么", "循环怎么", "编程", "程序", "代码",
                 "递归", "Python", "调试", "bug", "Bug", "多线程", "线程",
                 "封装", "继承", "多态", "算法", "数据结构", "数组", "指针",
-                "面向对象", "对象", "类", "语法", "编译", "解释型", "GIL"],
+                "面向对象", "对象", "类", "语法", "编译", "解释型", "GIL",
+                "函数和变量", "变量和函数", "函数和循环", "循环和条件"],
     # v1.18 数学域先验（2026-08-20 CSPRE Step1 补缺）：
     # 「圆的周长/三角形内角和/概率」等常见数学定义题此前未命中（DOMAIN_ROUTE
     # 只有 加法/勾股定理/等差数列 等）→ 补数学高频词，扩大导航覆盖
@@ -792,6 +815,19 @@ def classify_condition_space(question: str) -> dict:
                 route_hits.append((dom, fp.get(term, 1.0)))
     except Exception:
         route_hits = []
+    # 1.5 歧义词前置消解（v1.18 · 2026-08-20 荣：数学/代码域要 100% 路由）：
+    # 「函数」在翻译表有 编程函数(→编程语言) 和 函数定义(→数学) 两个条目，
+    # 「什么是函数？」encode 命中「编程函数」→ 误路由编程。纯定义询问
+    # （什么是函数/函数是什么/什么叫函数）在无编程特征词时 → 数学优先，
+    # 覆盖翻译表命中（数学定义是默认义，编程是特化义需显式特征词）。
+    _PROG_HINT = ("呀", "呢", "怎么理解", "编程里", "编程中的", "代码", "程序",
+                  "for", "while", "循环语句", "语法", "变量声明", "函数调用",
+                  "参数", "返回值", "Python", "JS", "Java", "C++", "函数和",
+                  "和变量的区别", "区别", "和循环")
+    if ("函数" in question and not any(h in question for h in _PROG_HINT)
+            and any(k in question for k in ("什么是函数", "函数是什么", "什么叫函数"))):
+        route_hits = [(dom, w) for dom, w in route_hits if dom != "编程语言"]
+        route_hits.append(("数学", 2.0))
     # 2. 问题关键词先验 → 学科域
     prior_hits = []
     for dom, kws in QUESTION_DOMAIN_PRIORS.items():
