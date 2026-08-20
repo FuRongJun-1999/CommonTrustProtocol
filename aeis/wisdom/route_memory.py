@@ -96,6 +96,17 @@ class RouteMemory:
                     round(float(x), 6) for x in qv.tolist()]
         except Exception:
             pass
+        # 条件空间绑定（v1.20 · 荣：技能附带条件，不会在不适合的条件下
+        # 出现——防题库过拟合。记录问题所属学科域，召回时校验一致：
+        # 「什么是函数？」（数学）和「什么是函数呀」（编程）语义相似
+        # 但条件空间不同，经验不可互用）
+        try:
+            from semantic_translate import classify_condition_space
+            _cs = classify_condition_space(question)
+            if _cs.get("nav"):
+                self._entries[-1]["cond_space"] = _cs["domain"]
+        except Exception:
+            pass
         self._save()
         return {"status": "recorded", "count": 1}
 
@@ -136,6 +147,15 @@ class RouteMemory:
         """
         if not question or not self._entries:
             return []
+        # 当前问题条件空间（校验用——技能附带条件，不在不适合的条件下出现）
+        _cur_cond = None
+        try:
+            from semantic_translate import classify_condition_space
+            _cs = classify_condition_space(question)
+            if _cs.get("nav"):
+                _cur_cond = _cs["domain"]
+        except Exception:
+            _cur_cond = None
         # 语义匹配（主路径）
         try:
             import numpy as np
@@ -149,6 +169,12 @@ class RouteMemory:
                     ev = e.get("qvec")
                     if not ev:
                         continue
+                    # 条件空间一致性（v1.20 防过拟合）：历史问题的条件空间
+                    # 与当前不一致 → 不召回（「什么是函数？」数学 vs
+                    # 「什么是函数呀」编程——语义相似但经验不可互用）
+                    hist_cond = e.get("cond_space")
+                    if hist_cond and _cur_cond and hist_cond != _cur_cond:
+                        continue
                     evn = np.asarray(ev, dtype=np.float32)
                     norm = float(np.linalg.norm(evn))
                     if norm < 1e-9:
@@ -159,6 +185,7 @@ class RouteMemory:
                                        "chain": e.get("chain", []),
                                        "verified": e.get("verified", False),
                                        "count": e.get("count", 1),
+                                       "cond_space": hist_cond,
                                        "similarity": round(sim, 3)})
                 scored.sort(key=lambda x: (-x["verified"], -x["similarity"],
                                            -x["count"]))
