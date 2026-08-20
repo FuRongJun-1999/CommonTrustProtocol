@@ -145,7 +145,7 @@ class STNode:
             condition_space=ConditionSpace.from_json(row[5]),
             importance=row[6], confidence=row[7],
             layer=MemoryLayer(row[8]),
-            access_count=row[9], last_access=row[10],
+            access_count=row[9], last_access=(row[10] if row[10] is not None else row[11]),
             created_at=row[11], tags=json.loads(row[12]),
             semantic_coordinates=json.loads(row[13]) if len(row) > 13 and row[13] else {},
             state_attributes=json.loads(row[14]) if len(row) > 14 and row[14] else {},
@@ -665,7 +665,8 @@ class LayeredStore:
             if node.id == center_node_id:
                 continue
             # 时间距离
-            time_dist = abs(node.temporal_coordinate - center.temporal_coordinate)
+            time_dist = abs((node.temporal_coordinate if node.temporal_coordinate is not None else node.created_at or 0)
+                            - (center.temporal_coordinate if center.temporal_coordinate is not None else center.created_at or 0))
             if time_dist > time_radius:
                 continue
             # 空间距离（如果指定了度量轴）
@@ -1126,7 +1127,7 @@ class LayeredStore:
             conds.append("layer=?")
             params.append(layer.value)
         c = self.conn.cursor()
-        c.execute(f"SELECT * FROM nodes WHERE {' AND '.join(conds)} ORDER BY temporal_coordinate ASC LIMIT ?",
+        c.execute(f"SELECT * FROM nodes WHERE {' AND '.join(conds)} ORDER BY temporal_coordinate DESC LIMIT ?",
                   params + [limit])
         return [STNode.from_row(tuple(r)) for r in c.fetchall()]
 
@@ -1136,6 +1137,141 @@ class LayeredStore:
         c.execute("UPDATE nodes SET importance = MIN(1.0, MAX(0.0, importance + ?)) WHERE id=?",
                   (delta, node_id))
         self.conn.commit()
+
+    def recalc_structural_importance(self, dry_run: bool = True,
+                                     boost_cap: float = 0.15,
+                                     beta: float = 0.30, gamma: float = 0.40,
+                                     c: float = 6.0,
+                                     min_degree: int = 5, min_causal: int = 3,
+                                     min_delta: float = 0.02,
+                                     max_depth: int = 5,
+                                     protect_threshold: float = 1.0,
+                                     floor_importance: float = 0.9) -> Dict:
+        """结构重要性重算（v2.2，设计规格 §13/§14，2026-08-20）。
+
+        importance_v2 = min(1.0, importance + min(β·min(ci,C)/C + γ·conn, BOOST_CAP))
+        只升不降（当前 importance 为地板，延迟提升语义）；ci=因果出度，
+        conn=总度数/max_deg；无结构数据（度数/因果双低）的节点不动。
+
+        v2.2 新增【因果上游度传播】——越上游影响越大：
+          concept_influence(v) = Σ_{u∈causal_downstream(v), depth≤max_depth}
+                                 path_conf × importance(u) / depth
+          · influence ≥ protect_threshold → 自动保护（protect_node + no_forget）
+            且 importance 保底 floor_importance——越上游越要记录
+          · influence 写入 state_attributes.concept_influence（可检索可查）
+        dry_run=True 仅报告不写库。
+        """
+        c_ = self.conn.cursor()
+        c_.execute("SELECT source_id, target_id, relation_type, confidence FROM edges")
+        edges = c_.fetchall()
+        causal_out: Dict[str, int] = {}
+        deg: Dict[str, int] = {}
+        causal_adj: Dict[str, list] = {}
+        causal_conf: Dict[tuple, float] = {}
+        for s, t, rt, cf in edges:
+            deg[s] = deg.get(s, 0) + 1
+            deg[t] = deg.get(t, 0) + 1
+            if rt == "causal":
+                causal_out[s] = causal_out.get(s, 0) + 1
+                causal_adj.setdefault(s, []).append(t)
+                causal_conf[(s, t)] = cf if cf is not None else 0.5
+        max_deg = max(deg.values()) if deg else 1
+        c_.execute("SELECT id, importance FROM nodes")
+        rows = c_.fetchall()
+        imp_map = {nid: (imp if imp is not None else 0.5) for nid, imp in rows}
+
+        # 因果上游度传播（BFS · 深度上限 · 节点去重 · 路径置信度加权）
+        influence: Dict[str, float] = {}
+        for src in causal_adj:
+            infl = 0.0
+            visited = {src}
+            frontier = [(src, 1.0, 0)]
+            while frontier:
+                node, pc, d = frontier.pop(0)
+                for t in causal_adj.get(node, []):
+                    if t in visited:
+                        continue
+                    nd = d + 1
+                    if nd > max_depth:
+                        continue
+                    nconf = pc * causal_conf.get((node, t), 0.5)
+                    visited.add(t)
+                    infl += nconf * imp_map.get(t, 0.5) / nd
+                    frontier.append((t, nconf, nd))
+            if infl > 0:
+                influence[src] = round(infl, 4)
+
+        movers = []
+        protected = []
+        applied = 0
+        for nid, imp in rows:
+            infl = influence.get(nid, 0)
+            # 上游度写入 state_attributes（可检索/可查）
+            if infl > 0 and not dry_run:
+                self._write_influence(nid, infl)
+            # 越上游越要记录：结构保护 + importance 保底
+            if infl >= protect_threshold:
+                if not dry_run:
+                    self._protect_upstream(nid, infl, floor_importance)
+                protected.append(nid)
+                continue  # 上游节点已由结构确认，importance 走保底而非扇出提升
+            if imp is None or imp >= 0.95:
+                continue
+            d = deg.get(nid, 0)
+            co = causal_out.get(nid, 0)
+            if d < min_degree and co < min_causal:
+                continue  # 无结构数据不动（地板语义）
+            ci = min(co, c) / c
+            conn = d / max_deg
+            boost = min(beta * ci + gamma * conn, boost_cap)
+            new_imp = min(1.0, imp + boost)
+            delta = round(new_imp - imp, 4)
+            if delta >= min_delta:
+                movers.append({"node_id": nid, "importance_old": round(imp, 4),
+                               "importance_new": round(new_imp, 4),
+                               "degree": d, "causal_out": co, "boost": delta,
+                               "concept_influence": infl})
+                if not dry_run:
+                    self.update_node_importance(nid, delta)
+                    applied += 1
+        movers.sort(key=lambda x: x["boost"], reverse=True)
+        top_influence = sorted(influence.items(), key=lambda x: -x[1])[:10]
+        return {"mode": "dry_run" if dry_run else "applied",
+                "params": {"beta": beta, "gamma": gamma, "c": c,
+                           "boost_cap": boost_cap, "min_degree": min_degree,
+                           "min_causal": min_causal, "min_delta": min_delta,
+                           "max_depth": max_depth,
+                           "protect_threshold": protect_threshold,
+                           "floor_importance": floor_importance},
+                "edges_total": len(edges), "max_deg": max_deg,
+                "candidates": len(movers), "applied": applied,
+                "influence_nodes": len(influence),
+                "protected": len(protected),
+                "top_influence": [{"node_id": n, "concept_influence": v} for n, v in top_influence],
+                "movers": movers[:50]}
+
+    def _write_influence(self, node_id: str, infl: float):
+        """concept_influence 写入 state_attributes（可检索/可查）。"""
+        c = self.conn.cursor()
+        c.execute("SELECT state_attributes FROM nodes WHERE id=?", (node_id,))
+        row = c.fetchone()
+        sa = {}
+        if row and row[0]:
+            try:
+                sa = json.loads(row[0])
+            except Exception:
+                sa = {}
+        sa["concept_influence"] = infl
+        c.execute("UPDATE nodes SET state_attributes=? WHERE id=?",
+                  (json.dumps(sa, ensure_ascii=False), node_id))
+        self.conn.commit()
+
+    def _protect_upstream(self, node_id: str, infl: float, floor: float):
+        """越上游越要记录：保护登记 + no_forget + importance 保底。"""
+        self.protect_node(node_id, f"结构保护:概念影响度 {infl}（因果上游度≥阈值，2026-08-20）")
+        node = self.get_node(node_id)
+        if node and node.importance is not None and node.importance < floor:
+            self.update_node_importance(node_id, round(floor - node.importance, 4))
 
     def append_skill_procedure(self, skill_id: str, step: str):
         """技能程序追加（P1-3 技能获取：版本+1）"""
@@ -1780,8 +1916,9 @@ class SpacetimeMemoryEngine:
         now = time.time()
         scored = []
         for node, sim in results:
-            recency = 1.0 / (1.0 + (now - node.last_access) / 86400.0)
-            score = 0.5 * sim + 0.3 * node.importance + 0.2 * recency
+            la = node.last_access if node.last_access is not None else (node.created_at or now)
+            recency = 1.0 / (1.0 + max(0.0, now - la) / 86400.0)
+            score = 0.5 * sim + 0.3 * (node.importance or 0.0) + 0.2 * recency
             scored.append((node, score))
         scored.sort(key=lambda x: -x[1])
         self._note_reuse([n.id for n, _ in scored[:limit]])
