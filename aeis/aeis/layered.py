@@ -227,13 +227,19 @@ def _decide_route(result, question=""):
     hits = result.get("hits") or []
     if not hits:
         return "llm"  # 无命中诚实边界 → 智慧之书没把握 → LLM
+    # v1.26（持续学习·三角形内角和）：strong 命中检查遍历全部 hits——
+    # top 卡可能是纯语义低置信（「三角形」matched=['语义'] neural 不够），
+    # 但第 2/3 卡有 strong 匹配（「小学数学」['三角形','字面'] 0.6489）→
+    # 应 self。之前只看 hits[0]，次强命中被漏判 → 无谓走 LLM。
+    for h in hits[:5]:
+        _matched = h.get("matched") or []
+        _strong = [m for m in _matched if m not in ("语义", "字面")]
+        if _strong and (h.get("score") or 0) >= 0.30:
+            return "self"  # 翻译/学科路由命中（生锈 0.757 / 1+1 0.781）
     top = hits[0]
     score = top.get("score") or 0
     neural = top.get("neural_score") or 0
     matched = top.get("matched") or []
-    strong = [m for m in matched if m not in ("语义", "字面")]
-    if strong and score >= 0.30:
-        return "self"  # 翻译/学科路由命中（生锈 0.757 / 1+1 0.781）
     if set(matched) == {"语义"} and neural >= 0.65 and score >= 0.25:
         return "self"  # 神经高置信（熵 0.69）
     if set(matched) == {"字面"} and score >= 0.60:
