@@ -1,0 +1,975 @@
+[
+ {
+  "q": "科学方法论在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.892,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "最短路径算法的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.886,
+  "top_name": "图搜索",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "自我增强回路在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.875,
+  "top_name": "条件论映射",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "TypeScript在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.871,
+  "top_name": "条件论映射",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "热力学/耗散结构的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.842,
+  "top_name": "生物化学/分子生物学知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "智能论在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "概率论在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "认知双过程在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "智能推荐算法在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "因式分解定理在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "矩阵分解在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "极限运算法则在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "换元积分在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "分部积分在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "定积分概念在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "微积分基本定理在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "定积分应用在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "偏导数在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "方向导数与梯度在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "二重积分在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "一阶微分方程在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "一阶线性方程在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "二阶常系数线性方程在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "群公理在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "代数扩张在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "贪心算法在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "随机化算法在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "并行算法在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "在线算法在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "进程线程在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.838,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "曲面积分在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.837,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "循环群在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.826,
+  "top_name": "条件论映射",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "什么是政治学？",
+  "kind": "定义",
+  "dnorm": 0.815,
+  "top_name": "国家制度与社会治理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "复杂系统与涌现的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.811,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "二阶常系数线性方程是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.811,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "微分方程应用的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.811,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "字符串算法是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.811,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "随机化算法是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.811,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "什么是智能论？",
+  "kind": "定义",
+  "dnorm": 0.772,
+  "top_name": "智能体系统",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "什么是存在论？",
+  "kind": "定义",
+  "dnorm": 0.752,
+  "top_name": "高中数学知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "施密特正交化的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.752,
+  "top_name": "高中生物",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "什么是统计学？",
+  "kind": "定义",
+  "dnorm": 0.75,
+  "top_name": "概率论与数理统计知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "I/O系统的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.75,
+  "top_name": "生态学",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "预测误差学习在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.748,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "分离公理在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.748,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "字符串算法的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.748,
+  "top_name": "算法/操作系统知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "秩零度定理在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.746,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "价值理论与AI对齐在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "形式逻辑在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "决策论在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "小学语文在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "高中语文在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "小学英语在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "高中英语在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "高中历史在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "高中地理在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "小学道德与法治在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "语言学在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "历史学在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "地理学在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "政治学在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "多项式整除在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "有理根在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "基与维数在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "和与交在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "基变换在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "核与像在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "若尔当标准形在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "施密特正交化在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "对称变换在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "函数极限在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "求导法则在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "凹凸性与拐点在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "全微分在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "多元极值在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "格林公式在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "斯托克斯公式在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "常数项级数在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "交错级数在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "可分离变量在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "子群在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "整环域在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "理想在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "商环在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "分裂域在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "有限域在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "同胚在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "紧致性在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "有限交性质在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "连通性在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "道路连通在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "同伦等价在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "欧拉示性数在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "动态规划在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "回溯与分支限界在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "图搜索在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "最大流最小割在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "摊还分析在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "进程调度在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "进程同步在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "安全保护在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "性能优化在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "指令系统在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "寻址方式在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "CPU结构在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "控制器在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "指令流水线在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.745,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "数论算法在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.744,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "连续映射在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.743,
+  "top_name": "测度论与物理离散性",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "什么是核与像？",
+  "kind": "定义",
+  "dnorm": 0.734,
+  "top_name": "细胞核",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "相似对角化的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.732,
+  "top_name": "初中生物知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "线性空间定义在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.731,
+  "top_name": "约束优化",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "子空间在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.731,
+  "top_name": "约束优化",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "不变子空间在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.731,
+  "top_name": "约束优化",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "子空间乘积空间在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.731,
+  "top_name": "约束优化",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "虚拟内存在什么条件下成立？",
+  "kind": "条件",
+  "dnorm": 0.731,
+  "top_name": "约束优化",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "什么是历史学？",
+  "kind": "定义",
+  "dnorm": 0.723,
+  "top_name": "高中思想政治",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "价值理论与AI对齐的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "最大公因式的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "线性空间定义的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "最小多项式的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "双线性函数的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "连续与间断的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "单调性与极值的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "回溯与分支限界的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "计算复杂性的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "系统调用中断的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.708,
+  "top_name": "初中物理",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "小学道德与法治是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.707,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "初中道德与法治是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.707,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "模拟电子技术是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.707,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "不变子空间是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.707,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "无穷小无穷大是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.707,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "子空间乘积空间是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.707,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "操作系统概述是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.707,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "冯诺依曼体系是怎么工作的？",
+  "kind": "机制",
+  "dnorm": 0.707,
+  "top_name": "初中物理知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "什么是环公理？",
+  "kind": "定义",
+  "dnorm": 0.705,
+  "top_name": "抽象代数/拓扑学知识点内容（按骨架填充）",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "伽罗瓦理论初步的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.701,
+  "top_name": "抽象代数",
+  "blindspot_source": "BS-QUERY-WEAK"
+ },
+ {
+  "q": "什么是进程线程？",
+  "kind": "定义",
+  "dnorm": 0.69,
+  "top_name": "GIL（全局解释器锁）",
+  "blindspot_source": "BS-ACTIVE-PROBE"
+ },
+ {
+  "q": "不变子空间的原理是什么？",
+  "kind": "原理",
+  "dnorm": 0.686,
+  "top_name": "高等代数",
+  "blindspot_source": "BS-ACTIVE-PROBE"
+ }
+]

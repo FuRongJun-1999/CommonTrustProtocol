@@ -212,7 +212,11 @@ def _decide_route(result, question=""):
     try:
         import semantic_translate as _st
         _qfp = _st.encode(question)
-        _long = [t for t in _qfp if len(t) >= 3 and t in _st.REVERSE_DAILY]
+        # v1.26（错题复测发现）：阈值 3→2——「涌现」「递归」等 2 字概念
+        # 在 REVERSE_DAILY 有确定性直答却被 3 字阈值滤掉（涌现 llm 讲偏、
+        # 递归依赖 llm 兜底）。REVERSE_DAILY 的 2 字键 46 个全是具体概念
+        # （涌现/递归/重力/原子/记忆…），无泛词，放宽安全。
+        _long = [t for t in _qfp if len(t) >= 2 and t in _st.REVERSE_DAILY]
         if _long:
             _pres = [t for t in _long if t in question]
             _pool = _pres if _pres else _long
