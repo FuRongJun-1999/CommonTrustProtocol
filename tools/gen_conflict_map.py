@@ -189,6 +189,15 @@ CONFLICT_META = {
     "culture-museum": ("博物馆预约", "免费预约 vs 黄牛/难约", "为什么博物馆也要预约？"),
     "pet-spay": ("宠物绝育", "绝育 vs 残忍/必要", "为什么宠物要绝育？"),
     "public-seat": ("公交让座", "让座 vs 道德绑架", "为什么让座总有争议？"),
+    # v20 新矛盾
+    "edu-sexed": ("儿童性教育", "性教育 vs 羞耻/保护", "为什么孩子要接受性教育？"),
+    "pet-insurance": ("宠物保险", "宠物保险 vs 值不值", "宠物保险有必要买吗？"),
+    "edu-cert": ("大学生考证", "考证 vs 含金量", "为什么大学生都在考证？"),
+    "med-accompany": ("医院陪护", "住院陪护 vs 家庭负担", "为什么住院要家属陪护？"),
+    "health-teeth": ("儿童护牙", "蛀牙 vs 护牙习惯", "为什么孩子蛀牙这么多？"),
+    "soc-return": ("网购退货", "退货 vs 运费/浪费", "为什么网购退货这么多？"),
+    "health-exercise": ("老年人运动", "运动 vs 受伤风险", "老人该运动吗？"),
+    "edu-homework": ("辅导作业", "辅导 vs 亲子关系", "为什么辅导作业这么崩溃？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -500,6 +509,23 @@ LINK_NOTES = {
     ("pet-spay", "city-pet"): "绝育是城市养宠的源头治理（控制流浪）",
     ("public-seat", "public-civility"): "让座是公共边界的礼仪版（善意 vs 义务）",
     ("public-seat", "age-digital"): "让座争议折射老人需求（被让座 vs 被尊重）",
+    # v20 新矛盾关联
+    ("edu-sexed", "edu-punish"): "性教育与立规矩同属儿童安全底线（身体界限）",
+    ("edu-sexed", "digit-scam"): "性教育防的是人祸（人身侵害与网络诈骗同属安全教育）",
+    ("pet-insurance", "pet-medical"): "宠物保险是宠物医疗费用的对冲工具",
+    ("pet-insurance", "fin-childinsurance"): "宠物保险与儿童保险同属家庭保障配置（为爱投保）",
+    ("edu-cert", "edu-job"): "考证是就业准备的证书面（敲门砖 vs 能力）",
+    ("edu-cert", "study-kaoyan"): "考证与考研同属学历/证书焦虑（用投入对冲不确定）",
+    ("med-accompany", "medical-cost"): "陪护是医疗费用的隐形项（请假/护工成本）",
+    ("med-accompany", "fam-eldercare"): "老人住院陪护是养老责任的医疗面（一人住院全家上）",
+    ("health-teeth", "health-medicine"): "护牙与用药同属儿童健康管理（预防优先）",
+    ("health-teeth", "health-weight"): "糖摄入连接蛀牙与肥胖（同一健康防线）",
+    ("soc-return", "digit-live"): "退货是直播冲动消费的补救（买多了→退）",
+    ("soc-return", "soc-secondhand"): "退货与二手同属消费循环（不合适的去向）",
+    ("health-exercise", "health-fall"): "运动是防跌倒的核心手段（肌力/平衡）",
+    ("health-exercise", "fam-solitude"): "运动是老人社交的出口（广场舞/晨练圈子）",
+    ("edu-homework", "edu-score"): "辅导崩溃是应试压力的家庭传导（作业量）",
+    ("edu-homework", "fam-parenting"): "辅导作业是育儿日常的学业面（陪写 vs 陪玩）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
