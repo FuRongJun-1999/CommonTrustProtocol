@@ -162,6 +162,15 @@ CONFLICT_META = {
     "traffic-eldercar": ("老年代步车", "代步车 vs 安全/管理", "为什么老年代步车这么多？"),
     "edu-hobby": ("儿童兴趣班", "兴趣班 vs 孩子意愿/玩", "为什么孩子都在上兴趣班？"),
     "tourism-hotel": ("酒店卫生", "酒店卫生 vs 成本", "酒店卫生真的干净吗？"),
+    # v17 新矛盾
+    "traffic-ridehailing": ("网约车安全", "网约车便利 vs 安全/司机权益", "网约车安全吗？"),
+    "fitness-card": ("健身房跑路", "办卡优惠 vs 跑路风险", "为什么健身房总跑路？"),
+    "traffic-charge": ("充电桩安装", "装桩需求 vs 物业/安全阻力", "为什么装充电桩这么难？"),
+    "city-library": ("图书馆占座", "占座 vs 座位资源", "为什么图书馆总有人占座？"),
+    "health-height": ("儿童身高焦虑", "比身高 vs 科学/个体差异", "为什么家长都焦虑孩子身高？"),
+    "pet-boarding": ("宠物寄养", "寄养费用 vs 宠物应激/靠谱", "为什么宠物寄养这么贵？"),
+    "fam-giftmoney": ("随份子", "人情往来 vs 经济负担", "为什么份子钱越随越多？"),
+    "culture-ticket": ("演唱会抢票", "抢票难 vs 黄牛溢价", "为什么演唱会票这么难抢？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -422,6 +431,23 @@ LINK_NOTES = {
     ("edu-hobby", "edu-allowance"): "兴趣班花钱与零花钱教育同属家庭财商课题",
     ("tourism-hotel", "tourism-trap"): "酒店卫生与景区宰客同属旅游消费的信任风险",
     ("tourism-hotel", "medical-cost"): "酒店卫生问题可致病——健康风险的住宿入口",
+    # v17 新矛盾关联
+    ("traffic-ridehailing", "gov-platform"): "网约车是平台用工的出行版（司机权益 vs 平台抽成）",
+    ("traffic-ridehailing", "traffic-e"): "网约车与电动车同属出行新形态（安全监管课题）",
+    ("fitness-card", "fin-loan"): "办卡预付费与消费贷同属『先付后用』的金融风险",
+    ("fitness-card", "gov-reg"): "健身房跑路是预付卡监管缺位的典型案例",
+    ("traffic-charge", "traffic-e"): "充电桩是电动车普及的基础设施瓶颈（买得起装不上）",
+    ("traffic-charge", "city-property"): "装桩难本质是物业权责问题（公共区域管理）",
+    ("city-library", "edu-score"): "占座高峰是考试季的物理表现（备考资源争夺）",
+    ("city-library", "public-civility"): "占座是公共空间边界问题的学习版",
+    ("health-height", "psy-appearance"): "身高焦虑是容貌/身材焦虑的儿童版（身体比较）",
+    ("health-height", "health-weight"): "身高体重同属身体管理焦虑（数据焦虑）",
+    ("pet-boarding", "city-pet"): "寄养是养宠责任的出行版（托付问题）",
+    ("pet-boarding", "pet-medical"): "寄养风险（应激/交叉感染）是宠物健康问题",
+    ("fam-giftmoney", "fam-wedding"): "随份子与婚庆消费同属人情经济（婚丧嫁娶的支出）",
+    ("fam-giftmoney", "soc-consumer"): "份子钱通胀是消费主义的人情版（攀比升级）",
+    ("culture-ticket", "digit-live"): "抢票是演出消费的线上版（平台/黄牛生态）",
+    ("culture-ticket", "youth-idol"): "演唱会抢票是追星消费的高峰场景（为偶像付费）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict

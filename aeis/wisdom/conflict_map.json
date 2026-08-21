@@ -704,6 +704,46 @@
    "name": "酒店卫生",
    "conflict": "酒店卫生 vs 成本",
    "q": "酒店卫生真的干净吗？"
+  },
+  "traffic-ridehailing": {
+   "name": "网约车安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "q": "网约车安全吗？"
+  },
+  "fitness-card": {
+   "name": "健身房跑路",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "q": "为什么健身房总跑路？"
+  },
+  "traffic-charge": {
+   "name": "充电桩安装",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "q": "为什么装充电桩这么难？"
+  },
+  "city-library": {
+   "name": "图书馆占座",
+   "conflict": "占座 vs 座位资源",
+   "q": "为什么图书馆总有人占座？"
+  },
+  "health-height": {
+   "name": "儿童身高焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "q": "为什么家长都焦虑孩子身高？"
+  },
+  "pet-boarding": {
+   "name": "宠物寄养",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "q": "为什么宠物寄养这么贵？"
+  },
+  "fam-giftmoney": {
+   "name": "随份子",
+   "conflict": "人情往来 vs 经济负担",
+   "q": "为什么份子钱越随越多？"
+  },
+  "culture-ticket": {
+   "name": "演唱会抢票",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "q": "为什么演唱会票这么难抢？"
   }
  },
  "links": [
@@ -1921,6 +1961,86 @@
    "a": "tourism-hotel",
    "b": "medical-cost",
    "note": "酒店卫生问题可致病——健康风险的住宿入口"
+  },
+  {
+   "a": "traffic-ridehailing",
+   "b": "gov-platform",
+   "note": "网约车是平台用工的出行版（司机权益 vs 平台抽成）"
+  },
+  {
+   "a": "traffic-ridehailing",
+   "b": "traffic-e",
+   "note": "网约车与电动车同属出行新形态（安全监管课题）"
+  },
+  {
+   "a": "fitness-card",
+   "b": "fin-loan",
+   "note": "办卡预付费与消费贷同属『先付后用』的金融风险"
+  },
+  {
+   "a": "fitness-card",
+   "b": "gov-reg",
+   "note": "健身房跑路是预付卡监管缺位的典型案例"
+  },
+  {
+   "a": "traffic-charge",
+   "b": "traffic-e",
+   "note": "充电桩是电动车普及的基础设施瓶颈（买得起装不上）"
+  },
+  {
+   "a": "traffic-charge",
+   "b": "city-property",
+   "note": "装桩难本质是物业权责问题（公共区域管理）"
+  },
+  {
+   "a": "city-library",
+   "b": "edu-score",
+   "note": "占座高峰是考试季的物理表现（备考资源争夺）"
+  },
+  {
+   "a": "city-library",
+   "b": "public-civility",
+   "note": "占座是公共空间边界问题的学习版"
+  },
+  {
+   "a": "health-height",
+   "b": "psy-appearance",
+   "note": "身高焦虑是容貌/身材焦虑的儿童版（身体比较）"
+  },
+  {
+   "a": "health-height",
+   "b": "health-weight",
+   "note": "身高体重同属身体管理焦虑（数据焦虑）"
+  },
+  {
+   "a": "pet-boarding",
+   "b": "city-pet",
+   "note": "寄养是养宠责任的出行版（托付问题）"
+  },
+  {
+   "a": "pet-boarding",
+   "b": "pet-medical",
+   "note": "寄养风险（应激/交叉感染）是宠物健康问题"
+  },
+  {
+   "a": "fam-giftmoney",
+   "b": "fam-wedding",
+   "note": "随份子与婚庆消费同属人情经济（婚丧嫁娶的支出）"
+  },
+  {
+   "a": "fam-giftmoney",
+   "b": "soc-consumer",
+   "note": "份子钱通胀是消费主义的人情版（攀比升级）"
+  },
+  {
+   "a": "culture-ticket",
+   "b": "digit-live",
+   "note": "抢票是演出消费的线上版（平台/黄牛生态）"
+  },
+  {
+   "a": "culture-ticket",
+   "b": "youth-idol",
+   "note": "演唱会抢票是追星消费的高峰场景（为偶像付费）"
   }
  ]
 }
