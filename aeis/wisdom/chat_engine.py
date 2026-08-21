@@ -1017,7 +1017,21 @@ def _assemble(message, hits, emotion):
         score = _reply_hit.get("score", score)
 
     # 正常回答：说人话（v1.16 P1：直接答案优先——递归检索先答再引）
+    # v1.23 考古直答兜底（知识考古批次1·2026-08-21）：问题编码命中
+    # REVERSE_DAILY 的【完整概念名】（≥4字，非单字「熵」）时，直答是
+    # 确定性语义（「什么是数据压缩熵界」→ 熵界直答），优先于 hits 排序
+    # ——否则被字面重叠的旧卡（热力学「熵」）抢答。
     direct = _reply_hit.get("direct_answer")
+    try:
+        import semantic_translate as _st
+        _fp = _st.encode(message)
+        _long_terms = [t for t in _fp if len(t) >= 4 and t in _st.REVERSE_DAILY]
+        if _long_terms:
+            _dt = max(_long_terms, key=lambda t: len(t))
+            direct = _st.REVERSE_DAILY[_dt]
+            name = _dt
+    except Exception:
+        pass
     if direct:
         direct = direct.rstrip("。！？!?")
         parts.append(f"{direct}。")
