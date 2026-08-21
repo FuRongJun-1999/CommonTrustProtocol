@@ -1002,30 +1002,44 @@ def _assemble(message, hits, emotion):
                      "但最接近的是「%s」。你问的是这个吗？" % name)
         return "".join(parts), True
 
+    # v1.22 修复（主动探测补卡发现）：hits[0] 无 direct 时用导航话术
+    # 「你说的这个，可以看…」，即使第 2/3 张卡有正确 direct 也不用——
+    # 「动态规划vs贪心」对比卡 direct 正确但被空 direct 的「算法设计与
+    # 分析」卡压住。改为取第一个有 direct_answer 的卡作为回复源，
+    # 保证「先答再引」（direct 优先于卡导航）。
+    _reply_hit = top
+    for h in hits:
+        if h.get("direct_answer"):
+            _reply_hit = h
+            break
+    if _reply_hit is not top:
+        name = _reply_hit.get("name", name)
+        score = _reply_hit.get("score", score)
+
     # 正常回答：说人话（v1.16 P1：直接答案优先——递归检索先答再引）
-    direct = top.get("direct_answer")
+    direct = _reply_hit.get("direct_answer")
     if direct:
         direct = direct.rstrip("。！？!?")
         parts.append(f"{direct}。")
         parts.append(f"这个可以看「{name}」")
     else:
         parts.append(f"你说的这个，可以看「{name}」")
-        daily = top.get("daily")
+        daily = _reply_hit.get("daily")
         if daily:
             parts.append(f"——打个比方：{daily}")
         else:
             try:
                 import semantic_translate as _st
-                daily2 = _st.decode_daily(top.get("matched", [""])[0]) if top.get("matched") else None
+                daily2 = _st.decode_daily(_reply_hit.get("matched", [""])[0]) if _reply_hit.get("matched") else None
                 if daily2:
                     parts.append(f"——打个比方：{daily2}")
             except Exception:
                 pass
 
     # 条件空间（白箱：什么条件下成立）
-    if top.get("domain"):
-        parts.append(f"（这条知识属于{top['domain']}，"
-                     f"在{top.get('edu_level') or '通用'}条件下成立）")
+    if _reply_hit.get("domain"):
+        parts.append(f"（这条知识属于{_reply_hit['domain']}，"
+                     f"在{_reply_hit.get('edu_level') or '通用'}条件下成立）")
 
     # 后续相关（最多再提 2 个）
     if len(hits) > 1:
