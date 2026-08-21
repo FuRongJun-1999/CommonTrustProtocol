@@ -1504,6 +1504,46 @@
    "name": "孩子独立放手",
    "conflict": "成长必然 vs 父母不舍",
    "q": "孩子多大该独立？"
+  },
+  "edu-gamefun": {
+   "name": "学习游戏趣味",
+   "conflict": "学习不如游戏 vs 有趣",
+   "q": "为什么学习不如游戏有趣？"
+  },
+  "edu-boring": {
+   "name": "学习枯燥",
+   "conflict": "学习枯燥 vs 有趣",
+   "q": "学习为什么枯燥？"
+  },
+  "digit-game": {
+   "name": "游戏机制",
+   "conflict": "游戏设计 vs 沉迷",
+   "q": "游戏为什么让人上瘾？"
+  },
+  "edu-playbalance": {
+   "name": "学习娱乐平衡",
+   "conflict": "学习 vs 娱乐",
+   "q": "学习烦了，玩会游戏行吗？"
+  },
+  "edu-procrast": {
+   "name": "拖延启动",
+   "conflict": "想学 vs 先玩",
+   "q": "想学但总想先玩游戏怎么办？"
+  },
+  "edu-why": {
+   "name": "学习意义",
+   "conflict": "学习无用 vs 必备",
+   "q": "学习有什么用？"
+  },
+  "edu-knowledgefun": {
+   "name": "知识乐趣",
+   "conflict": "知识有趣 vs 枯燥",
+   "q": "知识有趣吗？"
+  },
+  "digit-gameblame": {
+   "name": "游戏责任",
+   "conflict": "游戏害人 vs 自制力",
+   "q": "游戏害人还是帮人？"
   }
  },
  "links": [
@@ -4321,6 +4361,86 @@
    "a": "fam-independence",
    "b": "fam-childprivacy",
    "note": "独立与隐私同属孩子的自主权（放手尊重）"
+  },
+  {
+   "a": "edu-gamefun",
+   "b": "youth-game",
+   "note": "学习不如游戏有趣是游戏沉迷的心理根源（爽感对比）"
+  },
+  {
+   "a": "edu-gamefun",
+   "b": "edu-score",
+   "note": "应试压力让学习变苦差（为分数不为自己）"
+  },
+  {
+   "a": "edu-boring",
+   "b": "edu-homework",
+   "note": "机械作业是学习枯燥的最大来源（重复刷题）"
+  },
+  {
+   "a": "edu-boring",
+   "b": "edu-hobby",
+   "note": "兴趣班是学习乐趣的出口（兴趣驱动）"
+  },
+  {
+   "a": "digit-game",
+   "b": "digit-drama",
+   "note": "游戏与短剧同属多巴胺设计（高频奖励）"
+  },
+  {
+   "a": "digit-game",
+   "b": "digit-scroll",
+   "note": "游戏与短视频同属即时反馈的诱惑（信息碎片）"
+  },
+  {
+   "a": "edu-playbalance",
+   "b": "edu-sleep",
+   "note": "玩到深夜挤压睡眠（学玩平衡的睡眠代价）"
+  },
+  {
+   "a": "edu-playbalance",
+   "b": "fam-phone",
+   "note": "手机管理是学玩平衡的家庭面（孩子用手机）"
+  },
+  {
+   "a": "edu-procrast",
+   "b": "fam-chorechild",
+   "note": "拖延与孩子家务同属启动困难（不愿开始）"
+  },
+  {
+   "a": "edu-procrast",
+   "b": "work-burnout",
+   "note": "拖延导致赶工加班（拖延的职场代价）"
+  },
+  {
+   "a": "edu-why",
+   "b": "edu-job",
+   "note": "学习意义的焦虑源于就业错配（学了没用）"
+  },
+  {
+   "a": "edu-why",
+   "b": "edu-score",
+   "note": "唯分数论让学习意义被窄化（为分数不为成长）"
+  },
+  {
+   "a": "edu-knowledgefun",
+   "b": "soc-reading",
+   "note": "阅读乐趣是知识乐趣的入口（课外书）"
+  },
+  {
+   "a": "edu-knowledgefun",
+   "b": "edu-hobby",
+   "note": "兴趣培养与知识乐趣同源（好奇驱动）"
+  },
+  {
+   "a": "digit-gameblame",
+   "b": "youth-game",
+   "note": "游戏责任争论集中在孩子（家庭教育战场）"
+  },
+  {
+   "a": "digit-gameblame",
+   "b": "fam-phone",
+   "note": "游戏时间与手机管理同属家庭规则（限制与信任）"
   }
  ]
 }
