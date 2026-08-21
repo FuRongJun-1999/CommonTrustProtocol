@@ -864,6 +864,46 @@
    "name": "辅导作业",
    "conflict": "辅导 vs 亲子关系",
    "q": "为什么辅导作业这么崩溃？"
+  },
+  "health-drowning": {
+   "name": "儿童防溺水",
+   "conflict": "溺水风险 vs 家长看护",
+   "q": "为什么儿童溺水这么多？"
+  },
+  "fam-property": {
+   "name": "代际财产",
+   "conflict": "老人财产分配 vs 子女期待",
+   "q": "为什么老人财产分配总闹矛盾？"
+  },
+  "pet-grooming": {
+   "name": "宠物美容",
+   "conflict": "宠物美容贵 vs 必要",
+   "q": "为什么宠物美容这么贵？"
+  },
+  "digit-camera": {
+   "name": "家庭监控",
+   "conflict": "装监控 vs 隐私",
+   "q": "为什么家里要装监控？"
+  },
+  "digit-baby": {
+   "name": "晒娃",
+   "conflict": "分享快乐 vs 隐私风险",
+   "q": "为什么家长爱晒娃？"
+  },
+  "edu-trip": {
+   "name": "毕业旅行",
+   "conflict": "毕业旅行 vs 钱/仪式",
+   "q": "为什么毕业都要旅行？"
+  },
+  "housing-renovation": {
+   "name": "家装装修",
+   "conflict": "装修 vs 踩坑/费用",
+   "q": "为什么装修这么贵？"
+  },
+  "tourism-group": {
+   "name": "跟团旅游",
+   "conflict": "跟团 vs 自由行",
+   "q": "为什么跟团游总被吐槽？"
   }
  },
  "links": [
@@ -2401,6 +2441,86 @@
    "a": "edu-homework",
    "b": "fam-parenting",
    "note": "辅导作业是育儿日常的学业面（陪写 vs 陪玩）"
+  },
+  {
+   "a": "health-drowning",
+   "b": "health-medicine",
+   "note": "防溺水与科学用药同属儿童安全防护（预防优先）"
+  },
+  {
+   "a": "health-drowning",
+   "b": "edu-punish",
+   "note": "防溺水教育是立规矩的生命版（水边规则）"
+  },
+  {
+   "a": "fam-property",
+   "b": "fam-elderlove",
+   "note": "财产分配是中老年婚恋的核心顾虑（图钱？）"
+  },
+  {
+   "a": "fam-property",
+   "b": "fam-gener",
+   "note": "代际财产冲突是观念差异的物质化（谁该得）"
+  },
+  {
+   "a": "pet-grooming",
+   "b": "pet-boarding",
+   "note": "美容与寄养同属宠物服务消费（托付专业）"
+  },
+  {
+   "a": "pet-grooming",
+   "b": "city-pet",
+   "note": "美容是养宠日常护理的升级（健康+审美）"
+  },
+  {
+   "a": "digit-camera",
+   "b": "digit-privacy",
+   "note": "家庭监控是隐私问题的家庭场景（家人 vs 监控）"
+  },
+  {
+   "a": "digit-camera",
+   "b": "fam-housekeeper",
+   "note": "监控保姆是信任管理的科技手段（防患于未然）"
+  },
+  {
+   "a": "digit-baby",
+   "b": "digit-privacy",
+   "note": "晒娃是儿童隐私的暴露面（家长把关）"
+  },
+  {
+   "a": "digit-baby",
+   "b": "soc-consumer",
+   "note": "晒娃攀比是消费主义的亲子版（晒娃=晒生活）"
+  },
+  {
+   "a": "edu-trip",
+   "b": "edu-parttime",
+   "note": "毕业旅行靠兼职攒钱（独立旅行的起点）"
+  },
+  {
+   "a": "edu-trip",
+   "b": "tourism-trap",
+   "note": "毕业旅行消费是旅游行业的旺季（价格高企）"
+  },
+  {
+   "a": "housing-renovation",
+   "b": "housing",
+   "note": "装修是居住成本的增量（买房之后的花销）"
+  },
+  {
+   "a": "housing-renovation",
+   "b": "gov-reg",
+   "note": "装修纠纷是消费监管的领域（合同/增项）"
+  },
+  {
+   "a": "tourism-group",
+   "b": "tourism-trap",
+   "note": "跟团坑与景区宰客同属旅游消费的信任问题"
+  },
+  {
+   "a": "tourism-group",
+   "b": "digit-live",
+   "note": "低价团与直播套路同属营销陷阱（低价诱饵）"
   }
  ]
 }
