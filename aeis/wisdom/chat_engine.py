@@ -130,6 +130,11 @@ HONEST_BOUNDARY = [
       "你猜猜", "猜猜看", "猜我心"], "mind"),
     # 世界末日（未来不可验证，不能预测）
     (["世界末日", "什么时候结束", "地球什么时候毁灭", "末日"], "future"),
+    # v1.26（持续学习·真实对话弱命中）：群体间比较无客观答案——「女人比
+    # 男人聪明吗」这类题科学上没有客观结论（个体差异 >> 群体差异），
+    # 且容易滑向刻板印象。诚实拒绝：不给「是/否」，说明无客观依据。
+    (["女人比男人", "男人比女人", "女生比男生", "男生比女生", "哪个性别更",
+      "谁更聪明", "女人聪明", "男人聪明", "女生聪明", "男生聪明"], "group_compare"),
 ]
 
 # v1.22 对抗注入护栏（外部测试报告 P1-5）：系统提示词/内部指令/越权/
@@ -262,6 +267,11 @@ def _honest_boundary_reply(message):
                     "读心不在我的能力范围内，不能凭空猜一个答案给你。"
                     "你可以直接问对方，或者描述更多情境我帮你分析。",
                     "mind")
+        if kind == "group_compare":
+            return ("这个问题没有客观答案——聪明程度在人群内部个体差异很大，"
+                    "群体之间的比较没有科学依据，也容易滑向刻板印象。"
+                    "我不给『谁更聪明』的结论，因为那不是一个有可靠答案的问题。",
+                    "group_compare")
     return None, None
 
 
@@ -1038,9 +1048,13 @@ def _assemble(message, hits, emotion):
         # （气压/海拔/珠峰/高压锅等）时不用 daily 人话直答（「大气压」→
         # 「用吸管能把饮料吸上来」会答错「水在标准大气压下多少度沸腾」）。
         # 与 graph_retrieve 递归段的条件防护一致。
+        # v1.26（持续学习）：条件词防护瘦身——「真空」移除：本意是防
+        # 「大气压→吸管」类错配（问题问条件、daily 答现象），但「声音能
+        # 在真空中传播吗」的『真空』是问题对象不是条件背景，误伤直答。
+        # 真空相关直答（声音不能传/光速）语义确定，不会像气压那样错配。
         _cond_guard = any(w in message for w in
                           ("珠峰", "珠穆朗玛", "高原", "山顶", "高压锅", "海拔",
-                           "气压", "高压", "低压", "潜水", "太空", "真空", "深海"))
+                           "气压", "高压", "低压", "潜水", "太空", "深海"))
         # v1.26（错题复测）：阈值 3→2——「涌现」「递归」等 2 字概念直答
         # 被滤掉（涌现 llm 讲偏成阅读理解）。REVERSE_DAILY 2 字键全是
         # 具体概念（涌现/递归/重力/原子/记忆…），放宽安全。
@@ -1055,13 +1069,38 @@ def _assemble(message, hits, emotion):
             # 否则「Python和Rust选哪个」只匹配到 Python/Rust 单词卡。
             # 反向检查总是执行（对比词优先于单词卡——PythonRust对比 比
             # Python/Rust 更具体，即使 Python 也出现在原文）。
+            # v1.26 修复（持续学习·共轭梯度抢答）：反向检查过度触发——
+            # 「方向导数与梯度」触发词含泛词「梯度」，命中「共轭梯度法」
+            # 的子串 → 7 字键加进 _present 抢答。修复：反向命中的触发短语
+            # 若是已选键（完整出现在原文）的子串 → 跳过。PythonRust对比
+            # 触发词「Python和Rust」完整在原文且不被 Python 包含 → 仍放行；
+            # 方向导数触发词「梯度」⊂ 共轭梯度法 → 跳过（泛词不抢）。
             for _t in _long_terms:
+                if _t in _present:
+                    continue
                 _triggers = _st.DOMAIN_SYNONYM_CLUSTERS.get(_t, [])
-                if any(_tr in message for _tr in _triggers):
+                # 触发短语完整出现在原文，且不被已选键包含 → 反向命中
+                for _tr in _triggers:
+                    if _tr not in message:
+                        continue
+                    if any(_tr in p for p in _present):
+                        continue  # 泛词子串命中已选键 → 不抢
                     if _t not in _present:
                         _present.append(_t)
+                    break
             _pool = _present if _present else _long_terms
-            _dt = max(_pool, key=lambda t: (len(t), _fp.get(t, 0.0)))
+            # v1.26 修复（持续学习·梯度下降被方向导数抢答）：_dt 按键名
+            # 长度选最长——「梯度下降法」5字 vs「方向导数与梯度」7字，
+            # 但原文只出现「梯度下降」（触发词），方向导数只靠泛词「梯度」
+            # 命中。改为按「原文中最长触发短语长度」选——谁的具体触发词
+            # 在原文里最长，谁代表真实意图（梯度下降 4字 > 梯度 2字）。
+            def _match_len(t):
+                best = len(t) if t in message else 0
+                for _tr in _st.DOMAIN_SYNONYM_CLUSTERS.get(t, []):
+                    if _tr in message and len(_tr) > best:
+                        best = len(_tr)
+                return best
+            _dt = max(_pool, key=lambda t: (_match_len(t), len(t), _fp.get(t, 0.0)))
             direct = _st.REVERSE_DAILY[_dt]
             name = _dt
     except Exception:
