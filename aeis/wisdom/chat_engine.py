@@ -1034,12 +1034,29 @@ def _assemble(message, hits, emotion):
         _fp = _st.encode(message)
         # v1.23 修复（知识考古批次3）：阈值 4→3——「内稳态」「涌现」等
         # 3 字概念也应走直答兜底（2 字以下才防「熵/热」泛词）。
+        # v1.25 修复（T2 全量回归）：条件词防护——问题含物理条件词
+        # （气压/海拔/珠峰/高压锅等）时不用 daily 人话直答（「大气压」→
+        # 「用吸管能把饮料吸上来」会答错「水在标准大气压下多少度沸腾」）。
+        # 与 graph_retrieve 递归段的条件防护一致。
+        _cond_guard = any(w in message for w in
+                          ("珠峰", "珠穆朗玛", "高原", "山顶", "高压锅", "海拔",
+                           "气压", "高压", "低压", "潜水", "太空", "真空", "深海"))
         _long_terms = [t for t in _fp if len(t) >= 3 and t in _st.REVERSE_DAILY]
-        if _long_terms:
+        if _long_terms and not _cond_guard:
             # v1.23 修复（知识考古批次2）：优先问题中实际出现的词
             # （「什么是混沌的边缘」→「混沌的边缘」而非「混沌与蝴蝶效应」——
             # 后者更长权重更高但不在问题中）。
             _present = [t for t in _long_terms if t in message]
+            # v1.25 修复（T2 回归）：触发词名（PythonRust对比）不在原文时，
+            # 检查其触发短语是否命中原文（Python和Rust→PythonRust对比）——
+            # 否则「Python和Rust选哪个」只匹配到 Python/Rust 单词卡。
+            # 反向检查总是执行（对比词优先于单词卡——PythonRust对比 比
+            # Python/Rust 更具体，即使 Python 也出现在原文）。
+            for _t in _long_terms:
+                _triggers = _st.DOMAIN_SYNONYM_CLUSTERS.get(_t, [])
+                if any(_tr in message for _tr in _triggers):
+                    if _t not in _present:
+                        _present.append(_t)
             _pool = _present if _present else _long_terms
             _dt = max(_pool, key=lambda t: (len(t), _fp.get(t, 0.0)))
             direct = _st.REVERSE_DAILY[_dt]
