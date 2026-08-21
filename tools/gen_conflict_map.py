@@ -297,6 +297,15 @@ CONFLICT_META = {
     "fam-emotionalvalue": ("婚姻情绪价值", "婚姻情绪价值 vs 物质", "婚姻中的情绪价值重要吗？"),
     "gen-motherrole": ("母职绑架", "为母则刚 vs 自我", "为什么妈妈被要求完美？"),
     "digit-familytime": ("家庭屏幕时间", "家庭屏幕时间 vs 陪伴", "为什么家庭聚餐都在刷手机？"),
+    # v32 新矛盾（婚姻家庭互动细节激化）
+    "fam-decision": ("家庭决策权", "家庭决策权 vs 尊重", "家里大事谁说了算？"),
+    "fam-fight": ("夫妻吵架", "夫妻吵架 vs 沟通", "夫妻吵架正常吗？"),
+    "fam-growth": ("成长不同步", "夫妻成长不同步 vs 婚姻", "夫妻成长不同步怎么办？"),
+    "fam-weddingprep": ("婚礼筹备", "婚礼筹备 vs 吵架", "为什么婚礼筹备总吵架？"),
+    "fam-inlaws": ("亲家关系", "亲家关系 vs 相处", "亲家之间怎么相处？"),
+    "fam-eldercare3": ("异地养老", "异地养老 vs 尽孝", "父母在老家，怎么尽孝？"),
+    "fam-newyear": ("过年回谁家", "过年回谁家 vs 两难", "过年回谁家总吵架？"),
+    "fam-talk": ("夫妻说话方式", "夫妻说话方式 vs 伤害", "为什么夫妻说话容易伤人？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -812,6 +821,23 @@ LINK_NOTES = {
     ("gen-motherrole", "fam-parenting"): "母职绑架与育儿分工相关（妈妈独扛）",
     ("digit-familytime", "fam-groupchat"): "家庭屏幕与家族群同属数字时代的家庭连接方式",
     ("digit-familytime", "digit-scroll"): "家庭刷屏是短视频沉迷的家庭场景（陪伴被替代）",
+    # v32 新矛盾关联（婚姻家庭互动细节激化）
+    ("fam-decision", "fam-couple"): "家庭决策权是夫妻关系的权力面（谁做主）",
+    ("fam-decision", "gen-income"): "决策权与收入角色相关（谁赚钱谁做主之争）",
+    ("fam-fight", "fam-couple"): "吵架是夫妻互动的激烈形态（冲突表达）",
+    ("fam-fight", "fam-intimacy"): "吵架方式影响婚姻温度（伤人或增进）",
+    ("fam-growth", "fam-couple"): "成长不同步是夫妻关系的动态考验（一起走）",
+    ("fam-growth", "fam-emotionalvalue"): "成长差异需要情绪价值的支撑（理解与支持）",
+    ("fam-weddingprep", "fam-wedding"): "婚礼筹备是婚庆消费的执行阶段（矛盾高发）",
+    ("fam-weddingprep", "fam-couple"): "筹备争吵考验新人关系（两家 vs 两人）",
+    ("fam-inlaws", "fam-mil3"): "亲家关系与婆媳同住同属姻亲网络（两家相处）",
+    ("fam-inlaws", "fam-mil4"): "亲家与岳母女婿同属姻亲关系（父母之间）",
+    ("fam-eldercare3", "fam-onlychild"): "异地养老是独生子女的养老常态（两难）",
+    ("fam-eldercare3", "fam-longdistance"): "异地养老与异地婚姻同属分离型家庭（距离）",
+    ("fam-newyear", "fam-couple"): "过年回谁家是夫妻冲突的节庆版（传统 vs 平等）",
+    ("fam-newyear", "fam-mil4"): "过年安排牵动两家关系（婆家娘家平衡）",
+    ("fam-talk", "fam-fight"): "说话方式决定吵架的性质（语言暴力 vs 沟通）",
+    ("fam-talk", "fam-couple"): "好好说话是夫妻关系的日常修养（语言温度）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict

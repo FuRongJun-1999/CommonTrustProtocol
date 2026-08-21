@@ -1304,6 +1304,46 @@
    "name": "家庭屏幕时间",
    "conflict": "家庭屏幕时间 vs 陪伴",
    "q": "为什么家庭聚餐都在刷手机？"
+  },
+  "fam-decision": {
+   "name": "家庭决策权",
+   "conflict": "家庭决策权 vs 尊重",
+   "q": "家里大事谁说了算？"
+  },
+  "fam-fight": {
+   "name": "夫妻吵架",
+   "conflict": "夫妻吵架 vs 沟通",
+   "q": "夫妻吵架正常吗？"
+  },
+  "fam-growth": {
+   "name": "成长不同步",
+   "conflict": "夫妻成长不同步 vs 婚姻",
+   "q": "夫妻成长不同步怎么办？"
+  },
+  "fam-weddingprep": {
+   "name": "婚礼筹备",
+   "conflict": "婚礼筹备 vs 吵架",
+   "q": "为什么婚礼筹备总吵架？"
+  },
+  "fam-inlaws": {
+   "name": "亲家关系",
+   "conflict": "亲家关系 vs 相处",
+   "q": "亲家之间怎么相处？"
+  },
+  "fam-eldercare3": {
+   "name": "异地养老",
+   "conflict": "异地养老 vs 尽孝",
+   "q": "父母在老家，怎么尽孝？"
+  },
+  "fam-newyear": {
+   "name": "过年回谁家",
+   "conflict": "过年回谁家 vs 两难",
+   "q": "过年回谁家总吵架？"
+  },
+  "fam-talk": {
+   "name": "夫妻说话方式",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "q": "为什么夫妻说话容易伤人？"
   }
  },
  "links": [
@@ -3721,6 +3761,86 @@
    "a": "digit-familytime",
    "b": "digit-scroll",
    "note": "家庭刷屏是短视频沉迷的家庭场景（陪伴被替代）"
+  },
+  {
+   "a": "fam-decision",
+   "b": "fam-couple",
+   "note": "家庭决策权是夫妻关系的权力面（谁做主）"
+  },
+  {
+   "a": "fam-decision",
+   "b": "gen-income",
+   "note": "决策权与收入角色相关（谁赚钱谁做主之争）"
+  },
+  {
+   "a": "fam-fight",
+   "b": "fam-couple",
+   "note": "吵架是夫妻互动的激烈形态（冲突表达）"
+  },
+  {
+   "a": "fam-fight",
+   "b": "fam-intimacy",
+   "note": "吵架方式影响婚姻温度（伤人或增进）"
+  },
+  {
+   "a": "fam-growth",
+   "b": "fam-couple",
+   "note": "成长不同步是夫妻关系的动态考验（一起走）"
+  },
+  {
+   "a": "fam-growth",
+   "b": "fam-emotionalvalue",
+   "note": "成长差异需要情绪价值的支撑（理解与支持）"
+  },
+  {
+   "a": "fam-weddingprep",
+   "b": "fam-wedding",
+   "note": "婚礼筹备是婚庆消费的执行阶段（矛盾高发）"
+  },
+  {
+   "a": "fam-weddingprep",
+   "b": "fam-couple",
+   "note": "筹备争吵考验新人关系（两家 vs 两人）"
+  },
+  {
+   "a": "fam-inlaws",
+   "b": "fam-mil3",
+   "note": "亲家关系与婆媳同住同属姻亲网络（两家相处）"
+  },
+  {
+   "a": "fam-inlaws",
+   "b": "fam-mil4",
+   "note": "亲家与岳母女婿同属姻亲关系（父母之间）"
+  },
+  {
+   "a": "fam-eldercare3",
+   "b": "fam-onlychild",
+   "note": "异地养老是独生子女的养老常态（两难）"
+  },
+  {
+   "a": "fam-eldercare3",
+   "b": "fam-longdistance",
+   "note": "异地养老与异地婚姻同属分离型家庭（距离）"
+  },
+  {
+   "a": "fam-newyear",
+   "b": "fam-couple",
+   "note": "过年回谁家是夫妻冲突的节庆版（传统 vs 平等）"
+  },
+  {
+   "a": "fam-newyear",
+   "b": "fam-mil4",
+   "note": "过年安排牵动两家关系（婆家娘家平衡）"
+  },
+  {
+   "a": "fam-talk",
+   "b": "fam-fight",
+   "note": "说话方式决定吵架的性质（语言暴力 vs 沟通）"
+  },
+  {
+   "a": "fam-talk",
+   "b": "fam-couple",
+   "note": "好好说话是夫妻关系的日常修养（语言温度）"
   }
  ]
 }
