@@ -904,6 +904,46 @@
    "name": "跟团旅游",
    "conflict": "跟团 vs 自由行",
    "q": "为什么跟团游总被吐槽？"
+  },
+  "gen-war": {
+   "name": "男女对立",
+   "conflict": "男女对立 vs 理性对话",
+   "q": "为什么现在男女对立这么严重？"
+  },
+  "fam-mil2": {
+   "name": "丈夫夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "q": "为什么丈夫总在婆媳中间为难？"
+  },
+  "gen-consume": {
+   "name": "女性消费工作耐心",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "q": "为什么女性消费欲望这么高？"
+  },
+  "gen-income": {
+   "name": "收入角色",
+   "conflict": "男性养家 vs 女性独立",
+   "q": "为什么现在女性也要养家？"
+  },
+  "fam-aa": {
+   "name": "婚后AA制",
+   "conflict": "婚后AA vs 生分",
+   "q": "为什么越来越多人婚后AA？"
+  },
+  "gen-stayhome": {
+   "name": "全职妈妈回归",
+   "conflict": "全职带娃 vs 重返职场",
+   "q": "为什么全职妈妈重返职场这么难？"
+  },
+  "gen-labels": {
+   "name": "大龄未婚标签",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "q": "为什么大龄未婚要被贴标签？"
+  },
+  "fam-mil3": {
+   "name": "婆媳同住",
+   "conflict": "婆媳同住 vs 边界",
+   "q": "为什么婆媳同住矛盾多？"
   }
  },
  "links": [
@@ -2521,6 +2561,86 @@
    "a": "tourism-group",
    "b": "digit-live",
    "note": "低价团与直播套路同属营销陷阱（低价诱饵）"
+  },
+  {
+   "a": "gen-war",
+   "b": "gen-work",
+   "note": "男女对立是职场性别歧视的舆论升级（结构问题被情绪化）"
+  },
+  {
+   "a": "gen-war",
+   "b": "digit-bully",
+   "note": "性别骂战是网络暴力的议题化（对立即流量）"
+  },
+  {
+   "a": "fam-mil2",
+   "b": "fam-motherinlaw",
+   "note": "丈夫夹心是婆媳矛盾的第三方（桥梁或裁判）"
+  },
+  {
+   "a": "fam-mil2",
+   "b": "fam-couple",
+   "note": "婆媳矛盾处理不好直接冲击夫妻关系"
+  },
+  {
+   "a": "gen-consume",
+   "b": "soc-consumer",
+   "note": "消费欲望是消费主义的性别化（取悦自己话术）"
+  },
+  {
+   "a": "gen-consume",
+   "b": "work-loyalty",
+   "note": "工作耐心低是跳槽文化的性别面（不将就）"
+  },
+  {
+   "a": "gen-income",
+   "b": "gen-house",
+   "note": "收入角色与家务分工同属家庭角色重构（谁主外谁主内）"
+  },
+  {
+   "a": "gen-income",
+   "b": "fam-couple",
+   "note": "养家之争影响夫妻关系（经济话语权）"
+  },
+  {
+   "a": "fam-aa",
+   "b": "fam-couple",
+   "note": "婚后AA是夫妻财务模式的现代选项（独立 vs 一体）"
+  },
+  {
+   "a": "fam-aa",
+   "b": "fin-wealth",
+   "note": "AA与家庭理财同属钱的分配（共同 vs 独立）"
+  },
+  {
+   "a": "gen-stayhome",
+   "b": "gen-house",
+   "note": "全职妈妈是家务分工的极端形态（主内全职化）"
+  },
+  {
+   "a": "gen-stayhome",
+   "b": "work-age35",
+   "note": "回归难撞上35岁门槛（断层+年龄双重劣势）"
+  },
+  {
+   "a": "gen-labels",
+   "b": "fam-gener",
+   "note": "剩女标签是催婚的社会化（家庭压力+社会舆论）"
+  },
+  {
+   "a": "gen-labels",
+   "b": "psy-lonely",
+   "note": "大龄未婚与孤独议题交织（单身≠孤独）"
+  },
+  {
+   "a": "fam-mil3",
+   "b": "fam-motherinlaw",
+   "note": "同住是婆媳矛盾的放大器（零距离摩擦）"
+  },
+  {
+   "a": "fam-mil3",
+   "b": "fam-eldercare",
+   "note": "同住与养老需要相关（老人依恋 vs 小家边界）"
   }
  ]
 }
