@@ -52,6 +52,17 @@ CONFLICT_META = {
     "soc-consumer": ("消费主义", "物质满足 vs 意义感", "为什么东西越买越多却不快乐？"),
     "soc-lieflat": ("内卷躺平", "努力回报 vs 上升通道", "为什么越来越多人选择躺平？"),
     "family-expect": ("家庭期望", "父母期望 vs 孩子自主", "爸妈总让我考公务员，我不想怎么办？"),
+    # v5 新矛盾
+    "ai-job": ("AI替代工作", "效率革命 vs 就业冲击", "AI会取代哪些人的工作？"),
+    "ai-copyright": ("AI创作版权", "AI训练 vs 创作者版权", "AI用我的画训练，算不算偷？"),
+    "ai-bias": ("算法偏见", "算法优化 vs 用户利益", "为什么算法推荐越刷越同质？"),
+    "work-free": ("自由职业", "自由 vs 稳定", "自由职业真的自由吗？"),
+    "work-remote": ("远程办公", "灵活 vs 协作", "远程办公为什么又爱又恨？"),
+    "fam-birth": ("生育成本", "养育成本 vs 生育意愿", "为什么年轻人越来越不想生孩子？"),
+    "health-night": ("熬夜", "夜晚自由 vs 健康代价", "为什么明知道熬夜伤身还是戒不掉？"),
+    "health-takeout": ("外卖健康", "时间稀缺 vs 健康需要", "为什么天天吃外卖还是戒不掉？"),
+    "edu-online": ("网课效果", "便利 vs 学习深度", "为什么网课效果总是不如线下？"),
+    "edu-chicken": ("鸡娃", "竞争焦虑 vs 孩子童年", "为什么家长都拼命鸡娃？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -104,6 +115,27 @@ LINK_NOTES = {
     ("soc-consumer", "self-ideal"): "买买买填补不了意义感——消费是理想空洞的补偿",
     ("soc-lieflat", "work-age35"): "躺平是35岁危机的提前版（看不到努力回报）",
     ("soc-lieflat", "self-ideal"): "躺平是理想破灭后的反应",
+    # v5 新矛盾关联
+    ("ai-job", "work-layoff"): "AI替代是裁员的技术版——岗位消失的新形式",
+    ("ai-job", "work-age35"): "中年人的经验更易被AI替代（重复经验=可自动化）",
+    ("ai-copyright", "digit-privacy"): "AI训练数据与个人数据同属数据主权问题",
+    ("ai-copyright", "gov-reg"): "AI版权立法是监管跟不上创新的最新案例",
+    ("ai-bias", "digit-privacy"): "算法偏见建立在数据之上——数据有偏则算法有偏",
+    ("ai-bias", "teach-fair"): "算法偏见是『评分不公』的机器版（AI评分vs老师偏心）",
+    ("work-free", "self-choice"): "选自由职业是理想vs稳定的选择难题",
+    ("work-free", "work-layoff"): "被裁后转自由职业是常见路径",
+    ("work-remote", "work-burnout"): "远程办公处理不好边界反而更累（永远在线）",
+    ("work-remote", "work-loyalty"): "远程稀释组织归属感——影响忠诚度",
+    ("fam-birth", "fam-eldercare"): "不生孩子→养老更靠社会资源（个人负担更重）",
+    ("fam-birth", "fam-gener"): "催生是代际矛盾的核心（老人催年轻人不生）",
+    ("health-night", "self-lazy"): "熬夜是自我控制的夜间失败",
+    ("health-night", "work-burnout"): "加班多→报复性熬夜→更累→恶性循环",
+    ("health-takeout", "digit-live"): "外卖平台是数字生活的延伸（点单即消费）",
+    ("health-takeout", "work-burnout"): "工作强度大→没时间做饭→依赖外卖",
+    ("edu-online", "edu-tutor"): "网课是补习班的线上化",
+    ("edu-online", "youth-game"): "网课分心与游戏沉迷同源（电子设备诱惑）",
+    ("edu-chicken", "edu-doublecut"): "双减后鸡娃转入地下（私教/素质班）",
+    ("edu-chicken", "youth-game"): "鸡娃过度→孩子用游戏逃避→新矛盾",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict

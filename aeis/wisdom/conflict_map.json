@@ -214,6 +214,56 @@
    "name": "家庭期望",
    "conflict": "父母期望 vs 孩子自主",
    "q": "爸妈总让我考公务员，我不想怎么办？"
+  },
+  "ai-job": {
+   "name": "AI替代工作",
+   "conflict": "效率革命 vs 就业冲击",
+   "q": "AI会取代哪些人的工作？"
+  },
+  "ai-copyright": {
+   "name": "AI创作版权",
+   "conflict": "AI训练 vs 创作者版权",
+   "q": "AI用我的画训练，算不算偷？"
+  },
+  "ai-bias": {
+   "name": "算法偏见",
+   "conflict": "算法优化 vs 用户利益",
+   "q": "为什么算法推荐越刷越同质？"
+  },
+  "work-free": {
+   "name": "自由职业",
+   "conflict": "自由 vs 稳定",
+   "q": "自由职业真的自由吗？"
+  },
+  "work-remote": {
+   "name": "远程办公",
+   "conflict": "灵活 vs 协作",
+   "q": "远程办公为什么又爱又恨？"
+  },
+  "fam-birth": {
+   "name": "生育成本",
+   "conflict": "养育成本 vs 生育意愿",
+   "q": "为什么年轻人越来越不想生孩子？"
+  },
+  "health-night": {
+   "name": "熬夜",
+   "conflict": "夜晚自由 vs 健康代价",
+   "q": "为什么明知道熬夜伤身还是戒不掉？"
+  },
+  "health-takeout": {
+   "name": "外卖健康",
+   "conflict": "时间稀缺 vs 健康需要",
+   "q": "为什么天天吃外卖还是戒不掉？"
+  },
+  "edu-online": {
+   "name": "网课效果",
+   "conflict": "便利 vs 学习深度",
+   "q": "为什么网课效果总是不如线下？"
+  },
+  "edu-chicken": {
+   "name": "鸡娃",
+   "conflict": "竞争焦虑 vs 孩子童年",
+   "q": "为什么家长都拼命鸡娃？"
   }
  },
  "links": [
@@ -451,6 +501,106 @@
    "a": "soc-lieflat",
    "b": "self-ideal",
    "note": "躺平是理想破灭后的反应"
+  },
+  {
+   "a": "ai-job",
+   "b": "work-layoff",
+   "note": "AI替代是裁员的技术版——岗位消失的新形式"
+  },
+  {
+   "a": "ai-job",
+   "b": "work-age35",
+   "note": "中年人的经验更易被AI替代（重复经验=可自动化）"
+  },
+  {
+   "a": "ai-copyright",
+   "b": "digit-privacy",
+   "note": "AI训练数据与个人数据同属数据主权问题"
+  },
+  {
+   "a": "ai-copyright",
+   "b": "gov-reg",
+   "note": "AI版权立法是监管跟不上创新的最新案例"
+  },
+  {
+   "a": "ai-bias",
+   "b": "digit-privacy",
+   "note": "算法偏见建立在数据之上——数据有偏则算法有偏"
+  },
+  {
+   "a": "ai-bias",
+   "b": "teach-fair",
+   "note": "算法偏见是『评分不公』的机器版（AI评分vs老师偏心）"
+  },
+  {
+   "a": "work-free",
+   "b": "self-choice",
+   "note": "选自由职业是理想vs稳定的选择难题"
+  },
+  {
+   "a": "work-free",
+   "b": "work-layoff",
+   "note": "被裁后转自由职业是常见路径"
+  },
+  {
+   "a": "work-remote",
+   "b": "work-burnout",
+   "note": "远程办公处理不好边界反而更累（永远在线）"
+  },
+  {
+   "a": "work-remote",
+   "b": "work-loyalty",
+   "note": "远程稀释组织归属感——影响忠诚度"
+  },
+  {
+   "a": "fam-birth",
+   "b": "fam-eldercare",
+   "note": "不生孩子→养老更靠社会资源（个人负担更重）"
+  },
+  {
+   "a": "fam-birth",
+   "b": "fam-gener",
+   "note": "催生是代际矛盾的核心（老人催年轻人不生）"
+  },
+  {
+   "a": "health-night",
+   "b": "self-lazy",
+   "note": "熬夜是自我控制的夜间失败"
+  },
+  {
+   "a": "health-night",
+   "b": "work-burnout",
+   "note": "加班多→报复性熬夜→更累→恶性循环"
+  },
+  {
+   "a": "health-takeout",
+   "b": "digit-live",
+   "note": "外卖平台是数字生活的延伸（点单即消费）"
+  },
+  {
+   "a": "health-takeout",
+   "b": "work-burnout",
+   "note": "工作强度大→没时间做饭→依赖外卖"
+  },
+  {
+   "a": "edu-online",
+   "b": "edu-tutor",
+   "note": "网课是补习班的线上化"
+  },
+  {
+   "a": "edu-online",
+   "b": "youth-game",
+   "note": "网课分心与游戏沉迷同源（电子设备诱惑）"
+  },
+  {
+   "a": "edu-chicken",
+   "b": "edu-doublecut",
+   "note": "双减后鸡娃转入地下（私教/素质班）"
+  },
+  {
+   "a": "edu-chicken",
+   "b": "youth-game",
+   "note": "鸡娃过度→孩子用游戏逃避→新矛盾"
   }
  ]
 }
