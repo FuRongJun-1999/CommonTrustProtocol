@@ -234,6 +234,15 @@ CONFLICT_META = {
     "fam-singlemom": ("单亲妈妈", "单亲养育 vs 支持", "为什么单亲妈妈这么难？"),
     "public-night": ("女性夜间安全", "女性夜间安全 vs 自由", "为什么女性夜间出行不安全？"),
     "gen-genderratio": ("婚恋性别比", "男多女少 vs 婚恋压力", "为什么男多女少？"),
+    # v25 新矛盾（性别家庭社会激化）
+    "gen-postpartum": ("产后抑郁", "产后情绪 vs 家庭支持", "为什么产后会抑郁？"),
+    "gen-paternity": ("男性育婴假", "男性休育儿假 vs 观念/职场", "为什么男性休育儿假的少？"),
+    "gen-dress": ("女性职场穿搭", "穿衣自由 vs 职场规范", "为什么职场对女性穿着这么多要求？"),
+    "gen-maleunmarried": ("大龄男性婚恋", "大龄男性婚恋 vs 婚恋市场", "为什么大龄男性更难结婚？"),
+    "fam-sunkcost": ("婚姻沉默成本", "婚姻将就 vs 放手", "为什么婚姻里将就的人这么多？"),
+    "fam-birthsubsidy": ("生育补贴", "生育补贴 vs 生育意愿", "生育补贴能提高生育率吗？"),
+    "public-toast": ("女性酒局", "女性酒局 vs 安全/边界", "为什么女性在酒局更危险？"),
+    "gen-ageanxiety": ("女性年龄焦虑", "怕老 vs 自我接纳", "为什么女性比男性更怕老？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -630,6 +639,23 @@ LINK_NOTES = {
     ("public-night", "gen-war"): "夜间安全的讨论常被性别对立裹挟（受害者有罪论）",
     ("gen-genderratio", "gen-malepressure"): "性别比失衡加剧男性婚育压力（竞争抬价）",
     ("gen-genderratio", "fam-betrothal"): "男多女少推高彩礼（婚恋市场供需）",
+    # v25 新矛盾关联（性别家庭社会激化）
+    ("gen-postpartum", "gen-stayhome"): "产后抑郁是全职妈妈的产后面（身心压力）",
+    ("gen-postpartum", "psy-anxiety"): "产后抑郁是心理问题的生育场景（被污名化）",
+    ("gen-paternity", "gen-hiring"): "男性育婴假与求职歧视同属生育的职场代价（男女都受影响）",
+    ("gen-paternity", "fam-parenting"): "育儿假是父职参与的制度保障（爸爸的时间）",
+    ("gen-dress", "gen-work"): "职场穿搭规训是职场性别歧视的形象面",
+    ("gen-dress", "public-night"): "对女性穿着的审视与夜间安全同属性别审视",
+    ("gen-maleunmarried", "gen-genderratio"): "大龄男性婚恋难是性别比失衡的直接后果",
+    ("gen-maleunmarried", "fam-gener"): "剩男压力与催婚同属婚恋社会压力（男性版）",
+    ("fam-sunkcost", "fam-couple"): "婚姻将就是夫妻矛盾的积累（沉默成本绑架）",
+    ("fam-sunkcost", "psy-anxiety"): "将就的婚姻是心理消耗（长期压抑）",
+    ("fam-birthsubsidy", "fam-birth"): "生育补贴是生育成本的政策分担（降成本）",
+    ("fam-birthsubsidy", "gov-subsidy"): "生育补贴是政府补贴的民生版（人口投资）",
+    ("public-toast", "social-toast"): "女性酒局是酒桌文化的性别面（权力结构）",
+    ("public-toast", "public-night"): "酒局醉酒风险是夜间安全的场景化",
+    ("gen-ageanxiety", "psy-appearance"): "年龄焦虑与容貌焦虑同源（女性被外貌年龄审判）",
+    ("gen-ageanxiety", "gen-labels"): "30岁坎与剩女标签同属年龄规训（社会时钟）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
