@@ -1096,7 +1096,12 @@ def _assemble(message, hits, emotion):
             for _t in _long_terms:
                 if _t in _present:
                     continue
-                _triggers = _st.DOMAIN_SYNONYM_CLUSTERS.get(_t, [])
+                # v1.26 修复（真实对话测试）：触发词可能在 SYNONYM_CLUSTERS
+                # （人类情感表）而非 DOMAIN_SYNONYM_CLUSTERS（知识域表）——
+                # 「AI性需求」簇在 SYNONYM_CLUSTERS，DOMAIN 查不到 → 反向
+                # 检查失效 → 键名不在原文时漏判。两表都查。
+                _triggers = list(_st.DOMAIN_SYNONYM_CLUSTERS.get(_t, [])) + \
+                    list(_st.SYNONYM_CLUSTERS.get(_t, []))
                 # 触发短语完整出现在原文，且不被已选键包含 → 反向命中
                 for _tr in _triggers:
                     if _tr not in message:
@@ -1114,7 +1119,9 @@ def _assemble(message, hits, emotion):
             # 在原文里最长，谁代表真实意图（梯度下降 4字 > 梯度 2字）。
             def _match_len(t):
                 best = len(t) if t in message else 0
-                for _tr in _st.DOMAIN_SYNONYM_CLUSTERS.get(t, []):
+                _trs = list(_st.DOMAIN_SYNONYM_CLUSTERS.get(t, [])) + \
+                    list(_st.SYNONYM_CLUSTERS.get(t, []))
+                for _tr in _trs:
                     if _tr in message and len(_tr) > best:
                         best = len(_tr)
                 return best
