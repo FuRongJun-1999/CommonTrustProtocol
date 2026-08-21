@@ -464,6 +464,46 @@
    "name": "旅游宰客",
    "conflict": "景区商业化/宰客 vs 旅游体验",
    "q": "为什么景区总宰客？"
+  },
+  "emp-pua": {
+   "name": "职场PUA",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "q": "为什么老板总爱画饼？"
+  },
+  "health-weight": {
+   "name": "身材焦虑",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "q": "为什么越来越多人身材焦虑？"
+  },
+  "public-civility": {
+   "name": "公共文明",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "q": "为什么高铁上总有熊孩子？"
+  },
+  "edu-punish": {
+   "name": "教育惩戒",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "q": "孩子不打不成器吗？"
+  },
+  "study-kaoyan": {
+   "name": "考研考公",
+   "conflict": "稳定追求 vs 竞争/内卷",
+   "q": "为什么越来越多人考研考公？"
+  },
+  "fam-solitude": {
+   "name": "独居老人",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "q": "为什么老人越来越孤独？"
+  },
+  "food-residue": {
+   "name": "农药残留",
+   "conflict": "吃得安全 vs 有机太贵",
+   "q": "蔬菜水果都有农药残留吗？"
+  },
+  "city-elevator": {
+   "name": "老旧小区",
+   "conflict": "加装电梯/改造 vs 费用/利益分歧",
+   "q": "为什么老小区加装电梯这么难？"
   }
  },
  "links": [
@@ -1201,6 +1241,86 @@
    "a": "tourism-trap",
    "b": "soc-consumer",
    "note": "旅游消费是消费主义的移动版（为体验付费/被套路收割）"
+  },
+  {
+   "a": "emp-pua",
+   "b": "work-burnout",
+   "note": "职场PUA叠加工作压力——身心双重消耗"
+  },
+  {
+   "a": "emp-pua",
+   "b": "social-boundary",
+   "note": "不会拒绝的人更容易被PUA（不敢反驳/不敢走）"
+  },
+  {
+   "a": "health-weight",
+   "b": "psy-appearance",
+   "note": "身材焦虑是容貌焦虑的身体版（同一审美暴力）"
+  },
+  {
+   "a": "health-weight",
+   "b": "health-takeout",
+   "note": "外卖高油高糖是身材焦虑的现实诱因（吃了胖→焦虑→更焦虑）"
+  },
+  {
+   "a": "public-civility",
+   "b": "city-pet",
+   "note": "公共场所矛盾与养宠矛盾同源——个人自由 vs 他人安宁"
+  },
+  {
+   "a": "public-civility",
+   "b": "social-boundary",
+   "note": "公共边界是『拒绝边界』的公共版（学会说不/学会守界）"
+  },
+  {
+   "a": "edu-punish",
+   "b": "teach-authority",
+   "note": "打骂式管教是老师权威的家庭版（我打你=我是为你好）"
+  },
+  {
+   "a": "edu-punish",
+   "b": "youth-game",
+   "note": "管太严/打骂把孩子推向游戏世界（逃避现实）"
+  },
+  {
+   "a": "study-kaoyan",
+   "b": "edu-job",
+   "note": "考研考公热是教育就业错配的结果（学历贬值→追求稳定）"
+  },
+  {
+   "a": "study-kaoyan",
+   "b": "soc-lieflat",
+   "note": "考公热与躺平同源——对上升通道失望后的防御选择"
+  },
+  {
+   "a": "fam-solitude",
+   "b": "fam-eldercare",
+   "note": "独居是养老问题的日常形态（钱之外还要陪伴）"
+  },
+  {
+   "a": "fam-solitude",
+   "b": "soc-aging",
+   "note": "老龄化放大独居问题（独居老人比例持续上升）"
+  },
+  {
+   "a": "food-residue",
+   "b": "food-safe",
+   "note": "农药残留与添加剂同属食品安全焦虑（看得见的怕+看不见的怕）"
+  },
+  {
+   "a": "food-residue",
+   "b": "medical-cost",
+   "note": "吃得不安心→身体担忧→医疗负担（预防焦虑的链条）"
+  },
+  {
+   "a": "city-elevator",
+   "b": "housing",
+   "note": "老小区改造是居住问题的存量版（买不起新房→改造旧房）"
+  },
+  {
+   "a": "city-elevator",
+   "b": "gov-subsidy",
+   "note": "加装电梯补贴是政府扶持公共品的案例（民生投入）"
   }
  ]
 }
