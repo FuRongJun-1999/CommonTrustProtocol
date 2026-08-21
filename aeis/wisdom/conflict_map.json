@@ -1344,6 +1344,46 @@
    "name": "夫妻说话方式",
    "conflict": "夫妻说话方式 vs 伤害",
    "q": "为什么夫妻说话容易伤人？"
+  },
+  "fam-health": {
+   "name": "夫妻健康观念",
+   "conflict": "夫妻健康观念 vs 统一",
+   "q": "夫妻健康观念不同怎么办？"
+  },
+  "fam-pet": {
+   "name": "家庭养宠之争",
+   "conflict": "家庭养宠 vs 责任",
+   "q": "家里要不要养宠物？"
+  },
+  "fam-car": {
+   "name": "家庭买车",
+   "conflict": "家庭买车 vs 刚需/面子",
+   "q": "家里要不要买车？"
+  },
+  "fam-sibling": {
+   "name": "成年兄弟姐妹",
+   "conflict": "成年兄弟姐妹 vs 利益",
+   "q": "成年兄弟姐妹怎么相处？"
+  },
+  "fam-couplegoals": {
+   "name": "夫妻共同目标",
+   "conflict": "夫妻共同目标 vs 各自追求",
+   "q": "夫妻要有共同目标吗？"
+  },
+  "fam-remotework": {
+   "name": "远程办公家庭",
+   "conflict": "远程工作 vs 家庭",
+   "q": "远程工作会影响家庭吗？"
+  },
+  "fam-elderlyhealth": {
+   "name": "父母健康管理",
+   "conflict": "劝父母体检 vs 尊重",
+   "q": "怎么劝父母体检？"
+  },
+  "fam-childprivacy": {
+   "name": "孩子隐私",
+   "conflict": "孩子隐私 vs 关心",
+   "q": "父母该看孩子日记吗？"
   }
  },
  "links": [
@@ -3841,6 +3881,86 @@
    "a": "fam-talk",
    "b": "fam-couple",
    "note": "好好说话是夫妻关系的日常修养（语言温度）"
+  },
+  {
+   "a": "fam-health",
+   "b": "fam-couple",
+   "note": "健康观念差异是夫妻互动的日常摩擦（劝 vs 倔）"
+  },
+  {
+   "a": "fam-health",
+   "b": "medical-cost",
+   "note": "健康观念影响医疗支出（预防 vs 治疗）"
+  },
+  {
+   "a": "fam-pet",
+   "b": "city-pet",
+   "note": "家庭养宠之争是养宠议题的家庭决策面（要不要养）"
+  },
+  {
+   "a": "fam-pet",
+   "b": "fam-couple",
+   "note": "养宠分歧考验夫妻协商（意愿 vs 责任）"
+  },
+  {
+   "a": "fam-car",
+   "b": "traffic-jam",
+   "note": "买车决策与城市交通相关（拥堵/停车难）"
+  },
+  {
+   "a": "fam-car",
+   "b": "fam-decision",
+   "note": "买车是家庭大额消费决策（算账）"
+  },
+  {
+   "a": "fam-sibling",
+   "b": "fam-inheritance",
+   "note": "手足关系在遗产分配中受考验（明算账）"
+  },
+  {
+   "a": "fam-sibling",
+   "b": "fam-eldercare",
+   "note": "兄弟姐妹共担父母养老（分摊）"
+  },
+  {
+   "a": "fam-couplegoals",
+   "b": "fam-growth",
+   "note": "共同目标是成长同步的方向（同行）"
+  },
+  {
+   "a": "fam-couplegoals",
+   "b": "fam-couple",
+   "note": "共同目标连接夫妻（同向不捆绑）"
+  },
+  {
+   "a": "fam-remotework",
+   "b": "work-remote",
+   "note": "远程办公家庭的居家形态（工作家庭交织）"
+  },
+  {
+   "a": "fam-remotework",
+   "b": "digit-familytime",
+   "note": "远程工作与家庭屏幕同属数字家庭场景"
+  },
+  {
+   "a": "fam-elderlyhealth",
+   "b": "fam-eldercare3",
+   "note": "异地子女管父母健康更难（远程关心）"
+  },
+  {
+   "a": "fam-elderlyhealth",
+   "b": "medical-cost",
+   "note": "父母健康管理降低医疗成本（预防）"
+  },
+  {
+   "a": "fam-childprivacy",
+   "b": "edu-punish",
+   "note": "孩子隐私与管教边界相关（尊重 vs 立规矩）"
+  },
+  {
+   "a": "fam-childprivacy",
+   "b": "fam-phone",
+   "note": "看日记与查手机同属隐私边界（关心 vs 侵犯）"
   }
  ]
 }

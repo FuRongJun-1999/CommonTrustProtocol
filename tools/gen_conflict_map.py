@@ -306,6 +306,15 @@ CONFLICT_META = {
     "fam-eldercare3": ("异地养老", "异地养老 vs 尽孝", "父母在老家，怎么尽孝？"),
     "fam-newyear": ("过年回谁家", "过年回谁家 vs 两难", "过年回谁家总吵架？"),
     "fam-talk": ("夫妻说话方式", "夫妻说话方式 vs 伤害", "为什么夫妻说话容易伤人？"),
+    # v33 新矛盾（家庭决策代际互动激化）
+    "fam-health": ("夫妻健康观念", "夫妻健康观念 vs 统一", "夫妻健康观念不同怎么办？"),
+    "fam-pet": ("家庭养宠之争", "家庭养宠 vs 责任", "家里要不要养宠物？"),
+    "fam-car": ("家庭买车", "家庭买车 vs 刚需/面子", "家里要不要买车？"),
+    "fam-sibling": ("成年兄弟姐妹", "成年兄弟姐妹 vs 利益", "成年兄弟姐妹怎么相处？"),
+    "fam-couplegoals": ("夫妻共同目标", "夫妻共同目标 vs 各自追求", "夫妻要有共同目标吗？"),
+    "fam-remotework": ("远程办公家庭", "远程工作 vs 家庭", "远程工作会影响家庭吗？"),
+    "fam-elderlyhealth": ("父母健康管理", "劝父母体检 vs 尊重", "怎么劝父母体检？"),
+    "fam-childprivacy": ("孩子隐私", "孩子隐私 vs 关心", "父母该看孩子日记吗？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -838,6 +847,23 @@ LINK_NOTES = {
     ("fam-newyear", "fam-mil4"): "过年安排牵动两家关系（婆家娘家平衡）",
     ("fam-talk", "fam-fight"): "说话方式决定吵架的性质（语言暴力 vs 沟通）",
     ("fam-talk", "fam-couple"): "好好说话是夫妻关系的日常修养（语言温度）",
+    # v33 新矛盾关联（家庭决策代际互动激化）
+    ("fam-health", "fam-couple"): "健康观念差异是夫妻互动的日常摩擦（劝 vs 倔）",
+    ("fam-health", "medical-cost"): "健康观念影响医疗支出（预防 vs 治疗）",
+    ("fam-pet", "city-pet"): "家庭养宠之争是养宠议题的家庭决策面（要不要养）",
+    ("fam-pet", "fam-couple"): "养宠分歧考验夫妻协商（意愿 vs 责任）",
+    ("fam-car", "traffic-jam"): "买车决策与城市交通相关（拥堵/停车难）",
+    ("fam-car", "fam-decision"): "买车是家庭大额消费决策（算账）",
+    ("fam-sibling", "fam-inheritance"): "手足关系在遗产分配中受考验（明算账）",
+    ("fam-sibling", "fam-eldercare"): "兄弟姐妹共担父母养老（分摊）",
+    ("fam-couplegoals", "fam-growth"): "共同目标是成长同步的方向（同行）",
+    ("fam-couplegoals", "fam-couple"): "共同目标连接夫妻（同向不捆绑）",
+    ("fam-remotework", "work-remote"): "远程办公家庭的居家形态（工作家庭交织）",
+    ("fam-remotework", "digit-familytime"): "远程工作与家庭屏幕同属数字家庭场景",
+    ("fam-elderlyhealth", "fam-eldercare3"): "异地子女管父母健康更难（远程关心）",
+    ("fam-elderlyhealth", "medical-cost"): "父母健康管理降低医疗成本（预防）",
+    ("fam-childprivacy", "edu-punish"): "孩子隐私与管教边界相关（尊重 vs 立规矩）",
+    ("fam-childprivacy", "fam-phone"): "看日记与查手机同属隐私边界（关心 vs 侵犯）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
