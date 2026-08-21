@@ -324,6 +324,15 @@ CONFLICT_META = {
     "fam-chorechild": ("孩子家务", "孩子家务 vs 学习", "孩子该做家务吗？"),
     "fam-cleanliness": ("家务标准", "洁癖 vs 随意", "家务标准不同怎么办？"),
     "fam-petchild": ("宠物与孩子", "宠物与孩子 vs 共存", "有孩子能养宠物吗？"),
+    # v35 新矛盾（家庭场景生活节奏激化）
+    "fam-childhome": ("孩子独自在家", "孩子独自在家 vs 安全", "孩子几岁能独自在家？"),
+    "work-commute": ("极端通勤", "极端通勤 vs 生活", "通勤两小时值得吗？"),
+    "digit-drama": ("短剧沉迷", "短剧 vs 沉迷", "为什么短剧这么上头？"),
+    "fam-weekend": ("周末安排", "周末休息 vs 家庭", "周末该干嘛？"),
+    "fam-empty": ("空巢期夫妻", "空巢期 vs 解放/失落", "孩子离家后夫妻怎么办？"),
+    "fam-summer": ("暑假安排", "暑假放松 vs 弯道超车", "暑假怎么安排孩子？"),
+    "fam-caregiving": ("家人照护", "家人照护 vs 责任/负担", "家人病了谁来照顾？"),
+    "fam-disabled": ("失能老人照护", "失能老人 vs 家庭/专业", "失能老人谁来照顾？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -890,6 +899,23 @@ LINK_NOTES = {
     ("fam-cleanliness", "fam-fight"): "家务标准冲突是夫妻吵架的日常导火索",
     ("fam-petchild", "fam-pet"): "宠物与孩子是家庭养宠的育儿版（共存）",
     ("fam-petchild", "fam-childfriends"): "宠物是孩子的伙伴（友谊的动物版）",
+    # v35 新矛盾关联（家庭场景生活节奏激化）
+    ("fam-childhome", "fam-childprivacy"): "独自在家是孩子独立的场景（隐私与独立）",
+    ("fam-childhome", "public-night"): "孩子独自在家与夜间安全同属儿童安全",
+    ("work-commute", "traffic-jam"): "极端通勤是城市拥堵的个体代价（职住分离）",
+    ("work-commute", "work-burnout"): "通勤消耗加剧工作疲惫（时间精力）",
+    ("digit-drama", "digit-scroll"): "短剧沉迷是短视频沉迷的剧情版（爽点密集）",
+    ("digit-drama", "digit-tipping"): "短剧付费与直播打赏同属数字消费陷阱",
+    ("fam-weekend", "fam-trip"): "周末安排是家庭旅行的日常版（短途）",
+    ("fam-weekend", "fam-schedule"): "周末作息与家庭作息相关（补觉与节奏）",
+    ("fam-empty", "fam-solitude"): "空巢期是独居的过渡（孩子离家后）",
+    ("fam-empty", "fam-postbirth"): "空巢期是生育后夫妻关系的下一阶段（重新面对）",
+    ("fam-summer", "edu-hobby"): "暑假安排与兴趣班相关（弯道超车 vs 童年）",
+    ("fam-summer", "fam-weekend"): "暑假是周末的延长版（安排矛盾）",
+    ("fam-caregiving", "med-accompany"): "家人照护是医院陪护的居家版（长期照护）",
+    ("fam-caregiving", "fam-couple"): "照护安排考验家庭分工（谁照顾）",
+    ("fam-disabled", "med-eldercare"): "失能照护是医养结合的核心需求（专业护理）",
+    ("fam-disabled", "fam-eldercare3"): "失能照护是异地养老的难点（照顾不了）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
