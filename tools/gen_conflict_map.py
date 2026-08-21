@@ -99,6 +99,15 @@ CONFLICT_META = {
     "sport-fan": ("体育饭圈", "竞技体育的饭圈化 vs 运动本身", "为什么体育圈也饭圈化了？"),
     "water-res": ("水资源", "水资源短缺 vs 浪费/污染", "为什么水资源越来越紧张？"),
     "plastic-waste": ("塑料污染", "塑料制品便利 vs 白色污染", "为什么限塑令效果不好？"),
+    # v10 新矛盾
+    "fam-betrothal": ("彩礼", "彩礼习俗 vs 爱情/小家庭负担", "为什么彩礼越来越高？"),
+    "fam-parenting": ("丧偶式育儿", "育儿分工 vs 父亲缺席", "为什么育儿都是妈妈的事？"),
+    "housing": ("房价", "房价/房贷 vs 居住需求", "为什么房价这么高？"),
+    "medical-cost": ("医疗费用", "看病贵 vs 医保/生存", "一场大病为什么能拖垮一个家？"),
+    "edu-track": ("教育分流", "中考分流/职高 vs 大学路", "为什么中考就要分流？"),
+    "digit-scroll": ("短视频沉迷", "短视频即时快乐 vs 时间/专注", "为什么刷短视频停不下来？"),
+    "rural-hollow": ("农村空心化", "进城发展 vs 乡村凋零", "为什么农村年轻人越来越少？"),
+    "tourism-trap": ("旅游宰客", "景区商业化/宰客 vs 旅游体验", "为什么景区总宰客？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -240,6 +249,23 @@ LINK_NOTES = {
     ("water-res", "disaster-dev"): "干旱/水灾是水资源矛盾的灾害化——防灾与用水同源",
     ("plastic-waste", "gov-carbon"): "限塑与碳中和同属环保政策——个体便利 vs 长期环境",
     ("plastic-waste", "health-takeout"): "外卖是塑料垃圾最大来源——外卖便利的两头代价",
+    # v10 新矛盾关联
+    ("fam-betrothal", "fam-gener"): "彩礼是代际观念冲突的婚嫁形态（老人要面子/年轻人要小家庭）",
+    ("fam-betrothal", "fam-couple"): "彩礼谈不拢直接冲击小家庭——婚前的账婚后来算",
+    ("fam-parenting", "gen-house"): "丧偶式育儿是家务分工失衡的育儿版（隐形劳动+缺席）",
+    ("fam-parenting", "fam-couple"): "育儿分工不公是夫妻矛盾的高发点",
+    ("housing", "fam-birth"): "房价/房贷是生育成本的大头——买不起房就不敢生",
+    ("housing", "soc-urban"): "城市化推高房价，房价又反过来挤压进城者（城乡流动困境）",
+    ("medical-cost", "soc-doctor"): "看病贵是医患关系的经济根源（费用纠纷）",
+    ("medical-cost", "soc-aging"): "老龄化放大医疗费用压力（老人大病多/医保承压）",
+    ("edu-track", "edu-score"): "分流是应试筛选的节点化（分数决定去普高还是职高）",
+    ("edu-track", "edu-job"): "职高出路窄正是教育就业错配的表现（学技能没回报）",
+    ("digit-scroll", "self-lazy"): "刷短视频是自我控制的数字版失败（即时满足）",
+    ("digit-scroll", "youth-game"): "短视频与游戏同属数字沉迷——争夺注意力同一战场",
+    ("rural-hollow", "soc-urban"): "农村空心化是城乡流动的另一面（人往城里走，农村变空）",
+    ("rural-hollow", "fam-leftbehind"): "年轻人进城=孩子留守+老人空巢——空心化的家庭代价",
+    ("tourism-trap", "gov-reg"): "宰客乱象是监管滞后于市场逐利的案例（处罚太轻/执法难）",
+    ("tourism-trap", "soc-consumer"): "旅游消费是消费主义的移动版（为体验付费/被套路收割）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
