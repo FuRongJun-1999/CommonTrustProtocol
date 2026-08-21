@@ -117,6 +117,15 @@ CONFLICT_META = {
     "fam-solitude": ("独居老人", "老人独居 vs 子女陪伴/照护", "为什么老人越来越孤独？"),
     "food-residue": ("农药残留", "吃得安全 vs 有机太贵", "蔬菜水果都有农药残留吗？"),
     "city-elevator": ("老旧小区", "加装电梯/改造 vs 费用/利益分歧", "为什么老小区加装电梯这么难？"),
+    # v12 新矛盾
+    "edu-graduate": ("应届生就业", "毕业就失业 vs 岗位需求错配", "为什么毕业就失业？"),
+    "digit-scam": ("电信诈骗", "诈骗手段升级 vs 老人防范薄弱", "为什么老人容易被骗？"),
+    "digit-tipping": ("直播打赏", "打赏主播 vs 钱/理性", "为什么有人花那么多钱打赏？"),
+    "med-cosmetic": ("医美整容", "变美需求 vs 手术风险", "为什么越来越多人整容？"),
+    "fam-yuesao": ("月嫂月子", "请月嫂花钱 vs 家人带/值不值", "为什么月嫂这么贵？"),
+    "health-myopia": ("儿童近视", "电子产品/作业 vs 视力保护", "为什么孩子近视越来越多？"),
+    "city-square": ("广场舞", "老人健身需求 vs 周边安宁", "为什么广场舞总有矛盾？"),
+    "food-waste": ("光盘行动", "面子/点多了 vs 粮食浪费", "为什么浪费食物这么普遍？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -292,6 +301,23 @@ LINK_NOTES = {
     ("food-residue", "medical-cost"): "吃得不安心→身体担忧→医疗负担（预防焦虑的链条）",
     ("city-elevator", "housing"): "老小区改造是居住问题的存量版（买不起新房→改造旧房）",
     ("city-elevator", "gov-subsidy"): "加装电梯补贴是政府扶持公共品的案例（民生投入）",
+    # v12 新矛盾关联
+    ("edu-graduate", "edu-job"): "应届生就业难是教育就业错配的第一现场（毕业即暴露）",
+    ("edu-graduate", "study-kaoyan"): "就业难驱动考研考公（延缓就业/追求稳定）",
+    ("digit-scam", "age-digital"): "老人被骗是数字鸿沟的代价（不会识别/不敢质疑）",
+    ("digit-scam", "digit-privacy"): "诈骗依赖个人信息泄露（精准诈骗=隐私滥用）",
+    ("digit-tipping", "digit-live"): "打赏与直播购物同属直播经济——冲动消费的数字版",
+    ("digit-tipping", "youth-idol"): "打赏是追星经济的直播版（为偶像花钱）",
+    ("med-cosmetic", "psy-appearance"): "整容是容貌焦虑的极端解决（外貌焦虑→动刀）",
+    ("med-cosmetic", "medical-cost"): "医美是健康消费的高风险区（手术有风险/失败维权难）",
+    ("fam-yuesao", "fam-birth"): "月嫂贵是生育成本的一部分（生得起养不起的细节）",
+    ("fam-yuesao", "fam-parenting"): "月嫂是育儿分工的市场化（专业外包 vs 家庭承担）",
+    ("health-myopia", "digit-scroll"): "孩子近视与刷屏沉迷同源（屏幕时间失控）",
+    ("health-myopia", "edu-score"): "学业负担挤压户外时间——应试压力的身体代价",
+    ("city-square", "public-civility"): "广场舞之争是公共边界矛盾的社区版",
+    ("city-square", "fam-solitude"): "广场舞是老人的社交出口——孤独的广场解法",
+    ("food-waste", "plastic-waste"): "光盘与限塑同属资源节约（粮食/塑料都不该浪费）",
+    ("food-waste", "soc-consumer"): "浪费是消费主义的面子版（丰盛崇拜）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict

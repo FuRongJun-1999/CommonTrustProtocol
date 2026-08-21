@@ -504,6 +504,46 @@
    "name": "老旧小区",
    "conflict": "加装电梯/改造 vs 费用/利益分歧",
    "q": "为什么老小区加装电梯这么难？"
+  },
+  "edu-graduate": {
+   "name": "应届生就业",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "q": "为什么毕业就失业？"
+  },
+  "digit-scam": {
+   "name": "电信诈骗",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "q": "为什么老人容易被骗？"
+  },
+  "digit-tipping": {
+   "name": "直播打赏",
+   "conflict": "打赏主播 vs 钱/理性",
+   "q": "为什么有人花那么多钱打赏？"
+  },
+  "med-cosmetic": {
+   "name": "医美整容",
+   "conflict": "变美需求 vs 手术风险",
+   "q": "为什么越来越多人整容？"
+  },
+  "fam-yuesao": {
+   "name": "月嫂月子",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "q": "为什么月嫂这么贵？"
+  },
+  "health-myopia": {
+   "name": "儿童近视",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "q": "为什么孩子近视越来越多？"
+  },
+  "city-square": {
+   "name": "广场舞",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "q": "为什么广场舞总有矛盾？"
+  },
+  "food-waste": {
+   "name": "光盘行动",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "q": "为什么浪费食物这么普遍？"
   }
  },
  "links": [
@@ -1321,6 +1361,86 @@
    "a": "city-elevator",
    "b": "gov-subsidy",
    "note": "加装电梯补贴是政府扶持公共品的案例（民生投入）"
+  },
+  {
+   "a": "edu-graduate",
+   "b": "edu-job",
+   "note": "应届生就业难是教育就业错配的第一现场（毕业即暴露）"
+  },
+  {
+   "a": "edu-graduate",
+   "b": "study-kaoyan",
+   "note": "就业难驱动考研考公（延缓就业/追求稳定）"
+  },
+  {
+   "a": "digit-scam",
+   "b": "age-digital",
+   "note": "老人被骗是数字鸿沟的代价（不会识别/不敢质疑）"
+  },
+  {
+   "a": "digit-scam",
+   "b": "digit-privacy",
+   "note": "诈骗依赖个人信息泄露（精准诈骗=隐私滥用）"
+  },
+  {
+   "a": "digit-tipping",
+   "b": "digit-live",
+   "note": "打赏与直播购物同属直播经济——冲动消费的数字版"
+  },
+  {
+   "a": "digit-tipping",
+   "b": "youth-idol",
+   "note": "打赏是追星经济的直播版（为偶像花钱）"
+  },
+  {
+   "a": "med-cosmetic",
+   "b": "psy-appearance",
+   "note": "整容是容貌焦虑的极端解决（外貌焦虑→动刀）"
+  },
+  {
+   "a": "med-cosmetic",
+   "b": "medical-cost",
+   "note": "医美是健康消费的高风险区（手术有风险/失败维权难）"
+  },
+  {
+   "a": "fam-yuesao",
+   "b": "fam-birth",
+   "note": "月嫂贵是生育成本的一部分（生得起养不起的细节）"
+  },
+  {
+   "a": "fam-yuesao",
+   "b": "fam-parenting",
+   "note": "月嫂是育儿分工的市场化（专业外包 vs 家庭承担）"
+  },
+  {
+   "a": "health-myopia",
+   "b": "digit-scroll",
+   "note": "孩子近视与刷屏沉迷同源（屏幕时间失控）"
+  },
+  {
+   "a": "health-myopia",
+   "b": "edu-score",
+   "note": "学业负担挤压户外时间——应试压力的身体代价"
+  },
+  {
+   "a": "city-square",
+   "b": "public-civility",
+   "note": "广场舞之争是公共边界矛盾的社区版"
+  },
+  {
+   "a": "city-square",
+   "b": "fam-solitude",
+   "note": "广场舞是老人的社交出口——孤独的广场解法"
+  },
+  {
+   "a": "food-waste",
+   "b": "plastic-waste",
+   "note": "光盘与限塑同属资源节约（粮食/塑料都不该浪费）"
+  },
+  {
+   "a": "food-waste",
+   "b": "soc-consumer",
+   "note": "浪费是消费主义的面子版（丰盛崇拜）"
   }
  ]
 }
