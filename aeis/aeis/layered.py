@@ -89,14 +89,23 @@ def _counters_conflict(dex, sentence, card_names):
     return None
 
 # LLM 配置
-# v1.22 可移植性（Ornith 本地后端接入）：环境变量可覆盖——
-# AEIS_LLM_BASE_URL / AEIS_LLM_MODEL / AEIS_LLM_API_KEY / AEIS_LLM_MAX_TOKENS。
-# 例：LM Studio 本地（Ornith 1.5-9B）→
-#   AEIS_LLM_BASE_URL=http://127.0.0.1:1234/v1 AEIS_LLM_MODEL=Ornith-1.5-9B-Q4_K_M
-LLM_BASE_URL = os.environ.get("AEIS_LLM_BASE_URL", "https://api.deepseek.com")
-LLM_MODEL = os.environ.get("AEIS_LLM_MODEL", "deepseek-chat")
+# v1.23 默认后端 = Ornith 1.5-9B（Ollama 本地 · qwen35 架构）
+# 荣（2026-08-21）：多模态/自然语言对话数据完整翻译迭代完成前，
+# Ornith 是必要补充——白箱盲区续答用本地 LLM 兜底；迭代完成后
+# 原生 CNN 即可，不再需要 LLM。
+#   - 默认：AEIS_LLM_BASE_URL 指向本地 Ollama（127.0.0.1:11434）
+#   - 降级：Ollama 不可达时自动回退 DeepSeek（云端 API）
+#   - 覆盖：AEIS_LLM_BASE_URL / AEIS_LLM_MODEL / AEIS_LLM_API_KEY /
+#     AEIS_LLM_MAX_TOKENS / AEIS_LLM_NO_FALLBACK=1（禁用降级）
+_LLM_LOCAL_URL = "http://127.0.0.1:11434/v1"      # Ollama（Ornith）
+_LLM_CLOUD_URL = "https://api.deepseek.com"       # DeepSeek（降级）
+LLM_BASE_URL = os.environ.get("AEIS_LLM_BASE_URL", _LLM_LOCAL_URL)
+LLM_MODEL = os.environ.get("AEIS_LLM_MODEL", "ornith-1.5-9b")
 LLM_MAX_TOKENS = int(os.environ.get("AEIS_LLM_MAX_TOKENS", "800"))
 LLM_TEMPERATURE = 0.3
+# 降级开关：Ollama 不可达 → DeepSeek（默认开；AEIS_LLM_NO_FALLBACK=1 关）
+_LLM_NO_FALLBACK = os.environ.get("AEIS_LLM_NO_FALLBACK", "") == "1"
+_LLM_FALLBACK_MODEL = os.environ.get("AEIS_LLM_FALLBACK_MODEL", "deepseek-chat")
 
 # 系统提示：说明灵枢分层架构与智慧之书初步回答的定位
 # v1.22 强化（Ornith 本地后端接入）：①自称必须是灵枢（Ornith 预训练
@@ -150,6 +159,9 @@ def _get_llm_client():
 
     v1.22：支持本地后端（LM Studio/Ornith）——AEIS_LLM_BASE_URL 指向
     localhost 时无需真实 key（LM Studio 忽略 key，给占位符即可）。
+    v1.23：默认后端 Ornith（Ollama 本地）；客户端创建本身不发起网络
+    请求（openai SDK 惰性连接），真正的不可达在 llm_complete 调用时
+    暴露——那里做 DeepSeek 降级（见 llm_complete 的 fallback）。
     """
     global _LLM_CLIENT
     if _LLM_CLIENT is not None:
@@ -314,6 +326,34 @@ def llm_complete(question, wisdom_reply, session_id="default",
                         break
         return (text, True) if text else (None, False)
     except Exception:
+        # v1.23 降级：默认后端 Ornith（Ollama 本地）不可达 →
+        # 自动回退 DeepSeek 云端（除非 AEIS_LLM_NO_FALLBACK=1）。
+        # 只在本地后端时降级；云端后端失败直接返回（不递归降级）。
+        if not _LLM_NO_FALLBACK and ("127.0.0.1" in LLM_BASE_URL
+                                     or "localhost" in LLM_BASE_URL):
+            try:
+                import openai as _oa
+                _key = os.environ.get("DEEPSEEK_API_KEY", "") \
+                    or _env_user("DEEPSEEK_API_KEY")
+                if _key:
+                    _fc = _oa.OpenAI(api_key=_key, base_url=_LLM_CLOUD_URL)
+                    _fr = _fc.chat.completions.create(
+                        model=_LLM_FALLBACK_MODEL,
+                        messages=[
+                            {"role": "system", "content": LLM_SYSTEM_PROMPT},
+                            {"role": "user", "content":
+                             f"用户问题：{question}\n\n"
+                             f"智慧之书初步回答：{wisdom_reply}\n\n"
+                             f"（会话 {session_id}）请给出最终回答。"},
+                        ],
+                        max_tokens=LLM_MAX_TOKENS,
+                        temperature=LLM_TEMPERATURE,
+                        stream=False,
+                    )
+                    _t = (_fr.choices[0].message.content or "").strip()
+                    return (_t, True) if _t else (None, False)
+            except Exception:
+                pass
         return None, False
 
 
