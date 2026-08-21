@@ -1041,7 +1041,10 @@ def _assemble(message, hits, emotion):
         _cond_guard = any(w in message for w in
                           ("珠峰", "珠穆朗玛", "高原", "山顶", "高压锅", "海拔",
                            "气压", "高压", "低压", "潜水", "太空", "真空", "深海"))
-        _long_terms = [t for t in _fp if len(t) >= 3 and t in _st.REVERSE_DAILY]
+        # v1.26（错题复测）：阈值 3→2——「涌现」「递归」等 2 字概念直答
+        # 被滤掉（涌现 llm 讲偏成阅读理解）。REVERSE_DAILY 2 字键全是
+        # 具体概念（涌现/递归/重力/原子/记忆…），放宽安全。
+        _long_terms = [t for t in _fp if len(t) >= 2 and t in _st.REVERSE_DAILY]
         if _long_terms and not _cond_guard:
             # v1.23 修复（知识考古批次2）：优先问题中实际出现的词
             # （「什么是混沌的边缘」→「混沌的边缘」而非「混沌与蝴蝶效应」——
