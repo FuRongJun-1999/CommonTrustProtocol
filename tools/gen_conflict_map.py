@@ -135,6 +135,15 @@ CONFLICT_META = {
     "city-accessibility": ("无障碍出行", "残障出行 vs 设施不足/占用", "为什么盲道总被占用？"),
     "work-rehire": ("退休再就业", "退休后再就业 vs 年龄/体面", "为什么退休了还想找工作？"),
     "env-sort": ("垃圾分类", "分类麻烦 vs 环境收益", "为什么垃圾分类这么麻烦？"),
+    # v14 新矛盾
+    "fam-wedding": ("婚庆消费", "结婚花钱 vs 简办/面子", "为什么结婚这么贵？"),
+    "soc-secondhand": ("二手交易", "二手买卖 vs 假货/纠纷", "为什么二手平台这么火？"),
+    "disaster-drill": ("应急演练", "演练形式化 vs 真有用", "为什么演练总是走过场？"),
+    "fam-housekeeper": ("家政服务", "请保姆 vs 信任/隐私", "为什么好保姆这么难找？"),
+    "fin-wealth": ("理财推销", "理财收益 vs 亏损风险", "为什么银行也卖理财产品？"),
+    "city-property": ("小区物业", "物业费 vs 服务质量", "为什么物业费年年涨？"),
+    "health-smoke": ("公共场所吸烟", "吸烟自由 vs 他人健康", "为什么公共场合总有人抽烟？"),
+    "digit-dating": ("网络交友", "网恋缘分 vs 杀猪盘", "为什么网恋容易翻车？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -344,6 +353,23 @@ LINK_NOTES = {
     ("work-rehire", "soc-aging"): "老龄化让银发劳动力成为社会议题（老有所为）",
     ("env-sort", "plastic-waste"): "垃圾分类是塑料治理的执行环节（分出来才能回收）",
     ("env-sort", "gov-reg"): "分类政策是监管型治理（前端立法+后端执法）",
+    # v14 新矛盾关联
+    ("fam-wedding", "fam-betrothal"): "婚礼消费与彩礼同属婚姻成本（结婚要花的钱越来越多）",
+    ("fam-wedding", "soc-consumer"): "婚礼是消费主义的人生巅峰场景（一生一次的营销）",
+    ("soc-secondhand", "digit-live"): "二手交易是直播冲动消费的补救（买多了→闲鱼见）",
+    ("soc-secondhand", "gov-reg"): "二手平台假货纠纷是监管新课题（C2C交易难追责）",
+    ("disaster-drill", "disaster-dev"): "演练是防灾投入的落地环节（钱要花在练上）",
+    ("disaster-drill", "edu-score"): "走过场式演练与应试教育同构（重形式轻实效）",
+    ("fam-housekeeper", "gen-house"): "家政是家务分工的市场化（外包还是内部消化）",
+    ("fam-housekeeper", "fam-couple"): "请保姆/老人带娃影响夫妻协作（家务谁负责之争）",
+    ("fin-wealth", "fin-loan"): "理财与借贷是家庭金融的两面（增值与负债的风险）",
+    ("fin-wealth", "digit-scam"): "高息理财与诈骗同源（收益诱惑是骗局入口）",
+    ("city-property", "city-elevator"): "物业是小区日常治理，电梯改造是小区大事（同一社区权力场）",
+    ("city-property", "gov-reg"): "物业纠纷需要监管（物业条例/业委会制度）",
+    ("health-smoke", "public-civility"): "公共场所吸烟是公共边界问题的健康版",
+    ("health-smoke", "medical-cost"): "吸烟/二手烟增加医疗负担（慢病源头）",
+    ("digit-dating", "digit-scam"): "杀猪盘是电信诈骗的情感版（骗钱先骗心）",
+    ("digit-dating", "relation-attach"): "网恋是依恋需求在数字时代的形态（更容易上头也更容易受伤）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
