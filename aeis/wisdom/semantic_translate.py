@@ -2157,6 +2157,10 @@ _KEY_TO_CONFLICT = {
     "直播消费": "digit-live", "数据隐私": "digit-privacy",
     "养老社会": "soc-aging", "城乡流动": "soc-urban", "医患关系": "soc-doctor",
     "消费主义": "soc-consumer", "内卷躺平": "soc-lieflat",
+    "AI替代工作": "ai-job", "AI创作版权": "ai-copyright", "算法偏见": "ai-bias",
+    "自由职业": "work-free", "远程办公": "work-remote", "生育成本": "fam-birth",
+    "熬夜": "health-night", "外卖健康": "health-takeout",
+    "网课效果": "edu-online", "鸡娃": "edu-chicken",
 }
 _CONFLICT_CACHE = None
 
