@@ -243,6 +243,15 @@ CONFLICT_META = {
     "fam-birthsubsidy": ("生育补贴", "生育补贴 vs 生育意愿", "生育补贴能提高生育率吗？"),
     "public-toast": ("女性酒局", "女性酒局 vs 安全/边界", "为什么女性在酒局更危险？"),
     "gen-ageanxiety": ("女性年龄焦虑", "怕老 vs 自我接纳", "为什么女性比男性更怕老？"),
+    # v26 新矛盾（婚姻性别深层激化）
+    "fam-coldviolence": ("婚姻冷暴力", "婚姻冷暴力 vs 伤害", "什么是婚姻冷暴力？"),
+    "gen-unmarriedpension": ("未婚女性养老", "未婚女性 vs 养老规划", "为什么未婚女性也要规划养老？"),
+    "edu-gender": ("儿童性别教育", "性别刻板印象 vs 多元教育", "孩子该接受性别平等教育吗？"),
+    "fam-fincontrol": ("婚姻经济控制", "婚姻经济控制 vs 家庭暴力", "什么是婚姻经济控制？"),
+    "gen-entrepreneur": ("女性创业", "女性创业 vs 偏见", "为什么女性创业更难？"),
+    "fam-division": ("离婚财产分割", "离婚财产分割 vs 公平", "离婚财产怎么分？"),
+    "fam-friendboundary": ("婚后异性友谊", "婚后异性友谊 vs 边界", "婚后可以有异性朋友吗？"),
+    "gen-divorce": ("离婚孩子抚养", "离婚孩子抚养 vs 争夺", "离婚后孩子跟谁？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -656,6 +665,23 @@ LINK_NOTES = {
     ("public-toast", "public-night"): "酒局醉酒风险是夜间安全的场景化",
     ("gen-ageanxiety", "psy-appearance"): "年龄焦虑与容貌焦虑同源（女性被外貌年龄审判）",
     ("gen-ageanxiety", "gen-labels"): "30岁坎与剩女标签同属年龄规训（社会时钟）",
+    # v26 新矛盾关联（婚姻性别深层激化）
+    ("fam-coldviolence", "fam-sunkcost"): "冷暴力是将就婚姻的日常形态（无爱无沟通）",
+    ("fam-coldviolence", "fam-couple"): "冷暴力是夫妻矛盾的极端化（拒绝沟通）",
+    ("gen-unmarriedpension", "gen-labels"): "未婚养老是剩女议题的养老延伸（单身要规划）",
+    ("gen-unmarriedpension", "fam-eldercare"): "未婚养老是养老责任的独身版（无子女兜底）",
+    ("edu-gender", "gen-war"): "性别教育是男女对立的源头治理（从小教平等）",
+    ("edu-gender", "edu-punish"): "性别教育是儿童教育的一部分（价值观培养）",
+    ("fam-fincontrol", "fam-aa"): "经济控制是AA制的反面（剥夺自主 vs 各自独立）",
+    ("fam-fincontrol", "fam-sunkcost"): "经济控制让离婚更难（被锁在婚姻里）",
+    ("gen-entrepreneur", "gen-work"): "女性创业是职场性别议题的创业版（天花板+偏见）",
+    ("gen-entrepreneur", "work-free"): "女性创业与自由职业同属自主就业（风险与自由）",
+    ("fam-division", "fam-prenup"): "离婚分割是婚前协议的兑现（财产约定的执行）",
+    ("fam-division", "fam-sunkcost"): "财产分割是离婚决策的现实考量（沉没成本）",
+    ("fam-friendboundary", "fam-couple"): "异性友谊边界是夫妻信任的考验（边界感）",
+    ("fam-friendboundary", "social-boundary"): "婚后异性友谊是边界问题的人际版（度）",
+    ("gen-divorce", "fam-sunkcost"): "抚养权争夺是将就婚姻的离婚延伸（孩子被牵扯）",
+    ("gen-divorce", "fam-remarry"): "抚养安排影响重组家庭（孩子与新家庭）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
