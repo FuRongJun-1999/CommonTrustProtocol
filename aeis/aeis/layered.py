@@ -182,7 +182,7 @@ def _get_llm_client():
     return _LLM_CLIENT
 
 
-def _decide_route(result):
+def _decide_route(result, question=""):
     """路由判定：chat() 结果 → self / llm。
 
     自处理优先级：拦截 > 诚实边界闸门（完整回答）> 情感 > 闲聊 > 记忆 >
@@ -192,6 +192,7 @@ def _decide_route(result):
       - 纯神经语义（['语义']）→ neural ≥0.65 才 self（熵 0.69 self；
         北京旅行 0.385 llm）
       - 纯字面（['字面']）→ score ≥0.60 才 self（相对论争论 0.535 llm）
+    v1.23：question 参数供 fp 直答强制 self（考古卡确定性直答）。
     """
     if result.get("blocked"):
         return "self"
@@ -463,7 +464,7 @@ def route_reply(question, wisdom_result, session_id="default", dex=None):
 
     返回增强后的结果（含 route / wisdom_reply / llm_verify 字段）。
     """
-    route = _decide_route(wisdom_result)
+    route = _decide_route(wisdom_result, question)
     result = dict(wisdom_result)
     result["route"] = route
     if route == "self":
