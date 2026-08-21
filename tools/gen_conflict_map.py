@@ -207,6 +207,15 @@ CONFLICT_META = {
     "edu-trip": ("毕业旅行", "毕业旅行 vs 钱/仪式", "为什么毕业都要旅行？"),
     "housing-renovation": ("家装装修", "装修 vs 踩坑/费用", "为什么装修这么贵？"),
     "tourism-group": ("跟团旅游", "跟团 vs 自由行", "为什么跟团游总被吐槽？"),
+    # v22 新矛盾（社会变化激化）
+    "gen-war": ("男女对立", "男女对立 vs 理性对话", "为什么现在男女对立这么严重？"),
+    "fam-mil2": ("丈夫夹心", "婆媳矛盾中丈夫的角色", "为什么丈夫总在婆媳中间为难？"),
+    "gen-consume": ("女性消费工作耐心", "消费欲望高 vs 工作耐心低", "为什么女性消费欲望这么高？"),
+    "gen-income": ("收入角色", "男性养家 vs 女性独立", "为什么现在女性也要养家？"),
+    "fam-aa": ("婚后AA制", "婚后AA vs 生分", "为什么越来越多人婚后AA？"),
+    "gen-stayhome": ("全职妈妈回归", "全职带娃 vs 重返职场", "为什么全职妈妈重返职场这么难？"),
+    "gen-labels": ("大龄未婚标签", "大龄未婚标签 vs 个人选择", "为什么大龄未婚要被贴标签？"),
+    "fam-mil3": ("婆媳同住", "婆媳同住 vs 边界", "为什么婆媳同住矛盾多？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -552,6 +561,23 @@ LINK_NOTES = {
     ("housing-renovation", "gov-reg"): "装修纠纷是消费监管的领域（合同/增项）",
     ("tourism-group", "tourism-trap"): "跟团坑与景区宰客同属旅游消费的信任问题",
     ("tourism-group", "digit-live"): "低价团与直播套路同属营销陷阱（低价诱饵）",
+    # v22 新矛盾关联（社会变化激化）
+    ("gen-war", "gen-work"): "男女对立是职场性别歧视的舆论升级（结构问题被情绪化）",
+    ("gen-war", "digit-bully"): "性别骂战是网络暴力的议题化（对立即流量）",
+    ("fam-mil2", "fam-motherinlaw"): "丈夫夹心是婆媳矛盾的第三方（桥梁或裁判）",
+    ("fam-mil2", "fam-couple"): "婆媳矛盾处理不好直接冲击夫妻关系",
+    ("gen-consume", "soc-consumer"): "消费欲望是消费主义的性别化（取悦自己话术）",
+    ("gen-consume", "work-loyalty"): "工作耐心低是跳槽文化的性别面（不将就）",
+    ("gen-income", "gen-house"): "收入角色与家务分工同属家庭角色重构（谁主外谁主内）",
+    ("gen-income", "fam-couple"): "养家之争影响夫妻关系（经济话语权）",
+    ("fam-aa", "fam-couple"): "婚后AA是夫妻财务模式的现代选项（独立 vs 一体）",
+    ("fam-aa", "fin-wealth"): "AA与家庭理财同属钱的分配（共同 vs 独立）",
+    ("gen-stayhome", "gen-house"): "全职妈妈是家务分工的极端形态（主内全职化）",
+    ("gen-stayhome", "work-age35"): "回归难撞上35岁门槛（断层+年龄双重劣势）",
+    ("gen-labels", "fam-gener"): "剩女标签是催婚的社会化（家庭压力+社会舆论）",
+    ("gen-labels", "psy-lonely"): "大龄未婚与孤独议题交织（单身≠孤独）",
+    ("fam-mil3", "fam-motherinlaw"): "同住是婆媳矛盾的放大器（零距离摩擦）",
+    ("fam-mil3", "fam-eldercare"): "同住与养老需要相关（老人依恋 vs 小家边界）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
