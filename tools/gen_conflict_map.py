@@ -288,6 +288,15 @@ CONFLICT_META = {
     "fam-violencechild": ("目睹家暴的孩子", "孩子目睹家暴 vs 影响", "孩子目睹家暴有什么影响？"),
     "fam-premarriagecheck": ("婚前体检", "婚前体检 vs 信任", "婚前体检有必要吗？"),
     "gen-malefertility": ("男性生育年龄", "男性生育 vs 年龄", "男性生育有年龄限制吗？"),
+    # v31 新矛盾（婚姻家庭新形态数字时代激化）
+    "fam-longdistance": ("异地婚姻", "异地婚姻 vs 维系", "异地婚姻能长久吗？"),
+    "fam-adoption": ("收养", "收养 vs 亲生", "收养孩子要注意什么？"),
+    "fam-separatebeds": ("夫妻分房", "夫妻分房 vs 感情", "夫妻分房睡正常吗？"),
+    "fam-couplebusiness": ("夫妻创业", "夫妻创业 vs 关系", "夫妻一起创业好吗？"),
+    "fam-premarriagehouse": ("婚前买房", "婚前买房 vs 婚后", "婚前买房算谁的？"),
+    "fam-emotionalvalue": ("婚姻情绪价值", "婚姻情绪价值 vs 物质", "婚姻中的情绪价值重要吗？"),
+    "gen-motherrole": ("母职绑架", "为母则刚 vs 自我", "为什么妈妈被要求完美？"),
+    "digit-familytime": ("家庭屏幕时间", "家庭屏幕时间 vs 陪伴", "为什么家庭聚餐都在刷手机？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -786,6 +795,23 @@ LINK_NOTES = {
     ("fam-premarriagecheck", "medical-cost"): "婚检是生育健康的前置检查（优生优育）",
     ("gen-malefertility", "gen-birthanxiety"): "男性生育年龄是生育焦虑的男性版（高龄风险）",
     ("gen-malefertility", "gen-malepressure"): "男性生育压力是婚育压力的生育面",
+    # v31 新矛盾关联（婚姻家庭新形态数字时代激化）
+    ("fam-longdistance", "fam-couple"): "异地是夫妻关系的距离考验（信任与经营）",
+    ("fam-longdistance", "digit-dating"): "异地夫妻依赖数字沟通（视频/电话维系）",
+    ("fam-adoption", "fam-birth"): "收养是生育意愿的替代路径（非血缘的亲子）",
+    ("fam-adoption", "fam-remarry"): "收养与重组家庭同属非血缘家庭关系",
+    ("fam-separatebeds", "fam-intimacy"): "分房与激情保鲜相关（睡眠 vs 亲密）",
+    ("fam-separatebeds", "fam-couple"): "分房是夫妻生活方式的现代选项（形式与感情）",
+    ("fam-couplebusiness", "gen-entrepreneur"): "夫妻创业是创业的家庭版（共同创业）",
+    ("fam-couplebusiness", "fam-couple"): "创业压力考验夫妻关系（公私边界）",
+    ("fam-premarriagehouse", "fam-prenup"): "婚前买房是婚前财产协议的核心场景（房产）",
+    ("fam-premarriagehouse", "fam-division"): "婚前房产在离婚分割中是争议焦点（还贷）",
+    ("fam-emotionalvalue", "fam-couple"): "情绪价值是夫妻关系的养分（被理解）",
+    ("fam-emotionalvalue", "fam-intimacy"): "情绪价值与激情保鲜同属婚姻温度（滋养）",
+    ("gen-motherrole", "gen-stayhome"): "母职绑架是全职妈妈的舆论压力（完美期待）",
+    ("gen-motherrole", "fam-parenting"): "母职绑架与育儿分工相关（妈妈独扛）",
+    ("digit-familytime", "fam-groupchat"): "家庭屏幕与家族群同属数字时代的家庭连接方式",
+    ("digit-familytime", "digit-scroll"): "家庭刷屏是短视频沉迷的家庭场景（陪伴被替代）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict

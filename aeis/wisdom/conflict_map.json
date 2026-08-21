@@ -1264,6 +1264,46 @@
    "name": "男性生育年龄",
    "conflict": "男性生育 vs 年龄",
    "q": "男性生育有年龄限制吗？"
+  },
+  "fam-longdistance": {
+   "name": "异地婚姻",
+   "conflict": "异地婚姻 vs 维系",
+   "q": "异地婚姻能长久吗？"
+  },
+  "fam-adoption": {
+   "name": "收养",
+   "conflict": "收养 vs 亲生",
+   "q": "收养孩子要注意什么？"
+  },
+  "fam-separatebeds": {
+   "name": "夫妻分房",
+   "conflict": "夫妻分房 vs 感情",
+   "q": "夫妻分房睡正常吗？"
+  },
+  "fam-couplebusiness": {
+   "name": "夫妻创业",
+   "conflict": "夫妻创业 vs 关系",
+   "q": "夫妻一起创业好吗？"
+  },
+  "fam-premarriagehouse": {
+   "name": "婚前买房",
+   "conflict": "婚前买房 vs 婚后",
+   "q": "婚前买房算谁的？"
+  },
+  "fam-emotionalvalue": {
+   "name": "婚姻情绪价值",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "q": "婚姻中的情绪价值重要吗？"
+  },
+  "gen-motherrole": {
+   "name": "母职绑架",
+   "conflict": "为母则刚 vs 自我",
+   "q": "为什么妈妈被要求完美？"
+  },
+  "digit-familytime": {
+   "name": "家庭屏幕时间",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "q": "为什么家庭聚餐都在刷手机？"
   }
  },
  "links": [
@@ -3601,6 +3641,86 @@
    "a": "gen-malefertility",
    "b": "gen-malepressure",
    "note": "男性生育压力是婚育压力的生育面"
+  },
+  {
+   "a": "fam-longdistance",
+   "b": "fam-couple",
+   "note": "异地是夫妻关系的距离考验（信任与经营）"
+  },
+  {
+   "a": "fam-longdistance",
+   "b": "digit-dating",
+   "note": "异地夫妻依赖数字沟通（视频/电话维系）"
+  },
+  {
+   "a": "fam-adoption",
+   "b": "fam-birth",
+   "note": "收养是生育意愿的替代路径（非血缘的亲子）"
+  },
+  {
+   "a": "fam-adoption",
+   "b": "fam-remarry",
+   "note": "收养与重组家庭同属非血缘家庭关系"
+  },
+  {
+   "a": "fam-separatebeds",
+   "b": "fam-intimacy",
+   "note": "分房与激情保鲜相关（睡眠 vs 亲密）"
+  },
+  {
+   "a": "fam-separatebeds",
+   "b": "fam-couple",
+   "note": "分房是夫妻生活方式的现代选项（形式与感情）"
+  },
+  {
+   "a": "fam-couplebusiness",
+   "b": "gen-entrepreneur",
+   "note": "夫妻创业是创业的家庭版（共同创业）"
+  },
+  {
+   "a": "fam-couplebusiness",
+   "b": "fam-couple",
+   "note": "创业压力考验夫妻关系（公私边界）"
+  },
+  {
+   "a": "fam-premarriagehouse",
+   "b": "fam-prenup",
+   "note": "婚前买房是婚前财产协议的核心场景（房产）"
+  },
+  {
+   "a": "fam-premarriagehouse",
+   "b": "fam-division",
+   "note": "婚前房产在离婚分割中是争议焦点（还贷）"
+  },
+  {
+   "a": "fam-emotionalvalue",
+   "b": "fam-couple",
+   "note": "情绪价值是夫妻关系的养分（被理解）"
+  },
+  {
+   "a": "fam-emotionalvalue",
+   "b": "fam-intimacy",
+   "note": "情绪价值与激情保鲜同属婚姻温度（滋养）"
+  },
+  {
+   "a": "gen-motherrole",
+   "b": "gen-stayhome",
+   "note": "母职绑架是全职妈妈的舆论压力（完美期待）"
+  },
+  {
+   "a": "gen-motherrole",
+   "b": "fam-parenting",
+   "note": "母职绑架与育儿分工相关（妈妈独扛）"
+  },
+  {
+   "a": "digit-familytime",
+   "b": "fam-groupchat",
+   "note": "家庭屏幕与家族群同属数字时代的家庭连接方式"
+  },
+  {
+   "a": "digit-familytime",
+   "b": "digit-scroll",
+   "note": "家庭刷屏是短视频沉迷的家庭场景（陪伴被替代）"
   }
  ]
 }
