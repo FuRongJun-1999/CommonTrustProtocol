@@ -89,9 +89,13 @@ def _counters_conflict(dex, sentence, card_names):
     return None
 
 # LLM 配置
-LLM_BASE_URL = "https://api.deepseek.com"
-LLM_MODEL = "deepseek-chat"
-LLM_MAX_TOKENS = 300
+# v1.22 可移植性（Ornith 本地后端接入）：环境变量可覆盖——
+# AEIS_LLM_BASE_URL / AEIS_LLM_MODEL / AEIS_LLM_API_KEY / AEIS_LLM_MAX_TOKENS。
+# 例：LM Studio 本地（Ornith 1.5-9B）→
+#   AEIS_LLM_BASE_URL=http://127.0.0.1:1234/v1 AEIS_LLM_MODEL=Ornith-1.5-9B-Q4_K_M
+LLM_BASE_URL = os.environ.get("AEIS_LLM_BASE_URL", "https://api.deepseek.com")
+LLM_MODEL = os.environ.get("AEIS_LLM_MODEL", "deepseek-chat")
+LLM_MAX_TOKENS = int(os.environ.get("AEIS_LLM_MAX_TOKENS", "300"))
 LLM_TEMPERATURE = 0.3
 
 # 系统提示：说明灵枢分层架构与智慧之书初步回答的定位
@@ -136,13 +140,22 @@ def _env_user(name):
 
 
 def _get_llm_client():
-    """惰性创建 DeepSeek 客户端（失败返回 None → 降级）。"""
+    """惰性创建 LLM 客户端（失败返回 None → 降级）。
+
+    v1.22：支持本地后端（LM Studio/Ornith）——AEIS_LLM_BASE_URL 指向
+    localhost 时无需真实 key（LM Studio 忽略 key，给占位符即可）。
+    """
     global _LLM_CLIENT
     if _LLM_CLIENT is not None:
         return _LLM_CLIENT
-    key = os.environ.get("DEEPSEEK_API_KEY", "") or _env_user("DEEPSEEK_API_KEY")
+    key = os.environ.get("AEIS_LLM_API_KEY", "") or \
+        os.environ.get("DEEPSEEK_API_KEY", "") or _env_user("DEEPSEEK_API_KEY")
     if not key:
-        return None
+        # 本地后端（localhost）不需要 key → 占位
+        if "127.0.0.1" in LLM_BASE_URL or "localhost" in LLM_BASE_URL:
+            key = "lm-studio-local"
+        else:
+            return None
     try:
         import openai
         _LLM_CLIENT = openai.OpenAI(api_key=key, base_url=LLM_BASE_URL)
