@@ -344,6 +344,46 @@
    "name": "脑机接口",
    "conflict": "康复福音 vs 大脑隐私",
    "q": "脑机接口是福音还是风险？"
+  },
+  "gen-work": {
+   "name": "职场性别",
+   "conflict": "历史分工 vs 现代平等",
+   "q": "为什么职场对女性有天花板？"
+  },
+  "gen-house": {
+   "name": "家务分工",
+   "conflict": "隐形劳动 vs 价值衡量",
+   "q": "为什么家务总是女性在做？"
+  },
+  "age-digital": {
+   "name": "老年数字",
+   "conflict": "数字化提速 vs 老人学习减速",
+   "q": "为什么老人用手机这么难？"
+  },
+  "edu-job": {
+   "name": "教育就业",
+   "conflict": "专业滞后 vs 市场变化",
+   "q": "为什么学的东西工作用不上？"
+  },
+  "pub-violence": {
+   "name": "网络暴力",
+   "conflict": "匿名表达 vs 网络伤害",
+   "q": "为什么网上骂人不用负责？"
+  },
+  "psy-anxiety": {
+   "name": "心理健康",
+   "conflict": "心理痛苦 vs 社会污名",
+   "q": "为什么现在抑郁焦虑的人这么多？"
+  },
+  "city-share": {
+   "name": "共享单车",
+   "conflict": "便利 vs 秩序",
+   "q": "为什么共享单车到处都是乱的？"
+  },
+  "city-pet": {
+   "name": "城市养宠",
+   "conflict": "养宠自由 vs 他人安宁",
+   "q": "为什么城市养宠矛盾这么多？"
   }
  },
  "links": [
@@ -841,6 +881,86 @@
    "a": "brain-computer",
    "b": "tech-face",
    "note": "脑机接口与人脸识别同属生物特征技术滥用风险"
+  },
+  {
+   "a": "gen-work",
+   "b": "work-pay",
+   "note": "职场性别不平等的核心是薪酬/晋升歧视"
+  },
+  {
+   "a": "gen-work",
+   "b": "fam-birth",
+   "note": "生育成本是职场性别歧视的根源（产假顾虑）"
+  },
+  {
+   "a": "gen-house",
+   "b": "fam-couple",
+   "note": "家务分工失衡是夫妻矛盾的日常形态"
+  },
+  {
+   "a": "gen-house",
+   "b": "work-pay",
+   "note": "隐形家务不产生工资=价值被低估（与薪酬同理）"
+  },
+  {
+   "a": "age-digital",
+   "b": "digit-privacy",
+   "note": "老人是数字风险最脆弱人群（易被骗/不会维权）"
+  },
+  {
+   "a": "age-digital",
+   "b": "fam-eldercare",
+   "note": "老人数字鸿沟放大养老困难（挂号/支付/联系）"
+  },
+  {
+   "a": "edu-job",
+   "b": "edu-score",
+   "note": "教育错配源于应试导向（为分数不为能力）"
+  },
+  {
+   "a": "edu-job",
+   "b": "work-layoff",
+   "note": "学非所用者在裁员中最脆弱（技能不匹配）"
+  },
+  {
+   "a": "pub-violence",
+   "b": "digit-privacy",
+   "note": "网暴常伴随人肉搜索（隐私泄露）"
+  },
+  {
+   "a": "pub-violence",
+   "b": "psy-appearance",
+   "note": "网暴击中的是人的外貌/身份（容貌攻击）"
+  },
+  {
+   "a": "psy-anxiety",
+   "b": "psy-lonely",
+   "note": "孤独是焦虑抑郁的温床"
+  },
+  {
+   "a": "psy-anxiety",
+   "b": "work-burnout",
+   "note": "工作压力积累成心理问题"
+  },
+  {
+   "a": "city-share",
+   "b": "gov-reg",
+   "note": "共享单车乱象是监管滞后于新业态的案例"
+  },
+  {
+   "a": "city-share",
+   "b": "soc-urban",
+   "note": "共享单车是城市化便利的产物"
+  },
+  {
+   "a": "city-pet",
+   "b": "social-boundary",
+   "note": "养宠矛盾本质是边界问题（自由vs他人）"
+  },
+  {
+   "a": "city-pet",
+   "b": "psy-lonely",
+   "note": "养宠是孤独的解药——孤独者更需要宠物"
   }
  ]
 }
