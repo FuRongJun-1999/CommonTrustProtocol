@@ -93,6 +93,19 @@ class Agent:
         返回 [(STNode, score)]。"""
         return self.engine.recall(query, limit=limit)
 
+    def recall_plot(self, limit: int = 6) -> List:
+        """剧情节点优先召回（v1.26 · 外部测试 v3-P2 建议）。
+
+        按 tags 含 plot 的节点，importance 降序取前 limit 条——
+        剧情连续性优先于普通语义召回（长对话里角色得记得
+        「上次发生了什么事」，不能只靠当前问题的相似度）。
+        返回 [STNode, ...]。
+        """
+        try:
+            return self.engine.store.get_nodes_by_tag("plot", limit=limit)
+        except Exception:
+            return []
+
     def search(self, query: str, limit: int = 20) -> List[Tuple]:
         """内容检索（LIKE 预筛 + 中文二元组 Jaccard 排序）。
         返回 [(STNode, score)]；触发复用追踪（飞轮度量输入）。"""
@@ -100,7 +113,7 @@ class Agent:
 
     def timeline(self, limit: int = 50) -> List[Dict]:
         """时间线（按时间倒序的记忆快照）。"""
-        return self.engine.timeline(limit=limit)
+        return self.engine.get_timeline(limit=limit)
 
     def what_happened(self, since: float, until: Optional[float] = None) -> List:
         """时间窗口内发生了什么（时态查询）。"""
@@ -408,6 +421,26 @@ class Agent:
         return {"query": query, "memory_count": len(context),
                 "context": context,
                 "note": "记忆增强推理：检索结果作为推理上下文，非结论"}
+
+    # ==================== 洞察条件层（设计规格 lingshu-insight-layer-design.md） ====================
+
+    def insight_record(self, content: str, conditions: dict = None,
+                       source: str = "", importance: float = 0.7) -> Dict:
+        """记录洞见事件：insight_event 节点 + 条件快照 C1–C8（pending）。"""
+        return self.engine.store.insight_record(content, conditions, source, importance)
+
+    def insight_verify(self, insight_id: str, level: str = "V2",
+                       evidence=None) -> Dict:
+        """提交验证证据（V1/V2/V3）；V2/V3 或 V1+证据≥3 → verified。"""
+        return self.engine.store.insight_verify(insight_id, level, evidence)
+
+    def insight_report(self, window: int = None) -> Dict:
+        """CER 报告：条件有效洞见率 + 显著性 + 层状态（样本<20 不判定）。"""
+        return self.engine.store.insight_report(window)
+
+    def insight_window(self, conditions: dict = None) -> Dict:
+        """当前洞察窗口检测（默认假设 C1≥0.6 ∧ 跨域 ∧ 低压力）。"""
+        return self.engine.store.insight_window(conditions)
 
     def preflight(self, text: str) -> Dict:
         """输出前反思钩子：内容与价值观一致性检查（冲突词拦截）。

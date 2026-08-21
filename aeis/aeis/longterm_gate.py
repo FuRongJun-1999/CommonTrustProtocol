@@ -206,9 +206,13 @@ class LongTermMemoryGate:
             except Exception:
                 node_id = existing_id
         else:
+            # v1.26c（外部测试 v3-P2）：skip_dedup——主动沉淀（剧情/快照）
+            # 必须独立成节点。之前 add_perception 的 M5 去重把剧情内容合并进
+            # 刚写入的相似对话节点（只加 duplicate 标签），剧情标签/高
+            # importance 丢失 → 剧情连续性失效（plot 节点写了个寂寞）。
             node = engine.add_perception(
                 content, importance=imp, tags=(tags or []) + ["gate"],
-                entities=entities or None)
+                entities=entities or None, skip_dedup=True)
             node_id = getattr(node, "id", None) or node
 
         # 长期层 → 不可遗忘保护 + 条件空间标注

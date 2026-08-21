@@ -1800,15 +1800,20 @@ class SpacetimeMemoryEngine:
                        condition_space: ConditionSpace = None,
                        importance: float = 0.5,
                        tags: List[str] = None,
-                       entities: List[str] = None) -> STNode:
+                       entities: List[str] = None,
+                       skip_dedup: bool = False) -> STNode:
         """
         添加一条感知（自动进入知识层）
+
+        skip_dedup（v1.26c）：跳过 M5 去重——主动沉淀类写入（剧情/快照/
+        里程碑）需要独立节点身份，不能被合并进相似的感知节点（否则
+        剧情标签/高 importance 丢失，LongTermMemoryGate 的写入形同虚设）。
         """
         self._interaction_count += 1
         self._note_action("perception", content, None,
                           {"importance": importance, "modality": modality})
         # ---- M5 去重：中文二元组 Jaccard ≥ 动态阈值 → 提升原节点，不新增 ----
-        if isinstance(content, str) and content.strip():
+        if not skip_dedup and isinstance(content, str) and content.strip():
             threshold = self._effective_dedup_threshold()
             candidates = self.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=200)
             best, best_sim = None, 0.0
