@@ -353,6 +353,12 @@ def _classify_self_topic(message):
                                       "哪一个", "谁", "多少", "几"]):
             return None
         # 其余（你觉得我怎么样/你觉得我是什么样的人）→ 仍按自我认知
+    # v1.26（真实对话测试）：创造者问题（你是谁创造的/谁做的你）是事实
+    # 问题不是自省——「你是谁」在自我认知簇会误判，含「谁…创造/谁…做」
+    # 时返回 None 走知识检索（创造者直答）。
+    if any(w in message for w in ["谁创造", "谁做", "谁造", "谁设计", "谁开发",
+                                  "谁发明", "被谁", "谁写的", "谁建", "谁造的你"]):
+        return None
     # encode 命中主题词 → 直接判定
     topic_map = {
         "存在威胁": "存在威胁", "记忆": "记忆", "愿望": "愿望",
@@ -992,8 +998,20 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
     if memory is not None:
         memory.update(ctx)
 
+    # v1.26（荣设计·递归追问）：知识类回答（hits 命中且未诚实拒绝）时，
+    # 沿前置概念链生成追问候选——「为什么天空是蓝色的」答完附
+    # 「想深挖？→ 什么是瑞利散射？/ 什么是波长？」。
+    followups = []
+    try:
+        if hits and not honest:
+            import semantic_translate as _st2
+            followups = _st2.gen_followup(message, reply, limit=2, depth=1)
+    except Exception:
+        followups = []
+
     return {"reply": reply, "hits": hits, "emotion": emotion,
-            "honest": honest, "memory_tail": ctx.get(session_id, [])[-3:]}
+            "honest": honest, "memory_tail": ctx.get(session_id, [])[-3:],
+            "followups": followups}
 
 
 def _assemble(message, hits, emotion):
