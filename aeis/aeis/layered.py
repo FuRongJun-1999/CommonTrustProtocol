@@ -478,6 +478,12 @@ def route_reply(question, wisdom_result, session_id="default", dex=None):
     result = dict(wisdom_result)
     result["route"] = route
     if route == "self":
+        # v1.26（荣设计·递归追问）：知识 self 直答附「想深挖？」追问候选，
+        # 沿前置概念链递归下钻（为什么天空蓝 → 什么是波长？/什么是散射？）
+        _fu = result.get("followups") or []
+        if _fu and result.get("reply") and not result.get("honest"):
+            result["reply"] = (result["reply"] or "") + "\n\n想深挖？" + \
+                " / ".join(f"「{f['q']}」" for f in _fu[:2])
         return result
     # llm 路：智慧之书回答放入上下文
     result["wisdom_reply"] = result.get("reply", "")

@@ -383,6 +383,12 @@ class LingshuChat:
                             self._session_ctx[ctx_key].append(w["reply"])
                         w["route"] = "whitebox"
                         w["role_id"] = rid
+                        # v1.26（荣设计·递归追问）：知识回答附「想深挖？」
+                        # 追问候选（沿前置概念链）——用户可继续下钻知识依赖
+                        if w.get("followups") and not rid:
+                            _fu = w["followups"][:2]
+                            w["reply"] = (w["reply"] or "") + "\n\n想深挖？" + \
+                                " / ".join(f"「{f['q']}」" for f in _fu)
                         # 输出翻译（虚拟词 → 现实词）：默认保留，开关开启才翻译
                         if os.environ.get("ROLEPLAY_OUT_TRANSLATE") == "1" and rid and self.rp is not None:
                             try:
