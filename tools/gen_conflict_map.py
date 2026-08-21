@@ -279,6 +279,15 @@ CONFLICT_META = {
     "fam-yuegong": ("月子中心", "月子中心 vs 值不值", "月子中心值吗？"),
     "gen-divorce2": ("离婚冷静期", "离婚冷静期 vs 自由", "离婚冷静期合理吗？"),
     "digit-wedding": ("婚礼直播", "婚礼直播 vs 隐私", "为什么婚礼也直播？"),
+    # v30 新矛盾（婚姻家庭非常态新形态激化）
+    "fam-affair": ("婚内出轨", "婚内出轨 vs 原谅", "婚内出轨能原谅吗？"),
+    "fam-eldercohabit": ("老年同居", "老年同居 vs 领证", "为什么老年人选择同居不领证？"),
+    "fam-cohabitreturn": ("同居分手财产", "同居分手 vs 财产", "同居分手财产怎么分？"),
+    "gen-postbody": ("产后身材", "产后身材 vs 恢复", "为什么产后身材难恢复？"),
+    "fam-flashmarriage": ("闪婚", "闪婚 vs 了解", "闪婚靠谱吗？"),
+    "fam-violencechild": ("目睹家暴的孩子", "孩子目睹家暴 vs 影响", "孩子目睹家暴有什么影响？"),
+    "fam-premarriagecheck": ("婚前体检", "婚前体检 vs 信任", "婚前体检有必要吗？"),
+    "gen-malefertility": ("男性生育年龄", "男性生育 vs 年龄", "男性生育有年龄限制吗？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -760,6 +769,23 @@ LINK_NOTES = {
     ("gen-divorce2", "fam-division"): "冷静期是协议离婚的程序（离婚制度）",
     ("digit-wedding", "digit-baby"): "婚礼直播是晒娃的成人版（人生大事直播）",
     ("digit-wedding", "fam-wedding"): "婚礼直播是婚庆消费的传播面（记录 vs 作秀）",
+    # v30 新矛盾关联（婚姻家庭非常态新形态激化）
+    ("fam-affair", "fam-lies"): "出轨是婚姻谎言的极端（背叛是最大的欺骗）",
+    ("fam-affair", "fam-sunkcost"): "出轨后原谅与否是沉默成本的考验（将就 or 止损）",
+    ("fam-eldercohabit", "fam-elderlove"): "老年同居是中老年婚恋的居住形态（不领证）",
+    ("fam-eldercohabit", "fam-cohabit"): "老年同居是同居现象的银发版（保障问题）",
+    ("fam-cohabitreturn", "fam-betrothalreturn"): "同居分手财产与礼金返还是同居纠纷的两面",
+    ("fam-cohabitreturn", "fam-cohabit"): "同居财产约定是同居关系的财务面",
+    ("gen-postbody", "gen-postpartum"): "产后身材焦虑与产后抑郁同属产后身心压力",
+    ("gen-postbody", "health-weight"): "产后身材是身体焦虑的产后版（恢复 vs 接纳）",
+    ("fam-flashmarriage", "fam-cohabit"): "闪婚与同居同属婚前快速决策（了解深度）",
+    ("fam-flashmarriage", "fam-date"): "闪婚是相亲恋爱的快速通道（缘分 vs 冲动）",
+    ("fam-violencechild", "fam-violence"): "目睹家暴的孩子是家暴的隐形受害者（波及）",
+    ("fam-violencechild", "fam-postbirth"): "家庭暴力破坏孩子需要的健康家庭环境",
+    ("fam-premarriagecheck", "fam-cohabit"): "婚检是婚前准备的一部分（健康知情）",
+    ("fam-premarriagecheck", "medical-cost"): "婚检是生育健康的前置检查（优生优育）",
+    ("gen-malefertility", "gen-birthanxiety"): "男性生育年龄是生育焦虑的男性版（高龄风险）",
+    ("gen-malefertility", "gen-malepressure"): "男性生育压力是婚育压力的生育面",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
