@@ -198,6 +198,15 @@ CONFLICT_META = {
     "soc-return": ("网购退货", "退货 vs 运费/浪费", "为什么网购退货这么多？"),
     "health-exercise": ("老年人运动", "运动 vs 受伤风险", "老人该运动吗？"),
     "edu-homework": ("辅导作业", "辅导 vs 亲子关系", "为什么辅导作业这么崩溃？"),
+    # v21 新矛盾（收尾代）
+    "health-drowning": ("儿童防溺水", "溺水风险 vs 家长看护", "为什么儿童溺水这么多？"),
+    "fam-property": ("代际财产", "老人财产分配 vs 子女期待", "为什么老人财产分配总闹矛盾？"),
+    "pet-grooming": ("宠物美容", "宠物美容贵 vs 必要", "为什么宠物美容这么贵？"),
+    "digit-camera": ("家庭监控", "装监控 vs 隐私", "为什么家里要装监控？"),
+    "digit-baby": ("晒娃", "分享快乐 vs 隐私风险", "为什么家长爱晒娃？"),
+    "edu-trip": ("毕业旅行", "毕业旅行 vs 钱/仪式", "为什么毕业都要旅行？"),
+    "housing-renovation": ("家装装修", "装修 vs 踩坑/费用", "为什么装修这么贵？"),
+    "tourism-group": ("跟团旅游", "跟团 vs 自由行", "为什么跟团游总被吐槽？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -526,6 +535,23 @@ LINK_NOTES = {
     ("health-exercise", "fam-solitude"): "运动是老人社交的出口（广场舞/晨练圈子）",
     ("edu-homework", "edu-score"): "辅导崩溃是应试压力的家庭传导（作业量）",
     ("edu-homework", "fam-parenting"): "辅导作业是育儿日常的学业面（陪写 vs 陪玩）",
+    # v21 新矛盾关联（收尾代）
+    ("health-drowning", "health-medicine"): "防溺水与科学用药同属儿童安全防护（预防优先）",
+    ("health-drowning", "edu-punish"): "防溺水教育是立规矩的生命版（水边规则）",
+    ("fam-property", "fam-elderlove"): "财产分配是中老年婚恋的核心顾虑（图钱？）",
+    ("fam-property", "fam-gener"): "代际财产冲突是观念差异的物质化（谁该得）",
+    ("pet-grooming", "pet-boarding"): "美容与寄养同属宠物服务消费（托付专业）",
+    ("pet-grooming", "city-pet"): "美容是养宠日常护理的升级（健康+审美）",
+    ("digit-camera", "digit-privacy"): "家庭监控是隐私问题的家庭场景（家人 vs 监控）",
+    ("digit-camera", "fam-housekeeper"): "监控保姆是信任管理的科技手段（防患于未然）",
+    ("digit-baby", "digit-privacy"): "晒娃是儿童隐私的暴露面（家长把关）",
+    ("digit-baby", "soc-consumer"): "晒娃攀比是消费主义的亲子版（晒娃=晒生活）",
+    ("edu-trip", "edu-parttime"): "毕业旅行靠兼职攒钱（独立旅行的起点）",
+    ("edu-trip", "tourism-trap"): "毕业旅行消费是旅游行业的旺季（价格高企）",
+    ("housing-renovation", "housing"): "装修是居住成本的增量（买房之后的花销）",
+    ("housing-renovation", "gov-reg"): "装修纠纷是消费监管的领域（合同/增项）",
+    ("tourism-group", "tourism-trap"): "跟团坑与景区宰客同属旅游消费的信任问题",
+    ("tourism-group", "digit-live"): "低价团与直播套路同属营销陷阱（低价诱饵）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
