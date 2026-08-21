@@ -81,6 +81,15 @@ CONFLICT_META = {
     "meta-identity": ("元宇宙", "虚拟体验 vs 现实根基", "元宇宙会不会让人更孤独？"),
     "gene-edit": ("基因编辑", "治病希望 vs 伦理风险", "基因编辑治病变态还是危险？"),
     "brain-computer": ("脑机接口", "康复福音 vs 大脑隐私", "脑机接口是福音还是风险？"),
+    # v8 新矛盾
+    "gen-work": ("职场性别", "历史分工 vs 现代平等", "为什么职场对女性有天花板？"),
+    "gen-house": ("家务分工", "隐形劳动 vs 价值衡量", "为什么家务总是女性在做？"),
+    "age-digital": ("老年数字", "数字化提速 vs 老人学习减速", "为什么老人用手机这么难？"),
+    "edu-job": ("教育就业", "专业滞后 vs 市场变化", "为什么学的东西工作用不上？"),
+    "pub-violence": ("网络暴力", "匿名表达 vs 网络伤害", "为什么网上骂人不用负责？"),
+    "psy-anxiety": ("心理健康", "心理痛苦 vs 社会污名", "为什么现在抑郁焦虑的人这么多？"),
+    "city-share": ("共享单车", "便利 vs 秩序", "为什么共享单车到处都是乱的？"),
+    "city-pet": ("城市养宠", "养宠自由 vs 他人安宁", "为什么城市养宠矛盾这么多？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -188,6 +197,23 @@ LINK_NOTES = {
     ("gene-edit", "gov-reg"): "基因编辑立法是监管滞后于技术的案例",
     ("brain-computer", "digit-privacy"): "脑机接口是数据隐私的终极版（思想数据）",
     ("brain-computer", "tech-face"): "脑机接口与人脸识别同属生物特征技术滥用风险",
+    # v8 新矛盾关联
+    ("gen-work", "work-pay"): "职场性别不平等的核心是薪酬/晋升歧视",
+    ("gen-work", "fam-birth"): "生育成本是职场性别歧视的根源（产假顾虑）",
+    ("gen-house", "fam-couple"): "家务分工失衡是夫妻矛盾的日常形态",
+    ("gen-house", "work-pay"): "隐形家务不产生工资=价值被低估（与薪酬同理）",
+    ("age-digital", "digit-privacy"): "老人是数字风险最脆弱人群（易被骗/不会维权）",
+    ("age-digital", "fam-eldercare"): "老人数字鸿沟放大养老困难（挂号/支付/联系）",
+    ("edu-job", "edu-score"): "教育错配源于应试导向（为分数不为能力）",
+    ("edu-job", "work-layoff"): "学非所用者在裁员中最脆弱（技能不匹配）",
+    ("pub-violence", "digit-privacy"): "网暴常伴随人肉搜索（隐私泄露）",
+    ("pub-violence", "psy-appearance"): "网暴击中的是人的外貌/身份（容貌攻击）",
+    ("psy-anxiety", "psy-lonely"): "孤独是焦虑抑郁的温床",
+    ("psy-anxiety", "work-burnout"): "工作压力积累成心理问题",
+    ("city-share", "gov-reg"): "共享单车乱象是监管滞后于新业态的案例",
+    ("city-share", "soc-urban"): "共享单车是城市化便利的产物",
+    ("city-pet", "social-boundary"): "养宠矛盾本质是边界问题（自由vs他人）",
+    ("city-pet", "psy-lonely"): "养宠是孤独的解药——孤独者更需要宠物",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
