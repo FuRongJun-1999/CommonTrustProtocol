@@ -333,6 +333,15 @@ CONFLICT_META = {
     "fam-summer": ("暑假安排", "暑假放松 vs 弯道超车", "暑假怎么安排孩子？"),
     "fam-caregiving": ("家人照护", "家人照护 vs 责任/负担", "家人病了谁来照顾？"),
     "fam-disabled": ("失能老人照护", "失能老人 vs 家庭/专业", "失能老人谁来照顾？"),
+    # v36 新矛盾（代际互动·家庭生命周期激化）
+    "fam-worktime": ("工作日家庭时间", "工作投入 vs 家庭需要", "工作日怎么陪家人？"),
+    "edu-reward": ("孩子奖励教育", "激励 vs 内在动力", "孩子做得好该奖励吗？"),
+    "fam-move": ("搬家决策", "现状不满 vs 折腾代价", "要不要搬家？"),
+    "fam-elderfit": ("适老化改造", "老人安全 vs 改造成本", "家里要适老化改造吗？"),
+    "fam-values": ("夫妻价值观冲突", "观念差异 vs 尊重磨合", "夫妻价值观不同怎么办？"),
+    "fam-puberty": ("青春期沟通", "孩子成长 vs 父母不适应", "青春期孩子为什么难沟通？"),
+    "fam-aging": ("老人衰老", "生命规律 vs 情感接受", "怎么面对父母变老？"),
+    "fam-independence": ("孩子独立放手", "成长必然 vs 父母不舍", "孩子多大该独立？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -916,6 +925,23 @@ LINK_NOTES = {
     ("fam-caregiving", "fam-couple"): "照护安排考验家庭分工（谁照顾）",
     ("fam-disabled", "med-eldercare"): "失能照护是医养结合的核心需求（专业护理）",
     ("fam-disabled", "fam-eldercare3"): "失能照护是异地养老的难点（照顾不了）",
+    # v36 新矛盾关联（代际互动·家庭生命周期激化）
+    ("fam-worktime", "work-burnout"): "工作越累家庭时间越被挤占（加班挤压陪伴）",
+    ("fam-worktime", "fam-couple"): "家庭时间分配考验夫妻协作（谁陪谁做）",
+    ("edu-reward", "fam-chorechild"): "孩子家务与奖励教育相关（劳动报酬）",
+    ("edu-reward", "edu-hobby"): "兴趣激励与奖励教育同属动力课题（内在 vs 外在）",
+    ("fam-move", "work-commute"): "搬家常为缩短通勤（职住平衡）",
+    ("fam-move", "gen-house"): "搬家与购房相关（房价与居所选择）",
+    ("fam-elderfit", "health-fall"): "适老化改造直接防跌倒（扶手防滑）",
+    ("fam-elderfit", "med-eldercare"): "居家适老化是医养结合的居家面（安全居住）",
+    ("fam-values", "fam-couple"): "价值观差异是夫妻关系的深层考验（磨合）",
+    ("fam-values", "fam-fight"): "价值观冲突是夫妻吵架的深层根源（表面琐事）",
+    ("fam-puberty", "fam-childprivacy"): "青春期沟通与孩子隐私同属亲子边界（尊重）",
+    ("fam-puberty", "edu-score"): "青春期撞上应试压力（学业与成长双重挑战）",
+    ("fam-aging", "fam-eldercare"): "面对衰老是养老的情感面（接受与安排）",
+    ("fam-aging", "fam-disabled"): "衰老与失能相连（照护的终局）",
+    ("fam-independence", "fam-childhome"): "孩子独立放手的场景是独自在家（信任）",
+    ("fam-independence", "fam-childprivacy"): "独立与隐私同属孩子的自主权（放手尊重）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
