@@ -1104,6 +1104,46 @@
    "name": "离婚孩子抚养",
    "conflict": "离婚孩子抚养 vs 争夺",
    "q": "离婚后孩子跟谁？"
+  },
+  "fam-betrothalreturn": {
+   "name": "彩礼返还",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "q": "分手了订婚礼金要退吗？"
+  },
+  "fam-maritalpua": {
+   "name": "婚姻精神操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "q": "什么是婚姻中的精神操控？"
+  },
+  "gen-ivf": {
+   "name": "试管婴儿压力",
+   "conflict": "辅助生殖 vs 身心代价",
+   "q": "为什么选择试管婴儿？"
+  },
+  "fam-datingscam": {
+   "name": "相亲骗局",
+   "conflict": "相亲骗局 vs 防骗",
+   "q": "为什么相亲总遇骗局？"
+  },
+  "fam-unplanned": {
+   "name": "未婚先孕",
+   "conflict": "意外怀孕 vs 选择",
+   "q": "未婚先孕怎么办？"
+  },
+  "fam-violence": {
+   "name": "家暴求助",
+   "conflict": "家暴 vs 识别求助",
+   "q": "家暴为什么难以摆脱？"
+  },
+  "gen-singleparent": {
+   "name": "单亲爸爸",
+   "conflict": "单亲爸爸 vs 养育",
+   "q": "单亲爸爸带孩子行吗？"
+  },
+  "fam-elderdivorce": {
+   "name": "老年离婚",
+   "conflict": "老年离婚 vs 观念",
+   "q": "为什么老年人也离婚？"
   }
  },
  "links": [
@@ -3121,6 +3161,86 @@
    "a": "gen-divorce",
    "b": "fam-remarry",
    "note": "抚养安排影响重组家庭（孩子与新家庭）"
+  },
+  {
+   "a": "fam-betrothalreturn",
+   "b": "fam-betrothal",
+   "note": "彩礼返还是彩礼议题的法律执行面（附条件赠与）"
+  },
+  {
+   "a": "fam-betrothalreturn",
+   "b": "fam-division",
+   "note": "礼金纠纷与离婚财产分割同属婚姻财产清算"
+  },
+  {
+   "a": "fam-maritalpua",
+   "b": "fam-coldviolence",
+   "note": "精神操控是冷暴力的主动版（打压操控）"
+  },
+  {
+   "a": "fam-maritalpua",
+   "b": "emp-pua",
+   "note": "婚姻PUA是职场PUA的亲密关系版（同种操控）"
+  },
+  {
+   "a": "gen-ivf",
+   "b": "gen-birthanxiety",
+   "note": "试管是生育焦虑的医学应对（想生的技术路径）"
+  },
+  {
+   "a": "gen-ivf",
+   "b": "medical-cost",
+   "note": "试管费用是生育成本的特殊支出（几万/次）"
+  },
+  {
+   "a": "fam-datingscam",
+   "b": "digit-dating",
+   "note": "相亲骗局是网络交友诈骗的线下版（婚托/杀猪盘）"
+  },
+  {
+   "a": "fam-datingscam",
+   "b": "fam-date",
+   "note": "相亲骗局寄生在相亲市场（利用焦虑）"
+  },
+  {
+   "a": "fam-unplanned",
+   "b": "gen-birthanxiety",
+   "note": "意外怀孕是生育议题的突发版（计划外）"
+  },
+  {
+   "a": "fam-unplanned",
+   "b": "fam-cohabit",
+   "note": "未婚先孕与婚前同居相关（同居生育）"
+  },
+  {
+   "a": "fam-violence",
+   "b": "fam-coldviolence",
+   "note": "家暴求助覆盖冷暴力与身体暴力（反家暴法）"
+  },
+  {
+   "a": "fam-violence",
+   "b": "fam-fincontrol",
+   "note": "经济控制是家暴形式之一（家暴多维）"
+  },
+  {
+   "a": "gen-singleparent",
+   "b": "fam-singlemom",
+   "note": "单亲爸爸是单亲妈妈的性别镜像（单亲养育）"
+  },
+  {
+   "a": "gen-singleparent",
+   "b": "gen-staydad",
+   "note": "单亲爸爸与全职爸爸相关（父职承担）"
+  },
+  {
+   "a": "fam-elderdivorce",
+   "b": "fam-sunkcost",
+   "note": "老年离婚是将就一生的终点（忍够了）"
+  },
+  {
+   "a": "fam-elderdivorce",
+   "b": "fam-elderlove",
+   "note": "老年离婚后可能再婚（老年婚恋新篇章）"
   }
  ]
 }

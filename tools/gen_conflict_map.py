@@ -252,6 +252,15 @@ CONFLICT_META = {
     "fam-division": ("离婚财产分割", "离婚财产分割 vs 公平", "离婚财产怎么分？"),
     "fam-friendboundary": ("婚后异性友谊", "婚后异性友谊 vs 边界", "婚后可以有异性朋友吗？"),
     "gen-divorce": ("离婚孩子抚养", "离婚孩子抚养 vs 争夺", "离婚后孩子跟谁？"),
+    # v27 新矛盾（婚姻生育深层激化）
+    "fam-betrothalreturn": ("彩礼返还", "分手/离婚礼金 vs 返还", "分手了订婚礼金要退吗？"),
+    "fam-maritalpua": ("婚姻精神操控", "婚姻精神操控 vs 伤害", "什么是婚姻中的精神操控？"),
+    "gen-ivf": ("试管婴儿压力", "辅助生殖 vs 身心代价", "为什么选择试管婴儿？"),
+    "fam-datingscam": ("相亲骗局", "相亲骗局 vs 防骗", "为什么相亲总遇骗局？"),
+    "fam-unplanned": ("未婚先孕", "意外怀孕 vs 选择", "未婚先孕怎么办？"),
+    "fam-violence": ("家暴求助", "家暴 vs 识别求助", "家暴为什么难以摆脱？"),
+    "gen-singleparent": ("单亲爸爸", "单亲爸爸 vs 养育", "单亲爸爸带孩子行吗？"),
+    "fam-elderdivorce": ("老年离婚", "老年离婚 vs 观念", "为什么老年人也离婚？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -682,6 +691,23 @@ LINK_NOTES = {
     ("fam-friendboundary", "social-boundary"): "婚后异性友谊是边界问题的人际版（度）",
     ("gen-divorce", "fam-sunkcost"): "抚养权争夺是将就婚姻的离婚延伸（孩子被牵扯）",
     ("gen-divorce", "fam-remarry"): "抚养安排影响重组家庭（孩子与新家庭）",
+    # v27 新矛盾关联（婚姻生育深层激化）
+    ("fam-betrothalreturn", "fam-betrothal"): "彩礼返还是彩礼议题的法律执行面（附条件赠与）",
+    ("fam-betrothalreturn", "fam-division"): "礼金纠纷与离婚财产分割同属婚姻财产清算",
+    ("fam-maritalpua", "fam-coldviolence"): "精神操控是冷暴力的主动版（打压操控）",
+    ("fam-maritalpua", "emp-pua"): "婚姻PUA是职场PUA的亲密关系版（同种操控）",
+    ("gen-ivf", "gen-birthanxiety"): "试管是生育焦虑的医学应对（想生的技术路径）",
+    ("gen-ivf", "medical-cost"): "试管费用是生育成本的特殊支出（几万/次）",
+    ("fam-datingscam", "digit-dating"): "相亲骗局是网络交友诈骗的线下版（婚托/杀猪盘）",
+    ("fam-datingscam", "fam-date"): "相亲骗局寄生在相亲市场（利用焦虑）",
+    ("fam-unplanned", "gen-birthanxiety"): "意外怀孕是生育议题的突发版（计划外）",
+    ("fam-unplanned", "fam-cohabit"): "未婚先孕与婚前同居相关（同居生育）",
+    ("fam-violence", "fam-coldviolence"): "家暴求助覆盖冷暴力与身体暴力（反家暴法）",
+    ("fam-violence", "fam-fincontrol"): "经济控制是家暴形式之一（家暴多维）",
+    ("gen-singleparent", "fam-singlemom"): "单亲爸爸是单亲妈妈的性别镜像（单亲养育）",
+    ("gen-singleparent", "gen-staydad"): "单亲爸爸与全职爸爸相关（父职承担）",
+    ("fam-elderdivorce", "fam-sunkcost"): "老年离婚是将就一生的终点（忍够了）",
+    ("fam-elderdivorce", "fam-elderlove"): "老年离婚后可能再婚（老年婚恋新篇章）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
