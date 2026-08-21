@@ -624,6 +624,46 @@
    "name": "网络交友",
    "conflict": "网恋缘分 vs 杀猪盘",
    "q": "为什么网恋容易翻车？"
+  },
+  "psy-single": {
+   "name": "独居青年",
+   "conflict": "独居自由 vs 孤独/生活管理",
+   "q": "为什么越来越多人独居？"
+  },
+  "edu-trainingloan": {
+   "name": "培训贷",
+   "conflict": "培训先贷款 vs 就业承诺",
+   "q": "为什么培训总是先贷款？"
+  },
+  "edu-gaokao": {
+   "name": "高考复读",
+   "conflict": "复读一年 vs 青春/风险",
+   "q": "为什么越来越多人复读？"
+  },
+  "fam-grandparenting": {
+   "name": "隔代育儿",
+   "conflict": "老人带娃 vs 父母教育理念",
+   "q": "为什么老人总要插手带娃？"
+  },
+  "digit-phone": {
+   "name": "旧手机回收",
+   "conflict": "旧手机处理 vs 数据隐私/浪费",
+   "q": "旧手机怎么处理？"
+  },
+  "soc-tuango": {
+   "name": "社区团购",
+   "conflict": "团购便宜 vs 菜市场/品质",
+   "q": "为什么社区团购这么便宜？"
+  },
+  "traffic-trainfood": {
+   "name": "高铁餐饮",
+   "conflict": "高铁盒饭贵 vs 自带/垄断",
+   "q": "为什么高铁盒饭这么贵？"
+  },
+  "edu-allowance": {
+   "name": "儿童零花钱",
+   "conflict": "零花钱 vs 惯坏/理财教育",
+   "q": "该不该给孩子零花钱？"
   }
  },
  "links": [
@@ -1681,6 +1721,86 @@
    "a": "digit-dating",
    "b": "relation-attach",
    "note": "网恋是依恋需求在数字时代的形态（更容易上头也更容易受伤）"
+  },
+  {
+   "a": "psy-single",
+   "b": "psy-lonely",
+   "note": "独居是城市孤独的居住形态（一个人住+一个人扛）"
+  },
+  {
+   "a": "psy-single",
+   "b": "fam-birth",
+   "note": "独居推迟结婚生育（先独居后成家，婚育年龄后移）"
+  },
+  {
+   "a": "edu-trainingloan",
+   "b": "fin-loan",
+   "note": "培训贷是消费贷在教育场景的变体（贷款冲动消费）"
+  },
+  {
+   "a": "edu-trainingloan",
+   "b": "edu-job",
+   "note": "培训贷收割的是就业焦虑（想找工作→买培训→背贷款）"
+  },
+  {
+   "a": "edu-gaokao",
+   "b": "edu-score",
+   "note": "复读热是应试压力的极端化（一考定终身观念）"
+  },
+  {
+   "a": "edu-gaokao",
+   "b": "study-kaoyan",
+   "note": "复读与考研考公同源（对学历/稳定的执念）"
+  },
+  {
+   "a": "fam-grandparenting",
+   "b": "fam-gener",
+   "note": "隔代育儿是代际观念冲突的主战场（两代人带娃）"
+  },
+  {
+   "a": "fam-grandparenting",
+   "b": "fam-parenting",
+   "note": "老人参与育儿让育儿分工更复杂（三方协作者）"
+  },
+  {
+   "a": "digit-phone",
+   "b": "digit-privacy",
+   "note": "旧手机是隐私泄露的重灾区（数据不清理就卖）"
+  },
+  {
+   "a": "digit-phone",
+   "b": "env-sort",
+   "note": "旧手机回收是电子垃圾治理的一环（资源循环）"
+  },
+  {
+   "a": "soc-tuango",
+   "b": "digit-live",
+   "note": "社区团购是线上消费向菜篮子的延伸（平台买菜）"
+  },
+  {
+   "a": "soc-tuango",
+   "b": "food-safe",
+   "note": "团购生鲜的品质风险是食品安全的渠道版"
+  },
+  {
+   "a": "traffic-trainfood",
+   "b": "tourism-trap",
+   "note": "高铁餐饮与景区消费同属封闭场景价格（没得选）"
+  },
+  {
+   "a": "traffic-trainfood",
+   "b": "gov-reg",
+   "note": "高铁餐饮定价需要监管（垄断场景的价格治理）"
+  },
+  {
+   "a": "edu-allowance",
+   "b": "edu-punish",
+   "note": "零花钱教育是立规矩的财商版（规则+后果）"
+  },
+  {
+   "a": "edu-allowance",
+   "b": "soc-consumer",
+   "note": "从小教管钱是反消费主义的根基（会管钱才不被收割）"
   }
  ]
 }

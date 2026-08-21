@@ -144,6 +144,15 @@ CONFLICT_META = {
     "city-property": ("小区物业", "物业费 vs 服务质量", "为什么物业费年年涨？"),
     "health-smoke": ("公共场所吸烟", "吸烟自由 vs 他人健康", "为什么公共场合总有人抽烟？"),
     "digit-dating": ("网络交友", "网恋缘分 vs 杀猪盘", "为什么网恋容易翻车？"),
+    # v15 新矛盾
+    "psy-single": ("独居青年", "独居自由 vs 孤独/生活管理", "为什么越来越多人独居？"),
+    "edu-trainingloan": ("培训贷", "培训先贷款 vs 就业承诺", "为什么培训总是先贷款？"),
+    "edu-gaokao": ("高考复读", "复读一年 vs 青春/风险", "为什么越来越多人复读？"),
+    "fam-grandparenting": ("隔代育儿", "老人带娃 vs 父母教育理念", "为什么老人总要插手带娃？"),
+    "digit-phone": ("旧手机回收", "旧手机处理 vs 数据隐私/浪费", "旧手机怎么处理？"),
+    "soc-tuango": ("社区团购", "团购便宜 vs 菜市场/品质", "为什么社区团购这么便宜？"),
+    "traffic-trainfood": ("高铁餐饮", "高铁盒饭贵 vs 自带/垄断", "为什么高铁盒饭这么贵？"),
+    "edu-allowance": ("儿童零花钱", "零花钱 vs 惯坏/理财教育", "该不该给孩子零花钱？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -370,6 +379,23 @@ LINK_NOTES = {
     ("health-smoke", "medical-cost"): "吸烟/二手烟增加医疗负担（慢病源头）",
     ("digit-dating", "digit-scam"): "杀猪盘是电信诈骗的情感版（骗钱先骗心）",
     ("digit-dating", "relation-attach"): "网恋是依恋需求在数字时代的形态（更容易上头也更容易受伤）",
+    # v15 新矛盾关联
+    ("psy-single", "psy-lonely"): "独居是城市孤独的居住形态（一个人住+一个人扛）",
+    ("psy-single", "fam-birth"): "独居推迟结婚生育（先独居后成家，婚育年龄后移）",
+    ("edu-trainingloan", "fin-loan"): "培训贷是消费贷在教育场景的变体（贷款冲动消费）",
+    ("edu-trainingloan", "edu-job"): "培训贷收割的是就业焦虑（想找工作→买培训→背贷款）",
+    ("edu-gaokao", "edu-score"): "复读热是应试压力的极端化（一考定终身观念）",
+    ("edu-gaokao", "study-kaoyan"): "复读与考研考公同源（对学历/稳定的执念）",
+    ("fam-grandparenting", "fam-gener"): "隔代育儿是代际观念冲突的主战场（两代人带娃）",
+    ("fam-grandparenting", "fam-parenting"): "老人参与育儿让育儿分工更复杂（三方协作者）",
+    ("digit-phone", "digit-privacy"): "旧手机是隐私泄露的重灾区（数据不清理就卖）",
+    ("digit-phone", "env-sort"): "旧手机回收是电子垃圾治理的一环（资源循环）",
+    ("soc-tuango", "digit-live"): "社区团购是线上消费向菜篮子的延伸（平台买菜）",
+    ("soc-tuango", "food-safe"): "团购生鲜的品质风险是食品安全的渠道版",
+    ("traffic-trainfood", "tourism-trap"): "高铁餐饮与景区消费同属封闭场景价格（没得选）",
+    ("traffic-trainfood", "gov-reg"): "高铁餐饮定价需要监管（垄断场景的价格治理）",
+    ("edu-allowance", "edu-punish"): "零花钱教育是立规矩的财商版（规则+后果）",
+    ("edu-allowance", "soc-consumer"): "从小教管钱是反消费主义的根基（会管钱才不被收割）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
