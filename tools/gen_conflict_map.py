@@ -270,6 +270,15 @@ CONFLICT_META = {
     "fam-intimacy": ("婚姻激情消退", "婚后激情消退 vs 经营", "为什么婚后激情会消退？"),
     "fam-mil4": ("岳母女婿", "岳母女婿矛盾 vs 婆媳对照", "为什么岳母女婿也有矛盾？"),
     "fam-groupchat": ("家族群", "家族群 vs 压力", "为什么家族群让人压力大？"),
+    # v29 新矛盾（婚姻家庭生命周期激化）
+    "fam-inheritance": ("遗产继承", "遗产分配 vs 继承", "遗产该怎么分？"),
+    "fam-datecontrol": ("恋爱控制", "恋爱控制 vs 自由", "恋爱中控制是爱吗？"),
+    "fam-secondchild": ("二胎压力", "二胎 vs 精力", "为什么生二胎犹豫？"),
+    "fam-lies": ("婚姻谎言", "善意谎言 vs 坦诚", "婚姻中能说善意的谎言吗？"),
+    "gen-widow": ("丧偶女性", "丧偶 vs 再婚/独立", "丧偶女性为什么难？"),
+    "fam-yuegong": ("月子中心", "月子中心 vs 值不值", "月子中心值吗？"),
+    "gen-divorce2": ("离婚冷静期", "离婚冷静期 vs 自由", "离婚冷静期合理吗？"),
+    "digit-wedding": ("婚礼直播", "婚礼直播 vs 隐私", "为什么婚礼也直播？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -734,6 +743,23 @@ LINK_NOTES = {
     ("fam-mil4", "fam-couple"): "姻亲关系影响夫妻关系（两边平衡）",
     ("fam-groupchat", "fam-gener"): "家族群是代际观念的线上战场（催婚催生）",
     ("fam-groupchat", "digit-scroll"): "养生谣言是家族群的数字陷阱（信息轰炸）",
+    # v29 新矛盾关联（婚姻家庭生命周期激化）
+    ("fam-inheritance", "fam-property"): "遗产继承是代际财产的终局分配（身后事）",
+    ("fam-inheritance", "fam-division"): "遗产分配与离婚分割同属家庭财产清算",
+    ("fam-datecontrol", "fam-maritalpua"): "恋爱控制是婚姻精神操控的恋爱版（控制前置）",
+    ("fam-datecontrol", "fam-dateexpense"): "恋爱控制与恋爱消费同属恋爱关系的权力面",
+    ("fam-secondchild", "fam-birth"): "二胎决策是生育成本的二次评估（多孩代价）",
+    ("fam-secondchild", "fam-parenting"): "二胎精力分配是育儿分工的升级（公平难题）",
+    ("fam-lies", "fam-phone"): "婚姻谎言与查手机同属信任议题（诚实与监控）",
+    ("fam-lies", "fam-couple"): "坦诚是夫妻关系的基石（谎言腐蚀信任）",
+    ("gen-widow", "fam-elderlove"): "丧偶后可能再婚（老年婚恋的丧偶路径）",
+    ("gen-widow", "fam-singlemom"): "丧偶女性与单亲妈妈同属独自养育（女性独扛）",
+    ("fam-yuegong", "fam-yuesao"): "月子中心是月嫂服务的机构化（专业升级）",
+    ("fam-yuegong", "fam-birth"): "月子中心是生育成本的产后大头",
+    ("gen-divorce2", "fam-sunkcost"): "冷静期是将就婚姻的缓冲（冲动 vs 决绝）",
+    ("gen-divorce2", "fam-division"): "冷静期是协议离婚的程序（离婚制度）",
+    ("digit-wedding", "digit-baby"): "婚礼直播是晒娃的成人版（人生大事直播）",
+    ("digit-wedding", "fam-wedding"): "婚礼直播是婚庆消费的传播面（记录 vs 作秀）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict

@@ -1184,6 +1184,46 @@
    "name": "家族群",
    "conflict": "家族群 vs 压力",
    "q": "为什么家族群让人压力大？"
+  },
+  "fam-inheritance": {
+   "name": "遗产继承",
+   "conflict": "遗产分配 vs 继承",
+   "q": "遗产该怎么分？"
+  },
+  "fam-datecontrol": {
+   "name": "恋爱控制",
+   "conflict": "恋爱控制 vs 自由",
+   "q": "恋爱中控制是爱吗？"
+  },
+  "fam-secondchild": {
+   "name": "二胎压力",
+   "conflict": "二胎 vs 精力",
+   "q": "为什么生二胎犹豫？"
+  },
+  "fam-lies": {
+   "name": "婚姻谎言",
+   "conflict": "善意谎言 vs 坦诚",
+   "q": "婚姻中能说善意的谎言吗？"
+  },
+  "gen-widow": {
+   "name": "丧偶女性",
+   "conflict": "丧偶 vs 再婚/独立",
+   "q": "丧偶女性为什么难？"
+  },
+  "fam-yuegong": {
+   "name": "月子中心",
+   "conflict": "月子中心 vs 值不值",
+   "q": "月子中心值吗？"
+  },
+  "gen-divorce2": {
+   "name": "离婚冷静期",
+   "conflict": "离婚冷静期 vs 自由",
+   "q": "离婚冷静期合理吗？"
+  },
+  "digit-wedding": {
+   "name": "婚礼直播",
+   "conflict": "婚礼直播 vs 隐私",
+   "q": "为什么婚礼也直播？"
   }
  },
  "links": [
@@ -3361,6 +3401,86 @@
    "a": "fam-groupchat",
    "b": "digit-scroll",
    "note": "养生谣言是家族群的数字陷阱（信息轰炸）"
+  },
+  {
+   "a": "fam-inheritance",
+   "b": "fam-property",
+   "note": "遗产继承是代际财产的终局分配（身后事）"
+  },
+  {
+   "a": "fam-inheritance",
+   "b": "fam-division",
+   "note": "遗产分配与离婚分割同属家庭财产清算"
+  },
+  {
+   "a": "fam-datecontrol",
+   "b": "fam-maritalpua",
+   "note": "恋爱控制是婚姻精神操控的恋爱版（控制前置）"
+  },
+  {
+   "a": "fam-datecontrol",
+   "b": "fam-dateexpense",
+   "note": "恋爱控制与恋爱消费同属恋爱关系的权力面"
+  },
+  {
+   "a": "fam-secondchild",
+   "b": "fam-birth",
+   "note": "二胎决策是生育成本的二次评估（多孩代价）"
+  },
+  {
+   "a": "fam-secondchild",
+   "b": "fam-parenting",
+   "note": "二胎精力分配是育儿分工的升级（公平难题）"
+  },
+  {
+   "a": "fam-lies",
+   "b": "fam-phone",
+   "note": "婚姻谎言与查手机同属信任议题（诚实与监控）"
+  },
+  {
+   "a": "fam-lies",
+   "b": "fam-couple",
+   "note": "坦诚是夫妻关系的基石（谎言腐蚀信任）"
+  },
+  {
+   "a": "gen-widow",
+   "b": "fam-elderlove",
+   "note": "丧偶后可能再婚（老年婚恋的丧偶路径）"
+  },
+  {
+   "a": "gen-widow",
+   "b": "fam-singlemom",
+   "note": "丧偶女性与单亲妈妈同属独自养育（女性独扛）"
+  },
+  {
+   "a": "fam-yuegong",
+   "b": "fam-yuesao",
+   "note": "月子中心是月嫂服务的机构化（专业升级）"
+  },
+  {
+   "a": "fam-yuegong",
+   "b": "fam-birth",
+   "note": "月子中心是生育成本的产后大头"
+  },
+  {
+   "a": "gen-divorce2",
+   "b": "fam-sunkcost",
+   "note": "冷静期是将就婚姻的缓冲（冲动 vs 决绝）"
+  },
+  {
+   "a": "gen-divorce2",
+   "b": "fam-division",
+   "note": "冷静期是协议离婚的程序（离婚制度）"
+  },
+  {
+   "a": "digit-wedding",
+   "b": "digit-baby",
+   "note": "婚礼直播是晒娃的成人版（人生大事直播）"
+  },
+  {
+   "a": "digit-wedding",
+   "b": "fam-wedding",
+   "note": "婚礼直播是婚庆消费的传播面（记录 vs 作秀）"
   }
  ]
 }
