@@ -1027,7 +1027,12 @@ def _assemble(message, hits, emotion):
         _fp = _st.encode(message)
         _long_terms = [t for t in _fp if len(t) >= 4 and t in _st.REVERSE_DAILY]
         if _long_terms:
-            _dt = max(_long_terms, key=lambda t: len(t))
+            # v1.23 修复（知识考古批次2）：优先问题中实际出现的词
+            # （「什么是混沌的边缘」→「混沌的边缘」而非「混沌与蝴蝶效应」——
+            # 后者更长权重更高但不在问题中）。
+            _present = [t for t in _long_terms if t in message]
+            _pool = _present if _present else _long_terms
+            _dt = max(_pool, key=lambda t: (len(t), _fp.get(t, 0.0)))
             direct = _st.REVERSE_DAILY[_dt]
             name = _dt
     except Exception:
