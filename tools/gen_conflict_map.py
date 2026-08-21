@@ -171,6 +171,15 @@ CONFLICT_META = {
     "pet-boarding": ("宠物寄养", "寄养费用 vs 宠物应激/靠谱", "为什么宠物寄养这么贵？"),
     "fam-giftmoney": ("随份子", "人情往来 vs 经济负担", "为什么份子钱越随越多？"),
     "culture-ticket": ("演唱会抢票", "抢票难 vs 黄牛溢价", "为什么演唱会票这么难抢？"),
+    # v18 新矛盾
+    "health-medicine": ("儿童用药", "喂药难/抗生素滥用 vs 科学用药", "抗生素为什么不能乱吃？"),
+    "med-eldercare": ("医养结合", "养老院医疗 vs 养老", "为什么养老院一床难求？"),
+    "edu-studyroom": ("付费自习室", "付费自习 vs 免费图书馆/在家", "为什么付费自习室这么火？"),
+    "teach-gift": ("教师收礼", "教师收礼 vs 教育公平", "为什么家长要给老师送礼？"),
+    "fin-branch": ("银行网点消失", "网点减少 vs 老人办事", "为什么银行网点越来越少？"),
+    "edu-allowance2": ("大学生生活费", "生活费 vs 家庭负担/攀比", "大学生一个月生活费多少合适？"),
+    "pet-training": ("宠物训练", "宠物行为 vs 训练管教", "为什么宠物不听话？"),
+    "edu-sleep": ("学生睡眠", "作业多 vs 睡眠", "为什么学生都缺觉？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -448,6 +457,23 @@ LINK_NOTES = {
     ("fam-giftmoney", "soc-consumer"): "份子钱通胀是消费主义的人情版（攀比升级）",
     ("culture-ticket", "digit-live"): "抢票是演出消费的线上版（平台/黄牛生态）",
     ("culture-ticket", "youth-idol"): "演唱会抢票是追星消费的高峰场景（为偶像付费）",
+    # v18 新矛盾关联
+    ("health-medicine", "medical-cost"): "儿童用药是医疗费用的家庭入口（生病=支出）",
+    ("health-medicine", "fam-parenting"): "喂药是育儿日常的医药面（照顾责任）",
+    ("med-eldercare", "fam-eldercare"): "医养结合是养老问题的医疗面（养+医一体）",
+    ("med-eldercare", "medical-cost"): "老人医疗是医疗费用的高峰人群（慢病/大病）",
+    ("edu-studyroom", "city-library"): "付费自习室是图书馆的付费替代（座位之争的解法）",
+    ("edu-studyroom", "study-kaoyan"): "自习室需求由考研考公热驱动（备考人口）",
+    ("teach-gift", "teach-fair"): "收礼是教育不公的腐败面（偏心有价）",
+    ("teach-gift", "gov-reg"): "教师收礼是师德监管的治理课题（有规可依）",
+    ("fin-branch", "age-digital"): "网点消失是数字鸿沟的金融版（老人被线上化排除）",
+    ("fin-branch", "digit-scam"): "网点少让老人求助无门（更容易被骗）",
+    ("edu-allowance2", "edu-parttime"): "生活费不够驱动兼职（大学生经济独立链条）",
+    ("edu-allowance2", "soc-consumer"): "生活费攀比是消费主义的校园版",
+    ("pet-training", "city-pet"): "训练是养宠规范的执行层（行为管理）",
+    ("pet-training", "edu-punish"): "宠物训练与儿童管教同理（正向 vs 打骂）",
+    ("edu-sleep", "edu-score"): "作业超量是应试压力的睡眠代价",
+    ("edu-sleep", "digit-scroll"): "睡前刷手机是学生缺觉的习惯因素",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
