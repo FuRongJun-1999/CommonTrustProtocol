@@ -342,6 +342,15 @@ CONFLICT_META = {
     "fam-puberty": ("青春期沟通", "孩子成长 vs 父母不适应", "青春期孩子为什么难沟通？"),
     "fam-aging": ("老人衰老", "生命规律 vs 情感接受", "怎么面对父母变老？"),
     "fam-independence": ("孩子独立放手", "成长必然 vs 父母不舍", "孩子多大该独立？"),
+    # v37 新矛盾（学习动力 vs 娱乐诱惑）
+    "edu-gamefun": ("学习游戏趣味", "学习不如游戏 vs 有趣", "为什么学习不如游戏有趣？"),
+    "edu-boring": ("学习枯燥", "学习枯燥 vs 有趣", "学习为什么枯燥？"),
+    "digit-game": ("游戏机制", "游戏设计 vs 沉迷", "游戏为什么让人上瘾？"),
+    "edu-playbalance": ("学习娱乐平衡", "学习 vs 娱乐", "学习烦了，玩会游戏行吗？"),
+    "edu-procrast": ("拖延启动", "想学 vs 先玩", "想学但总想先玩游戏怎么办？"),
+    "edu-why": ("学习意义", "学习无用 vs 必备", "学习有什么用？"),
+    "edu-knowledgefun": ("知识乐趣", "知识有趣 vs 枯燥", "知识有趣吗？"),
+    "digit-gameblame": ("游戏责任", "游戏害人 vs 自制力", "游戏害人还是帮人？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -942,6 +951,23 @@ LINK_NOTES = {
     ("fam-aging", "fam-disabled"): "衰老与失能相连（照护的终局）",
     ("fam-independence", "fam-childhome"): "孩子独立放手的场景是独自在家（信任）",
     ("fam-independence", "fam-childprivacy"): "独立与隐私同属孩子的自主权（放手尊重）",
+    # v37 新矛盾关联（学习动力 vs 娱乐诱惑）
+    ("edu-gamefun", "youth-game"): "学习不如游戏有趣是游戏沉迷的心理根源（爽感对比）",
+    ("edu-gamefun", "edu-score"): "应试压力让学习变苦差（为分数不为自己）",
+    ("edu-boring", "edu-homework"): "机械作业是学习枯燥的最大来源（重复刷题）",
+    ("edu-boring", "edu-hobby"): "兴趣班是学习乐趣的出口（兴趣驱动）",
+    ("digit-game", "digit-drama"): "游戏与短剧同属多巴胺设计（高频奖励）",
+    ("digit-game", "digit-scroll"): "游戏与短视频同属即时反馈的诱惑（信息碎片）",
+    ("edu-playbalance", "edu-sleep"): "玩到深夜挤压睡眠（学玩平衡的睡眠代价）",
+    ("edu-playbalance", "fam-phone"): "手机管理是学玩平衡的家庭面（孩子用手机）",
+    ("edu-procrast", "fam-chorechild"): "拖延与孩子家务同属启动困难（不愿开始）",
+    ("edu-procrast", "work-burnout"): "拖延导致赶工加班（拖延的职场代价）",
+    ("edu-why", "edu-job"): "学习意义的焦虑源于就业错配（学了没用）",
+    ("edu-why", "edu-score"): "唯分数论让学习意义被窄化（为分数不为成长）",
+    ("edu-knowledgefun", "soc-reading"): "阅读乐趣是知识乐趣的入口（课外书）",
+    ("edu-knowledgefun", "edu-hobby"): "兴趣培养与知识乐趣同源（好奇驱动）",
+    ("digit-gameblame", "youth-game"): "游戏责任争论集中在孩子（家庭教育战场）",
+    ("digit-gameblame", "fam-phone"): "游戏时间与手机管理同属家庭规则（限制与信任）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
