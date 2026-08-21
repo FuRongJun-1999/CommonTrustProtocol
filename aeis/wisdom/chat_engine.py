@@ -1002,16 +1002,21 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
     # 沿前置概念链生成追问候选——「为什么天空是蓝色的」答完附
     # 「想深挖？→ 什么是瑞利散射？/ 什么是波长？」。
     followups = []
+    conflict_links = []
     try:
         if hits and not honest:
             import semantic_translate as _st2
             followups = _st2.gen_followup(message, reply, limit=2, depth=1)
+            # v1.26（荣方法论·矛盾网络化）：回答命中实践智慧矛盾键时，
+            # 生成「相关矛盾」提示——矛盾不是孤立的，一个矛盾连着一串
+            conflict_links = _st2.gen_conflict_links(message, reply, limit=2)
     except Exception:
         followups = []
+        conflict_links = []
 
     return {"reply": reply, "hits": hits, "emotion": emotion,
             "honest": honest, "memory_tail": ctx.get(session_id, [])[-3:],
-            "followups": followups}
+            "followups": followups, "conflict_links": conflict_links}
 
 
 def _assemble(message, hits, emotion):

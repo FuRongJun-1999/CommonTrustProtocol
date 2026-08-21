@@ -484,6 +484,11 @@ def route_reply(question, wisdom_result, session_id="default", dex=None):
         if _fu and result.get("reply") and not result.get("honest"):
             result["reply"] = (result["reply"] or "") + "\n\n想深挖？" + \
                 " / ".join(f"「{f['q']}」" for f in _fu[:2])
+        # v1.26（荣方法论·矛盾网络化）：实践智慧矛盾回答附「相关矛盾」提示
+        _cl = result.get("conflict_links") or []
+        if _cl and result.get("reply"):
+            result["reply"] = (result["reply"] or "") + "\n\n相关矛盾：" + \
+                " / ".join(f"「{c['name']}」" for c in _cl[:2])
         return result
     # llm 路：智慧之书回答放入上下文
     result["wisdom_reply"] = result.get("reply", "")

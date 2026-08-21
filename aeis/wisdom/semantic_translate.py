@@ -2038,6 +2038,74 @@ def gen_followup(question: str, answer: str = "", limit: int = 2,
         return []
 
 
+# ---------------------------------------------------------------------------
+# 矛盾关联（v1.26 · 荣方法论：矛盾网络化——回答一个矛盾提示关联矛盾）
+# ---------------------------------------------------------------------------
+_KEY_TO_CONFLICT = {
+    "自我控制": "self-lazy", "理想现实": "self-ideal", "拖延应对": "self-procrast",
+    "攀比心理": "self-compare", "婚姻协作": "fam-couple", "代际共处": "fam-gener",
+    "婆媳相处": "fam-motherinlaw", "养老规划": "fam-eldercare",
+    "严格管教": "edu-score", "教育公平": "edu-resource", "双减补习": "edu-doublecut",
+    "师生公平": "teach-fair", "校园霸凌": "teach-bully",
+    "薪酬公平": "work-pay", "跳槽决策": "work-loyalty", "中年危机": "work-age35",
+    "裁员应对": "work-layoff", "职场边界": "work-burnout",
+    "政企监管": "gov-reg", "平台用工": "gov-platform", "碳中和转型": "gov-carbon",
+    "国际关系": "intl-tech", "能源资源": "intl-energy", "气候责任": "intl-climate",
+    "选择决策": "self-choice", "拒绝边界": "social-boundary", "依恋焦虑": "relation-attach",
+}
+_CONFLICT_CACHE = None
+
+
+def _load_conflict_map():
+    """加载矛盾关联映射（conflict_map.json：矛盾元数据 + 关联边）。"""
+    global _CONFLICT_CACHE
+    if _CONFLICT_CACHE is not None:
+        return _CONFLICT_CACHE
+    try:
+        import os as _os
+        _p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)),
+                           "conflict_map.json")
+        with open(_p, encoding="utf-8") as _f:
+            _CONFLICT_CACHE = json.load(_f)
+    except Exception:
+        _CONFLICT_CACHE = {"conflicts": {}, "links": []}
+    return _CONFLICT_CACHE
+
+
+def gen_conflict_links(question: str, answer: str = "", limit: int = 2) -> list:
+    """回答命中实践智慧矛盾键 → 查关联矛盾 → 生成「相关矛盾」提示。
+
+    例：「为什么婆婆总爱插手」→ 命中「婆媳相处」→ 关联 [夫妻协作, 代际观念]
+    返回 [{'conflict': id, 'name': 名, 'note': 关联说明}]，最多 limit 条。
+    """
+    try:
+        cmap = _load_conflict_map()
+        meta = cmap.get("conflicts", {})
+        links = cmap.get("links", [])
+        if not meta:
+            return []
+        link_by_id = {}
+        for l in links:
+            link_by_id.setdefault(l["a"], []).append((l["b"], l["note"]))
+            link_by_id.setdefault(l["b"], []).append((l["a"], l["note"]))
+        # 命中实践智慧键（先答案后问题）
+        fp = encode(answer) if answer else {}
+        hit = [t for t in fp if t in _KEY_TO_CONFLICT]
+        if not hit:
+            fp2 = encode(question)
+            hit = [t for t in fp2 if t in _KEY_TO_CONFLICT]
+        if not hit:
+            return []
+        cid = _KEY_TO_CONFLICT[hit[0]]
+        out = []
+        for rel_id, note in link_by_id.get(cid, [])[:limit]:
+            name = meta.get(rel_id, ["?", ""])[0]
+            out.append({"conflict": rel_id, "name": name, "note": note[:60]})
+        return out
+    except Exception:
+        return []
+
+
 def main():
     argv = sys.argv[1:]
     index = load_human_index()
