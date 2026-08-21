@@ -203,6 +203,22 @@ def _decide_route(result):
             or result.get("self_reflexive") or result.get("turn") \
             or result.get("trace_reply"):
         return "self"  # trace_reply（v1.16）：「依据是什么」→ 知识引用已是完整回答
+    # v1.23 考古直答强制 self（知识考古批次3·2026-08-21）：问题编码命中
+    # REVERSE_DAILY 完整概念名（≥4字）时，直答是确定性语义（「什么是内
+    # 稳态」「什么是STDP」），不走 LLM——否则 LLM 展开可能丢关键词或
+    # 输出英文（STDP→"The mathematical form"）。与 _assemble 的 fp 兜底
+    # 一致，这里保证 route 判定也为 self（LLM 路径不经过 _assemble）。
+    try:
+        import semantic_translate as _st
+        _qfp = _st.encode(question)
+        _long = [t for t in _qfp if len(t) >= 3 and t in _st.REVERSE_DAILY]
+        if _long:
+            _pres = [t for t in _long if t in question]
+            _pool = _pres if _pres else _long
+            if _pool:
+                return "self"  # 确定性直答存在 → 白箱自答
+    except Exception:
+        pass
     hits = result.get("hits") or []
     if not hits:
         return "llm"  # 无命中诚实边界 → 智慧之书没把握 → LLM
