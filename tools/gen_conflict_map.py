@@ -72,6 +72,15 @@ CONFLICT_META = {
     "tech-face": ("人脸识别", "便利安全 vs 隐私滥用", "为什么到处都装人脸识别？"),
     "tech-deepfake": ("深度伪造", "技术便利 vs 真实可信", "AI换脸视频为什么这么危险？"),
     "disaster-dev": ("防灾准备", "防灾投入 vs 经济发展", "为什么明知道有风险还在风险区建房？"),
+    # v7 新矛盾
+    "mil-race": ("军备竞赛", "国家安全 vs 资源浪费", "为什么国家之间要搞军备竞赛？"),
+    "mil-proxy": ("代理人战争", "大国克制 vs 小国战场", "为什么大国打仗要借别人的手？"),
+    "relig-trad": ("宗教传统", "传承 vs 时代变化", "为什么有些传统和现代生活冲突？"),
+    "space-race": ("太空探索", "实力象征 vs 资源争夺", "为什么各国都在抢着登月探火？"),
+    "carbon-tax": ("碳税", "减排成本 vs 企业利润", "为什么要收碳税？"),
+    "meta-identity": ("元宇宙", "虚拟体验 vs 现实根基", "元宇宙会不会让人更孤独？"),
+    "gene-edit": ("基因编辑", "治病希望 vs 伦理风险", "基因编辑治病变态还是危险？"),
+    "brain-computer": ("脑机接口", "康复福音 vs 大脑隐私", "脑机接口是福音还是风险？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -162,6 +171,23 @@ LINK_NOTES = {
     ("tech-deepfake", "digit-privacy"): "换脸盗用他人形象=数据隐私的极端滥用",
     ("disaster-dev", "gov-carbon"): "防灾与环保同属『长期安全投入 vs 短期发展』",
     ("disaster-dev", "fam-eldercare"): "灾害对老人冲击最大——防灾与养老交叉",
+    # v7 新矛盾关联
+    ("mil-race", "intl-tech"): "军备竞赛与技术竞赛同源（军事技术/芯片）",
+    ("mil-race", "intl-energy"): "军备竞赛与能源争夺互为因果（资源即战略）",
+    ("mil-proxy", "mil-race"): "代理人战争是军备竞赛的战术出口（大国不下场）",
+    ("mil-proxy", "intl-trade"): "代理人战争与贸易战都是大国博弈的手段",
+    ("relig-trad", "fam-gener"): "代际观念冲突是传统vs现代的微观版",
+    ("relig-trad", "intl-climate"): "气候责任谈判也涉及文化价值冲突（发展观）",
+    ("space-race", "intl-tech"): "太空竞赛是技术竞赛的延伸（航天=尖端科技）",
+    ("space-race", "mil-race"): "太空军事化风险是军备竞赛的太空版",
+    ("carbon-tax", "gov-carbon"): "碳税是碳中和的经济手段（政策落地）",
+    ("carbon-tax", "intl-climate"): "碳税/碳市场是气候责任谈判的执行层",
+    ("meta-identity", "digit-live"): "元宇宙是数字消费的极致形态",
+    ("meta-identity", "psy-lonely"): "元宇宙可能加剧城市孤独（虚拟替代现实）",
+    ("gene-edit", "tech-deepfake"): "基因编辑与深度伪造同属『技术伦理』前沿",
+    ("gene-edit", "gov-reg"): "基因编辑立法是监管滞后于技术的案例",
+    ("brain-computer", "digit-privacy"): "脑机接口是数据隐私的终极版（思想数据）",
+    ("brain-computer", "tech-face"): "脑机接口与人脸识别同属生物特征技术滥用风险",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
