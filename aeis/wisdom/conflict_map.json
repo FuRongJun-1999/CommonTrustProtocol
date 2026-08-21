@@ -264,6 +264,46 @@
    "name": "鸡娃",
    "conflict": "竞争焦虑 vs 孩子童年",
    "q": "为什么家长都拼命鸡娃？"
+  },
+  "law-rights": {
+   "name": "法律维权",
+   "conflict": "维权成本 vs 权益受损",
+   "q": "为什么维权这么难这么贵？"
+  },
+  "health-vaccine": {
+   "name": "疫苗犹豫",
+   "conflict": "公共健康 vs 个体自主",
+   "q": "为什么有人不愿打疫苗？"
+  },
+  "psy-appearance": {
+   "name": "容貌焦虑",
+   "conflict": "审美标准 vs 自我接纳",
+   "q": "为什么越来越多人容貌焦虑？"
+  },
+  "psy-lonely": {
+   "name": "城市孤独",
+   "conflict": "原子化 vs 归属需要",
+   "q": "为什么越长大越孤独？"
+  },
+  "edu-abroad": {
+   "name": "留学选择",
+   "conflict": "高成本 vs 不确定回报",
+   "q": "留学到底值不值？"
+  },
+  "tech-face": {
+   "name": "人脸识别",
+   "conflict": "便利安全 vs 隐私滥用",
+   "q": "为什么到处都装人脸识别？"
+  },
+  "tech-deepfake": {
+   "name": "深度伪造",
+   "conflict": "技术便利 vs 真实可信",
+   "q": "AI换脸视频为什么这么危险？"
+  },
+  "disaster-dev": {
+   "name": "防灾准备",
+   "conflict": "防灾投入 vs 经济发展",
+   "q": "为什么明知道有风险还在风险区建房？"
   }
  },
  "links": [
@@ -601,6 +641,86 @@
    "a": "edu-chicken",
    "b": "youth-game",
    "note": "鸡娃过度→孩子用游戏逃避→新矛盾"
+  },
+  {
+   "a": "law-rights",
+   "b": "soc-doctor",
+   "note": "维权难和看病难同源——公共服务成本高/信息不对称"
+  },
+  {
+   "a": "law-rights",
+   "b": "gov-reg",
+   "note": "消费者维权监管不力是监管问题的用户侧"
+  },
+  {
+   "a": "health-vaccine",
+   "b": "health-takeout",
+   "note": "疫苗与外卖同属健康决策（公共 vs 个人）"
+  },
+  {
+   "a": "health-vaccine",
+   "b": "gov-reg",
+   "note": "防疫政策是监管的公共卫生版"
+  },
+  {
+   "a": "psy-appearance",
+   "b": "self-compare",
+   "note": "容貌焦虑是攀比的容貌版"
+  },
+  {
+   "a": "psy-appearance",
+   "b": "soc-consumer",
+   "note": "容貌焦虑被消费主义利用（医美/护肤）"
+  },
+  {
+   "a": "psy-lonely",
+   "b": "soc-urban",
+   "note": "城市孤独是城乡流动的后果（熟人社会解体）"
+  },
+  {
+   "a": "psy-lonely",
+   "b": "relation-attach",
+   "note": "孤独的人更难建立依恋——孤独与亲密互为因果"
+  },
+  {
+   "a": "edu-abroad",
+   "b": "edu-score",
+   "note": "留学是应试压力的出口（国内卷不动→出去）"
+  },
+  {
+   "a": "edu-abroad",
+   "b": "intl-tech",
+   "note": "留学与技术竞争相关（人才流动/教育竞争）"
+  },
+  {
+   "a": "tech-face",
+   "b": "digit-privacy",
+   "note": "人脸识别是数据隐私的生物特征版（脸不可换）"
+  },
+  {
+   "a": "tech-face",
+   "b": "ai-bias",
+   "note": "人脸识别对深肤色准确率低——算法偏见案例"
+  },
+  {
+   "a": "tech-deepfake",
+   "b": "ai-copyright",
+   "note": "深度伪造与AI创作版权同属AI内容治理"
+  },
+  {
+   "a": "tech-deepfake",
+   "b": "digit-privacy",
+   "note": "换脸盗用他人形象=数据隐私的极端滥用"
+  },
+  {
+   "a": "disaster-dev",
+   "b": "gov-carbon",
+   "note": "防灾与环保同属『长期安全投入 vs 短期发展』"
+  },
+  {
+   "a": "disaster-dev",
+   "b": "fam-eldercare",
+   "note": "灾害对老人冲击最大——防灾与养老交叉"
   }
  ]
 }
