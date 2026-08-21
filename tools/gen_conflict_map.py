@@ -108,6 +108,15 @@ CONFLICT_META = {
     "digit-scroll": ("短视频沉迷", "短视频即时快乐 vs 时间/专注", "为什么刷短视频停不下来？"),
     "rural-hollow": ("农村空心化", "进城发展 vs 乡村凋零", "为什么农村年轻人越来越少？"),
     "tourism-trap": ("旅游宰客", "景区商业化/宰客 vs 旅游体验", "为什么景区总宰客？"),
+    # v11 新矛盾
+    "emp-pua": ("职场PUA", "老板画饼/贬低 vs 自我价值", "为什么老板总爱画饼？"),
+    "health-weight": ("身材焦虑", "身材标准 vs 健康/自我接纳", "为什么越来越多人身材焦虑？"),
+    "public-civility": ("公共文明", "公共场所熊孩子/噪音 vs 个人自由", "为什么高铁上总有熊孩子？"),
+    "edu-punish": ("教育惩戒", "打骂/惩罚 vs 讲道理/边界", "孩子不打不成器吗？"),
+    "study-kaoyan": ("考研考公", "稳定追求 vs 竞争/内卷", "为什么越来越多人考研考公？"),
+    "fam-solitude": ("独居老人", "老人独居 vs 子女陪伴/照护", "为什么老人越来越孤独？"),
+    "food-residue": ("农药残留", "吃得安全 vs 有机太贵", "蔬菜水果都有农药残留吗？"),
+    "city-elevator": ("老旧小区", "加装电梯/改造 vs 费用/利益分歧", "为什么老小区加装电梯这么难？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -266,6 +275,23 @@ LINK_NOTES = {
     ("rural-hollow", "fam-leftbehind"): "年轻人进城=孩子留守+老人空巢——空心化的家庭代价",
     ("tourism-trap", "gov-reg"): "宰客乱象是监管滞后于市场逐利的案例（处罚太轻/执法难）",
     ("tourism-trap", "soc-consumer"): "旅游消费是消费主义的移动版（为体验付费/被套路收割）",
+    # v11 新矛盾关联
+    ("emp-pua", "work-burnout"): "职场PUA叠加工作压力——身心双重消耗",
+    ("emp-pua", "social-boundary"): "不会拒绝的人更容易被PUA（不敢反驳/不敢走）",
+    ("health-weight", "psy-appearance"): "身材焦虑是容貌焦虑的身体版（同一审美暴力）",
+    ("health-weight", "health-takeout"): "外卖高油高糖是身材焦虑的现实诱因（吃了胖→焦虑→更焦虑）",
+    ("public-civility", "city-pet"): "公共场所矛盾与养宠矛盾同源——个人自由 vs 他人安宁",
+    ("public-civility", "social-boundary"): "公共边界是『拒绝边界』的公共版（学会说不/学会守界）",
+    ("edu-punish", "teach-authority"): "打骂式管教是老师权威的家庭版（我打你=我是为你好）",
+    ("edu-punish", "youth-game"): "管太严/打骂把孩子推向游戏世界（逃避现实）",
+    ("study-kaoyan", "edu-job"): "考研考公热是教育就业错配的结果（学历贬值→追求稳定）",
+    ("study-kaoyan", "soc-lieflat"): "考公热与躺平同源——对上升通道失望后的防御选择",
+    ("fam-solitude", "fam-eldercare"): "独居是养老问题的日常形态（钱之外还要陪伴）",
+    ("fam-solitude", "soc-aging"): "老龄化放大独居问题（独居老人比例持续上升）",
+    ("food-residue", "food-safe"): "农药残留与添加剂同属食品安全焦虑（看得见的怕+看不见的怕）",
+    ("food-residue", "medical-cost"): "吃得不安心→身体担忧→医疗负担（预防焦虑的链条）",
+    ("city-elevator", "housing"): "老小区改造是居住问题的存量版（买不起新房→改造旧房）",
+    ("city-elevator", "gov-subsidy"): "加装电梯补贴是政府扶持公共品的案例（民生投入）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
