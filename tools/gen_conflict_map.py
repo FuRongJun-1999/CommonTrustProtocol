@@ -225,6 +225,15 @@ CONFLICT_META = {
     "fam-dink": ("丁克", "丁克 vs 家庭压力", "为什么越来越多人选择丁克？"),
     "fam-prenup": ("婚前财产协议", "婚前财产协议 vs 感情", "为什么婚前财产公证越来越多？"),
     "fam-onlychild": ("独生女养老", "独生女 vs 养老压力", "为什么独生女养老压力这么大？"),
+    # v24 新矛盾（性别婚恋社会激化）
+    "gen-hiring": ("求职婚育歧视", "面试问婚育 vs 就业公平", "为什么面试总问婚育计划？"),
+    "gen-maleemotion": ("男性情感表达", "男儿有泪不轻弹 vs 情绪健康", "为什么男人不能哭？"),
+    "soc-singleeconomy": ("单身经济", "单身经济 vs 社会配套", "为什么单身经济这么火？"),
+    "gen-birthanxiety": ("女性生育焦虑", "生育年龄焦虑 vs 选择", "为什么女性有生育年龄焦虑？"),
+    "gen-malegrooming": ("男性形象消费", "男性护肤医美 vs 观念", "为什么男性也开始护肤医美？"),
+    "fam-singlemom": ("单亲妈妈", "单亲养育 vs 支持", "为什么单亲妈妈这么难？"),
+    "public-night": ("女性夜间安全", "女性夜间安全 vs 自由", "为什么女性夜间出行不安全？"),
+    "gen-genderratio": ("婚恋性别比", "男多女少 vs 婚恋压力", "为什么男多女少？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -604,6 +613,23 @@ LINK_NOTES = {
     ("fam-prenup", "fam-betrothal"): "婚前公证与彩礼同属婚姻的物质安排",
     ("fam-onlychild", "fam-eldercare"): "独生女养老是养老责任的独生版（无人分担）",
     ("fam-onlychild", "fam-birth"): "4-2-1家庭结构放大独生女负担（少子化代价）",
+    # v24 新矛盾关联（性别婚恋社会激化）
+    ("gen-hiring", "gen-work"): "求职婚育歧视是职场性别歧视的入职端（门槛歧视）",
+    ("gen-hiring", "gen-stayhome"): "生育问询与全职回归同属生育的职场代价",
+    ("gen-maleemotion", "gen-malepressure"): "男性情绪压抑与婚育压力同源（男子汉标签）",
+    ("gen-maleemotion", "psy-anxiety"): "男性抑郁高发与情绪压抑相关（不让哭的代价）",
+    ("soc-singleeconomy", "psy-single"): "单身经济是独居青年生活的消费形态",
+    ("soc-singleeconomy", "fam-birth"): "单身经济兴起与生育率下降互为因果（少子化消费）",
+    ("gen-birthanxiety", "fam-birth"): "生育焦虑是生育成本问题的女性心理面",
+    ("gen-birthanxiety", "gen-labels"): "生育焦虑与剩女标签同属对女性的社会规训",
+    ("gen-malegrooming", "gen-consume"): "男性形象消费是悦己消费的性别扩展（男性也消费）",
+    ("gen-malegrooming", "psy-appearance"): "男性医美是容貌焦虑的男性版（形象经济无性别）",
+    ("fam-singlemom", "fam-remarry"): "单亲妈妈是重组家庭的另一面（离异后的单亲）",
+    ("fam-singlemom", "gen-stayhome"): "单亲妈妈是育儿责任的极端单人承担（无帮手）",
+    ("public-night", "traffic-ridehailing"): "夜间安全影响女性打车选择（安全出行）",
+    ("public-night", "gen-war"): "夜间安全的讨论常被性别对立裹挟（受害者有罪论）",
+    ("gen-genderratio", "gen-malepressure"): "性别比失衡加剧男性婚育压力（竞争抬价）",
+    ("gen-genderratio", "fam-betrothal"): "男多女少推高彩礼（婚恋市场供需）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict

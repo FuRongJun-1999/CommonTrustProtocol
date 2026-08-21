@@ -984,6 +984,46 @@
    "name": "独生女养老",
    "conflict": "独生女 vs 养老压力",
    "q": "为什么独生女养老压力这么大？"
+  },
+  "gen-hiring": {
+   "name": "求职婚育歧视",
+   "conflict": "面试问婚育 vs 就业公平",
+   "q": "为什么面试总问婚育计划？"
+  },
+  "gen-maleemotion": {
+   "name": "男性情感表达",
+   "conflict": "男儿有泪不轻弹 vs 情绪健康",
+   "q": "为什么男人不能哭？"
+  },
+  "soc-singleeconomy": {
+   "name": "单身经济",
+   "conflict": "单身经济 vs 社会配套",
+   "q": "为什么单身经济这么火？"
+  },
+  "gen-birthanxiety": {
+   "name": "女性生育焦虑",
+   "conflict": "生育年龄焦虑 vs 选择",
+   "q": "为什么女性有生育年龄焦虑？"
+  },
+  "gen-malegrooming": {
+   "name": "男性形象消费",
+   "conflict": "男性护肤医美 vs 观念",
+   "q": "为什么男性也开始护肤医美？"
+  },
+  "fam-singlemom": {
+   "name": "单亲妈妈",
+   "conflict": "单亲养育 vs 支持",
+   "q": "为什么单亲妈妈这么难？"
+  },
+  "public-night": {
+   "name": "女性夜间安全",
+   "conflict": "女性夜间安全 vs 自由",
+   "q": "为什么女性夜间出行不安全？"
+  },
+  "gen-genderratio": {
+   "name": "婚恋性别比",
+   "conflict": "男多女少 vs 婚恋压力",
+   "q": "为什么男多女少？"
   }
  },
  "links": [
@@ -2761,6 +2801,86 @@
    "a": "fam-onlychild",
    "b": "fam-birth",
    "note": "4-2-1家庭结构放大独生女负担（少子化代价）"
+  },
+  {
+   "a": "gen-hiring",
+   "b": "gen-work",
+   "note": "求职婚育歧视是职场性别歧视的入职端（门槛歧视）"
+  },
+  {
+   "a": "gen-hiring",
+   "b": "gen-stayhome",
+   "note": "生育问询与全职回归同属生育的职场代价"
+  },
+  {
+   "a": "gen-maleemotion",
+   "b": "gen-malepressure",
+   "note": "男性情绪压抑与婚育压力同源（男子汉标签）"
+  },
+  {
+   "a": "gen-maleemotion",
+   "b": "psy-anxiety",
+   "note": "男性抑郁高发与情绪压抑相关（不让哭的代价）"
+  },
+  {
+   "a": "soc-singleeconomy",
+   "b": "psy-single",
+   "note": "单身经济是独居青年生活的消费形态"
+  },
+  {
+   "a": "soc-singleeconomy",
+   "b": "fam-birth",
+   "note": "单身经济兴起与生育率下降互为因果（少子化消费）"
+  },
+  {
+   "a": "gen-birthanxiety",
+   "b": "fam-birth",
+   "note": "生育焦虑是生育成本问题的女性心理面"
+  },
+  {
+   "a": "gen-birthanxiety",
+   "b": "gen-labels",
+   "note": "生育焦虑与剩女标签同属对女性的社会规训"
+  },
+  {
+   "a": "gen-malegrooming",
+   "b": "gen-consume",
+   "note": "男性形象消费是悦己消费的性别扩展（男性也消费）"
+  },
+  {
+   "a": "gen-malegrooming",
+   "b": "psy-appearance",
+   "note": "男性医美是容貌焦虑的男性版（形象经济无性别）"
+  },
+  {
+   "a": "fam-singlemom",
+   "b": "fam-remarry",
+   "note": "单亲妈妈是重组家庭的另一面（离异后的单亲）"
+  },
+  {
+   "a": "fam-singlemom",
+   "b": "gen-stayhome",
+   "note": "单亲妈妈是育儿责任的极端单人承担（无帮手）"
+  },
+  {
+   "a": "public-night",
+   "b": "traffic-ridehailing",
+   "note": "夜间安全影响女性打车选择（安全出行）"
+  },
+  {
+   "a": "public-night",
+   "b": "gen-war",
+   "note": "夜间安全的讨论常被性别对立裹挟（受害者有罪论）"
+  },
+  {
+   "a": "gen-genderratio",
+   "b": "gen-malepressure",
+   "note": "性别比失衡加剧男性婚育压力（竞争抬价）"
+  },
+  {
+   "a": "gen-genderratio",
+   "b": "fam-betrothal",
+   "note": "男多女少推高彩礼（婚恋市场供需）"
   }
  ]
 }
