@@ -544,6 +544,46 @@
    "name": "光盘行动",
    "conflict": "面子/点多了 vs 粮食浪费",
    "q": "为什么浪费食物这么普遍？"
+  },
+  "soc-declutter": {
+   "name": "断舍离",
+   "conflict": "囤积/留着 vs 断舍离/极简",
+   "q": "为什么东西越攒越多？"
+  },
+  "pet-medical": {
+   "name": "宠物医疗",
+   "conflict": "宠物看病贵 vs 弃养/值不值",
+   "q": "为什么宠物看病这么贵？"
+  },
+  "fam-date": {
+   "name": "相亲条件",
+   "conflict": "相亲看条件 vs 感情",
+   "q": "为什么相亲都看条件？"
+  },
+  "social-toast": {
+   "name": "酒桌文化",
+   "conflict": "劝酒 vs 健康/自愿",
+   "q": "为什么酒桌总要劝酒？"
+  },
+  "edu-driving": {
+   "name": "学车驾考",
+   "conflict": "驾校乱象 vs 拿证刚需",
+   "q": "为什么驾校教练这么凶？"
+  },
+  "city-accessibility": {
+   "name": "无障碍出行",
+   "conflict": "残障出行 vs 设施不足/占用",
+   "q": "为什么盲道总被占用？"
+  },
+  "work-rehire": {
+   "name": "退休再就业",
+   "conflict": "退休后再就业 vs 年龄/体面",
+   "q": "为什么退休了还想找工作？"
+  },
+  "env-sort": {
+   "name": "垃圾分类",
+   "conflict": "分类麻烦 vs 环境收益",
+   "q": "为什么垃圾分类这么麻烦？"
   }
  },
  "links": [
@@ -1441,6 +1481,86 @@
    "a": "food-waste",
    "b": "soc-consumer",
    "note": "浪费是消费主义的面子版（丰盛崇拜）"
+  },
+  {
+   "a": "soc-declutter",
+   "b": "soc-consumer",
+   "note": "断舍离是消费主义的反向运动（买买买的反面是扔扔扔）"
+  },
+  {
+   "a": "soc-declutter",
+   "b": "digit-live",
+   "note": "直播冲动消费囤积的源头——买的时候爽，囤的时候愁"
+  },
+  {
+   "a": "pet-medical",
+   "b": "city-pet",
+   "note": "宠物医疗是养宠责任的经济面（养得起更要治得起）"
+  },
+  {
+   "a": "pet-medical",
+   "b": "medical-cost",
+   "note": "宠物看病贵与人生病贵同构（医疗成本结构）"
+  },
+  {
+   "a": "fam-date",
+   "b": "fam-betrothal",
+   "note": "相亲看条件与彩礼谈钱同源——婚姻的物质基础之争"
+  },
+  {
+   "a": "fam-date",
+   "b": "relation-attach",
+   "note": "相亲是依恋关系的条件入口（先匹配再动心）"
+  },
+  {
+   "a": "social-toast",
+   "b": "work-age35",
+   "note": "职场应酬是中年人的酒桌主场（躲不掉的局）"
+  },
+  {
+   "a": "social-toast",
+   "b": "social-boundary",
+   "note": "不会拒绝的人最容易被劝酒——拒酒是边界训练"
+  },
+  {
+   "a": "edu-driving",
+   "b": "edu-job",
+   "note": "驾照是就业的隐形门槛（很多岗位要求会开车）"
+  },
+  {
+   "a": "edu-driving",
+   "b": "gov-reg",
+   "note": "驾校乱象是监管滞后于市场逐利的案例"
+  },
+  {
+   "a": "city-accessibility",
+   "b": "age-digital",
+   "note": "无障碍与适老化同源——弱势群体的出行/数字权利"
+  },
+  {
+   "a": "city-accessibility",
+   "b": "city-elevator",
+   "note": "无障碍设施与加装电梯同属城市适老化改造"
+  },
+  {
+   "a": "work-rehire",
+   "b": "work-age35",
+   "note": "退休再就业难是35岁门槛的延长版（年龄歧视贯穿一生）"
+  },
+  {
+   "a": "work-rehire",
+   "b": "soc-aging",
+   "note": "老龄化让银发劳动力成为社会议题（老有所为）"
+  },
+  {
+   "a": "env-sort",
+   "b": "plastic-waste",
+   "note": "垃圾分类是塑料治理的执行环节（分出来才能回收）"
+  },
+  {
+   "a": "env-sort",
+   "b": "gov-reg",
+   "note": "分类政策是监管型治理（前端立法+后端执法）"
   }
  ]
 }
