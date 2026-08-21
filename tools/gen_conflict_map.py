@@ -261,6 +261,15 @@ CONFLICT_META = {
     "fam-violence": ("家暴求助", "家暴 vs 识别求助", "家暴为什么难以摆脱？"),
     "gen-singleparent": ("单亲爸爸", "单亲爸爸 vs 养育", "单亲爸爸带孩子行吗？"),
     "fam-elderdivorce": ("老年离婚", "老年离婚 vs 观念", "为什么老年人也离婚？"),
+    # v28 新矛盾（婚姻家庭细节激化）
+    "fam-dateexpense": ("恋爱消费", "恋爱谁花钱 vs AA", "恋爱中谁该花钱？"),
+    "fam-phone": ("夫妻查手机", "查手机 vs 隐私", "夫妻该互相查手机吗？"),
+    "fam-postbirth": ("生育后夫妻", "生娃后夫妻关系变淡", "为什么生娃后夫妻关系变淡？"),
+    "fam-houseworkcomp": ("家务补偿", "家务补偿 vs 权益", "全职主妇离婚有家务补偿吗？"),
+    "fam-pregnancywork": ("孕期职场", "孕期职场权益 vs 企业负担", "怀孕会被辞退吗？"),
+    "fam-intimacy": ("婚姻激情消退", "婚后激情消退 vs 经营", "为什么婚后激情会消退？"),
+    "fam-mil4": ("岳母女婿", "岳母女婿矛盾 vs 婆媳对照", "为什么岳母女婿也有矛盾？"),
+    "fam-groupchat": ("家族群", "家族群 vs 压力", "为什么家族群让人压力大？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -708,6 +717,23 @@ LINK_NOTES = {
     ("gen-singleparent", "gen-staydad"): "单亲爸爸与全职爸爸相关（父职承担）",
     ("fam-elderdivorce", "fam-sunkcost"): "老年离婚是将就一生的终点（忍够了）",
     ("fam-elderdivorce", "fam-elderlove"): "老年离婚后可能再婚（老年婚恋新篇章）",
+    # v28 新矛盾关联（婚姻家庭细节激化）
+    ("fam-dateexpense", "fam-aa"): "恋爱消费是AA制的恋爱版（谁花钱）",
+    ("fam-dateexpense", "fam-date"): "恋爱消费是相亲恋爱的经济面（相处成本）",
+    ("fam-phone", "fam-friendboundary"): "查手机与异性友谊边界同属婚姻信任问题",
+    ("fam-phone", "digit-privacy"): "查手机是隐私问题的婚姻场景（亲密与隐私）",
+    ("fam-postbirth", "fam-parenting"): "生娃后夫妻变淡与育儿分工相关（育儿冲击）",
+    ("fam-postbirth", "fam-couple"): "夫妻关系是家庭地基（孩子不是中心）",
+    ("fam-houseworkcomp", "fam-division"): "家务补偿是离婚财产分割的补充（民法典1088条）",
+    ("fam-houseworkcomp", "gen-house"): "家务补偿是家务价值的法律承认",
+    ("fam-pregnancywork", "gen-hiring"): "孕期职场歧视是求职婚育歧视的孕产期版",
+    ("fam-pregnancywork", "gen-stayhome"): "孕期处境影响产后的职场回归",
+    ("fam-intimacy", "fam-couple"): "激情消退是夫妻矛盾的温床（平淡与经营）",
+    ("fam-intimacy", "fam-sunkcost"): "不经营的平淡滑向将就（激情冻结）",
+    ("fam-mil4", "fam-mil3"): "岳母女婿与婆媳同属姻亲矛盾（父母vs伴侣）",
+    ("fam-mil4", "fam-couple"): "姻亲关系影响夫妻关系（两边平衡）",
+    ("fam-groupchat", "fam-gener"): "家族群是代际观念的线上战场（催婚催生）",
+    ("fam-groupchat", "digit-scroll"): "养生谣言是家族群的数字陷阱（信息轰炸）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict

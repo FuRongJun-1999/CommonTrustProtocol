@@ -1144,6 +1144,46 @@
    "name": "老年离婚",
    "conflict": "老年离婚 vs 观念",
    "q": "为什么老年人也离婚？"
+  },
+  "fam-dateexpense": {
+   "name": "恋爱消费",
+   "conflict": "恋爱谁花钱 vs AA",
+   "q": "恋爱中谁该花钱？"
+  },
+  "fam-phone": {
+   "name": "夫妻查手机",
+   "conflict": "查手机 vs 隐私",
+   "q": "夫妻该互相查手机吗？"
+  },
+  "fam-postbirth": {
+   "name": "生育后夫妻",
+   "conflict": "生娃后夫妻关系变淡",
+   "q": "为什么生娃后夫妻关系变淡？"
+  },
+  "fam-houseworkcomp": {
+   "name": "家务补偿",
+   "conflict": "家务补偿 vs 权益",
+   "q": "全职主妇离婚有家务补偿吗？"
+  },
+  "fam-pregnancywork": {
+   "name": "孕期职场",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "q": "怀孕会被辞退吗？"
+  },
+  "fam-intimacy": {
+   "name": "婚姻激情消退",
+   "conflict": "婚后激情消退 vs 经营",
+   "q": "为什么婚后激情会消退？"
+  },
+  "fam-mil4": {
+   "name": "岳母女婿",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "q": "为什么岳母女婿也有矛盾？"
+  },
+  "fam-groupchat": {
+   "name": "家族群",
+   "conflict": "家族群 vs 压力",
+   "q": "为什么家族群让人压力大？"
   }
  },
  "links": [
@@ -3241,6 +3281,86 @@
    "a": "fam-elderdivorce",
    "b": "fam-elderlove",
    "note": "老年离婚后可能再婚（老年婚恋新篇章）"
+  },
+  {
+   "a": "fam-dateexpense",
+   "b": "fam-aa",
+   "note": "恋爱消费是AA制的恋爱版（谁花钱）"
+  },
+  {
+   "a": "fam-dateexpense",
+   "b": "fam-date",
+   "note": "恋爱消费是相亲恋爱的经济面（相处成本）"
+  },
+  {
+   "a": "fam-phone",
+   "b": "fam-friendboundary",
+   "note": "查手机与异性友谊边界同属婚姻信任问题"
+  },
+  {
+   "a": "fam-phone",
+   "b": "digit-privacy",
+   "note": "查手机是隐私问题的婚姻场景（亲密与隐私）"
+  },
+  {
+   "a": "fam-postbirth",
+   "b": "fam-parenting",
+   "note": "生娃后夫妻变淡与育儿分工相关（育儿冲击）"
+  },
+  {
+   "a": "fam-postbirth",
+   "b": "fam-couple",
+   "note": "夫妻关系是家庭地基（孩子不是中心）"
+  },
+  {
+   "a": "fam-houseworkcomp",
+   "b": "fam-division",
+   "note": "家务补偿是离婚财产分割的补充（民法典1088条）"
+  },
+  {
+   "a": "fam-houseworkcomp",
+   "b": "gen-house",
+   "note": "家务补偿是家务价值的法律承认"
+  },
+  {
+   "a": "fam-pregnancywork",
+   "b": "gen-hiring",
+   "note": "孕期职场歧视是求职婚育歧视的孕产期版"
+  },
+  {
+   "a": "fam-pregnancywork",
+   "b": "gen-stayhome",
+   "note": "孕期处境影响产后的职场回归"
+  },
+  {
+   "a": "fam-intimacy",
+   "b": "fam-couple",
+   "note": "激情消退是夫妻矛盾的温床（平淡与经营）"
+  },
+  {
+   "a": "fam-intimacy",
+   "b": "fam-sunkcost",
+   "note": "不经营的平淡滑向将就（激情冻结）"
+  },
+  {
+   "a": "fam-mil4",
+   "b": "fam-mil3",
+   "note": "岳母女婿与婆媳同属姻亲矛盾（父母vs伴侣）"
+  },
+  {
+   "a": "fam-mil4",
+   "b": "fam-couple",
+   "note": "姻亲关系影响夫妻关系（两边平衡）"
+  },
+  {
+   "a": "fam-groupchat",
+   "b": "fam-gener",
+   "note": "家族群是代际观念的线上战场（催婚催生）"
+  },
+  {
+   "a": "fam-groupchat",
+   "b": "digit-scroll",
+   "note": "养生谣言是家族群的数字陷阱（信息轰炸）"
   }
  ]
 }
