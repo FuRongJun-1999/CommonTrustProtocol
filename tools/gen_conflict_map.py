@@ -216,6 +216,15 @@ CONFLICT_META = {
     "gen-stayhome": ("全职妈妈回归", "全职带娃 vs 重返职场", "为什么全职妈妈重返职场这么难？"),
     "gen-labels": ("大龄未婚标签", "大龄未婚标签 vs 个人选择", "为什么大龄未婚要被贴标签？"),
     "fam-mil3": ("婆媳同住", "婆媳同住 vs 边界", "为什么婆媳同住矛盾多？"),
+    # v23 新矛盾（婚恋家庭观念激化）
+    "fam-cohabit": ("婚前同居", "婚前同居 vs 传统观念", "为什么越来越多人婚前同居？"),
+    "gen-malepressure": ("男性婚育压力", "男方买房彩礼 vs 压力分担", "为什么男性婚育压力这么大？"),
+    "fam-boundary": ("婚后原生家庭边界", "婚后与父母边界 vs 亲情", "为什么婚后和父母边界这么难？"),
+    "gen-staydad": ("全职爸爸", "男性全职带娃 vs 观念", "为什么全职爸爸这么少？"),
+    "fam-agediff": ("姐弟恋", "姐弟恋 vs 年龄差观念", "为什么姐弟恋争议这么大？"),
+    "fam-dink": ("丁克", "丁克 vs 家庭压力", "为什么越来越多人选择丁克？"),
+    "fam-prenup": ("婚前财产协议", "婚前财产协议 vs 感情", "为什么婚前财产公证越来越多？"),
+    "fam-onlychild": ("独生女养老", "独生女 vs 养老压力", "为什么独生女养老压力这么大？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -578,6 +587,23 @@ LINK_NOTES = {
     ("gen-labels", "psy-lonely"): "大龄未婚与孤独议题交织（单身≠孤独）",
     ("fam-mil3", "fam-motherinlaw"): "同住是婆媳矛盾的放大器（零距离摩擦）",
     ("fam-mil3", "fam-eldercare"): "同住与养老需要相关（老人依恋 vs 小家边界）",
+    # v23 新矛盾关联（婚恋家庭观念激化）
+    ("fam-cohabit", "fam-date"): "同居是相亲恋爱的试婚延伸（婚前验证）",
+    ("fam-cohabit", "fam-gener"): "同居是代际观念冲突的婚恋版（试婚 vs 传统）",
+    ("gen-malepressure", "fam-betrothal"): "男性婚育压力是彩礼成本的承载面（买房彩礼）",
+    ("gen-malepressure", "gen-income"): "婚育压力与收入角色同源（谁扛经济责任）",
+    ("fam-boundary", "fam-mil3"): "原生家庭边界是婆媳同住问题的泛化（不止婆媳）",
+    ("fam-boundary", "fam-couple"): "父母越界冲击夫妻一体（小家主权）",
+    ("gen-staydad", "gen-stayhome"): "全职爸爸是全职妈妈的性别镜像（谁全职的争议）",
+    ("gen-staydad", "gen-house"): "全职爸爸是家务分工的极端选项（主内男性化）",
+    ("fam-agediff", "fam-date"): "姐弟恋是婚恋匹配观的延伸（年龄 vs 合适）",
+    ("fam-agediff", "fam-gener"): "姐弟恋争议是代际观念在年龄差上的体现",
+    ("fam-dink", "fam-birth"): "丁克是生育意愿的主动归零（不想生 vs 养不起）",
+    ("fam-dink", "fam-gener"): "丁克压力主要来自代际催生（父母期待）",
+    ("fam-prenup", "fam-aa"): "婚前财产协议是婚后AA的前置（财产约定前置化）",
+    ("fam-prenup", "fam-betrothal"): "婚前公证与彩礼同属婚姻的物质安排",
+    ("fam-onlychild", "fam-eldercare"): "独生女养老是养老责任的独生版（无人分担）",
+    ("fam-onlychild", "fam-birth"): "4-2-1家庭结构放大独生女负担（少子化代价）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict

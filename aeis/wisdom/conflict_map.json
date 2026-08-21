@@ -944,6 +944,46 @@
    "name": "婆媳同住",
    "conflict": "婆媳同住 vs 边界",
    "q": "为什么婆媳同住矛盾多？"
+  },
+  "fam-cohabit": {
+   "name": "婚前同居",
+   "conflict": "婚前同居 vs 传统观念",
+   "q": "为什么越来越多人婚前同居？"
+  },
+  "gen-malepressure": {
+   "name": "男性婚育压力",
+   "conflict": "男方买房彩礼 vs 压力分担",
+   "q": "为什么男性婚育压力这么大？"
+  },
+  "fam-boundary": {
+   "name": "婚后原生家庭边界",
+   "conflict": "婚后与父母边界 vs 亲情",
+   "q": "为什么婚后和父母边界这么难？"
+  },
+  "gen-staydad": {
+   "name": "全职爸爸",
+   "conflict": "男性全职带娃 vs 观念",
+   "q": "为什么全职爸爸这么少？"
+  },
+  "fam-agediff": {
+   "name": "姐弟恋",
+   "conflict": "姐弟恋 vs 年龄差观念",
+   "q": "为什么姐弟恋争议这么大？"
+  },
+  "fam-dink": {
+   "name": "丁克",
+   "conflict": "丁克 vs 家庭压力",
+   "q": "为什么越来越多人选择丁克？"
+  },
+  "fam-prenup": {
+   "name": "婚前财产协议",
+   "conflict": "婚前财产协议 vs 感情",
+   "q": "为什么婚前财产公证越来越多？"
+  },
+  "fam-onlychild": {
+   "name": "独生女养老",
+   "conflict": "独生女 vs 养老压力",
+   "q": "为什么独生女养老压力这么大？"
   }
  },
  "links": [
@@ -2641,6 +2681,86 @@
    "a": "fam-mil3",
    "b": "fam-eldercare",
    "note": "同住与养老需要相关（老人依恋 vs 小家边界）"
+  },
+  {
+   "a": "fam-cohabit",
+   "b": "fam-date",
+   "note": "同居是相亲恋爱的试婚延伸（婚前验证）"
+  },
+  {
+   "a": "fam-cohabit",
+   "b": "fam-gener",
+   "note": "同居是代际观念冲突的婚恋版（试婚 vs 传统）"
+  },
+  {
+   "a": "gen-malepressure",
+   "b": "fam-betrothal",
+   "note": "男性婚育压力是彩礼成本的承载面（买房彩礼）"
+  },
+  {
+   "a": "gen-malepressure",
+   "b": "gen-income",
+   "note": "婚育压力与收入角色同源（谁扛经济责任）"
+  },
+  {
+   "a": "fam-boundary",
+   "b": "fam-mil3",
+   "note": "原生家庭边界是婆媳同住问题的泛化（不止婆媳）"
+  },
+  {
+   "a": "fam-boundary",
+   "b": "fam-couple",
+   "note": "父母越界冲击夫妻一体（小家主权）"
+  },
+  {
+   "a": "gen-staydad",
+   "b": "gen-stayhome",
+   "note": "全职爸爸是全职妈妈的性别镜像（谁全职的争议）"
+  },
+  {
+   "a": "gen-staydad",
+   "b": "gen-house",
+   "note": "全职爸爸是家务分工的极端选项（主内男性化）"
+  },
+  {
+   "a": "fam-agediff",
+   "b": "fam-date",
+   "note": "姐弟恋是婚恋匹配观的延伸（年龄 vs 合适）"
+  },
+  {
+   "a": "fam-agediff",
+   "b": "fam-gener",
+   "note": "姐弟恋争议是代际观念在年龄差上的体现"
+  },
+  {
+   "a": "fam-dink",
+   "b": "fam-birth",
+   "note": "丁克是生育意愿的主动归零（不想生 vs 养不起）"
+  },
+  {
+   "a": "fam-dink",
+   "b": "fam-gener",
+   "note": "丁克压力主要来自代际催生（父母期待）"
+  },
+  {
+   "a": "fam-prenup",
+   "b": "fam-aa",
+   "note": "婚前财产协议是婚后AA的前置（财产约定前置化）"
+  },
+  {
+   "a": "fam-prenup",
+   "b": "fam-betrothal",
+   "note": "婚前公证与彩礼同属婚姻的物质安排"
+  },
+  {
+   "a": "fam-onlychild",
+   "b": "fam-eldercare",
+   "note": "独生女养老是养老责任的独生版（无人分担）"
+  },
+  {
+   "a": "fam-onlychild",
+   "b": "fam-birth",
+   "note": "4-2-1家庭结构放大独生女负担（少子化代价）"
   }
  ]
 }
