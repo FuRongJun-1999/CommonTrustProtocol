@@ -784,6 +784,46 @@
    "name": "学生睡眠",
    "conflict": "作业多 vs 睡眠",
    "q": "为什么学生都缺觉？"
+  },
+  "digit-watch": {
+   "name": "儿童电话手表",
+   "conflict": "手表社交 vs 学校管理",
+   "q": "为什么孩子都想要电话手表？"
+  },
+  "health-hypertension": {
+   "name": "高血压用药",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "q": "为什么高血压要天天吃药？"
+  },
+  "edu-dorm": {
+   "name": "大学生宿舍",
+   "conflict": "宿舍矛盾 vs 相处",
+   "q": "为什么宿舍矛盾这么多？"
+  },
+  "health-fall": {
+   "name": "老人防跌倒",
+   "conflict": "跌倒风险 vs 预防投入",
+   "q": "为什么老人容易摔倒？"
+  },
+  "fin-childinsurance": {
+   "name": "儿童保险",
+   "conflict": "儿童保险 vs 智商税",
+   "q": "为什么儿童保险这么火？"
+  },
+  "culture-museum": {
+   "name": "博物馆预约",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "q": "为什么博物馆也要预约？"
+  },
+  "pet-spay": {
+   "name": "宠物绝育",
+   "conflict": "绝育 vs 残忍/必要",
+   "q": "为什么宠物要绝育？"
+  },
+  "public-seat": {
+   "name": "公交让座",
+   "conflict": "让座 vs 道德绑架",
+   "q": "为什么让座总有争议？"
   }
  },
  "links": [
@@ -2161,6 +2201,86 @@
    "a": "edu-sleep",
    "b": "digit-scroll",
    "note": "睡前刷手机是学生缺觉的习惯因素"
+  },
+  {
+   "a": "digit-watch",
+   "b": "digit-scroll",
+   "note": "电话手表是屏幕沉迷的儿童入口（小手机的管控）"
+  },
+  {
+   "a": "digit-watch",
+   "b": "edu-punish",
+   "note": "手表进校之争是立规矩的科技版（课堂边界）"
+  },
+  {
+   "a": "health-hypertension",
+   "b": "medical-cost",
+   "note": "高血压是慢病支出的常见大头（终身用药）"
+  },
+  {
+   "a": "health-hypertension",
+   "b": "health-medicine",
+   "note": "降压药依从与儿童用药同属科学用药（遵医嘱）"
+  },
+  {
+   "a": "edu-dorm",
+   "b": "psy-lonely",
+   "note": "宿舍矛盾是孤独的催生剂（住不好→更孤独）"
+  },
+  {
+   "a": "edu-dorm",
+   "b": "social-boundary",
+   "note": "宿舍相处是边界练习场（合群与做自己）"
+  },
+  {
+   "a": "health-fall",
+   "b": "med-eldercare",
+   "note": "跌倒护理是医养结合的常见需求（卧床照护）"
+  },
+  {
+   "a": "health-fall",
+   "b": "fam-solitude",
+   "note": "独居老人跌倒风险更高（没人及时发现）"
+  },
+  {
+   "a": "fin-childinsurance",
+   "b": "medical-cost",
+   "note": "儿童保险是孩子医疗费用的财务对冲"
+  },
+  {
+   "a": "fin-childinsurance",
+   "b": "fin-wealth",
+   "note": "儿童保险与理财同属家庭金融配置（保障 vs 收益）"
+  },
+  {
+   "a": "culture-museum",
+   "b": "culture-ticket",
+   "note": "博物馆预约与演唱会抢票同属预约制稀缺（黄牛治理）"
+  },
+  {
+   "a": "culture-museum",
+   "b": "gov-reg",
+   "note": "免费资源分配需要治理（实名/反黄牛）"
+  },
+  {
+   "a": "pet-spay",
+   "b": "pet-medical",
+   "note": "绝育是宠物医疗的预防手段（防病优先）"
+  },
+  {
+   "a": "pet-spay",
+   "b": "city-pet",
+   "note": "绝育是城市养宠的源头治理（控制流浪）"
+  },
+  {
+   "a": "public-seat",
+   "b": "public-civility",
+   "note": "让座是公共边界的礼仪版（善意 vs 义务）"
+  },
+  {
+   "a": "public-seat",
+   "b": "age-digital",
+   "note": "让座争议折射老人需求（被让座 vs 被尊重）"
   }
  ]
 }

@@ -180,6 +180,15 @@ CONFLICT_META = {
     "edu-allowance2": ("大学生生活费", "生活费 vs 家庭负担/攀比", "大学生一个月生活费多少合适？"),
     "pet-training": ("宠物训练", "宠物行为 vs 训练管教", "为什么宠物不听话？"),
     "edu-sleep": ("学生睡眠", "作业多 vs 睡眠", "为什么学生都缺觉？"),
+    # v19 新矛盾
+    "digit-watch": ("儿童电话手表", "手表社交 vs 学校管理", "为什么孩子都想要电话手表？"),
+    "health-hypertension": ("高血压用药", "降压药天天吃 vs 停药风险", "为什么高血压要天天吃药？"),
+    "edu-dorm": ("大学生宿舍", "宿舍矛盾 vs 相处", "为什么宿舍矛盾这么多？"),
+    "health-fall": ("老人防跌倒", "跌倒风险 vs 预防投入", "为什么老人容易摔倒？"),
+    "fin-childinsurance": ("儿童保险", "儿童保险 vs 智商税", "为什么儿童保险这么火？"),
+    "culture-museum": ("博物馆预约", "免费预约 vs 黄牛/难约", "为什么博物馆也要预约？"),
+    "pet-spay": ("宠物绝育", "绝育 vs 残忍/必要", "为什么宠物要绝育？"),
+    "public-seat": ("公交让座", "让座 vs 道德绑架", "为什么让座总有争议？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -474,6 +483,23 @@ LINK_NOTES = {
     ("pet-training", "edu-punish"): "宠物训练与儿童管教同理（正向 vs 打骂）",
     ("edu-sleep", "edu-score"): "作业超量是应试压力的睡眠代价",
     ("edu-sleep", "digit-scroll"): "睡前刷手机是学生缺觉的习惯因素",
+    # v19 新矛盾关联
+    ("digit-watch", "digit-scroll"): "电话手表是屏幕沉迷的儿童入口（小手机的管控）",
+    ("digit-watch", "edu-punish"): "手表进校之争是立规矩的科技版（课堂边界）",
+    ("health-hypertension", "medical-cost"): "高血压是慢病支出的常见大头（终身用药）",
+    ("health-hypertension", "health-medicine"): "降压药依从与儿童用药同属科学用药（遵医嘱）",
+    ("edu-dorm", "psy-lonely"): "宿舍矛盾是孤独的催生剂（住不好→更孤独）",
+    ("edu-dorm", "social-boundary"): "宿舍相处是边界练习场（合群与做自己）",
+    ("health-fall", "med-eldercare"): "跌倒护理是医养结合的常见需求（卧床照护）",
+    ("health-fall", "fam-solitude"): "独居老人跌倒风险更高（没人及时发现）",
+    ("fin-childinsurance", "medical-cost"): "儿童保险是孩子医疗费用的财务对冲",
+    ("fin-childinsurance", "fin-wealth"): "儿童保险与理财同属家庭金融配置（保障 vs 收益）",
+    ("culture-museum", "culture-ticket"): "博物馆预约与演唱会抢票同属预约制稀缺（黄牛治理）",
+    ("culture-museum", "gov-reg"): "免费资源分配需要治理（实名/反黄牛）",
+    ("pet-spay", "pet-medical"): "绝育是宠物医疗的预防手段（防病优先）",
+    ("pet-spay", "city-pet"): "绝育是城市养宠的源头治理（控制流浪）",
+    ("public-seat", "public-civility"): "让座是公共边界的礼仪版（善意 vs 义务）",
+    ("public-seat", "age-digital"): "让座争议折射老人需求（被让座 vs 被尊重）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
