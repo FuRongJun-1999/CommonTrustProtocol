@@ -153,6 +153,15 @@ CONFLICT_META = {
     "soc-tuango": ("社区团购", "团购便宜 vs 菜市场/品质", "为什么社区团购这么便宜？"),
     "traffic-trainfood": ("高铁餐饮", "高铁盒饭贵 vs 自带/垄断", "为什么高铁盒饭这么贵？"),
     "edu-allowance": ("儿童零花钱", "零花钱 vs 惯坏/理财教育", "该不该给孩子零花钱？"),
+    # v16 新矛盾
+    "edu-parttime": ("大学生兼职", "兼职赚钱 vs 学业时间", "为什么大学生都在兼职？"),
+    "fam-elderlove": ("中老年婚恋", "父母再婚 vs 子女态度/财产", "为什么老人也想找老伴？"),
+    "pet-funeral": ("宠物殡葬", "宠物离世 vs 处理方式", "宠物离世怎么处理？"),
+    "soc-reading": ("图书阅读", "读书 vs 手机碎片化", "为什么越来越多人不读书了？"),
+    "logistics-station": ("快递驿站", "驿站取件 vs 送货上门", "为什么快递都不送上门了？"),
+    "traffic-eldercar": ("老年代步车", "代步车 vs 安全/管理", "为什么老年代步车这么多？"),
+    "edu-hobby": ("儿童兴趣班", "兴趣班 vs 孩子意愿/玩", "为什么孩子都在上兴趣班？"),
+    "tourism-hotel": ("酒店卫生", "酒店卫生 vs 成本", "酒店卫生真的干净吗？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -396,6 +405,23 @@ LINK_NOTES = {
     ("traffic-trainfood", "gov-reg"): "高铁餐饮定价需要监管（垄断场景的价格治理）",
     ("edu-allowance", "edu-punish"): "零花钱教育是立规矩的财商版（规则+后果）",
     ("edu-allowance", "soc-consumer"): "从小教管钱是反消费主义的根基（会管钱才不被收割）",
+    # v16 新矛盾关联
+    ("edu-parttime", "edu-job"): "兼职是就业的提前演练（简历经验 vs 学业投入）",
+    ("edu-parttime", "fin-loan"): "兼职赚钱是学生避免借贷的方式（自食其力 vs 消费贷）",
+    ("fam-elderlove", "fam-remarry"): "父母再婚是重组家庭的老年版（子女接纳新成员）",
+    ("fam-elderlove", "fam-gener"): "老人再婚是代际观念冲突的婚恋版（子女干涉 vs 老人自主）",
+    ("pet-funeral", "pet-medical"): "宠物殡葬是养宠责任的终点（养得起也要送得好）",
+    ("pet-funeral", "fam-solitude"): "宠物是孤独的解药，离世是孤独的回归（失去陪伴）",
+    ("soc-reading", "digit-scroll"): "读书被短视频挤占是注意力争夺的一体两面",
+    ("soc-reading", "edu-score"): "应试教育下的『课外阅读』被挤压（分数优先）",
+    ("logistics-station", "gov-platform"): "驿站模式是平台用工的物流版（效率 vs 服务标准）",
+    ("logistics-station", "soc-urban"): "城市化让上门难（高楼/门禁/人不在家）催生驿站",
+    ("traffic-eldercar", "traffic-e"): "老年代步车是电动车治理的老年版（低速四轮）",
+    ("traffic-eldercar", "age-digital"): "代步车与数字鸿沟同源——老人被现代系统排除",
+    ("edu-hobby", "edu-chicken"): "兴趣班是鸡娃的才艺面（从补课到才艺的军备竞赛）",
+    ("edu-hobby", "edu-allowance"): "兴趣班花钱与零花钱教育同属家庭财商课题",
+    ("tourism-hotel", "tourism-trap"): "酒店卫生与景区宰客同属旅游消费的信任风险",
+    ("tourism-hotel", "medical-cost"): "酒店卫生问题可致病——健康风险的住宿入口",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
