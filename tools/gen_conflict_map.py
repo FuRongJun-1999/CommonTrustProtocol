@@ -126,6 +126,15 @@ CONFLICT_META = {
     "health-myopia": ("儿童近视", "电子产品/作业 vs 视力保护", "为什么孩子近视越来越多？"),
     "city-square": ("广场舞", "老人健身需求 vs 周边安宁", "为什么广场舞总有矛盾？"),
     "food-waste": ("光盘行动", "面子/点多了 vs 粮食浪费", "为什么浪费食物这么普遍？"),
+    # v13 新矛盾
+    "soc-declutter": ("断舍离", "囤积/留着 vs 断舍离/极简", "为什么东西越攒越多？"),
+    "pet-medical": ("宠物医疗", "宠物看病贵 vs 弃养/值不值", "为什么宠物看病这么贵？"),
+    "fam-date": ("相亲条件", "相亲看条件 vs 感情", "为什么相亲都看条件？"),
+    "social-toast": ("酒桌文化", "劝酒 vs 健康/自愿", "为什么酒桌总要劝酒？"),
+    "edu-driving": ("学车驾考", "驾校乱象 vs 拿证刚需", "为什么驾校教练这么凶？"),
+    "city-accessibility": ("无障碍出行", "残障出行 vs 设施不足/占用", "为什么盲道总被占用？"),
+    "work-rehire": ("退休再就业", "退休后再就业 vs 年龄/体面", "为什么退休了还想找工作？"),
+    "env-sort": ("垃圾分类", "分类麻烦 vs 环境收益", "为什么垃圾分类这么麻烦？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -318,6 +327,23 @@ LINK_NOTES = {
     ("city-square", "fam-solitude"): "广场舞是老人的社交出口——孤独的广场解法",
     ("food-waste", "plastic-waste"): "光盘与限塑同属资源节约（粮食/塑料都不该浪费）",
     ("food-waste", "soc-consumer"): "浪费是消费主义的面子版（丰盛崇拜）",
+    # v13 新矛盾关联
+    ("soc-declutter", "soc-consumer"): "断舍离是消费主义的反向运动（买买买的反面是扔扔扔）",
+    ("soc-declutter", "digit-live"): "直播冲动消费囤积的源头——买的时候爽，囤的时候愁",
+    ("pet-medical", "city-pet"): "宠物医疗是养宠责任的经济面（养得起更要治得起）",
+    ("pet-medical", "medical-cost"): "宠物看病贵与人生病贵同构（医疗成本结构）",
+    ("fam-date", "fam-betrothal"): "相亲看条件与彩礼谈钱同源——婚姻的物质基础之争",
+    ("fam-date", "relation-attach"): "相亲是依恋关系的条件入口（先匹配再动心）",
+    ("social-toast", "work-age35"): "职场应酬是中年人的酒桌主场（躲不掉的局）",
+    ("social-toast", "social-boundary"): "不会拒绝的人最容易被劝酒——拒酒是边界训练",
+    ("edu-driving", "edu-job"): "驾照是就业的隐形门槛（很多岗位要求会开车）",
+    ("edu-driving", "gov-reg"): "驾校乱象是监管滞后于市场逐利的案例",
+    ("city-accessibility", "age-digital"): "无障碍与适老化同源——弱势群体的出行/数字权利",
+    ("city-accessibility", "city-elevator"): "无障碍设施与加装电梯同属城市适老化改造",
+    ("work-rehire", "work-age35"): "退休再就业难是35岁门槛的延长版（年龄歧视贯穿一生）",
+    ("work-rehire", "soc-aging"): "老龄化让银发劳动力成为社会议题（老有所为）",
+    ("env-sort", "plastic-waste"): "垃圾分类是塑料治理的执行环节（分出来才能回收）",
+    ("env-sort", "gov-reg"): "分类政策是监管型治理（前端立法+后端执法）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
