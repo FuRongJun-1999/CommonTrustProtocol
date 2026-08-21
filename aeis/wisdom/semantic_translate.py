@@ -2101,6 +2101,11 @@ _KEY_TO_CONFLICT = {
     "政企监管": "gov-reg", "平台用工": "gov-platform", "碳中和转型": "gov-carbon",
     "国际关系": "intl-tech", "能源资源": "intl-energy", "气候责任": "intl-climate",
     "选择决策": "self-choice", "拒绝边界": "social-boundary", "依恋焦虑": "relation-attach",
+    "重组家庭": "fam-remarry", "留守儿童": "fam-leftbehind",
+    "游戏成瘾": "youth-game", "追星": "youth-idol",
+    "直播消费": "digit-live", "数据隐私": "digit-privacy",
+    "养老社会": "soc-aging", "城乡流动": "soc-urban", "医患关系": "soc-doctor",
+    "消费主义": "soc-consumer", "内卷躺平": "soc-lieflat",
 }
 _CONFLICT_CACHE = None
 
@@ -2148,8 +2153,15 @@ def gen_conflict_links(question: str, answer: str = "", limit: int = 2) -> list:
         cid = _KEY_TO_CONFLICT[hit[0]]
         out = []
         for rel_id, note in link_by_id.get(cid, [])[:limit]:
-            name = meta.get(rel_id, ["?", ""])[0]
-            out.append({"conflict": rel_id, "name": name, "note": note[:60]})
+            m = meta.get(rel_id)
+            if isinstance(m, dict):
+                name = m.get("name", "?")
+                q = m.get("q", "")
+            else:
+                name = m[0] if m else "?"
+                q = ""
+            out.append({"conflict": rel_id, "name": name, "note": note[:60],
+                        "q": q})
         return out
     except Exception:
         return []
