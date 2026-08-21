@@ -89,6 +89,7 @@ def gen_probe_questions(names, seed=42):
         a, b = names[i], names[i + 1]
         probes.append(("{}和{}有什么区别？".format(a, b), "对比", (a, b)))
     # 单知识点定义/机制类（只用单槽模板）
+    single_templates = [t for t in templates if "{1}" not in t[0]]
     # v1.22：「原理/机制」只对学科级概念用（>=5字且非纯数学操作词）——
     # 否则「导数的原理是什么」爆炸成凸透镜错配（无意义问句）。
     _MATH_OPS = ("导数", "积分", "极限", "运算法则", "概念", "换元",
