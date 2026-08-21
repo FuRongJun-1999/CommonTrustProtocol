@@ -304,6 +304,46 @@
    "name": "防灾准备",
    "conflict": "防灾投入 vs 经济发展",
    "q": "为什么明知道有风险还在风险区建房？"
+  },
+  "mil-race": {
+   "name": "军备竞赛",
+   "conflict": "国家安全 vs 资源浪费",
+   "q": "为什么国家之间要搞军备竞赛？"
+  },
+  "mil-proxy": {
+   "name": "代理人战争",
+   "conflict": "大国克制 vs 小国战场",
+   "q": "为什么大国打仗要借别人的手？"
+  },
+  "relig-trad": {
+   "name": "宗教传统",
+   "conflict": "传承 vs 时代变化",
+   "q": "为什么有些传统和现代生活冲突？"
+  },
+  "space-race": {
+   "name": "太空探索",
+   "conflict": "实力象征 vs 资源争夺",
+   "q": "为什么各国都在抢着登月探火？"
+  },
+  "carbon-tax": {
+   "name": "碳税",
+   "conflict": "减排成本 vs 企业利润",
+   "q": "为什么要收碳税？"
+  },
+  "meta-identity": {
+   "name": "元宇宙",
+   "conflict": "虚拟体验 vs 现实根基",
+   "q": "元宇宙会不会让人更孤独？"
+  },
+  "gene-edit": {
+   "name": "基因编辑",
+   "conflict": "治病希望 vs 伦理风险",
+   "q": "基因编辑治病变态还是危险？"
+  },
+  "brain-computer": {
+   "name": "脑机接口",
+   "conflict": "康复福音 vs 大脑隐私",
+   "q": "脑机接口是福音还是风险？"
   }
  },
  "links": [
@@ -721,6 +761,86 @@
    "a": "disaster-dev",
    "b": "fam-eldercare",
    "note": "灾害对老人冲击最大——防灾与养老交叉"
+  },
+  {
+   "a": "mil-race",
+   "b": "intl-tech",
+   "note": "军备竞赛与技术竞赛同源（军事技术/芯片）"
+  },
+  {
+   "a": "mil-race",
+   "b": "intl-energy",
+   "note": "军备竞赛与能源争夺互为因果（资源即战略）"
+  },
+  {
+   "a": "mil-proxy",
+   "b": "mil-race",
+   "note": "代理人战争是军备竞赛的战术出口（大国不下场）"
+  },
+  {
+   "a": "mil-proxy",
+   "b": "intl-trade",
+   "note": "代理人战争与贸易战都是大国博弈的手段"
+  },
+  {
+   "a": "relig-trad",
+   "b": "fam-gener",
+   "note": "代际观念冲突是传统vs现代的微观版"
+  },
+  {
+   "a": "relig-trad",
+   "b": "intl-climate",
+   "note": "气候责任谈判也涉及文化价值冲突（发展观）"
+  },
+  {
+   "a": "space-race",
+   "b": "intl-tech",
+   "note": "太空竞赛是技术竞赛的延伸（航天=尖端科技）"
+  },
+  {
+   "a": "space-race",
+   "b": "mil-race",
+   "note": "太空军事化风险是军备竞赛的太空版"
+  },
+  {
+   "a": "carbon-tax",
+   "b": "gov-carbon",
+   "note": "碳税是碳中和的经济手段（政策落地）"
+  },
+  {
+   "a": "carbon-tax",
+   "b": "intl-climate",
+   "note": "碳税/碳市场是气候责任谈判的执行层"
+  },
+  {
+   "a": "meta-identity",
+   "b": "digit-live",
+   "note": "元宇宙是数字消费的极致形态"
+  },
+  {
+   "a": "meta-identity",
+   "b": "psy-lonely",
+   "note": "元宇宙可能加剧城市孤独（虚拟替代现实）"
+  },
+  {
+   "a": "gene-edit",
+   "b": "tech-deepfake",
+   "note": "基因编辑与深度伪造同属『技术伦理』前沿"
+  },
+  {
+   "a": "gene-edit",
+   "b": "gov-reg",
+   "note": "基因编辑立法是监管滞后于技术的案例"
+  },
+  {
+   "a": "brain-computer",
+   "b": "digit-privacy",
+   "note": "脑机接口是数据隐私的终极版（思想数据）"
+  },
+  {
+   "a": "brain-computer",
+   "b": "tech-face",
+   "note": "脑机接口与人脸识别同属生物特征技术滥用风险"
   }
  ]
 }

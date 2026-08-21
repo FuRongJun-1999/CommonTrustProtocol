@@ -2239,6 +2239,10 @@ _KEY_TO_CONFLICT = {
     "容貌焦虑": "psy-appearance", "城市孤独": "psy-lonely",
     "留学选择": "edu-abroad", "人脸识别": "tech-face",
     "深度伪造": "tech-deepfake", "防灾准备": "disaster-dev",
+    "军备竞赛": "mil-race", "代理人战争": "mil-proxy",
+    "宗教传统": "relig-trad", "太空探索": "space-race",
+    "碳税": "carbon-tax", "元宇宙": "meta-identity",
+    "基因编辑": "gene-edit", "脑机接口": "brain-computer",
 }
 _CONFLICT_CACHE = None
 
