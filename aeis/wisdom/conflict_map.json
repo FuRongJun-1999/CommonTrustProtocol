@@ -384,6 +384,46 @@
    "name": "城市养宠",
    "conflict": "养宠自由 vs 他人安宁",
    "q": "为什么城市养宠矛盾这么多？"
+  },
+  "fin-loan": {
+   "name": "消费金融",
+   "conflict": "超前消费的便利 vs 高息/过度借贷",
+   "q": "为什么网贷这么容易借到？"
+  },
+  "food-safe": {
+   "name": "食品安全",
+   "conflict": "食品工业的添加剂/预制菜 vs 健康担忧",
+   "q": "食品添加剂到底安不安全？"
+  },
+  "traffic-e": {
+   "name": "电动车安全",
+   "conflict": "电动车便利 vs 安全/充电/管理",
+   "q": "为什么电动车起火事故这么多？"
+  },
+  "traffic-jam": {
+   "name": "城市拥堵",
+   "conflict": "私家车便利 vs 拥堵/停车难",
+   "q": "为什么城市越来越堵？"
+  },
+  "culture-heritage": {
+   "name": "老字号非遗",
+   "conflict": "老字号/非遗的传承 vs 市场生存",
+   "q": "为什么老字号越来越少？"
+  },
+  "sport-fan": {
+   "name": "体育饭圈",
+   "conflict": "竞技体育的饭圈化 vs 运动本身",
+   "q": "为什么体育圈也饭圈化了？"
+  },
+  "water-res": {
+   "name": "水资源",
+   "conflict": "水资源短缺 vs 浪费/污染",
+   "q": "为什么水资源越来越紧张？"
+  },
+  "plastic-waste": {
+   "name": "塑料污染",
+   "conflict": "塑料制品便利 vs 白色污染",
+   "q": "为什么限塑令效果不好？"
   }
  },
  "links": [
@@ -961,6 +1001,86 @@
    "a": "city-pet",
    "b": "psy-lonely",
    "note": "养宠是孤独的解药——孤独者更需要宠物"
+  },
+  {
+   "a": "fin-loan",
+   "b": "digit-live",
+   "note": "直播冲动消费是借贷的入口——先买后还，消费失控进阶为负债"
+  },
+  {
+   "a": "fin-loan",
+   "b": "soc-consumer",
+   "note": "消费主义驱动超前消费——『想要』被包装成『需要』"
+  },
+  {
+   "a": "food-safe",
+   "b": "health-takeout",
+   "note": "外卖是预制菜/添加剂的主要场景——方便与健康的同一战场"
+  },
+  {
+   "a": "food-safe",
+   "b": "gov-reg",
+   "note": "食品安全监管是『管得住黑心 vs 管不死行业』的监管难题"
+  },
+  {
+   "a": "traffic-e",
+   "b": "city-share",
+   "note": "电动车与共享出行同属城市出行新形态——便利与管理的拉扯"
+  },
+  {
+   "a": "traffic-e",
+   "b": "gov-reg",
+   "note": "电动车充电/电池标准是监管滞后于新业态的案例"
+  },
+  {
+   "a": "traffic-jam",
+   "b": "soc-urban",
+   "note": "城市化（人口聚集）是拥堵的结构性根源"
+  },
+  {
+   "a": "traffic-jam",
+   "b": "gov-reg",
+   "note": "限号/停车管理是治理型监管的日常形态"
+  },
+  {
+   "a": "culture-heritage",
+   "b": "relig-trad",
+   "note": "老字号与宗教传统同属『传统 vs 现代』的文化冲突"
+  },
+  {
+   "a": "culture-heritage",
+   "b": "soc-consumer",
+   "note": "消费主义冲击老字号（快餐/网红店 vs 老味道）"
+  },
+  {
+   "a": "sport-fan",
+   "b": "youth-idol",
+   "note": "体育饭圈化是追星文化的体育版——偶像逻辑入侵竞技"
+  },
+  {
+   "a": "sport-fan",
+   "b": "pub-violence",
+   "note": "饭圈互撕/网暴运动员是网络暴力的竞技场形态"
+  },
+  {
+   "a": "water-res",
+   "b": "gov-carbon",
+   "note": "水与碳同属资源环境治理——环保投入 vs 发展成本"
+  },
+  {
+   "a": "water-res",
+   "b": "disaster-dev",
+   "note": "干旱/水灾是水资源矛盾的灾害化——防灾与用水同源"
+  },
+  {
+   "a": "plastic-waste",
+   "b": "gov-carbon",
+   "note": "限塑与碳中和同属环保政策——个体便利 vs 长期环境"
+  },
+  {
+   "a": "plastic-waste",
+   "b": "health-takeout",
+   "note": "外卖是塑料垃圾最大来源——外卖便利的两头代价"
   }
  ]
 }

@@ -90,6 +90,15 @@ CONFLICT_META = {
     "psy-anxiety": ("心理健康", "心理痛苦 vs 社会污名", "为什么现在抑郁焦虑的人这么多？"),
     "city-share": ("共享单车", "便利 vs 秩序", "为什么共享单车到处都是乱的？"),
     "city-pet": ("城市养宠", "养宠自由 vs 他人安宁", "为什么城市养宠矛盾这么多？"),
+    # v9 新矛盾
+    "fin-loan": ("消费金融", "超前消费的便利 vs 高息/过度借贷", "为什么网贷这么容易借到？"),
+    "food-safe": ("食品安全", "食品工业的添加剂/预制菜 vs 健康担忧", "食品添加剂到底安不安全？"),
+    "traffic-e": ("电动车安全", "电动车便利 vs 安全/充电/管理", "为什么电动车起火事故这么多？"),
+    "traffic-jam": ("城市拥堵", "私家车便利 vs 拥堵/停车难", "为什么城市越来越堵？"),
+    "culture-heritage": ("老字号非遗", "老字号/非遗的传承 vs 市场生存", "为什么老字号越来越少？"),
+    "sport-fan": ("体育饭圈", "竞技体育的饭圈化 vs 运动本身", "为什么体育圈也饭圈化了？"),
+    "water-res": ("水资源", "水资源短缺 vs 浪费/污染", "为什么水资源越来越紧张？"),
+    "plastic-waste": ("塑料污染", "塑料制品便利 vs 白色污染", "为什么限塑令效果不好？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -214,6 +223,23 @@ LINK_NOTES = {
     ("city-share", "soc-urban"): "共享单车是城市化便利的产物",
     ("city-pet", "social-boundary"): "养宠矛盾本质是边界问题（自由vs他人）",
     ("city-pet", "psy-lonely"): "养宠是孤独的解药——孤独者更需要宠物",
+    # v9 新矛盾关联
+    ("fin-loan", "digit-live"): "直播冲动消费是借贷的入口——先买后还，消费失控进阶为负债",
+    ("fin-loan", "soc-consumer"): "消费主义驱动超前消费——『想要』被包装成『需要』",
+    ("food-safe", "health-takeout"): "外卖是预制菜/添加剂的主要场景——方便与健康的同一战场",
+    ("food-safe", "gov-reg"): "食品安全监管是『管得住黑心 vs 管不死行业』的监管难题",
+    ("traffic-e", "city-share"): "电动车与共享出行同属城市出行新形态——便利与管理的拉扯",
+    ("traffic-e", "gov-reg"): "电动车充电/电池标准是监管滞后于新业态的案例",
+    ("traffic-jam", "soc-urban"): "城市化（人口聚集）是拥堵的结构性根源",
+    ("traffic-jam", "gov-reg"): "限号/停车管理是治理型监管的日常形态",
+    ("culture-heritage", "relig-trad"): "老字号与宗教传统同属『传统 vs 现代』的文化冲突",
+    ("culture-heritage", "soc-consumer"): "消费主义冲击老字号（快餐/网红店 vs 老味道）",
+    ("sport-fan", "youth-idol"): "体育饭圈化是追星文化的体育版——偶像逻辑入侵竞技",
+    ("sport-fan", "pub-violence"): "饭圈互撕/网暴运动员是网络暴力的竞技场形态",
+    ("water-res", "gov-carbon"): "水与碳同属资源环境治理——环保投入 vs 发展成本",
+    ("water-res", "disaster-dev"): "干旱/水灾是水资源矛盾的灾害化——防灾与用水同源",
+    ("plastic-waste", "gov-carbon"): "限塑与碳中和同属环保政策——个体便利 vs 长期环境",
+    ("plastic-waste", "health-takeout"): "外卖是塑料垃圾最大来源——外卖便利的两头代价",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
