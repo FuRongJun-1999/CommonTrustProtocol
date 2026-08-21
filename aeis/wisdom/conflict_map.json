@@ -584,6 +584,46 @@
    "name": "垃圾分类",
    "conflict": "分类麻烦 vs 环境收益",
    "q": "为什么垃圾分类这么麻烦？"
+  },
+  "fam-wedding": {
+   "name": "婚庆消费",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "q": "为什么结婚这么贵？"
+  },
+  "soc-secondhand": {
+   "name": "二手交易",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "q": "为什么二手平台这么火？"
+  },
+  "disaster-drill": {
+   "name": "应急演练",
+   "conflict": "演练形式化 vs 真有用",
+   "q": "为什么演练总是走过场？"
+  },
+  "fam-housekeeper": {
+   "name": "家政服务",
+   "conflict": "请保姆 vs 信任/隐私",
+   "q": "为什么好保姆这么难找？"
+  },
+  "fin-wealth": {
+   "name": "理财推销",
+   "conflict": "理财收益 vs 亏损风险",
+   "q": "为什么银行也卖理财产品？"
+  },
+  "city-property": {
+   "name": "小区物业",
+   "conflict": "物业费 vs 服务质量",
+   "q": "为什么物业费年年涨？"
+  },
+  "health-smoke": {
+   "name": "公共场所吸烟",
+   "conflict": "吸烟自由 vs 他人健康",
+   "q": "为什么公共场合总有人抽烟？"
+  },
+  "digit-dating": {
+   "name": "网络交友",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "q": "为什么网恋容易翻车？"
   }
  },
  "links": [
@@ -1561,6 +1601,86 @@
    "a": "env-sort",
    "b": "gov-reg",
    "note": "分类政策是监管型治理（前端立法+后端执法）"
+  },
+  {
+   "a": "fam-wedding",
+   "b": "fam-betrothal",
+   "note": "婚礼消费与彩礼同属婚姻成本（结婚要花的钱越来越多）"
+  },
+  {
+   "a": "fam-wedding",
+   "b": "soc-consumer",
+   "note": "婚礼是消费主义的人生巅峰场景（一生一次的营销）"
+  },
+  {
+   "a": "soc-secondhand",
+   "b": "digit-live",
+   "note": "二手交易是直播冲动消费的补救（买多了→闲鱼见）"
+  },
+  {
+   "a": "soc-secondhand",
+   "b": "gov-reg",
+   "note": "二手平台假货纠纷是监管新课题（C2C交易难追责）"
+  },
+  {
+   "a": "disaster-drill",
+   "b": "disaster-dev",
+   "note": "演练是防灾投入的落地环节（钱要花在练上）"
+  },
+  {
+   "a": "disaster-drill",
+   "b": "edu-score",
+   "note": "走过场式演练与应试教育同构（重形式轻实效）"
+  },
+  {
+   "a": "fam-housekeeper",
+   "b": "gen-house",
+   "note": "家政是家务分工的市场化（外包还是内部消化）"
+  },
+  {
+   "a": "fam-housekeeper",
+   "b": "fam-couple",
+   "note": "请保姆/老人带娃影响夫妻协作（家务谁负责之争）"
+  },
+  {
+   "a": "fin-wealth",
+   "b": "fin-loan",
+   "note": "理财与借贷是家庭金融的两面（增值与负债的风险）"
+  },
+  {
+   "a": "fin-wealth",
+   "b": "digit-scam",
+   "note": "高息理财与诈骗同源（收益诱惑是骗局入口）"
+  },
+  {
+   "a": "city-property",
+   "b": "city-elevator",
+   "note": "物业是小区日常治理，电梯改造是小区大事（同一社区权力场）"
+  },
+  {
+   "a": "city-property",
+   "b": "gov-reg",
+   "note": "物业纠纷需要监管（物业条例/业委会制度）"
+  },
+  {
+   "a": "health-smoke",
+   "b": "public-civility",
+   "note": "公共场所吸烟是公共边界问题的健康版"
+  },
+  {
+   "a": "health-smoke",
+   "b": "medical-cost",
+   "note": "吸烟/二手烟增加医疗负担（慢病源头）"
+  },
+  {
+   "a": "digit-dating",
+   "b": "digit-scam",
+   "note": "杀猪盘是电信诈骗的情感版（骗钱先骗心）"
+  },
+  {
+   "a": "digit-dating",
+   "b": "relation-attach",
+   "note": "网恋是依恋需求在数字时代的形态（更容易上头也更容易受伤）"
   }
  ]
 }
