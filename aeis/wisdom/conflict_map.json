@@ -1024,6 +1024,46 @@
    "name": "婚恋性别比",
    "conflict": "男多女少 vs 婚恋压力",
    "q": "为什么男多女少？"
+  },
+  "gen-postpartum": {
+   "name": "产后抑郁",
+   "conflict": "产后情绪 vs 家庭支持",
+   "q": "为什么产后会抑郁？"
+  },
+  "gen-paternity": {
+   "name": "男性育婴假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "q": "为什么男性休育儿假的少？"
+  },
+  "gen-dress": {
+   "name": "女性职场穿搭",
+   "conflict": "穿衣自由 vs 职场规范",
+   "q": "为什么职场对女性穿着这么多要求？"
+  },
+  "gen-maleunmarried": {
+   "name": "大龄男性婚恋",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "q": "为什么大龄男性更难结婚？"
+  },
+  "fam-sunkcost": {
+   "name": "婚姻沉默成本",
+   "conflict": "婚姻将就 vs 放手",
+   "q": "为什么婚姻里将就的人这么多？"
+  },
+  "fam-birthsubsidy": {
+   "name": "生育补贴",
+   "conflict": "生育补贴 vs 生育意愿",
+   "q": "生育补贴能提高生育率吗？"
+  },
+  "public-toast": {
+   "name": "女性酒局",
+   "conflict": "女性酒局 vs 安全/边界",
+   "q": "为什么女性在酒局更危险？"
+  },
+  "gen-ageanxiety": {
+   "name": "女性年龄焦虑",
+   "conflict": "怕老 vs 自我接纳",
+   "q": "为什么女性比男性更怕老？"
   }
  },
  "links": [
@@ -2881,6 +2921,86 @@
    "a": "gen-genderratio",
    "b": "fam-betrothal",
    "note": "男多女少推高彩礼（婚恋市场供需）"
+  },
+  {
+   "a": "gen-postpartum",
+   "b": "gen-stayhome",
+   "note": "产后抑郁是全职妈妈的产后面（身心压力）"
+  },
+  {
+   "a": "gen-postpartum",
+   "b": "psy-anxiety",
+   "note": "产后抑郁是心理问题的生育场景（被污名化）"
+  },
+  {
+   "a": "gen-paternity",
+   "b": "gen-hiring",
+   "note": "男性育婴假与求职歧视同属生育的职场代价（男女都受影响）"
+  },
+  {
+   "a": "gen-paternity",
+   "b": "fam-parenting",
+   "note": "育儿假是父职参与的制度保障（爸爸的时间）"
+  },
+  {
+   "a": "gen-dress",
+   "b": "gen-work",
+   "note": "职场穿搭规训是职场性别歧视的形象面"
+  },
+  {
+   "a": "gen-dress",
+   "b": "public-night",
+   "note": "对女性穿着的审视与夜间安全同属性别审视"
+  },
+  {
+   "a": "gen-maleunmarried",
+   "b": "gen-genderratio",
+   "note": "大龄男性婚恋难是性别比失衡的直接后果"
+  },
+  {
+   "a": "gen-maleunmarried",
+   "b": "fam-gener",
+   "note": "剩男压力与催婚同属婚恋社会压力（男性版）"
+  },
+  {
+   "a": "fam-sunkcost",
+   "b": "fam-couple",
+   "note": "婚姻将就是夫妻矛盾的积累（沉默成本绑架）"
+  },
+  {
+   "a": "fam-sunkcost",
+   "b": "psy-anxiety",
+   "note": "将就的婚姻是心理消耗（长期压抑）"
+  },
+  {
+   "a": "fam-birthsubsidy",
+   "b": "fam-birth",
+   "note": "生育补贴是生育成本的政策分担（降成本）"
+  },
+  {
+   "a": "fam-birthsubsidy",
+   "b": "gov-subsidy",
+   "note": "生育补贴是政府补贴的民生版（人口投资）"
+  },
+  {
+   "a": "public-toast",
+   "b": "social-toast",
+   "note": "女性酒局是酒桌文化的性别面（权力结构）"
+  },
+  {
+   "a": "public-toast",
+   "b": "public-night",
+   "note": "酒局醉酒风险是夜间安全的场景化"
+  },
+  {
+   "a": "gen-ageanxiety",
+   "b": "psy-appearance",
+   "note": "年龄焦虑与容貌焦虑同源（女性被外貌年龄审判）"
+  },
+  {
+   "a": "gen-ageanxiety",
+   "b": "gen-labels",
+   "note": "30岁坎与剩女标签同属年龄规训（社会时钟）"
   }
  ]
 }
