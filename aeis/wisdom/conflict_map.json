@@ -1,0 +1,259 @@
+{
+ "conflicts": {
+  "self-lazy": [
+   "自我控制",
+   "想努力 vs 控制不住玩手机"
+  ],
+  "self-ideal": [
+   "理想现实",
+   "理想 vs 现实差距"
+  ],
+  "self-procrast": [
+   "拖延",
+   "重要事 vs 拖着不做"
+  ],
+  "self-compare": [
+   "攀比",
+   "别人过得好 vs 自己的节奏"
+  ],
+  "fam-couple": [
+   "夫妻协作",
+   "付出 vs 不被看见"
+  ],
+  "fam-gener": [
+   "代际观念",
+   "年轻人自主 vs 老人观念"
+  ],
+  "fam-motherinlaw": [
+   "婆媳相处",
+   "小家庭主权 vs 婆婆介入"
+  ],
+  "fam-eldercare": [
+   "养老规划",
+   "赡养责任 vs 资源有限"
+  ],
+  "edu-score": [
+   "应试压力",
+   "全面发展 vs 分数筛选"
+  ],
+  "edu-resource": [
+   "教育公平",
+   "资源集中 vs 公平分配"
+  ],
+  "edu-doublecut": [
+   "双减焦虑",
+   "减负 vs 竞争不减"
+  ],
+  "edu-tutor": [
+   "补习班",
+   "补课投入 vs 效果/抵触"
+  ],
+  "teach-authority": [
+   "师生权威",
+   "老师权威 vs 学生质疑"
+  ],
+  "teach-fair": [
+   "师生公平",
+   "偏爱优生 vs 放弃差生"
+  ],
+  "teach-bully": [
+   "校园霸凌",
+   "孩子安全 vs 学校息事宁人"
+  ],
+  "work-pay": [
+   "薪酬公平",
+   "干活多 vs 工资低"
+  ],
+  "work-loyalty": [
+   "跳槽",
+   "忠诚 vs 跳槽发展"
+  ],
+  "work-age35": [
+   "中年危机",
+   "经验价值 vs 年龄折价"
+  ],
+  "work-layoff": [
+   "裁员",
+   "企业降本 vs 员工生存"
+  ],
+  "work-burnout": [
+   "工作压力",
+   "任务无限 vs 时间有限"
+  ],
+  "gov-reg": [
+   "政企监管",
+   "创新速度 vs 监管滞后"
+  ],
+  "gov-subsidy": [
+   "产业补贴",
+   "扶持 vs 公平竞争"
+  ],
+  "gov-platform": [
+   "平台用工",
+   "灵活就业 vs 权益保障"
+  ],
+  "gov-carbon": [
+   "碳中和",
+   "环保成本 vs 企业利润"
+  ],
+  "intl-tech": [
+   "技术封锁",
+   "领先者封锁 vs 追赶者自主"
+  ],
+  "intl-trade": [
+   "贸易摩擦",
+   "贸易利益 vs 关税战"
+  ],
+  "intl-energy": [
+   "能源资源",
+   "能源控制 vs 资源依赖"
+  ],
+  "intl-climate": [
+   "气候责任",
+   "历史排放 vs 发展权"
+  ],
+  "self-choice": [
+   "选择决策",
+   "理想 vs 稳定"
+  ],
+  "social-boundary": [
+   "拒绝边界",
+   "合群 vs 做自己"
+  ],
+  "relation-attach": [
+   "依恋焦虑",
+   "亲密 vs 独立"
+  ],
+  "family-expect": [
+   "家庭期望",
+   "父母期望 vs 孩子自主"
+  ]
+ },
+ "links": [
+  {
+   "a": "fam-motherinlaw",
+   "b": "fam-couple",
+   "note": "婆媳矛盾会渗入夫妻关系——丈夫夹中间，夫妻协作被婆婆介入打断"
+  },
+  {
+   "a": "fam-motherinlaw",
+   "b": "fam-gener",
+   "note": "婆媳冲突是代际观念冲突在家庭里的具体化"
+  },
+  {
+   "a": "fam-eldercare",
+   "b": "fam-gener",
+   "note": "养老分歧本质是代际责任观的冲突"
+  },
+  {
+   "a": "fam-eldercare",
+   "b": "work-burnout",
+   "note": "工作压力大时养老责任更难扛——双重负荷"
+  },
+  {
+   "a": "edu-doublecut",
+   "b": "edu-score",
+   "note": "双减焦虑源于应试压力没变、补课渠道变了"
+  },
+  {
+   "a": "edu-tutor",
+   "b": "edu-score",
+   "note": "补课是应试压力的产物——竞争不变，补课不止"
+  },
+  {
+   "a": "edu-tutor",
+   "b": "edu-doublecut",
+   "note": "双减后补习转入地下/私教，焦虑变形"
+  },
+  {
+   "a": "teach-bully",
+   "b": "teach-fair",
+   "note": "被霸凌的孩子往往是被忽视的边缘生——公平问题放大"
+  },
+  {
+   "a": "teach-bully",
+   "b": "fam-couple",
+   "note": "孩子被欺负的家庭，夫妻常因处理分歧争吵"
+  },
+  {
+   "a": "work-age35",
+   "b": "work-loyalty",
+   "note": "跳槽频繁可能加速中年危机（履历碎片化）"
+  },
+  {
+   "a": "work-age35",
+   "b": "work-burnout",
+   "note": "中年人的加班压力更高——上有老下有小"
+  },
+  {
+   "a": "work-layoff",
+   "b": "work-age35",
+   "note": "裁员优先裁35+——年龄与裁员直接相关"
+  },
+  {
+   "a": "work-layoff",
+   "b": "work-pay",
+   "note": "薪酬高的老员工是裁员目标——性价比逻辑"
+  },
+  {
+   "a": "gov-platform",
+   "b": "gov-reg",
+   "note": "平台用工乱象正是监管跟不上创新的例子"
+  },
+  {
+   "a": "gov-platform",
+   "b": "work-pay",
+   "note": "骑手没社保=劳动报酬权益缺失"
+  },
+  {
+   "a": "gov-carbon",
+   "b": "gov-subsidy",
+   "note": "碳中和产业靠补贴起步（新能源补贴）"
+  },
+  {
+   "a": "gov-carbon",
+   "b": "intl-energy",
+   "note": "碳中和改变能源格局——影响国际能源争夺"
+  },
+  {
+   "a": "intl-energy",
+   "b": "intl-tech",
+   "note": "稀土卡脖子=技术封锁的资源版"
+  },
+  {
+   "a": "intl-energy",
+   "b": "gov-carbon",
+   "note": "能源转型（碳中和）重塑国际能源权力"
+  },
+  {
+   "a": "intl-climate",
+   "b": "gov-carbon",
+   "note": "国内碳中和与国际减排责任同源"
+  },
+  {
+   "a": "intl-climate",
+   "b": "intl-energy",
+   "note": "气候谈判绕不开能源结构（谁排得多）"
+  },
+  {
+   "a": "self-procrast",
+   "b": "self-lazy",
+   "note": "拖延是自我控制失败的日常形态"
+  },
+  {
+   "a": "self-procrast",
+   "b": "work-burnout",
+   "note": "工作拖延→加班→更累→更拖延，恶性循环"
+  },
+  {
+   "a": "self-compare",
+   "b": "self-ideal",
+   "note": "攀比放大理想与现实的落差感"
+  },
+  {
+   "a": "self-compare",
+   "b": "self-choice",
+   "note": "看到别人选了稳定/理想，加重自己的纠结"
+  }
+ ]
+}
