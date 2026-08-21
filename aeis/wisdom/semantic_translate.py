@@ -2195,6 +2195,10 @@ _KEY_TO_CONFLICT = {
     "自由职业": "work-free", "远程办公": "work-remote", "生育成本": "fam-birth",
     "熬夜": "health-night", "外卖健康": "health-takeout",
     "网课效果": "edu-online", "鸡娃": "edu-chicken",
+    "法律维权": "law-rights", "疫苗犹豫": "health-vaccine",
+    "容貌焦虑": "psy-appearance", "城市孤独": "psy-lonely",
+    "留学选择": "edu-abroad", "人脸识别": "tech-face",
+    "深度伪造": "tech-deepfake", "防灾准备": "disaster-dev",
 }
 _CONFLICT_CACHE = None
 
@@ -2232,6 +2236,9 @@ def gen_conflict_links(question: str, answer: str = "", limit: int = 2) -> list:
             link_by_id.setdefault(l["a"], []).append((l["b"], l["note"]))
             link_by_id.setdefault(l["b"], []).append((l["a"], l["note"]))
         # 命中实践智慧键（先答案后问题）
+        # v1.26 修复（v6 关联）：触发词重叠时（「容貌焦虑」问题同时命中
+        # 攀比心理/容貌焦虑），优先「键名完整出现在原文」的键——键名在
+        # 原文 = 问题直接指向该矛盾；仅触发词命中 = 泛词（焦虑）间接命中。
         fp = encode(answer) if answer else {}
         hit = [t for t in fp if t in _KEY_TO_CONFLICT]
         if not hit:
@@ -2239,6 +2246,12 @@ def gen_conflict_links(question: str, answer: str = "", limit: int = 2) -> list:
             hit = [t for t in fp2 if t in _KEY_TO_CONFLICT]
         if not hit:
             return []
+        # 键名在原文优先（容貌焦虑 in 问题 > 攀比心理 not in 问题）
+        def _key_rank(t):
+            in_q = 1 if t in question else 0
+            return (in_q, fp.get(t, 0.0) if t in fp else
+                    (encode(question).get(t, 0.0) if not answer else 0.0))
+        hit.sort(key=_key_rank, reverse=True)
         cid = _KEY_TO_CONFLICT[hit[0]]
         out = []
         for rel_id, note in link_by_id.get(cid, [])[:limit]:

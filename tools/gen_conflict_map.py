@@ -63,6 +63,15 @@ CONFLICT_META = {
     "health-takeout": ("外卖健康", "时间稀缺 vs 健康需要", "为什么天天吃外卖还是戒不掉？"),
     "edu-online": ("网课效果", "便利 vs 学习深度", "为什么网课效果总是不如线下？"),
     "edu-chicken": ("鸡娃", "竞争焦虑 vs 孩子童年", "为什么家长都拼命鸡娃？"),
+    # v6 新矛盾
+    "law-rights": ("法律维权", "维权成本 vs 权益受损", "为什么维权这么难这么贵？"),
+    "health-vaccine": ("疫苗犹豫", "公共健康 vs 个体自主", "为什么有人不愿打疫苗？"),
+    "psy-appearance": ("容貌焦虑", "审美标准 vs 自我接纳", "为什么越来越多人容貌焦虑？"),
+    "psy-lonely": ("城市孤独", "原子化 vs 归属需要", "为什么越长大越孤独？"),
+    "edu-abroad": ("留学选择", "高成本 vs 不确定回报", "留学到底值不值？"),
+    "tech-face": ("人脸识别", "便利安全 vs 隐私滥用", "为什么到处都装人脸识别？"),
+    "tech-deepfake": ("深度伪造", "技术便利 vs 真实可信", "AI换脸视频为什么这么危险？"),
+    "disaster-dev": ("防灾准备", "防灾投入 vs 经济发展", "为什么明知道有风险还在风险区建房？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -136,6 +145,23 @@ LINK_NOTES = {
     ("edu-online", "youth-game"): "网课分心与游戏沉迷同源（电子设备诱惑）",
     ("edu-chicken", "edu-doublecut"): "双减后鸡娃转入地下（私教/素质班）",
     ("edu-chicken", "youth-game"): "鸡娃过度→孩子用游戏逃避→新矛盾",
+    # v6 新矛盾关联
+    ("law-rights", "soc-doctor"): "维权难和看病难同源——公共服务成本高/信息不对称",
+    ("law-rights", "gov-reg"): "消费者维权监管不力是监管问题的用户侧",
+    ("health-vaccine", "health-takeout"): "疫苗与外卖同属健康决策（公共 vs 个人）",
+    ("health-vaccine", "gov-reg"): "防疫政策是监管的公共卫生版",
+    ("psy-appearance", "self-compare"): "容貌焦虑是攀比的容貌版",
+    ("psy-appearance", "soc-consumer"): "容貌焦虑被消费主义利用（医美/护肤）",
+    ("psy-lonely", "soc-urban"): "城市孤独是城乡流动的后果（熟人社会解体）",
+    ("psy-lonely", "relation-attach"): "孤独的人更难建立依恋——孤独与亲密互为因果",
+    ("edu-abroad", "edu-score"): "留学是应试压力的出口（国内卷不动→出去）",
+    ("edu-abroad", "intl-tech"): "留学与技术竞争相关（人才流动/教育竞争）",
+    ("tech-face", "digit-privacy"): "人脸识别是数据隐私的生物特征版（脸不可换）",
+    ("tech-face", "ai-bias"): "人脸识别对深肤色准确率低——算法偏见案例",
+    ("tech-deepfake", "ai-copyright"): "深度伪造与AI创作版权同属AI内容治理",
+    ("tech-deepfake", "digit-privacy"): "换脸盗用他人形象=数据隐私的极端滥用",
+    ("disaster-dev", "gov-carbon"): "防灾与环保同属『长期安全投入 vs 短期发展』",
+    ("disaster-dev", "fam-eldercare"): "灾害对老人冲击最大——防灾与养老交叉",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
