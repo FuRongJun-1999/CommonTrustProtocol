@@ -1065,6 +1065,7 @@ def _assemble(message, hits, emotion):
     # 确定性语义（「什么是数据压缩熵界」→ 熵界直答），优先于 hits 排序
     # ——否则被字面重叠的旧卡（热力学「熵」）抢答。
     direct = _reply_hit.get("direct_answer")
+    _from_daily = False  # v37b：REVERSE_DAILY 直答（确定性语义）不再附卡导航尾巴
     try:
         import semantic_translate as _st
         _fp = _st.encode(message)
@@ -1136,12 +1137,14 @@ def _assemble(message, hits, emotion):
             _dt = max(_pool, key=lambda t: (_match_len(t), len(t), _fp.get(t, 0.0)))
             direct = _st.REVERSE_DAILY[_dt]
             name = _dt
+            _from_daily = True
     except Exception:
         pass
     if direct:
         direct = direct.rstrip("。！？!?")
         parts.append(f"{direct}。")
-        parts.append(f"这个可以看「{name}」")
+        if not _from_daily:
+            parts.append(f"这个可以看「{name}」")
     else:
         parts.append(f"你说的这个，可以看「{name}」")
         daily = _reply_hit.get("daily")
@@ -1156,13 +1159,13 @@ def _assemble(message, hits, emotion):
             except Exception:
                 pass
 
-    # 条件空间（白箱：什么条件下成立）
-    if _reply_hit.get("domain"):
+    # 条件空间（白箱：什么条件下成立）——REVERSE_DAILY 直答不附卡尾巴
+    if _reply_hit.get("domain") and not _from_daily:
         parts.append(f"（这条知识属于{_reply_hit['domain']}，"
                      f"在{_reply_hit.get('edu_level') or '通用'}条件下成立）")
 
-    # 后续相关（最多再提 2 个）
-    if len(hits) > 1:
+    # 后续相关（最多再提 2 个）——REVERSE_DAILY 直答不附卡尾巴
+    if len(hits) > 1 and not _from_daily:
         others = "、".join(h.get("name", "") for h in hits[1:3] if h.get("name"))
         if others:
             parts.append(f"相关的还有：{others}")
