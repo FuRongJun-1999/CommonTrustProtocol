@@ -824,6 +824,46 @@
    "name": "公交让座",
    "conflict": "让座 vs 道德绑架",
    "q": "为什么让座总有争议？"
+  },
+  "edu-sexed": {
+   "name": "儿童性教育",
+   "conflict": "性教育 vs 羞耻/保护",
+   "q": "为什么孩子要接受性教育？"
+  },
+  "pet-insurance": {
+   "name": "宠物保险",
+   "conflict": "宠物保险 vs 值不值",
+   "q": "宠物保险有必要买吗？"
+  },
+  "edu-cert": {
+   "name": "大学生考证",
+   "conflict": "考证 vs 含金量",
+   "q": "为什么大学生都在考证？"
+  },
+  "med-accompany": {
+   "name": "医院陪护",
+   "conflict": "住院陪护 vs 家庭负担",
+   "q": "为什么住院要家属陪护？"
+  },
+  "health-teeth": {
+   "name": "儿童护牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "q": "为什么孩子蛀牙这么多？"
+  },
+  "soc-return": {
+   "name": "网购退货",
+   "conflict": "退货 vs 运费/浪费",
+   "q": "为什么网购退货这么多？"
+  },
+  "health-exercise": {
+   "name": "老年人运动",
+   "conflict": "运动 vs 受伤风险",
+   "q": "老人该运动吗？"
+  },
+  "edu-homework": {
+   "name": "辅导作业",
+   "conflict": "辅导 vs 亲子关系",
+   "q": "为什么辅导作业这么崩溃？"
   }
  },
  "links": [
@@ -2281,6 +2321,86 @@
    "a": "public-seat",
    "b": "age-digital",
    "note": "让座争议折射老人需求（被让座 vs 被尊重）"
+  },
+  {
+   "a": "edu-sexed",
+   "b": "edu-punish",
+   "note": "性教育与立规矩同属儿童安全底线（身体界限）"
+  },
+  {
+   "a": "edu-sexed",
+   "b": "digit-scam",
+   "note": "性教育防的是人祸（人身侵害与网络诈骗同属安全教育）"
+  },
+  {
+   "a": "pet-insurance",
+   "b": "pet-medical",
+   "note": "宠物保险是宠物医疗费用的对冲工具"
+  },
+  {
+   "a": "pet-insurance",
+   "b": "fin-childinsurance",
+   "note": "宠物保险与儿童保险同属家庭保障配置（为爱投保）"
+  },
+  {
+   "a": "edu-cert",
+   "b": "edu-job",
+   "note": "考证是就业准备的证书面（敲门砖 vs 能力）"
+  },
+  {
+   "a": "edu-cert",
+   "b": "study-kaoyan",
+   "note": "考证与考研同属学历/证书焦虑（用投入对冲不确定）"
+  },
+  {
+   "a": "med-accompany",
+   "b": "medical-cost",
+   "note": "陪护是医疗费用的隐形项（请假/护工成本）"
+  },
+  {
+   "a": "med-accompany",
+   "b": "fam-eldercare",
+   "note": "老人住院陪护是养老责任的医疗面（一人住院全家上）"
+  },
+  {
+   "a": "health-teeth",
+   "b": "health-medicine",
+   "note": "护牙与用药同属儿童健康管理（预防优先）"
+  },
+  {
+   "a": "health-teeth",
+   "b": "health-weight",
+   "note": "糖摄入连接蛀牙与肥胖（同一健康防线）"
+  },
+  {
+   "a": "soc-return",
+   "b": "digit-live",
+   "note": "退货是直播冲动消费的补救（买多了→退）"
+  },
+  {
+   "a": "soc-return",
+   "b": "soc-secondhand",
+   "note": "退货与二手同属消费循环（不合适的去向）"
+  },
+  {
+   "a": "health-exercise",
+   "b": "health-fall",
+   "note": "运动是防跌倒的核心手段（肌力/平衡）"
+  },
+  {
+   "a": "health-exercise",
+   "b": "fam-solitude",
+   "note": "运动是老人社交的出口（广场舞/晨练圈子）"
+  },
+  {
+   "a": "edu-homework",
+   "b": "edu-score",
+   "note": "辅导崩溃是应试压力的家庭传导（作业量）"
+  },
+  {
+   "a": "edu-homework",
+   "b": "fam-parenting",
+   "note": "辅导作业是育儿日常的学业面（陪写 vs 陪玩）"
   }
  ]
 }
