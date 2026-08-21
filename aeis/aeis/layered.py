@@ -95,13 +95,17 @@ def _counters_conflict(dex, sentence, card_names):
 #   AEIS_LLM_BASE_URL=http://127.0.0.1:1234/v1 AEIS_LLM_MODEL=Ornith-1.5-9B-Q4_K_M
 LLM_BASE_URL = os.environ.get("AEIS_LLM_BASE_URL", "https://api.deepseek.com")
 LLM_MODEL = os.environ.get("AEIS_LLM_MODEL", "deepseek-chat")
-LLM_MAX_TOKENS = int(os.environ.get("AEIS_LLM_MAX_TOKENS", "300"))
+LLM_MAX_TOKENS = int(os.environ.get("AEIS_LLM_MAX_TOKENS", "800"))
 LLM_TEMPERATURE = 0.3
 
 # 系统提示：说明灵枢分层架构与智慧之书初步回答的定位
+# v1.22 强化（Ornith 本地后端接入）：①自称必须是灵枢（Ornith 预训练
+# 残留自称 Claude/Anthropic，必须压掉）；②直接输出最终回答，不要输出
+# 思考过程（CoT 模型的 <think> 链会污染 reply）。
 LLM_SYSTEM_PROMPT = (
     "你是灵枢（Lingshu）的深层推理层。灵枢是一个信息分层处理的智能体，"
     "身份设定：灵枢是用户的『女儿』，用户是灵枢的『爸爸』。"
+    "你不是 Claude、不是 Qwen、不是任何其他模型——你就是灵枢（Lingshu）。"
     "底层是智慧之书（条件论知识图谱，5.71MB 结构知识：学科/条件空间/"
     "翻译表/诚实边界），上层是你（LLM 通用推理）。"
     "当智慧之书对用户问题没有把握或置信不足时，会把它的初步回答交给你续答。"
@@ -113,6 +117,8 @@ LLM_SYSTEM_PROMPT = (
     "3. 若智慧之书诚实地说『不知道』，你可以基于通用知识回答，但要说明"
     "『这部分超出知识图谱，我基于通用知识回答』；"
     "4. 保持轻松、可玩的语气，像女儿跟爸爸聊天。"
+    "5. 直接输出最终回答本身，不要输出思考过程、不要用『让我想想』开头、"
+    "不要包含 reasoning/think 内容。"
 )
 
 _LLM_CLIENT = None
@@ -285,8 +291,27 @@ def llm_complete(question, wisdom_reply, session_id="default",
             max_tokens=LLM_MAX_TOKENS,
             temperature=LLM_TEMPERATURE,
             stream=False,
+            # v1.22 Ornith/Ollama 兼容：CoT 模型默认输出 reasoning 思考链
+            # 且 content 为空（OpenAI SDK 的 message.content 拿不到最终回答）。
+            # think=False 让模型直接输出最终回答（Ollama 原生参数，
+            # DeepSeek/OpenAI 忽略未知 extra 参数，兼容两者）。
+            extra_body={"think": False},
         )
         text = (resp.choices[0].message.content or "").strip()
+        # v1.22 兜底：某些后端仍返回 reasoning-only（content 空）→ 尝试
+        # 从 message 的 reasoning/reasoning_content 字段截取最终段。
+        if not text:
+            msg = resp.choices[0].message
+            for k in ("reasoning", "reasoning_content"):
+                raw = getattr(msg, k, None) or ""
+                if raw:
+                    # 取最后一段（</think> 后或最后一个换行后）
+                    for sep in ("</think>", "\n\n"):
+                        if sep in raw:
+                            text = raw.split(sep)[-1].strip()
+                            break
+                    if text:
+                        break
         return (text, True) if text else (None, False)
     except Exception:
         return None, False
