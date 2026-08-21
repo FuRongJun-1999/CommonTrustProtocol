@@ -315,6 +315,15 @@ CONFLICT_META = {
     "fam-remotework": ("远程办公家庭", "远程工作 vs 家庭", "远程工作会影响家庭吗？"),
     "fam-elderlyhealth": ("父母健康管理", "劝父母体检 vs 尊重", "怎么劝父母体检？"),
     "fam-childprivacy": ("孩子隐私", "孩子隐私 vs 关心", "父母该看孩子日记吗？"),
+    # v34 新矛盾（家庭日常运转激化）
+    "fam-diet": ("家庭饮食之争", "健康饮食 vs 口味", "家庭饮食听谁的？"),
+    "fam-schedule": ("家庭作息之争", "早睡 vs 晚睡", "家庭作息不统一怎么办？"),
+    "fam-trip": ("家庭旅行安排", "带娃旅行 vs 享受/折腾", "家庭旅行听谁的？"),
+    "fam-gathering": ("家庭聚会", "家庭聚会 vs 温馨/负担", "家庭聚会是温馨还是负担？"),
+    "fam-childfriends": ("孩子交友", "孩子交友 vs 把关", "孩子交朋友要管吗？"),
+    "fam-chorechild": ("孩子家务", "孩子家务 vs 学习", "孩子该做家务吗？"),
+    "fam-cleanliness": ("家务标准", "洁癖 vs 随意", "家务标准不同怎么办？"),
+    "fam-petchild": ("宠物与孩子", "宠物与孩子 vs 共存", "有孩子能养宠物吗？"),
 }
 
 # 关联说明（一对矛盾 → 为什么关联）
@@ -864,6 +873,23 @@ LINK_NOTES = {
     ("fam-elderlyhealth", "medical-cost"): "父母健康管理降低医疗成本（预防）",
     ("fam-childprivacy", "edu-punish"): "孩子隐私与管教边界相关（尊重 vs 立规矩）",
     ("fam-childprivacy", "fam-phone"): "看日记与查手机同属隐私边界（关心 vs 侵犯）",
+    # v34 新矛盾关联（家庭日常运转激化）
+    ("fam-diet", "fam-health"): "家庭饮食是健康观念的家庭场景（吃什么）",
+    ("fam-diet", "food-safe"): "家庭饮食与食品安全相关（吃得放心）",
+    ("fam-schedule", "fam-separatebeds"): "作息差异与分房睡相关（各自节律）",
+    ("fam-schedule", "edu-sleep"): "家庭作息影响孩子睡眠（孩子优先）",
+    ("fam-trip", "edu-trip"): "家庭旅行是毕业旅行的家庭版（带娃出行）",
+    ("fam-trip", "fam-couple"): "家庭旅行决策考验夫妻协商（听谁的）",
+    ("fam-gathering", "fam-groupchat"): "家庭聚会是家族群的线下版（见面）",
+    ("fam-gathering", "fam-inlaws"): "家庭聚会常含亲家往来（两家聚餐）",
+    ("fam-childfriends", "edu-punish"): "孩子交友引导是管教的一部分（边界）",
+    ("fam-childfriends", "fam-childprivacy"): "交友引导与隐私尊重同属孩子自主（引导）",
+    ("fam-chorechild", "edu-allowance"): "孩子家务与零花钱教育相关（劳动报酬）",
+    ("fam-chorechild", "gen-house"): "孩子家务是家务分工的家庭教育版",
+    ("fam-cleanliness", "gen-house"): "家务标准是家务分工的尺度之争（干净）",
+    ("fam-cleanliness", "fam-fight"): "家务标准冲突是夫妻吵架的日常导火索",
+    ("fam-petchild", "fam-pet"): "宠物与孩子是家庭养宠的育儿版（共存）",
+    ("fam-petchild", "fam-childfriends"): "宠物是孩子的伙伴（友谊的动物版）",
 }
 
 # 序列化为 JSON（供运行时加载）：conflicts 值改为 dict
