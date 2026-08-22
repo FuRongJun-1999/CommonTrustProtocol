@@ -400,6 +400,81 @@ class Agent:
         from .web import WebTool
         return WebTool().search(query, count=count)
 
+    def condition_space_operate(self, operation: str, theme: str = "",
+                                variants=None, candidates=None) -> Dict:
+        """条件空间 7 操作（白箱自进化协议算子 · 确定性）。
+
+        identify  识别条件边界：variants 的 encode fp 命中主题测试（迁移率）
+        declare   声明条件空间：主题簇触发词 + 直答状态
+        separate  分离条件空间：candidates 与其他簇的冲突检测（泛词保护）
+        compose   组合条件空间：candidates 与既有触发词的合并建议（不写文件）
+        switch    切换条件空间：给定问法在目标簇 vs 其他簇的路由归属
+        reverse   逆转条件空间：生成反题变体（正→反，人工/LLM 扩展）
+        loop      循环条件空间：identify+separate+compose 一轮收敛报告
+
+        确定性实现（纯标准库）：encode fp + 簇表读取。
+        """
+        import os as _os
+        import sys as _s
+        _pkg = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+        _wdir = _os.path.join(_pkg, "wisdom")
+        if _wdir not in _s.path:
+            _s.path.insert(0, _wdir)
+        import semantic_translate as _st
+        r = {"operation": operation, "theme": theme}
+        if operation == "identify":
+            if not variants:
+                return {**r, "error": "variants required"}
+            hits = [{"q": v, "hit": theme in _st.encode(v)} for v in variants]
+            ok = sum(1 for h in hits if h["hit"])
+            r.update({"total": len(hits), "hit": ok,
+                      "rate": round(ok / len(hits), 3), "hits": hits})
+        elif operation == "declare":
+            trigs = list(_st.DOMAIN_SYNONYM_CLUSTERS.get(theme, []))
+            r.update({"triggers": trigs,
+                      "has_daily": theme in _st.REVERSE_DAILY,
+                      "daily_len": len(_st.REVERSE_DAILY.get(theme, ""))})
+        elif operation == "separate":
+            if not candidates:
+                return {**r, "error": "candidates required"}
+            others = {k: v for k, v in
+                      {**_st.DOMAIN_SYNONYM_CLUSTERS, **_st.SYNONYM_CLUSTERS}.items()
+                      if k != theme}
+            clashes = {c: [k for k, lst in others.items() if any(c == t for t in lst)]
+                       for c in candidates}
+            r["clashes"] = {k: v for k, v in clashes.items() if v}
+            r["clear"] = [c for c in candidates if not clashes[c]]
+        elif operation == "compose":
+            if not candidates:
+                return {**r, "error": "candidates required"}
+            existing = list(_st.DOMAIN_SYNONYM_CLUSTERS.get(theme, []))
+            merged = existing + [c for c in candidates if c not in existing]
+            r.update({"existing": existing, "new": [c for c in candidates if c not in existing],
+                      "merged": merged,
+                      "note": "建议合并（未写文件——写库由部署脚本/人工执行）"})
+        elif operation == "switch":
+            if not variants:
+                return {**r, "error": "variants required"}
+            route = []
+            for v in variants:
+                fp = _st.encode(v)
+                target = [t for t in fp if t != theme]
+                route.append({"q": v, "to_theme": theme in fp,
+                              "other": target[:3]})
+            r["routes"] = route
+        elif operation == "loop":
+            if not variants:
+                return {**r, "error": "variants required"}
+            hits = [theme in _st.encode(v) for v in variants]
+            ok = sum(1 for h in hits if h)
+            miss = [v for v, h in zip(variants, hits) if not h]
+            r.update({"total": len(variants), "hit": ok,
+                      "rate": round(ok / len(variants), 3), "misses": miss,
+                      "next": "separate(miss 提取候选) -> compose -> identify 重测"})
+        else:
+            return {**r, "error": f"unknown operation: {operation}"}
+        return r
+
     def think(self, query: str, limit: int = 8) -> Dict:
         """推理前记忆注入：检索相关记忆（内容检索+组合联想+模式加权）
         → 组合推理上下文。推理链：记忆支撑 → 协议推理 → 输出。
