@@ -851,9 +851,15 @@ class LayeredStore:
 
     @staticmethod
     def expand_query_terms(query: str) -> list:
-        """查询同义词展开：原查询整句 + 命中组词（含命中词本身，词级预筛）+ 组内同义词。
-        命中词本身必须加入——整句 LIKE 无法命中只含词级的节点。"""
+        """查询同义词展开：原查询整句 + 按空格/标点分词（≥2 字符）+ 命中组词 + 组内同义词。
+        分词（v1.28.1 · 检索缺陷修复）：重组短语（如「数据库 连接池 超时 重试」）逐词 LIKE，
+        解决整句 LIKE 对非连续子串召回失效；命中词本身必须加入——整句 LIKE 无法命中只含词级的节点。"""
         terms = [query]
+        import re as _re
+        for w in _re.split(r"[\s、，。；：,;.:/\\|]+", query):
+            w = w.strip()
+            if len(w) >= 2 and w not in terms:
+                terms.append(w)
         for group in LayeredStore.SYNONYM_GROUPS:
             for w in group:
                 if w in query:
@@ -888,10 +894,14 @@ class LayeredStore:
             # 检索增强（v1.12.1 · AEIS-BENCH-01 发现）：LIKE 预筛落空
             # （查询为重组短语，原文无连续子串命中）→ 回退全表二元组 Jaccard。
             # 节点量级小（千级），全表计算代价可忽略；消除连续性漏检。
+            # v1.28.1 修复：回退按 重要性降序+新近度降序 取 TOP，而非取最旧 N 行
+            # （原 `LIMIT 500` 无 ORDER BY = rowid 最小 = 最旧节点，新写入节点
+            #  永久隔离在检索之外——检索缺陷报告问题 1）。
+            order = "importance DESC, COALESCE(created_at, 0) DESC"
             if conds:
-                c.execute(f"SELECT * FROM nodes WHERE {' AND '.join(conds)} LIMIT 500", params)
+                c.execute(f"SELECT * FROM nodes WHERE {' AND '.join(conds)} ORDER BY {order} LIMIT 500", params)
             else:
-                c.execute("SELECT * FROM nodes LIMIT 500")
+                c.execute(f"SELECT * FROM nodes ORDER BY {order} LIMIT 500")
             rows = c.fetchall()
         scored = []
         # 评分用原查询二元组重叠率（召回导向）；扩展词只负责预筛召回不稀释评分
@@ -2085,8 +2095,12 @@ class SpacetimeMemoryEngine:
         """依赖注入（D-005）：provider.encode(text)->List[float]；provider.search(query,limit)->List[str]"""
         self._embedding_provider = provider
 
-    def recall(self, context_content: str, limit: int = 10) -> List[Tuple[STNode, float]]:
-        """组合联想（内容相似 0.5 + 重要性 0.3 + 近因 0.2）——记忆参与推理（1.1.1）"""
+    def recall(self, context_content: str, limit: int = 10,
+               w_sim: float = 0.5, w_importance: float = 0.3,
+               w_recency: float = 0.2) -> List[Tuple[STNode, float]]:
+        """组合联想（内容相似 + 重要性 + 近因）——记忆参与推理（1.1.1）。
+        v1.28.1 修复（检索缺陷报告问题 6）：权重可配置（默认 0.5/0.3/0.2），
+        调用方可按场景调整或对 seed 层做检索豁免。"""
         results = self.store.search_content(context_content, limit=50)
         if not results:
             return []
@@ -2095,7 +2109,7 @@ class SpacetimeMemoryEngine:
         for node, sim in results:
             la = node.last_access if node.last_access is not None else (node.created_at or now)
             recency = 1.0 / (1.0 + max(0.0, now - la) / 86400.0)
-            score = 0.5 * sim + 0.3 * (node.importance or 0.0) + 0.2 * recency
+            score = w_sim * sim + w_importance * (node.importance or 0.0) + w_recency * recency
             scored.append((node, score))
         scored.sort(key=lambda x: -x[1])
         self._note_reuse([n.id for n, _ in scored[:limit]])
@@ -3905,9 +3919,13 @@ class SpacetimeMemoryEngine:
                 if n.importance < 0.08:
                     self.store.tag_node(n.id, "compressible")
                     stats["compressible"] += 1
-        self.add_perception(
-            f"[consolidation] 演练 {stats['rehearsed']} · 提升 {stats['boosted']} · 降权 {stats['degraded']} · 可压缩 {stats['compressible']}",
-            importance=0.4, tags=["consolidation"])
+        # v1.28.1 修复（检索缺陷报告问题 3）：演练「无变化」时不落节点——
+        # 原实现每次巩固无条件写入 [consolidation] 节点，同内容可重复数十次
+        # 污染知识层稀释检索；仅当有实际动作（提升/降权/压缩标记）才记录。
+        if stats["rehearsed"] or stats["boosted"] or stats["degraded"] or stats["compressible"]:
+            self.add_perception(
+                f"[consolidation] 演练 {stats['rehearsed']} · 提升 {stats['boosted']} · 降权 {stats['degraded']} · 可压缩 {stats['compressible']}",
+                importance=0.4, tags=["consolidation"])
         return stats
 
     def run_maintenance_cycle(self, decay_factor: float = 0.02) -> Dict:

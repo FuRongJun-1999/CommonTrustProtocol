@@ -29,22 +29,58 @@ MAX_CHUNK = 1500  # 长文本分块（避免单节点过大）
 
 
 def _chunk_text(text: str, max_len: int = MAX_CHUNK) -> List[str]:
-    """按段落/长度分块"""
+    """按段落/长度分块；代码块（```...```）整体保护——内部空行不拆散。
+    v1.28.1 修复（检索缺陷报告问题 2）：原实现按 \n\s*\n 空行切段，代码块内空行被
+    当作段落分隔符导致代码块被拦腰截断；现先按 ``` 整体切出代码块，代码块独立成块
+    （超长时按行组保序切分），其余文本按空行段落聚合。"""
+    import re as _re
     text = text.strip()
     if not text:
         return []
     if len(text) <= max_len:
         return [text]
-    chunks, cur = [], ""
-    for para in re.split(r"\n\s*\n", text):
-        if len(cur) + len(para) + 2 > max_len and cur:
-            chunks.append(cur)
-            cur = para
+
+    def _split_long(block: str) -> List[str]:
+        """超长块保序切分：优先按空行段落，仍超长按行组。"""
+        if len(block) <= max_len:
+            return [block]
+        out, cur = [], ""
+        for para in _re.split(r"\n\s*\n", block):
+            if len(cur) + len(para) + 2 > max_len and cur:
+                out.append(cur)
+                cur = para
+            else:
+                cur = f"{cur}\n\n{para}" if cur else para
+        if cur:
+            out.append(cur)
+        # 单段仍超长：按行组切分（保序，行内不拆）
+        final = []
+        for piece in out:
+            if len(piece) <= max_len:
+                final.append(piece)
+                continue
+            buf, lines = "", piece.splitlines()
+            for ln in lines:
+                if len(buf) + len(ln) + 1 > max_len and buf:
+                    final.append(buf)
+                    buf = ln
+                else:
+                    buf = f"{buf}\n{ln}" if buf else ln
+            if buf:
+                final.append(buf)
+        return final
+
+    chunks = []
+    for part in _re.split(r"(```[\s\S]*?```)", text):
+        if not part:
+            continue
+        if part.startswith("```") and part.endswith("```"):
+            # 代码块：独立成块，永不拆散；超长按行组保序切分
+            chunks.extend(_split_long(part))
         else:
-            cur = f"{cur}\n\n{para}" if cur else para
-    if cur:
-        chunks.append(cur)
-    return chunks
+            # 非代码块：按空行段落聚合
+            chunks.extend(_split_long(part))
+    return [c for c in chunks if c.strip()]
 
 
 def _extract_entities(text: str, max_entities: int = 8) -> List[str]:
