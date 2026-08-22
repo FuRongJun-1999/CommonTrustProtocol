@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+"""round16 自然问法迁移测试集（沸腾/液化/凝固/熔化/升华/凝华·物态变化六簇）——固定归档"""
+import json, sys
+sys.stdout.reconfigure(encoding="utf-8")
+ITEMS = [
+    {"q": "为什么水烧开会有声音？", "theme": "沸腾"},
+    {"q": "为什么高原上水煮不熟饭？", "theme": "沸腾"},
+    {"q": "为什么水到100度就开？", "theme": "沸腾"},
+    {"q": "为什么哈气在镜子上会变成小水珠？", "theme": "液化"},
+    {"q": "冬天眼镜进屋为什么起雾？", "theme": "液化"},
+    {"q": "露水是怎么来的？", "theme": "液化"},
+    {"q": "为什么水会冻成冰？", "theme": "凝固"},
+    {"q": "怎么让水不结冰？", "theme": "凝固"},
+    {"q": "凝固是熔化的逆过程吗？", "theme": "凝固"},
+    {"q": "为什么冰块在常温下会化成水？", "theme": "熔化"},
+    {"q": "熔化和融化一样吗？", "theme": "熔化"},
+    {"q": "怎么让冰化得快？", "theme": "熔化"},
+    {"q": "为什么樟脑丸放衣柜里会变小？", "theme": "升华"},
+    {"q": "干冰为什么会冒白烟？", "theme": "升华"},
+    {"q": "升华是吸热还是放热？", "theme": "升华"},
+    {"q": "为什么冬天窗户上会有霜花？", "theme": "凝华"},
+    {"q": "雪是水滴冻成的吗？", "theme": "凝华"},
+    {"q": "凝华和液化有什么区别？", "theme": "凝华"},
+]
+with open(r"D:\Program Files\2_ai\CommonTrustProtocol\testsets\migration\natural_variants_r16.json", "w", encoding="utf-8") as f:
+    json.dump({"name": "natural_variants_r16", "themes": ["沸腾", "液化", "凝固", "熔化", "升华", "凝华"], "items": ITEMS}, f, ensure_ascii=False, indent=1)
+print("saved", len(ITEMS))
