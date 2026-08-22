@@ -84,6 +84,12 @@ def _tools():
                                         "tags": {"type": "array", "items": {"type": "string"}},
                                         "entities": {"type": "array", "items": {"type": "string"}}},
                          "required": ["content"]}},
+        {"name": "add_context",
+         "description": "写入一条情境层记忆（短时会话记忆，FIFO 上限 + 1h 时间窗口，可自然衰减，不污染知识层）。content 必填；importance 重要性[0,1]。",
+         "inputSchema": {"type": "object",
+                         "properties": {"content": {"type": "string"},
+                                        "importance": {"type": "number"}},
+                         "required": ["content"]}},
         {"name": "recall",
          "description": "组合联想召回（内容相似0.5+重要性0.3+近因0.2）。返回 [(node, score)]。",
          "inputSchema": {"type": "object",
@@ -573,6 +579,9 @@ class AEISServer:
         if name == "remember":
             r = agent.remember(a.get("content", ""), importance=a.get("importance", 0.5),
                                tags=a.get("tags"), entities=a.get("entities"))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "add_context":
+            r = agent.add_context(a.get("content", ""), importance=a.get("importance", 0.4))
             return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
         if name == "recall":
             return {"content": [{"type": "text", "text": _dump(agent.recall(a.get("query", ""), limit=a.get("limit", 10)))}], "isError": False}
