@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+"""矛盾测试集 v43（回声/影子/结冰·生活物理 12 题）"""
+import json, sys
+sys.stdout.reconfigure(encoding="utf-8")
+ITEMS = [
+    {"q": "为什么在山谷里喊话会有回声？", "domain": "回声", "stage": "正题",
+     "need": "声音反射", "conflict": "声音反射 vs 声音被吸收"},
+    {"q": "为什么空旷的房间说话有回音？", "domain": "回声", "stage": "正题",
+     "need": "墙壁反射叠加", "conflict": "声音反射 vs 声音被吸收"},
+    {"q": "回声是山在回应我吗？", "domain": "回声", "stage": "反题",
+     "need": "反射不是复制", "conflict": "声音反射 vs 声音被吸收"},
+    {"q": "怎么让房间没有回声？", "domain": "回声", "stage": "合题",
+     "need": "软装吸音", "conflict": "声音反射 vs 声音被吸收"},
+    {"q": "为什么中午的影子比早晨短？", "domain": "影子", "stage": "正题",
+     "need": "光源角度", "conflict": "光的直线传播 vs 光源角度"},
+    {"q": "影子是怎么形成的？", "domain": "影子", "stage": "正题",
+     "need": "光被挡住", "conflict": "光的直线传播 vs 光源角度"},
+    {"q": "影子是物体的一部分吗？", "domain": "影子", "stage": "反题",
+     "need": "影子是光的投影", "conflict": "光的直线传播 vs 光源角度"},
+    {"q": "怎么用影子判断方向？", "domain": "影子", "stage": "合题",
+     "need": "影子方向与光源相反", "conflict": "光的直线传播 vs 光源角度"},
+    {"q": "为什么冬天河面会结冰？", "domain": "结冰", "stage": "正题",
+     "need": "水到0°C凝固", "conflict": "凝固 vs 温度"},
+    {"q": "为什么冰能浮在水面上？", "domain": "结冰", "stage": "正题",
+     "need": "冰密度比水小", "conflict": "凝固 vs 密度"},
+    {"q": "结冰是水变成了别的东西吗？", "domain": "结冰", "stage": "反题",
+     "need": "物理变化还是H2O", "conflict": "凝固 vs 温度"},
+    {"q": "怎么让冰快点融化？", "domain": "结冰", "stage": "合题",
+     "need": "升温/撒盐降冰点", "conflict": "凝固 vs 温度"},
+]
+with open(r"D:\Program Files\2_ai\knowledge-base\conflict_testset_v43.json", "w", encoding="utf-8") as f:
+    json.dump({"name": "conflict_testset_v43", "conflicts": 3, "items": ITEMS}, f, ensure_ascii=False, indent=1)
+print("v43 testset:", len(ITEMS))
