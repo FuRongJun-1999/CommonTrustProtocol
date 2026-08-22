@@ -1,0 +1,53 @@
+# -*- coding: utf-8 -*-
+"""矛盾测试集 v60（10 簇·常识迁移 c11）"""
+import json, sys
+sys.stdout.reconfigure(encoding="utf-8")
+ITEMS = [
+    {"q": "为什么会发烧？", "domain": "发烧", "stage": "正题",
+     "need": "免疫战斗", "conflict": "发烧 vs 免疫反应"},
+    {"q": "发烧是坏事吗？", "domain": "发烧", "stage": "反题",
+     "need": "是防御", "conflict": "发烧 vs 免疫反应"},
+    {"q": "发烧能捂汗吗？", "domain": "发烧", "stage": "合题",
+     "need": "不能要散热", "conflict": "发烧 vs 免疫反应"},
+    {"q": "为什么会饿？", "domain": "饿", "stage": "正题",
+     "need": "血糖低信号", "conflict": "饿 vs 能量不足"},
+    {"q": "饿过头为什么反而不饿？", "domain": "饿", "stage": "反题",
+     "need": "信号疲劳", "conflict": "饿 vs 能量不足"},
+    {"q": "考试前怎么复习？", "domain": "考试", "stage": "正题",
+     "need": "抓重点错题", "conflict": "考试 vs 准备心态"},
+    {"q": "考试紧张怎么办？", "domain": "考试", "stage": "合题",
+     "need": "深呼吸放松", "conflict": "考试 vs 准备心态"},
+    {"q": "氧气是什么？", "domain": "氧气", "stage": "正题",
+     "need": "占空气21%", "conflict": "氧气 vs 空气"},
+    {"q": "人为什么要吸氧气？", "domain": "氧气", "stage": "正题",
+     "need": "细胞供能", "conflict": "氧气 vs 空气"},
+    {"q": "为什么叶子是绿色的？", "domain": "叶子绿色", "stage": "正题",
+     "need": "反射绿光", "conflict": "叶子绿色 vs 叶绿素"},
+    {"q": "为什么秋天叶子变黄？", "domain": "叶子绿色", "stage": "反题",
+     "need": "叶绿素分解", "conflict": "叶子绿色 vs 叶绿素"},
+    {"q": "为什么飞机比汽车快？", "domain": "飞机汽车", "stage": "正题",
+     "need": "天上直飞", "conflict": "飞机汽车 vs 交通工具"},
+    {"q": "远途选飞机还是高铁？", "domain": "飞机汽车", "stage": "合题",
+     "need": "看门到门时间", "conflict": "飞机汽车 vs 交通工具"},
+    {"q": "什么是地球公转？", "domain": "地球公转", "stage": "正题",
+     "need": "绕太阳一年", "conflict": "地球公转 vs 自转"},
+    {"q": "公转和自转什么区别？", "domain": "地球公转", "stage": "反题",
+     "need": "年vs天", "conflict": "地球公转 vs 自转"},
+    {"q": "什么是信任？", "domain": "信任", "stage": "正题",
+     "need": "相信可靠", "conflict": "信任 vs 怀疑"},
+    {"q": "信任怎么建立？", "domain": "信任", "stage": "合题",
+     "need": "积累靠谱", "conflict": "信任 vs 怀疑"},
+    {"q": "什么是价值观？", "domain": "价值观", "stage": "正题",
+     "need": "判断重要性", "conflict": "价值观 vs 行为准则"},
+    {"q": "价值观会变吗？", "domain": "价值观", "stage": "反题",
+     "need": "会变随成长", "conflict": "价值观 vs 行为准则"},
+    {"q": "什么是记忆？", "domain": "记忆", "stage": "正题",
+     "need": "存储回忆", "conflict": "记忆 vs 遗忘"},
+    {"q": "怎么提高记忆？", "domain": "记忆", "stage": "合题",
+     "need": "理解重复关联", "conflict": "记忆 vs 遗忘"},
+    {"q": "记忆和睡眠什么关系？", "domain": "记忆", "stage": "反题",
+     "need": "睡眠巩固", "conflict": "记忆 vs 遗忘"},
+]
+with open(r"D:\Program Files\2_ai\knowledge-base\conflict_testset_v60.json", "w", encoding="utf-8") as f:
+    json.dump({"name": "conflict_testset_v60", "conflicts": 10, "items": ITEMS}, f, ensure_ascii=False, indent=1)
+print("v60 testset:", len(ITEMS))
