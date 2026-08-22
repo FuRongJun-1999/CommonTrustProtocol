@@ -1028,6 +1028,52 @@ def _assemble(message, hits, emotion):
     if emotion and emotion.get("prefix"):
         parts.append(emotion["prefix"])
 
+    # v1.27（白箱自进化 round4）：确定性 fp 直答优先——REVERSE_DAILY 触发词
+    # 命中时，直答是人工校准的确定性语义，优先于 bge 近似检索（检索噪声/
+    # 记忆状态不应左右确定性直答——「拖到最后一刻」被小学英语卡压住 bug：
+    # 同问法不同调用路径结果不同）。提前到 hits 检查之前。
+    try:
+        import semantic_translate as _st
+        _fp = _st.encode(message)
+        _cond_guard = any(w in message for w in
+                          ("珠峰", "珠穆朗玛", "高原", "山顶", "高压锅", "海拔",
+                           "气压", "高压", "低压", "潜水", "深海"))
+        if not _cond_guard:
+            _long = [t for t in _fp if len(t) >= 2 and t in _st.REVERSE_DAILY]
+            if _long:
+                _present = [t for t in _long if t in message]
+                for _t in _long:
+                    if _t in _present:
+                        continue
+                    _triggers = list(_st.DOMAIN_SYNONYM_CLUSTERS.get(_t, [])) + \
+                        list(_st.SYNONYM_CLUSTERS.get(_t, []))
+                    for _tr in _triggers:
+                        if _tr not in message:
+                            continue
+                        if any(_tr in p for p in _present):
+                            continue
+                        if _t not in _present:
+                            _present.append(_t)
+                        break
+                _pool = _present if _present else _long
+                if _pool:
+                    def _fp_match_len(t):
+                        best = len(t) if t in message else 0
+                        _trs = list(_st.DOMAIN_SYNONYM_CLUSTERS.get(t, [])) + \
+                            list(_st.SYNONYM_CLUSTERS.get(t, []))
+                        for _tr in _trs:
+                            if _tr in message and len(_tr) > best:
+                                best = len(_tr)
+                        return best
+                    _dt = max(_pool, key=lambda t: (_fp_match_len(t), len(t),
+                                                    _fp.get(t, 0.0)))
+                    _fp_text = _st.REVERSE_DAILY[_dt]
+                    if _fp_text:
+                        parts.append(_fp_text.rstrip("。！？!?") + "。")
+                        return "".join(parts), False
+    except Exception:
+        pass
+
     if not hits:
         # 诚实边界：接不住就说接不住（0.0.3）
         parts.append("这个问题我暂时没有把握，不想瞎编。"
