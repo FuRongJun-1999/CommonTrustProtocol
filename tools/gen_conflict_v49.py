@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+"""矛盾测试集 v49（鸟的飞行·生物×物理 8 题）"""
+import json, sys
+sys.stdout.reconfigure(encoding="utf-8")
+ITEMS = [
+    {"q": "为什么鸟能飞行，人不行？", "domain": "鸟的飞行", "stage": "正题",
+     "need": "身体结构三条件", "conflict": "身体结构 vs 空气动力学"},
+    {"q": "翅膀是怎么产生升力的？", "domain": "鸟的飞行", "stage": "正题",
+     "need": "伯努利原理", "conflict": "身体结构 vs 空气动力学"},
+    {"q": "人为什么不能像鸟一样飞？", "domain": "鸟的飞行", "stage": "反题",
+     "need": "太重没翅膀肌肉差", "conflict": "身体结构 vs 空气动力学"},
+    {"q": "鸟的羽毛有什么用？", "domain": "鸟的飞行", "stage": "正题",
+     "need": "轻密防水保温", "conflict": "身体结构 vs 空气动力学"},
+    {"q": "为什么鸟的身体那么轻？", "domain": "鸟的飞行", "stage": "正题",
+     "need": "空心骨架", "conflict": "身体结构 vs 空气动力学"},
+    {"q": "为什么鸵鸟有翅膀却飞不起来？", "domain": "鸟的飞行", "stage": "反题",
+     "need": "太重缺条件", "conflict": "身体结构 vs 空气动力学"},
+    {"q": "怎么让鸟飞起来？", "domain": "鸟的飞行", "stage": "合题",
+     "need": "速度+升力>体重", "conflict": "身体结构 vs 空气动力学"},
+    {"q": "人怎么才能飞上天？", "domain": "鸟的飞行", "stage": "合题",
+     "need": "借助工具飞机", "conflict": "身体结构 vs 空气动力学"},
+]
+with open(r"D:\Program Files\2_ai\knowledge-base\conflict_testset_v49.json", "w", encoding="utf-8") as f:
+    json.dump({"name": "conflict_testset_v49", "conflicts": 1, "items": ITEMS}, f, ensure_ascii=False, indent=1)
+print("v49 testset:", len(ITEMS))
