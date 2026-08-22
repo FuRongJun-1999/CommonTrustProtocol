@@ -1,0 +1,132 @@
+{
+ "name": "conflict_testset_v54",
+ "conflicts": 6,
+ "items": [
+  {
+   "q": "一般现在时怎么用？",
+   "domain": "一般现在时",
+   "stage": "正题",
+   "need": "习惯事实常态",
+   "conflict": "一般现在时 vs 现在进行时"
+  },
+  {
+   "q": "什么时候动词加s？",
+   "domain": "一般现在时",
+   "stage": "正题",
+   "need": "三单加s",
+   "conflict": "一般现在时 vs 现在进行时"
+  },
+  {
+   "q": "一般现在时怎么变否定？",
+   "domain": "一般现在时",
+   "stage": "合题",
+   "need": "don't/doesn't",
+   "conflict": "一般现在时 vs 现在进行时"
+  },
+  {
+   "q": "什么是被动语态？",
+   "domain": "被动语态",
+   "stage": "正题",
+   "need": "主语是承受者",
+   "conflict": "被动语态 vs 主动语态"
+  },
+  {
+   "q": "被动语态怎么构成？",
+   "domain": "被动语态",
+   "stage": "正题",
+   "need": "be+过去分词",
+   "conflict": "被动语态 vs 主动语态"
+  },
+  {
+   "q": "什么时候用被动语态？",
+   "domain": "被动语态",
+   "stage": "合题",
+   "need": "不知道/不重要谁做",
+   "conflict": "被动语态 vs 主动语态"
+  },
+  {
+   "q": "名词复数怎么变？",
+   "domain": "名词复数",
+   "stage": "正题",
+   "need": "加s/加es",
+   "conflict": "名词复数 vs 单数名词"
+  },
+  {
+   "q": "名词复数有什么特殊？",
+   "domain": "名词复数",
+   "stage": "反题",
+   "need": "不规则man→men",
+   "conflict": "名词复数 vs 单数名词"
+  },
+  {
+   "q": "可数名词和不可数名词什么区别？",
+   "domain": "名词复数",
+   "stage": "反题",
+   "need": "能否数",
+   "conflict": "名词复数 vs 单数名词"
+  },
+  {
+   "q": "比较级怎么变？",
+   "domain": "比较级",
+   "stage": "正题",
+   "need": "短加er长用more",
+   "conflict": "比较级 vs 最高级"
+  },
+  {
+   "q": "为什么有的加er有的用more？",
+   "domain": "比较级",
+   "stage": "反题",
+   "need": "音节长短",
+   "conflict": "比较级 vs 最高级"
+  },
+  {
+   "q": "比较级和最高级什么区别？",
+   "domain": "比较级",
+   "stage": "合题",
+   "need": "两者vs三者",
+   "conflict": "比较级 vs 最高级"
+  },
+  {
+   "q": "什么是定语从句？",
+   "domain": "定语从句",
+   "stage": "正题",
+   "need": "修饰名词的句子",
+   "conflict": "定语从句 vs 宾语从句"
+  },
+  {
+   "q": "关系词怎么选？",
+   "domain": "定语从句",
+   "stage": "正题",
+   "need": "人who物which",
+   "conflict": "定语从句 vs 宾语从句"
+  },
+  {
+   "q": "that和which什么区别？",
+   "domain": "定语从句",
+   "stage": "反题",
+   "need": "that通用which只物",
+   "conflict": "定语从句 vs 宾语从句"
+  },
+  {
+   "q": "英语时态有哪些？",
+   "domain": "英语时态",
+   "stage": "正题",
+   "need": "3×4=12种",
+   "conflict": "英语时态 vs 时态体系"
+  },
+  {
+   "q": "时态表示什么？",
+   "domain": "英语时态",
+   "stage": "正题",
+   "need": "时间+状态",
+   "conflict": "英语时态 vs 时态体系"
+  },
+  {
+   "q": "现在完成时怎么用？",
+   "domain": "英语时态",
+   "stage": "合题",
+   "need": "have+过去分词",
+   "conflict": "英语时态 vs 时态体系"
+  }
+ ]
+}
