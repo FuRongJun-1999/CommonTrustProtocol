@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+"""c1 自然问法迁移测试集（12 物理概念）归档"""
+import json, sys
+sys.stdout.reconfigure(encoding="utf-8")
+ITEMS = [
+    {"q": "为什么搓手会发热？", "theme": "摩擦"},
+    {"q": "鞋底为什么有花纹？", "theme": "摩擦"},
+    {"q": "电流是什么？", "theme": "电流"},
+    {"q": "为什么通电灯才亮？", "theme": "电流"},
+    {"q": "为什么木头能漂在水上？", "theme": "浮力"},
+    {"q": "为什么铁船能浮在水上？", "theme": "浮力"},
+    {"q": "为什么苹果熟了会往下掉？", "theme": "重力"},
+    {"q": "为什么在太空会飘起来？", "theme": "重力"},
+    {"q": "为什么撬棍能省力？", "theme": "杠杆"},
+    {"q": "为什么吸管能把饮料吸上来？", "theme": "大气压"},
+    {"q": "拔火罐为什么能吸住皮肤？", "theme": "大气压"},
+    {"q": "电压是什么？", "theme": "电压"},
+    {"q": "为什么家庭电会电人？", "theme": "电压"},
+    {"q": "为什么筷子插水里看起来弯了？", "theme": "折射"},
+    {"q": "为什么影子是黑黑的？", "theme": "光的直线传播"},
+    {"q": "小孔成像为什么是倒的？", "theme": "光的直线传播"},
+    {"q": "发电机为什么能发电？", "theme": "电磁感应"},
+    {"q": "为什么旗杆顶上有轮子？", "theme": "滑轮"},
+    {"q": "为什么石头会碎？", "theme": "风化"},
+    {"q": "为什么海水每天定时涨落？", "theme": "潮汐"},
+    {"q": "潮汐和波浪一样吗？", "theme": "潮汐"},
+]
+with open(r"D:\Program Files\2_ai\CommonTrustProtocol\testsets\migration\natural_variants_c1.json", "w", encoding="utf-8") as f:
+    json.dump({"name": "natural_variants_c1", "themes": ["摩擦", "电流", "浮力", "重力", "杠杆", "大气压", "电压", "折射", "光的直线传播", "电磁感应", "滑轮", "风化", "潮汐"], "items": ITEMS}, f, ensure_ascii=False, indent=1)
+print("saved", len(ITEMS))
