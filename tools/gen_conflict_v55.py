@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+"""矛盾测试集 v55（7 经济/计算机概念·常识迁移 c6）"""
+import json, sys
+sys.stdout.reconfigure(encoding="utf-8")
+ITEMS = [
+    {"q": "为什么供大于求会降价？", "domain": "供需求", "stage": "正题",
+     "need": "货多卖不动", "conflict": "供需求 vs 价格机制"},
+    {"q": "为什么供不应求会涨价？", "domain": "供需求", "stage": "反题",
+     "need": "货少抢购", "conflict": "供需求 vs 价格机制"},
+    {"q": "价格是怎么定的？", "domain": "供需求", "stage": "合题",
+     "need": "供需平衡", "conflict": "供需求 vs 价格机制"},
+    {"q": "通货膨胀是什么？", "domain": "通货膨胀", "stage": "正题",
+     "need": "钱多物少", "conflict": "通货膨胀 vs 物价上涨"},
+    {"q": "为什么钱越来越不值钱？", "domain": "通货膨胀", "stage": "正题",
+     "need": "购买力下降", "conflict": "通货膨胀 vs 物价上涨"},
+    {"q": "怎么应对通货膨胀？", "domain": "通货膨胀", "stage": "合题",
+     "need": "理财保值", "conflict": "通货膨胀 vs 物价上涨"},
+    {"q": "什么是机会成本？", "domain": "机会成本", "stage": "正题",
+     "need": "放弃的最佳替代", "conflict": "机会成本 vs 沉没成本"},
+    {"q": "机会成本怎么算？", "domain": "机会成本", "stage": "正题",
+     "need": "找次优", "conflict": "机会成本 vs 沉没成本"},
+    {"q": "机会成本和沉没成本什么区别？", "domain": "机会成本", "stage": "反题",
+     "need": "向前vs向后", "conflict": "机会成本 vs 沉没成本"},
+    {"q": "二进制是什么？", "domain": "二进制", "stage": "正题",
+     "need": "只用0和1", "conflict": "二进制 vs 十进制"},
+    {"q": "为什么计算机用二进制？", "domain": "二进制", "stage": "反题",
+     "need": "电路开关", "conflict": "二进制 vs 十进制"},
+    {"q": "一个字节是什么？", "domain": "二进制", "stage": "合题",
+     "need": "8位", "conflict": "二进制 vs 十进制"},
+    {"q": "数据库是什么？", "domain": "数据库", "stage": "正题",
+     "need": "结构化存储", "conflict": "数据库 vs 文件存储"},
+    {"q": "怎么查数据库的数据？", "domain": "数据库", "stage": "合题",
+     "need": "SQL", "conflict": "数据库 vs 文件存储"},
+    {"q": "数据库和Excel什么区别？", "domain": "数据库", "stage": "反题",
+     "need": "共享大数据", "conflict": "数据库 vs 文件存储"},
+    {"q": "什么是递归？", "domain": "递归", "stage": "正题",
+     "need": "函数调用自己", "conflict": "递归 vs 循环"},
+    {"q": "递归为什么要终止条件？", "domain": "递归", "stage": "反题",
+     "need": "防死循环", "conflict": "递归 vs 循环"},
+    {"q": "递归和循环什么区别？", "domain": "递归", "stage": "合题",
+     "need": "简洁vs高效", "conflict": "递归 vs 循环"},
+    {"q": "什么是面向对象？", "domain": "面向对象", "stage": "正题",
+     "need": "数据+操作封装", "conflict": "面向对象 vs 面向过程"},
+    {"q": "类和对象什么关系？", "domain": "面向对象", "stage": "正题",
+     "need": "模板vs实例", "conflict": "面向对象 vs 面向过程"},
+    {"q": "面向对象和面向过程什么区别？", "domain": "面向对象", "stage": "反题",
+     "need": "对象vs步骤", "conflict": "面向对象 vs 面向过程"},
+]
+with open(r"D:\Program Files\2_ai\knowledge-base\conflict_testset_v55.json", "w", encoding="utf-8") as f:
+    json.dump({"name": "conflict_testset_v55", "conflicts": 7, "items": ITEMS}, f, ensure_ascii=False, indent=1)
+print("v55 testset:", len(ITEMS))
