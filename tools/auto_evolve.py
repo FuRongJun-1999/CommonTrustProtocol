@@ -110,11 +110,14 @@ def fp_test(theme, variants):
 
 # ================================================================ 补盲（提取+patch）
 PREFIX_NOISE = ("那道", "道彩", "为什", "什么", "怎么", "为什么", "天上", "天空",
-                "雨后", "喷泉", "下完", "谁在", "阳光", "时候", "为什么雨", "为什么会")
+                "雨后", "喷泉", "下完", "谁在", "阳光", "时候", "为什么雨", "为什么会",
+                "候", "时", "的时候")
 TAIL_NOISE = "的了？?。，、是为什么么能会下后上过中里就都也在"
-FUNC_CHARS = set("的了道能走下面去吗怎么为什过上下中里就都也在会来后挂有变出没看进到往")
+FUNC_CHARS = set("的了道能走下面去吗怎么为什过上下中里就都也在会来后挂有变出没看进到往候太时大")
 
 def clean(w):
+    # 去模板噪声「的时候」（条件延伸模板产物，非触发特征）
+    w = w.replace("的时候", "")
     for p in PREFIX_NOISE:
         if w.startswith(p):
             w = w[len(p):]
@@ -127,6 +130,9 @@ def solidity(w):
         return 0.0
     return sum(1 for ch in w if ch not in FUNC_CHARS) / len(w)
 
+# 2 字候选黑名单（曾污染路由的裸泛词，经验：彩色/电梯/犯困/激光）
+BLACKLIST_2CHAR = {"彩色", "电梯", "犯困", "激光", "天气", "颜色", "温度", "时间", "时候"}
+
 def extract_candidates(theme, misses, existing, all_other):
     cand = {}
     for v in misses:
@@ -135,7 +141,10 @@ def extract_candidates(theme, misses, existing, all_other):
         for L in range(6, 1, -1):
             for i in range(0, len(vc) - L + 1):
                 w = clean(vc[i:i + L])
-                if len(w) < 3 or w in seen or w in existing:
+                if len(w) < 2 or w in seen or w in existing:
+                    continue
+                # 分离条件空间：2 字裸泛词黑名单；≥3 字要求实词度
+                if len(w) == 2 and w in BLACKLIST_2CHAR:
                     continue
                 if solidity(w) < 0.7:
                     continue
