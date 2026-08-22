@@ -1,0 +1,678 @@
+{
+ "name": "conflict_testset_v2",
+ "conflicts": 14,
+ "items": [
+  {
+   "q": "为什么我总是一边想努力一边控制不住玩手机？",
+   "conflict_id": "self-lazy",
+   "domain": "家庭个体",
+   "stage": "正题",
+   "need": "想休息与娱乐（即时满足）",
+   "conflict": "需要自律完成目标（延迟满足）——本我vs超我"
+  },
+  {
+   "q": "为什么道理都懂就是做不到？",
+   "conflict_id": "self-lazy",
+   "domain": "家庭个体",
+   "stage": "正题",
+   "need": "想休息与娱乐（即时满足）",
+   "conflict": "需要自律完成目标（延迟满足）——本我vs超我"
+  },
+  {
+   "q": "是不是我就是没有毅力的人？",
+   "conflict_id": "self-lazy",
+   "domain": "家庭个体",
+   "stage": "反题",
+   "need": "想休息与娱乐（即时满足）",
+   "conflict": "需要自律完成目标（延迟满足）——本我vs超我"
+  },
+  {
+   "q": "别人都能自律，为什么我不行？",
+   "conflict_id": "self-lazy",
+   "domain": "家庭个体",
+   "stage": "反题",
+   "need": "想休息与娱乐（即时满足）",
+   "conflict": "需要自律完成目标（延迟满足）——本我vs超我"
+  },
+  {
+   "q": "怎么让自己真的行动起来而不是继续内耗？",
+   "conflict_id": "self-lazy",
+   "domain": "家庭个体",
+   "stage": "合题",
+   "need": "想休息与娱乐（即时满足）",
+   "conflict": "需要自律完成目标（延迟满足）——本我vs超我"
+  },
+  {
+   "q": "怎么和『想躺平』的自己和解？",
+   "conflict_id": "self-lazy",
+   "domain": "家庭个体",
+   "stage": "合题",
+   "need": "想休息与娱乐（即时满足）",
+   "conflict": "需要自律完成目标（延迟满足）——本我vs超我"
+  },
+  {
+   "q": "为什么理想和现实的差距这么大？",
+   "conflict_id": "self-ideal",
+   "domain": "家庭个体",
+   "stage": "正题",
+   "need": "实现理想/成为想成为的人",
+   "conflict": "现实条件（能力/金钱/年龄）限制理想"
+  },
+  {
+   "q": "感觉自己在虚度人生怎么办？",
+   "conflict_id": "self-ideal",
+   "domain": "家庭个体",
+   "stage": "正题",
+   "need": "实现理想/成为想成为的人",
+   "conflict": "现实条件（能力/金钱/年龄）限制理想"
+  },
+  {
+   "q": "是不是我注定就是个普通人？",
+   "conflict_id": "self-ideal",
+   "domain": "家庭个体",
+   "stage": "反题",
+   "need": "实现理想/成为想成为的人",
+   "conflict": "现实条件（能力/金钱/年龄）限制理想"
+  },
+  {
+   "q": "现在努力还来得及吗？",
+   "conflict_id": "self-ideal",
+   "domain": "家庭个体",
+   "stage": "反题",
+   "need": "实现理想/成为想成为的人",
+   "conflict": "现实条件（能力/金钱/年龄）限制理想"
+  },
+  {
+   "q": "怎么找到自己真正想要的生活？",
+   "conflict_id": "self-ideal",
+   "domain": "家庭个体",
+   "stage": "合题",
+   "need": "实现理想/成为想成为的人",
+   "conflict": "现实条件（能力/金钱/年龄）限制理想"
+  },
+  {
+   "q": "怎么在普通里过出意义感？",
+   "conflict_id": "self-ideal",
+   "domain": "家庭个体",
+   "stage": "合题",
+   "need": "实现理想/成为想成为的人",
+   "conflict": "现实条件（能力/金钱/年龄）限制理想"
+  },
+  {
+   "q": "为什么结婚后天天为家务吵架？",
+   "conflict_id": "fam-couple",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "夫妻需要理解与分担",
+   "conflict": "家务/育儿/经济压力分配不均 → 怨气积累"
+  },
+  {
+   "q": "为什么总是我付出多对方看不见？",
+   "conflict_id": "fam-couple",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "夫妻需要理解与分担",
+   "conflict": "家务/育儿/经济压力分配不均 → 怨气积累"
+  },
+  {
+   "q": "是不是我要求太高了？",
+   "conflict_id": "fam-couple",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "夫妻需要理解与分担",
+   "conflict": "家务/育儿/经济压力分配不均 → 怨气积累"
+  },
+  {
+   "q": "离婚是不是比凑合过更好？",
+   "conflict_id": "fam-couple",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "夫妻需要理解与分担",
+   "conflict": "家务/育儿/经济压力分配不均 → 怨气积累"
+  },
+  {
+   "q": "怎么和伴侣分工不伤感情？",
+   "conflict_id": "fam-couple",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "夫妻需要理解与分担",
+   "conflict": "家务/育儿/经济压力分配不均 → 怨气积累"
+  },
+  {
+   "q": "怎么在婚姻里保持新鲜感？",
+   "conflict_id": "fam-couple",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "夫妻需要理解与分担",
+   "conflict": "家务/育儿/经济压力分配不均 → 怨气积累"
+  },
+  {
+   "q": "为什么父母总催婚催生？",
+   "conflict_id": "fam-gener",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "年轻人要自主+老人要被尊重",
+   "conflict": "代际观念冲突（催婚/生育/养老/消费观）"
+  },
+  {
+   "q": "为什么老人总觉得我们乱花钱？",
+   "conflict_id": "fam-gener",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "年轻人要自主+老人要被尊重",
+   "conflict": "代际观念冲突（催婚/生育/养老/消费观）"
+  },
+  {
+   "q": "不听老人的是不是不孝？",
+   "conflict_id": "fam-gener",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "年轻人要自主+老人要被尊重",
+   "conflict": "代际观念冲突（催婚/生育/养老/消费观）"
+  },
+  {
+   "q": "让老人带孩子是不是一定会起冲突？",
+   "conflict_id": "fam-gener",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "年轻人要自主+老人要被尊重",
+   "conflict": "代际观念冲突（催婚/生育/养老/消费观）"
+  },
+  {
+   "q": "怎么和父母住一起不吵架？",
+   "conflict_id": "fam-gener",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "年轻人要自主+老人要被尊重",
+   "conflict": "代际观念冲突（催婚/生育/养老/消费观）"
+  },
+  {
+   "q": "怎么在孝顺和做自己之间平衡？",
+   "conflict_id": "fam-gener",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "年轻人要自主+老人要被尊重",
+   "conflict": "代际观念冲突（催婚/生育/养老/消费观）"
+  },
+  {
+   "q": "为什么现在的教育都只看分数？",
+   "conflict_id": "edu-score",
+   "domain": "教育制度",
+   "stage": "正题",
+   "need": "全面发展（兴趣/健康/创造力）",
+   "conflict": "应试以分数为唯一筛选标准"
+  },
+  {
+   "q": "为什么素质教育喊了这么多年还是应试？",
+   "conflict_id": "edu-score",
+   "domain": "教育制度",
+   "stage": "正题",
+   "need": "全面发展（兴趣/健康/创造力）",
+   "conflict": "应试以分数为唯一筛选标准"
+  },
+  {
+   "q": "没有高考分数，穷人怎么出头？",
+   "conflict_id": "edu-score",
+   "domain": "教育制度",
+   "stage": "反题",
+   "need": "全面发展（兴趣/健康/创造力）",
+   "conflict": "应试以分数为唯一筛选标准"
+  },
+  {
+   "q": "分数公平是不是已经是最公平的了？",
+   "conflict_id": "edu-score",
+   "domain": "教育制度",
+   "stage": "反题",
+   "need": "全面发展（兴趣/健康/创造力）",
+   "conflict": "应试以分数为唯一筛选标准"
+  },
+  {
+   "q": "怎么在应试体系里保护好孩子的兴趣？",
+   "conflict_id": "edu-score",
+   "domain": "教育制度",
+   "stage": "合题",
+   "need": "全面发展（兴趣/健康/创造力）",
+   "conflict": "应试以分数为唯一筛选标准"
+  },
+  {
+   "q": "教育的本质到底是什么？",
+   "conflict_id": "edu-score",
+   "domain": "教育制度",
+   "stage": "合题",
+   "need": "全面发展（兴趣/健康/创造力）",
+   "conflict": "应试以分数为唯一筛选标准"
+  },
+  {
+   "q": "为什么城里的学校越来越好，农村的越来越差？",
+   "conflict_id": "edu-resource",
+   "domain": "教育制度",
+   "stage": "正题",
+   "need": "每个孩子都得到好教育",
+   "conflict": "教育资源向城市/名校集中，农村/薄弱校被稀释"
+  },
+  {
+   "q": "为什么学区房这么贵？",
+   "conflict_id": "edu-resource",
+   "domain": "教育制度",
+   "stage": "正题",
+   "need": "每个孩子都得到好教育",
+   "conflict": "教育资源向城市/名校集中，农村/薄弱校被稀释"
+  },
+  {
+   "q": "教育资源不集中，怎么培养顶尖人才？",
+   "conflict_id": "edu-resource",
+   "domain": "教育制度",
+   "stage": "反题",
+   "need": "每个孩子都得到好教育",
+   "conflict": "教育资源向城市/名校集中，农村/薄弱校被稀释"
+  },
+  {
+   "q": "名校靠掐尖，掐走的是不是农村的希望？",
+   "conflict_id": "edu-resource",
+   "domain": "教育制度",
+   "stage": "反题",
+   "need": "每个孩子都得到好教育",
+   "conflict": "教育资源向城市/名校集中，农村/薄弱校被稀释"
+  },
+  {
+   "q": "怎么让教育资源更公平？",
+   "conflict_id": "edu-resource",
+   "domain": "教育制度",
+   "stage": "合题",
+   "need": "每个孩子都得到好教育",
+   "conflict": "教育资源向城市/名校集中，农村/薄弱校被稀释"
+  },
+  {
+   "q": "普通家庭的孩子怎么不输在起跑线？",
+   "conflict_id": "edu-resource",
+   "domain": "教育制度",
+   "stage": "合题",
+   "need": "每个孩子都得到好教育",
+   "conflict": "教育资源向城市/名校集中，农村/薄弱校被稀释"
+  },
+  {
+   "q": "为什么老师不容许学生质疑？",
+   "conflict_id": "teach-authority",
+   "domain": "师生",
+   "stage": "正题",
+   "need": "学生需要被尊重+老师需要权威",
+   "conflict": "老师权威（我说了算）vs 学生质疑（凭什么）"
+  },
+  {
+   "q": "为什么老师总用成绩压人？",
+   "conflict_id": "teach-authority",
+   "domain": "师生",
+   "stage": "正题",
+   "need": "学生需要被尊重+老师需要权威",
+   "conflict": "老师权威（我说了算）vs 学生质疑（凭什么）"
+  },
+  {
+   "q": "学生都敢顶嘴，课还怎么上？",
+   "conflict_id": "teach-authority",
+   "domain": "师生",
+   "stage": "反题",
+   "need": "学生需要被尊重+老师需要权威",
+   "conflict": "老师权威（我说了算）vs 学生质疑（凭什么）"
+  },
+  {
+   "q": "老师是不是也有老师的苦衷？",
+   "conflict_id": "teach-authority",
+   "domain": "师生",
+   "stage": "反题",
+   "need": "学生需要被尊重+老师需要权威",
+   "conflict": "老师权威（我说了算）vs 学生质疑（凭什么）"
+  },
+  {
+   "q": "怎么和老师有效沟通不被讨厌？",
+   "conflict_id": "teach-authority",
+   "domain": "师生",
+   "stage": "合题",
+   "need": "学生需要被尊重+老师需要权威",
+   "conflict": "老师权威（我说了算）vs 学生质疑（凭什么）"
+  },
+  {
+   "q": "老师怎么既权威又让学生敢提问？",
+   "conflict_id": "teach-authority",
+   "domain": "师生",
+   "stage": "合题",
+   "need": "学生需要被尊重+老师需要权威",
+   "conflict": "老师权威（我说了算）vs 学生质疑（凭什么）"
+  },
+  {
+   "q": "为什么老师总是偏心成绩好的？",
+   "conflict_id": "teach-fair",
+   "domain": "师生",
+   "stage": "正题",
+   "need": "每个学生被公平对待",
+   "conflict": "老师偏爱成绩好的/听话的学生"
+  },
+  {
+   "q": "为什么差生总被放弃？",
+   "conflict_id": "teach-fair",
+   "domain": "师生",
+   "stage": "正题",
+   "need": "每个学生被公平对待",
+   "conflict": "老师偏爱成绩好的/听话的学生"
+  },
+  {
+   "q": "成绩好的学生更努力，偏心是不是有道理？",
+   "conflict_id": "teach-fair",
+   "domain": "师生",
+   "stage": "反题",
+   "need": "每个学生被公平对待",
+   "conflict": "老师偏爱成绩好的/听话的学生"
+  },
+  {
+   "q": "老师也是人，能要求完全公平吗？",
+   "conflict_id": "teach-fair",
+   "domain": "师生",
+   "stage": "反题",
+   "need": "每个学生被公平对待",
+   "conflict": "老师偏爱成绩好的/听话的学生"
+  },
+  {
+   "q": "差生怎么让老师刮目相看？",
+   "conflict_id": "teach-fair",
+   "domain": "师生",
+   "stage": "合题",
+   "need": "每个学生被公平对待",
+   "conflict": "老师偏爱成绩好的/听话的学生"
+  },
+  {
+   "q": "老师怎么做到不放弃每个学生？",
+   "conflict_id": "teach-fair",
+   "domain": "师生",
+   "stage": "合题",
+   "need": "每个学生被公平对待",
+   "conflict": "老师偏爱成绩好的/听话的学生"
+  },
+  {
+   "q": "为什么干活最多的人工资不是最高？",
+   "conflict_id": "work-pay",
+   "domain": "企业员工",
+   "stage": "正题",
+   "need": "付出有回报（薪酬/晋升/尊重）",
+   "conflict": "企业要利润最大化（压低成本）vs 员工要价值认可"
+  },
+  {
+   "q": "为什么涨工资永远轮不到我？",
+   "conflict_id": "work-pay",
+   "domain": "企业员工",
+   "stage": "正题",
+   "need": "付出有回报（薪酬/晋升/尊重）",
+   "conflict": "企业要利润最大化（压低成本）vs 员工要价值认可"
+  },
+  {
+   "q": "老板要控制成本，是不是也合理？",
+   "conflict_id": "work-pay",
+   "domain": "企业员工",
+   "stage": "反题",
+   "need": "付出有回报（薪酬/晋升/尊重）",
+   "conflict": "企业要利润最大化（压低成本）vs 员工要价值认可"
+  },
+  {
+   "q": "能力不行还想要高薪，是不是贪心？",
+   "conflict_id": "work-pay",
+   "domain": "企业员工",
+   "stage": "反题",
+   "need": "付出有回报（薪酬/晋升/尊重）",
+   "conflict": "企业要利润最大化（压低成本）vs 员工要价值认可"
+  },
+  {
+   "q": "怎么谈涨薪才不尴尬？",
+   "conflict_id": "work-pay",
+   "domain": "企业员工",
+   "stage": "合题",
+   "need": "付出有回报（薪酬/晋升/尊重）",
+   "conflict": "企业要利润最大化（压低成本）vs 员工要价值认可"
+  },
+  {
+   "q": "怎么让老板看到我的价值？",
+   "conflict_id": "work-pay",
+   "domain": "企业员工",
+   "stage": "合题",
+   "need": "付出有回报（薪酬/晋升/尊重）",
+   "conflict": "企业要利润最大化（压低成本）vs 员工要价值认可"
+  },
+  {
+   "q": "为什么在公司干十年不如跳槽涨得快？",
+   "conflict_id": "work-loyalty",
+   "domain": "企业员工",
+   "stage": "正题",
+   "need": "职业发展（成长/稳定）",
+   "conflict": "忠诚于公司 vs 跳槽换发展"
+  },
+  {
+   "q": "年轻人为什么总想跳槽？",
+   "conflict_id": "work-loyalty",
+   "domain": "企业员工",
+   "stage": "正题",
+   "need": "职业发展（成长/稳定）",
+   "conflict": "忠诚于公司 vs 跳槽换发展"
+  },
+  {
+   "q": "频繁跳槽是不是简历就花了？",
+   "conflict_id": "work-loyalty",
+   "domain": "企业员工",
+   "stage": "反题",
+   "need": "职业发展（成长/稳定）",
+   "conflict": "忠诚于公司 vs 跳槽换发展"
+  },
+  {
+   "q": "公司培养我，走了是不是忘恩负义？",
+   "conflict_id": "work-loyalty",
+   "domain": "企业员工",
+   "stage": "反题",
+   "need": "职业发展（成长/稳定）",
+   "conflict": "忠诚于公司 vs 跳槽换发展"
+  },
+  {
+   "q": "怎么判断该不该跳槽？",
+   "conflict_id": "work-loyalty",
+   "domain": "企业员工",
+   "stage": "合题",
+   "need": "职业发展（成长/稳定）",
+   "conflict": "忠诚于公司 vs 跳槽换发展"
+  },
+  {
+   "q": "怎么在公司里持续成长不被淘汰？",
+   "conflict_id": "work-loyalty",
+   "domain": "企业员工",
+   "stage": "合题",
+   "need": "职业发展（成长/稳定）",
+   "conflict": "忠诚于公司 vs 跳槽换发展"
+  },
+  {
+   "q": "为什么监管总是跟不上创新？",
+   "conflict_id": "gov-reg",
+   "domain": "政企",
+   "stage": "正题",
+   "need": "企业要创新空间（快/灵活）",
+   "conflict": "政府要监管（安全/合规/秩序）"
+  },
+  {
+   "q": "为什么一个行业一火就被管？",
+   "conflict_id": "gov-reg",
+   "domain": "政企",
+   "stage": "正题",
+   "need": "企业要创新空间（快/灵活）",
+   "conflict": "政府要监管（安全/合规/秩序）"
+  },
+  {
+   "q": "不管的话，平台垄断/数据滥用怎么办？",
+   "conflict_id": "gov-reg",
+   "domain": "政企",
+   "stage": "反题",
+   "need": "企业要创新空间（快/灵活）",
+   "conflict": "政府要监管（安全/合规/秩序）"
+  },
+  {
+   "q": "创新和安全是不是天然冲突？",
+   "conflict_id": "gov-reg",
+   "domain": "政企",
+   "stage": "反题",
+   "need": "企业要创新空间（快/灵活）",
+   "conflict": "政府要监管（安全/合规/秩序）"
+  },
+  {
+   "q": "怎么在监管和创新之间找到平衡？",
+   "conflict_id": "gov-reg",
+   "domain": "政企",
+   "stage": "合题",
+   "need": "企业要创新空间（快/灵活）",
+   "conflict": "政府要监管（安全/合规/秩序）"
+  },
+  {
+   "q": "为什么中国能同时有强监管和互联网巨头？",
+   "conflict_id": "gov-reg",
+   "domain": "政企",
+   "stage": "合题",
+   "need": "企业要创新空间（快/灵活）",
+   "conflict": "政府要监管（安全/合规/秩序）"
+  },
+  {
+   "q": "为什么政府总补贴某些行业？",
+   "conflict_id": "gov-subsidy",
+   "domain": "政企",
+   "stage": "正题",
+   "need": "企业要公平竞争（扶持vs市场）",
+   "conflict": "政府补贴扶持有偏（产业政策）vs 市场公平"
+  },
+  {
+   "q": "补贴是不是破坏了公平竞争？",
+   "conflict_id": "gov-subsidy",
+   "domain": "政企",
+   "stage": "正题",
+   "need": "企业要公平竞争（扶持vs市场）",
+   "conflict": "政府补贴扶持有偏（产业政策）vs 市场公平"
+  },
+  {
+   "q": "没有补贴，新能源/芯片怎么起来？",
+   "conflict_id": "gov-subsidy",
+   "domain": "政企",
+   "stage": "反题",
+   "need": "企业要公平竞争（扶持vs市场）",
+   "conflict": "政府补贴扶持有偏（产业政策）vs 市场公平"
+  },
+  {
+   "q": "发达国家是不是也补贴？",
+   "conflict_id": "gov-subsidy",
+   "domain": "政企",
+   "stage": "反题",
+   "need": "企业要公平竞争（扶持vs市场）",
+   "conflict": "政府补贴扶持有偏（产业政策）vs 市场公平"
+  },
+  {
+   "q": "怎么判断补贴是雪中送炭还是拔苗助长？",
+   "conflict_id": "gov-subsidy",
+   "domain": "政企",
+   "stage": "合题",
+   "need": "企业要公平竞争（扶持vs市场）",
+   "conflict": "政府补贴扶持有偏（产业政策）vs 市场公平"
+  },
+  {
+   "q": "产业政策和市场竞争怎么配合？",
+   "conflict_id": "gov-subsidy",
+   "domain": "政企",
+   "stage": "合题",
+   "need": "企业要公平竞争（扶持vs市场）",
+   "conflict": "政府补贴扶持有偏（产业政策）vs 市场公平"
+  },
+  {
+   "q": "为什么美国要封锁中国芯片？",
+   "conflict_id": "intl-tech",
+   "domain": "国家之间",
+   "stage": "正题",
+   "need": "各国要技术自主（安全/发展）",
+   "conflict": "技术领先国封锁 vs 追赶国自主突破"
+  },
+  {
+   "q": "为什么中国非要自己搞芯片？",
+   "conflict_id": "intl-tech",
+   "domain": "国家之间",
+   "stage": "正题",
+   "need": "各国要技术自主（安全/发展）",
+   "conflict": "技术领先国封锁 vs 追赶国自主突破"
+  },
+  {
+   "q": "封锁是不是也倒逼了中国自主创新？",
+   "conflict_id": "intl-tech",
+   "domain": "国家之间",
+   "stage": "反题",
+   "need": "各国要技术自主（安全/发展）",
+   "conflict": "技术领先国封锁 vs 追赶国自主突破"
+  },
+  {
+   "q": "全球化分工下各自擅长不是更好吗？",
+   "conflict_id": "intl-tech",
+   "domain": "国家之间",
+   "stage": "反题",
+   "need": "各国要技术自主（安全/发展）",
+   "conflict": "技术领先国封锁 vs 追赶国自主突破"
+  },
+  {
+   "q": "技术脱钩会走向哪里？",
+   "conflict_id": "intl-tech",
+   "domain": "国家之间",
+   "stage": "合题",
+   "need": "各国要技术自主（安全/发展）",
+   "conflict": "技术领先国封锁 vs 追赶国自主突破"
+  },
+  {
+   "q": "怎么在封锁下实现技术突围？",
+   "conflict_id": "intl-tech",
+   "domain": "国家之间",
+   "stage": "合题",
+   "need": "各国要技术自主（安全/发展）",
+   "conflict": "技术领先国封锁 vs 追赶国自主突破"
+  },
+  {
+   "q": "为什么会有贸易战？",
+   "conflict_id": "intl-trade",
+   "domain": "国家之间",
+   "stage": "正题",
+   "need": "各国要贸易利益（市场/就业）",
+   "conflict": "贸易逆差/产业竞争 → 关税战/贸易摩擦"
+  },
+  {
+   "q": "为什么国家之间不能好好做生意？",
+   "conflict_id": "intl-trade",
+   "domain": "国家之间",
+   "stage": "正题",
+   "need": "各国要贸易利益（市场/就业）",
+   "conflict": "贸易逆差/产业竞争 → 关税战/贸易摩擦"
+  },
+  {
+   "q": "逆差是不是就是吃亏？",
+   "conflict_id": "intl-trade",
+   "domain": "国家之间",
+   "stage": "反题",
+   "need": "各国要贸易利益（市场/就业）",
+   "conflict": "贸易逆差/产业竞争 → 关税战/贸易摩擦"
+  },
+  {
+   "q": "关税是不是最后都转嫁给消费者？",
+   "conflict_id": "intl-trade",
+   "domain": "国家之间",
+   "stage": "反题",
+   "need": "各国要贸易利益（市场/就业）",
+   "conflict": "贸易逆差/产业竞争 → 关税战/贸易摩擦"
+  },
+  {
+   "q": "贸易摩擦会怎么收场？",
+   "conflict_id": "intl-trade",
+   "domain": "国家之间",
+   "stage": "合题",
+   "need": "各国要贸易利益（市场/就业）",
+   "conflict": "贸易逆差/产业竞争 → 关税战/贸易摩擦"
+  },
+  {
+   "q": "全球化是不是在倒退？",
+   "conflict_id": "intl-trade",
+   "domain": "国家之间",
+   "stage": "合题",
+   "need": "各国要贸易利益（市场/就业）",
+   "conflict": "贸易逆差/产业竞争 → 关税战/贸易摩擦"
+  }
+ ]
+}

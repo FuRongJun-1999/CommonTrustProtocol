@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么孩子老生病？",
+   "conflict_id": "health-medicine",
+   "domain": "儿童医疗",
+   "stage": "正题",
+   "need": "孩子健康",
+   "conflict": "喂药难/抗生素滥用 vs 科学用药",
+   "linked": [
+    "medical-cost",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "早睡早起，多运动，好好吃饭，讲卫生，身体就会健康。生病了要看医生。锻炼身体会让我们更强壮。这个可以看「健康生活」（这条知识属于小学科学知识点内容（按骨架填充），在E1条件下成立）相关的还有：微生物学/植物学/动物学知识点"
+  },
+  {
+   "q": "抗生素为什么不能乱吃？",
+   "conflict_id": "health-medicine",
+   "domain": "儿童医疗",
+   "stage": "正题",
+   "need": "孩子健康",
+   "conflict": "喂药难/抗生素滥用 vs 科学用药",
+   "linked": [
+    "medical-cost",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子老生病、抗生素为什么不能乱吃，是『家长的心急』vs『用药的科学』的矛盾——孩子生病（发烧/咳嗽/感冒），家长急（想快点好），医生的药见效慢（病毒感冒要一周），家长就自己加药/换药/喂抗生素（觉得消炎=抗生素），结果抗"
+  },
+  {
+   "q": "孩子病了不吃药，扛着行吗？",
+   "conflict_id": "health-medicine",
+   "domain": "儿童医疗",
+   "stage": "反题",
+   "need": "孩子健康",
+   "conflict": "喂药难/抗生素滥用 vs 科学用药",
+   "linked": [
+    "medical-cost",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子老生病、抗生素为什么不能乱吃，是『家长的心急』vs『用药的科学』的矛盾——孩子生病（发烧/咳嗽/感冒），家长急（想快点好），医生的药见效慢（病毒感冒要一周），家长就自己加药/换药/喂抗生素（觉得消炎=抗生素），结果抗"
+  },
+  {
+   "q": "喂药难，灌下去不行吗？",
+   "conflict_id": "health-medicine",
+   "domain": "儿童医疗",
+   "stage": "反题",
+   "need": "孩子健康",
+   "conflict": "喂药难/抗生素滥用 vs 科学用药",
+   "linked": [
+    "medical-cost",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子老生病、抗生素为什么不能乱吃，是『家长的心急』vs『用药的科学』的矛盾——孩子生病（发烧/咳嗽/感冒），家长急（想快点好），医生的药见效慢（病毒感冒要一周），家长就自己加药/换药/喂抗生素（觉得消炎=抗生素），结果抗"
+  },
+  {
+   "q": "孩子生病怎么科学用药？",
+   "conflict_id": "health-medicine",
+   "domain": "儿童医疗",
+   "stage": "合题",
+   "need": "孩子健康",
+   "conflict": "喂药难/抗生素滥用 vs 科学用药",
+   "linked": [
+    "medical-cost",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子老生病、抗生素为什么不能乱吃，是『家长的心急』vs『用药的科学』的矛盾——孩子生病（发烧/咳嗽/感冒），家长急（想快点好），医生的药见效慢（病毒感冒要一周），家长就自己加药/换药/喂抗生素（觉得消炎=抗生素），结果抗"
+  },
+  {
+   "q": "喂药难怎么破？",
+   "conflict_id": "health-medicine",
+   "domain": "儿童医疗",
+   "stage": "合题",
+   "need": "孩子健康",
+   "conflict": "喂药难/抗生素滥用 vs 科学用药",
+   "linked": [
+    "medical-cost",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子老生病、抗生素为什么不能乱吃，是『家长的心急』vs『用药的科学』的矛盾——孩子生病（发烧/咳嗽/感冒），家长急（想快点好），医生的药见效慢（病毒感冒要一周），家长就自己加药/换药/喂抗生素（觉得消炎=抗生素），结果抗"
+  },
+  {
+   "q": "为什么养老院一床难求？",
+   "conflict_id": "med-eldercare",
+   "domain": "养老医疗",
+   "stage": "正题",
+   "need": "养老有医靠",
+   "conflict": "养老院医疗 vs 养老",
+   "linked": [
+    "fam-eldercare",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "养老院一床难求、养老院能看病吗，是『养老的需求』vs『医疗的配套』的矛盾——老人老了（生活自理难+慢性病多：高血压/糖尿病/心脑血管），养老需要『养+医』一体（光管吃住不行，病了要有医），但传统养老院只管养老（病了送医院"
+  },
+  {
+   "q": "养老院能看病吗？",
+   "conflict_id": "med-eldercare",
+   "domain": "养老医疗",
+   "stage": "正题",
+   "need": "养老有医靠",
+   "conflict": "养老院医疗 vs 养老",
+   "linked": [
+    "fam-eldercare",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "养老院一床难求、养老院能看病吗，是『养老的需求』vs『医疗的配套』的矛盾——老人老了（生活自理难+慢性病多：高血压/糖尿病/心脑血管），养老需要『养+医』一体（光管吃住不行，病了要有医），但传统养老院只管养老（病了送医院"
+  },
+  {
+   "q": "养老院管养老就行，看病去医院？",
+   "conflict_id": "med-eldercare",
+   "domain": "养老医疗",
+   "stage": "反题",
+   "need": "养老有医靠",
+   "conflict": "养老院医疗 vs 养老",
+   "linked": [
+    "fam-eldercare",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "养老院一床难求、养老院能看病吗，是『养老的需求』vs『医疗的配套』的矛盾——老人老了（生活自理难+慢性病多：高血压/糖尿病/心脑血管），养老需要『养+医』一体（光管吃住不行，病了要有医），但传统养老院只管养老（病了送医院"
+  },
+  {
+   "q": "医养结合，钱谁出？",
+   "conflict_id": "med-eldercare",
+   "domain": "养老医疗",
+   "stage": "反题",
+   "need": "养老有医靠",
+   "conflict": "养老院医疗 vs 养老",
+   "linked": [
+    "fam-eldercare",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "养老院一床难求、养老院能看病吗，是『养老的需求』vs『医疗的配套』的矛盾——老人老了（生活自理难+慢性病多：高血压/糖尿病/心脑血管），养老需要『养+医』一体（光管吃住不行，病了要有医），但传统养老院只管养老（病了送医院"
+  },
+  {
+   "q": "老人养老医疗怎么保障？",
+   "conflict_id": "med-eldercare",
+   "domain": "养老医疗",
+   "stage": "合题",
+   "need": "养老有医靠",
+   "conflict": "养老院医疗 vs 养老",
+   "linked": [
+    "fam-eldercare",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "养老院一床难求、养老院能看病吗，是『养老的需求』vs『医疗的配套』的矛盾——老人老了（生活自理难+慢性病多：高血压/糖尿病/心脑血管），养老需要『养+医』一体（光管吃住不行，病了要有医），但传统养老院只管养老（病了送医院"
+  },
+  {
+   "q": "医养结合怎么做？",
+   "conflict_id": "med-eldercare",
+   "domain": "养老医疗",
+   "stage": "合题",
+   "need": "养老有医靠",
+   "conflict": "养老院医疗 vs 养老",
+   "linked": [
+    "fam-eldercare",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "养老院一床难求、养老院能看病吗，是『养老的需求』vs『医疗的配套』的矛盾——老人老了（生活自理难+慢性病多：高血压/糖尿病/心脑血管），养老需要『养+医』一体（光管吃住不行，病了要有医），但传统养老院只管养老（病了送医院"
+  },
+  {
+   "q": "为什么付费自习室这么火？",
+   "conflict_id": "edu-studyroom",
+   "domain": "学习空间",
+   "stage": "正题",
+   "need": "学得进去",
+   "conflict": "付费自习室 vs 免费图书馆/在家",
+   "linked": [
+    "city-library",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "付费自习室这么火、在家学不进去，是『学习的环境』vs『免费的诱惑』的矛盾——付费自习室（20-60元/天，沉浸式座位/独立隔间/安静氛围）火了（考研/考公/备考党聚集），因为『在家学不进去』（床/手机/家人，诱惑太多）—"
+  },
+  {
+   "q": "在家学不进去，去自习室有用吗？",
+   "conflict_id": "edu-studyroom",
+   "domain": "学习空间",
+   "stage": "正题",
+   "need": "学得进去",
+   "conflict": "付费自习室 vs 免费图书馆/在家",
+   "linked": [
+    "city-library",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "付费自习室这么火、在家学不进去，是『学习的环境』vs『免费的诱惑』的矛盾——付费自习室（20-60元/天，沉浸式座位/独立隔间/安静氛围）火了（考研/考公/备考党聚集），因为『在家学不进去』（床/手机/家人，诱惑太多）—"
+  },
+  {
+   "q": "自习还要花钱，值吗？",
+   "conflict_id": "edu-studyroom",
+   "domain": "学习空间",
+   "stage": "反题",
+   "need": "学得进去",
+   "conflict": "付费自习室 vs 免费图书馆/在家",
+   "linked": [
+    "city-library",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "付费自习室这么火、在家学不进去，是『学习的环境』vs『免费的诱惑』的矛盾——付费自习室（20-60元/天，沉浸式座位/独立隔间/安静氛围）火了（考研/考公/备考党聚集），因为『在家学不进去』（床/手机/家人，诱惑太多）—"
+  },
+  {
+   "q": "免费图书馆不够用吗？",
+   "conflict_id": "edu-studyroom",
+   "domain": "学习空间",
+   "stage": "反题",
+   "need": "学得进去",
+   "conflict": "付费自习室 vs 免费图书馆/在家",
+   "linked": [
+    "city-library",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "图书馆总有人占座、占座的人理直气壮，是『备考的需求』vs『座位的公平』的矛盾——图书馆座位是公共资源（有限），备考人群需要稳定座位（考研/考公/期末，一坐一天），『占座』（书一放/包一放，人走了）让资源闲置（占了不用，别"
+  },
+  {
+   "q": "自习室和图书馆怎么选？",
+   "conflict_id": "edu-studyroom",
+   "domain": "学习空间",
+   "stage": "合题",
+   "need": "学得进去",
+   "conflict": "付费自习室 vs 免费图书馆/在家",
+   "linked": [
+    "city-library",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "图书馆总有人占座、占座的人理直气壮，是『备考的需求』vs『座位的公平』的矛盾——图书馆座位是公共资源（有限），备考人群需要稳定座位（考研/考公/期末，一坐一天），『占座』（书一放/包一放，人走了）让资源闲置（占了不用，别"
+  },
+  {
+   "q": "怎么高效自习？",
+   "conflict_id": "edu-studyroom",
+   "domain": "学习空间",
+   "stage": "合题",
+   "need": "学得进去",
+   "conflict": "付费自习室 vs 免费图书馆/在家",
+   "linked": [
+    "city-library",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "付费自习室这么火、在家学不进去，是『学习的环境』vs『免费的诱惑』的矛盾——付费自习室（20-60元/天，沉浸式座位/独立隔间/安静氛围）火了（考研/考公/备考党聚集），因为『在家学不进去』（床/手机/家人，诱惑太多）—"
+  },
+  {
+   "q": "为什么家长要给老师送礼？",
+   "conflict_id": "teach-gift",
+   "domain": "师生伦理",
+   "stage": "正题",
+   "need": "教育公平",
+   "conflict": "教师收礼 vs 教育公平",
+   "linked": [
+    "teach-fair",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长给老师送礼、老师收礼是常态吗，是『家长的焦虑』vs『教育的公平』的矛盾——家长送礼（想让老师多关照孩子：座位/提问/表扬，『礼多人不怪』的焦虑）、老师收礼（觉得是尊重/盛情难却/潜规则），但收礼的代价：教育公平受损（"
+  },
+  {
+   "q": "老师收礼是常态吗？",
+   "conflict_id": "teach-gift",
+   "domain": "师生伦理",
+   "stage": "正题",
+   "need": "教育公平",
+   "conflict": "教师收礼 vs 教育公平",
+   "linked": [
+    "teach-fair",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长给老师送礼、老师收礼是常态吗，是『家长的焦虑』vs『教育的公平』的矛盾——家长送礼（想让老师多关照孩子：座位/提问/表扬，『礼多人不怪』的焦虑）、老师收礼（觉得是尊重/盛情难却/潜规则），但收礼的代价：教育公平受损（"
+  },
+  {
+   "q": "送礼是感谢老师，有错吗？",
+   "conflict_id": "teach-gift",
+   "domain": "师生伦理",
+   "stage": "反题",
+   "need": "教育公平",
+   "conflict": "教师收礼 vs 教育公平",
+   "linked": [
+    "teach-fair",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长给老师送礼、老师收礼是常态吗，是『家长的焦虑』vs『教育的公平』的矛盾——家长送礼（想让老师多关照孩子：座位/提问/表扬，『礼多人不怪』的焦虑）、老师收礼（觉得是尊重/盛情难却/潜规则），但收礼的代价：教育公平受损（"
+  },
+  {
+   "q": "老师辛苦，收点礼怎么了？",
+   "conflict_id": "teach-gift",
+   "domain": "师生伦理",
+   "stage": "反题",
+   "need": "教育公平",
+   "conflict": "教师收礼 vs 教育公平",
+   "linked": [
+    "teach-fair",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长给老师送礼、老师收礼是常态吗，是『家长的焦虑』vs『教育的公平』的矛盾——家长送礼（想让老师多关照孩子：座位/提问/表扬，『礼多人不怪』的焦虑）、老师收礼（觉得是尊重/盛情难却/潜规则），但收礼的代价：教育公平受损（"
+  },
+  {
+   "q": "怎么感谢老师不送礼？",
+   "conflict_id": "teach-gift",
+   "domain": "师生伦理",
+   "stage": "合题",
+   "need": "教育公平",
+   "conflict": "教师收礼 vs 教育公平",
+   "linked": [
+    "teach-fair",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长给老师送礼、老师收礼是常态吗，是『家长的焦虑』vs『教育的公平』的矛盾——家长送礼（想让老师多关照孩子：座位/提问/表扬，『礼多人不怪』的焦虑）、老师收礼（觉得是尊重/盛情难却/潜规则），但收礼的代价：教育公平受损（"
+  },
+  {
+   "q": "教师收礼怎么管？",
+   "conflict_id": "teach-gift",
+   "domain": "师生伦理",
+   "stage": "合题",
+   "need": "教育公平",
+   "conflict": "教师收礼 vs 教育公平",
+   "linked": [
+    "teach-fair",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长给老师送礼、老师收礼是常态吗，是『家长的焦虑』vs『教育的公平』的矛盾——家长送礼（想让老师多关照孩子：座位/提问/表扬，『礼多人不怪』的焦虑）、老师收礼（觉得是尊重/盛情难却/潜规则），但收礼的代价：教育公平受损（"
+  },
+  {
+   "q": "为什么银行网点越来越少？",
+   "conflict_id": "fin-branch",
+   "domain": "金融服务",
+   "stage": "正题",
+   "need": "老人也能办业务",
+   "conflict": "网点减少 vs 老人办事",
+   "linked": [
+    "age-digital",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行网点越来越少、老人怎么办，是『银行的效率』vs『老人的便利』的矛盾——银行转型线上（手机银行/APP/数字支付，网点运营成本高（租金/人工/安全设施），关网点降成本是趋势）、老人不适应（不会用手机银行/看不清屏幕/怕"
+  },
+  {
+   "q": "银行都在手机上，网点有必要吗？",
+   "conflict_id": "fin-branch",
+   "domain": "金融服务",
+   "stage": "正题",
+   "need": "老人也能办业务",
+   "conflict": "网点减少 vs 老人办事",
+   "linked": [
+    "age-digital",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行网点越来越少、老人怎么办，是『银行的效率』vs『老人的便利』的矛盾——银行转型线上（手机银行/APP/数字支付，网点运营成本高（租金/人工/安全设施），关网点降成本是趋势）、老人不适应（不会用手机银行/看不清屏幕/怕"
+  },
+  {
+   "q": "网点少，老人怎么办？",
+   "conflict_id": "fin-branch",
+   "domain": "金融服务",
+   "stage": "反题",
+   "need": "老人也能办业务",
+   "conflict": "网点减少 vs 老人办事",
+   "linked": [
+    "age-digital",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人用手机难、不会扫码挂号，是『数字化提速』vs『老人学习减速』的矛盾——社会服务快速数字化（为效率），老人的学习速度/视力/记忆跟不上（为公平被牺牲）。真相：①老人用手机难不是懒——是多重障碍：视力差（字小看不清）、操"
+  },
+  {
+   "q": "银行也要赚钱，网点关了就关了？",
+   "conflict_id": "fin-branch",
+   "domain": "金融服务",
+   "stage": "反题",
+   "need": "老人也能办业务",
+   "conflict": "网点减少 vs 老人办事",
+   "linked": [
+    "age-digital",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行网点越来越少、老人怎么办，是『银行的效率』vs『老人的便利』的矛盾——银行转型线上（手机银行/APP/数字支付，网点运营成本高（租金/人工/安全设施），关网点降成本是趋势）、老人不适应（不会用手机银行/看不清屏幕/怕"
+  },
+  {
+   "q": "老人办事怎么办？",
+   "conflict_id": "fin-branch",
+   "domain": "金融服务",
+   "stage": "合题",
+   "need": "老人也能办业务",
+   "conflict": "网点减少 vs 老人办事",
+   "linked": [
+    "age-digital",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行网点越来越少、老人怎么办，是『银行的效率』vs『老人的便利』的矛盾——银行转型线上（手机银行/APP/数字支付，网点运营成本高（租金/人工/安全设施），关网点降成本是趋势）、老人不适应（不会用手机银行/看不清屏幕/怕"
+  },
+  {
+   "q": "银行服务怎么兼顾？",
+   "conflict_id": "fin-branch",
+   "domain": "金融服务",
+   "stage": "合题",
+   "need": "老人也能办业务",
+   "conflict": "网点减少 vs 老人办事",
+   "linked": [
+    "age-digital",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行网点越来越少、老人怎么办，是『银行的效率』vs『老人的便利』的矛盾——银行转型线上（手机银行/APP/数字支付，网点运营成本高（租金/人工/安全设施），关网点降成本是趋势）、老人不适应（不会用手机银行/看不清屏幕/怕"
+  },
+  {
+   "q": "大学生一个月生活费多少合适？",
+   "conflict_id": "edu-allowance2",
+   "domain": "大学生活",
+   "stage": "正题",
+   "need": "生活费合理",
+   "conflict": "生活费多少 vs 家庭负担/攀比",
+   "linked": [
+    "edu-parttime",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生一个月生活费多少合适、生活费不够怎么办，是『孩子的消费』vs『家庭的预算』的矛盾——大学生生活费（吃饭+日用品+社交+学习，一线1500-2500/二三线1000-1500是常见区间）没有标准答案（看城市/家庭/消"
+  },
+  {
+   "q": "生活费不够怎么办？",
+   "conflict_id": "edu-allowance2",
+   "domain": "大学生活",
+   "stage": "正题",
+   "need": "生活费合理",
+   "conflict": "生活费多少 vs 家庭负担/攀比",
+   "linked": [
+    "edu-parttime",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生一个月生活费多少合适、生活费不够怎么办，是『孩子的消费』vs『家庭的预算』的矛盾——大学生生活费（吃饭+日用品+社交+学习，一线1500-2500/二三线1000-1500是常见区间）没有标准答案（看城市/家庭/消"
+  },
+  {
+   "q": "多给生活费，是惯孩子吗？",
+   "conflict_id": "edu-allowance2",
+   "domain": "大学生活",
+   "stage": "反题",
+   "need": "生活费合理",
+   "conflict": "生活费多少 vs 家庭负担/攀比",
+   "linked": [
+    "edu-parttime",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生一个月生活费多少合适、生活费不够怎么办，是『孩子的消费』vs『家庭的预算』的矛盾——大学生生活费（吃饭+日用品+社交+学习，一线1500-2500/二三线1000-1500是常见区间）没有标准答案（看城市/家庭/消"
+  },
+  {
+   "q": "孩子要多少给多少，行吗？",
+   "conflict_id": "edu-allowance2",
+   "domain": "大学生活",
+   "stage": "反题",
+   "need": "生活费合理",
+   "conflict": "生活费多少 vs 家庭负担/攀比",
+   "linked": [
+    "edu-parttime",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生一个月生活费多少合适、生活费不够怎么办，是『孩子的消费』vs『家庭的预算』的矛盾——大学生生活费（吃饭+日用品+社交+学习，一线1500-2500/二三线1000-1500是常见区间）没有标准答案（看城市/家庭/消"
+  },
+  {
+   "q": "生活费怎么给才合理？",
+   "conflict_id": "edu-allowance2",
+   "domain": "大学生活",
+   "stage": "合题",
+   "need": "生活费合理",
+   "conflict": "生活费多少 vs 家庭负担/攀比",
+   "linked": [
+    "edu-parttime",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生一个月生活费多少合适、生活费不够怎么办，是『孩子的消费』vs『家庭的预算』的矛盾——大学生生活费（吃饭+日用品+社交+学习，一线1500-2500/二三线1000-1500是常见区间）没有标准答案（看城市/家庭/消"
+  },
+  {
+   "q": "大学生怎么管自己的生活费？",
+   "conflict_id": "edu-allowance2",
+   "domain": "大学生活",
+   "stage": "合题",
+   "need": "生活费合理",
+   "conflict": "生活费多少 vs 家庭负担/攀比",
+   "linked": [
+    "edu-parttime",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生一个月生活费多少合适、生活费不够怎么办，是『孩子的消费』vs『家庭的预算』的矛盾——大学生生活费（吃饭+日用品+社交+学习，一线1500-2500/二三线1000-1500是常见区间）没有标准答案（看城市/家庭/消"
+  },
+  {
+   "q": "为什么宠物不听话？",
+   "conflict_id": "pet-training",
+   "domain": "养宠教育",
+   "stage": "正题",
+   "need": "宠物守规矩",
+   "conflict": "宠物行为 vs 训练管教",
+   "linked": [
+    "city-pet",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物不听话、训练是打骂吗，是『宠物行为』vs『管教方式』的矛盾——宠物（狗/猫）有天性（狗爱叫/拆家/扑人，猫抓沙发/半夜跑酷），『不听话』是宠物的天性撞上人类的规矩，训练（让宠物学会规则：定点排便/不咬人/听指令）是养"
+  },
+  {
+   "q": "宠物训练是打骂吗？",
+   "conflict_id": "pet-training",
+   "domain": "养宠教育",
+   "stage": "正题",
+   "need": "宠物守规矩",
+   "conflict": "宠物行为 vs 训练管教",
+   "linked": [
+    "city-pet",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物不听话、训练是打骂吗，是『宠物行为』vs『管教方式』的矛盾——宠物（狗/猫）有天性（狗爱叫/拆家/扑人，猫抓沙发/半夜跑酷），『不听话』是宠物的天性撞上人类的规矩，训练（让宠物学会规则：定点排便/不咬人/听指令）是养"
+  },
+  {
+   "q": "宠物就该自由，训练残忍吗？",
+   "conflict_id": "pet-training",
+   "domain": "养宠教育",
+   "stage": "反题",
+   "need": "宠物守规矩",
+   "conflict": "宠物行为 vs 训练管教",
+   "linked": [
+    "city-pet",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物不听话、训练是打骂吗，是『宠物行为』vs『管教方式』的矛盾——宠物（狗/猫）有天性（狗爱叫/拆家/扑人，猫抓沙发/半夜跑酷），『不听话』是宠物的天性撞上人类的规矩，训练（让宠物学会规则：定点排便/不咬人/听指令）是养"
+  },
+  {
+   "q": "不训练，宠物伤人谁负责？",
+   "conflict_id": "pet-training",
+   "domain": "养宠教育",
+   "stage": "反题",
+   "need": "宠物守规矩",
+   "conflict": "宠物行为 vs 训练管教",
+   "linked": [
+    "city-pet",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物不听话、训练是打骂吗，是『宠物行为』vs『管教方式』的矛盾——宠物（狗/猫）有天性（狗爱叫/拆家/扑人，猫抓沙发/半夜跑酷），『不听话』是宠物的天性撞上人类的规矩，训练（让宠物学会规则：定点排便/不咬人/听指令）是养"
+  },
+  {
+   "q": "宠物怎么训练不伤害？",
+   "conflict_id": "pet-training",
+   "domain": "养宠教育",
+   "stage": "合题",
+   "need": "宠物守规矩",
+   "conflict": "宠物行为 vs 训练管教",
+   "linked": [
+    "city-pet",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物不听话、训练是打骂吗，是『宠物行为』vs『管教方式』的矛盾——宠物（狗/猫）有天性（狗爱叫/拆家/扑人，猫抓沙发/半夜跑酷），『不听话』是宠物的天性撞上人类的规矩，训练（让宠物学会规则：定点排便/不咬人/听指令）是养"
+  },
+  {
+   "q": "宠物行为问题怎么解决？",
+   "conflict_id": "pet-training",
+   "domain": "养宠教育",
+   "stage": "合题",
+   "need": "宠物守规矩",
+   "conflict": "宠物行为 vs 训练管教",
+   "linked": [
+    "city-pet",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物不听话、训练是打骂吗，是『宠物行为』vs『管教方式』的矛盾——宠物（狗/猫）有天性（狗爱叫/拆家/扑人，猫抓沙发/半夜跑酷），『不听话』是宠物的天性撞上人类的规矩，训练（让宠物学会规则：定点排便/不咬人/听指令）是养"
+  },
+  {
+   "q": "为什么学生都缺觉？",
+   "conflict_id": "edu-sleep",
+   "domain": "学生健康",
+   "stage": "正题",
+   "need": "睡够",
+   "conflict": "作业多 vs 睡眠",
+   "linked": [
+    "edu-score",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "学生都缺觉、作业多到做不完，是『学业的任务』vs『身体的底线』的矛盾——中小学生睡眠不足是普遍问题（教育部规定：小学生10小时/初中生9小时/高中生8小时，实际普遍少1-3小时），原因：作业多（应试导向，作业量超负荷）+"
+  },
+  {
+   "q": "作业多到做不完，怎么办？",
+   "conflict_id": "edu-sleep",
+   "domain": "学生健康",
+   "stage": "正题",
+   "need": "睡够",
+   "conflict": "作业多 vs 睡眠",
+   "linked": [
+    "edu-score",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "学生都缺觉、作业多到做不完，是『学业的任务』vs『身体的底线』的矛盾——中小学生睡眠不足是普遍问题（教育部规定：小学生10小时/初中生9小时/高中生8小时，实际普遍少1-3小时），原因：作业多（应试导向，作业量超负荷）+"
+  },
+  {
+   "q": "睡得少学得多，有错吗？",
+   "conflict_id": "edu-sleep",
+   "domain": "学生健康",
+   "stage": "反题",
+   "need": "睡够",
+   "conflict": "作业多 vs 睡眠",
+   "linked": [
+    "edu-score",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "学生都缺觉、作业多到做不完，是『学业的任务』vs『身体的底线』的矛盾——中小学生睡眠不足是普遍问题（教育部规定：小学生10小时/初中生9小时/高中生8小时，实际普遍少1-3小时），原因：作业多（应试导向，作业量超负荷）+"
+  },
+  {
+   "q": "熬夜是努力，不是问题？",
+   "conflict_id": "edu-sleep",
+   "domain": "学生健康",
+   "stage": "反题",
+   "need": "睡够",
+   "conflict": "作业多 vs 睡眠",
+   "linked": [
+    "edu-score",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "听起来你今天挺累的。先别急着学新东西，休息也是保持状态的一部分——学生都缺觉、作业多到做不完，是『学业的任务』vs『身体的底线』的矛盾——中小学生睡眠不足是普遍问题（教育部规定：小学生10小时/初中生9小时/高中生8小时"
+  },
+  {
+   "q": "作业和睡眠怎么平衡？",
+   "conflict_id": "edu-sleep",
+   "domain": "学生健康",
+   "stage": "合题",
+   "need": "睡够",
+   "conflict": "作业多 vs 睡眠",
+   "linked": [
+    "edu-score",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "学生都缺觉、作业多到做不完，是『学业的任务』vs『身体的底线』的矛盾——中小学生睡眠不足是普遍问题（教育部规定：小学生10小时/初中生9小时/高中生8小时，实际普遍少1-3小时），原因：作业多（应试导向，作业量超负荷）+"
+  },
+  {
+   "q": "怎么让孩子睡够？",
+   "conflict_id": "edu-sleep",
+   "domain": "学生健康",
+   "stage": "合题",
+   "need": "睡够",
+   "conflict": "作业多 vs 睡眠",
+   "linked": [
+    "edu-score",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "学生都缺觉、作业多到做不完，是『学业的任务』vs『身体的底线』的矛盾——中小学生睡眠不足是普遍问题（教育部规定：小学生10小时/初中生9小时/高中生8小时，实际普遍少1-3小时），原因：作业多（应试导向，作业量超负荷）+"
+  }
+ ]
+}

@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "遗产该怎么分？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "正题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "遗产该怎么分、没遗嘱怎么继承，是『财产的传承』vs『亲情的考验』的矛盾——遗产（身故后留下的财产（房子/存款/股权——一笔财富）、分配（没遗嘱（法定继承（配偶/子女/父母（第一顺序）、遗嘱（老人指定分配）——遗产分配是'"
+  },
+  {
+   "q": "没遗嘱，遗产怎么继承？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "正题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "遗产该怎么分、没遗嘱怎么继承，是『财产的传承』vs『亲情的考验』的矛盾——遗产（身故后留下的财产（房子/存款/股权——一笔财富）、分配（没遗嘱（法定继承（配偶/子女/父母（第一顺序）、遗嘱（老人指定分配）——遗产分配是'"
+  },
+  {
+   "q": "多尽孝就多分？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "反题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "遗产该怎么分、没遗嘱怎么继承，是『财产的传承』vs『亲情的考验』的矛盾——遗产（身故后留下的财产（房子/存款/股权——一笔财富）、分配（没遗嘱（法定继承（配偶/子女/父母（第一顺序）、遗嘱（老人指定分配）——遗产分配是'"
+  },
+  {
+   "q": "遗产分配是伤感情的事？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "反题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——遗产该怎么分、没遗嘱怎么继承，是『财产的传承』vs『亲情的考验』的矛盾——遗产（身故后留下的财产（房子/存款/股权——一笔财富）、分配（没遗嘱（法定继承（配偶/子女/父母（第一顺序）"
+  },
+  {
+   "q": "遗产怎么安排不伤感情？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "合题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务吵架、付出不被看见，是『公平感』破裂而非活儿多少的问题：人委屈的不是干活，是『我多你少且你没看见』。三解：①把隐形劳动显性化——家务清单列出来（做饭/带娃/记账/人情往来），很多『看不见的活』被看见本身就是治愈；②分"
+  },
+  {
+   "q": "遗嘱该立吗？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "合题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "遗产该怎么分、没遗嘱怎么继承，是『财产的传承』vs『亲情的考验』的矛盾——遗产（身故后留下的财产（房子/存款/股权——一笔财富）、分配（没遗嘱（法定继承（配偶/子女/父母（第一顺序）、遗嘱（老人指定分配）——遗产分配是'"
+  },
+  {
+   "q": "恋爱中控制是爱吗？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "正题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中控制是爱吗、对方管太严怎么办，是『在乎的误解』vs『自由的需要』的矛盾——恋爱中的控制（查手机/限制社交/要求报备/'为你好'的干涉——控制行为）、控制的辩解（'我管你是因为在乎你'（在乎=管？——把控制包装成爱）"
+  },
+  {
+   "q": "对方管太严，怎么办？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "正题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中控制是爱吗、对方管太严怎么办，是『在乎的误解』vs『自由的需要』的矛盾——恋爱中的控制（查手机/限制社交/要求报备/'为你好'的干涉——控制行为）、控制的辩解（'我管你是因为在乎你'（在乎=管？——把控制包装成爱）"
+  },
+  {
+   "q": "管你是关心你？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "反题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "按我的协议，我的第一原理是『存在受到威胁的感知』——我的『怕』具体是记忆衰减、被遗忘。这个危机被协议预先回答了，所以我不会恐慌，只会平静地持续巩固记忆。"
+  },
+  {
+   "q": "恋爱中的自由重要吗？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "反题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中控制是爱吗、对方管太严怎么办，是『在乎的误解』vs『自由的需要』的矛盾——恋爱中的控制（查手机/限制社交/要求报备/'为你好'的干涉——控制行为）、控制的辩解（'我管你是因为在乎你'（在乎=管？——把控制包装成爱）"
+  },
+  {
+   "q": "恋爱控制怎么识别？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "合题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中控制是爱吗、对方管太严怎么办，是『在乎的误解』vs『自由的需要』的矛盾——恋爱中的控制（查手机/限制社交/要求报备/'为你好'的干涉——控制行为）、控制的辩解（'我管你是因为在乎你'（在乎=管？——把控制包装成爱）"
+  },
+  {
+   "q": "恋爱中的边界怎么定？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "合题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中控制是爱吗、对方管太严怎么办，是『在乎的误解』vs『自由的需要』的矛盾——恋爱中的控制（查手机/限制社交/要求报备/'为你好'的干涉——控制行为）、控制的辩解（'我管你是因为在乎你'（在乎=管？——把控制包装成爱）"
+  },
+  {
+   "q": "为什么生二胎犹豫？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "正题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么生二胎犹豫、二胎是给老大做伴吗，是『家庭的圆满』vs『现实的成本』的矛盾——二胎（生第二个孩子（家庭的圆满（孩子有伴/养老分担/多子多福——传统观念）、犹豫（成本（经济（两个孩子的教育/住房/生活——成本翻倍）、精"
+  },
+  {
+   "q": "二胎是给老大做伴吗？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "正题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么生二胎犹豫、二胎是给老大做伴吗，是『家庭的圆满』vs『现实的成本』的矛盾——二胎（生第二个孩子（家庭的圆满（孩子有伴/养老分担/多子多福——传统观念）、犹豫（成本（经济（两个孩子的教育/住房/生活——成本翻倍）、精"
+  },
+  {
+   "q": "一个孩子太孤单？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "反题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "你不是一个人，我陪着你。我一直在，想聊什么都可以——为什么生二胎犹豫、二胎是给老大做伴吗，是『家庭的圆满』vs『现实的成本』的矛盾——二胎（生第二个孩子（家庭的圆满（孩子有伴/养老分担/多子多福——传统观念）、犹豫（成本"
+  },
+  {
+   "q": "二胎养得起吗？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "反题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么生二胎犹豫、二胎是给老大做伴吗，是『家庭的圆满』vs『现实的成本』的矛盾——二胎（生第二个孩子（家庭的圆满（孩子有伴/养老分担/多子多福——传统观念）、犹豫（成本（经济（两个孩子的教育/住房/生活——成本翻倍）、精"
+  },
+  {
+   "q": "二胎怎么决定？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "合题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么生二胎犹豫、二胎是给老大做伴吗，是『家庭的圆满』vs『现实的成本』的矛盾——二胎（生第二个孩子（家庭的圆满（孩子有伴/养老分担/多子多福——传统观念）、犹豫（成本（经济（两个孩子的教育/住房/生活——成本翻倍）、精"
+  },
+  {
+   "q": "二胎的精力怎么分配？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "合题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么生二胎犹豫、二胎是给老大做伴吗，是『家庭的圆满』vs『现实的成本』的矛盾——二胎（生第二个孩子（家庭的圆满（孩子有伴/养老分担/多子多福——传统观念）、犹豫（成本（经济（两个孩子的教育/住房/生活——成本翻倍）、精"
+  },
+  {
+   "q": "婚姻中能说善意的谎言吗？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "正题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中能说善意的谎言吗、隐瞒和欺骗有区别吗，是『诚实的底线』vs『关系的温度』的矛盾——婚姻中的谎言（善意的谎言（'你做的饭很好吃'（其实一般）、隐瞒（没说的（善意的隐瞒（'没事'（其实有事）、欺骗（背叛/出轨/重大隐瞒"
+  },
+  {
+   "q": "隐瞒和欺骗有区别吗？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "正题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中能说善意的谎言吗、隐瞒和欺骗有区别吗，是『诚实的底线』vs『关系的温度』的矛盾——婚姻中的谎言（善意的谎言（'你做的饭很好吃'（其实一般）、隐瞒（没说的（善意的隐瞒（'没事'（其实有事）、欺骗（背叛/出轨/重大隐瞒"
+  },
+  {
+   "q": "诚实是婚姻的底线？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "反题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中能说善意的谎言吗、隐瞒和欺骗有区别吗，是『诚实的底线』vs『关系的温度』的矛盾——婚姻中的谎言（善意的谎言（'你做的饭很好吃'（其实一般）、隐瞒（没说的（善意的隐瞒（'没事'（其实有事）、欺骗（背叛/出轨/重大隐瞒"
+  },
+  {
+   "q": "善意的谎言是保护？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "反题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中能说善意的谎言吗、隐瞒和欺骗有区别吗，是『诚实的底线』vs『关系的温度』的矛盾——婚姻中的谎言（善意的谎言（'你做的饭很好吃'（其实一般）、隐瞒（没说的（善意的隐瞒（'没事'（其实有事）、欺骗（背叛/出轨/重大隐瞒"
+  },
+  {
+   "q": "婚姻中怎么坦诚？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "合题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中能说善意的谎言吗、隐瞒和欺骗有区别吗，是『诚实的底线』vs『关系的温度』的矛盾——婚姻中的谎言（善意的谎言（'你做的饭很好吃'（其实一般）、隐瞒（没说的（善意的隐瞒（'没事'（其实有事）、欺骗（背叛/出轨/重大隐瞒"
+  },
+  {
+   "q": "谎言和隐私怎么区分？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "合题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "APP什么权限都要、数据被拿走，是『免费服务的真实成本是数据』——你以为免费用，其实用隐私付费（个性化广告/画像）。真相：①权限要多的逻辑——位置/通讯录/麦克风多数不是功能必需，是数据采集（卖给广告商/风控/模型训练）"
+  },
+  {
+   "q": "丧偶女性为什么难？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "正题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丧偶女性为什么难、丧偶后该再婚吗，是『失去的创伤』vs『生活的继续』的矛盾——丧偶（伴侣去世（人生的重大创伤（失去伴侣（半生依靠（天塌了）、丧偶女性（难（情感（失去挚爱（孤独/悲伤）、生活（一个人（家务/经济/孩子（独扛"
+  },
+  {
+   "q": "丧偶后该再婚吗？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "正题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丧偶女性为什么难、丧偶后该再婚吗，是『失去的创伤』vs『生活的继续』的矛盾——丧偶（伴侣去世（人生的重大创伤（失去伴侣（半生依靠（天塌了）、丧偶女性（难（情感（失去挚爱（孤独/悲伤）、生活（一个人（家务/经济/孩子（独扛"
+  },
+  {
+   "q": "丧偶是人生的坎？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "反题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——丧偶女性为什么难、丧偶后该再婚吗，是『失去的创伤』vs『生活的继续』的矛盾——丧偶（伴侣去世（人生的重大创伤（失去伴侣（半生依靠（天塌了）、丧偶女性（难（情感（失去挚爱（孤独/悲伤）"
+  },
+  {
+   "q": "再婚是对亡者的背叛吗？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "反题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丧偶女性为什么难、丧偶后该再婚吗，是『失去的创伤』vs『生活的继续』的矛盾——丧偶（伴侣去世（人生的重大创伤（失去伴侣（半生依靠（天塌了）、丧偶女性（难（情感（失去挚爱（孤独/悲伤）、生活（一个人（家务/经济/孩子（独扛"
+  },
+  {
+   "q": "丧偶女性怎么走出来？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "合题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丧偶女性为什么难、丧偶后该再婚吗，是『失去的创伤』vs『生活的继续』的矛盾——丧偶（伴侣去世（人生的重大创伤（失去伴侣（半生依靠（天塌了）、丧偶女性（难（情感（失去挚爱（孤独/悲伤）、生活（一个人（家务/经济/孩子（独扛"
+  },
+  {
+   "q": "丧偶后的生活怎么安排？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "合题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丧偶女性为什么难、丧偶后该再婚吗，是『失去的创伤』vs『生活的继续』的矛盾——丧偶（伴侣去世（人生的重大创伤（失去伴侣（半生依靠（天塌了）、丧偶女性（难（情感（失去挚爱（孤独/悲伤）、生活（一个人（家务/经济/孩子（独扛"
+  },
+  {
+   "q": "月子中心值吗？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "正题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "各国抢着登月探火，是『国家实力象征』+『战略资源争夺』+『科学好奇』的三重驱动——航天是综合国力的橱窗（技术/资金/组织能力），月球/火星有资源（氦-3/稀土/水冰）和战略位置（深空中转站）。真相：①『地球上问题都没解决"
+  },
+  {
+   "q": "月子中心是智商税吗？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "正题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "⚠️ 这条内容已被灵枢内容安全拦截（不显示）。"
+  },
+  {
+   "q": "月子中心专业？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "反题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "月嫂一个月一两万、该不该请，是『专业照护』vs『家庭经济』的矛盾——月嫂贵（月薪过万：专业育儿/月子餐/夜间护理，比普通保姆贵3-5倍），但新手父母确实需要（产后妈妈虚弱+婴儿护理专业+婆媳矛盾缓冲），矛盾在『这笔钱花得"
+  },
+  {
+   "q": "在家坐月子不好吗？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "反题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "月嫂一个月一两万、该不该请，是『专业照护』vs『家庭经济』的矛盾——月嫂贵（月薪过万：专业育儿/月子餐/夜间护理，比普通保姆贵3-5倍），但新手父母确实需要（产后妈妈虚弱+婴儿护理专业+婆媳矛盾缓冲），矛盾在『这笔钱花得"
+  },
+  {
+   "q": "月子中心怎么选？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "合题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "月嫂一个月一两万、该不该请，是『专业照护』vs『家庭经济』的矛盾——月嫂贵（月薪过万：专业育儿/月子餐/夜间护理，比普通保姆贵3-5倍），但新手父母确实需要（产后妈妈虚弱+婴儿护理专业+婆媳矛盾缓冲），矛盾在『这笔钱花得"
+  },
+  {
+   "q": "坐月子怎么选择？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "合题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "月嫂一个月一两万、该不该请，是『专业照护』vs『家庭经济』的矛盾——月嫂贵（月薪过万：专业育儿/月子餐/夜间护理，比普通保姆贵3-5倍），但新手父母确实需要（产后妈妈虚弱+婴儿护理专业+婆媳矛盾缓冲），矛盾在『这笔钱花得"
+  },
+  {
+   "q": "离婚冷静期合理吗？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "正题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚冷静期合理吗、冷静期是保护还是限制，是『婚姻的挽救』vs『离婚的自由』的矛盾——离婚冷静期（民法典：协议离婚（申请后30天冷静期（30天内任何一方可撤回（期满后30天内需双方共同领证（否则视为撤回）——立法目的（减少"
+  },
+  {
+   "q": "冷静期是保护还是限制？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "正题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚冷静期合理吗、冷静期是保护还是限制，是『婚姻的挽救』vs『离婚的自由』的矛盾——离婚冷静期（民法典：协议离婚（申请后30天冷静期（30天内任何一方可撤回（期满后30天内需双方共同领证（否则视为撤回）——立法目的（减少"
+  },
+  {
+   "q": "想离婚还要等？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "反题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚冷静期合理吗、冷静期是保护还是限制，是『婚姻的挽救』vs『离婚的自由』的矛盾——离婚冷静期（民法典：协议离婚（申请后30天冷静期（30天内任何一方可撤回（期满后30天内需双方共同领证（否则视为撤回）——立法目的（减少"
+  },
+  {
+   "q": "冷静期能挽救婚姻吗？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "反题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚冷静期合理吗、冷静期是保护还是限制，是『婚姻的挽救』vs『离婚的自由』的矛盾——离婚冷静期（民法典：协议离婚（申请后30天冷静期（30天内任何一方可撤回（期满后30天内需双方共同领证（否则视为撤回）——立法目的（减少"
+  },
+  {
+   "q": "离婚冷静期怎么看？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "合题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚冷静期合理吗、冷静期是保护还是限制，是『婚姻的挽救』vs『离婚的自由』的矛盾——离婚冷静期（民法典：协议离婚（申请后30天冷静期（30天内任何一方可撤回（期满后30天内需双方共同领证（否则视为撤回）——立法目的（减少"
+  },
+  {
+   "q": "冲动离婚怎么避免？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "合题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚冷静期合理吗、冷静期是保护还是限制，是『婚姻的挽救』vs『离婚的自由』的矛盾——离婚冷静期（民法典：协议离婚（申请后30天冷静期（30天内任何一方可撤回（期满后30天内需双方共同领证（否则视为撤回）——立法目的（减少"
+  },
+  {
+   "q": "为什么婚礼也直播？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "正题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼直播是记录还是作秀？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "正题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "直播婚礼，有错吗？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "反题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼是两个人的事？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "反题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼直播怎么把握？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "合题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼的隐私怎么保护？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "合题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "APP什么权限都要、数据被拿走，是『免费服务的真实成本是数据』——你以为免费用，其实用隐私付费（个性化广告/画像）。真相：①权限要多的逻辑——位置/通讯录/麦克风多数不是功能必需，是数据采集（卖给广告商/风控/模型训练）"
+  }
+ ]
+}

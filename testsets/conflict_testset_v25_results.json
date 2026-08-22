@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么产后会抑郁？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "正题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "产后情绪低落是矫情吗？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "正题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（"
+  },
+  {
+   "q": "当妈了还矫情？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "反题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "产后抑郁需要治疗吗？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "反题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "产后抑郁怎么防？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "合题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "家人怎么帮产后妈妈？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "合题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "为什么男性休育儿假的少？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "正题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男性休育儿假的少、男人休产假丢人吗，是『爸爸的参与』vs『观念与职场的阻力』的矛盾——男性育儿假（陪产假（7-15天）+育儿假（部分城市有男性育儿假））是制度（支持父亲参与育儿、分担母亲负担、家庭平等），但男性休得少（不"
+  },
+  {
+   "q": "男人休产假丢人吗？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "正题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男性休育儿假的少、男人休产假丢人吗，是『爸爸的参与』vs『观念与职场的阻力』的矛盾——男性育儿假（陪产假（7-15天）+育儿假（部分城市有男性育儿假））是制度（支持父亲参与育儿、分担母亲负担、家庭平等），但男性休得少（不"
+  },
+  {
+   "q": "育儿假是女性的专属？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "反题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男性休育儿假的少、男人休产假丢人吗，是『爸爸的参与』vs『观念与职场的阻力』的矛盾——男性育儿假（陪产假（7-15天）+育儿假（部分城市有男性育儿假））是制度（支持父亲参与育儿、分担母亲负担、家庭平等），但男性休得少（不"
+  },
+  {
+   "q": "男性休育儿假，企业会歧视吗？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "反题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男性休育儿假的少、男人休产假丢人吗，是『爸爸的参与』vs『观念与职场的阻力』的矛盾——男性育儿假（陪产假（7-15天）+育儿假（部分城市有男性育儿假））是制度（支持父亲参与育儿、分担母亲负担、家庭平等），但男性休得少（不"
+  },
+  {
+   "q": "男性育儿假怎么休？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "合题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男性休育儿假的少、男人休产假丢人吗，是『爸爸的参与』vs『观念与职场的阻力』的矛盾——男性育儿假（陪产假（7-15天）+育儿假（部分城市有男性育儿假））是制度（支持父亲参与育儿、分担母亲负担、家庭平等），但男性休得少（不"
+  },
+  {
+   "q": "育儿假制度怎么完善？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "合题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男性休育儿假的少、男人休产假丢人吗，是『爸爸的参与』vs『观念与职场的阻力』的矛盾——男性育儿假（陪产假（7-15天）+育儿假（部分城市有男性育儿假））是制度（支持父亲参与育儿、分担母亲负担、家庭平等），但男性休得少（不"
+  },
+  {
+   "q": "为什么职场对女性穿着这么多要求？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "正题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "职场对女性穿着这么多要求、女性职场穿搭自由吗，是『职场的规范』vs『女性的自主』的矛盾——职场对女性穿着有隐形规范（正式/得体/不暴露/不花哨——『职业装』的潜规则）、女性被评价（穿得性感=不正经/穿得休闲=不专业/穿得"
+  },
+  {
+   "q": "女性职场穿搭自由吗？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "正题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "职场对女性穿着这么多要求、女性职场穿搭自由吗，是『职场的规范』vs『女性的自主』的矛盾——职场对女性穿着有隐形规范（正式/得体/不暴露/不花哨——『职业装』的潜规则）、女性被评价（穿得性感=不正经/穿得休闲=不专业/穿得"
+  },
+  {
+   "q": "职场有规范，穿得体不对吗？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "反题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "职场对女性穿着这么多要求、女性职场穿搭自由吗，是『职场的规范』vs『女性的自主』的矛盾——职场对女性穿着有隐形规范（正式/得体/不暴露/不花哨——『职业装』的潜规则）、女性被评价（穿得性感=不正经/穿得休闲=不专业/穿得"
+  },
+  {
+   "q": "穿衣自由和责任怎么平衡？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "反题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "职场对女性穿着这么多要求、女性职场穿搭自由吗，是『职场的规范』vs『女性的自主』的矛盾——职场对女性穿着有隐形规范（正式/得体/不暴露/不花哨——『职业装』的潜规则）、女性被评价（穿得性感=不正经/穿得休闲=不专业/穿得"
+  },
+  {
+   "q": "女性职场怎么穿得体又自在？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "合题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "职场对女性穿着这么多要求、女性职场穿搭自由吗，是『职场的规范』vs『女性的自主』的矛盾——职场对女性穿着有隐形规范（正式/得体/不暴露/不花哨——『职业装』的潜规则）、女性被评价（穿得性感=不正经/穿得休闲=不专业/穿得"
+  },
+  {
+   "q": "职场穿搭规范怎么合理？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "合题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "职场对女性穿着这么多要求、女性职场穿搭自由吗，是『职场的规范』vs『女性的自主』的矛盾——职场对女性穿着有隐形规范（正式/得体/不暴露/不花哨——『职业装』的潜规则）、女性被评价（穿得性感=不正经/穿得休闲=不专业/穿得"
+  },
+  {
+   "q": "为什么大龄男性更难结婚？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "正题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大龄男性更难结婚、剩男和剩女一样吗，是『婚恋的现实』vs『性别的差异』的矛盾——大龄男性婚恋难（30+未婚男性（婚恋市场竞争（女少男多（结构性劣势）、条件门槛（房/车/收入（婚恋市场对男性的条件要求——大龄男性如果条件一"
+  },
+  {
+   "q": "剩男和剩女一样吗？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "正题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大龄男性更难结婚、剩男和剩女一样吗，是『婚恋的现实』vs『性别的差异』的矛盾——大龄男性婚恋难（30+未婚男性（婚恋市场竞争（女少男多（结构性劣势）、条件门槛（房/车/收入（婚恋市场对男性的条件要求——大龄男性如果条件一"
+  },
+  {
+   "q": "男性晚婚，有压力吗？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "反题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "压力大的时候先喘口气，把问题拆成小步——你已经很努力了，别太苛责自己——大龄男性更难结婚、剩男和剩女一样吗，是『婚恋的现实』vs『性别的差异』的矛盾——大龄男性婚恋难（30+未婚男性（婚恋市场竞争（女少男多（结构性劣势）"
+  },
+  {
+   "q": "光棍是个人问题吗？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "反题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大龄男性更难结婚、剩男和剩女一样吗，是『婚恋的现实』vs『性别的差异』的矛盾——大龄男性婚恋难（30+未婚男性（婚恋市场竞争（女少男多（结构性劣势）、条件门槛（房/车/收入（婚恋市场对男性的条件要求——大龄男性如果条件一"
+  },
+  {
+   "q": "大龄男性怎么面对婚恋？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "合题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大龄男性更难结婚、剩男和剩女一样吗，是『婚恋的现实』vs『性别的差异』的矛盾——大龄男性婚恋难（30+未婚男性（婚恋市场竞争（女少男多（结构性劣势）、条件门槛（房/车/收入（婚恋市场对男性的条件要求——大龄男性如果条件一"
+  },
+  {
+   "q": "男性婚恋压力怎么解？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "合题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "压力大的时候先喘口气，把问题拆成小步——你已经很努力了，别太苛责自己——你说的这个，可以看「情感情绪仿真」（这条知识属于情感情绪仿真，在E5条件下成立）相关的还有：初中物理、初中物理知识点内容（按骨架填充）"
+  },
+  {
+   "q": "为什么婚姻里将就的人这么多？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "正题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "都这么多年了，离了可惜？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "正题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "将就是为孩子好？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "反题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "婚姻不好就离，对吗？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "反题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "婚姻将就还是放手？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "合题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "婚姻怎么判断该不该继续？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "合题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "生育补贴能提高生育率吗？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "正题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生育补贴能提高生育率吗、补贴生娃是买卖吗，是『生育的成本』vs『政策的激励』的矛盾——生育率下降（少子化（生育成本高：养娃到18岁几十万到百万——年轻人不愿生/不敢生），政策在推生育支持（生育补贴（一次性补贴/每月育儿补"
+  },
+  {
+   "q": "补贴生娃，是买卖吗？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "正题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生育补贴能提高生育率吗、补贴生娃是买卖吗，是『生育的成本』vs『政策的激励』的矛盾——生育率下降（少子化（生育成本高：养娃到18岁几十万到百万——年轻人不愿生/不敢生），政策在推生育支持（生育补贴（一次性补贴/每月育儿补"
+  },
+  {
+   "q": "补贴有用，为什么没人多生？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "反题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生育补贴能提高生育率吗、补贴生娃是买卖吗，是『生育的成本』vs『政策的激励』的矛盾——生育率下降（少子化（生育成本高：养娃到18岁几十万到百万——年轻人不愿生/不敢生），政策在推生育支持（生育补贴（一次性补贴/每月育儿补"
+  },
+  {
+   "q": "不补贴，谁愿意生？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "反题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生育补贴能提高生育率吗、补贴生娃是买卖吗，是『生育的成本』vs『政策的激励』的矛盾——生育率下降（少子化（生育成本高：养娃到18岁几十万到百万——年轻人不愿生/不敢生），政策在推生育支持（生育补贴（一次性补贴/每月育儿补"
+  },
+  {
+   "q": "生育支持怎么做？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "合题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性有生育年龄焦虑、30岁没生孩子慌吗，是『生理的时钟』vs『人生的节奏』的矛盾——女性的生育有生理窗口（最佳生育年龄（23-30岁，35岁后风险上升——卵巢功能/卵子质量下降）、高龄产妇风险（流产/染色体异常/妊娠并发"
+  },
+  {
+   "q": "生娃的成本谁来担？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "合题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生育补贴能提高生育率吗、补贴生娃是买卖吗，是『生育的成本』vs『政策的激励』的矛盾——生育率下降（少子化（生育成本高：养娃到18岁几十万到百万——年轻人不愿生/不敢生），政策在推生育支持（生育补贴（一次性补贴/每月育儿补"
+  },
+  {
+   "q": "为什么女性在酒局更危险？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "正题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性在酒局更危险、女性被劝酒怎么办，是『酒局的权力』vs『女性的边界』的矛盾——酒局对女性有额外风险（被劝酒（灌酒（不喝=不给面子/职场压力）、被骚扰（酒后失态/性骚扰（酒局是性骚扰高发场景（借着酒劲动手动脚））、安全（"
+  },
+  {
+   "q": "女性被劝酒，怎么办？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "正题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性在酒局更危险、女性被劝酒怎么办，是『酒局的权力』vs『女性的边界』的矛盾——酒局对女性有额外风险（被劝酒（灌酒（不喝=不给面子/职场压力）、被骚扰（酒后失态/性骚扰（酒局是性骚扰高发场景（借着酒劲动手动脚））、安全（"
+  },
+  {
+   "q": "酒局不喝酒，行吗？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "反题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性在酒局更危险、女性被劝酒怎么办，是『酒局的权力』vs『女性的边界』的矛盾——酒局对女性有额外风险（被劝酒（灌酒（不喝=不给面子/职场压力）、被骚扰（酒后失态/性骚扰（酒局是性骚扰高发场景（借着酒劲动手动脚））、安全（"
+  },
+  {
+   "q": "女性酒局被灌，怪谁？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "反题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性在酒局更危险、女性被劝酒怎么办，是『酒局的权力』vs『女性的边界』的矛盾——酒局对女性有额外风险（被劝酒（灌酒（不喝=不给面子/职场压力）、被骚扰（酒后失态/性骚扰（酒局是性骚扰高发场景（借着酒劲动手动脚））、安全（"
+  },
+  {
+   "q": "女性酒局怎么保护自己？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "合题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "AI用人类作品训练算不算偷，是『学习』和『复制』的边界问题——AI训练读遍全网作品来学规律（像人读万卷书），但它生成的『新』作品本质上是对学习样本的重组。三视角：①『像人学习一样』不成立——人学习后创作有独创性贡献（消化"
+  },
+  {
+   "q": "酒局文化怎么变？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "合题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性在酒局更危险、女性被劝酒怎么办，是『酒局的权力』vs『女性的边界』的矛盾——酒局对女性有额外风险（被劝酒（灌酒（不喝=不给面子/职场压力）、被骚扰（酒后失态/性骚扰（酒局是性骚扰高发场景（借着酒劲动手动脚））、安全（"
+  },
+  {
+   "q": "为什么女性比男性更怕老？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "正题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性比男性更怕老、30岁40岁是女性的坎吗，是『社会的时钟』vs『自我的接纳』的矛盾——女性比男性更怕老（社会对女性年龄的苛刻（30岁=剩女（40岁=老（女性的价值被绑在年轻貌美上——『年龄』对女性是贬值的指标（婚恋（3"
+  },
+  {
+   "q": "30岁/40岁是女性的坎吗？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "正题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性比男性更怕老、30岁40岁是女性的坎吗，是『社会的时钟』vs『自我的接纳』的矛盾——女性比男性更怕老（社会对女性年龄的苛刻（30岁=剩女（40岁=老（女性的价值被绑在年轻貌美上——『年龄』对女性是贬值的指标（婚恋（3"
+  },
+  {
+   "q": "怕老是不是矫情？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "反题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "焦虑的时候深呼吸一下，把问题拆小——女性比男性更怕老、30岁40岁是女性的坎吗，是『社会的时钟』vs『自我的接纳』的矛盾——女性比男性更怕老（社会对女性年龄的苛刻（30岁=剩女（40岁=老（女性的价值被绑在年轻貌美上——"
+  },
+  {
+   "q": "怕老有错吗？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "反题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性比男性更怕老、30岁40岁是女性的坎吗，是『社会的时钟』vs『自我的接纳』的矛盾——女性比男性更怕老（社会对女性年龄的苛刻（30岁=剩女（40岁=老（女性的价值被绑在年轻貌美上——『年龄』对女性是贬值的指标（婚恋（3"
+  },
+  {
+   "q": "女性怎么面对年龄？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "合题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性比男性更怕老、30岁40岁是女性的坎吗，是『社会的时钟』vs『自我的接纳』的矛盾——女性比男性更怕老（社会对女性年龄的苛刻（30岁=剩女（40岁=老（女性的价值被绑在年轻貌美上——『年龄』对女性是贬值的指标（婚恋（3"
+  },
+  {
+   "q": "年龄焦虑怎么破？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "合题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "焦虑的时候深呼吸一下，把问题拆小——女性比男性更怕老、30岁40岁是女性的坎吗，是『社会的时钟』vs『自我的接纳』的矛盾——女性比男性更怕老（社会对女性年龄的苛刻（30岁=剩女（40岁=老（女性的价值被绑在年轻貌美上——"
+  }
+ ]
+}

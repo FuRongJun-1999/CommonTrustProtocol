@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "婚内出轨能原谅吗？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "正题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚内出轨能原谅吗、出轨该离婚还是原谅，是『背叛的伤害』vs『关系的取舍』的矛盾——出轨（婚内背叛（情感/身体的越界（对婚姻的致命伤害（信任崩塌）、原谅与否（原谅（舍不得婚姻/孩子/多年感情（想给机会）、离婚（信任没了（原"
+  },
+  {
+   "q": "出轨该离婚还是原谅？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "正题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚内出轨能原谅吗、出轨该离婚还是原谅，是『背叛的伤害』vs『关系的取舍』的矛盾——出轨（婚内背叛（情感/身体的越界（对婚姻的致命伤害（信任崩塌）、原谅与否（原谅（舍不得婚姻/孩子/多年感情（想给机会）、离婚（信任没了（原"
+  },
+  {
+   "q": "为了孩子不离婚？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "反题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚内出轨能原谅吗、出轨该离婚还是原谅，是『背叛的伤害』vs『关系的取舍』的矛盾——出轨（婚内背叛（情感/身体的越界（对婚姻的致命伤害（信任崩塌）、原谅与否（原谅（舍不得婚姻/孩子/多年感情（想给机会）、离婚（信任没了（原"
+  },
+  {
+   "q": "原谅一次，会有第二次？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "反题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚内出轨能原谅吗、出轨该离婚还是原谅，是『背叛的伤害』vs『关系的取舍』的矛盾——出轨（婚内背叛（情感/身体的越界（对婚姻的致命伤害（信任崩塌）、原谅与否（原谅（舍不得婚姻/孩子/多年感情（想给机会）、离婚（信任没了（原"
+  },
+  {
+   "q": "出轨后怎么决定？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "合题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚内出轨能原谅吗、出轨该离婚还是原谅，是『背叛的伤害』vs『关系的取舍』的矛盾——出轨（婚内背叛（情感/身体的越界（对婚姻的致命伤害（信任崩塌）、原谅与否（原谅（舍不得婚姻/孩子/多年感情（想给机会）、离婚（信任没了（原"
+  },
+  {
+   "q": "婚姻的信任怎么重建？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "合题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "信任是对对方行为稳定可靠的一种置信估计——信得越多，合作越顺。这个可以看「信任」（这条知识属于情感-信任连接，在通用条件下成立）相关的还有：初中道德与法治、小学科学"
+  },
+  {
+   "q": "为什么老年人选择同居不领证？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "正题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么老年人选择同居不领证、老年同居是趋势吗，是『陪伴的需求』vs『财产的顾虑』的矛盾——老年同居（丧偶/离异的老人（找老伴（选择同居不领证（一起生活（不办结婚证）——老年同居增多的原因（陪伴（老了需要伴（说话/照应）、"
+  },
+  {
+   "q": "老年同居是趋势吗？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "正题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么老年人选择同居不领证、老年同居是趋势吗，是『陪伴的需求』vs『财产的顾虑』的矛盾——老年同居（丧偶/离异的老人（找老伴（选择同居不领证（一起生活（不办结婚证）——老年同居增多的原因（陪伴（老了需要伴（说话/照应）、"
+  },
+  {
+   "q": "同居不领证，是不负责？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "反题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么老年人选择同居不领证、老年同居是趋势吗，是『陪伴的需求』vs『财产的顾虑』的矛盾——老年同居（丧偶/离异的老人（找老伴（选择同居不领证（一起生活（不办结婚证）——老年同居增多的原因（陪伴（老了需要伴（说话/照应）、"
+  },
+  {
+   "q": "领证有保障，为什么不领？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "反题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么老年人选择同居不领证、老年同居是趋势吗，是『陪伴的需求』vs『财产的顾虑』的矛盾——老年同居（丧偶/离异的老人（找老伴（选择同居不领证（一起生活（不办结婚证）——老年同居增多的原因（陪伴（老了需要伴（说话/照应）、"
+  },
+  {
+   "q": "老年同居怎么决定？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "合题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么老年人选择同居不领证、老年同居是趋势吗，是『陪伴的需求』vs『财产的顾虑』的矛盾——老年同居（丧偶/离异的老人（找老伴（选择同居不领证（一起生活（不办结婚证）——老年同居增多的原因（陪伴（老了需要伴（说话/照应）、"
+  },
+  {
+   "q": "老年同居的保障怎么安排？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "合题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么老年人选择同居不领证、老年同居是趋势吗，是『陪伴的需求』vs『财产的顾虑』的矛盾——老年同居（丧偶/离异的老人（找老伴（选择同居不领证（一起生活（不办结婚证）——老年同居增多的原因（陪伴（老了需要伴（说话/照应）、"
+  },
+  {
+   "q": "同居分手财产怎么分？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "正题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人财产分配闹矛盾、老人的钱该给谁，是『老人的支配权』vs『子女的期待』的矛盾——老人有财产（房子/存款/退休金），怎么分配（给谁/什么时候给/给多少）是老人的权利（财产自由处分），但子女有期待（觉得该给自己/该平分/该"
+  },
+  {
+   "q": "同居期间的买房怎么算？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "正题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人婚前同居、同居是试婚还是风险，是『相处的验证』vs『观念的边界』的矛盾——同居是试婚（婚前验证：生活习惯/性格磨合/三观碰撞——试出合不合适，避免婚后才发现不合）、也是风险（传统观念：同居=不自爱（女生吃亏）、"
+  },
+  {
+   "q": "同居财产是共同财产？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "反题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人财产分配闹矛盾、老人的钱该给谁，是『老人的支配权』vs『子女的期待』的矛盾——老人有财产（房子/存款/退休金），怎么分配（给谁/什么时候给/给多少）是老人的权利（财产自由处分），但子女有期待（觉得该给自己/该平分/该"
+  },
+  {
+   "q": "没结婚，凭什么分？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "反题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "这条知识来自「高中思想政治」（属于政治，在E3条件下成立）"
+  },
+  {
+   "q": "同居财产怎么约定？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "合题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人财产分配闹矛盾、老人的钱该给谁，是『老人的支配权』vs『子女的期待』的矛盾——老人有财产（房子/存款/退休金），怎么分配（给谁/什么时候给/给多少）是老人的权利（财产自由处分），但子女有期待（觉得该给自己/该平分/该"
+  },
+  {
+   "q": "同居期间的权益怎么保护？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "合题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人婚前同居、同居是试婚还是风险，是『相处的验证』vs『观念的边界』的矛盾——同居是试婚（婚前验证：生活习惯/性格磨合/三观碰撞——试出合不合适，避免婚后才发现不合）、也是风险（传统观念：同居=不自爱（女生吃亏）、"
+  },
+  {
+   "q": "为什么产后身材难恢复？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "正题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "产后身材回不去，正常吗？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "正题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "产后恢复是必须的？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "反题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "身材焦虑是矫情吗？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "反题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "焦虑的时候深呼吸一下，把问题拆小——别人都说我胖、该不该减肥，是『社会标准』vs『身体健康』的矛盾——身材标准是社会的（白幼瘦/腹肌/马甲线，随时代变的：唐朝以胖为美），身体健康是医学的（BMI/体脂/指标），该不该减不"
+  },
+  {
+   "q": "产后身材怎么恢复？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "合题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "产后身体怎么爱护？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "合题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "产后会抑郁、产后情绪低落是矫情吗，是『身体的骤变』vs『家庭的理解』的矛盾——产后抑郁（产后情绪低落/焦虑/失眠/对宝宝没感觉——产后抑郁发生率10-20%，是真实的疾病（激素骤降（生产后雌激素断崖式下降——情绪失控的生"
+  },
+  {
+   "q": "闪婚靠谱吗？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "正题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "闪婚靠谱吗、认识三个月结婚太快了，是『心动的速度』vs『了解的深度』的矛盾——闪婚（认识短时间（几个月甚至几周）就结婚（心动/缘分/对眼（快速决定）、争议（靠谱吗（不了解就结婚（风险大）、闪婚的幸福（有闪婚幸福的（一见钟"
+  },
+  {
+   "q": "认识三个月结婚，太快了？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "正题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "闪婚靠谱吗、认识三个月结婚太快了，是『心动的速度』vs『了解的深度』的矛盾——闪婚（认识短时间（几个月甚至几周）就结婚（心动/缘分/对眼（快速决定）、争议（靠谱吗（不了解就结婚（风险大）、闪婚的幸福（有闪婚幸福的（一见钟"
+  },
+  {
+   "q": "闪婚是冲动还是缘分？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "反题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "闪婚靠谱吗、认识三个月结婚太快了，是『心动的速度』vs『了解的深度』的矛盾——闪婚（认识短时间（几个月甚至几周）就结婚（心动/缘分/对眼（快速决定）、争议（靠谱吗（不了解就结婚（风险大）、闪婚的幸福（有闪婚幸福的（一见钟"
+  },
+  {
+   "q": "恋爱久结婚就稳？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "反题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "闪婚靠谱吗、认识三个月结婚太快了，是『心动的速度』vs『了解的深度』的矛盾——闪婚（认识短时间（几个月甚至几周）就结婚（心动/缘分/对眼（快速决定）、争议（靠谱吗（不了解就结婚（风险大）、闪婚的幸福（有闪婚幸福的（一见钟"
+  },
+  {
+   "q": "闪婚怎么决定？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "合题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "闪婚靠谱吗、认识三个月结婚太快了，是『心动的速度』vs『了解的深度』的矛盾——闪婚（认识短时间（几个月甚至几周）就结婚（心动/缘分/对眼（快速决定）、争议（靠谱吗（不了解就结婚（风险大）、闪婚的幸福（有闪婚幸福的（一见钟"
+  },
+  {
+   "q": "闪婚的风险怎么降低？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "合题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "闪婚靠谱吗、认识三个月结婚太快了，是『心动的速度』vs『了解的深度』的矛盾——闪婚（认识短时间（几个月甚至几周）就结婚（心动/缘分/对眼（快速决定）、争议（靠谱吗（不了解就结婚（风险大）、闪婚的幸福（有闪婚幸福的（一见钟"
+  },
+  {
+   "q": "孩子目睹家暴有什么影响？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "正题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子目睹家暴有什么影响、当着孩子面吵架没事吗，是『孩子的感受』vs『大人的忽视』的矛盾——家暴/激烈争吵（当着孩子面（大人觉得（孩子小不懂（没事）、孩子的感受（目睹家暴（害怕（恐惧（不安（世界崩塌）、影响（目睹家暴的孩子"
+  },
+  {
+   "q": "当着孩子面吵架，没事吗？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "正题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子目睹家暴有什么影响、当着孩子面吵架没事吗，是『孩子的感受』vs『大人的忽视』的矛盾——家暴/激烈争吵（当着孩子面（大人觉得（孩子小不懂（没事）、孩子的感受（目睹家暴（害怕（恐惧（不安（世界崩塌）、影响（目睹家暴的孩子"
+  },
+  {
+   "q": "孩子小，不懂事？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "反题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "没关系，想到什么聊什么。或者你可以问我「水为什么烧开」「什么是熵」这种小问题试试。"
+  },
+  {
+   "q": "家暴是夫妻的事，与孩子无关？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "反题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子目睹家暴有什么影响、当着孩子面吵架没事吗，是『孩子的感受』vs『大人的忽视』的矛盾——家暴/激烈争吵（当着孩子面（大人觉得（孩子小不懂（没事）、孩子的感受（目睹家暴（害怕（恐惧（不安（世界崩塌）、影响（目睹家暴的孩子"
+  },
+  {
+   "q": "怎么减少对孩子的伤害？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "合题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子目睹家暴有什么影响、当着孩子面吵架没事吗，是『孩子的感受』vs『大人的忽视』的矛盾——家暴/激烈争吵（当着孩子面（大人觉得（孩子小不懂（没事）、孩子的感受（目睹家暴（害怕（恐惧（不安（世界崩塌）、影响（目睹家暴的孩子"
+  },
+  {
+   "q": "目睹家暴的孩子怎么帮助？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "合题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子不打不成器、讲道理没用，是『立规矩』vs『不伤害』的矛盾——孩子需要规则（没有边界的孩子没有安全感），但打骂是『立规矩』最偷懒也最伤人的方式（孩子学到的是『谁力气大听谁的』不是规则本身）。真相：①孩子不打不成器吗——"
+  },
+  {
+   "q": "婚前体检有必要吗？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "正题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚前体检有必要吗、婚前检查是信任问题吗，是『健康的知情』vs『信任的顾虑』的矛盾——婚前体检（婚前检查（婚检：传染病/遗传病/生殖健康（医学检查）、必要性（重要（传染病（乙肝/艾滋/梅毒（可防可治）、遗传病（地中海贫血/"
+  },
+  {
+   "q": "婚前检查是信任问题吗？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "正题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚前体检有必要吗、婚前检查是信任问题吗，是『健康的知情』vs『信任的顾虑』的矛盾——婚前体检（婚前检查（婚检：传染病/遗传病/生殖健康（医学检查）、必要性（重要（传染病（乙肝/艾滋/梅毒（可防可治）、遗传病（地中海贫血/"
+  },
+  {
+   "q": "查出来有病，还结婚吗？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "反题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚前体检有必要吗、婚前检查是信任问题吗，是『健康的知情』vs『信任的顾虑』的矛盾——婚前体检（婚前检查（婚检：传染病/遗传病/生殖健康（医学检查）、必要性（重要（传染病（乙肝/艾滋/梅毒（可防可治）、遗传病（地中海贫血/"
+  },
+  {
+   "q": "不查，是信任还是侥幸？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "反题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "信任是对对方行为稳定可靠的一种置信估计——信得越多，合作越顺。这个可以看「信任」（这条知识属于情感-信任连接，在通用条件下成立）相关的还有：诚实守信、诚实守信"
+  },
+  {
+   "q": "婚前体检怎么做？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "合题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚前体检有必要吗、婚前检查是信任问题吗，是『健康的知情』vs『信任的顾虑』的矛盾——婚前体检（婚前检查（婚检：传染病/遗传病/生殖健康（医学检查）、必要性（重要（传染病（乙肝/艾滋/梅毒（可防可治）、遗传病（地中海贫血/"
+  },
+  {
+   "q": "体检结果怎么面对？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "合题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚前体检有必要吗、婚前检查是信任问题吗，是『健康的知情』vs『信任的顾虑』的矛盾——婚前体检（婚前检查（婚检：传染病/遗传病/生殖健康（医学检查）、必要性（重要（传染病（乙肝/艾滋/梅毒（可防可治）、遗传病（地中海贫血/"
+  },
+  {
+   "q": "男性生育有年龄限制吗？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "正题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性有生育年龄焦虑、30岁没生孩子慌吗，是『生理的时钟』vs『人生的节奏』的矛盾——女性的生育有生理窗口（最佳生育年龄（23-30岁，35岁后风险上升——卵巢功能/卵子质量下降）、高龄产妇风险（流产/染色体异常/妊娠并发"
+  },
+  {
+   "q": "男性高龄生育有风险吗？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "正题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性有生育年龄焦虑、30岁没生孩子慌吗，是『生理的时钟』vs『人生的节奏』的矛盾——女性的生育有生理窗口（最佳生育年龄（23-30岁，35岁后风险上升——卵巢功能/卵子质量下降）、高龄产妇风险（流产/染色体异常/妊娠并发"
+  },
+  {
+   "q": "男的50岁还能生？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "反题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "人的生殖系统：男性睾丸产生精子，女性卵巢产生卵细胞。受精在输卵管，胚胎发育在子宫，分娩产出。这个可以看「人的生殖」（这条知识属于初中生物知识点内容（按骨架填充），在E2条件下成立）相关的还有：人的生殖、健康生活"
+  },
+  {
+   "q": "男性生育压力大吗？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "反题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "压力大的时候先喘口气，把问题拆成小步——你已经很努力了，别太苛责自己——为什么选择试管婴儿、试管对身体伤害大吗，是『生育的希望』vs『身心的代价』的矛盾——试管婴儿（体外受精-胚胎移植：取卵-受精-移植，辅助生殖技术）是"
+  },
+  {
+   "q": "男性生育年龄怎么看？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "合题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性有生育年龄焦虑、30岁没生孩子慌吗，是『生理的时钟』vs『人生的节奏』的矛盾——女性的生育有生理窗口（最佳生育年龄（23-30岁，35岁后风险上升——卵巢功能/卵子质量下降）、高龄产妇风险（流产/染色体异常/妊娠并发"
+  },
+  {
+   "q": "生育计划怎么规划？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "合题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性有生育年龄焦虑、30岁没生孩子慌吗，是『生理的时钟』vs『人生的节奏』的矛盾——女性的生育有生理窗口（最佳生育年龄（23-30岁，35岁后风险上升——卵巢功能/卵子质量下降）、高龄产妇风险（流产/染色体异常/妊娠并发"
+  }
+ ]
+}

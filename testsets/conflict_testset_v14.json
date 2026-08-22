@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v14",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么结婚这么贵？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "正题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "婚礼是给谁办的？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "正题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "一辈子一次，花钱有错吗？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "反题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "简办婚礼丢人吗？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "反题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "婚礼怎么办省钱又不留遗憾？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "合题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "结婚的钱怎么花才值？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "合题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "为什么二手平台这么火？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "正题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "闲鱼上买东西靠谱吗？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "正题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "卖二手回血有错吗？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "反题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "买二手是抠门吗？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "反题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "二手买卖怎么避坑？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "合题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "闲置怎么处理最划算？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "合题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "为什么演练总是走过场？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "正题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "地震来了真的会跑吗？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "正题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "演练耽误时间，有必要吗？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "反题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "真出事靠演练有用吗？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "反题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "应急演练怎么才不白练？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "合题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "家庭应急准备怎么做？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "合题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "为什么好保姆这么难找？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "正题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "请保姆不放心怎么办？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "正题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "家务外包，是不是太矫情？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "反题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "保姆也是人，将就一下不行吗？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "反题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "怎么找到靠谱的家政？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "合题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "和保姆怎么相处？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "合题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "为什么银行也卖理财产品？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "正题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "理财为什么会亏钱？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "正题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "利息太低，不理财行吗？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "反题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "亏了是银行的责任吗？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "反题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "普通人怎么理财不踩坑？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "合题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "存款和理财怎么配？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "合题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "为什么物业费年年涨？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "正题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "物业到底管了什么？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "正题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "不交物业费，物业就不管了？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "反题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "物业不是服务者吗？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "反题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "怎么让物业好好干活？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "合题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "物业纠纷怎么解决？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "合题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "为什么公共场合总有人抽烟？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "正题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "二手烟危害有多大？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "正题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "抽烟是我的自由，管得着吗？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "反题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "控烟太严，烟民没人权吗？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "反题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "怎么让烟民不打扰别人？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "合题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "公共场所抽烟怎么管？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "合题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "为什么网恋容易翻车？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "正题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "网上的对象靠谱吗？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "正题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "网上认识也是缘分，有错吗？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "反题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "网恋奔现丢人吗？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "反题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "网恋怎么不踩坑？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "合题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "网上交友怎么保护自己？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "合题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ]
+  }
+ ]
+}

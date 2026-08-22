@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v37",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么学习不如游戏有趣？",
+   "conflict_id": "edu-gamefun",
+   "domain": "学习游戏趣味",
+   "stage": "正题",
+   "need": "学习的爽感",
+   "conflict": "学习不如游戏 vs 有趣",
+   "linked": [
+    "youth-game",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "游戏为什么比学习好玩？",
+   "conflict_id": "edu-gamefun",
+   "domain": "学习游戏趣味",
+   "stage": "正题",
+   "need": "学习的爽感",
+   "conflict": "学习不如游戏 vs 有趣",
+   "linked": [
+    "youth-game",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "学习没意思，游戏才有意思？",
+   "conflict_id": "edu-gamefun",
+   "domain": "学习游戏趣味",
+   "stage": "反题",
+   "need": "学习的爽感",
+   "conflict": "学习不如游戏 vs 有趣",
+   "linked": [
+    "youth-game",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "游戏好玩是天生的？",
+   "conflict_id": "edu-gamefun",
+   "domain": "学习游戏趣味",
+   "stage": "反题",
+   "need": "学习的爽感",
+   "conflict": "学习不如游戏 vs 有趣",
+   "linked": [
+    "youth-game",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "学习和游戏怎么平衡？",
+   "conflict_id": "edu-gamefun",
+   "domain": "学习游戏趣味",
+   "stage": "合题",
+   "need": "学习的爽感",
+   "conflict": "学习不如游戏 vs 有趣",
+   "linked": [
+    "youth-game",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "怎么让学习像游戏一样好玩？",
+   "conflict_id": "edu-gamefun",
+   "domain": "学习游戏趣味",
+   "stage": "合题",
+   "need": "学习的爽感",
+   "conflict": "学习不如游戏 vs 有趣",
+   "linked": [
+    "youth-game",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "学习为什么枯燥？",
+   "conflict_id": "edu-boring",
+   "domain": "学习枯燥",
+   "stage": "正题",
+   "need": "枯燥可破",
+   "conflict": "学习枯燥 vs 有趣",
+   "linked": [
+    "edu-homework",
+    "edu-hobby"
+   ]
+  },
+  {
+   "q": "学习没意思怎么办？",
+   "conflict_id": "edu-boring",
+   "domain": "学习枯燥",
+   "stage": "正题",
+   "need": "枯燥可破",
+   "conflict": "学习枯燥 vs 有趣",
+   "linked": [
+    "edu-homework",
+    "edu-hobby"
+   ]
+  },
+  {
+   "q": "学习不该有趣？",
+   "conflict_id": "edu-boring",
+   "domain": "学习枯燥",
+   "stage": "反题",
+   "need": "枯燥可破",
+   "conflict": "学习枯燥 vs 有趣",
+   "linked": [
+    "edu-homework",
+    "edu-hobby"
+   ]
+  },
+  {
+   "q": "枯燥是学习的本质？",
+   "conflict_id": "edu-boring",
+   "domain": "学习枯燥",
+   "stage": "反题",
+   "need": "枯燥可破",
+   "conflict": "学习枯燥 vs 有趣",
+   "linked": [
+    "edu-homework",
+    "edu-hobby"
+   ]
+  },
+  {
+   "q": "学习枯燥怎么破？",
+   "conflict_id": "edu-boring",
+   "domain": "学习枯燥",
+   "stage": "合题",
+   "need": "枯燥可破",
+   "conflict": "学习枯燥 vs 有趣",
+   "linked": [
+    "edu-homework",
+    "edu-hobby"
+   ]
+  },
+  {
+   "q": "怎么把枯燥学出乐趣？",
+   "conflict_id": "edu-boring",
+   "domain": "学习枯燥",
+   "stage": "合题",
+   "need": "枯燥可破",
+   "conflict": "学习枯燥 vs 有趣",
+   "linked": [
+    "edu-homework",
+    "edu-hobby"
+   ]
+  },
+  {
+   "q": "游戏为什么让人上瘾？",
+   "conflict_id": "digit-game",
+   "domain": "游戏机制",
+   "stage": "正题",
+   "need": "识破套路",
+   "conflict": "游戏设计 vs 沉迷",
+   "linked": [
+    "digit-drama",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "游戏为什么好玩？",
+   "conflict_id": "digit-game",
+   "domain": "游戏机制",
+   "stage": "正题",
+   "need": "识破套路",
+   "conflict": "游戏设计 vs 沉迷",
+   "linked": [
+    "digit-drama",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "游戏好玩是设计套路？",
+   "conflict_id": "digit-game",
+   "domain": "游戏机制",
+   "stage": "反题",
+   "need": "识破套路",
+   "conflict": "游戏设计 vs 沉迷",
+   "linked": [
+    "digit-drama",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "多巴胺让游戏上瘾？",
+   "conflict_id": "digit-game",
+   "domain": "游戏机制",
+   "stage": "反题",
+   "need": "识破套路",
+   "conflict": "游戏设计 vs 沉迷",
+   "linked": [
+    "digit-drama",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "游戏机制怎么防沉迷？",
+   "conflict_id": "digit-game",
+   "domain": "游戏机制",
+   "stage": "合题",
+   "need": "识破套路",
+   "conflict": "游戏设计 vs 沉迷",
+   "linked": [
+    "digit-drama",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "怎么识别游戏套路？",
+   "conflict_id": "digit-game",
+   "domain": "游戏机制",
+   "stage": "合题",
+   "need": "识破套路",
+   "conflict": "游戏设计 vs 沉迷",
+   "linked": [
+    "digit-drama",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "学习烦了，玩会游戏行吗？",
+   "conflict_id": "edu-playbalance",
+   "domain": "学习娱乐平衡",
+   "stage": "正题",
+   "need": "学玩兼得",
+   "conflict": "学习 vs 娱乐",
+   "linked": [
+    "edu-gamefun",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "先玩后学可以吗？",
+   "conflict_id": "edu-playbalance",
+   "domain": "学习娱乐平衡",
+   "stage": "正题",
+   "need": "学玩兼得",
+   "conflict": "学习 vs 娱乐",
+   "linked": [
+    "edu-gamefun",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "玩完游戏就学不进去？",
+   "conflict_id": "edu-playbalance",
+   "domain": "学习娱乐平衡",
+   "stage": "反题",
+   "need": "学玩兼得",
+   "conflict": "学习 vs 娱乐",
+   "linked": [
+    "edu-gamefun",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "学习娱乐不能兼得？",
+   "conflict_id": "edu-playbalance",
+   "domain": "学习娱乐平衡",
+   "stage": "反题",
+   "need": "学玩兼得",
+   "conflict": "学习 vs 娱乐",
+   "linked": [
+    "edu-gamefun",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "学习和娱乐怎么平衡？",
+   "conflict_id": "edu-playbalance",
+   "domain": "学习娱乐平衡",
+   "stage": "合题",
+   "need": "学玩兼得",
+   "conflict": "学习 vs 娱乐",
+   "linked": [
+    "edu-gamefun",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "怎么做到学得进玩得爽？",
+   "conflict_id": "edu-playbalance",
+   "domain": "学习娱乐平衡",
+   "stage": "合题",
+   "need": "学玩兼得",
+   "conflict": "学习 vs 娱乐",
+   "linked": [
+    "edu-gamefun",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "想学但总想先玩游戏怎么办？",
+   "conflict_id": "edu-procrast",
+   "domain": "拖延启动",
+   "stage": "正题",
+   "need": "先开始",
+   "conflict": "想学 vs 先玩",
+   "linked": [
+    "self-procrast",
+    "edu-gamefun"
+   ]
+  },
+  {
+   "q": "为什么一学习就犯困？",
+   "conflict_id": "edu-procrast",
+   "domain": "拖延启动",
+   "stage": "正题",
+   "need": "先开始",
+   "conflict": "想学 vs 先玩",
+   "linked": [
+    "self-procrast",
+    "edu-gamefun"
+   ]
+  },
+  {
+   "q": "学不进去是懒？",
+   "conflict_id": "edu-procrast",
+   "domain": "拖延启动",
+   "stage": "反题",
+   "need": "先开始",
+   "conflict": "想学 vs 先玩",
+   "linked": [
+    "self-procrast",
+    "edu-gamefun"
+   ]
+  },
+  {
+   "q": "等有状态了再学？",
+   "conflict_id": "edu-procrast",
+   "domain": "拖延启动",
+   "stage": "反题",
+   "need": "先开始",
+   "conflict": "想学 vs 先玩",
+   "linked": [
+    "self-procrast",
+    "edu-gamefun"
+   ]
+  },
+  {
+   "q": "怎么开始学习的第一步？",
+   "conflict_id": "edu-procrast",
+   "domain": "拖延启动",
+   "stage": "合题",
+   "need": "先开始",
+   "conflict": "想学 vs 先玩",
+   "linked": [
+    "self-procrast",
+    "edu-gamefun"
+   ]
+  },
+  {
+   "q": "拖延学习怎么治？",
+   "conflict_id": "edu-procrast",
+   "domain": "拖延启动",
+   "stage": "合题",
+   "need": "先开始",
+   "conflict": "想学 vs 先玩",
+   "linked": [
+    "self-procrast",
+    "edu-gamefun"
+   ]
+  },
+  {
+   "q": "学习有什么用？",
+   "conflict_id": "edu-why",
+   "domain": "学习意义",
+   "stage": "正题",
+   "need": "意义落地",
+   "conflict": "学习无用 vs 必备",
+   "linked": [
+    "edu-score",
+    "edu-job"
+   ]
+  },
+  {
+   "q": "为什么要学习？",
+   "conflict_id": "edu-why",
+   "domain": "学习意义",
+   "stage": "正题",
+   "need": "意义落地",
+   "conflict": "学习无用 vs 必备",
+   "linked": [
+    "edu-score",
+    "edu-job"
+   ]
+  },
+  {
+   "q": "学的东西用不上？",
+   "conflict_id": "edu-why",
+   "domain": "学习意义",
+   "stage": "反题",
+   "need": "意义落地",
+   "conflict": "学习无用 vs 必备",
+   "linked": [
+    "edu-score",
+    "edu-job"
+   ]
+  },
+  {
+   "q": "读书无用论对吗？",
+   "conflict_id": "edu-why",
+   "domain": "学习意义",
+   "stage": "反题",
+   "need": "意义落地",
+   "conflict": "学习无用 vs 必备",
+   "linked": [
+    "edu-score",
+    "edu-job"
+   ]
+  },
+  {
+   "q": "学习的意义是什么？",
+   "conflict_id": "edu-why",
+   "domain": "学习意义",
+   "stage": "合题",
+   "need": "意义落地",
+   "conflict": "学习无用 vs 必备",
+   "linked": [
+    "edu-score",
+    "edu-job"
+   ]
+  },
+  {
+   "q": "学的东西怎么用上？",
+   "conflict_id": "edu-why",
+   "domain": "学习意义",
+   "stage": "合题",
+   "need": "意义落地",
+   "conflict": "学习无用 vs 必备",
+   "linked": [
+    "edu-score",
+    "edu-job"
+   ]
+  },
+  {
+   "q": "知识有趣吗？",
+   "conflict_id": "edu-knowledgefun",
+   "domain": "知识乐趣",
+   "stage": "正题",
+   "need": "知识有味",
+   "conflict": "知识有趣 vs 枯燥",
+   "linked": [
+    "edu-boring",
+    "soc-reading"
+   ]
+  },
+  {
+   "q": "怎么发现学习的乐趣？",
+   "conflict_id": "edu-knowledgefun",
+   "domain": "知识乐趣",
+   "stage": "正题",
+   "need": "知识有味",
+   "conflict": "知识有趣 vs 枯燥",
+   "linked": [
+    "edu-boring",
+    "soc-reading"
+   ]
+  },
+  {
+   "q": "乐趣是玩出来的不是学出来的？",
+   "conflict_id": "edu-knowledgefun",
+   "domain": "知识乐趣",
+   "stage": "反题",
+   "need": "知识有味",
+   "conflict": "知识有趣 vs 枯燥",
+   "linked": [
+    "edu-boring",
+    "soc-reading"
+   ]
+  },
+  {
+   "q": "学习只能靠毅力？",
+   "conflict_id": "edu-knowledgefun",
+   "domain": "知识乐趣",
+   "stage": "反题",
+   "need": "知识有味",
+   "conflict": "知识有趣 vs 枯燥",
+   "linked": [
+    "edu-boring",
+    "soc-reading"
+   ]
+  },
+  {
+   "q": "怎么让知识变得有趣？",
+   "conflict_id": "edu-knowledgefun",
+   "domain": "知识乐趣",
+   "stage": "合题",
+   "need": "知识有味",
+   "conflict": "知识有趣 vs 枯燥",
+   "linked": [
+    "edu-boring",
+    "soc-reading"
+   ]
+  },
+  {
+   "q": "好奇心和兴趣怎么培养？",
+   "conflict_id": "edu-knowledgefun",
+   "domain": "知识乐趣",
+   "stage": "合题",
+   "need": "知识有味",
+   "conflict": "知识有趣 vs 枯燥",
+   "linked": [
+    "edu-boring",
+    "soc-reading"
+   ]
+  },
+  {
+   "q": "游戏害人还是帮人？",
+   "conflict_id": "digit-gameblame",
+   "domain": "游戏责任",
+   "stage": "正题",
+   "need": "不甩锅",
+   "conflict": "游戏害人 vs 自制力",
+   "linked": [
+    "youth-game",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "沉迷游戏怪游戏吗？",
+   "conflict_id": "digit-gameblame",
+   "domain": "游戏责任",
+   "stage": "正题",
+   "need": "不甩锅",
+   "conflict": "游戏害人 vs 自制力",
+   "linked": [
+    "youth-game",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "游戏是原罪？",
+   "conflict_id": "digit-gameblame",
+   "domain": "游戏责任",
+   "stage": "反题",
+   "need": "不甩锅",
+   "conflict": "游戏害人 vs 自制力",
+   "linked": [
+    "youth-game",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "孩子玩游戏全怪游戏？",
+   "conflict_id": "digit-gameblame",
+   "domain": "游戏责任",
+   "stage": "反题",
+   "need": "不甩锅",
+   "conflict": "游戏害人 vs 自制力",
+   "linked": [
+    "youth-game",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "玩游戏怎么有度？",
+   "conflict_id": "digit-gameblame",
+   "domain": "游戏责任",
+   "stage": "合题",
+   "need": "不甩锅",
+   "conflict": "游戏害人 vs 自制力",
+   "linked": [
+    "youth-game",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "玩游戏和管住自己什么关系？",
+   "conflict_id": "digit-gameblame",
+   "domain": "游戏责任",
+   "stage": "合题",
+   "need": "不甩锅",
+   "conflict": "游戏害人 vs 自制力",
+   "linked": [
+    "youth-game",
+    "fam-phone"
+   ]
+  }
+ ]
+}

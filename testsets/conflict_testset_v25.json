@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v25",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么产后会抑郁？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "正题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "产后情绪低落是矫情吗？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "正题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "当妈了还矫情？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "反题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "产后抑郁需要治疗吗？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "反题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "产后抑郁怎么防？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "合题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "家人怎么帮产后妈妈？",
+   "conflict_id": "gen-postpartum",
+   "domain": "产后心理",
+   "stage": "合题",
+   "need": "产后被理解",
+   "conflict": "产后情绪 vs 家庭支持",
+   "linked": [
+    "gen-stayhome",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "为什么男性休育儿假的少？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "正题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "男人休产假丢人吗？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "正题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "育儿假是女性的专属？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "反题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "男性休育儿假，企业会歧视吗？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "反题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "男性育儿假怎么休？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "合题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "育儿假制度怎么完善？",
+   "conflict_id": "gen-paternity",
+   "domain": "育婴假制度",
+   "stage": "合题",
+   "need": "爸爸也能休假",
+   "conflict": "男性休育儿假 vs 观念/职场",
+   "linked": [
+    "gen-hiring",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "为什么职场对女性穿着这么多要求？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "正题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ]
+  },
+  {
+   "q": "女性职场穿搭自由吗？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "正题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ]
+  },
+  {
+   "q": "职场有规范，穿得体不对吗？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "反题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ]
+  },
+  {
+   "q": "穿衣自由和责任怎么平衡？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "反题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ]
+  },
+  {
+   "q": "女性职场怎么穿得体又自在？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "合题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ]
+  },
+  {
+   "q": "职场穿搭规范怎么合理？",
+   "conflict_id": "gen-dress",
+   "domain": "职场形象",
+   "stage": "合题",
+   "need": "穿得自在",
+   "conflict": "穿衣自由 vs 职场规范",
+   "linked": [
+    "gen-work",
+    "public-night"
+   ]
+  },
+  {
+   "q": "为什么大龄男性更难结婚？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "正题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "剩男和剩女一样吗？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "正题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "男性晚婚，有压力吗？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "反题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "光棍是个人问题吗？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "反题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "大龄男性怎么面对婚恋？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "合题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "男性婚恋压力怎么解？",
+   "conflict_id": "gen-maleunmarried",
+   "domain": "男性婚恋",
+   "stage": "合题",
+   "need": "大龄不被嘲笑",
+   "conflict": "大龄男性婚恋 vs 婚恋市场",
+   "linked": [
+    "gen-genderratio",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "为什么婚姻里将就的人这么多？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "正题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "都这么多年了，离了可惜？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "正题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "将就是为孩子好？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "反题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "婚姻不好就离，对吗？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "反题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "婚姻将就还是放手？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "合题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "婚姻怎么判断该不该继续？",
+   "conflict_id": "fam-sunkcost",
+   "domain": "婚姻抉择",
+   "stage": "合题",
+   "need": "婚姻不将就",
+   "conflict": "婚姻将就 vs 放手",
+   "linked": [
+    "fam-couple",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "生育补贴能提高生育率吗？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "正题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "补贴生娃，是买卖吗？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "正题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "补贴有用，为什么没人多生？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "反题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "不补贴，谁愿意生？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "反题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "生育支持怎么做？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "合题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "生娃的成本谁来担？",
+   "conflict_id": "fam-birthsubsidy",
+   "domain": "生育政策",
+   "stage": "合题",
+   "need": "生得起",
+   "conflict": "生育补贴 vs 生育意愿",
+   "linked": [
+    "fam-birth",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "为什么女性在酒局更危险？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "正题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ]
+  },
+  {
+   "q": "女性被劝酒，怎么办？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "正题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ]
+  },
+  {
+   "q": "酒局不喝酒，行吗？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "反题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ]
+  },
+  {
+   "q": "女性酒局被灌，怪谁？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "反题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ]
+  },
+  {
+   "q": "女性酒局怎么保护自己？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "合题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ]
+  },
+  {
+   "q": "酒局文化怎么变？",
+   "conflict_id": "public-toast",
+   "domain": "酒桌安全",
+   "stage": "合题",
+   "need": "酒局不被灌",
+   "conflict": "女性酒局 vs 安全/边界",
+   "linked": [
+    "social-toast",
+    "public-night"
+   ]
+  },
+  {
+   "q": "为什么女性比男性更怕老？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "正题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "30岁/40岁是女性的坎吗？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "正题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "怕老是不是矫情？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "反题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "怕老有错吗？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "反题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "女性怎么面对年龄？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "合题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "年龄焦虑怎么破？",
+   "conflict_id": "gen-ageanxiety",
+   "domain": "女性心理",
+   "stage": "合题",
+   "need": "不怕老",
+   "conflict": "怕老 vs 自我接纳",
+   "linked": [
+    "psy-appearance",
+    "gen-labels"
+   ]
+  }
+ ]
+}

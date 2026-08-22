@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么孩子都想要电话手表？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "正题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "⚠️ 这条内容已被灵枢内容安全拦截（不显示）。"
+  },
+  {
+   "q": "电话手表是必需品还是攀比？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "正题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "⚠️ 这条内容已被灵枢内容安全拦截（不显示）。"
+  },
+  {
+   "q": "手表能联系孩子，有错吗？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "反题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子都想要电话手表、手表能联系孩子有错吗，是『安全的需要』vs『沉迷的担心』的矛盾——电话手表让孩子有联系工具（定位/通话，家长放心，孩子独立的第一步）、也是社交神器（班级同学都有，没有=被孤立），但手表也是『小手机』（"
+  },
+  {
+   "q": "学校不让戴手表，对吗？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "反题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子都想要电话手表、手表能联系孩子有错吗，是『安全的需要』vs『沉迷的担心』的矛盾——电话手表让孩子有联系工具（定位/通话，家长放心，孩子独立的第一步）、也是社交神器（班级同学都有，没有=被孤立），但手表也是『小手机』（"
+  },
+  {
+   "q": "电话手表怎么用不沉迷？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "合题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "⚠️ 这条内容已被灵枢内容安全拦截（不显示）。"
+  },
+  {
+   "q": "儿童手表怎么选？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "合题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子都想要电话手表、手表能联系孩子有错吗，是『安全的需要』vs『沉迷的担心』的矛盾——电话手表让孩子有联系工具（定位/通话，家长放心，孩子独立的第一步）、也是社交神器（班级同学都有，没有=被孤立），但手表也是『小手机』（"
+  },
+  {
+   "q": "为什么高血压要天天吃药？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "正题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高血压要天天吃药、血压正常了能停药吗，是『血压的控制』vs『用药的负担』的矛盾——高血压是慢性病（血管压力长期高，损伤心脑肾），降压药不是治病是『控制』（像戴眼镜：戴着正常，摘了还是近视——停药血压就反弹），但天天吃药（"
+  },
+  {
+   "q": "降压药有副作用吗？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "正题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高血压要天天吃药、血压正常了能停药吗，是『血压的控制』vs『用药的负担』的矛盾——高血压是慢性病（血管压力长期高，损伤心脑肾），降压药不是治病是『控制』（像戴眼镜：戴着正常，摘了还是近视——停药血压就反弹），但天天吃药（"
+  },
+  {
+   "q": "血压正常了，停药行吗？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "反题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高血压要天天吃药、血压正常了能停药吗，是『血压的控制』vs『用药的负担』的矛盾——高血压是慢性病（血管压力长期高，损伤心脑肾），降压药不是治病是『控制』（像戴眼镜：戴着正常，摘了还是近视——停药血压就反弹），但天天吃药（"
+  },
+  {
+   "q": "是药三分毒，能不吃就不吃？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "反题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高血压要天天吃药、血压正常了能停药吗，是『血压的控制』vs『用药的负担』的矛盾——高血压是慢性病（血管压力长期高，损伤心脑肾），降压药不是治病是『控制』（像戴眼镜：戴着正常，摘了还是近视——停药血压就反弹），但天天吃药（"
+  },
+  {
+   "q": "高血压怎么科学用药？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "合题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子老生病、抗生素为什么不能乱吃，是『家长的心急』vs『用药的科学』的矛盾——孩子生病（发烧/咳嗽/感冒），家长急（想快点好），医生的药见效慢（病毒感冒要一周），家长就自己加药/换药/喂抗生素（觉得消炎=抗生素），结果抗"
+  },
+  {
+   "q": "降压药怎么吃才安全？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "合题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高血压要天天吃药、血压正常了能停药吗，是『血压的控制』vs『用药的负担』的矛盾——高血压是慢性病（血管压力长期高，损伤心脑肾），降压药不是治病是『控制』（像戴眼镜：戴着正常，摘了还是近视——停药血压就反弹），但天天吃药（"
+  },
+  {
+   "q": "为什么宿舍矛盾这么多？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "正题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宿舍矛盾这么多、和室友怎么相处，是『个体的差异』vs『公共的规则』的矛盾——宿舍是『四个人被迫住一间』（来自不同家庭/习惯/作息，被塞进 20 平米），矛盾天然存在（作息（早睡 vs 熬夜）、卫生（洁癖 vs 随意）、声"
+  },
+  {
+   "q": "室友打呼噜怎么办？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "正题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宿舍矛盾这么多、和室友怎么相处，是『个体的差异』vs『公共的规则』的矛盾——宿舍是『四个人被迫住一间』（来自不同家庭/习惯/作息，被塞进 20 平米），矛盾天然存在（作息（早睡 vs 熬夜）、卫生（洁癖 vs 随意）、声"
+  },
+  {
+   "q": "宿舍是公共的，忍忍不行吗？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "反题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宿舍矛盾这么多、和室友怎么相处，是『个体的差异』vs『公共的规则』的矛盾——宿舍是『四个人被迫住一间』（来自不同家庭/习惯/作息，被塞进 20 平米），矛盾天然存在（作息（早睡 vs 熬夜）、卫生（洁癖 vs 随意）、声"
+  },
+  {
+   "q": "矛盾是小事，至于吗？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "反题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "辩证法：把事物看作对立统一的矛盾运动——正题-反题-合题（黑格尔），矛盾推动发展；与形而上学的孤立静止观点相对。这个可以看「辩证法」（这条知识属于英语，在E1条件下成立）相关的还有：小学数学知识点内容（按骨架填充）、小学"
+  },
+  {
+   "q": "宿舍矛盾怎么解决？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "合题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宿舍矛盾这么多、和室友怎么相处，是『个体的差异』vs『公共的规则』的矛盾——宿舍是『四个人被迫住一间』（来自不同家庭/习惯/作息，被塞进 20 平米），矛盾天然存在（作息（早睡 vs 熬夜）、卫生（洁癖 vs 随意）、声"
+  },
+  {
+   "q": "和室友怎么相处？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "合题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宿舍矛盾这么多、和室友怎么相处，是『个体的差异』vs『公共的规则』的矛盾——宿舍是『四个人被迫住一间』（来自不同家庭/习惯/作息，被塞进 20 平米），矛盾天然存在（作息（早睡 vs 熬夜）、卫生（洁癖 vs 随意）、声"
+  },
+  {
+   "q": "为什么老人容易摔倒？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "正题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易摔倒、摔倒有多危险，是『老人的平衡』vs『跌倒的后果』的矛盾——老人跌倒不是小事（是65岁以上老人伤害死亡的第一原因：跌倒→骨折（髋部骨折一年死亡率20%+）→卧床→并发症→生命质量断崖），『注意点不就行了』是低"
+  },
+  {
+   "q": "老人摔倒有多危险？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "正题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易摔倒、摔倒有多危险，是『老人的平衡』vs『跌倒的后果』的矛盾——老人跌倒不是小事（是65岁以上老人伤害死亡的第一原因：跌倒→骨折（髋部骨折一年死亡率20%+）→卧床→并发症→生命质量断崖），『注意点不就行了』是低"
+  },
+  {
+   "q": "老人自己能走，扶什么扶？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "反题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易摔倒、摔倒有多危险，是『老人的平衡』vs『跌倒的后果』的矛盾——老人跌倒不是小事（是65岁以上老人伤害死亡的第一原因：跌倒→骨折（髋部骨折一年死亡率20%+）→卧床→并发症→生命质量断崖），『注意点不就行了』是低"
+  },
+  {
+   "q": "摔倒就摔倒，注意点不就行了？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "反题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——老人容易摔倒、摔倒有多危险，是『老人的平衡』vs『跌倒的后果』的矛盾——老人跌倒不是小事（是65岁以上老人伤害死亡的第一原因：跌倒→骨折（髋部骨折一年死亡率20%+）→卧床→并发症→"
+  },
+  {
+   "q": "老人怎么防跌倒？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "合题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易摔倒、摔倒有多危险，是『老人的平衡』vs『跌倒的后果』的矛盾——老人跌倒不是小事（是65岁以上老人伤害死亡的第一原因：跌倒→骨折（髋部骨折一年死亡率20%+）→卧床→并发症→生命质量断崖），『注意点不就行了』是低"
+  },
+  {
+   "q": "老人摔倒怎么处理？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "合题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易摔倒、摔倒有多危险，是『老人的平衡』vs『跌倒的后果』的矛盾——老人跌倒不是小事（是65岁以上老人伤害死亡的第一原因：跌倒→骨折（髋部骨折一年死亡率20%+）→卧床→并发症→生命质量断崖），『注意点不就行了』是低"
+  },
+  {
+   "q": "为什么儿童保险这么火？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "正题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童保险这么火、有必要买吗，是『孩子的保障』vs『保险的智商税』的矛盾——儿童保险（重疾/医疗/教育金，一年几百到几万）让家长纠结：买（孩子生病/意外，保险是底线保障——孩子生病砸锅卖铁的新闻太多）、不买（保险是骗人的/"
+  },
+  {
+   "q": "儿童保险有必要买吗？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "正题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童保险这么火、有必要买吗，是『孩子的保障』vs『保险的智商税』的矛盾——儿童保险（重疾/医疗/教育金，一年几百到几万）让家长纠结：买（孩子生病/意外，保险是底线保障——孩子生病砸锅卖铁的新闻太多）、不买（保险是骗人的/"
+  },
+  {
+   "q": "给孩子买保险，有错吗？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "反题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童保险这么火、有必要买吗，是『孩子的保障』vs『保险的智商税』的矛盾——儿童保险（重疾/医疗/教育金，一年几百到几万）让家长纠结：买（孩子生病/意外，保险是底线保障——孩子生病砸锅卖铁的新闻太多）、不买（保险是骗人的/"
+  },
+  {
+   "q": "保险是骗人的吗？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "反题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童保险这么火、有必要买吗，是『孩子的保障』vs『保险的智商税』的矛盾——儿童保险（重疾/医疗/教育金，一年几百到几万）让家长纠结：买（孩子生病/意外，保险是底线保障——孩子生病砸锅卖铁的新闻太多）、不买（保险是骗人的/"
+  },
+  {
+   "q": "儿童保险怎么买不踩坑？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "合题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童保险这么火、有必要买吗，是『孩子的保障』vs『保险的智商税』的矛盾——儿童保险（重疾/医疗/教育金，一年几百到几万）让家长纠结：买（孩子生病/意外，保险是底线保障——孩子生病砸锅卖铁的新闻太多）、不买（保险是骗人的/"
+  },
+  {
+   "q": "孩子的保障怎么配？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "合题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行也卖理财、理财为什么会亏，是『财富增值』vs『风险现实』的矛盾——存款利息跑不赢通胀（钱在贬值），理财收益高一点（4-5%），但『高收益=高风险』（理财不保本：2018年资管新规后银行理财打破刚兑，亏了就是亏了），『"
+  },
+  {
+   "q": "为什么博物馆也要预约？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "正题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "博物馆也要预约、免费预约怎么还这么难，是『免费的资源』vs『有限的能力』的矛盾——博物馆免费开放（国家文化福利，让文物走近大众）但容量有限（展厅面积/安保/讲解服务，一天限流几千人），免费+有限=供不应求（热门馆（故宫/"
+  },
+  {
+   "q": "博物馆免费预约怎么还这么难？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "正题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "博物馆也要预约、免费预约怎么还这么难，是『免费的资源』vs『有限的能力』的矛盾——博物馆免费开放（国家文化福利，让文物走近大众）但容量有限（展厅面积/安保/讲解服务，一天限流几千人），免费+有限=供不应求（热门馆（故宫/"
+  },
+  {
+   "q": "免费预约，公平吗？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "反题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "博物馆也要预约、免费预约怎么还这么难，是『免费的资源』vs『有限的能力』的矛盾——博物馆免费开放（国家文化福利，让文物走近大众）但容量有限（展厅面积/安保/讲解服务，一天限流几千人），免费+有限=供不应求（热门馆（故宫/"
+  },
+  {
+   "q": "黄牛倒票，怎么治？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "反题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "博物馆也要预约、免费预约怎么还这么难，是『免费的资源』vs『有限的能力』的矛盾——博物馆免费开放（国家文化福利，让文物走近大众）但容量有限（展厅面积/安保/讲解服务，一天限流几千人），免费+有限=供不应求（热门馆（故宫/"
+  },
+  {
+   "q": "博物馆怎么约到票？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "合题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "博物馆也要预约、免费预约怎么还这么难，是『免费的资源』vs『有限的能力』的矛盾——博物馆免费开放（国家文化福利，让文物走近大众）但容量有限（展厅面积/安保/讲解服务，一天限流几千人），免费+有限=供不应求（热门馆（故宫/"
+  },
+  {
+   "q": "免费资源怎么公平分配？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "合题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "博物馆也要预约、免费预约怎么还这么难，是『免费的资源』vs『有限的能力』的矛盾——博物馆免费开放（国家文化福利，让文物走近大众）但容量有限（展厅面积/安保/讲解服务，一天限流几千人），免费+有限=供不应求（热门馆（故宫/"
+  },
+  {
+   "q": "为什么宠物要绝育？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "正题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物要绝育吗、绝育残忍吗，是『宠物的天性』vs『科学的管理』的矛盾——绝育（手术摘除生殖器官：公狗去势/母狗切卵巢子宫）是养宠的常见建议（防流浪/防疾病/防发情乱尿），但主人纠结：残忍（剥夺生育权利/手术风险）、必要（流"
+  },
+  {
+   "q": "绝育对宠物残忍吗？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "正题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物要绝育吗、绝育残忍吗，是『宠物的天性』vs『科学的管理』的矛盾——绝育（手术摘除生殖器官：公狗去势/母狗切卵巢子宫）是养宠的常见建议（防流浪/防疾病/防发情乱尿），但主人纠结：残忍（剥夺生育权利/手术风险）、必要（流"
+  },
+  {
+   "q": "绝育是爱还是伤害？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "反题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物要绝育吗、绝育残忍吗，是『宠物的天性』vs『科学的管理』的矛盾——绝育（手术摘除生殖器官：公狗去势/母狗切卵巢子宫）是养宠的常见建议（防流浪/防疾病/防发情乱尿），但主人纠结：残忍（剥夺生育权利/手术风险）、必要（流"
+  },
+  {
+   "q": "不绝育，宠物怎么办？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "反题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物要绝育吗、绝育残忍吗，是『宠物的天性』vs『科学的管理』的矛盾——绝育（手术摘除生殖器官：公狗去势/母狗切卵巢子宫）是养宠的常见建议（防流浪/防疾病/防发情乱尿），但主人纠结：残忍（剥夺生育权利/手术风险）、必要（流"
+  },
+  {
+   "q": "宠物绝育怎么决定？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "合题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物要绝育吗、绝育残忍吗，是『宠物的天性』vs『科学的管理』的矛盾——绝育（手术摘除生殖器官：公狗去势/母狗切卵巢子宫）是养宠的常见建议（防流浪/防疾病/防发情乱尿），但主人纠结：残忍（剥夺生育权利/手术风险）、必要（流"
+  },
+  {
+   "q": "流浪猫狗怎么治理？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "合题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物要绝育吗、绝育残忍吗，是『宠物的天性』vs『科学的管理』的矛盾——绝育（手术摘除生殖器官：公狗去势/母狗切卵巢子宫）是养宠的常见建议（防流浪/防疾病/防发情乱尿），但主人纠结：残忍（剥夺生育权利/手术风险）、必要（流"
+  },
+  {
+   "q": "为什么让座总有争议？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "正题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "让座总有争议、该不该给老人让座，是『善意』vs『道德绑架』的矛盾——让座是中华美德（尊老爱幼，年轻人给老人/孕妇/抱孩子的让座），但争议不断：老人要求让座（『你怎么不让座』道德绑架）、年轻人不让（上班累了一天/老人身体比"
+  },
+  {
+   "q": "该不该给老人让座？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "正题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "让座总有争议、该不该给老人让座，是『善意』vs『道德绑架』的矛盾——让座是中华美德（尊老爱幼，年轻人给老人/孕妇/抱孩子的让座），但争议不断：老人要求让座（『你怎么不让座』道德绑架）、年轻人不让（上班累了一天/老人身体比"
+  },
+  {
+   "q": "让座是情分不是本分？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "反题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "让座总有争议、该不该给老人让座，是『善意』vs『道德绑架』的矛盾——让座是中华美德（尊老爱幼，年轻人给老人/孕妇/抱孩子的让座），但争议不断：老人要求让座（『你怎么不让座』道德绑架）、年轻人不让（上班累了一天/老人身体比"
+  },
+  {
+   "q": "老人不感谢，还让吗？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "反题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "让座总有争议、该不该给老人让座，是『善意』vs『道德绑架』的矛盾——让座是中华美德（尊老爱幼，年轻人给老人/孕妇/抱孩子的让座），但争议不断：老人要求让座（『你怎么不让座』道德绑架）、年轻人不让（上班累了一天/老人身体比"
+  },
+  {
+   "q": "让座怎么不尴尬？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "合题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "尴尬的事就让它过去吧，我理解的——谁都难免有这种时候——让座总有争议、该不该给老人让座，是『善意』vs『道德绑架』的矛盾——让座是中华美德（尊老爱幼，年轻人给老人/孕妇/抱孩子的让座），但争议不断：老人要求让座（『你怎么"
+  },
+  {
+   "q": "公交座位怎么分配？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "合题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "让座总有争议、该不该给老人让座，是『善意』vs『道德绑架』的矛盾——让座是中华美德（尊老爱幼，年轻人给老人/孕妇/抱孩子的让座），但争议不断：老人要求让座（『你怎么不让座』道德绑架）、年轻人不让（上班累了一天/老人身体比"
+  }
+ ]
+}

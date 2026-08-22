@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么结婚这么贵？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "正题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼是给谁办的？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "正题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "一辈子一次，花钱有错吗？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "反题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物看病贵、花几万值不值，是『宠物是家人』vs『医疗的现实』的矛盾——宠物医疗贵有成本（宠物没有医保/设备药品和人的同价/医生培养），宠物生病动辄几千上万（手术/住院/重症），主人面临『花钱救还是放弃』的艰难选择（宠物不"
+  },
+  {
+   "q": "简办婚礼丢人吗？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "反题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼怎么办省钱又不留遗憾？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "合题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "结婚的钱怎么花才值？",
+   "conflict_id": "fam-wedding",
+   "domain": "婚嫁消费",
+   "stage": "合题",
+   "need": "婚礼的意义",
+   "conflict": "结婚花钱 vs 简办/面子",
+   "linked": [
+    "fam-betrothal",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "为什么二手平台这么火？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "正题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "二手平台火、买二手是抠门吗，是『物尽其用』vs『信任成本』的矛盾——二手交易让闲置变现（你不需要的是别人需要的，循环利用省资源省钱），但二手市场信息不对称（卖家隐瞒瑕疵/买家到手刀/假货泛滥），『便宜』的代价是『风险』，"
+  },
+  {
+   "q": "闲鱼上买东西靠谱吗？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "正题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "二手平台火、买二手是抠门吗，是『物尽其用』vs『信任成本』的矛盾——二手交易让闲置变现（你不需要的是别人需要的，循环利用省资源省钱），但二手市场信息不对称（卖家隐瞒瑕疵/买家到手刀/假货泛滥），『便宜』的代价是『风险』，"
+  },
+  {
+   "q": "卖二手回血有错吗？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "反题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "二手平台火、买二手是抠门吗，是『物尽其用』vs『信任成本』的矛盾——二手交易让闲置变现（你不需要的是别人需要的，循环利用省资源省钱），但二手市场信息不对称（卖家隐瞒瑕疵/买家到手刀/假货泛滥），『便宜』的代价是『风险』，"
+  },
+  {
+   "q": "买二手是抠门吗？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "反题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "二手平台火、买二手是抠门吗，是『物尽其用』vs『信任成本』的矛盾——二手交易让闲置变现（你不需要的是别人需要的，循环利用省资源省钱），但二手市场信息不对称（卖家隐瞒瑕疵/买家到手刀/假货泛滥），『便宜』的代价是『风险』，"
+  },
+  {
+   "q": "二手买卖怎么避坑？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "合题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "二手平台火、买二手是抠门吗，是『物尽其用』vs『信任成本』的矛盾——二手交易让闲置变现（你不需要的是别人需要的，循环利用省资源省钱），但二手市场信息不对称（卖家隐瞒瑕疵/买家到手刀/假货泛滥），『便宜』的代价是『风险』，"
+  },
+  {
+   "q": "闲置怎么处理最划算？",
+   "conflict_id": "soc-secondhand",
+   "domain": "循环消费",
+   "stage": "合题",
+   "need": "闲置变价值",
+   "conflict": "二手买卖 vs 假货/纠纷",
+   "linked": [
+    "digit-live",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "二手平台火、买二手是抠门吗，是『物尽其用』vs『信任成本』的矛盾——二手交易让闲置变现（你不需要的是别人需要的，循环利用省资源省钱），但二手市场信息不对称（卖家隐瞒瑕疵/买家到手刀/假货泛滥），『便宜』的代价是『风险』，"
+  },
+  {
+   "q": "为什么演练总是走过场？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "正题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演练走过场、地震来了会跑吗，是『演练的认真度』vs『真出事的保命率』的矛盾——演练是成本最低的保命投资（地震/火灾/溺水，会跑会躲会救，关键时刻能救命），但现实中的演练多是『形式主义』（排队下楼/拍个照/领导讲话完事），"
+  },
+  {
+   "q": "地震来了真的会跑吗？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "正题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演练走过场、地震来了会跑吗，是『演练的认真度』vs『真出事的保命率』的矛盾——演练是成本最低的保命投资（地震/火灾/溺水，会跑会躲会救，关键时刻能救命），但现实中的演练多是『形式主义』（排队下楼/拍个照/领导讲话完事），"
+  },
+  {
+   "q": "演练耽误时间，有必要吗？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "反题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演练走过场、地震来了会跑吗，是『演练的认真度』vs『真出事的保命率』的矛盾——演练是成本最低的保命投资（地震/火灾/溺水，会跑会躲会救，关键时刻能救命），但现实中的演练多是『形式主义』（排队下楼/拍个照/领导讲话完事），"
+  },
+  {
+   "q": "真出事靠演练有用吗？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "反题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演练走过场、地震来了会跑吗，是『演练的认真度』vs『真出事的保命率』的矛盾——演练是成本最低的保命投资（地震/火灾/溺水，会跑会躲会救，关键时刻能救命），但现实中的演练多是『形式主义』（排队下楼/拍个照/领导讲话完事），"
+  },
+  {
+   "q": "应急演练怎么才不白练？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "合题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演练走过场、地震来了会跑吗，是『演练的认真度』vs『真出事的保命率』的矛盾——演练是成本最低的保命投资（地震/火灾/溺水，会跑会躲会救，关键时刻能救命），但现实中的演练多是『形式主义』（排队下楼/拍个照/领导讲话完事），"
+  },
+  {
+   "q": "家庭应急准备怎么做？",
+   "conflict_id": "disaster-drill",
+   "domain": "安全应急",
+   "stage": "合题",
+   "need": "关键时刻能保命",
+   "conflict": "演练形式化 vs 真有用",
+   "linked": [
+    "disaster-dev",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "明知道有风险还在河边/地震带建房，是『生存发展』vs『安全』的矛盾——河边/平原/沿海是经济发展区（水运/耕地/城市），自然灾害风险区往往也是人口经济密集区（风险是发展积累出来的）。真相：①为什么还在风险区建房——不是不"
+  },
+  {
+   "q": "为什么好保姆这么难找？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "正题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "好保姆难找、请保姆不放心，是『家务需求』vs『信任风险』的矛盾——双职工家庭/老人带娃/工作太忙，家务和照护确实需要外包（请保姆/钟点工），但把家交给陌生人（进门/碰孩子/碰隐私）是巨大的信任考验（保姆虐童/偷窃/发生意"
+  },
+  {
+   "q": "请保姆不放心怎么办？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "正题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "好保姆难找、请保姆不放心，是『家务需求』vs『信任风险』的矛盾——双职工家庭/老人带娃/工作太忙，家务和照护确实需要外包（请保姆/钟点工），但把家交给陌生人（进门/碰孩子/碰隐私）是巨大的信任考验（保姆虐童/偷窃/发生意"
+  },
+  {
+   "q": "家务外包，是不是太矫情？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "反题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "好保姆难找、请保姆不放心，是『家务需求』vs『信任风险』的矛盾——双职工家庭/老人带娃/工作太忙，家务和照护确实需要外包（请保姆/钟点工），但把家交给陌生人（进门/碰孩子/碰隐私）是巨大的信任考验（保姆虐童/偷窃/发生意"
+  },
+  {
+   "q": "保姆也是人，将就一下不行吗？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "反题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "好保姆难找、请保姆不放心，是『家务需求』vs『信任风险』的矛盾——双职工家庭/老人带娃/工作太忙，家务和照护确实需要外包（请保姆/钟点工），但把家交给陌生人（进门/碰孩子/碰隐私）是巨大的信任考验（保姆虐童/偷窃/发生意"
+  },
+  {
+   "q": "怎么找到靠谱的家政？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "合题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "好保姆难找、请保姆不放心，是『家务需求』vs『信任风险』的矛盾——双职工家庭/老人带娃/工作太忙，家务和照护确实需要外包（请保姆/钟点工），但把家交给陌生人（进门/碰孩子/碰隐私）是巨大的信任考验（保姆虐童/偷窃/发生意"
+  },
+  {
+   "q": "和保姆怎么相处？",
+   "conflict_id": "fam-housekeeper",
+   "domain": "家庭服务",
+   "stage": "合题",
+   "need": "家务有人管",
+   "conflict": "请保姆 vs 信任/隐私",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "好保姆难找、请保姆不放心，是『家务需求』vs『信任风险』的矛盾——双职工家庭/老人带娃/工作太忙，家务和照护确实需要外包（请保姆/钟点工），但把家交给陌生人（进门/碰孩子/碰隐私）是巨大的信任考验（保姆虐童/偷窃/发生意"
+  },
+  {
+   "q": "为什么银行也卖理财产品？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "正题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行也卖理财、理财为什么会亏，是『财富增值』vs『风险现实』的矛盾——存款利息跑不赢通胀（钱在贬值），理财收益高一点（4-5%），但『高收益=高风险』（理财不保本：2018年资管新规后银行理财打破刚兑，亏了就是亏了），『"
+  },
+  {
+   "q": "理财为什么会亏钱？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "正题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行也卖理财、理财为什么会亏，是『财富增值』vs『风险现实』的矛盾——存款利息跑不赢通胀（钱在贬值），理财收益高一点（4-5%），但『高收益=高风险』（理财不保本：2018年资管新规后银行理财打破刚兑，亏了就是亏了），『"
+  },
+  {
+   "q": "利息太低，不理财行吗？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "反题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行也卖理财、理财为什么会亏，是『财富增值』vs『风险现实』的矛盾——存款利息跑不赢通胀（钱在贬值），理财收益高一点（4-5%），但『高收益=高风险』（理财不保本：2018年资管新规后银行理财打破刚兑，亏了就是亏了），『"
+  },
+  {
+   "q": "亏了是银行的责任吗？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "反题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行也卖理财、理财为什么会亏，是『财富增值』vs『风险现实』的矛盾——存款利息跑不赢通胀（钱在贬值），理财收益高一点（4-5%），但『高收益=高风险』（理财不保本：2018年资管新规后银行理财打破刚兑，亏了就是亏了），『"
+  },
+  {
+   "q": "普通人怎么理财不踩坑？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "合题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行也卖理财、理财为什么会亏，是『财富增值』vs『风险现实』的矛盾——存款利息跑不赢通胀（钱在贬值），理财收益高一点（4-5%），但『高收益=高风险』（理财不保本：2018年资管新规后银行理财打破刚兑，亏了就是亏了），『"
+  },
+  {
+   "q": "存款和理财怎么配？",
+   "conflict_id": "fin-wealth",
+   "domain": "家庭理财",
+   "stage": "合题",
+   "need": "钱能生钱",
+   "conflict": "理财收益 vs 亏损风险",
+   "linked": [
+    "fin-loan",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行也卖理财、理财为什么会亏，是『财富增值』vs『风险现实』的矛盾——存款利息跑不赢通胀（钱在贬值），理财收益高一点（4-5%），但『高收益=高风险』（理财不保本：2018年资管新规后银行理财打破刚兑，亏了就是亏了），『"
+  },
+  {
+   "q": "为什么物业费年年涨？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "正题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "物业费年年涨、物业到底管了什么，是『业主的期待』vs『物业的现实』的矛盾——业主交了物业费（期望：安全/整洁/设施好用/有事随叫随到），物业有成本（人员工资/设备维护/绿化保洁，费用总不够花），矛盾在：业主觉得『交钱没买"
+  },
+  {
+   "q": "物业到底管了什么？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "正题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "物业费年年涨、物业到底管了什么，是『业主的期待』vs『物业的现实』的矛盾——业主交了物业费（期望：安全/整洁/设施好用/有事随叫随到），物业有成本（人员工资/设备维护/绿化保洁，费用总不够花），矛盾在：业主觉得『交钱没买"
+  },
+  {
+   "q": "不交物业费，物业就不管了？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "反题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "物业费年年涨、物业到底管了什么，是『业主的期待』vs『物业的现实』的矛盾——业主交了物业费（期望：安全/整洁/设施好用/有事随叫随到），物业有成本（人员工资/设备维护/绿化保洁，费用总不够花），矛盾在：业主觉得『交钱没买"
+  },
+  {
+   "q": "物业不是服务者吗？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "反题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "物业费年年涨、物业到底管了什么，是『业主的期待』vs『物业的现实』的矛盾——业主交了物业费（期望：安全/整洁/设施好用/有事随叫随到），物业有成本（人员工资/设备维护/绿化保洁，费用总不够花），矛盾在：业主觉得『交钱没买"
+  },
+  {
+   "q": "怎么让物业好好干活？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "合题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "物业费年年涨、物业到底管了什么，是『业主的期待』vs『物业的现实』的矛盾——业主交了物业费（期望：安全/整洁/设施好用/有事随叫随到），物业有成本（人员工资/设备维护/绿化保洁，费用总不够花），矛盾在：业主觉得『交钱没买"
+  },
+  {
+   "q": "物业纠纷怎么解决？",
+   "conflict_id": "city-property",
+   "domain": "社区治理",
+   "stage": "合题",
+   "need": "住得舒心",
+   "conflict": "物业费 vs 服务质量",
+   "linked": [
+    "city-elevator",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "物业费年年涨、物业到底管了什么，是『业主的期待』vs『物业的现实』的矛盾——业主交了物业费（期望：安全/整洁/设施好用/有事随叫随到），物业有成本（人员工资/设备维护/绿化保洁，费用总不够花），矛盾在：业主觉得『交钱没买"
+  },
+  {
+   "q": "为什么公共场合总有人抽烟？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "正题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁上熊孩子哭闹、公共场所的边界，是『个人自由』vs『公共安宁』的矛盾——孩子的哭闹不是恶意（孩子控制不了），但公共场所是共享的（别人的安静/休息权利也该被尊重），矛盾在『家长管不管』：不管=把孩子的自由建立在别人痛苦上"
+  },
+  {
+   "q": "二手烟危害有多大？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "正题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "公共场合总有人抽烟、二手烟危害多大，是『烟民的自由』vs『不吸烟者的健康』的矛盾——抽烟是个人习惯（烟民的权利），但二手烟是明确的健康危害（WHO：二手烟无安全水平，每年导致全球120万人死亡），『你抽烟的自由』和『我呼"
+  },
+  {
+   "q": "抽烟是我的自由，管得着吗？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "反题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "公共场合总有人抽烟、二手烟危害多大，是『烟民的自由』vs『不吸烟者的健康』的矛盾——抽烟是个人习惯（烟民的权利），但二手烟是明确的健康危害（WHO：二手烟无安全水平，每年导致全球120万人死亡），『你抽烟的自由』和『我呼"
+  },
+  {
+   "q": "控烟太严，烟民没人权吗？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "反题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "公共场合总有人抽烟、二手烟危害多大，是『烟民的自由』vs『不吸烟者的健康』的矛盾——抽烟是个人习惯（烟民的权利），但二手烟是明确的健康危害（WHO：二手烟无安全水平，每年导致全球120万人死亡），『你抽烟的自由』和『我呼"
+  },
+  {
+   "q": "怎么让烟民不打扰别人？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "合题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "公共场合总有人抽烟、二手烟危害多大，是『烟民的自由』vs『不吸烟者的健康』的矛盾——抽烟是个人习惯（烟民的权利），但二手烟是明确的健康危害（WHO：二手烟无安全水平，每年导致全球120万人死亡），『你抽烟的自由』和『我呼"
+  },
+  {
+   "q": "公共场所抽烟怎么管？",
+   "conflict_id": "health-smoke",
+   "domain": "公共健康",
+   "stage": "合题",
+   "need": "呼吸干净空气",
+   "conflict": "吸烟自由 vs 他人健康",
+   "linked": [
+    "public-civility",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "公共场合总有人抽烟、二手烟危害多大，是『烟民的自由』vs『不吸烟者的健康』的矛盾——抽烟是个人习惯（烟民的权利），但二手烟是明确的健康危害（WHO：二手烟无安全水平，每年导致全球120万人死亡），『你抽烟的自由』和『我呼"
+  },
+  {
+   "q": "为什么网恋容易翻车？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "正题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网恋容易翻车、网上的对象靠谱吗，是『网络缘分』vs『信息造假』的矛盾——网络扩大了交友半径（认识现实中遇不到的人），但网上只能看到对方『想让你看到的』（照片美颜/人设包装/完美人设），信息不对称让网恋充满风险（照骗/已婚"
+  },
+  {
+   "q": "网上的对象靠谱吗？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "正题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网恋容易翻车、网上的对象靠谱吗，是『网络缘分』vs『信息造假』的矛盾——网络扩大了交友半径（认识现实中遇不到的人），但网上只能看到对方『想让你看到的』（照片美颜/人设包装/完美人设），信息不对称让网恋充满风险（照骗/已婚"
+  },
+  {
+   "q": "网上认识也是缘分，有错吗？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "反题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网恋容易翻车、网上的对象靠谱吗，是『网络缘分』vs『信息造假』的矛盾——网络扩大了交友半径（认识现实中遇不到的人），但网上只能看到对方『想让你看到的』（照片美颜/人设包装/完美人设），信息不对称让网恋充满风险（照骗/已婚"
+  },
+  {
+   "q": "网恋奔现丢人吗？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "反题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网恋容易翻车、网上的对象靠谱吗，是『网络缘分』vs『信息造假』的矛盾——网络扩大了交友半径（认识现实中遇不到的人），但网上只能看到对方『想让你看到的』（照片美颜/人设包装/完美人设），信息不对称让网恋充满风险（照骗/已婚"
+  },
+  {
+   "q": "网恋怎么不踩坑？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "合题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网恋容易翻车、网上的对象靠谱吗，是『网络缘分』vs『信息造假』的矛盾——网络扩大了交友半径（认识现实中遇不到的人），但网上只能看到对方『想让你看到的』（照片美颜/人设包装/完美人设），信息不对称让网恋充满风险（照骗/已婚"
+  },
+  {
+   "q": "网上交友怎么保护自己？",
+   "conflict_id": "digit-dating",
+   "domain": "数字婚恋",
+   "stage": "合题",
+   "need": "网恋的安全",
+   "conflict": "网恋缘分 vs 杀猪盘",
+   "linked": [
+    "digit-scam",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "AI用人类作品训练算不算偷，是『学习』和『复制』的边界问题——AI训练读遍全网作品来学规律（像人读万卷书），但它生成的『新』作品本质上是对学习样本的重组。三视角：①『像人学习一样』不成立——人学习后创作有独创性贡献（消化"
+  }
+ ]
+}

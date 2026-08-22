@@ -1,0 +1,942 @@
+{
+ "name": "conflict_testset_v3",
+ "conflicts": 13,
+ "items": [
+  {
+   "q": "为什么婆婆总爱插手我们小家庭的事？",
+   "conflict_id": "fam-motherinlaw",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "妻子需要小家庭自主权",
+   "conflict": "婆婆的介入（育儿/家务/生活方式的代际主权之争）",
+   "linked": [
+    "fam-couple",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "婆媳关系为什么这么难处？",
+   "conflict_id": "fam-motherinlaw",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "妻子需要小家庭自主权",
+   "conflict": "婆婆的介入（育儿/家务/生活方式的代际主权之争）",
+   "linked": [
+    "fam-couple",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "婆婆帮忙带孩子，是不是就该听她的？",
+   "conflict_id": "fam-motherinlaw",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "妻子需要小家庭自主权",
+   "conflict": "婆婆的介入（育儿/家务/生活方式的代际主权之争）",
+   "linked": [
+    "fam-couple",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "老公夹在中间，是不是我该让步？",
+   "conflict_id": "fam-motherinlaw",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "妻子需要小家庭自主权",
+   "conflict": "婆婆的介入（育儿/家务/生活方式的代际主权之争）",
+   "linked": [
+    "fam-couple",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "怎么和婆婆相处又不丢边界？",
+   "conflict_id": "fam-motherinlaw",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "妻子需要小家庭自主权",
+   "conflict": "婆婆的介入（育儿/家务/生活方式的代际主权之争）",
+   "linked": [
+    "fam-couple",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "老公怎么当婆媳之间的桥梁？",
+   "conflict_id": "fam-motherinlaw",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "妻子需要小家庭自主权",
+   "conflict": "婆婆的介入（育儿/家务/生活方式的代际主权之争）",
+   "linked": [
+    "fam-couple",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "为什么养老压力全压在我一个人身上？",
+   "conflict_id": "fam-eldercare",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "老人被照顾+年轻人不被拖垮",
+   "conflict": "养老责任（时间/金钱/情感）vs 年轻人的工作与生活",
+   "linked": [
+    "fam-gener",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "爸妈老了，我和兄弟姐妹谁管？",
+   "conflict_id": "fam-eldercare",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "老人被照顾+年轻人不被拖垮",
+   "conflict": "养老责任（时间/金钱/情感）vs 年轻人的工作与生活",
+   "linked": [
+    "fam-gener",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "送养老院是不是不孝？",
+   "conflict_id": "fam-eldercare",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "老人被照顾+年轻人不被拖垮",
+   "conflict": "养老责任（时间/金钱/情感）vs 年轻人的工作与生活",
+   "linked": [
+    "fam-gener",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "为了照顾老人放弃工作值得吗？",
+   "conflict_id": "fam-eldercare",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "老人被照顾+年轻人不被拖垮",
+   "conflict": "养老责任（时间/金钱/情感）vs 年轻人的工作与生活",
+   "linked": [
+    "fam-gener",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "怎么规划养老不让自己崩溃？",
+   "conflict_id": "fam-eldercare",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "老人被照顾+年轻人不被拖垮",
+   "conflict": "养老责任（时间/金钱/情感）vs 年轻人的工作与生活",
+   "linked": [
+    "fam-gener",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "兄弟姐妹怎么分担养老责任？",
+   "conflict_id": "fam-eldercare",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "老人被照顾+年轻人不被拖垮",
+   "conflict": "养老责任（时间/金钱/情感）vs 年轻人的工作与生活",
+   "linked": [
+    "fam-gener",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "双减之后为什么家长更焦虑了？",
+   "conflict_id": "edu-doublecut",
+   "domain": "教育制度",
+   "stage": "正题",
+   "need": "孩子轻松+家长放心",
+   "conflict": "双减减负 vs 升学竞争不减（剧场效应）",
+   "linked": [
+    "edu-score",
+    "edu-resource"
+   ]
+  },
+  {
+   "q": "不让补课了，孩子落后怎么办？",
+   "conflict_id": "edu-doublecut",
+   "domain": "教育制度",
+   "stage": "正题",
+   "need": "孩子轻松+家长放心",
+   "conflict": "双减减负 vs 升学竞争不减（剧场效应）",
+   "linked": [
+    "edu-score",
+    "edu-resource"
+   ]
+  },
+  {
+   "q": "减负是不是让有钱人请私教更不公平？",
+   "conflict_id": "edu-doublecut",
+   "domain": "教育制度",
+   "stage": "反题",
+   "need": "孩子轻松+家长放心",
+   "conflict": "双减减负 vs 升学竞争不减（剧场效应）",
+   "linked": [
+    "edu-score",
+    "edu-resource"
+   ]
+  },
+  {
+   "q": "不卷了，孩子以后怎么竞争？",
+   "conflict_id": "edu-doublecut",
+   "domain": "教育制度",
+   "stage": "反题",
+   "need": "孩子轻松+家长放心",
+   "conflict": "双减减负 vs 升学竞争不减（剧场效应）",
+   "linked": [
+    "edu-score",
+    "edu-resource"
+   ]
+  },
+  {
+   "q": "双减之后家长怎么不焦虑？",
+   "conflict_id": "edu-doublecut",
+   "domain": "教育制度",
+   "stage": "合题",
+   "need": "孩子轻松+家长放心",
+   "conflict": "双减减负 vs 升学竞争不减（剧场效应）",
+   "linked": [
+    "edu-score",
+    "edu-resource"
+   ]
+  },
+  {
+   "q": "不补课孩子怎么保持竞争力？",
+   "conflict_id": "edu-doublecut",
+   "domain": "教育制度",
+   "stage": "合题",
+   "need": "孩子轻松+家长放心",
+   "conflict": "双减减负 vs 升学竞争不减（剧场效应）",
+   "linked": [
+    "edu-score",
+    "edu-resource"
+   ]
+  },
+  {
+   "q": "为什么报了那么多补习班成绩还是上不去？",
+   "conflict_id": "edu-tutor",
+   "domain": "教育制度",
+   "stage": "正题",
+   "need": "孩子成绩提升",
+   "conflict": "补习班花钱花时间 vs 效果不确定/孩子抵触",
+   "linked": [
+    "edu-score",
+    "edu-doublecut"
+   ]
+  },
+  {
+   "q": "孩子抵触补习班怎么办？",
+   "conflict_id": "edu-tutor",
+   "domain": "教育制度",
+   "stage": "正题",
+   "need": "孩子成绩提升",
+   "conflict": "补习班花钱花时间 vs 效果不确定/孩子抵触",
+   "linked": [
+    "edu-score",
+    "edu-doublecut"
+   ]
+  },
+  {
+   "q": "不补课是不是就落后了？",
+   "conflict_id": "edu-tutor",
+   "domain": "教育制度",
+   "stage": "反题",
+   "need": "孩子成绩提升",
+   "conflict": "补习班花钱花时间 vs 效果不确定/孩子抵触",
+   "linked": [
+    "edu-score",
+    "edu-doublecut"
+   ]
+  },
+  {
+   "q": "补习班是不是在贩卖焦虑？",
+   "conflict_id": "edu-tutor",
+   "domain": "教育制度",
+   "stage": "反题",
+   "need": "孩子成绩提升",
+   "conflict": "补习班花钱花时间 vs 效果不确定/孩子抵触",
+   "linked": [
+    "edu-score",
+    "edu-doublecut"
+   ]
+  },
+  {
+   "q": "怎么判断孩子需要补什么？",
+   "conflict_id": "edu-tutor",
+   "domain": "教育制度",
+   "stage": "合题",
+   "need": "孩子成绩提升",
+   "conflict": "补习班花钱花时间 vs 效果不确定/孩子抵触",
+   "linked": [
+    "edu-score",
+    "edu-doublecut"
+   ]
+  },
+  {
+   "q": "怎么让孩子主动想学？",
+   "conflict_id": "edu-tutor",
+   "domain": "教育制度",
+   "stage": "合题",
+   "need": "孩子成绩提升",
+   "conflict": "补习班花钱花时间 vs 效果不确定/孩子抵触",
+   "linked": [
+    "edu-score",
+    "edu-doublecut"
+   ]
+  },
+  {
+   "q": "为什么被欺负了老师也不管？",
+   "conflict_id": "teach-bully",
+   "domain": "师生",
+   "stage": "正题",
+   "need": "每个孩子安全+被尊重",
+   "conflict": "校园霸凌 vs 学校息事宁人/受害者不敢说",
+   "linked": [
+    "teach-fair",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "孩子在学校被欺负了怎么办？",
+   "conflict_id": "teach-bully",
+   "domain": "师生",
+   "stage": "正题",
+   "need": "每个孩子安全+被尊重",
+   "conflict": "校园霸凌 vs 学校息事宁人/受害者不敢说",
+   "linked": [
+    "teach-fair",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "打回去是不是最好的办法？",
+   "conflict_id": "teach-bully",
+   "domain": "师生",
+   "stage": "反题",
+   "need": "每个孩子安全+被尊重",
+   "conflict": "校园霸凌 vs 学校息事宁人/受害者不敢说",
+   "linked": [
+    "teach-fair",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "告老师没用，是不是只能忍？",
+   "conflict_id": "teach-bully",
+   "domain": "师生",
+   "stage": "反题",
+   "need": "每个孩子安全+被尊重",
+   "conflict": "校园霸凌 vs 学校息事宁人/受害者不敢说",
+   "linked": [
+    "teach-fair",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "怎么让孩子敢说被欺负的事？",
+   "conflict_id": "teach-bully",
+   "domain": "师生",
+   "stage": "合题",
+   "need": "每个孩子安全+被尊重",
+   "conflict": "校园霸凌 vs 学校息事宁人/受害者不敢说",
+   "linked": [
+    "teach-fair",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "学校和家长怎么联手反霸凌？",
+   "conflict_id": "teach-bully",
+   "domain": "师生",
+   "stage": "合题",
+   "need": "每个孩子安全+被尊重",
+   "conflict": "校园霸凌 vs 学校息事宁人/受害者不敢说",
+   "linked": [
+    "teach-fair",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "为什么35岁就被职场嫌弃？",
+   "conflict_id": "work-age35",
+   "domain": "企业员工",
+   "stage": "正题",
+   "need": "中年人的职业安全感",
+   "conflict": "35岁危机（被嫌弃年龄/晋升瓶颈/裁员优先）vs 经验价值",
+   "linked": [
+    "work-loyalty",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "35岁以后还能找到好工作吗？",
+   "conflict_id": "work-age35",
+   "domain": "企业员工",
+   "stage": "正题",
+   "need": "中年人的职业安全感",
+   "conflict": "35岁危机（被嫌弃年龄/晋升瓶颈/裁员优先）vs 经验价值",
+   "linked": [
+    "work-loyalty",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "年轻人便宜有干劲，企业选他们是不是合理？",
+   "conflict_id": "work-age35",
+   "domain": "企业员工",
+   "stage": "反题",
+   "need": "中年人的职业安全感",
+   "conflict": "35岁危机（被嫌弃年龄/晋升瓶颈/裁员优先）vs 经验价值",
+   "linked": [
+    "work-loyalty",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "35岁被裁是不是自己没跟上？",
+   "conflict_id": "work-age35",
+   "domain": "企业员工",
+   "stage": "反题",
+   "need": "中年人的职业安全感",
+   "conflict": "35岁危机（被嫌弃年龄/晋升瓶颈/裁员优先）vs 经验价值",
+   "linked": [
+    "work-loyalty",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "怎么提前布局不被35岁淘汰？",
+   "conflict_id": "work-age35",
+   "domain": "企业员工",
+   "stage": "合题",
+   "need": "中年人的职业安全感",
+   "conflict": "35岁危机（被嫌弃年龄/晋升瓶颈/裁员优先）vs 经验价值",
+   "linked": [
+    "work-loyalty",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "中年转行/创业靠谱吗？",
+   "conflict_id": "work-age35",
+   "domain": "企业员工",
+   "stage": "合题",
+   "need": "中年人的职业安全感",
+   "conflict": "35岁危机（被嫌弃年龄/晋升瓶颈/裁员优先）vs 经验价值",
+   "linked": [
+    "work-loyalty",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "为什么公司一不行就裁员？",
+   "conflict_id": "work-layoff",
+   "domain": "企业员工",
+   "stage": "正题",
+   "need": "稳定就业",
+   "conflict": "企业降本（裁员）vs 员工生存（还贷养家）",
+   "linked": [
+    "work-age35",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "被裁员了怎么办？",
+   "conflict_id": "work-layoff",
+   "domain": "企业员工",
+   "stage": "正题",
+   "need": "稳定就业",
+   "conflict": "企业降本（裁员）vs 员工生存（还贷养家）",
+   "linked": [
+    "work-age35",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "公司都亏钱了，不裁难道等死？",
+   "conflict_id": "work-layoff",
+   "domain": "企业员工",
+   "stage": "反题",
+   "need": "稳定就业",
+   "conflict": "企业降本（裁员）vs 员工生存（还贷养家）",
+   "linked": [
+    "work-age35",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "裁员是不是总裁老实人？",
+   "conflict_id": "work-layoff",
+   "domain": "企业员工",
+   "stage": "反题",
+   "need": "稳定就业",
+   "conflict": "企业降本（裁员）vs 员工生存（还贷养家）",
+   "linked": [
+    "work-age35",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "被裁之后怎么快速翻身？",
+   "conflict_id": "work-layoff",
+   "domain": "企业员工",
+   "stage": "合题",
+   "need": "稳定就业",
+   "conflict": "企业降本（裁员）vs 员工生存（还贷养家）",
+   "linked": [
+    "work-age35",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "怎么让自己成为裁不掉的人？",
+   "conflict_id": "work-layoff",
+   "domain": "企业员工",
+   "stage": "合题",
+   "need": "稳定就业",
+   "conflict": "企业降本（裁员）vs 员工生存（还贷养家）",
+   "linked": [
+    "work-age35",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "为什么外卖骑手没有社保？",
+   "conflict_id": "gov-platform",
+   "domain": "政企",
+   "stage": "正题",
+   "need": "平台要发展+从业者要保障",
+   "conflict": "平台经济（外卖/网约车/直播）的灵活用工 vs 社保/权益保障",
+   "linked": [
+    "gov-reg",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "平台到底算不算雇佣关系？",
+   "conflict_id": "gov-platform",
+   "domain": "政企",
+   "stage": "正题",
+   "need": "平台要发展+从业者要保障",
+   "conflict": "平台经济（外卖/网约车/直播）的灵活用工 vs 社保/权益保障",
+   "linked": [
+    "gov-reg",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "灵活就业就该自己担风险吗？",
+   "conflict_id": "gov-platform",
+   "domain": "政企",
+   "stage": "反题",
+   "need": "平台要发展+从业者要保障",
+   "conflict": "平台经济（外卖/网约车/直播）的灵活用工 vs 社保/权益保障",
+   "linked": [
+    "gov-reg",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "平台给了机会，凭什么还要求保障？",
+   "conflict_id": "gov-platform",
+   "domain": "政企",
+   "stage": "反题",
+   "need": "平台要发展+从业者要保障",
+   "conflict": "平台经济（外卖/网约车/直播）的灵活用工 vs 社保/权益保障",
+   "linked": [
+    "gov-reg",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "怎么保障骑手又不压垮平台？",
+   "conflict_id": "gov-platform",
+   "domain": "政企",
+   "stage": "合题",
+   "need": "平台要发展+从业者要保障",
+   "conflict": "平台经济（外卖/网约车/直播）的灵活用工 vs 社保/权益保障",
+   "linked": [
+    "gov-reg",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "平台用工的制度出路在哪？",
+   "conflict_id": "gov-platform",
+   "domain": "政企",
+   "stage": "合题",
+   "need": "平台要发展+从业者要保障",
+   "conflict": "平台经济（外卖/网约车/直播）的灵活用工 vs 社保/权益保障",
+   "linked": [
+    "gov-reg",
+    "work-pay"
+   ]
+  },
+  {
+   "q": "为什么环保要求越来越严，工厂怎么办？",
+   "conflict_id": "gov-carbon",
+   "domain": "政企",
+   "stage": "正题",
+   "need": "经济发展（企业利润）",
+   "conflict": "碳中和/环保要求 vs 高耗能产业的成本与就业",
+   "linked": [
+    "gov-subsidy",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "碳中和是不是让企业更难做了？",
+   "conflict_id": "gov-carbon",
+   "domain": "政企",
+   "stage": "正题",
+   "need": "经济发展（企业利润）",
+   "conflict": "碳中和/环保要求 vs 高耗能产业的成本与就业",
+   "linked": [
+    "gov-subsidy",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "不搞环保，子孙后代怎么办？",
+   "conflict_id": "gov-carbon",
+   "domain": "政企",
+   "stage": "反题",
+   "need": "经济发展（企业利润）",
+   "conflict": "碳中和/环保要求 vs 高耗能产业的成本与就业",
+   "linked": [
+    "gov-subsidy",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "发达国家是不是也这么严？",
+   "conflict_id": "gov-carbon",
+   "domain": "政企",
+   "stage": "反题",
+   "need": "经济发展（企业利润）",
+   "conflict": "碳中和/环保要求 vs 高耗能产业的成本与就业",
+   "linked": [
+    "gov-subsidy",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "企业怎么转型又不倒闭？",
+   "conflict_id": "gov-carbon",
+   "domain": "政企",
+   "stage": "合题",
+   "need": "经济发展（企业利润）",
+   "conflict": "碳中和/环保要求 vs 高耗能产业的成本与就业",
+   "linked": [
+    "gov-subsidy",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "环保和发展真的不能兼得吗？",
+   "conflict_id": "gov-carbon",
+   "domain": "政企",
+   "stage": "合题",
+   "need": "经济发展（企业利润）",
+   "conflict": "碳中和/环保要求 vs 高耗能产业的成本与就业",
+   "linked": [
+    "gov-subsidy",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "为什么石油这么重要，连年打仗都跟它有关？",
+   "conflict_id": "intl-energy",
+   "domain": "国家之间",
+   "stage": "正题",
+   "need": "各国的能源安全",
+   "conflict": "能源资源争夺（石油/天然气/稀土）vs 绿色转型",
+   "linked": [
+    "intl-tech",
+    "gov-carbon"
+   ]
+  },
+  {
+   "q": "为什么稀土能卡别人脖子？",
+   "conflict_id": "intl-energy",
+   "domain": "国家之间",
+   "stage": "正题",
+   "need": "各国的能源安全",
+   "conflict": "能源资源争夺（石油/天然气/稀土）vs 绿色转型",
+   "linked": [
+    "intl-tech",
+    "gov-carbon"
+   ]
+  },
+  {
+   "q": "新能源普及了，石油是不是就没用了？",
+   "conflict_id": "intl-energy",
+   "domain": "国家之间",
+   "stage": "反题",
+   "need": "各国的能源安全",
+   "conflict": "能源资源争夺（石油/天然气/稀土）vs 绿色转型",
+   "linked": [
+    "intl-tech",
+    "gov-carbon"
+   ]
+  },
+  {
+   "q": "资源多的国家是不是就该富裕？",
+   "conflict_id": "intl-energy",
+   "domain": "国家之间",
+   "stage": "反题",
+   "need": "各国的能源安全",
+   "conflict": "能源资源争夺（石油/天然气/稀土）vs 绿色转型",
+   "linked": [
+    "intl-tech",
+    "gov-carbon"
+   ]
+  },
+  {
+   "q": "能源转型会怎么改变世界格局？",
+   "conflict_id": "intl-energy",
+   "domain": "国家之间",
+   "stage": "合题",
+   "need": "各国的能源安全",
+   "conflict": "能源资源争夺（石油/天然气/稀土）vs 绿色转型",
+   "linked": [
+    "intl-tech",
+    "gov-carbon"
+   ]
+  },
+  {
+   "q": "怎么摆脱对单一能源的依赖？",
+   "conflict_id": "intl-energy",
+   "domain": "国家之间",
+   "stage": "合题",
+   "need": "各国的能源安全",
+   "conflict": "能源资源争夺（石油/天然气/稀土）vs 绿色转型",
+   "linked": [
+    "intl-tech",
+    "gov-carbon"
+   ]
+  },
+  {
+   "q": "为什么减排责任总是谈不拢？",
+   "conflict_id": "intl-climate",
+   "domain": "国家之间",
+   "stage": "正题",
+   "need": "全球共同应对气候",
+   "conflict": "减排责任分摊（历史排放vs当前排放/发达vs发展中）",
+   "linked": [
+    "gov-carbon",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "发达国家该不该为历史排放负责？",
+   "conflict_id": "intl-climate",
+   "domain": "国家之间",
+   "stage": "正题",
+   "need": "全球共同应对气候",
+   "conflict": "减排责任分摊（历史排放vs当前排放/发达vs发展中）",
+   "linked": [
+    "gov-carbon",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "发展中国家也要发展，凭什么限排？",
+   "conflict_id": "intl-climate",
+   "domain": "国家之间",
+   "stage": "反题",
+   "need": "全球共同应对气候",
+   "conflict": "减排责任分摊（历史排放vs当前排放/发达vs发展中）",
+   "linked": [
+    "gov-carbon",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "气候协议是不是发达国家设的局？",
+   "conflict_id": "intl-climate",
+   "domain": "国家之间",
+   "stage": "反题",
+   "need": "全球共同应对气候",
+   "conflict": "减排责任分摊（历史排放vs当前排放/发达vs发展中）",
+   "linked": [
+    "gov-carbon",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "气候合作还有希望吗？",
+   "conflict_id": "intl-climate",
+   "domain": "国家之间",
+   "stage": "合题",
+   "need": "全球共同应对气候",
+   "conflict": "减排责任分摊（历史排放vs当前排放/发达vs发展中）",
+   "linked": [
+    "gov-carbon",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "怎么让各国都愿意减排？",
+   "conflict_id": "intl-climate",
+   "domain": "国家之间",
+   "stage": "合题",
+   "need": "全球共同应对气候",
+   "conflict": "减排责任分摊（历史排放vs当前排放/发达vs发展中）",
+   "linked": [
+    "gov-carbon",
+    "intl-energy"
+   ]
+  },
+  {
+   "q": "为什么越重要的事越拖？",
+   "conflict_id": "self-procrast",
+   "domain": "家庭个体",
+   "stage": "正题",
+   "need": "完成任务",
+   "conflict": "拖延（畏难/完美主义/即时满足）vs 截止日期",
+   "linked": [
+    "self-lazy",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "拖延症还有救吗？",
+   "conflict_id": "self-procrast",
+   "domain": "家庭个体",
+   "stage": "正题",
+   "need": "完成任务",
+   "conflict": "拖延（畏难/完美主义/即时满足）vs 截止日期",
+   "linked": [
+    "self-lazy",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "拖延是不是就是懒？",
+   "conflict_id": "self-procrast",
+   "domain": "家庭个体",
+   "stage": "反题",
+   "need": "完成任务",
+   "conflict": "拖延（畏难/完美主义/即时满足）vs 截止日期",
+   "linked": [
+    "self-lazy",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "deadline才有动力，是不是也正常？",
+   "conflict_id": "self-procrast",
+   "domain": "家庭个体",
+   "stage": "反题",
+   "need": "完成任务",
+   "conflict": "拖延（畏难/完美主义/即时满足）vs 截止日期",
+   "linked": [
+    "self-lazy",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "怎么根治拖延？",
+   "conflict_id": "self-procrast",
+   "domain": "家庭个体",
+   "stage": "合题",
+   "need": "完成任务",
+   "conflict": "拖延（畏难/完美主义/即时满足）vs 截止日期",
+   "linked": [
+    "self-lazy",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "怎么在压力下也能开始行动？",
+   "conflict_id": "self-procrast",
+   "domain": "家庭个体",
+   "stage": "合题",
+   "need": "完成任务",
+   "conflict": "拖延（畏难/完美主义/即时满足）vs 截止日期",
+   "linked": [
+    "self-lazy",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "为什么看到别人过得比我好就焦虑？",
+   "conflict_id": "self-compare",
+   "domain": "家庭个体",
+   "stage": "正题",
+   "need": "自我价值感",
+   "conflict": "攀比（同辈压力/社交媒体）vs 自己的节奏",
+   "linked": [
+    "self-ideal",
+    "self-choice"
+   ]
+  },
+  {
+   "q": "同学都买房结婚了，我还在原地怎么办？",
+   "conflict_id": "self-compare",
+   "domain": "家庭个体",
+   "stage": "正题",
+   "need": "自我价值感",
+   "conflict": "攀比（同辈压力/社交媒体）vs 自己的节奏",
+   "linked": [
+    "self-ideal",
+    "self-choice"
+   ]
+  },
+  {
+   "q": "不比较是不是就不进步了？",
+   "conflict_id": "self-compare",
+   "domain": "家庭个体",
+   "stage": "反题",
+   "need": "自我价值感",
+   "conflict": "攀比（同辈压力/社交媒体）vs 自己的节奏",
+   "linked": [
+    "self-ideal",
+    "self-choice"
+   ]
+  },
+  {
+   "q": "别人确实更优秀，我是不是该承认？",
+   "conflict_id": "self-compare",
+   "domain": "家庭个体",
+   "stage": "反题",
+   "need": "自我价值感",
+   "conflict": "攀比（同辈压力/社交媒体）vs 自己的节奏",
+   "linked": [
+    "self-ideal",
+    "self-choice"
+   ]
+  },
+  {
+   "q": "怎么停止和别人比较？",
+   "conflict_id": "self-compare",
+   "domain": "家庭个体",
+   "stage": "合题",
+   "need": "自我价值感",
+   "conflict": "攀比（同辈压力/社交媒体）vs 自己的节奏",
+   "linked": [
+    "self-ideal",
+    "self-choice"
+   ]
+  },
+  {
+   "q": "怎么找到自己的节奏？",
+   "conflict_id": "self-compare",
+   "domain": "家庭个体",
+   "stage": "合题",
+   "need": "自我价值感",
+   "conflict": "攀比（同辈压力/社交媒体）vs 自己的节奏",
+   "linked": [
+    "self-ideal",
+    "self-choice"
+   ]
+  }
+ ]
+}

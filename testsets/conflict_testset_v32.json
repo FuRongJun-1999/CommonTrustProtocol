@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v32",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "家里大事谁说了算？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "正题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "家庭决策要商量吗？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "正题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "谁赚得多谁做主？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "反题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "决策权是地位的象征吗？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "反题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "家庭决策怎么定？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "合题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "决策权和尊重怎么平衡？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "合题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "夫妻吵架正常吗？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "正题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "吵架会伤感情吗？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "正题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "不吵架是感情好？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "反题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "吵架是沟通还是伤害？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "反题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "夫妻怎么吵不伤感情？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "合题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "吵架后怎么和好？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "合题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "夫妻成长不同步怎么办？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "正题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ]
+  },
+  {
+   "q": "他进步了，我落后了？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "正题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ]
+  },
+  {
+   "q": "成长是各走各的？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "反题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ]
+  },
+  {
+   "q": "不同步是离婚的原因？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "反题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ]
+  },
+  {
+   "q": "夫妻怎么一起成长？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "合题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ]
+  },
+  {
+   "q": "成长差异怎么面对？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "合题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ]
+  },
+  {
+   "q": "为什么婚礼筹备总吵架？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "正题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "办婚礼是幸福的开始还是吵架的开始？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "正题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婚礼要听父母的？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "反题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婚礼是两个人的还是两家的？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "反题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婚礼筹备怎么不吵架？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "合题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婚礼的矛盾怎么化解？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "合题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "亲家之间怎么相处？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "正题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "亲家关系影响小两口吗？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "正题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "亲家是亲戚？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "反题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "亲家之间要客气吗？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "反题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "亲家关系怎么处好？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "合题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "两家父母怎么互动？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "合题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "父母在老家，怎么尽孝？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "正题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ]
+  },
+  {
+   "q": "异地养老是遗憾吗？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "正题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ]
+  },
+  {
+   "q": "接父母过来住？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "反题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ]
+  },
+  {
+   "q": "常回家看看够吗？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "反题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ]
+  },
+  {
+   "q": "异地养老怎么安排？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "合题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ]
+  },
+  {
+   "q": "孝心和距离怎么平衡？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "合题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ]
+  },
+  {
+   "q": "过年回谁家总吵架？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "正题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "回婆家还是回娘家？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "正题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "传统是回婆家？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "反题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "轮流回，公平吗？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "反题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "过年回谁家怎么定？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "合题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "两家的年怎么安排？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "合题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ]
+  },
+  {
+   "q": "为什么夫妻说话容易伤人？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "正题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "好好说话难吗？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "正题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "一家人说话随便点？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "反题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "语言暴力是暴力吗？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "反题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "夫妻怎么好好说话？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "合题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "伤人的话怎么不说？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "合题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ]
+  }
+ ]
+}

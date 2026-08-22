@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v24",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么面试总问婚育计划？",
+   "conflict_id": "gen-hiring",
+   "domain": "就业公平",
+   "stage": "正题",
+   "need": "求职不被问私事",
+   "conflict": "面试问婚育 vs 就业公平",
+   "linked": [
+    "gen-work",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "女性求职被问生孩子，公平吗？",
+   "conflict_id": "gen-hiring",
+   "domain": "就业公平",
+   "stage": "正题",
+   "need": "求职不被问私事",
+   "conflict": "面试问婚育 vs 就业公平",
+   "linked": [
+    "gen-work",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "企业怕成本，有错吗？",
+   "conflict_id": "gen-hiring",
+   "domain": "就业公平",
+   "stage": "反题",
+   "need": "求职不被问私事",
+   "conflict": "面试问婚育 vs 就业公平",
+   "linked": [
+    "gen-work",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "婚育是私事，凭啥问？",
+   "conflict_id": "gen-hiring",
+   "domain": "就业公平",
+   "stage": "反题",
+   "need": "求职不被问私事",
+   "conflict": "面试问婚育 vs 就业公平",
+   "linked": [
+    "gen-work",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "求职婚育问题怎么答？",
+   "conflict_id": "gen-hiring",
+   "domain": "就业公平",
+   "stage": "合题",
+   "need": "求职不被问私事",
+   "conflict": "面试问婚育 vs 就业公平",
+   "linked": [
+    "gen-work",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "职场生育歧视怎么破？",
+   "conflict_id": "gen-hiring",
+   "domain": "就业公平",
+   "stage": "合题",
+   "need": "求职不被问私事",
+   "conflict": "面试问婚育 vs 就业公平",
+   "linked": [
+    "gen-work",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "为什么男人不能哭？",
+   "conflict_id": "gen-maleemotion",
+   "domain": "男性心理",
+   "stage": "正题",
+   "need": "情绪被允许",
+   "conflict": "男儿有泪不轻弹 vs 情绪健康",
+   "linked": [
+    "gen-malepressure",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "男儿有泪不轻弹，对吗？",
+   "conflict_id": "gen-maleemotion",
+   "domain": "男性心理",
+   "stage": "正题",
+   "need": "情绪被允许",
+   "conflict": "男儿有泪不轻弹 vs 情绪健康",
+   "linked": [
+    "gen-malepressure",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "男人示弱，丢人吗？",
+   "conflict_id": "gen-maleemotion",
+   "domain": "男性心理",
+   "stage": "反题",
+   "need": "情绪被允许",
+   "conflict": "男儿有泪不轻弹 vs 情绪健康",
+   "linked": [
+    "gen-malepressure",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "情绪外露是软弱吗？",
+   "conflict_id": "gen-maleemotion",
+   "domain": "男性心理",
+   "stage": "反题",
+   "need": "情绪被允许",
+   "conflict": "男儿有泪不轻弹 vs 情绪健康",
+   "linked": [
+    "gen-malepressure",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "男性情绪怎么表达？",
+   "conflict_id": "gen-maleemotion",
+   "domain": "男性心理",
+   "stage": "合题",
+   "need": "情绪被允许",
+   "conflict": "男儿有泪不轻弹 vs 情绪健康",
+   "linked": [
+    "gen-malepressure",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "男人的压力怎么释放？",
+   "conflict_id": "gen-maleemotion",
+   "domain": "男性心理",
+   "stage": "合题",
+   "need": "情绪被允许",
+   "conflict": "男儿有泪不轻弹 vs 情绪健康",
+   "linked": [
+    "gen-malepressure",
+    "psy-anxiety"
+   ]
+  },
+  {
+   "q": "为什么单身经济这么火？",
+   "conflict_id": "soc-singleeconomy",
+   "domain": "单身社会",
+   "stage": "正题",
+   "need": "单身也体面",
+   "conflict": "单身经济 vs 社会配套",
+   "linked": [
+    "psy-single",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "一人食是孤独还是自由？",
+   "conflict_id": "soc-singleeconomy",
+   "domain": "单身社会",
+   "stage": "正题",
+   "need": "单身也体面",
+   "conflict": "单身经济 vs 社会配套",
+   "linked": [
+    "psy-single",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "一个人生活，有错吗？",
+   "conflict_id": "soc-singleeconomy",
+   "domain": "单身社会",
+   "stage": "反题",
+   "need": "单身也体面",
+   "conflict": "单身经济 vs 社会配套",
+   "linked": [
+    "psy-single",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "单身经济是逃避婚姻吗？",
+   "conflict_id": "soc-singleeconomy",
+   "domain": "单身社会",
+   "stage": "反题",
+   "need": "单身也体面",
+   "conflict": "单身经济 vs 社会配套",
+   "linked": [
+    "psy-single",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "单身生活怎么过好？",
+   "conflict_id": "soc-singleeconomy",
+   "domain": "单身社会",
+   "stage": "合题",
+   "need": "单身也体面",
+   "conflict": "单身经济 vs 社会配套",
+   "linked": [
+    "psy-single",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "单身和社会怎么和解？",
+   "conflict_id": "soc-singleeconomy",
+   "domain": "单身社会",
+   "stage": "合题",
+   "need": "单身也体面",
+   "conflict": "单身经济 vs 社会配套",
+   "linked": [
+    "psy-single",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "为什么女性有生育年龄焦虑？",
+   "conflict_id": "gen-birthanxiety",
+   "domain": "女性抉择",
+   "stage": "正题",
+   "need": "生育不焦虑",
+   "conflict": "生育年龄焦虑 vs 选择",
+   "linked": [
+    "fam-birth",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "30岁没生孩子，慌吗？",
+   "conflict_id": "gen-birthanxiety",
+   "domain": "女性抉择",
+   "stage": "正题",
+   "need": "生育不焦虑",
+   "conflict": "生育年龄焦虑 vs 选择",
+   "linked": [
+    "fam-birth",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "年龄是生育的坎吗？",
+   "conflict_id": "gen-birthanxiety",
+   "domain": "女性抉择",
+   "stage": "反题",
+   "need": "生育不焦虑",
+   "conflict": "生育年龄焦虑 vs 选择",
+   "linked": [
+    "fam-birth",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "为了生育将就结婚，对吗？",
+   "conflict_id": "gen-birthanxiety",
+   "domain": "女性抉择",
+   "stage": "反题",
+   "need": "生育不焦虑",
+   "conflict": "生育年龄焦虑 vs 选择",
+   "linked": [
+    "fam-birth",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "生育焦虑怎么面对？",
+   "conflict_id": "gen-birthanxiety",
+   "domain": "女性抉择",
+   "stage": "合题",
+   "need": "生育不焦虑",
+   "conflict": "生育年龄焦虑 vs 选择",
+   "linked": [
+    "fam-birth",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "生育和事业怎么权衡？",
+   "conflict_id": "gen-birthanxiety",
+   "domain": "女性抉择",
+   "stage": "合题",
+   "need": "生育不焦虑",
+   "conflict": "生育年龄焦虑 vs 选择",
+   "linked": [
+    "fam-birth",
+    "gen-labels"
+   ]
+  },
+  {
+   "q": "为什么男性也开始护肤医美？",
+   "conflict_id": "gen-malegrooming",
+   "domain": "男性消费",
+   "stage": "正题",
+   "need": "形象自由",
+   "conflict": "男性护肤医美 vs 观念",
+   "linked": [
+    "gen-consume",
+    "psy-appearance"
+   ]
+  },
+  {
+   "q": "男性爱美，娘吗？",
+   "conflict_id": "gen-malegrooming",
+   "domain": "男性消费",
+   "stage": "正题",
+   "need": "形象自由",
+   "conflict": "男性护肤医美 vs 观念",
+   "linked": [
+    "gen-consume",
+    "psy-appearance"
+   ]
+  },
+  {
+   "q": "男性注重形象，有错吗？",
+   "conflict_id": "gen-malegrooming",
+   "domain": "男性消费",
+   "stage": "反题",
+   "need": "形象自由",
+   "conflict": "男性护肤医美 vs 观念",
+   "linked": [
+    "gen-consume",
+    "psy-appearance"
+   ]
+  },
+  {
+   "q": "男性消费崛起是好事吗？",
+   "conflict_id": "gen-malegrooming",
+   "domain": "男性消费",
+   "stage": "反题",
+   "need": "形象自由",
+   "conflict": "男性护肤医美 vs 观念",
+   "linked": [
+    "gen-consume",
+    "psy-appearance"
+   ]
+  },
+  {
+   "q": "男性形象消费怎么看？",
+   "conflict_id": "gen-malegrooming",
+   "domain": "男性消费",
+   "stage": "合题",
+   "need": "形象自由",
+   "conflict": "男性护肤医美 vs 观念",
+   "linked": [
+    "gen-consume",
+    "psy-appearance"
+   ]
+  },
+  {
+   "q": "形象和实力怎么平衡？",
+   "conflict_id": "gen-malegrooming",
+   "domain": "男性消费",
+   "stage": "合题",
+   "need": "形象自由",
+   "conflict": "男性护肤医美 vs 观念",
+   "linked": [
+    "gen-consume",
+    "psy-appearance"
+   ]
+  },
+  {
+   "q": "为什么单亲妈妈这么难？",
+   "conflict_id": "fam-singlemom",
+   "domain": "单亲家庭",
+   "stage": "正题",
+   "need": "单亲不被看低",
+   "conflict": "单亲养育 vs 支持",
+   "linked": [
+    "fam-remarry",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "单亲妈妈养娃，能行吗？",
+   "conflict_id": "fam-singlemom",
+   "domain": "单亲家庭",
+   "stage": "正题",
+   "need": "单亲不被看低",
+   "conflict": "单亲养育 vs 支持",
+   "linked": [
+    "fam-remarry",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "单亲是自己选的，怪谁？",
+   "conflict_id": "fam-singlemom",
+   "domain": "单亲家庭",
+   "stage": "反题",
+   "need": "单亲不被看低",
+   "conflict": "单亲养育 vs 支持",
+   "linked": [
+    "fam-remarry",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "单亲妈妈需要特殊照顾吗？",
+   "conflict_id": "fam-singlemom",
+   "domain": "单亲家庭",
+   "stage": "反题",
+   "need": "单亲不被看低",
+   "conflict": "单亲养育 vs 支持",
+   "linked": [
+    "fam-remarry",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "单亲妈妈怎么撑起家？",
+   "conflict_id": "fam-singlemom",
+   "domain": "单亲家庭",
+   "stage": "合题",
+   "need": "单亲不被看低",
+   "conflict": "单亲养育 vs 支持",
+   "linked": [
+    "fam-remarry",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "社会怎么支持单亲家庭？",
+   "conflict_id": "fam-singlemom",
+   "domain": "单亲家庭",
+   "stage": "合题",
+   "need": "单亲不被看低",
+   "conflict": "单亲养育 vs 支持",
+   "linked": [
+    "fam-remarry",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "为什么女性夜间出行不安全？",
+   "conflict_id": "public-night",
+   "domain": "公共安全",
+   "stage": "正题",
+   "need": "夜晚也自由",
+   "conflict": "女性夜间安全 vs 自由",
+   "linked": [
+    "traffic-ridehailing",
+    "gen-war"
+   ]
+  },
+  {
+   "q": "晚上不敢出门，是女性问题吗？",
+   "conflict_id": "public-night",
+   "domain": "公共安全",
+   "stage": "正题",
+   "need": "夜晚也自由",
+   "conflict": "女性夜间安全 vs 自由",
+   "linked": [
+    "traffic-ridehailing",
+    "gen-war"
+   ]
+  },
+  {
+   "q": "深夜出门，自己不小心？",
+   "conflict_id": "public-night",
+   "domain": "公共安全",
+   "stage": "反题",
+   "need": "夜晚也自由",
+   "conflict": "女性夜间安全 vs 自由",
+   "linked": [
+    "traffic-ridehailing",
+    "gen-war"
+   ]
+  },
+  {
+   "q": "女性夜间自由，是奢望吗？",
+   "conflict_id": "public-night",
+   "domain": "公共安全",
+   "stage": "反题",
+   "need": "夜晚也自由",
+   "conflict": "女性夜间安全 vs 自由",
+   "linked": [
+    "traffic-ridehailing",
+    "gen-war"
+   ]
+  },
+  {
+   "q": "女性夜间安全怎么保障？",
+   "conflict_id": "public-night",
+   "domain": "公共安全",
+   "stage": "合题",
+   "need": "夜晚也自由",
+   "conflict": "女性夜间安全 vs 自由",
+   "linked": [
+    "traffic-ridehailing",
+    "gen-war"
+   ]
+  },
+  {
+   "q": "城市怎么让夜晚更安全？",
+   "conflict_id": "public-night",
+   "domain": "公共安全",
+   "stage": "合题",
+   "need": "夜晚也自由",
+   "conflict": "女性夜间安全 vs 自由",
+   "linked": [
+    "traffic-ridehailing",
+    "gen-war"
+   ]
+  },
+  {
+   "q": "为什么男多女少？",
+   "conflict_id": "gen-genderratio",
+   "domain": "人口结构",
+   "stage": "正题",
+   "need": "婚恋不恐慌",
+   "conflict": "男多女少 vs 婚恋压力",
+   "linked": [
+    "gen-malepressure",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "男女比例失衡，婚恋怎么办？",
+   "conflict_id": "gen-genderratio",
+   "domain": "人口结构",
+   "stage": "正题",
+   "need": "婚恋不恐慌",
+   "conflict": "男多女少 vs 婚恋压力",
+   "linked": [
+    "gen-malepressure",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "男多女少是女性的红利？",
+   "conflict_id": "gen-genderratio",
+   "domain": "人口结构",
+   "stage": "反题",
+   "need": "婚恋不恐慌",
+   "conflict": "男多女少 vs 婚恋压力",
+   "linked": [
+    "gen-malepressure",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "光棍多是社会问题吗？",
+   "conflict_id": "gen-genderratio",
+   "domain": "人口结构",
+   "stage": "反题",
+   "need": "婚恋不恐慌",
+   "conflict": "男多女少 vs 婚恋压力",
+   "linked": [
+    "gen-malepressure",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "性别比失衡怎么应对？",
+   "conflict_id": "gen-genderratio",
+   "domain": "人口结构",
+   "stage": "合题",
+   "need": "婚恋不恐慌",
+   "conflict": "男多女少 vs 婚恋压力",
+   "linked": [
+    "gen-malepressure",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "婚恋市场怎么理性？",
+   "conflict_id": "gen-genderratio",
+   "domain": "人口结构",
+   "stage": "合题",
+   "need": "婚恋不恐慌",
+   "conflict": "男多女少 vs 婚恋压力",
+   "linked": [
+    "gen-malepressure",
+    "fam-betrothal"
+   ]
+  }
+ ]
+}

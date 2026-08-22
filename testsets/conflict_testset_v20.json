@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v20",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么孩子要接受性教育？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "正题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "性教育会不会教坏孩子？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "正题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "孩子还小，讲这个合适吗？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "反题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "性教育是家长的事还是学校的事？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "反题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "儿童性教育怎么做？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "合题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "怎么教孩子保护自己？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "合题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ]
+  },
+  {
+   "q": "宠物保险有必要买吗？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "正题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ]
+  },
+  {
+   "q": "宠物看病这么贵，保险能报吗？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "正题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ]
+  },
+  {
+   "q": "给宠物买保险，值得吗？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "反题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ]
+  },
+  {
+   "q": "宠物保险是智商税吗？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "反题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ]
+  },
+  {
+   "q": "宠物保险怎么买？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "合题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ]
+  },
+  {
+   "q": "宠物看病怎么省钱？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "合题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ]
+  },
+  {
+   "q": "为什么大学生都在考证？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "正题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "证书真的有用吗？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "正题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "多考一个证，多一条路？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "反题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "考证是投资还是焦虑？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "反题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "证该怎么考？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "合题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "证书和能力怎么选？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "合题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "为什么住院要家属陪护？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "正题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "陪护是义务还是负担？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "正题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "医院不管陪护，合理吗？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "反题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "请护工贵，家属陪省钱？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "反题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "住院陪护怎么安排？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "合题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "医院陪护制度怎么改？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "合题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "为什么孩子蛀牙这么多？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "正题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "刷牙为什么还蛀牙？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "正题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "乳牙会换，蛀了没事？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "反题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "孩子不爱刷牙，怎么办？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "反题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "儿童护牙怎么做？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "合题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "蛀牙怎么预防？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "合题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "为什么网购退货这么多？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "正题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ]
+  },
+  {
+   "q": "退货是权利还是滥用？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "正题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ]
+  },
+  {
+   "q": "不合适就退，有错吗？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "反题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ]
+  },
+  {
+   "q": "退货让商家亏钱，内疚吗？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "反题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ]
+  },
+  {
+   "q": "网购怎么减少退货？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "合题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ]
+  },
+  {
+   "q": "退货怎么退不亏？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "合题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ]
+  },
+  {
+   "q": "老人该运动吗？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "正题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "老人运动会受伤吗？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "正题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "老人就该静养，动什么动？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "反题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "广场舞/暴走，伤膝盖怎么办？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "反题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "老人怎么运动不受伤？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "合题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "适合老人的运动有哪些？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "合题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "为什么辅导作业这么崩溃？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "正题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "辅导作业是父母的必修课吗？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "正题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "不辅导，孩子学不会？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "反题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "辅导崩溃，是孩子笨吗？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "反题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "辅导作业怎么不崩溃？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "合题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "作业辅导和独立怎么平衡？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "合题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ]
+  }
+ ]
+}

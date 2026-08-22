@@ -1,0 +1,390 @@
+{
+ "name": "conflict_testset_v41",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么煮鸡蛋会变硬？",
+   "conflict_id": "chem-egg",
+   "domain": "煮鸡蛋",
+   "stage": "正题",
+   "need": "蛋白质变性",
+   "conflict": "变性凝固 vs 熟了"
+  },
+  {
+   "q": "为什么鸡蛋变硬了？",
+   "conflict_id": "chem-egg",
+   "domain": "煮鸡蛋",
+   "stage": "正题",
+   "need": "蛋白质变性",
+   "conflict": "变性凝固 vs 熟了"
+  },
+  {
+   "q": "鸡蛋变硬是煮熟了？",
+   "conflict_id": "chem-egg",
+   "domain": "煮鸡蛋",
+   "stage": "反题",
+   "need": "蛋白质变性",
+   "conflict": "变性凝固 vs 熟了"
+  },
+  {
+   "q": "鸡蛋煮多久会变硬？",
+   "conflict_id": "chem-egg",
+   "domain": "煮鸡蛋",
+   "stage": "反题",
+   "need": "蛋白质变性",
+   "conflict": "变性凝固 vs 熟了"
+  },
+  {
+   "q": "鸡蛋煮太久会怎样？",
+   "conflict_id": "chem-egg",
+   "domain": "煮鸡蛋",
+   "stage": "合题",
+   "need": "蛋白质变性",
+   "conflict": "变性凝固 vs 熟了"
+  },
+  {
+   "q": "怎么判断鸡蛋煮熟了？",
+   "conflict_id": "chem-egg",
+   "domain": "煮鸡蛋",
+   "stage": "合题",
+   "need": "蛋白质变性",
+   "conflict": "变性凝固 vs 熟了"
+  },
+  {
+   "q": "为什么气球会飞上天？",
+   "conflict_id": "phy-balloon",
+   "domain": "气球上天",
+   "stage": "正题",
+   "need": "密度小于空气",
+   "conflict": "浮力 vs 重量"
+  },
+  {
+   "q": "气球为什么会飘起来？",
+   "conflict_id": "phy-balloon",
+   "domain": "气球上天",
+   "stage": "正题",
+   "need": "密度小于空气",
+   "conflict": "浮力 vs 重量"
+  },
+  {
+   "q": "气球飞上天是气球变轻了？",
+   "conflict_id": "phy-balloon",
+   "domain": "气球上天",
+   "stage": "反题",
+   "need": "密度小于空气",
+   "conflict": "浮力 vs 重量"
+  },
+  {
+   "q": "所有气球都会飞？",
+   "conflict_id": "phy-balloon",
+   "domain": "气球上天",
+   "stage": "反题",
+   "need": "密度小于空气",
+   "conflict": "浮力 vs 重量"
+  },
+  {
+   "q": "怎么让气球飞起来？",
+   "conflict_id": "phy-balloon",
+   "domain": "气球上天",
+   "stage": "合题",
+   "need": "密度小于空气",
+   "conflict": "浮力 vs 重量"
+  },
+  {
+   "q": "为什么氢气气球能飞？",
+   "conflict_id": "phy-balloon",
+   "domain": "气球上天",
+   "stage": "合题",
+   "need": "密度小于空气",
+   "conflict": "浮力 vs 重量"
+  },
+  {
+   "q": "为什么空调外机会滴水？",
+   "conflict_id": "phy-ac",
+   "domain": "空调滴水",
+   "stage": "正题",
+   "need": "冷凝水",
+   "conflict": "冷凝 vs 故障"
+  },
+  {
+   "q": "空调为什么会滴水？",
+   "conflict_id": "phy-ac",
+   "domain": "空调滴水",
+   "stage": "正题",
+   "need": "冷凝水",
+   "conflict": "冷凝 vs 故障"
+  },
+  {
+   "q": "空调滴水是坏了？",
+   "conflict_id": "phy-ac",
+   "domain": "空调滴水",
+   "stage": "反题",
+   "need": "冷凝水",
+   "conflict": "冷凝 vs 故障"
+  },
+  {
+   "q": "空调漏的是氟利昂？",
+   "conflict_id": "phy-ac",
+   "domain": "空调滴水",
+   "stage": "反题",
+   "need": "冷凝水",
+   "conflict": "冷凝 vs 故障"
+  },
+  {
+   "q": "空调外机滴水怎么处理？",
+   "conflict_id": "phy-ac",
+   "domain": "空调滴水",
+   "stage": "合题",
+   "need": "冷凝水",
+   "conflict": "冷凝 vs 故障"
+  },
+  {
+   "q": "空调排水管堵了怎么办？",
+   "conflict_id": "phy-ac",
+   "domain": "空调滴水",
+   "stage": "合题",
+   "need": "冷凝水",
+   "conflict": "冷凝 vs 故障"
+  },
+  {
+   "q": "为什么牛奶要放冰箱？",
+   "conflict_id": "bio-milk",
+   "domain": "牛奶冷藏",
+   "stage": "正题",
+   "need": "低温抑菌",
+   "conflict": "冷藏 vs 变质"
+  },
+  {
+   "q": "牛奶为什么容易坏？",
+   "conflict_id": "bio-milk",
+   "domain": "牛奶冷藏",
+   "stage": "正题",
+   "need": "低温抑菌",
+   "conflict": "冷藏 vs 变质"
+  },
+  {
+   "q": "牛奶放冰箱就不会坏？",
+   "conflict_id": "bio-milk",
+   "domain": "牛奶冷藏",
+   "stage": "反题",
+   "need": "低温抑菌",
+   "conflict": "冷藏 vs 变质"
+  },
+  {
+   "q": "牛奶坏了还能喝？",
+   "conflict_id": "bio-milk",
+   "domain": "牛奶冷藏",
+   "stage": "反题",
+   "need": "低温抑菌",
+   "conflict": "冷藏 vs 变质"
+  },
+  {
+   "q": "怎么判断牛奶变质了？",
+   "conflict_id": "bio-milk",
+   "domain": "牛奶冷藏",
+   "stage": "合题",
+   "need": "低温抑菌",
+   "conflict": "冷藏 vs 变质"
+  },
+  {
+   "q": "牛奶怎么保存不容易坏？",
+   "conflict_id": "bio-milk",
+   "domain": "牛奶冷藏",
+   "stage": "合题",
+   "need": "低温抑菌",
+   "conflict": "冷藏 vs 变质"
+  },
+  {
+   "q": "为什么吃完饭会犯困？",
+   "conflict_id": "bio-sleepy",
+   "domain": "饭后犯困",
+   "stage": "正题",
+   "need": "消化供血",
+   "conflict": "消化需要 vs 大脑供血"
+  },
+  {
+   "q": "饭后为什么想睡觉？",
+   "conflict_id": "bio-sleepy",
+   "domain": "饭后犯困",
+   "stage": "正题",
+   "need": "消化供血",
+   "conflict": "消化需要 vs 大脑供血"
+  },
+  {
+   "q": "犯困是因为吃得太多？",
+   "conflict_id": "bio-sleepy",
+   "domain": "饭后犯困",
+   "stage": "反题",
+   "need": "消化供血",
+   "conflict": "消化需要 vs 大脑供血"
+  },
+  {
+   "q": "吃饱了就该睡？",
+   "conflict_id": "bio-sleepy",
+   "domain": "饭后犯困",
+   "stage": "反题",
+   "need": "消化供血",
+   "conflict": "消化需要 vs 大脑供血"
+  },
+  {
+   "q": "饭后犯困怎么办？",
+   "conflict_id": "bio-sleepy",
+   "domain": "饭后犯困",
+   "stage": "合题",
+   "need": "消化供血",
+   "conflict": "消化需要 vs 大脑供血"
+  },
+  {
+   "q": "怎么避免吃完饭犯困？",
+   "conflict_id": "bio-sleepy",
+   "domain": "饭后犯困",
+   "stage": "合题",
+   "need": "消化供血",
+   "conflict": "消化需要 vs 大脑供血"
+  },
+  {
+   "q": "为什么蚊子爱叮我？",
+   "conflict_id": "bio-mosquito",
+   "domain": "蚊子叮",
+   "stage": "正题",
+   "need": "二氧化碳体温汗味",
+   "conflict": "吸引因素 vs 血型"
+  },
+  {
+   "q": "蚊子为什么叮人？",
+   "conflict_id": "bio-mosquito",
+   "domain": "蚊子叮",
+   "stage": "正题",
+   "need": "二氧化碳体温汗味",
+   "conflict": "吸引因素 vs 血型"
+  },
+  {
+   "q": "蚊子叮人是吸血？",
+   "conflict_id": "bio-mosquito",
+   "domain": "蚊子叮",
+   "stage": "反题",
+   "need": "二氧化碳体温汗味",
+   "conflict": "吸引因素 vs 血型"
+  },
+  {
+   "q": "血型招蚊子？",
+   "conflict_id": "bio-mosquito",
+   "domain": "蚊子叮",
+   "stage": "反题",
+   "need": "二氧化碳体温汗味",
+   "conflict": "吸引因素 vs 血型"
+  },
+  {
+   "q": "怎么防蚊子叮？",
+   "conflict_id": "bio-mosquito",
+   "domain": "蚊子叮",
+   "stage": "合题",
+   "need": "二氧化碳体温汗味",
+   "conflict": "吸引因素 vs 血型"
+  },
+  {
+   "q": "被蚊子咬了怎么止痒？",
+   "conflict_id": "bio-mosquito",
+   "domain": "蚊子叮",
+   "stage": "合题",
+   "need": "二氧化碳体温汗味",
+   "conflict": "吸引因素 vs 血型"
+  },
+  {
+   "q": "为什么坐电梯会有失重感？",
+   "conflict_id": "phy-elevator",
+   "domain": "电梯失重",
+   "stage": "正题",
+   "need": "加速度感觉",
+   "conflict": "失重超重 vs 掉下去"
+  },
+  {
+   "q": "电梯下行时为什么心慌？",
+   "conflict_id": "phy-elevator",
+   "domain": "电梯失重",
+   "stage": "正题",
+   "need": "加速度感觉",
+   "conflict": "失重超重 vs 掉下去"
+  },
+  {
+   "q": "失重是电梯掉下去了？",
+   "conflict_id": "phy-elevator",
+   "domain": "电梯失重",
+   "stage": "反题",
+   "need": "加速度感觉",
+   "conflict": "失重超重 vs 掉下去"
+  },
+  {
+   "q": "电梯加速上行也难受？",
+   "conflict_id": "phy-elevator",
+   "domain": "电梯失重",
+   "stage": "反题",
+   "need": "加速度感觉",
+   "conflict": "失重超重 vs 掉下去"
+  },
+  {
+   "q": "电梯失重感怎么缓解？",
+   "conflict_id": "phy-elevator",
+   "domain": "电梯失重",
+   "stage": "合题",
+   "need": "加速度感觉",
+   "conflict": "失重超重 vs 掉下去"
+  },
+  {
+   "q": "为什么电梯上升有超重感？",
+   "conflict_id": "phy-elevator",
+   "domain": "电梯失重",
+   "stage": "合题",
+   "need": "加速度感觉",
+   "conflict": "失重超重 vs 掉下去"
+  },
+  {
+   "q": "被子晒了有什么用？",
+   "conflict_id": "life-quilt",
+   "domain": "晒被子",
+   "stage": "正题",
+   "need": "紫外线除螨",
+   "conflict": "杀菌除螨 vs 晒热"
+  },
+  {
+   "q": "晒被子有什么好处？",
+   "conflict_id": "life-quilt",
+   "domain": "晒被子",
+   "stage": "正题",
+   "need": "紫外线除螨",
+   "conflict": "杀菌除螨 vs 晒热"
+  },
+  {
+   "q": "晒被子是把被子晒热？",
+   "conflict_id": "life-quilt",
+   "domain": "晒被子",
+   "stage": "反题",
+   "need": "紫外线除螨",
+   "conflict": "杀菌除螨 vs 晒热"
+  },
+  {
+   "q": "阴天晒被子没用？",
+   "conflict_id": "life-quilt",
+   "domain": "晒被子",
+   "stage": "反题",
+   "need": "紫外线除螨",
+   "conflict": "杀菌除螨 vs 晒热"
+  },
+  {
+   "q": "怎么晒被子最好？",
+   "conflict_id": "life-quilt",
+   "domain": "晒被子",
+   "stage": "合题",
+   "need": "紫外线除螨",
+   "conflict": "杀菌除螨 vs 晒热"
+  },
+  {
+   "q": "晒被子要不要拍打？",
+   "conflict_id": "life-quilt",
+   "domain": "晒被子",
+   "stage": "合题",
+   "need": "紫外线除螨",
+   "conflict": "杀菌除螨 vs 晒热"
+  }
+ ]
+}

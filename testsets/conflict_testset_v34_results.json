@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "家庭饮食听谁的？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "正题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭饮食听谁的、健康饮食和口味怎么平衡，是『健康的科学』vs『口味的习惯』的矛盾——家庭饮食（谁做饭谁说了算（做饭的人定）、口味（重口味/甜食/孩子挑食（口味是习惯）、健康（少盐少油均衡（健康是科学））——家庭饮食的真相"
+  },
+  {
+   "q": "健康饮食和口味怎么平衡？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "正题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭饮食听谁的、健康饮食和口味怎么平衡，是『健康的科学』vs『口味的习惯』的矛盾——家庭饮食（谁做饭谁说了算（做饭的人定）、口味（重口味/甜食/孩子挑食（口味是习惯）、健康（少盐少油均衡（健康是科学））——家庭饮食的真相"
+  },
+  {
+   "q": "爱吃啥吃啥？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "反题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭饮食听谁的、健康饮食和口味怎么平衡，是『健康的科学』vs『口味的习惯』的矛盾——家庭饮食（谁做饭谁说了算（做饭的人定）、口味（重口味/甜食/孩子挑食（口味是习惯）、健康（少盐少油均衡（健康是科学））——家庭饮食的真相"
+  },
+  {
+   "q": "健康饮食是矫情？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "反题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭饮食听谁的、健康饮食和口味怎么平衡，是『健康的科学』vs『口味的习惯』的矛盾——家庭饮食（谁做饭谁说了算（做饭的人定）、口味（重口味/甜食/孩子挑食（口味是习惯）、健康（少盐少油均衡（健康是科学））——家庭饮食的真相"
+  },
+  {
+   "q": "家庭饮食怎么安排？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "合题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭饮食听谁的、健康饮食和口味怎么平衡，是『健康的科学』vs『口味的习惯』的矛盾——家庭饮食（谁做饭谁说了算（做饭的人定）、口味（重口味/甜食/孩子挑食（口味是习惯）、健康（少盐少油均衡（健康是科学））——家庭饮食的真相"
+  },
+  {
+   "q": "健康和孩子口味怎么兼顾？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "合题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭饮食听谁的、健康饮食和口味怎么平衡，是『健康的科学』vs『口味的习惯』的矛盾——家庭饮食（谁做饭谁说了算（做饭的人定）、口味（重口味/甜食/孩子挑食（口味是习惯）、健康（少盐少油均衡（健康是科学））——家庭饮食的真相"
+  },
+  {
+   "q": "家庭作息不统一怎么办？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "正题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭作息不统一、早睡的和晚睡的怎么处，是『个体的节律』vs『家庭的节奏』的矛盾——家庭作息（早睡派（10点睡（养生/高效）、晚睡派（12点睡（夜猫子/工作/习惯）、孩子的作息（要早睡（成长需要）——家庭作息的真相：作息差"
+  },
+  {
+   "q": "早睡的和晚睡的怎么处？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "正题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭作息不统一、早睡的和晚睡的怎么处，是『个体的节律』vs『家庭的节奏』的矛盾——家庭作息（早睡派（10点睡（养生/高效）、晚睡派（12点睡（夜猫子/工作/习惯）、孩子的作息（要早睡（成长需要）——家庭作息的真相：作息差"
+  },
+  {
+   "q": "作息是个人自由？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "反题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭作息不统一、早睡的和晚睡的怎么处，是『个体的节律』vs『家庭的节奏』的矛盾——家庭作息（早睡派（10点睡（养生/高效）、晚睡派（12点睡（夜猫子/工作/习惯）、孩子的作息（要早睡（成长需要）——家庭作息的真相：作息差"
+  },
+  {
+   "q": "家庭作息要统一吗？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "反题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭作息不统一、早睡的和晚睡的怎么处，是『个体的节律』vs『家庭的节奏』的矛盾——家庭作息（早睡派（10点睡（养生/高效）、晚睡派（12点睡（夜猫子/工作/习惯）、孩子的作息（要早睡（成长需要）——家庭作息的真相：作息差"
+  },
+  {
+   "q": "家庭作息怎么协调？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "合题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭作息不统一、早睡的和晚睡的怎么处，是『个体的节律』vs『家庭的节奏』的矛盾——家庭作息（早睡派（10点睡（养生/高效）、晚睡派（12点睡（夜猫子/工作/习惯）、孩子的作息（要早睡（成长需要）——家庭作息的真相：作息差"
+  },
+  {
+   "q": "作息差异怎么磨合？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "合题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭作息不统一、早睡的和晚睡的怎么处，是『个体的节律』vs『家庭的节奏』的矛盾——家庭作息（早睡派（10点睡（养生/高效）、晚睡派（12点睡（夜猫子/工作/习惯）、孩子的作息（要早睡（成长需要）——家庭作息的真相：作息差"
+  },
+  {
+   "q": "家庭旅行听谁的？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "正题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业都要旅行、毕业旅行是仪式还是烧钱，是『青春的纪念』vs『现实的钱包』的矛盾——毕业旅行（高考后/大学毕业，和同学去远方）是青春仪式（十几年读书的句号/和同学的最后狂欢/成人礼），但旅行要钱（几千到上万——学生没收入，"
+  },
+  {
+   "q": "带娃旅行是享受还是受罪？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "正题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业都要旅行、毕业旅行是仪式还是烧钱，是『青春的纪念』vs『现实的钱包』的矛盾——毕业旅行（高考后/大学毕业，和同学去远方）是青春仪式（十几年读书的句号/和同学的最后狂欢/成人礼），但旅行要钱（几千到上万——学生没收入，"
+  },
+  {
+   "q": "旅行是为了孩子？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "反题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业都要旅行、毕业旅行是仪式还是烧钱，是『青春的纪念』vs『现实的钱包』的矛盾——毕业旅行（高考后/大学毕业，和同学去远方）是青春仪式（十几年读书的句号/和同学的最后狂欢/成人礼），但旅行要钱（几千到上万——学生没收入，"
+  },
+  {
+   "q": "旅行是放松还是折腾？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "反题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业都要旅行、毕业旅行是仪式还是烧钱，是『青春的纪念』vs『现实的钱包』的矛盾——毕业旅行（高考后/大学毕业，和同学去远方）是青春仪式（十几年读书的句号/和同学的最后狂欢/成人礼），但旅行要钱（几千到上万——学生没收入，"
+  },
+  {
+   "q": "家庭旅行怎么规划？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "合题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业都要旅行、毕业旅行是仪式还是烧钱，是『青春的纪念』vs『现实的钱包』的矛盾——毕业旅行（高考后/大学毕业，和同学去远方）是青春仪式（十几年读书的句号/和同学的最后狂欢/成人礼），但旅行要钱（几千到上万——学生没收入，"
+  },
+  {
+   "q": "旅行的需求怎么平衡？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "合题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "家庭聚会是温馨还是负担？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "正题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭聚会是温馨还是负担、不想参加家庭聚会行吗，是『亲情的连接』vs『个人的空间』的矛盾——家庭聚会（逢年过节/家庭聚餐（一家人聚在一起）、温馨（团聚（亲情（热闹）、负担（应酬（被问（催婚/比收入（尴尬、累（社交消耗（内向"
+  },
+  {
+   "q": "不想参加家庭聚会，行吗？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "正题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "想家的时候心里是暖的。家里人也一定在惦记你，有空就打个电话——家庭聚会是温馨还是负担、不想参加家庭聚会行吗，是『亲情的连接』vs『个人的空间』的矛盾——家庭聚会（逢年过节/家庭聚餐（一家人聚在一起）、温馨（团聚（亲情（热"
+  },
+  {
+   "q": "聚会是亲情？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "反题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭聚会是温馨还是负担、不想参加家庭聚会行吗，是『亲情的连接』vs『个人的空间』的矛盾——家庭聚会（逢年过节/家庭聚餐（一家人聚在一起）、温馨（团聚（亲情（热闹）、负担（应酬（被问（催婚/比收入（尴尬、累（社交消耗（内向"
+  },
+  {
+   "q": "聚会是应酬？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "反题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭聚会是温馨还是负担、不想参加家庭聚会行吗，是『亲情的连接』vs『个人的空间』的矛盾——家庭聚会（逢年过节/家庭聚餐（一家人聚在一起）、温馨（团聚（亲情（热闹）、负担（应酬（被问（催婚/比收入（尴尬、累（社交消耗（内向"
+  },
+  {
+   "q": "家庭聚会怎么相处？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "合题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭聚会是温馨还是负担、不想参加家庭聚会行吗，是『亲情的连接』vs『个人的空间』的矛盾——家庭聚会（逢年过节/家庭聚餐（一家人聚在一起）、温馨（团聚（亲情（热闹）、负担（应酬（被问（催婚/比收入（尴尬、累（社交消耗（内向"
+  },
+  {
+   "q": "聚会和自由怎么平衡？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "合题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "孩子交朋友要管吗？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "正题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子交朋友要管吗、孩子的朋友不好怎么办，是『交友的自由』vs『父母的责任』的矛盾——孩子交友（交朋友（成长的社交（重要）、父母的担心（朋友不好（带坏（学坏（担心）——孩子交友的真相：交友是孩子的权利（父母把关（是责任（不"
+  },
+  {
+   "q": "孩子的朋友不好，怎么办？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "正题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子交朋友要管吗、孩子的朋友不好怎么办，是『交友的自由』vs『父母的责任』的矛盾——孩子交友（交朋友（成长的社交（重要）、父母的担心（朋友不好（带坏（学坏（担心）——孩子交友的真相：交友是孩子的权利（父母把关（是责任（不"
+  },
+  {
+   "q": "孩子交友是自由？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "反题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子交朋友要管吗、孩子的朋友不好怎么办，是『交友的自由』vs『父母的责任』的矛盾——孩子交友（交朋友（成长的社交（重要）、父母的担心（朋友不好（带坏（学坏（担心）——孩子交友的真相：交友是孩子的权利（父母把关（是责任（不"
+  },
+  {
+   "q": "不管孩子交朋友，行吗？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "反题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子交朋友要管吗、孩子的朋友不好怎么办，是『交友的自由』vs『父母的责任』的矛盾——孩子交友（交朋友（成长的社交（重要）、父母的担心（朋友不好（带坏（学坏（担心）——孩子交友的真相：交友是孩子的权利（父母把关（是责任（不"
+  },
+  {
+   "q": "孩子交友怎么引导？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "合题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子交朋友要管吗、孩子的朋友不好怎么办，是『交友的自由』vs『父母的责任』的矛盾——孩子交友（交朋友（成长的社交（重要）、父母的担心（朋友不好（带坏（学坏（担心）——孩子交友的真相：交友是孩子的权利（父母把关（是责任（不"
+  },
+  {
+   "q": "把关和放手怎么平衡？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "合题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "孩子该做家务吗？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "正题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子该做家务吗、家务和学习怎么排，是『成长的锻炼』vs『学业的优先』的矛盾——孩子家务（做家务（锻炼（独立/责任/生活能力）、争议（该做吗（做家务（耽误学习？）（家务是锻炼还是剥削？）——孩子家务的真相：该做（家务是成长"
+  },
+  {
+   "q": "家务和学习怎么排？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "正题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子该做家务吗、家务和学习怎么排，是『成长的锻炼』vs『学业的优先』的矛盾——孩子家务（做家务（锻炼（独立/责任/生活能力）、争议（该做吗（做家务（耽误学习？）（家务是锻炼还是剥削？）——孩子家务的真相：该做（家务是成长"
+  },
+  {
+   "q": "孩子小，做什么家务？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "反题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "看图写话：先观察图（谁、在哪里、做什么），再按顺序写下来。看图写话训练观察力和想象力。这个可以看「小学语文」（这条知识属于语文，在E1条件下成立）相关的还有：小学道德与法治、小学语文"
+  },
+  {
+   "q": "做家务是锻炼还是剥削？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "反题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子该做家务吗、家务和学习怎么排，是『成长的锻炼』vs『学业的优先』的矛盾——孩子家务（做家务（锻炼（独立/责任/生活能力）、争议（该做吗（做家务（耽误学习？）（家务是锻炼还是剥削？）——孩子家务的真相：该做（家务是成长"
+  },
+  {
+   "q": "孩子家务怎么安排？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "合题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子该做家务吗、家务和学习怎么排，是『成长的锻炼』vs『学业的优先』的矛盾——孩子家务（做家务（锻炼（独立/责任/生活能力）、争议（该做吗（做家务（耽误学习？）（家务是锻炼还是剥削？）——孩子家务的真相：该做（家务是成长"
+  },
+  {
+   "q": "家务和零花钱怎么挂钩？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "合题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子该做家务吗、家务和学习怎么排，是『成长的锻炼』vs『学业的优先』的矛盾——孩子家务（做家务（锻炼（独立/责任/生活能力）、争议（该做吗（做家务（耽误学习？）（家务是锻炼还是剥削？）——孩子家务的真相：该做（家务是成长"
+  },
+  {
+   "q": "家务标准不同怎么办？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "正题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务标准不同、洁癖和随意怎么处，是『干净的需求』vs『舒适的边界』的矛盾——家务标准（洁癖（一尘不染（高标准）、随意（差不多就行（低标准）、家务标准不同（洁癖嫌随意脏（随意嫌洁癖事多（家庭矛盾）——家务标准的真相：标准不"
+  },
+  {
+   "q": "洁癖和随意怎么处？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "正题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务标准不同、洁癖和随意怎么处，是『干净的需求』vs『舒适的边界』的矛盾——家务标准（洁癖（一尘不染（高标准）、随意（差不多就行（低标准）、家务标准不同（洁癖嫌随意脏（随意嫌洁癖事多（家庭矛盾）——家务标准的真相：标准不"
+  },
+  {
+   "q": "干净是基本要求？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "反题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务标准不同、洁癖和随意怎么处，是『干净的需求』vs『舒适的边界』的矛盾——家务标准（洁癖（一尘不染（高标准）、随意（差不多就行（低标准）、家务标准不同（洁癖嫌随意脏（随意嫌洁癖事多（家庭矛盾）——家务标准的真相：标准不"
+  },
+  {
+   "q": "差不多就行了？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "反题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "终于搞定啦，辛苦你了！现在可以好好歇一歇——家务标准不同、洁癖和随意怎么处，是『干净的需求』vs『舒适的边界』的矛盾——家务标准（洁癖（一尘不染（高标准）、随意（差不多就行（低标准）、家务标准不同（洁癖嫌随意脏（随意嫌洁"
+  },
+  {
+   "q": "家务标准怎么统一？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "合题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务标准不同、洁癖和随意怎么处，是『干净的需求』vs『舒适的边界』的矛盾——家务标准（洁癖（一尘不染（高标准）、随意（差不多就行（低标准）、家务标准不同（洁癖嫌随意脏（随意嫌洁癖事多（家庭矛盾）——家务标准的真相：标准不"
+  },
+  {
+   "q": "干净和轻松怎么平衡？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "合题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "有孩子能养宠物吗？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "正题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物看病贵、花几万值不值，是『宠物是家人』vs『医疗的现实』的矛盾——宠物医疗贵有成本（宠物没有医保/设备药品和人的同价/医生培养），宠物生病动辄几千上万（手术/住院/重症），主人面临『花钱救还是放弃』的艰难选择（宠物不"
+  },
+  {
+   "q": "宠物和孩子能共存吗？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "正题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "有孩子能养宠物吗、宠物和孩子能共存吗，是『陪伴的滋养』vs『健康的顾虑』的矛盾——有孩子养宠物（养宠（陪伴（孩子与宠物一起长大（美好）、顾虑（健康（过敏/细菌/寄生虫（怕）、安全（宠物伤孩子（怕）、责任（孩子+宠物（都照"
+  },
+  {
+   "q": "宠物对孩子有好处？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "反题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "有孩子能养宠物吗、宠物和孩子能共存吗，是『陪伴的滋养』vs『健康的顾虑』的矛盾——有孩子养宠物（养宠（陪伴（孩子与宠物一起长大（美好）、顾虑（健康（过敏/细菌/寄生虫（怕）、安全（宠物伤孩子（怕）、责任（孩子+宠物（都照"
+  },
+  {
+   "q": "宠物对孩子有风险？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "反题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "有孩子能养宠物吗、宠物和孩子能共存吗，是『陪伴的滋养』vs『健康的顾虑』的矛盾——有孩子养宠物（养宠（陪伴（孩子与宠物一起长大（美好）、顾虑（健康（过敏/细菌/寄生虫（怕）、安全（宠物伤孩子（怕）、责任（孩子+宠物（都照"
+  },
+  {
+   "q": "宠物和孩子怎么相处？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "合题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "有孩子能养宠物吗、宠物和孩子能共存吗，是『陪伴的滋养』vs『健康的顾虑』的矛盾——有孩子养宠物（养宠（陪伴（孩子与宠物一起长大（美好）、顾虑（健康（过敏/细菌/寄生虫（怕）、安全（宠物伤孩子（怕）、责任（孩子+宠物（都照"
+  },
+  {
+   "q": "养宠和育儿怎么兼顾？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "合题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "有孩子能养宠物吗、宠物和孩子能共存吗，是『陪伴的滋养』vs『健康的顾虑』的矛盾——有孩子养宠物（养宠（陪伴（孩子与宠物一起长大（美好）、顾虑（健康（过敏/细菌/寄生虫（怕）、安全（宠物伤孩子（怕）、责任（孩子+宠物（都照"
+  }
+ ]
+}

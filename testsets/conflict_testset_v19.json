@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v19",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么孩子都想要电话手表？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "正题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "电话手表是必需品还是攀比？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "正题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "手表能联系孩子，有错吗？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "反题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "学校不让戴手表，对吗？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "反题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "电话手表怎么用不沉迷？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "合题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "儿童手表怎么选？",
+   "conflict_id": "digit-watch",
+   "domain": "儿童数字",
+   "stage": "合题",
+   "need": "安全与专注",
+   "conflict": "电话手表社交 vs 学校管理",
+   "linked": [
+    "digit-scroll",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "为什么高血压要天天吃药？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "正题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ]
+  },
+  {
+   "q": "降压药有副作用吗？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "正题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ]
+  },
+  {
+   "q": "血压正常了，停药行吗？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "反题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ]
+  },
+  {
+   "q": "是药三分毒，能不吃就不吃？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "反题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ]
+  },
+  {
+   "q": "高血压怎么科学用药？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "合题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ]
+  },
+  {
+   "q": "降压药怎么吃才安全？",
+   "conflict_id": "health-hypertension",
+   "domain": "慢病管理",
+   "stage": "合题",
+   "need": "血压平稳",
+   "conflict": "降压药天天吃 vs 停药风险",
+   "linked": [
+    "medical-cost",
+    "health-medicine"
+   ]
+  },
+  {
+   "q": "为什么宿舍矛盾这么多？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "正题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "室友打呼噜怎么办？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "正题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "宿舍是公共的，忍忍不行吗？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "反题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "矛盾是小事，至于吗？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "反题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "宿舍矛盾怎么解决？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "合题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "和室友怎么相处？",
+   "conflict_id": "edu-dorm",
+   "domain": "校园生活",
+   "stage": "合题",
+   "need": "宿舍和谐",
+   "conflict": "宿舍矛盾 vs 相处",
+   "linked": [
+    "psy-lonely",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "为什么老人容易摔倒？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "正题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "老人摔倒有多危险？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "正题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "老人自己能走，扶什么扶？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "反题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "摔倒就摔倒，注意点不就行了？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "反题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "老人怎么防跌倒？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "合题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "老人摔倒怎么处理？",
+   "conflict_id": "health-fall",
+   "domain": "老年健康",
+   "stage": "合题",
+   "need": "老人不摔跤",
+   "conflict": "跌倒风险 vs 预防投入",
+   "linked": [
+    "med-eldercare",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "为什么儿童保险这么火？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "正题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "儿童保险有必要买吗？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "正题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "给孩子买保险，有错吗？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "反题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "保险是骗人的吗？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "反题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "儿童保险怎么买不踩坑？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "合题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "孩子的保障怎么配？",
+   "conflict_id": "fin-childinsurance",
+   "domain": "家庭保障",
+   "stage": "合题",
+   "need": "孩子有保障",
+   "conflict": "儿童保险 vs 智商税",
+   "linked": [
+    "medical-cost",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "为什么博物馆也要预约？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "正题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "博物馆免费预约怎么还这么难？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "正题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "免费预约，公平吗？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "反题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "黄牛倒票，怎么治？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "反题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "博物馆怎么约到票？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "合题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "免费资源怎么公平分配？",
+   "conflict_id": "culture-museum",
+   "domain": "公共文化",
+   "stage": "合题",
+   "need": "免费资源人人可享",
+   "conflict": "免费预约 vs 黄牛/难约",
+   "linked": [
+    "culture-ticket",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "为什么宠物要绝育？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "正题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ]
+  },
+  {
+   "q": "绝育对宠物残忍吗？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "正题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ]
+  },
+  {
+   "q": "绝育是爱还是伤害？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "反题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ]
+  },
+  {
+   "q": "不绝育，宠物怎么办？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "反题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ]
+  },
+  {
+   "q": "宠物绝育怎么决定？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "合题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ]
+  },
+  {
+   "q": "流浪猫狗怎么治理？",
+   "conflict_id": "pet-spay",
+   "domain": "宠物健康",
+   "stage": "合题",
+   "need": "宠物与城市和谐",
+   "conflict": "绝育 vs 残忍/必要",
+   "linked": [
+    "pet-medical",
+    "city-pet"
+   ]
+  },
+  {
+   "q": "为什么让座总有争议？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "正题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "该不该给老人让座？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "正题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "让座是情分不是本分？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "反题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "老人不感谢，还让吗？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "反题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "让座怎么不尴尬？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "合题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "公交座位怎么分配？",
+   "conflict_id": "public-seat",
+   "domain": "公共礼仪",
+   "stage": "合题",
+   "need": "座位与善意",
+   "conflict": "让座 vs 道德绑架",
+   "linked": [
+    "public-civility",
+    "age-digital"
+   ]
+  }
+ ]
+}

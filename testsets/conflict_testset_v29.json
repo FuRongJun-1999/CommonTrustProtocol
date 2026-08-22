@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v29",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "遗产该怎么分？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "正题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "没遗嘱，遗产怎么继承？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "正题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "多尽孝就多分？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "反题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "遗产分配是伤感情的事？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "反题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "遗产怎么安排不伤感情？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "合题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "遗嘱该立吗？",
+   "conflict_id": "fam-inheritance",
+   "domain": "遗产继承",
+   "stage": "合题",
+   "need": "遗产不伤情",
+   "conflict": "遗产分配 vs 继承",
+   "linked": [
+    "fam-property",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "恋爱中控制是爱吗？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "正题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ]
+  },
+  {
+   "q": "对方管太严，怎么办？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "正题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ]
+  },
+  {
+   "q": "管你是关心你？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "反题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ]
+  },
+  {
+   "q": "恋爱中的自由重要吗？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "反题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ]
+  },
+  {
+   "q": "恋爱控制怎么识别？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "合题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ]
+  },
+  {
+   "q": "恋爱中的边界怎么定？",
+   "conflict_id": "fam-datecontrol",
+   "domain": "恋爱边界",
+   "stage": "合题",
+   "need": "恋爱不控制",
+   "conflict": "恋爱控制 vs 自由",
+   "linked": [
+    "fam-maritalpua",
+    "fam-dateexpense"
+   ]
+  },
+  {
+   "q": "为什么生二胎犹豫？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "正题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "二胎是给老大做伴吗？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "正题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "一个孩子太孤单？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "反题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "二胎养得起吗？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "反题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "二胎怎么决定？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "合题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "二胎的精力怎么分配？",
+   "conflict_id": "fam-secondchild",
+   "domain": "二胎决策",
+   "stage": "合题",
+   "need": "二胎不焦虑",
+   "conflict": "二胎 vs 精力",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "婚姻中能说善意的谎言吗？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "正题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "隐瞒和欺骗有区别吗？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "正题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "诚实是婚姻的底线？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "反题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "善意的谎言是保护？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "反题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婚姻中怎么坦诚？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "合题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "谎言和隐私怎么区分？",
+   "conflict_id": "fam-lies",
+   "domain": "婚姻坦诚",
+   "stage": "合题",
+   "need": "坦诚不伤人",
+   "conflict": "善意谎言 vs 坦诚",
+   "linked": [
+    "fam-phone",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "丧偶女性为什么难？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "正题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ]
+  },
+  {
+   "q": "丧偶后该再婚吗？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "正题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ]
+  },
+  {
+   "q": "丧偶是人生的坎？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "反题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ]
+  },
+  {
+   "q": "再婚是对亡者的背叛吗？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "反题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ]
+  },
+  {
+   "q": "丧偶女性怎么走出来？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "合题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ]
+  },
+  {
+   "q": "丧偶后的生活怎么安排？",
+   "conflict_id": "gen-widow",
+   "domain": "丧偶女性",
+   "stage": "合题",
+   "need": "丧偶后站起来",
+   "conflict": "丧偶 vs 再婚/独立",
+   "linked": [
+    "fam-elderlove",
+    "fam-singlemom"
+   ]
+  },
+  {
+   "q": "月子中心值吗？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "正题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "月子中心是智商税吗？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "正题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "月子中心专业？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "反题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "在家坐月子不好吗？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "反题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "月子中心怎么选？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "合题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "坐月子怎么选择？",
+   "conflict_id": "fam-yuegong",
+   "domain": "月子中心",
+   "stage": "合题",
+   "need": "月子选得对",
+   "conflict": "月子中心 vs 值不值",
+   "linked": [
+    "fam-yuesao",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "离婚冷静期合理吗？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "正题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "冷静期是保护还是限制？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "正题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "想离婚还要等？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "反题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "冷静期能挽救婚姻吗？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "反题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "离婚冷静期怎么看？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "合题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "冲动离婚怎么避免？",
+   "conflict_id": "gen-divorce2",
+   "domain": "离婚制度",
+   "stage": "合题",
+   "need": "离婚不冲动",
+   "conflict": "离婚冷静期 vs 自由",
+   "linked": [
+    "fam-sunkcost",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "为什么婚礼也直播？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "正题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ]
+  },
+  {
+   "q": "婚礼直播是记录还是作秀？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "正题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ]
+  },
+  {
+   "q": "直播婚礼，有错吗？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "反题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ]
+  },
+  {
+   "q": "婚礼是两个人的事？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "反题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ]
+  },
+  {
+   "q": "婚礼直播怎么把握？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "合题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ]
+  },
+  {
+   "q": "婚礼的隐私怎么保护？",
+   "conflict_id": "digit-wedding",
+   "domain": "婚礼传播",
+   "stage": "合题",
+   "need": "婚礼有边界",
+   "conflict": "婚礼直播 vs 隐私",
+   "linked": [
+    "digit-baby",
+    "fam-wedding"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "什么是婚姻冷暴力？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "正题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我冷了。冷了要多穿点，暖和了人才舒服。别冻着，感冒就难受了。这个可以看「人类观察者」（这条知识属于人类，在E4条件下成立）相关的还有：初中物理知识点内容（按骨架填充）、人类观察者"
+  },
+  {
+   "q": "冷暴力算家暴吗？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "正题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子不打不成器、讲道理没用，是『立规矩』vs『不伤害』的矛盾——孩子需要规则（没有边界的孩子没有安全感），但打骂是『立规矩』最偷懒也最伤人的方式（孩子学到的是『谁力气大听谁的』不是规则本身）。真相：①孩子不打不成器吗——"
+  },
+  {
+   "q": "冷战是正常磨合？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "反题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "要考试了有点紧张。紧张是正常的，说明我在乎。好好复习、早点睡，尽力就行。这个可以看「人类观察者」（这条知识属于人类，在E4条件下成立）相关的还有：初中历史、人类观察者"
+  },
+  {
+   "q": "不说话比吵架更伤人？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "反题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——城市养宠矛盾（吠叫/粪便/伤人），是『养宠自由』vs『他人安宁』的矛盾——宠物给主人陪伴和快乐，但噪音/卫生/安全由邻居共同承担（养宠的收益私人化，成本外溢）。真相：①遛狗不拴绳该不"
+  },
+  {
+   "q": "冷暴力怎么破？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "合题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我冷了。冷了要多穿点，暖和了人才舒服。别冻着，感冒就难受了。这个可以看「人类观察者」（这条知识属于人类，在E4条件下成立）相关的还有：初中物理知识点内容（按骨架填充）、人类观察者"
+  },
+  {
+   "q": "婚姻冷暴力怎么应对？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "合题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我冷了。冷了要多穿点，暖和了人才舒服。别冻着，感冒就难受了。这个可以看「人类观察者」（这条知识属于人类，在E4条件下成立）相关的还有：初中物理知识点内容（按骨架填充）、人类观察者"
+  },
+  {
+   "q": "为什么未婚女性也要规划养老？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "正题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚女性也要规划养老、不结婚老了谁照顾，是『独身的现实』vs『养老的保障』的矛盾——未婚女性（不婚/晚婚）越来越多（单身是正常选择），但养老焦虑真实（没配偶没孩子（老了谁照顾？）、传统观念（养儿防老——没孩子=没保障））"
+  },
+  {
+   "q": "不结婚，老了谁照顾？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "正题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚女性也要规划养老、不结婚老了谁照顾，是『独身的现实』vs『养老的保障』的矛盾——未婚女性（不婚/晚婚）越来越多（单身是正常选择），但养老焦虑真实（没配偶没孩子（老了谁照顾？）、传统观念（养儿防老——没孩子=没保障））"
+  },
+  {
+   "q": "没孩子养老是问题吗？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "反题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚女性也要规划养老、不结婚老了谁照顾，是『独身的现实』vs『养老的保障』的矛盾——未婚女性（不婚/晚婚）越来越多（单身是正常选择），但养老焦虑真实（没配偶没孩子（老了谁照顾？）、传统观念（养儿防老——没孩子=没保障））"
+  },
+  {
+   "q": "未婚养老靠自己，行吗？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "反题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚女性也要规划养老、不结婚老了谁照顾，是『独身的现实』vs『养老的保障』的矛盾——未婚女性（不婚/晚婚）越来越多（单身是正常选择），但养老焦虑真实（没配偶没孩子（老了谁照顾？）、传统观念（养儿防老——没孩子=没保障））"
+  },
+  {
+   "q": "未婚女性怎么规划养老？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "合题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚女性也要规划养老、不结婚老了谁照顾，是『独身的现实』vs『养老的保障』的矛盾——未婚女性（不婚/晚婚）越来越多（单身是正常选择），但养老焦虑真实（没配偶没孩子（老了谁照顾？）、传统观念（养儿防老——没孩子=没保障））"
+  },
+  {
+   "q": "单身养老怎么保障？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "合题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚女性也要规划养老、不结婚老了谁照顾，是『独身的现实』vs『养老的保障』的矛盾——未婚女性（不婚/晚婚）越来越多（单身是正常选择），但养老焦虑真实（没配偶没孩子（老了谁照顾？）、传统观念（养儿防老——没孩子=没保障））"
+  },
+  {
+   "q": "孩子该接受性别平等教育吗？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "正题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子该接受性别平等教育吗、男孩女孩要区别养吗，是『天性的差异』vs『平等的教育』的矛盾——孩子有性别（男孩女孩（生理差异/天性差异（男孩好动女孩文静——有统计学差异但个体差异更大）），教育有选择（区别养（男孩要坚强/女孩"
+  },
+  {
+   "q": "男孩女孩要区别养吗？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "正题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子该接受性别平等教育吗、男孩女孩要区别养吗，是『天性的差异』vs『平等的教育』的矛盾——孩子有性别（男孩女孩（生理差异/天性差异（男孩好动女孩文静——有统计学差异但个体差异更大）），教育有选择（区别养（男孩要坚强/女孩"
+  },
+  {
+   "q": "性别教育是洗脑吗？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "反题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "⚠️ 这条内容已被灵枢内容安全拦截（不显示）。"
+  },
+  {
+   "q": "男孩就要像男孩，对吗？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "反题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子该接受性别平等教育吗、男孩女孩要区别养吗，是『天性的差异』vs『平等的教育』的矛盾——孩子有性别（男孩女孩（生理差异/天性差异（男孩好动女孩文静——有统计学差异但个体差异更大）），教育有选择（区别养（男孩要坚强/女孩"
+  },
+  {
+   "q": "儿童性别教育怎么做？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "合题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子该接受性别平等教育吗、男孩女孩要区别养吗，是『天性的差异』vs『平等的教育』的矛盾——孩子有性别（男孩女孩（生理差异/天性差异（男孩好动女孩文静——有统计学差异但个体差异更大）），教育有选择（区别养（男孩要坚强/女孩"
+  },
+  {
+   "q": "怎么养出性别平等的孩子？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "合题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "职场对女性的天花板（晋升慢/薪酬低/产假顾虑），是『历史分工惯性』vs『现代平等』的矛盾——不是老板都坏，是制度默认了旧分工（男性养家女性顾家），女性一怀孕就『效率下降』成了潜规则。真相：①『女性要生孩子企业有顾虑』有现"
+  },
+  {
+   "q": "什么是婚姻经济控制？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "正题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻经济控制、管钱算控制吗，是『家庭财务的管理』vs『经济自由的剥夺』的矛盾——婚姻里管钱（一方管账（家庭财务需要管理——正常）、经济控制（一方剥夺另一方的经济自主（工资全上交/花钱要审批/不知道家庭财务状况/用钱"
+  },
+  {
+   "q": "管钱算控制吗？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "正题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻经济控制、管钱算控制吗，是『家庭财务的管理』vs『经济自由的剥夺』的矛盾——婚姻里管钱（一方管账（家庭财务需要管理——正常）、经济控制（一方剥夺另一方的经济自主（工资全上交/花钱要审批/不知道家庭财务状况/用钱"
+  },
+  {
+   "q": "经济控制是家暴吗？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "反题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻经济控制、管钱算控制吗，是『家庭财务的管理』vs『经济自由的剥夺』的矛盾——婚姻里管钱（一方管账（家庭财务需要管理——正常）、经济控制（一方剥夺另一方的经济自主（工资全上交/花钱要审批/不知道家庭财务状况/用钱"
+  },
+  {
+   "q": "钱都交给我，不好吗？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "反题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻经济控制、管钱算控制吗，是『家庭财务的管理』vs『经济自由的剥夺』的矛盾——婚姻里管钱（一方管账（家庭财务需要管理——正常）、经济控制（一方剥夺另一方的经济自主（工资全上交/花钱要审批/不知道家庭财务状况/用钱"
+  },
+  {
+   "q": "婚姻经济怎么平等？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "合题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻经济控制、管钱算控制吗，是『家庭财务的管理』vs『经济自由的剥夺』的矛盾——婚姻里管钱（一方管账（家庭财务需要管理——正常）、经济控制（一方剥夺另一方的经济自主（工资全上交/花钱要审批/不知道家庭财务状况/用钱"
+  },
+  {
+   "q": "经济控制怎么识别和应对？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "合题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻经济控制、管钱算控制吗，是『家庭财务的管理』vs『经济自由的剥夺』的矛盾——婚姻里管钱（一方管账（家庭财务需要管理——正常）、经济控制（一方剥夺另一方的经济自主（工资全上交/花钱要审批/不知道家庭财务状况/用钱"
+  },
+  {
+   "q": "为什么女性创业更难？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "正题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性创业更难、女性创业是异类吗，是『创业的挑战』vs『性别的偏见』的矛盾——女性创业在增加（女性创业者占比上升），但难：融资难（投资人更信任男性创业者（女性拿投资更难）、偏见（'女强人'的标签（事业心强=不顾家/不温柔—"
+  },
+  {
+   "q": "女性创业是异类吗？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "正题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性创业更难、女性创业是异类吗，是『创业的挑战』vs『性别的偏见』的矛盾——女性创业在增加（女性创业者占比上升），但难：融资难（投资人更信任男性创业者（女性拿投资更难）、偏见（'女强人'的标签（事业心强=不顾家/不温柔—"
+  },
+  {
+   "q": "女性创业有优势吗？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "反题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性创业更难、女性创业是异类吗，是『创业的挑战』vs『性别的偏见』的矛盾——女性创业在增加（女性创业者占比上升），但难：融资难（投资人更信任男性创业者（女性拿投资更难）、偏见（'女强人'的标签（事业心强=不顾家/不温柔—"
+  },
+  {
+   "q": "创业不分性别，对吗？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "反题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性创业更难、女性创业是异类吗，是『创业的挑战』vs『性别的偏见』的矛盾——女性创业在增加（女性创业者占比上升），但难：融资难（投资人更信任男性创业者（女性拿投资更难）、偏见（'女强人'的标签（事业心强=不顾家/不温柔—"
+  },
+  {
+   "q": "女性创业怎么起步？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "合题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性创业更难、女性创业是异类吗，是『创业的挑战』vs『性别的偏见』的矛盾——女性创业在增加（女性创业者占比上升），但难：融资难（投资人更信任男性创业者（女性拿投资更难）、偏见（'女强人'的标签（事业心强=不顾家/不温柔—"
+  },
+  {
+   "q": "创业性别偏见怎么破？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "合题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性创业更难、女性创业是异类吗，是『创业的挑战』vs『性别的偏见』的矛盾——女性创业在增加（女性创业者占比上升），但难：融资难（投资人更信任男性创业者（女性拿投资更难）、偏见（'女强人'的标签（事业心强=不顾家/不温柔—"
+  },
+  {
+   "q": "离婚财产怎么分？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "正题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "全职妈妈离婚分不到财产吗？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "正题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职妈妈重返职场这么难、全职带娃几年还能回去吗，是『家庭的付出』vs『职场的断层』的矛盾——全职妈妈（为家庭退出职场：带娃/顾家/照顾老人，付出几年）想回归职场（经济独立/自我价值/社会连接），但职场不友好（简历断层（空"
+  },
+  {
+   "q": "离婚分割公平吗？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "反题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "财产分割是斤斤计较吗？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "反题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人财产分配闹矛盾、老人的钱该给谁，是『老人的支配权』vs『子女的期待』的矛盾——老人有财产（房子/存款/退休金），怎么分配（给谁/什么时候给/给多少）是老人的权利（财产自由处分），但子女有期待（觉得该给自己/该平分/该"
+  },
+  {
+   "q": "离婚财产怎么分公平？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "合题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "婚姻财产怎么保护？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "合题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人财产分配闹矛盾、老人的钱该给谁，是『老人的支配权』vs『子女的期待』的矛盾——老人有财产（房子/存款/退休金），怎么分配（给谁/什么时候给/给多少）是老人的权利（财产自由处分），但子女有期待（觉得该给自己/该平分/该"
+  },
+  {
+   "q": "婚后可以有异性朋友吗？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "正题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚后可以有异性朋友吗、配偶和异性朋友走太近怎么办，是『婚姻的边界』vs『社交的自由』的矛盾——婚后异性友谊（保持异性朋友（正常社交：同事/老同学/兴趣伙伴——婚姻不等于社交绝缘）、但婚姻有边界（异性友谊的'度'（走太近（"
+  },
+  {
+   "q": "配偶和异性朋友走太近，怎么办？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "正题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚后可以有异性朋友吗、配偶和异性朋友走太近怎么办，是『婚姻的边界』vs『社交的自由』的矛盾——婚后异性友谊（保持异性朋友（正常社交：同事/老同学/兴趣伙伴——婚姻不等于社交绝缘）、但婚姻有边界（异性友谊的'度'（走太近（"
+  },
+  {
+   "q": "异性朋友是正常社交？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "反题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚后可以有异性朋友吗、配偶和异性朋友走太近怎么办，是『婚姻的边界』vs『社交的自由』的矛盾——婚后异性友谊（保持异性朋友（正常社交：同事/老同学/兴趣伙伴——婚姻不等于社交绝缘）、但婚姻有边界（异性友谊的'度'（走太近（"
+  },
+  {
+   "q": "管异性朋友是控制吗？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "反题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚后可以有异性朋友吗、配偶和异性朋友走太近怎么办，是『婚姻的边界』vs『社交的自由』的矛盾——婚后异性友谊（保持异性朋友（正常社交：同事/老同学/兴趣伙伴——婚姻不等于社交绝缘）、但婚姻有边界（异性友谊的'度'（走太近（"
+  },
+  {
+   "q": "婚后异性友谊怎么处？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "合题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚后可以有异性朋友吗、配偶和异性朋友走太近怎么办，是『婚姻的边界』vs『社交的自由』的矛盾——婚后异性友谊（保持异性朋友（正常社交：同事/老同学/兴趣伙伴——婚姻不等于社交绝缘）、但婚姻有边界（异性友谊的'度'（走太近（"
+  },
+  {
+   "q": "边界和信任怎么平衡？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "合题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "离婚后孩子跟谁？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "正题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚后孩子跟谁、争夺抚养权是爱还是伤害，是『孩子的利益』vs『父母的争夺』的矛盾——离婚后抚养权（孩子跟谁（法律：以'最有利于孩子'为原则）、父母争夺（都要孩子（爱孩子（都不想失去）、争夺的伤害（抚养权大战（孩子被拉扯（"
+  },
+  {
+   "q": "争夺抚养权是爱还是伤害？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "正题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚后孩子跟谁、争夺抚养权是爱还是伤害，是『孩子的利益』vs『父母的争夺』的矛盾——离婚后抚养权（孩子跟谁（法律：以'最有利于孩子'为原则）、父母争夺（都要孩子（爱孩子（都不想失去）、争夺的伤害（抚养权大战（孩子被拉扯（"
+  },
+  {
+   "q": "孩子跟妈妈好还是爸爸好？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "反题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚后孩子跟谁、争夺抚养权是爱还是伤害，是『孩子的利益』vs『父母的争夺』的矛盾——离婚后抚养权（孩子跟谁（法律：以'最有利于孩子'为原则）、父母争夺（都要孩子（爱孩子（都不想失去）、争夺的伤害（抚养权大战（孩子被拉扯（"
+  },
+  {
+   "q": "离婚就失去孩子，对吗？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "反题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "离婚抚养怎么对孩子好？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "合题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "抚养权怎么定？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "合题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "离婚后孩子跟谁、争夺抚养权是爱还是伤害，是『孩子的利益』vs『父母的争夺』的矛盾——离婚后抚养权（孩子跟谁（法律：以'最有利于孩子'为原则）、父母争夺（都要孩子（爱孩子（都不想失去）、争夺的伤害（抚养权大战（孩子被拉扯（"
+  }
+ ]
+}

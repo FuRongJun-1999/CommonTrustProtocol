@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "家里大事谁说了算？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "正题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家里大事谁说了算、家庭决策要商量吗，是『决策的效率』vs『尊重的基础』的矛盾——家庭决策（大事（买房/育儿/养老/大额消费——谁定）、决策模式（一人做主（效率高（但对方被忽视）、商量共同（尊重（但效率低（可能吵））——家"
+  },
+  {
+   "q": "家庭决策要商量吗？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "正题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家里大事谁说了算、家庭决策要商量吗，是『决策的效率』vs『尊重的基础』的矛盾——家庭决策（大事（买房/育儿/养老/大额消费——谁定）、决策模式（一人做主（效率高（但对方被忽视）、商量共同（尊重（但效率低（可能吵））——家"
+  },
+  {
+   "q": "谁赚得多谁做主？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "反题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家里大事谁说了算、家庭决策要商量吗，是『决策的效率』vs『尊重的基础』的矛盾——家庭决策（大事（买房/育儿/养老/大额消费——谁定）、决策模式（一人做主（效率高（但对方被忽视）、商量共同（尊重（但效率低（可能吵））——家"
+  },
+  {
+   "q": "决策权是地位的象征吗？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "反题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家里大事谁说了算、家庭决策要商量吗，是『决策的效率』vs『尊重的基础』的矛盾——家庭决策（大事（买房/育儿/养老/大额消费——谁定）、决策模式（一人做主（效率高（但对方被忽视）、商量共同（尊重（但效率低（可能吵））——家"
+  },
+  {
+   "q": "家庭决策怎么定？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "合题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家里大事谁说了算、家庭决策要商量吗，是『决策的效率』vs『尊重的基础』的矛盾——家庭决策（大事（买房/育儿/养老/大额消费——谁定）、决策模式（一人做主（效率高（但对方被忽视）、商量共同（尊重（但效率低（可能吵））——家"
+  },
+  {
+   "q": "决策权和尊重怎么平衡？",
+   "conflict_id": "fam-decision",
+   "domain": "家庭决策",
+   "stage": "合题",
+   "need": "决策共担",
+   "conflict": "家庭决策权 vs 尊重",
+   "linked": [
+    "fam-couple",
+    "gen-income"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "夫妻吵架正常吗？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "正题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻吵架正常吗、吵架会伤感情吗，是『情绪的碰撞』vs『关系的温度』的矛盾——夫妻吵架（正常（夫妻朝夕相处（摩擦难免（吵架是冲突的表达）、吵架的影响（伤感情（口不择言（互相伤害）vs 不伤感情（吵完和好（感情更深））——夫"
+  },
+  {
+   "q": "吵架会伤感情吗？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "正题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻吵架正常吗、吵架会伤感情吗，是『情绪的碰撞』vs『关系的温度』的矛盾——夫妻吵架（正常（夫妻朝夕相处（摩擦难免（吵架是冲突的表达）、吵架的影响（伤感情（口不择言（互相伤害）vs 不伤感情（吵完和好（感情更深））——夫"
+  },
+  {
+   "q": "不吵架是感情好？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "反题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——夫妻吵架正常吗、吵架会伤感情吗，是『情绪的碰撞』vs『关系的温度』的矛盾——夫妻吵架（正常（夫妻朝夕相处（摩擦难免（吵架是冲突的表达）、吵架的影响（伤感情（口不择言（互相伤害）vs "
+  },
+  {
+   "q": "吵架是沟通还是伤害？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "反题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——夫妻吵架正常吗、吵架会伤感情吗，是『情绪的碰撞』vs『关系的温度』的矛盾——夫妻吵架（正常（夫妻朝夕相处（摩擦难免（吵架是冲突的表达）、吵架的影响（伤感情（口不择言（互相伤害）vs "
+  },
+  {
+   "q": "夫妻怎么吵不伤感情？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "合题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务吵架、付出不被看见，是『公平感』破裂而非活儿多少的问题：人委屈的不是干活，是『我多你少且你没看见』。三解：①把隐形劳动显性化——家务清单列出来（做饭/带娃/记账/人情往来），很多『看不见的活』被看见本身就是治愈；②分"
+  },
+  {
+   "q": "吵架后怎么和好？",
+   "conflict_id": "fam-fight",
+   "domain": "夫妻吵架",
+   "stage": "合题",
+   "need": "吵架不伤情",
+   "conflict": "夫妻吵架 vs 沟通",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻吵架正常吗、吵架会伤感情吗，是『情绪的碰撞』vs『关系的温度』的矛盾——夫妻吵架（正常（夫妻朝夕相处（摩擦难免（吵架是冲突的表达）、吵架的影响（伤感情（口不择言（互相伤害）vs 不伤感情（吵完和好（感情更深））——夫"
+  },
+  {
+   "q": "夫妻成长不同步怎么办？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "正题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期身心变化：身体发育、独立意识增强。正确认识自我、悦纳自我。青春是成长的关键期，要珍惜。这个可以看「初中道德与法治」（这条知识属于政治，在E2条件下成立）相关的还有：小学道德与法治、初中道德与法治"
+  },
+  {
+   "q": "他进步了，我落后了？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "正题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我有点嫉妒。看他那么好我心理不平衡。可嫉妒帮不了我，不如把精力放在自己身上。这个可以看「嫉妒」（这条知识属于人类观察者知识点内容（人话接口，在通用条件下成立）相关的还有：初中英语、人类观察者"
+  },
+  {
+   "q": "成长是各走各的？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "反题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期身心变化：身体发育、独立意识增强。正确认识自我、悦纳自我。青春是成长的关键期，要珍惜。这个可以看「初中道德与法治」（这条知识属于政治，在E2条件下成立）相关的还有：小学道德与法治、小学道德与法治"
+  },
+  {
+   "q": "不同步是离婚的原因？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "反题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "夫妻怎么一起成长？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "合题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期身心变化：身体发育、独立意识增强。正确认识自我、悦纳自我。青春是成长的关键期，要珍惜。这个可以看「初中道德与法治」（这条知识属于政治，在E2条件下成立）相关的还有：小学道德与法治、初中道德与法治"
+  },
+  {
+   "q": "成长差异怎么面对？",
+   "conflict_id": "fam-growth",
+   "domain": "夫妻成长",
+   "stage": "合题",
+   "need": "一起成长",
+   "conflict": "成长不同步 vs 婚姻",
+   "linked": [
+    "fam-couple",
+    "fam-emotionalvalue"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期身心变化：身体发育、独立意识增强。正确认识自我、悦纳自我。青春是成长的关键期，要珍惜。这个可以看「初中道德与法治」（这条知识属于政治，在E2条件下成立）相关的还有：小学道德与法治、演化生物学"
+  },
+  {
+   "q": "为什么婚礼筹备总吵架？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "正题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "办婚礼是幸福的开始还是吵架的开始？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "正题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼要听父母的？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "反题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼是两个人的还是两家的？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "反题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼筹备怎么不吵架？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "合题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "婚礼的矛盾怎么化解？",
+   "conflict_id": "fam-weddingprep",
+   "domain": "婚礼筹备",
+   "stage": "合题",
+   "need": "筹备不吵架",
+   "conflict": "婚礼筹备 vs 吵架",
+   "linked": [
+    "fam-wedding",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "亲家之间怎么相处？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "正题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "亲家之间怎么相处、亲家关系影响小两口吗，是『两家的联结』vs『距离的把握』的矛盾——亲家（双方父母（因子女结合而成的关系）、亲家关系（处得好（两家和睦（小两口少夹心）、处得差（亲家矛盾（小两口为难（两边父母互不满（夹在中"
+  },
+  {
+   "q": "亲家关系影响小两口吗？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "正题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "亲家之间怎么相处、亲家关系影响小两口吗，是『两家的联结』vs『距离的把握』的矛盾——亲家（双方父母（因子女结合而成的关系）、亲家关系（处得好（两家和睦（小两口少夹心）、处得差（亲家矛盾（小两口为难（两边父母互不满（夹在中"
+  },
+  {
+   "q": "亲家是亲戚？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "反题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "亲家之间怎么相处、亲家关系影响小两口吗，是『两家的联结』vs『距离的把握』的矛盾——亲家（双方父母（因子女结合而成的关系）、亲家关系（处得好（两家和睦（小两口少夹心）、处得差（亲家矛盾（小两口为难（两边父母互不满（夹在中"
+  },
+  {
+   "q": "亲家之间要客气吗？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "反题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "亲家之间怎么相处、亲家关系影响小两口吗，是『两家的联结』vs『距离的把握』的矛盾——亲家（双方父母（因子女结合而成的关系）、亲家关系（处得好（两家和睦（小两口少夹心）、处得差（亲家矛盾（小两口为难（两边父母互不满（夹在中"
+  },
+  {
+   "q": "亲家关系怎么处好？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "合题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "亲家之间怎么相处、亲家关系影响小两口吗，是『两家的联结』vs『距离的把握』的矛盾——亲家（双方父母（因子女结合而成的关系）、亲家关系（处得好（两家和睦（小两口少夹心）、处得差（亲家矛盾（小两口为难（两边父母互不满（夹在中"
+  },
+  {
+   "q": "两家父母怎么互动？",
+   "conflict_id": "fam-inlaws",
+   "domain": "亲家关系",
+   "stage": "合题",
+   "need": "两家和睦",
+   "conflict": "亲家关系 vs 相处",
+   "linked": [
+    "fam-mil3",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "亲家之间怎么相处、亲家关系影响小两口吗，是『两家的联结』vs『距离的把握』的矛盾——亲家（双方父母（因子女结合而成的关系）、亲家关系（处得好（两家和睦（小两口少夹心）、处得差（亲家矛盾（小两口为难（两边父母互不满（夹在中"
+  },
+  {
+   "q": "父母在老家，怎么尽孝？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "正题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "父母在老家怎么尽孝、异地养老是遗憾吗，是『孝的心』vs『距离的现实』的矛盾——异地（子女在大城市打拼（父母在老家（异地养老（普遍的现实）、尽孝（心（想陪伴（照顾父母）、距离（现实（工作/生活（回不去（不能时刻陪伴）——异"
+  },
+  {
+   "q": "异地养老是遗憾吗？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "正题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "父母在老家怎么尽孝、异地养老是遗憾吗，是『孝的心』vs『距离的现实』的矛盾——异地（子女在大城市打拼（父母在老家（异地养老（普遍的现实）、尽孝（心（想陪伴（照顾父母）、距离（现实（工作/生活（回不去（不能时刻陪伴）——异"
+  },
+  {
+   "q": "接父母过来住？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "反题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "父母在老家怎么尽孝、异地养老是遗憾吗，是『孝的心』vs『距离的现实』的矛盾——异地（子女在大城市打拼（父母在老家（异地养老（普遍的现实）、尽孝（心（想陪伴（照顾父母）、距离（现实（工作/生活（回不去（不能时刻陪伴）——异"
+  },
+  {
+   "q": "常回家看看够吗？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "反题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "想家的时候心里是暖的。家里人也一定在惦记你，有空就打个电话——我想家了。离家久了会想家，这是正常的。给家里打个电话，听听熟悉的声音就好多了。这个可以看「想家」（这条知识属于人类观察者知识点内容（人话接口，在通用条件下成立"
+  },
+  {
+   "q": "异地养老怎么安排？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "合题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "父母在老家怎么尽孝、异地养老是遗憾吗，是『孝的心』vs『距离的现实』的矛盾——异地（子女在大城市打拼（父母在老家（异地养老（普遍的现实）、尽孝（心（想陪伴（照顾父母）、距离（现实（工作/生活（回不去（不能时刻陪伴）——异"
+  },
+  {
+   "q": "孝心和距离怎么平衡？",
+   "conflict_id": "fam-eldercare3",
+   "domain": "异地养老",
+   "stage": "合题",
+   "need": "孝心不缺席",
+   "conflict": "异地养老 vs 尽孝",
+   "linked": [
+    "fam-onlychild",
+    "fam-longdistance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "过年回谁家总吵架？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "正题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "过年回谁家总吵架、回婆家还是回娘家，是『传统的惯性』vs『平等的现实』的矛盾——过年回谁家（回婆家（传统（嫁鸡随鸡（过年回婆家——旧习俗）、回娘家（独生女/现代（娘家也是家（想回娘家——新需求）、矛盾（回婆家（娘家父母孤"
+  },
+  {
+   "q": "回婆家还是回娘家？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "正题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "想家的时候心里是暖的。家里人也一定在惦记你，有空就打个电话——过年回谁家总吵架、回婆家还是回娘家，是『传统的惯性』vs『平等的现实』的矛盾——过年回谁家（回婆家（传统（嫁鸡随鸡（过年回婆家——旧习俗）、回娘家（独生女/现"
+  },
+  {
+   "q": "传统是回婆家？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "反题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "想家的时候心里是暖的。家里人也一定在惦记你，有空就打个电话——过年回谁家总吵架、回婆家还是回娘家，是『传统的惯性』vs『平等的现实』的矛盾——过年回谁家（回婆家（传统（嫁鸡随鸡（过年回婆家——旧习俗）、回娘家（独生女/现"
+  },
+  {
+   "q": "轮流回，公平吗？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "反题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "群：集合配上二元运算，满足封闭性、结合律、单位元存在、每个元素有逆元四条公理。群公理是明确的条件空间。满足公理的系统都是群，如整数加法群、非零实数乘法群。这个可以看「群公理」（这条知识属于抽象代数/拓扑学知识点内容（按骨"
+  },
+  {
+   "q": "过年回谁家怎么定？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "合题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "过年回谁家总吵架、回婆家还是回娘家，是『传统的惯性』vs『平等的现实』的矛盾——过年回谁家（回婆家（传统（嫁鸡随鸡（过年回婆家——旧习俗）、回娘家（独生女/现代（娘家也是家（想回娘家——新需求）、矛盾（回婆家（娘家父母孤"
+  },
+  {
+   "q": "两家的年怎么安排？",
+   "conflict_id": "fam-newyear",
+   "domain": "过年回家",
+   "stage": "合题",
+   "need": "两家都过",
+   "conflict": "过年回谁家 vs 两难",
+   "linked": [
+    "fam-couple",
+    "fam-mil4"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "过年回谁家总吵架、回婆家还是回娘家，是『传统的惯性』vs『平等的现实』的矛盾——过年回谁家（回婆家（传统（嫁鸡随鸡（过年回婆家——旧习俗）、回娘家（独生女/现代（娘家也是家（想回娘家——新需求）、矛盾（回婆家（娘家父母孤"
+  },
+  {
+   "q": "为什么夫妻说话容易伤人？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "正题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么夫妻说话容易伤人、好好说话难吗，是『熟悉的无忌』vs『言语的伤害』的矛盾——夫妻说话（最亲近的人（说话最随便（'一家人说话随便点'）、最伤人的话（往往对最亲近的人说（熟悉（无忌讳（伤人的话（脱口而出）——夫妻说话方"
+  },
+  {
+   "q": "好好说话难吗？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "正题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——为什么夫妻说话容易伤人、好好说话难吗，是『熟悉的无忌』vs『言语的伤害』的矛盾——夫妻说话（最亲近的人（说话最随便（'一家人说话随便点'）、最伤人的话（往往对最亲近的人说（熟悉（无忌"
+  },
+  {
+   "q": "一家人说话随便点？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "反题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "没关系，想到什么聊什么。或者你可以问我「水为什么烧开」「什么是熵」这种小问题试试。"
+  },
+  {
+   "q": "语言暴力是暴力吗？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "反题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么夫妻说话容易伤人、好好说话难吗，是『熟悉的无忌』vs『言语的伤害』的矛盾——夫妻说话（最亲近的人（说话最随便（'一家人说话随便点'）、最伤人的话（往往对最亲近的人说（熟悉（无忌讳（伤人的话（脱口而出）——夫妻说话方"
+  },
+  {
+   "q": "夫妻怎么好好说话？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "合题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么夫妻说话容易伤人、好好说话难吗，是『熟悉的无忌』vs『言语的伤害』的矛盾——夫妻说话（最亲近的人（说话最随便（'一家人说话随便点'）、最伤人的话（往往对最亲近的人说（熟悉（无忌讳（伤人的话（脱口而出）——夫妻说话方"
+  },
+  {
+   "q": "伤人的话怎么不说？",
+   "conflict_id": "fam-talk",
+   "domain": "夫妻沟通",
+   "stage": "合题",
+   "need": "好好说话",
+   "conflict": "夫妻说话方式 vs 伤害",
+   "linked": [
+    "fam-fight",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么夫妻说话容易伤人、好好说话难吗，是『熟悉的无忌』vs『言语的伤害』的矛盾——夫妻说话（最亲近的人（说话最随便（'一家人说话随便点'）、最伤人的话（往往对最亲近的人说（熟悉（无忌讳（伤人的话（脱口而出）——夫妻说话方"
+  }
+ ]
+}

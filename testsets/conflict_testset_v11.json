@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v11",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么老板总爱画饼？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "正题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "被领导当众批评，是我太玻璃心吗？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "正题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "领导严格要求有错吗？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "反题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "骂你是为你好，这话对吗？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "反题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "怎么应对职场PUA？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "合题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "怎么分辨真心栽培和PUA？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "合题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "为什么越来越多人身材焦虑？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "正题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "胖一点就是不自律吗？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "正题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "减肥是为了健康，有错吗？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "反题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "别人都说我胖，我该减肥吗？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "反题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "怎么健康地管理身材？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "合题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "体重和健康怎么平衡？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "合题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "为什么高铁上总有熊孩子？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "正题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "公共场合孩子哭闹，该不该管？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "正题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "孩子还小，忍忍不行吗？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "反题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "公共场合太安静，是不是太压抑了？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "反题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "怎么和熊孩子家长沟通？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "合题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "公共场所的边界怎么定？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "合题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "孩子不打不成器吗？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "正题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ]
+  },
+  {
+   "q": "为什么讲道理没用？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "正题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ]
+  },
+  {
+   "q": "打孩子是家暴还是管教？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "反题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ]
+  },
+  {
+   "q": "完全不管，孩子不就无法无天了？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "反题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ]
+  },
+  {
+   "q": "怎么立规矩不打骂？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "合题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ]
+  },
+  {
+   "q": "惩罚和伤害的边界在哪？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "合题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ]
+  },
+  {
+   "q": "为什么越来越多人考研考公？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "正题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ]
+  },
+  {
+   "q": "考不上研就是失败吗？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "正题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ]
+  },
+  {
+   "q": "都去考公，谁搞科研做实业？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "反题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ]
+  },
+  {
+   "q": "稳定有什么不好？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "反题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ]
+  },
+  {
+   "q": "考研考公还是就业，怎么选？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "合题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ]
+  },
+  {
+   "q": "考了几年没上岸，还要继续吗？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "合题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ]
+  },
+  {
+   "q": "为什么老人越来越孤独？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "正题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ]
+  },
+  {
+   "q": "独居老人最怕什么？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "正题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ]
+  },
+  {
+   "q": "子女在外打拼，有错吗？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "反题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ]
+  },
+  {
+   "q": "把老人送养老院，是不孝吗？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "反题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ]
+  },
+  {
+   "q": "怎么让独居老人不孤单？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "合题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ]
+  },
+  {
+   "q": "陪伴和打拼怎么平衡？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "合题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ]
+  },
+  {
+   "q": "蔬菜水果都有农药残留吗？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "正题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "不买有机食品，就不安全吗？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "正题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "种地不打药，产量够吗？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "反题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "有机食品贵得有道理吗？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "反题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "怎么吃得安全又实惠？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "合题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "普通食品和有机食品怎么选？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "合题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "为什么老小区加装电梯这么难？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "正题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "一楼住户凭什么反对装电梯？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "正题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "装电梯的钱该谁出？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "反题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "老小区拆了重建不更好吗？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "反题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "加装电梯怎么让大家都满意？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "合题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ]
+  },
+  {
+   "q": "老旧小区怎么改造才公平？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "合题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ]
+  }
+ ]
+}

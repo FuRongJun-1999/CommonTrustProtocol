@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "孩子几岁能独自在家？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "正题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子几岁能独自在家、独自在家安全吗，是『独立的锻炼』vs『安全的风险』的矛盾——孩子独自在家（家长临时外出（孩子一个人在家）、年龄（法律/共识（12岁以下不宜独自在家（安全考量）、独立的锻炼（孩子学会照顾自己（成长）——"
+  },
+  {
+   "q": "孩子独自在家安全吗？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "正题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子几岁能独自在家、独自在家安全吗，是『独立的锻炼』vs『安全的风险』的矛盾——孩子独自在家（家长临时外出（孩子一个人在家）、年龄（法律/共识（12岁以下不宜独自在家（安全考量）、独立的锻炼（孩子学会照顾自己（成长）——"
+  },
+  {
+   "q": "孩子独立是锻炼？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "反题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子多大该独立、父母什么时候该放手，是『成长的必然』vs『父母的不舍』的矛盾——孩子独立（长大（自己做事（自己决定（独立）、父母放手（让孩子独立（不舍（担心（不放心）——独立的真相：孩子独立（是成长（必然）、父母放手（是"
+  },
+  {
+   "q": "独自在家是冒险？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "反题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "想家的时候心里是暖的。家里人也一定在惦记你，有空就打个电话——孩子几岁能独自在家、独自在家安全吗，是『独立的锻炼』vs『安全的风险』的矛盾——孩子独自在家（家长临时外出（孩子一个人在家）、年龄（法律/共识（12岁以下不宜"
+  },
+  {
+   "q": "孩子独自在家怎么安排？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "合题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子几岁能独自在家、独自在家安全吗，是『独立的锻炼』vs『安全的风险』的矛盾——孩子独自在家（家长临时外出（孩子一个人在家）、年龄（法律/共识（12岁以下不宜独自在家（安全考量）、独立的锻炼（孩子学会照顾自己（成长）——"
+  },
+  {
+   "q": "孩子独自在家的安全怎么保障？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "合题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子几岁能独自在家、独自在家安全吗，是『独立的锻炼』vs『安全的风险』的矛盾——孩子独自在家（家长临时外出（孩子一个人在家）、年龄（法律/共识（12岁以下不宜独自在家（安全考量）、独立的锻炼（孩子学会照顾自己（成长）——"
+  },
+  {
+   "q": "通勤两小时值得吗？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "正题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "通勤两小时值得吗、极端通勤是无奈还是选择，是『工作的机会』vs『生活的消耗』的矛盾——极端通勤（单程1-2小时（跨城/远郊（通勤时间长）、代价（时间（每天3-4小时在路上（一年上千小时）、精力（通勤累（上班没精神）、生活"
+  },
+  {
+   "q": "极端通勤是无奈还是选择？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "正题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "通勤两小时值得吗、极端通勤是无奈还是选择，是『工作的机会』vs『生活的消耗』的矛盾——极端通勤（单程1-2小时（跨城/远郊（通勤时间长）、代价（时间（每天3-4小时在路上（一年上千小时）、精力（通勤累（上班没精神）、生活"
+  },
+  {
+   "q": "近的工作不好找？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "反题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "通勤两小时值得吗、极端通勤是无奈还是选择，是『工作的机会』vs『生活的消耗』的矛盾——极端通勤（单程1-2小时（跨城/远郊（通勤时间长）、代价（时间（每天3-4小时在路上（一年上千小时）、精力（通勤累（上班没精神）、生活"
+  },
+  {
+   "q": "通勤是打工人常态？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "反题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "打工多年没归属感、孩子上学难，是『人在城市贡献』vs『制度不认你』的矛盾——交了税、建了城，但户籍/教育/医疗把流动人口挡在外面。真相：①没归属感的根源——不是城市冷漠，是『留不下』的预期：没户口没房，随时可能被挤出，人"
+  },
+  {
+   "q": "通勤怎么优化？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "合题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "通勤两小时值得吗、极端通勤是无奈还是选择，是『工作的机会』vs『生活的消耗』的矛盾——极端通勤（单程1-2小时（跨城/远郊（通勤时间长）、代价（时间（每天3-4小时在路上（一年上千小时）、精力（通勤累（上班没精神）、生活"
+  },
+  {
+   "q": "工作和居住怎么平衡？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "合题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么短剧这么上头？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "正题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么短剧这么上头、短剧是娱乐还是陷阱，是『即时的爽』vs『时间的黑洞』的矛盾——短剧（微短剧（1-3分钟一集（反转/爽点密集（复仇/逆袭/甜宠）、上头（刷一集（还想看（停不下来（时间黑洞）、陷阱（上头（熬夜刷（时间/精"
+  },
+  {
+   "q": "短剧是娱乐还是陷阱？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "正题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么短剧这么上头、短剧是娱乐还是陷阱，是『即时的爽』vs『时间的黑洞』的矛盾——短剧（微短剧（1-3分钟一集（反转/爽点密集（复仇/逆袭/甜宠）、上头（刷一集（还想看（停不下来（时间黑洞）、陷阱（上头（熬夜刷（时间/精"
+  },
+  {
+   "q": "短剧放松一下怎么了？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "反题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么短剧这么上头、短剧是娱乐还是陷阱，是『即时的爽』vs『时间的黑洞』的矛盾——短剧（微短剧（1-3分钟一集（反转/爽点密集（复仇/逆袭/甜宠）、上头（刷一集（还想看（停不下来（时间黑洞）、陷阱（上头（熬夜刷（时间/精"
+  },
+  {
+   "q": "短剧比电视剧好看？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "反题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么短剧这么上头、短剧是娱乐还是陷阱，是『即时的爽』vs『时间的黑洞』的矛盾——短剧（微短剧（1-3分钟一集（反转/爽点密集（复仇/逆袭/甜宠）、上头（刷一集（还想看（停不下来（时间黑洞）、陷阱（上头（熬夜刷（时间/精"
+  },
+  {
+   "q": "短剧怎么不沉迷？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "合题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么短剧这么上头、短剧是娱乐还是陷阱，是『即时的爽』vs『时间的黑洞』的矛盾——短剧（微短剧（1-3分钟一集（反转/爽点密集（复仇/逆袭/甜宠）、上头（刷一集（还想看（停不下来（时间黑洞）、陷阱（上头（熬夜刷（时间/精"
+  },
+  {
+   "q": "短剧和休息怎么平衡？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "合题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "周末该干嘛？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "正题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "周末该干嘛、周末是休息还是陪家人，是『休息的需要』vs『家庭的责任』的矛盾——周末（上班族（难得休息（周末怎么过）、休息（补觉/放松/自己时间）、家庭（陪家人/孩子/父母（家庭责任）——周末的真相：周末是休息日（也是家庭"
+  },
+  {
+   "q": "周末是休息还是陪家人？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "正题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "想家的时候心里是暖的。家里人也一定在惦记你，有空就打个电话——工作日怎么陪家人、上班忙家庭时间少怎么办，是『工作的投入』vs『家庭的需要』的矛盾——工作日（上班（早出晚归（一天大半时间在工作）、家庭时间（下班后（短短几小"
+  },
+  {
+   "q": "周末补觉不行吗？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "反题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "听起来你今天挺累的。先别急着学新东西，休息也是保持状态的一部分——周末该干嘛、周末是休息还是陪家人，是『休息的需要』vs『家庭的责任』的矛盾——周末（上班族（难得休息（周末怎么过）、休息（补觉/放松/自己时间）、家庭（陪"
+  },
+  {
+   "q": "周末被安排，累不累？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "反题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "听起来你今天挺累的。先别急着学新东西，休息也是保持状态的一部分——周末该干嘛、周末是休息还是陪家人，是『休息的需要』vs『家庭的责任』的矛盾——周末（上班族（难得休息（周末怎么过）、休息（补觉/放松/自己时间）、家庭（陪"
+  },
+  {
+   "q": "周末怎么安排？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "合题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "周末该干嘛、周末是休息还是陪家人，是『休息的需要』vs『家庭的责任』的矛盾——周末（上班族（难得休息（周末怎么过）、休息（补觉/放松/自己时间）、家庭（陪家人/孩子/父母（家庭责任）——周末的真相：周末是休息日（也是家庭"
+  },
+  {
+   "q": "休息和家庭怎么平衡？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "合题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "孩子离家后夫妻怎么办？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "正题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子离家后夫妻怎么办、空巢期是解放还是失落，是『重获的自由』vs『失去的重心』的矛盾——空巢期（孩子长大离家（上大学/工作（夫妻重新二人世界）、解放（自由（回到二人世界（不用围孩子转）、失落（空虚（孩子走了（生活空了一块"
+  },
+  {
+   "q": "空巢期是解放还是失落？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "正题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——孩子离家后夫妻怎么办、空巢期是解放还是失落，是『重获的自由』vs『失去的重心』的矛盾——空巢期（孩子长大离家（上大学/工作（夫妻重新二人世界）、解放（自由（回到二人世界（不用围孩子转"
+  },
+  {
+   "q": "空巢是自由？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "反题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子离家后夫妻怎么办、空巢期是解放还是失落，是『重获的自由』vs『失去的重心』的矛盾——空巢期（孩子长大离家（上大学/工作（夫妻重新二人世界）、解放（自由（回到二人世界（不用围孩子转）、失落（空虚（孩子走了（生活空了一块"
+  },
+  {
+   "q": "空巢是空虚？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "反题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子离家后夫妻怎么办、空巢期是解放还是失落，是『重获的自由』vs『失去的重心』的矛盾——空巢期（孩子长大离家（上大学/工作（夫妻重新二人世界）、解放（自由（回到二人世界（不用围孩子转）、失落（空虚（孩子走了（生活空了一块"
+  },
+  {
+   "q": "空巢期夫妻怎么过？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "合题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子离家后夫妻怎么办、空巢期是解放还是失落，是『重获的自由』vs『失去的重心』的矛盾——空巢期（孩子长大离家（上大学/工作（夫妻重新二人世界）、解放（自由（回到二人世界（不用围孩子转）、失落（空虚（孩子走了（生活空了一块"
+  },
+  {
+   "q": "空巢期怎么重新开始？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "合题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子离家后夫妻怎么办、空巢期是解放还是失落，是『重获的自由』vs『失去的重心』的矛盾——空巢期（孩子长大离家（上大学/工作（夫妻重新二人世界）、解放（自由（回到二人世界（不用围孩子转）、失落（空虚（孩子走了（生活空了一块"
+  },
+  {
+   "q": "暑假怎么安排孩子？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "正题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "暑假怎么安排孩子、暑假是放松还是弯道超车，是『童年的快乐』vs『学业的焦虑』的矛盾——暑假（孩子放假（两个月（怎么安排）、放松（玩（休息（童年快乐）、弯道超车（补课/学习（不落后（家长焦虑）——暑假的真相：暑假是该玩的（"
+  },
+  {
+   "q": "暑假是放松还是弯道超车？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "正题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "暑假怎么安排孩子、暑假是放松还是弯道超车，是『童年的快乐』vs『学业的焦虑』的矛盾——暑假（孩子放假（两个月（怎么安排）、放松（玩（休息（童年快乐）、弯道超车（补课/学习（不落后（家长焦虑）——暑假的真相：暑假是该玩的（"
+  },
+  {
+   "q": "暑假玩，开学落后？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "反题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "暑假怎么安排孩子、暑假是放松还是弯道超车，是『童年的快乐』vs『学业的焦虑』的矛盾——暑假（孩子放假（两个月（怎么安排）、放松（玩（休息（童年快乐）、弯道超车（补课/学习（不落后（家长焦虑）——暑假的真相：暑假是该玩的（"
+  },
+  {
+   "q": "暑假排满，孩子太累？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "反题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "听起来你今天挺累的。先别急着学新东西，休息也是保持状态的一部分——暑假怎么安排孩子、暑假是放松还是弯道超车，是『童年的快乐』vs『学业的焦虑』的矛盾——暑假（孩子放假（两个月（怎么安排）、放松（玩（休息（童年快乐）、弯道"
+  },
+  {
+   "q": "暑假怎么安排合理？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "合题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "暑假怎么安排孩子、暑假是放松还是弯道超车，是『童年的快乐』vs『学业的焦虑』的矛盾——暑假（孩子放假（两个月（怎么安排）、放松（玩（休息（童年快乐）、弯道超车（补课/学习（不落后（家长焦虑）——暑假的真相：暑假是该玩的（"
+  },
+  {
+   "q": "学习和玩怎么平衡？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "合题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "家人病了谁来照顾？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "正题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家人病了谁来照顾、照顾病人是责任还是负担，是『亲情的责任』vs『照护的重担』的矛盾——家人病了（照顾（亲情（应该）、照护（重担（时间/精力/经济（累）、责任与负担（照顾（是责任（也是负担（照顾病人（久病床前（无孝子（现实"
+  },
+  {
+   "q": "照顾病人是责任还是负担？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "正题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家人病了谁来照顾、照顾病人是责任还是负担，是『亲情的责任』vs『照护的重担』的矛盾——家人病了（照顾（亲情（应该）、照护（重担（时间/精力/经济（累）、责任与负担（照顾（是责任（也是负担（照顾病人（久病床前（无孝子（现实"
+  },
+  {
+   "q": "照顾是应该的？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "反题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家人病了谁来照顾、照顾病人是责任还是负担，是『亲情的责任』vs『照护的重担』的矛盾——家人病了（照顾（亲情（应该）、照护（重担（时间/精力/经济（累）、责任与负担（照顾（是责任（也是负担（照顾病人（久病床前（无孝子（现实"
+  },
+  {
+   "q": "照顾病人，谁来照顾照顾者？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "反题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家人病了谁来照顾、照顾病人是责任还是负担，是『亲情的责任』vs『照护的重担』的矛盾——家人病了（照顾（亲情（应该）、照护（重担（时间/精力/经济（累）、责任与负担（照顾（是责任（也是负担（照顾病人（久病床前（无孝子（现实"
+  },
+  {
+   "q": "家人照护怎么安排？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "合题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家人病了谁来照顾、照顾病人是责任还是负担，是『亲情的责任』vs『照护的重担』的矛盾——家人病了（照顾（亲情（应该）、照护（重担（时间/精力/经济（累）、责任与负担（照顾（是责任（也是负担（照顾病人（久病床前（无孝子（现实"
+  },
+  {
+   "q": "照护者怎么照顾自己？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "合题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家人病了谁来照顾、照顾病人是责任还是负担，是『亲情的责任』vs『照护的重担』的矛盾——家人病了（照顾（亲情（应该）、照护（重担（时间/精力/经济（累）、责任与负担（照顾（是责任（也是负担（照顾病人（久病床前（无孝子（现实"
+  },
+  {
+   "q": "失能老人谁来照顾？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "正题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "失能老人谁来照顾、失能照护是家庭能扛的吗，是『亲情的义务』vs『照护的专业』的矛盾——失能老人（丧失自理能力（吃喝拉撒（都要人照顾）、家庭照护（亲人照顾（亲情（辛苦）、失能照护（专业（护理/翻身/鼻饲（专业活）、家庭能扛"
+  },
+  {
+   "q": "失能照护是家庭能扛的吗？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "正题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "失能老人谁来照顾、失能照护是家庭能扛的吗，是『亲情的义务』vs『照护的专业』的矛盾——失能老人（丧失自理能力（吃喝拉撒（都要人照顾）、家庭照护（亲人照顾（亲情（辛苦）、失能照护（专业（护理/翻身/鼻饲（专业活）、家庭能扛"
+  },
+  {
+   "q": "送机构是不孝？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "反题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "失能老人谁来照顾、失能照护是家庭能扛的吗，是『亲情的义务』vs『照护的专业』的矛盾——失能老人（丧失自理能力（吃喝拉撒（都要人照顾）、家庭照护（亲人照顾（亲情（辛苦）、失能照护（专业（护理/翻身/鼻饲（专业活）、家庭能扛"
+  },
+  {
+   "q": "失能照护是专业的事？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "反题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "失能老人谁来照顾、失能照护是家庭能扛的吗，是『亲情的义务』vs『照护的专业』的矛盾——失能老人（丧失自理能力（吃喝拉撒（都要人照顾）、家庭照护（亲人照顾（亲情（辛苦）、失能照护（专业（护理/翻身/鼻饲（专业活）、家庭能扛"
+  },
+  {
+   "q": "失能照护怎么安排？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "合题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "失能老人谁来照顾、失能照护是家庭能扛的吗，是『亲情的义务』vs『照护的专业』的矛盾——失能老人（丧失自理能力（吃喝拉撒（都要人照顾）、家庭照护（亲人照顾（亲情（辛苦）、失能照护（专业（护理/翻身/鼻饲（专业活）、家庭能扛"
+  },
+  {
+   "q": "失能家庭怎么获得支持？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "合题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "失能老人谁来照顾、失能照护是家庭能扛的吗，是『亲情的义务』vs『照护的专业』的矛盾——失能老人（丧失自理能力（吃喝拉撒（都要人照顾）、家庭照护（亲人照顾（亲情（辛苦）、失能照护（专业（护理/翻身/鼻饲（专业活）、家庭能扛"
+  }
+ ]
+}

@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么东西越攒越多？",
+   "conflict_id": "soc-declutter",
+   "domain": "生活方式",
+   "stage": "正题",
+   "need": "空间清爽",
+   "conflict": "囤积/留着 vs 断舍离/极简",
+   "linked": [
+    "soc-consumer",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "东西越攒越多、扔了觉得浪费，是『可能性焦虑』vs『空间清爽』的矛盾——留着是因为『万一有用』（舍不得的其实不是东西，是『可能的用途』），但『万一』基本不会发生（三年没动过的东西，未来三年也不会用），囤积的是空间和心力（找"
+  },
+  {
+   "q": "断舍离是浪费还是解脱？",
+   "conflict_id": "soc-declutter",
+   "domain": "生活方式",
+   "stage": "正题",
+   "need": "空间清爽",
+   "conflict": "囤积/留着 vs 断舍离/极简",
+   "linked": [
+    "soc-consumer",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "东西越攒越多、扔了觉得浪费，是『可能性焦虑』vs『空间清爽』的矛盾——留着是因为『万一有用』（舍不得的其实不是东西，是『可能的用途』），但『万一』基本不会发生（三年没动过的东西，未来三年也不会用），囤积的是空间和心力（找"
+  },
+  {
+   "q": "留着说不定有用，扔了才浪费？",
+   "conflict_id": "soc-declutter",
+   "domain": "生活方式",
+   "stage": "反题",
+   "need": "空间清爽",
+   "conflict": "囤积/留着 vs 断舍离/极简",
+   "linked": [
+    "soc-consumer",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "东西越攒越多、扔了觉得浪费，是『可能性焦虑』vs『空间清爽』的矛盾——留着是因为『万一有用』（舍不得的其实不是东西，是『可能的用途』），但『万一』基本不会发生（三年没动过的东西，未来三年也不会用），囤积的是空间和心力（找"
+  },
+  {
+   "q": "断舍离是极简主义矫情吗？",
+   "conflict_id": "soc-declutter",
+   "domain": "生活方式",
+   "stage": "反题",
+   "need": "空间清爽",
+   "conflict": "囤积/留着 vs 断舍离/极简",
+   "linked": [
+    "soc-consumer",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "东西越攒越多、扔了觉得浪费，是『可能性焦虑』vs『空间清爽』的矛盾——留着是因为『万一有用』（舍不得的其实不是东西，是『可能的用途』），但『万一』基本不会发生（三年没动过的东西，未来三年也不会用），囤积的是空间和心力（找"
+  },
+  {
+   "q": "怎么断舍离不后悔？",
+   "conflict_id": "soc-declutter",
+   "domain": "生活方式",
+   "stage": "合题",
+   "need": "空间清爽",
+   "conflict": "囤积/留着 vs 断舍离/极简",
+   "linked": [
+    "soc-consumer",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "东西越攒越多、扔了觉得浪费，是『可能性焦虑』vs『空间清爽』的矛盾——留着是因为『万一有用』（舍不得的其实不是东西，是『可能的用途』），但『万一』基本不会发生（三年没动过的东西，未来三年也不会用），囤积的是空间和心力（找"
+  },
+  {
+   "q": "家里的东西怎么整理？",
+   "conflict_id": "soc-declutter",
+   "domain": "生活方式",
+   "stage": "合题",
+   "need": "空间清爽",
+   "conflict": "囤积/留着 vs 断舍离/极简",
+   "linked": [
+    "soc-consumer",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "东西越攒越多、扔了觉得浪费，是『可能性焦虑』vs『空间清爽』的矛盾——留着是因为『万一有用』（舍不得的其实不是东西，是『可能的用途』），但『万一』基本不会发生（三年没动过的东西，未来三年也不会用），囤积的是空间和心力（找"
+  },
+  {
+   "q": "为什么宠物看病这么贵？",
+   "conflict_id": "pet-medical",
+   "domain": "养宠生活",
+   "stage": "正题",
+   "need": "宠物健康",
+   "conflict": "宠物看病贵 vs 弃养/值不值",
+   "linked": [
+    "city-pet",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物看病贵、花几万值不值，是『宠物是家人』vs『医疗的现实』的矛盾——宠物医疗贵有成本（宠物没有医保/设备药品和人的同价/医生培养），宠物生病动辄几千上万（手术/住院/重症），主人面临『花钱救还是放弃』的艰难选择（宠物不"
+  },
+  {
+   "q": "宠物生病花几万值吗？",
+   "conflict_id": "pet-medical",
+   "domain": "养宠生活",
+   "stage": "正题",
+   "need": "宠物健康",
+   "conflict": "宠物看病贵 vs 弃养/值不值",
+   "linked": [
+    "city-pet",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物看病贵、花几万值不值，是『宠物是家人』vs『医疗的现实』的矛盾——宠物医疗贵有成本（宠物没有医保/设备药品和人的同价/医生培养），宠物生病动辄几千上万（手术/住院/重症），主人面临『花钱救还是放弃』的艰难选择（宠物不"
+  },
+  {
+   "q": "宠物也是家人，花钱有错吗？",
+   "conflict_id": "pet-medical",
+   "domain": "养宠生活",
+   "stage": "反题",
+   "need": "宠物健康",
+   "conflict": "宠物看病贵 vs 弃养/值不值",
+   "linked": [
+    "city-pet",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物看病贵、花几万值不值，是『宠物是家人』vs『医疗的现实』的矛盾——宠物医疗贵有成本（宠物没有医保/设备药品和人的同价/医生培养），宠物生病动辄几千上万（手术/住院/重症），主人面临『花钱救还是放弃』的艰难选择（宠物不"
+  },
+  {
+   "q": "看不起病就弃养，人渣吗？",
+   "conflict_id": "pet-medical",
+   "domain": "养宠生活",
+   "stage": "反题",
+   "need": "宠物健康",
+   "conflict": "宠物看病贵 vs 弃养/值不值",
+   "linked": [
+    "city-pet",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物看病贵、花几万值不值，是『宠物是家人』vs『医疗的现实』的矛盾——宠物医疗贵有成本（宠物没有医保/设备药品和人的同价/医生培养），宠物生病动辄几千上万（手术/住院/重症），主人面临『花钱救还是放弃』的艰难选择（宠物不"
+  },
+  {
+   "q": "宠物医疗怎么省钱又负责？",
+   "conflict_id": "pet-medical",
+   "domain": "养宠生活",
+   "stage": "合题",
+   "need": "宠物健康",
+   "conflict": "宠物看病贵 vs 弃养/值不值",
+   "linked": [
+    "city-pet",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物看病贵、花几万值不值，是『宠物是家人』vs『医疗的现实』的矛盾——宠物医疗贵有成本（宠物没有医保/设备药品和人的同价/医生培养），宠物生病动辄几千上万（手术/住院/重症），主人面临『花钱救还是放弃』的艰难选择（宠物不"
+  },
+  {
+   "q": "养宠物要花多少钱想清楚了吗？",
+   "conflict_id": "pet-medical",
+   "domain": "养宠生活",
+   "stage": "合题",
+   "need": "宠物健康",
+   "conflict": "宠物看病贵 vs 弃养/值不值",
+   "linked": [
+    "city-pet",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "年轻人不想生孩子，是『养育成本爆炸』vs『生育回报下降』的理性选择——生孩子不再是稳赚的投资（过去养儿防老/增加劳动力），而是高成本项目（教育/医疗/住房/时间）且回报不确定。真相：①成本清单——教育（学区/补习/大学）"
+  },
+  {
+   "q": "为什么相亲都看条件？",
+   "conflict_id": "fam-date",
+   "domain": "婚恋关系",
+   "stage": "正题",
+   "need": "婚姻的匹配",
+   "conflict": "相亲看条件 vs 感情",
+   "linked": [
+    "fam-betrothal",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "相亲都看条件、不看条件爱情能当饭吃吗，是『婚姻的现实』vs『感情的纯粹』的矛盾——相亲的本质是『条件匹配』（年龄/收入/房车/学历先摆出来，匹配了再谈感情），这让相亲显得功利（像谈生意），但婚姻确实有现实基础（柴米油盐/"
+  },
+  {
+   "q": "相亲看条件是不是太现实？",
+   "conflict_id": "fam-date",
+   "domain": "婚恋关系",
+   "stage": "正题",
+   "need": "婚姻的匹配",
+   "conflict": "相亲看条件 vs 感情",
+   "linked": [
+    "fam-betrothal",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "相亲都看条件、不看条件爱情能当饭吃吗，是『婚姻的现实』vs『感情的纯粹』的矛盾——相亲的本质是『条件匹配』（年龄/收入/房车/学历先摆出来，匹配了再谈感情），这让相亲显得功利（像谈生意），但婚姻确实有现实基础（柴米油盐/"
+  },
+  {
+   "q": "不看条件，爱情能当饭吃吗？",
+   "conflict_id": "fam-date",
+   "domain": "婚恋关系",
+   "stage": "反题",
+   "need": "婚姻的匹配",
+   "conflict": "相亲看条件 vs 感情",
+   "linked": [
+    "fam-betrothal",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "相亲都看条件、不看条件爱情能当饭吃吗，是『婚姻的现实』vs『感情的纯粹』的矛盾——相亲的本质是『条件匹配』（年龄/收入/房车/学历先摆出来，匹配了再谈感情），这让相亲显得功利（像谈生意），但婚姻确实有现实基础（柴米油盐/"
+  },
+  {
+   "q": "条件好就一定合适吗？",
+   "conflict_id": "fam-date",
+   "domain": "婚恋关系",
+   "stage": "反题",
+   "need": "婚姻的匹配",
+   "conflict": "相亲看条件 vs 感情",
+   "linked": [
+    "fam-betrothal",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "相亲都看条件、不看条件爱情能当饭吃吗，是『婚姻的现实』vs『感情的纯粹』的矛盾——相亲的本质是『条件匹配』（年龄/收入/房车/学历先摆出来，匹配了再谈感情），这让相亲显得功利（像谈生意），但婚姻确实有现实基础（柴米油盐/"
+  },
+  {
+   "q": "相亲怎么平衡条件和感情？",
+   "conflict_id": "fam-date",
+   "domain": "婚恋关系",
+   "stage": "合题",
+   "need": "婚姻的匹配",
+   "conflict": "相亲看条件 vs 感情",
+   "linked": [
+    "fam-betrothal",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "相亲该看重什么？",
+   "conflict_id": "fam-date",
+   "domain": "婚恋关系",
+   "stage": "合题",
+   "need": "婚姻的匹配",
+   "conflict": "相亲看条件 vs 感情",
+   "linked": [
+    "fam-betrothal",
+    "relation-attach"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "相亲都看条件、不看条件爱情能当饭吃吗，是『婚姻的现实』vs『感情的纯粹』的矛盾——相亲的本质是『条件匹配』（年龄/收入/房车/学历先摆出来，匹配了再谈感情），这让相亲显得功利（像谈生意），但婚姻确实有现实基础（柴米油盐/"
+  },
+  {
+   "q": "为什么酒桌总要劝酒？",
+   "conflict_id": "social-toast",
+   "domain": "社交习俗",
+   "stage": "正题",
+   "need": "拒绝的自由",
+   "conflict": "劝酒 vs 健康/自愿",
+   "linked": [
+    "work-age35",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒桌劝酒、不喝酒不给面子，是『社交仪式』vs『身体自主』的矛盾——酒在中国社交里是『感情催化剂』（无酒不成席/酒逢知己千杯少），劝酒是『热情的表达』（不喝=不给面子=关系没到位），但酒是明确的一类致癌物（WHO）+劝酒出"
+  },
+  {
+   "q": "不喝酒是不是不给面子？",
+   "conflict_id": "social-toast",
+   "domain": "社交习俗",
+   "stage": "正题",
+   "need": "拒绝的自由",
+   "conflict": "劝酒 vs 健康/自愿",
+   "linked": [
+    "work-age35",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒桌劝酒、不喝酒不给面子，是『社交仪式』vs『身体自主』的矛盾——酒在中国社交里是『感情催化剂』（无酒不成席/酒逢知己千杯少），劝酒是『热情的表达』（不喝=不给面子=关系没到位），但酒是明确的一类致癌物（WHO）+劝酒出"
+  },
+  {
+   "q": "喝点酒增进感情，有错吗？",
+   "conflict_id": "social-toast",
+   "domain": "社交习俗",
+   "stage": "反题",
+   "need": "拒绝的自由",
+   "conflict": "劝酒 vs 健康/自愿",
+   "linked": [
+    "work-age35",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒桌劝酒、不喝酒不给面子，是『社交仪式』vs『身体自主』的矛盾——酒在中国社交里是『感情催化剂』（无酒不成席/酒逢知己千杯少），劝酒是『热情的表达』（不喝=不给面子=关系没到位），但酒是明确的一类致癌物（WHO）+劝酒出"
+  },
+  {
+   "q": "劝酒是热情不是恶意吧？",
+   "conflict_id": "social-toast",
+   "domain": "社交习俗",
+   "stage": "反题",
+   "need": "拒绝的自由",
+   "conflict": "劝酒 vs 健康/自愿",
+   "linked": [
+    "work-age35",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒桌劝酒、不喝酒不给面子，是『社交仪式』vs『身体自主』的矛盾——酒在中国社交里是『感情催化剂』（无酒不成席/酒逢知己千杯少），劝酒是『热情的表达』（不喝=不给面子=关系没到位），但酒是明确的一类致癌物（WHO）+劝酒出"
+  },
+  {
+   "q": "怎么礼貌地拒酒？",
+   "conflict_id": "social-toast",
+   "domain": "社交习俗",
+   "stage": "合题",
+   "need": "拒绝的自由",
+   "conflict": "劝酒 vs 健康/自愿",
+   "linked": [
+    "work-age35",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒桌劝酒、不喝酒不给面子，是『社交仪式』vs『身体自主』的矛盾——酒在中国社交里是『感情催化剂』（无酒不成席/酒逢知己千杯少），劝酒是『热情的表达』（不喝=不给面子=关系没到位），但酒是明确的一类致癌物（WHO）+劝酒出"
+  },
+  {
+   "q": "酒桌文化怎么变？",
+   "conflict_id": "social-toast",
+   "domain": "社交习俗",
+   "stage": "合题",
+   "need": "拒绝的自由",
+   "conflict": "劝酒 vs 健康/自愿",
+   "linked": [
+    "work-age35",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒桌劝酒、不喝酒不给面子，是『社交仪式』vs『身体自主』的矛盾——酒在中国社交里是『感情催化剂』（无酒不成席/酒逢知己千杯少），劝酒是『热情的表达』（不喝=不给面子=关系没到位），但酒是明确的一类致癌物（WHO）+劝酒出"
+  },
+  {
+   "q": "为什么驾校教练这么凶？",
+   "conflict_id": "edu-driving",
+   "domain": "技能学习",
+   "stage": "正题",
+   "need": "拿证顺利",
+   "conflict": "驾校乱象 vs 拿证刚需",
+   "linked": [
+    "edu-job",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "驾校教练凶、学车要送礼，是『服务行业』vs『权力不对等』的矛盾——学员交钱学车本是消费（学员是客户），但教练掌握『考试名额/练车时间/评分』（学员能不能过教练影响大），权力不对等让教练从『服务者』变成『管理者』，凶/骂/"
+  },
+  {
+   "q": "学车为什么要送礼？",
+   "conflict_id": "edu-driving",
+   "domain": "技能学习",
+   "stage": "正题",
+   "need": "拿证顺利",
+   "conflict": "驾校乱象 vs 拿证刚需",
+   "linked": [
+    "edu-job",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "驾校教练凶、学车要送礼，是『服务行业』vs『权力不对等』的矛盾——学员交钱学车本是消费（学员是客户），但教练掌握『考试名额/练车时间/评分』（学员能不能过教练影响大），权力不对等让教练从『服务者』变成『管理者』，凶/骂/"
+  },
+  {
+   "q": "教练严一点，上路才安全？",
+   "conflict_id": "edu-driving",
+   "domain": "技能学习",
+   "stage": "反题",
+   "need": "拿证顺利",
+   "conflict": "驾校乱象 vs 拿证刚需",
+   "linked": [
+    "edu-job",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "驾校教练凶、学车要送礼，是『服务行业』vs『权力不对等』的矛盾——学员交钱学车本是消费（学员是客户），但教练掌握『考试名额/练车时间/评分』（学员能不能过教练影响大），权力不对等让教练从『服务者』变成『管理者』，凶/骂/"
+  },
+  {
+   "q": "驾考难一点不好吗？",
+   "conflict_id": "edu-driving",
+   "domain": "技能学习",
+   "stage": "反题",
+   "need": "拿证顺利",
+   "conflict": "驾校乱象 vs 拿证刚需",
+   "linked": [
+    "edu-job",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "驾校教练凶、学车要送礼，是『服务行业』vs『权力不对等』的矛盾——学员交钱学车本是消费（学员是客户），但教练掌握『考试名额/练车时间/评分』（学员能不能过教练影响大），权力不对等让教练从『服务者』变成『管理者』，凶/骂/"
+  },
+  {
+   "q": "怎么选驾校不被坑？",
+   "conflict_id": "edu-driving",
+   "domain": "技能学习",
+   "stage": "合题",
+   "need": "拿证顺利",
+   "conflict": "驾校乱象 vs 拿证刚需",
+   "linked": [
+    "edu-job",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "驾校教练凶、学车要送礼，是『服务行业』vs『权力不对等』的矛盾——学员交钱学车本是消费（学员是客户），但教练掌握『考试名额/练车时间/评分』（学员能不能过教练影响大），权力不对等让教练从『服务者』变成『管理者』，凶/骂/"
+  },
+  {
+   "q": "学车怎么少受气？",
+   "conflict_id": "edu-driving",
+   "domain": "技能学习",
+   "stage": "合题",
+   "need": "拿证顺利",
+   "conflict": "驾校乱象 vs 拿证刚需",
+   "linked": [
+    "edu-job",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "驾校教练凶、学车要送礼，是『服务行业』vs『权力不对等』的矛盾——学员交钱学车本是消费（学员是客户），但教练掌握『考试名额/练车时间/评分』（学员能不能过教练影响大），权力不对等让教练从『服务者』变成『管理者』，凶/骂/"
+  },
+  {
+   "q": "为什么盲道总被占用？",
+   "conflict_id": "city-accessibility",
+   "domain": "城市文明",
+   "stage": "正题",
+   "need": "人人能出行",
+   "conflict": "残障出行 vs 设施不足/占用",
+   "linked": [
+    "age-digital",
+    "city-elevator"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "盲道被占、轮椅出门难，是『少数人的权利』vs『多数人的便利』的矛盾——无障碍设施（盲道/坡道/无障碍卫生间）服务的是残障人士（视障/轮椅/老年人/推婴儿车的人），但健全人觉得『跟我没关系』（占盲道停车/坡道堆杂物），设施"
+  },
+  {
+   "q": "轮椅出行为什么这么难？",
+   "conflict_id": "city-accessibility",
+   "domain": "城市文明",
+   "stage": "正题",
+   "need": "人人能出行",
+   "conflict": "残障出行 vs 设施不足/占用",
+   "linked": [
+    "age-digital",
+    "city-elevator"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "盲道被占、轮椅出门难，是『少数人的权利』vs『多数人的便利』的矛盾——无障碍设施（盲道/坡道/无障碍卫生间）服务的是残障人士（视障/轮椅/老年人/推婴儿车的人），但健全人觉得『跟我没关系』（占盲道停车/坡道堆杂物），设施"
+  },
+  {
+   "q": "无障碍设施少，谁的责任？",
+   "conflict_id": "city-accessibility",
+   "domain": "城市文明",
+   "stage": "反题",
+   "need": "人人能出行",
+   "conflict": "残障出行 vs 设施不足/占用",
+   "linked": [
+    "age-digital",
+    "city-elevator"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "盲道被占、轮椅出门难，是『少数人的权利』vs『多数人的便利』的矛盾——无障碍设施（盲道/坡道/无障碍卫生间）服务的是残障人士（视障/轮椅/老年人/推婴儿车的人），但健全人觉得『跟我没关系』（占盲道停车/坡道堆杂物），设施"
+  },
+  {
+   "q": "健全人占无障碍设施，至于吗？",
+   "conflict_id": "city-accessibility",
+   "domain": "城市文明",
+   "stage": "反题",
+   "need": "人人能出行",
+   "conflict": "残障出行 vs 设施不足/占用",
+   "linked": [
+    "age-digital",
+    "city-elevator"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "盲道被占、轮椅出门难，是『少数人的权利』vs『多数人的便利』的矛盾——无障碍设施（盲道/坡道/无障碍卫生间）服务的是残障人士（视障/轮椅/老年人/推婴儿车的人），但健全人觉得『跟我没关系』（占盲道停车/坡道堆杂物），设施"
+  },
+  {
+   "q": "怎么让城市对残障友好？",
+   "conflict_id": "city-accessibility",
+   "domain": "城市文明",
+   "stage": "合题",
+   "need": "人人能出行",
+   "conflict": "残障出行 vs 设施不足/占用",
+   "linked": [
+    "age-digital",
+    "city-elevator"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "盲道被占、轮椅出门难，是『少数人的权利』vs『多数人的便利』的矛盾——无障碍设施（盲道/坡道/无障碍卫生间）服务的是残障人士（视障/轮椅/老年人/推婴儿车的人），但健全人觉得『跟我没关系』（占盲道停车/坡道堆杂物），设施"
+  },
+  {
+   "q": "无障碍设施怎么管？",
+   "conflict_id": "city-accessibility",
+   "domain": "城市文明",
+   "stage": "合题",
+   "need": "人人能出行",
+   "conflict": "残障出行 vs 设施不足/占用",
+   "linked": [
+    "age-digital",
+    "city-elevator"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "盲道被占、轮椅出门难，是『少数人的权利』vs『多数人的便利』的矛盾——无障碍设施（盲道/坡道/无障碍卫生间）服务的是残障人士（视障/轮椅/老年人/推婴儿车的人），但健全人觉得『跟我没关系』（占盲道停车/坡道堆杂物），设施"
+  },
+  {
+   "q": "为什么退休了还想找工作？",
+   "conflict_id": "work-rehire",
+   "domain": "老年就业",
+   "stage": "正题",
+   "need": "老有所为",
+   "conflict": "退休后再就业 vs 年龄/体面",
+   "linked": [
+    "work-age35",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "退休了还想找工作、老年人再就业难，是『老有所为』vs『年龄门槛』的矛盾——退休不是人生的终点（60岁身体还行/经验丰富/闲不住），但就业市场对老年人不友好（招聘限35岁以下/企业怕担责/技能断层），『想干』和『没人要』之"
+  },
+  {
+   "q": "老年人再就业为什么难？",
+   "conflict_id": "work-rehire",
+   "domain": "老年就业",
+   "stage": "正题",
+   "need": "老有所为",
+   "conflict": "退休后再就业 vs 年龄/体面",
+   "linked": [
+    "work-age35",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "退休了还想找工作、老年人再就业难，是『老有所为』vs『年龄门槛』的矛盾——退休不是人生的终点（60岁身体还行/经验丰富/闲不住），但就业市场对老年人不友好（招聘限35岁以下/企业怕担责/技能断层），『想干』和『没人要』之"
+  },
+  {
+   "q": "退休了享清福不好吗？",
+   "conflict_id": "work-rehire",
+   "domain": "老年就业",
+   "stage": "反题",
+   "need": "老有所为",
+   "conflict": "退休后再就业 vs 年龄/体面",
+   "linked": [
+    "work-age35",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "退休了还想找工作、老年人再就业难，是『老有所为』vs『年龄门槛』的矛盾——退休不是人生的终点（60岁身体还行/经验丰富/闲不住），但就业市场对老年人不友好（招聘限35岁以下/企业怕担责/技能断层），『想干』和『没人要』之"
+  },
+  {
+   "q": "老人返聘，年轻人就业更紧张？",
+   "conflict_id": "work-rehire",
+   "domain": "老年就业",
+   "stage": "反题",
+   "need": "老有所为",
+   "conflict": "退休后再就业 vs 年龄/体面",
+   "linked": [
+    "work-age35",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "紧张的话先深呼吸放松一下，别太逼自己——退休了还想找工作、老年人再就业难，是『老有所为』vs『年龄门槛』的矛盾——退休不是人生的终点（60岁身体还行/经验丰富/闲不住），但就业市场对老年人不友好（招聘限35岁以下/企业怕"
+  },
+  {
+   "q": "退休后再就业怎么安排？",
+   "conflict_id": "work-rehire",
+   "domain": "老年就业",
+   "stage": "合题",
+   "need": "老有所为",
+   "conflict": "退休后再就业 vs 年龄/体面",
+   "linked": [
+    "work-age35",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "退休了还想找工作、老年人再就业难，是『老有所为』vs『年龄门槛』的矛盾——退休不是人生的终点（60岁身体还行/经验丰富/闲不住），但就业市场对老年人不友好（招聘限35岁以下/企业怕担责/技能断层），『想干』和『没人要』之"
+  },
+  {
+   "q": "老年劳动力怎么用？",
+   "conflict_id": "work-rehire",
+   "domain": "老年就业",
+   "stage": "合题",
+   "need": "老有所为",
+   "conflict": "退休后再就业 vs 年龄/体面",
+   "linked": [
+    "work-age35",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "退休了还想找工作、老年人再就业难，是『老有所为』vs『年龄门槛』的矛盾——退休不是人生的终点（60岁身体还行/经验丰富/闲不住），但就业市场对老年人不友好（招聘限35岁以下/企业怕担责/技能断层），『想干』和『没人要』之"
+  },
+  {
+   "q": "为什么垃圾分类这么麻烦？",
+   "conflict_id": "env-sort",
+   "domain": "环境保护",
+   "stage": "正题",
+   "need": "环境好",
+   "conflict": "分类麻烦 vs 环境收益",
+   "linked": [
+    "plastic-waste",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "垃圾分类麻烦、分好的垃圾最后还是一起烧吗，是『分类的成本』vs『环境的收益』的矛盾——分类让环境受益（回收利用/减少填埋/垃圾减量），但分类对居民是麻烦（四个桶记不住/厨房垃圾湿漉漉/扔错了有负罪感），矛盾在：居民花了力"
+  },
+  {
+   "q": "分好的垃圾最后还是一起烧吗？",
+   "conflict_id": "env-sort",
+   "domain": "环境保护",
+   "stage": "正题",
+   "need": "环境好",
+   "conflict": "分类麻烦 vs 环境收益",
+   "linked": [
+    "plastic-waste",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "垃圾分类麻烦、分好的垃圾最后还是一起烧吗，是『分类的成本』vs『环境的收益』的矛盾——分类让环境受益（回收利用/减少填埋/垃圾减量），但分类对居民是麻烦（四个桶记不住/厨房垃圾湿漉漉/扔错了有负罪感），矛盾在：居民花了力"
+  },
+  {
+   "q": "不分类，垃圾去哪？",
+   "conflict_id": "env-sort",
+   "domain": "环境保护",
+   "stage": "反题",
+   "need": "环境好",
+   "conflict": "分类麻烦 vs 环境收益",
+   "linked": [
+    "plastic-waste",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "垃圾分类麻烦、分好的垃圾最后还是一起烧吗，是『分类的成本』vs『环境的收益』的矛盾——分类让环境受益（回收利用/减少填埋/垃圾减量），但分类对居民是麻烦（四个桶记不住/厨房垃圾湿漉漉/扔错了有负罪感），矛盾在：居民花了力"
+  },
+  {
+   "q": "分类麻烦点，环境好点不好吗？",
+   "conflict_id": "env-sort",
+   "domain": "环境保护",
+   "stage": "反题",
+   "need": "环境好",
+   "conflict": "分类麻烦 vs 环境收益",
+   "linked": [
+    "plastic-waste",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "烦的时候先停一停，别让情绪带着走——我理解你现在的心情——垃圾分类麻烦、分好的垃圾最后还是一起烧吗，是『分类的成本』vs『环境的收益』的矛盾——分类让环境受益（回收利用/减少填埋/垃圾减量），但分类对居民是麻烦（四个桶记"
+  },
+  {
+   "q": "怎么分类不麻烦？",
+   "conflict_id": "env-sort",
+   "domain": "环境保护",
+   "stage": "合题",
+   "need": "环境好",
+   "conflict": "分类麻烦 vs 环境收益",
+   "linked": [
+    "plastic-waste",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "烦的时候先停一停，别让情绪带着走——我理解你现在的心情——垃圾分类麻烦、分好的垃圾最后还是一起烧吗，是『分类的成本』vs『环境的收益』的矛盾——分类让环境受益（回收利用/减少填埋/垃圾减量），但分类对居民是麻烦（四个桶记"
+  },
+  {
+   "q": "垃圾分类怎么坚持？",
+   "conflict_id": "env-sort",
+   "domain": "环境保护",
+   "stage": "合题",
+   "need": "环境好",
+   "conflict": "分类麻烦 vs 环境收益",
+   "linked": [
+    "plastic-waste",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "垃圾分类麻烦、分好的垃圾最后还是一起烧吗，是『分类的成本』vs『环境的收益』的矛盾——分类让环境受益（回收利用/减少填埋/垃圾减量），但分类对居民是麻烦（四个桶记不住/厨房垃圾湿漉漉/扔错了有负罪感），矛盾在：居民花了力"
+  }
+ ]
+}

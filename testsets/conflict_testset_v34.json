@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v34",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "家庭饮食听谁的？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "正题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ]
+  },
+  {
+   "q": "健康饮食和口味怎么平衡？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "正题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ]
+  },
+  {
+   "q": "爱吃啥吃啥？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "反题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ]
+  },
+  {
+   "q": "健康饮食是矫情？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "反题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ]
+  },
+  {
+   "q": "家庭饮食怎么安排？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "合题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ]
+  },
+  {
+   "q": "健康和孩子口味怎么兼顾？",
+   "conflict_id": "fam-diet",
+   "domain": "家庭饮食",
+   "stage": "合题",
+   "need": "吃得健康也开心",
+   "conflict": "健康饮食 vs 口味",
+   "linked": [
+    "fam-health",
+    "food-safe"
+   ]
+  },
+  {
+   "q": "家庭作息不统一怎么办？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "正题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "早睡的和晚睡的怎么处？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "正题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "作息是个人自由？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "反题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "家庭作息要统一吗？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "反题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "家庭作息怎么协调？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "合题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "作息差异怎么磨合？",
+   "conflict_id": "fam-schedule",
+   "domain": "家庭作息",
+   "stage": "合题",
+   "need": "作息不冲突",
+   "conflict": "早睡 vs 晚睡",
+   "linked": [
+    "fam-separatebeds",
+    "edu-sleep"
+   ]
+  },
+  {
+   "q": "家庭旅行听谁的？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "正题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "带娃旅行是享受还是受罪？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "正题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "旅行是为了孩子？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "反题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "旅行是放松还是折腾？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "反题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "家庭旅行怎么规划？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "合题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "旅行的需求怎么平衡？",
+   "conflict_id": "fam-trip",
+   "domain": "家庭旅行",
+   "stage": "合题",
+   "need": "旅行不折腾",
+   "conflict": "带娃旅行 vs 享受/折腾",
+   "linked": [
+    "edu-trip",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "家庭聚会是温馨还是负担？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "正题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ]
+  },
+  {
+   "q": "不想参加家庭聚会，行吗？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "正题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ]
+  },
+  {
+   "q": "聚会是亲情？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "反题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ]
+  },
+  {
+   "q": "聚会是应酬？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "反题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ]
+  },
+  {
+   "q": "家庭聚会怎么相处？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "合题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ]
+  },
+  {
+   "q": "聚会和自由怎么平衡？",
+   "conflict_id": "fam-gathering",
+   "domain": "家庭聚会",
+   "stage": "合题",
+   "need": "聚会不负担",
+   "conflict": "家庭聚会 vs 温馨/负担",
+   "linked": [
+    "fam-groupchat",
+    "fam-inlaws"
+   ]
+  },
+  {
+   "q": "孩子交朋友要管吗？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "正题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "孩子的朋友不好，怎么办？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "正题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "孩子交友是自由？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "反题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "不管孩子交朋友，行吗？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "反题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "孩子交友怎么引导？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "合题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "把关和放手怎么平衡？",
+   "conflict_id": "fam-childfriends",
+   "domain": "孩子交友",
+   "stage": "合题",
+   "need": "交友有边界",
+   "conflict": "孩子交友 vs 把关",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "孩子该做家务吗？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "正题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "家务和学习怎么排？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "正题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "孩子小，做什么家务？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "反题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "做家务是锻炼还是剥削？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "反题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "孩子家务怎么安排？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "合题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "家务和零花钱怎么挂钩？",
+   "conflict_id": "fam-chorechild",
+   "domain": "孩子家务",
+   "stage": "合题",
+   "need": "家务是成长",
+   "conflict": "孩子家务 vs 学习",
+   "linked": [
+    "edu-allowance",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "家务标准不同怎么办？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "正题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ]
+  },
+  {
+   "q": "洁癖和随意怎么处？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "正题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ]
+  },
+  {
+   "q": "干净是基本要求？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "反题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ]
+  },
+  {
+   "q": "差不多就行了？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "反题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ]
+  },
+  {
+   "q": "家务标准怎么统一？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "合题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ]
+  },
+  {
+   "q": "干净和轻松怎么平衡？",
+   "conflict_id": "fam-cleanliness",
+   "domain": "家务标准",
+   "stage": "合题",
+   "need": "干净不吵架",
+   "conflict": "洁癖 vs 随意",
+   "linked": [
+    "gen-house",
+    "fam-fight"
+   ]
+  },
+  {
+   "q": "有孩子能养宠物吗？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "正题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ]
+  },
+  {
+   "q": "宠物和孩子能共存吗？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "正题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ]
+  },
+  {
+   "q": "宠物对孩子有好处？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "反题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ]
+  },
+  {
+   "q": "宠物对孩子有风险？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "反题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ]
+  },
+  {
+   "q": "宠物和孩子怎么相处？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "合题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ]
+  },
+  {
+   "q": "养宠和育儿怎么兼顾？",
+   "conflict_id": "fam-petchild",
+   "domain": "宠物孩子",
+   "stage": "合题",
+   "need": "宠物孩子两全",
+   "conflict": "宠物与孩子 vs 共存",
+   "linked": [
+    "fam-pet",
+    "fam-childfriends"
+   ]
+  }
+ ]
+}

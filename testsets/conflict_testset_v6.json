@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v6",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么维权这么难这么贵？",
+   "conflict_id": "law-rights",
+   "domain": "法律权益",
+   "stage": "正题",
+   "need": "普通人的权益被保护",
+   "conflict": "维权成本高（时间长/律师贵/举证难）vs 权益受损",
+   "linked": [
+    "soc-doctor",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "被坑了打官司值得吗？",
+   "conflict_id": "law-rights",
+   "domain": "法律权益",
+   "stage": "正题",
+   "need": "普通人的权益被保护",
+   "conflict": "维权成本高（时间长/律师贵/举证难）vs 权益受损",
+   "linked": [
+    "soc-doctor",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "打官司费时费力，忍一忍是不是更划算？",
+   "conflict_id": "law-rights",
+   "domain": "法律权益",
+   "stage": "反题",
+   "need": "普通人的权益被保护",
+   "conflict": "维权成本高（时间长/律师贵/举证难）vs 权益受损",
+   "linked": [
+    "soc-doctor",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "法律是给有钱人准备的，普通人怎么办？",
+   "conflict_id": "law-rights",
+   "domain": "法律权益",
+   "stage": "反题",
+   "need": "普通人的权益被保护",
+   "conflict": "维权成本高（时间长/律师贵/举证难）vs 权益受损",
+   "linked": [
+    "soc-doctor",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "普通人怎么低成本维权？",
+   "conflict_id": "law-rights",
+   "domain": "法律权益",
+   "stage": "合题",
+   "need": "普通人的权益被保护",
+   "conflict": "维权成本高（时间长/律师贵/举证难）vs 权益受损",
+   "linked": [
+    "soc-doctor",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "怎么判断值不值得打官司？",
+   "conflict_id": "law-rights",
+   "domain": "法律权益",
+   "stage": "合题",
+   "need": "普通人的权益被保护",
+   "conflict": "维权成本高（时间长/律师贵/举证难）vs 权益受损",
+   "linked": [
+    "soc-doctor",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "为什么有人不愿打疫苗？",
+   "conflict_id": "health-vaccine",
+   "domain": "公共健康",
+   "stage": "正题",
+   "need": "个人健康自主",
+   "conflict": "疫苗/防疫措施的公共健康收益 vs 个人自由与担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "强制防疫是不是侵犯自由？",
+   "conflict_id": "health-vaccine",
+   "domain": "公共健康",
+   "stage": "正题",
+   "need": "个人健康自主",
+   "conflict": "疫苗/防疫措施的公共健康收益 vs 个人自由与担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "不打疫苗的自由，会不会害了别人？",
+   "conflict_id": "health-vaccine",
+   "domain": "公共健康",
+   "stage": "反题",
+   "need": "个人健康自主",
+   "conflict": "疫苗/防疫措施的公共健康收益 vs 个人自由与担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "疫苗副作用是不是被隐瞒了？",
+   "conflict_id": "health-vaccine",
+   "domain": "公共健康",
+   "stage": "反题",
+   "need": "个人健康自主",
+   "conflict": "疫苗/防疫措施的公共健康收益 vs 个人自由与担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "怎么看待疫苗犹豫？",
+   "conflict_id": "health-vaccine",
+   "domain": "公共健康",
+   "stage": "合题",
+   "need": "个人健康自主",
+   "conflict": "疫苗/防疫措施的公共健康收益 vs 个人自由与担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "公共健康和个人自由怎么平衡？",
+   "conflict_id": "health-vaccine",
+   "domain": "公共健康",
+   "stage": "合题",
+   "need": "个人健康自主",
+   "conflict": "疫苗/防疫措施的公共健康收益 vs 个人自由与担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "为什么越来越多人容貌焦虑？",
+   "conflict_id": "psy-appearance",
+   "domain": "文化心理",
+   "stage": "正题",
+   "need": "被接纳的自我形象",
+   "conflict": "容貌焦虑（滤镜/审美标准）vs 接纳真实的自己",
+   "linked": [
+    "self-compare",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "不漂亮是不是就没人喜欢？",
+   "conflict_id": "psy-appearance",
+   "domain": "文化心理",
+   "stage": "正题",
+   "need": "被接纳的自我形象",
+   "conflict": "容貌焦虑（滤镜/审美标准）vs 接纳真实的自己",
+   "linked": [
+    "self-compare",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "变美有什么错，精致有错吗？",
+   "conflict_id": "psy-appearance",
+   "domain": "文化心理",
+   "stage": "反题",
+   "need": "被接纳的自我形象",
+   "conflict": "容貌焦虑（滤镜/审美标准）vs 接纳真实的自己",
+   "linked": [
+    "self-compare",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "容貌焦虑是不是矫情？",
+   "conflict_id": "psy-appearance",
+   "domain": "文化心理",
+   "stage": "反题",
+   "need": "被接纳的自我形象",
+   "conflict": "容貌焦虑（滤镜/审美标准）vs 接纳真实的自己",
+   "linked": [
+    "self-compare",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "怎么摆脱容貌焦虑？",
+   "conflict_id": "psy-appearance",
+   "domain": "文化心理",
+   "stage": "合题",
+   "need": "被接纳的自我形象",
+   "conflict": "容貌焦虑（滤镜/审美标准）vs 接纳真实的自己",
+   "linked": [
+    "self-compare",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "怎么看待医美/整容？",
+   "conflict_id": "psy-appearance",
+   "domain": "文化心理",
+   "stage": "合题",
+   "need": "被接纳的自我形象",
+   "conflict": "容貌焦虑（滤镜/审美标准）vs 接纳真实的自己",
+   "linked": [
+    "self-compare",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "为什么越长大越孤独？",
+   "conflict_id": "psy-lonely",
+   "domain": "文化心理",
+   "stage": "正题",
+   "need": "孤独青年的连接",
+   "conflict": "城市化的原子化（空巢青年/社恐）vs 归属需要",
+   "linked": [
+    "soc-urban",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "空巢青年的孤独怎么来的？",
+   "conflict_id": "psy-lonely",
+   "domain": "文化心理",
+   "stage": "正题",
+   "need": "孤独青年的连接",
+   "conflict": "城市化的原子化（空巢青年/社恐）vs 归属需要",
+   "linked": [
+    "soc-urban",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "一个人也挺好，是不是不用刻意社交？",
+   "conflict_id": "psy-lonely",
+   "domain": "文化心理",
+   "stage": "反题",
+   "need": "孤独青年的连接",
+   "conflict": "城市化的原子化（空巢青年/社恐）vs 归属需要",
+   "linked": [
+    "soc-urban",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "孤独是常态，习惯就好？",
+   "conflict_id": "psy-lonely",
+   "domain": "文化心理",
+   "stage": "反题",
+   "need": "孤独青年的连接",
+   "conflict": "城市化的原子化（空巢青年/社恐）vs 归属需要",
+   "linked": [
+    "soc-urban",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "怎么和孤独相处？",
+   "conflict_id": "psy-lonely",
+   "domain": "文化心理",
+   "stage": "合题",
+   "need": "孤独青年的连接",
+   "conflict": "城市化的原子化（空巢青年/社恐）vs 归属需要",
+   "linked": [
+    "soc-urban",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "怎么建立真心的朋友关系？",
+   "conflict_id": "psy-lonely",
+   "domain": "文化心理",
+   "stage": "合题",
+   "need": "孤独青年的连接",
+   "conflict": "城市化的原子化（空巢青年/社恐）vs 归属需要",
+   "linked": [
+    "soc-urban",
+    "relation-attach"
+   ]
+  },
+  {
+   "q": "为什么越来越多家庭送孩子留学？",
+   "conflict_id": "edu-abroad",
+   "domain": "教育国际",
+   "stage": "正题",
+   "need": "更好教育的选择",
+   "conflict": "留学的高成本/风险 vs 视野/学历回报",
+   "linked": [
+    "edu-score",
+    "intl-tech"
+   ]
+  },
+  {
+   "q": "留学到底值不值？",
+   "conflict_id": "edu-abroad",
+   "domain": "教育国际",
+   "stage": "正题",
+   "need": "更好教育的选择",
+   "conflict": "留学的高成本/风险 vs 视野/学历回报",
+   "linked": [
+    "edu-score",
+    "intl-tech"
+   ]
+  },
+  {
+   "q": "国外教育一定更好吗？",
+   "conflict_id": "edu-abroad",
+   "domain": "教育国际",
+   "stage": "反题",
+   "need": "更好教育的选择",
+   "conflict": "留学的高成本/风险 vs 视野/学历回报",
+   "linked": [
+    "edu-score",
+    "intl-tech"
+   ]
+  },
+  {
+   "q": "留学回来找不到工作，是不是白花钱？",
+   "conflict_id": "edu-abroad",
+   "domain": "教育国际",
+   "stage": "反题",
+   "need": "更好教育的选择",
+   "conflict": "留学的高成本/风险 vs 视野/学历回报",
+   "linked": [
+    "edu-score",
+    "intl-tech"
+   ]
+  },
+  {
+   "q": "怎么判断该不该留学？",
+   "conflict_id": "edu-abroad",
+   "domain": "教育国际",
+   "stage": "合题",
+   "need": "更好教育的选择",
+   "conflict": "留学的高成本/风险 vs 视野/学历回报",
+   "linked": [
+    "edu-score",
+    "intl-tech"
+   ]
+  },
+  {
+   "q": "留学的真正价值是什么？",
+   "conflict_id": "edu-abroad",
+   "domain": "教育国际",
+   "stage": "合题",
+   "need": "更好教育的选择",
+   "conflict": "留学的高成本/风险 vs 视野/学历回报",
+   "linked": [
+    "edu-score",
+    "intl-tech"
+   ]
+  },
+  {
+   "q": "为什么到处都装人脸识别？",
+   "conflict_id": "tech-face",
+   "domain": "科技伦理",
+   "stage": "正题",
+   "need": "便利+安全",
+   "conflict": "人脸识别/监控的便利 vs 隐私/滥用",
+   "linked": [
+    "digit-privacy",
+    "ai-bias"
+   ]
+  },
+  {
+   "q": "刷脸真的安全吗？",
+   "conflict_id": "tech-face",
+   "domain": "科技伦理",
+   "stage": "正题",
+   "need": "便利+安全",
+   "conflict": "人脸识别/监控的便利 vs 隐私/滥用",
+   "linked": [
+    "digit-privacy",
+    "ai-bias"
+   ]
+  },
+  {
+   "q": "没有监控，坏人怎么抓？",
+   "conflict_id": "tech-face",
+   "domain": "科技伦理",
+   "stage": "反题",
+   "need": "便利+安全",
+   "conflict": "人脸识别/监控的便利 vs 隐私/滥用",
+   "linked": [
+    "digit-privacy",
+    "ai-bias"
+   ]
+  },
+  {
+   "q": "我又没干坏事，怕什么监控？",
+   "conflict_id": "tech-face",
+   "domain": "科技伦理",
+   "stage": "反题",
+   "need": "便利+安全",
+   "conflict": "人脸识别/监控的便利 vs 隐私/滥用",
+   "linked": [
+    "digit-privacy",
+    "ai-bias"
+   ]
+  },
+  {
+   "q": "怎么看待无处不在的监控？",
+   "conflict_id": "tech-face",
+   "domain": "科技伦理",
+   "stage": "合题",
+   "need": "便利+安全",
+   "conflict": "人脸识别/监控的便利 vs 隐私/滥用",
+   "linked": [
+    "digit-privacy",
+    "ai-bias"
+   ]
+  },
+  {
+   "q": "技术和隐私怎么平衡？",
+   "conflict_id": "tech-face",
+   "domain": "科技伦理",
+   "stage": "合题",
+   "need": "便利+安全",
+   "conflict": "人脸识别/监控的便利 vs 隐私/滥用",
+   "linked": [
+    "digit-privacy",
+    "ai-bias"
+   ]
+  },
+  {
+   "q": "AI换脸视频为什么这么危险？",
+   "conflict_id": "tech-deepfake",
+   "domain": "科技伦理",
+   "stage": "正题",
+   "need": "信息真实",
+   "conflict": "深度伪造（AI换脸/假视频）的传播 vs 真相/名誉",
+   "linked": [
+    "ai-copyright",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "怎么识别视频是不是假的？",
+   "conflict_id": "tech-deepfake",
+   "domain": "科技伦理",
+   "stage": "正题",
+   "need": "信息真实",
+   "conflict": "深度伪造（AI换脸/假视频）的传播 vs 真相/名誉",
+   "linked": [
+    "ai-copyright",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "换脸只是娱乐，是不是大惊小怪？",
+   "conflict_id": "tech-deepfake",
+   "domain": "科技伦理",
+   "stage": "反题",
+   "need": "信息真实",
+   "conflict": "深度伪造（AI换脸/假视频）的传播 vs 真相/名誉",
+   "linked": [
+    "ai-copyright",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "技术无罪，用的人才有罪？",
+   "conflict_id": "tech-deepfake",
+   "domain": "科技伦理",
+   "stage": "反题",
+   "need": "信息真实",
+   "conflict": "深度伪造（AI换脸/假视频）的传播 vs 真相/名誉",
+   "linked": [
+    "ai-copyright",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "怎么防范深度伪造伤害？",
+   "conflict_id": "tech-deepfake",
+   "domain": "科技伦理",
+   "stage": "合题",
+   "need": "信息真实",
+   "conflict": "深度伪造（AI换脸/假视频）的传播 vs 真相/名誉",
+   "linked": [
+    "ai-copyright",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "平台和立法该怎么管AI伪造？",
+   "conflict_id": "tech-deepfake",
+   "domain": "科技伦理",
+   "stage": "合题",
+   "need": "信息真实",
+   "conflict": "深度伪造（AI换脸/假视频）的传播 vs 真相/名誉",
+   "linked": [
+    "ai-copyright",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "为什么明知道有风险还在河边/地震带建房？",
+   "conflict_id": "disaster-dev",
+   "domain": "自然灾害",
+   "stage": "正题",
+   "need": "安全的生活",
+   "conflict": "防灾投入（钱/地/时间）vs 经济发展",
+   "linked": [
+    "gov-carbon",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "防灾投入为什么总是不够？",
+   "conflict_id": "disaster-dev",
+   "domain": "自然灾害",
+   "stage": "正题",
+   "need": "安全的生活",
+   "conflict": "防灾投入（钱/地/时间）vs 经济发展",
+   "linked": [
+    "gov-carbon",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "把资源都拿去防灾，发展怎么办？",
+   "conflict_id": "disaster-dev",
+   "domain": "自然灾害",
+   "stage": "反题",
+   "need": "安全的生活",
+   "conflict": "防灾投入（钱/地/时间）vs 经济发展",
+   "linked": [
+    "gov-carbon",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "天灾躲不过，防了也白防？",
+   "conflict_id": "disaster-dev",
+   "domain": "自然灾害",
+   "stage": "反题",
+   "need": "安全的生活",
+   "conflict": "防灾投入（钱/地/时间）vs 经济发展",
+   "linked": [
+    "gov-carbon",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "怎么在发展和防灾之间平衡？",
+   "conflict_id": "disaster-dev",
+   "domain": "自然灾害",
+   "stage": "合题",
+   "need": "安全的生活",
+   "conflict": "防灾投入（钱/地/时间）vs 经济发展",
+   "linked": [
+    "gov-carbon",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "普通家庭怎么做好应急准备？",
+   "conflict_id": "disaster-dev",
+   "domain": "自然灾害",
+   "stage": "合题",
+   "need": "安全的生活",
+   "conflict": "防灾投入（钱/地/时间）vs 经济发展",
+   "linked": [
+    "gov-carbon",
+    "fam-eldercare"
+   ]
+  }
+ ]
+}

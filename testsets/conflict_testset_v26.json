@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v26",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "什么是婚姻冷暴力？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "正题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "冷暴力算家暴吗？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "正题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "冷战是正常磨合？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "反题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "不说话比吵架更伤人？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "反题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "冷暴力怎么破？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "合题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婚姻冷暴力怎么应对？",
+   "conflict_id": "fam-coldviolence",
+   "domain": "婚姻暴力",
+   "stage": "合题",
+   "need": "不被冷落",
+   "conflict": "婚姻冷暴力 vs 伤害",
+   "linked": [
+    "fam-sunkcost",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "为什么未婚女性也要规划养老？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "正题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "不结婚，老了谁照顾？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "正题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "没孩子养老是问题吗？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "反题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "未婚养老靠自己，行吗？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "反题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "未婚女性怎么规划养老？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "合题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "单身养老怎么保障？",
+   "conflict_id": "gen-unmarriedpension",
+   "domain": "未婚养老",
+   "stage": "合题",
+   "need": "单身有保障",
+   "conflict": "未婚女性 vs 养老规划",
+   "linked": [
+    "gen-labels",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "孩子该接受性别平等教育吗？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "正题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "男孩女孩要区别养吗？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "正题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "性别教育是洗脑吗？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "反题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "男孩就要像男孩，对吗？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "反题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "儿童性别教育怎么做？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "合题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "怎么养出性别平等的孩子？",
+   "conflict_id": "edu-gender",
+   "domain": "性别教育",
+   "stage": "合题",
+   "need": "孩子不被规训",
+   "conflict": "性别刻板印象 vs 多元教育",
+   "linked": [
+    "gen-war",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "什么是婚姻经济控制？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "正题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "管钱算控制吗？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "正题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "经济控制是家暴吗？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "反题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "钱都交给我，不好吗？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "反题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "婚姻经济怎么平等？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "合题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "经济控制怎么识别和应对？",
+   "conflict_id": "fam-fincontrol",
+   "domain": "婚姻经济",
+   "stage": "合题",
+   "need": "经济不控制",
+   "conflict": "婚姻经济控制 vs 家庭暴力",
+   "linked": [
+    "fam-aa",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "为什么女性创业更难？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "正题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ]
+  },
+  {
+   "q": "女性创业是异类吗？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "正题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ]
+  },
+  {
+   "q": "女性创业有优势吗？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "反题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ]
+  },
+  {
+   "q": "创业不分性别，对吗？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "反题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ]
+  },
+  {
+   "q": "女性创业怎么起步？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "合题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ]
+  },
+  {
+   "q": "创业性别偏见怎么破？",
+   "conflict_id": "gen-entrepreneur",
+   "domain": "女性创业",
+   "stage": "合题",
+   "need": "创业无性别",
+   "conflict": "女性创业 vs 偏见",
+   "linked": [
+    "gen-work",
+    "work-free"
+   ]
+  },
+  {
+   "q": "离婚财产怎么分？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "正题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "全职妈妈离婚分不到财产吗？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "正题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "离婚分割公平吗？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "反题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "财产分割是斤斤计较吗？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "反题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "离婚财产怎么分公平？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "合题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "婚姻财产怎么保护？",
+   "conflict_id": "fam-division",
+   "domain": "婚姻财产",
+   "stage": "合题",
+   "need": "离婚分得公平",
+   "conflict": "离婚财产分割 vs 公平",
+   "linked": [
+    "fam-prenup",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "婚后可以有异性朋友吗？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "正题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "配偶和异性朋友走太近，怎么办？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "正题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "异性朋友是正常社交？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "反题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "管异性朋友是控制吗？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "反题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "婚后异性友谊怎么处？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "合题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "边界和信任怎么平衡？",
+   "conflict_id": "fam-friendboundary",
+   "domain": "婚姻边界",
+   "stage": "合题",
+   "need": "友谊与边界",
+   "conflict": "婚后异性友谊 vs 边界",
+   "linked": [
+    "fam-couple",
+    "social-boundary"
+   ]
+  },
+  {
+   "q": "离婚后孩子跟谁？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "正题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "争夺抚养权是爱还是伤害？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "正题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "孩子跟妈妈好还是爸爸好？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "反题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "离婚就失去孩子，对吗？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "反题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "离婚抚养怎么对孩子好？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "合题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "抚养权怎么定？",
+   "conflict_id": "gen-divorce",
+   "domain": "离婚抚养",
+   "stage": "合题",
+   "need": "孩子少受伤",
+   "conflict": "离婚孩子抚养 vs 争夺",
+   "linked": [
+    "fam-sunkcost",
+    "fam-remarry"
+   ]
+  }
+ ]
+}

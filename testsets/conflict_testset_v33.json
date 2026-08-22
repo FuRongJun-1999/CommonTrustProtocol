@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v33",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "夫妻健康观念不同怎么办？",
+   "conflict_id": "fam-health",
+   "domain": "夫妻健康",
+   "stage": "正题",
+   "need": "健康观念合拍",
+   "conflict": "夫妻健康观念 vs 统一",
+   "linked": [
+    "fam-couple",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "他不体检，我劝不动？",
+   "conflict_id": "fam-health",
+   "domain": "夫妻健康",
+   "stage": "正题",
+   "need": "健康观念合拍",
+   "conflict": "夫妻健康观念 vs 统一",
+   "linked": [
+    "fam-couple",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "养生是矫情？",
+   "conflict_id": "fam-health",
+   "domain": "夫妻健康",
+   "stage": "反题",
+   "need": "健康观念合拍",
+   "conflict": "夫妻健康观念 vs 统一",
+   "linked": [
+    "fam-couple",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "健康是自己的事？",
+   "conflict_id": "fam-health",
+   "domain": "夫妻健康",
+   "stage": "反题",
+   "need": "健康观念合拍",
+   "conflict": "夫妻健康观念 vs 统一",
+   "linked": [
+    "fam-couple",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "夫妻健康怎么互相督促？",
+   "conflict_id": "fam-health",
+   "domain": "夫妻健康",
+   "stage": "合题",
+   "need": "健康观念合拍",
+   "conflict": "夫妻健康观念 vs 统一",
+   "linked": [
+    "fam-couple",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "健康观念怎么统一？",
+   "conflict_id": "fam-health",
+   "domain": "夫妻健康",
+   "stage": "合题",
+   "need": "健康观念合拍",
+   "conflict": "夫妻健康观念 vs 统一",
+   "linked": [
+    "fam-couple",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "家里要不要养宠物？",
+   "conflict_id": "fam-pet",
+   "domain": "家庭养宠",
+   "stage": "正题",
+   "need": "养宠不吵架",
+   "conflict": "家庭养宠 vs 责任",
+   "linked": [
+    "city-pet",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "他想养，我不想养？",
+   "conflict_id": "fam-pet",
+   "domain": "家庭养宠",
+   "stage": "正题",
+   "need": "养宠不吵架",
+   "conflict": "家庭养宠 vs 责任",
+   "linked": [
+    "city-pet",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "养宠是爱心？",
+   "conflict_id": "fam-pet",
+   "domain": "家庭养宠",
+   "stage": "反题",
+   "need": "养宠不吵架",
+   "conflict": "家庭养宠 vs 责任",
+   "linked": [
+    "city-pet",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "养宠是负担？",
+   "conflict_id": "fam-pet",
+   "domain": "家庭养宠",
+   "stage": "反题",
+   "need": "养宠不吵架",
+   "conflict": "家庭养宠 vs 责任",
+   "linked": [
+    "city-pet",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "养宠怎么决定？",
+   "conflict_id": "fam-pet",
+   "domain": "家庭养宠",
+   "stage": "合题",
+   "need": "养宠不吵架",
+   "conflict": "家庭养宠 vs 责任",
+   "linked": [
+    "city-pet",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "养宠的责任怎么分配？",
+   "conflict_id": "fam-pet",
+   "domain": "家庭养宠",
+   "stage": "合题",
+   "need": "养宠不吵架",
+   "conflict": "家庭养宠 vs 责任",
+   "linked": [
+    "city-pet",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "家里要不要买车？",
+   "conflict_id": "fam-car",
+   "domain": "家庭买车",
+   "stage": "正题",
+   "need": "买车不后悔",
+   "conflict": "家庭买车 vs 刚需/面子",
+   "linked": [
+    "traffic-jam",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "买车是刚需还是面子？",
+   "conflict_id": "fam-car",
+   "domain": "家庭买车",
+   "stage": "正题",
+   "need": "买车不后悔",
+   "conflict": "家庭买车 vs 刚需/面子",
+   "linked": [
+    "traffic-jam",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "有车方便？",
+   "conflict_id": "fam-car",
+   "domain": "家庭买车",
+   "stage": "反题",
+   "need": "买车不后悔",
+   "conflict": "家庭买车 vs 刚需/面子",
+   "linked": [
+    "traffic-jam",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "养车是负担？",
+   "conflict_id": "fam-car",
+   "domain": "家庭买车",
+   "stage": "反题",
+   "need": "买车不后悔",
+   "conflict": "家庭买车 vs 刚需/面子",
+   "linked": [
+    "traffic-jam",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "买车怎么决定？",
+   "conflict_id": "fam-car",
+   "domain": "家庭买车",
+   "stage": "合题",
+   "need": "买车不后悔",
+   "conflict": "家庭买车 vs 刚需/面子",
+   "linked": [
+    "traffic-jam",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "用车怎么安排？",
+   "conflict_id": "fam-car",
+   "domain": "家庭买车",
+   "stage": "合题",
+   "need": "买车不后悔",
+   "conflict": "家庭买车 vs 刚需/面子",
+   "linked": [
+    "traffic-jam",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "成年兄弟姐妹怎么相处？",
+   "conflict_id": "fam-sibling",
+   "domain": "手足关系",
+   "stage": "正题",
+   "need": "手足不伤情",
+   "conflict": "成年兄弟姐妹 vs 利益",
+   "linked": [
+    "fam-inheritance",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "手足之间要谈钱吗？",
+   "conflict_id": "fam-sibling",
+   "domain": "手足关系",
+   "stage": "正题",
+   "need": "手足不伤情",
+   "conflict": "成年兄弟姐妹 vs 利益",
+   "linked": [
+    "fam-inheritance",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "血浓于水？",
+   "conflict_id": "fam-sibling",
+   "domain": "手足关系",
+   "stage": "反题",
+   "need": "手足不伤情",
+   "conflict": "成年兄弟姐妹 vs 利益",
+   "linked": [
+    "fam-inheritance",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "亲兄弟明算账？",
+   "conflict_id": "fam-sibling",
+   "domain": "手足关系",
+   "stage": "反题",
+   "need": "手足不伤情",
+   "conflict": "成年兄弟姐妹 vs 利益",
+   "linked": [
+    "fam-inheritance",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "兄弟姐妹怎么处？",
+   "conflict_id": "fam-sibling",
+   "domain": "手足关系",
+   "stage": "合题",
+   "need": "手足不伤情",
+   "conflict": "成年兄弟姐妹 vs 利益",
+   "linked": [
+    "fam-inheritance",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "手足和利益怎么平衡？",
+   "conflict_id": "fam-sibling",
+   "domain": "手足关系",
+   "stage": "合题",
+   "need": "手足不伤情",
+   "conflict": "成年兄弟姐妹 vs 利益",
+   "linked": [
+    "fam-inheritance",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "夫妻要有共同目标吗？",
+   "conflict_id": "fam-couplegoals",
+   "domain": "夫妻目标",
+   "stage": "正题",
+   "need": "目标同向",
+   "conflict": "夫妻共同目标 vs 各自追求",
+   "linked": [
+    "fam-growth",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "各自追求，行吗？",
+   "conflict_id": "fam-couplegoals",
+   "domain": "夫妻目标",
+   "stage": "正题",
+   "need": "目标同向",
+   "conflict": "夫妻共同目标 vs 各自追求",
+   "linked": [
+    "fam-growth",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "目标是绑在一起？",
+   "conflict_id": "fam-couplegoals",
+   "domain": "夫妻目标",
+   "stage": "反题",
+   "need": "目标同向",
+   "conflict": "夫妻共同目标 vs 各自追求",
+   "linked": [
+    "fam-growth",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "没有目标也能过？",
+   "conflict_id": "fam-couplegoals",
+   "domain": "夫妻目标",
+   "stage": "反题",
+   "need": "目标同向",
+   "conflict": "夫妻共同目标 vs 各自追求",
+   "linked": [
+    "fam-growth",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "夫妻怎么定共同目标？",
+   "conflict_id": "fam-couplegoals",
+   "domain": "夫妻目标",
+   "stage": "合题",
+   "need": "目标同向",
+   "conflict": "夫妻共同目标 vs 各自追求",
+   "linked": [
+    "fam-growth",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "共同和各自怎么平衡？",
+   "conflict_id": "fam-couplegoals",
+   "domain": "夫妻目标",
+   "stage": "合题",
+   "need": "目标同向",
+   "conflict": "夫妻共同目标 vs 各自追求",
+   "linked": [
+    "fam-growth",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "远程工作会影响家庭吗？",
+   "conflict_id": "fam-remotework",
+   "domain": "远程家庭",
+   "stage": "正题",
+   "need": "工作家庭分界",
+   "conflict": "远程工作 vs 家庭",
+   "linked": [
+    "work-remote",
+    "digit-familytime"
+   ]
+  },
+  {
+   "q": "在家上班是自由还是混乱？",
+   "conflict_id": "fam-remotework",
+   "domain": "远程家庭",
+   "stage": "正题",
+   "need": "工作家庭分界",
+   "conflict": "远程工作 vs 家庭",
+   "linked": [
+    "work-remote",
+    "digit-familytime"
+   ]
+  },
+  {
+   "q": "在家上班，家庭工作分不开？",
+   "conflict_id": "fam-remotework",
+   "domain": "远程家庭",
+   "stage": "反题",
+   "need": "工作家庭分界",
+   "conflict": "远程工作 vs 家庭",
+   "linked": [
+    "work-remote",
+    "digit-familytime"
+   ]
+  },
+  {
+   "q": "远程工作是好是坏？",
+   "conflict_id": "fam-remotework",
+   "domain": "远程家庭",
+   "stage": "反题",
+   "need": "工作家庭分界",
+   "conflict": "远程工作 vs 家庭",
+   "linked": [
+    "work-remote",
+    "digit-familytime"
+   ]
+  },
+  {
+   "q": "远程办公家庭怎么安排？",
+   "conflict_id": "fam-remotework",
+   "domain": "远程家庭",
+   "stage": "合题",
+   "need": "工作家庭分界",
+   "conflict": "远程工作 vs 家庭",
+   "linked": [
+    "work-remote",
+    "digit-familytime"
+   ]
+  },
+  {
+   "q": "工作和家庭怎么分界？",
+   "conflict_id": "fam-remotework",
+   "domain": "远程家庭",
+   "stage": "合题",
+   "need": "工作家庭分界",
+   "conflict": "远程工作 vs 家庭",
+   "linked": [
+    "work-remote",
+    "digit-familytime"
+   ]
+  },
+  {
+   "q": "怎么劝父母体检？",
+   "conflict_id": "fam-elderlyhealth",
+   "domain": "父母健康",
+   "stage": "正题",
+   "need": "关心不越界",
+   "conflict": "劝父母体检 vs 尊重",
+   "linked": [
+    "fam-eldercare3",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "父母讳疾忌医怎么办？",
+   "conflict_id": "fam-elderlyhealth",
+   "domain": "父母健康",
+   "stage": "正题",
+   "need": "关心不越界",
+   "conflict": "劝父母体检 vs 尊重",
+   "linked": [
+    "fam-eldercare3",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "父母身体自己做主？",
+   "conflict_id": "fam-elderlyhealth",
+   "domain": "父母健康",
+   "stage": "反题",
+   "need": "关心不越界",
+   "conflict": "劝父母体检 vs 尊重",
+   "linked": [
+    "fam-eldercare3",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "不管父母，是失职吗？",
+   "conflict_id": "fam-elderlyhealth",
+   "domain": "父母健康",
+   "stage": "反题",
+   "need": "关心不越界",
+   "conflict": "劝父母体检 vs 尊重",
+   "linked": [
+    "fam-eldercare3",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "父母健康怎么管？",
+   "conflict_id": "fam-elderlyhealth",
+   "domain": "父母健康",
+   "stage": "合题",
+   "need": "关心不越界",
+   "conflict": "劝父母体检 vs 尊重",
+   "linked": [
+    "fam-eldercare3",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "关心和尊重怎么平衡？",
+   "conflict_id": "fam-elderlyhealth",
+   "domain": "父母健康",
+   "stage": "合题",
+   "need": "关心不越界",
+   "conflict": "劝父母体检 vs 尊重",
+   "linked": [
+    "fam-eldercare3",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "父母该看孩子日记吗？",
+   "conflict_id": "fam-childprivacy",
+   "domain": "孩子隐私",
+   "stage": "正题",
+   "need": "尊重孩子",
+   "conflict": "孩子隐私 vs 关心",
+   "linked": [
+    "edu-punish",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "孩子的隐私重要吗？",
+   "conflict_id": "fam-childprivacy",
+   "domain": "孩子隐私",
+   "stage": "正题",
+   "need": "尊重孩子",
+   "conflict": "孩子隐私 vs 关心",
+   "linked": [
+    "edu-punish",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "孩子有什么隐私？",
+   "conflict_id": "fam-childprivacy",
+   "domain": "孩子隐私",
+   "stage": "反题",
+   "need": "尊重孩子",
+   "conflict": "孩子隐私 vs 关心",
+   "linked": [
+    "edu-punish",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "看日记是关心？",
+   "conflict_id": "fam-childprivacy",
+   "domain": "孩子隐私",
+   "stage": "反题",
+   "need": "尊重孩子",
+   "conflict": "孩子隐私 vs 关心",
+   "linked": [
+    "edu-punish",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "孩子隐私怎么尊重？",
+   "conflict_id": "fam-childprivacy",
+   "domain": "孩子隐私",
+   "stage": "合题",
+   "need": "尊重孩子",
+   "conflict": "孩子隐私 vs 关心",
+   "linked": [
+    "edu-punish",
+    "fam-phone"
+   ]
+  },
+  {
+   "q": "关心和边界怎么平衡？",
+   "conflict_id": "fam-childprivacy",
+   "domain": "孩子隐私",
+   "stage": "合题",
+   "need": "尊重孩子",
+   "conflict": "孩子隐私 vs 关心",
+   "linked": [
+    "edu-punish",
+    "fam-phone"
+   ]
+  }
+ ]
+}

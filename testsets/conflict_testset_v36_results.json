@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "工作日怎么陪家人？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "正题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "工作日怎么陪家人、上班忙家庭时间少怎么办，是『工作的投入』vs『家庭的需要』的矛盾——工作日（上班（早出晚归（一天大半时间在工作）、家庭时间（下班后（短短几小时（吃饭/陪伴）——工作日的真相：工作是生活的一部分（家庭也是"
+  },
+  {
+   "q": "上班忙，家庭时间少怎么办？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "正题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "工作日怎么陪家人、上班忙家庭时间少怎么办，是『工作的投入』vs『家庭的需要』的矛盾——工作日（上班（早出晚归（一天大半时间在工作）、家庭时间（下班后（短短几小时（吃饭/陪伴）——工作日的真相：工作是生活的一部分（家庭也是"
+  },
+  {
+   "q": "赚钱养家就是负责？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "反题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "育儿都是妈妈的事、爸爸只负责赚钱，是『传统分工惯性』vs『现代育儿需要』的矛盾——旧分工（男主外女主内）在以前行得通（妈妈全职带娃），现在双职工家庭妈妈也要上班，育儿却还是默认妈妈包办，爸爸『赚钱养家就够了』成了缺席的借"
+  },
+  {
+   "q": "下班就该陪家人？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "反题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "想家的时候心里是暖的。家里人也一定在惦记你，有空就打个电话——工作日怎么陪家人、上班忙家庭时间少怎么办，是『工作的投入』vs『家庭的需要』的矛盾——工作日（上班（早出晚归（一天大半时间在工作）、家庭时间（下班后（短短几小"
+  },
+  {
+   "q": "工作日家庭时间怎么安排？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "合题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "工作日怎么陪家人、上班忙家庭时间少怎么办，是『工作的投入』vs『家庭的需要』的矛盾——工作日（上班（早出晚归（一天大半时间在工作）、家庭时间（下班后（短短几小时（吃饭/陪伴）——工作日的真相：工作是生活的一部分（家庭也是"
+  },
+  {
+   "q": "工作家庭怎么兼顾？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "合题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "工作日怎么陪家人、上班忙家庭时间少怎么办，是『工作的投入』vs『家庭的需要』的矛盾——工作日（上班（早出晚归（一天大半时间在工作）、家庭时间（下班后（短短几小时（吃饭/陪伴）——工作日的真相：工作是生活的一部分（家庭也是"
+  },
+  {
+   "q": "孩子做得好该奖励吗？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "正题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子做得好该奖励吗、物质奖励有用吗，是『激励的方式』vs『内在的动力』的矛盾——孩子奖励（做得好（表扬/奖励（激励）、物质奖励（奖品/钱/玩具（奖励）、争议（奖励有用吗（短期（有用）、长期（奖励会让孩子（为了奖励做事（失"
+  },
+  {
+   "q": "物质奖励有用吗？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "正题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子做得好该奖励吗、物质奖励有用吗，是『激励的方式』vs『内在的动力』的矛盾——孩子奖励（做得好（表扬/奖励（激励）、物质奖励（奖品/钱/玩具（奖励）、争议（奖励有用吗（短期（有用）、长期（奖励会让孩子（为了奖励做事（失"
+  },
+  {
+   "q": "奖励是贿赂？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "反题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子做得好该奖励吗、物质奖励有用吗，是『激励的方式』vs『内在的动力』的矛盾——孩子奖励（做得好（表扬/奖励（激励）、物质奖励（奖品/钱/玩具（奖励）、争议（奖励有用吗（短期（有用）、长期（奖励会让孩子（为了奖励做事（失"
+  },
+  {
+   "q": "奖励会让孩子为了奖励做事？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "反题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子做得好该奖励吗、物质奖励有用吗，是『激励的方式』vs『内在的动力』的矛盾——孩子奖励（做得好（表扬/奖励（激励）、物质奖励（奖品/钱/玩具（奖励）、争议（奖励有用吗（短期（有用）、长期（奖励会让孩子（为了奖励做事（失"
+  },
+  {
+   "q": "孩子奖励怎么给？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "合题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子做得好该奖励吗、物质奖励有用吗，是『激励的方式』vs『内在的动力』的矛盾——孩子奖励（做得好（表扬/奖励（激励）、物质奖励（奖品/钱/玩具（奖励）、争议（奖励有用吗（短期（有用）、长期（奖励会让孩子（为了奖励做事（失"
+  },
+  {
+   "q": "奖励和内在动力怎么平衡？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "合题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "要不要搬家？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "正题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "要不要搬家、搬家是为了什么，是『现状的不满』vs『折腾的代价』的矛盾——搬家（换个地方住（新房子/新城市/新环境）、搬家的原因（不满意（房子小/环境差/工作远）、期待（新家（更好）、搬家的代价（折腾（找房/搬家/孩子转学"
+  },
+  {
+   "q": "搬家是为了什么？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "正题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "要不要搬家、搬家是为了什么，是『现状的不满』vs『折腾的代价』的矛盾——搬家（换个地方住（新房子/新城市/新环境）、搬家的原因（不满意（房子小/环境差/工作远）、期待（新家（更好）、搬家的代价（折腾（找房/搬家/孩子转学"
+  },
+  {
+   "q": "搬家太折腾？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "反题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "想家的时候心里是暖的。家里人也一定在惦记你，有空就打个电话——要不要搬家、搬家是为了什么，是『现状的不满』vs『折腾的代价』的矛盾——搬家（换个地方住（新房子/新城市/新环境）、搬家的原因（不满意（房子小/环境差/工作远"
+  },
+  {
+   "q": "搬家是新的开始？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "反题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "要不要搬家、搬家是为了什么，是『现状的不满』vs『折腾的代价』的矛盾——搬家（换个地方住（新房子/新城市/新环境）、搬家的原因（不满意（房子小/环境差/工作远）、期待（新家（更好）、搬家的代价（折腾（找房/搬家/孩子转学"
+  },
+  {
+   "q": "搬家怎么决定？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "合题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "要不要搬家、搬家是为了什么，是『现状的不满』vs『折腾的代价』的矛盾——搬家（换个地方住（新房子/新城市/新环境）、搬家的原因（不满意（房子小/环境差/工作远）、期待（新家（更好）、搬家的代价（折腾（找房/搬家/孩子转学"
+  },
+  {
+   "q": "搬家怎么减少折腾？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "合题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "要不要搬家、搬家是为了什么，是『现状的不满』vs『折腾的代价』的矛盾——搬家（换个地方住（新房子/新城市/新环境）、搬家的原因（不满意（房子小/环境差/工作远）、期待（新家（更好）、搬家的代价（折腾（找房/搬家/孩子转学"
+  },
+  {
+   "q": "家里要适老化改造吗？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "正题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家里要适老化改造吗、适老改造有必要吗，是『老人的安全』vs『改造的成本』的矛盾——适老化改造（居家改造（防滑/扶手/照明（适合老人居住）、必要性（老人（跌倒风险（居家改造（防跌倒（最有效的投资）、成本（改造花钱（值吗）—"
+  },
+  {
+   "q": "适老改造有必要吗？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "正题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家里要适老化改造吗、适老改造有必要吗，是『老人的安全』vs『改造的成本』的矛盾——适老化改造（居家改造（防滑/扶手/照明（适合老人居住）、必要性（老人（跌倒风险（居家改造（防跌倒（最有效的投资）、成本（改造花钱（值吗）—"
+  },
+  {
+   "q": "改造花钱值得吗？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "反题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老小区加装电梯难、改造有分歧，是『居住改善』vs『利益分配』的矛盾——高层老人盼电梯（爬楼难/出行不便），一楼不想要（采光/噪音/贬值），装不装、钱怎么分，是典型的多方利益博弈（每户的利益诉求都正当）。真相：①为什么加装"
+  },
+  {
+   "q": "老人说不用改？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "反题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家里要适老化改造吗、适老改造有必要吗，是『老人的安全』vs『改造的成本』的矛盾——适老化改造（居家改造（防滑/扶手/照明（适合老人居住）、必要性（老人（跌倒风险（居家改造（防跌倒（最有效的投资）、成本（改造花钱（值吗）—"
+  },
+  {
+   "q": "适老化改造怎么做？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "合题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家里要适老化改造吗、适老改造有必要吗，是『老人的安全』vs『改造的成本』的矛盾——适老化改造（居家改造（防滑/扶手/照明（适合老人居住）、必要性（老人（跌倒风险（居家改造（防跌倒（最有效的投资）、成本（改造花钱（值吗）—"
+  },
+  {
+   "q": "老人居住安全怎么保障？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "合题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "安全第一：交通安全（红灯停绿灯行）、防溺水、防火、防电、防拐骗。遇到危险学会求助，记住报警电话110。这个可以看「小学道德与法治」（这条知识属于政治，在E1条件下成立）相关的还有：小学道德与法治、初中道德与法治"
+  },
+  {
+   "q": "夫妻价值观不同怎么办？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "正题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "价值观是判断什么重要、什么值得的准则——它决定我们的选择和方向。这个可以看「价值观」（这条知识属于价值理论与AI对齐，在通用条件下成立）相关的还有：演化论与模因、小学科学知识点内容（按骨架填充）"
+  },
+  {
+   "q": "钱/教育/消费观不合？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "正题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "消费函数：边际消费倾向b（0到1）。储蓄函数。投资决定：利率（投资与利率反相关）、预期收益。乘数：1/(1减b)。这个可以看「微观经济学」（这条知识属于经济学，在E4条件下成立）相关的还有：初中道德与法治、初中道德与法治"
+  },
+  {
+   "q": "价值观不合是离婚原因？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "反题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "价值观是判断什么重要、什么值得的准则——它决定我们的选择和方向。这个可以看「价值观」（这条知识属于价值理论与AI对齐，在通用条件下成立）相关的还有：演化论与模因、情感情绪仿真"
+  },
+  {
+   "q": "磨合能改价值观吗？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "反题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "价值观是判断什么重要、什么值得的准则——它决定我们的选择和方向。这个可以看「价值观」（这条知识属于价值理论与AI对齐，在通用条件下成立）相关的还有：演化论与模因、初中化学"
+  },
+  {
+   "q": "夫妻价值观怎么磨合？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "合题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "价值观是判断什么重要、什么值得的准则——它决定我们的选择和方向。这个可以看「价值观」（这条知识属于价值理论与AI对齐，在通用条件下成立）相关的还有：微观经济学/宏观经济学知识点内容（按骨架填充）、演化论与模因"
+  },
+  {
+   "q": "差异和尊重怎么平衡？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "合题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "青春期孩子为什么难沟通？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "正题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期孩子为什么难沟通、孩子叛逆怎么办，是『孩子的成长』vs『父母的不适应』的矛盾——青春期（孩子（12-18岁（生理心理剧变（自我意识觉醒）、沟通难（孩子（关门/顶嘴/不愿说（叛逆）、父母（管（孩子不听（急）——青春期"
+  },
+  {
+   "q": "孩子叛逆怎么办？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "正题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期孩子为什么难沟通、孩子叛逆怎么办，是『孩子的成长』vs『父母的不适应』的矛盾——青春期（孩子（12-18岁（生理心理剧变（自我意识觉醒）、沟通难（孩子（关门/顶嘴/不愿说（叛逆）、父母（管（孩子不听（急）——青春期"
+  },
+  {
+   "q": "叛逆是正常？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "反题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期孩子为什么难沟通、孩子叛逆怎么办，是『孩子的成长』vs『父母的不适应』的矛盾——青春期（孩子（12-18岁（生理心理剧变（自我意识觉醒）、沟通难（孩子（关门/顶嘴/不愿说（叛逆）、父母（管（孩子不听（急）——青春期"
+  },
+  {
+   "q": "叛逆是问题？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "反题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期孩子为什么难沟通、孩子叛逆怎么办，是『孩子的成长』vs『父母的不适应』的矛盾——青春期（孩子（12-18岁（生理心理剧变（自我意识觉醒）、沟通难（孩子（关门/顶嘴/不愿说（叛逆）、父母（管（孩子不听（急）——青春期"
+  },
+  {
+   "q": "青春期怎么沟通？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "合题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期孩子为什么难沟通、孩子叛逆怎么办，是『孩子的成长』vs『父母的不适应』的矛盾——青春期（孩子（12-18岁（生理心理剧变（自我意识觉醒）、沟通难（孩子（关门/顶嘴/不愿说（叛逆）、父母（管（孩子不听（急）——青春期"
+  },
+  {
+   "q": "叛逆期怎么陪伴？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "合题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "青春期孩子为什么难沟通、孩子叛逆怎么办，是『孩子的成长』vs『父母的不适应』的矛盾——青春期（孩子（12-18岁（生理心理剧变（自我意识觉醒）、沟通难（孩子（关门/顶嘴/不愿说（叛逆）、父母（管（孩子不听（急）——青春期"
+  },
+  {
+   "q": "怎么面对父母变老？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "正题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怎么面对父母变老、老人衰老是自然还是悲哀，是『生命的规律』vs『情感的接受』的矛盾——父母变老（白发/皱纹/体力下降/记性变差（衰老的迹象）、子女的感受（心疼（不想父母老）、悲哀（变老（意味着（失去/告别）、衰老的真相（"
+  },
+  {
+   "q": "老人衰老是自然还是悲哀？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "正题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怎么面对父母变老、老人衰老是自然还是悲哀，是『生命的规律』vs『情感的接受』的矛盾——父母变老（白发/皱纹/体力下降/记性变差（衰老的迹象）、子女的感受（心疼（不想父母老）、悲哀（变老（意味着（失去/告别）、衰老的真相（"
+  },
+  {
+   "q": "衰老是自然规律？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "反题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怎么面对父母变老、老人衰老是自然还是悲哀，是『生命的规律』vs『情感的接受』的矛盾——父母变老（白发/皱纹/体力下降/记性变差（衰老的迹象）、子女的感受（心疼（不想父母老）、悲哀（变老（意味着（失去/告别）、衰老的真相（"
+  },
+  {
+   "q": "变老就失去价值吗？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "反题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "各国抢着登月探火，是『国家实力象征』+『战略资源争夺』+『科学好奇』的三重驱动——航天是综合国力的橱窗（技术/资金/组织能力），月球/火星有资源（氦-3/稀土/水冰）和战略位置（深空中转站）。真相：①『地球上问题都没解决"
+  },
+  {
+   "q": "怎么陪父母面对衰老？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "合题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怎么面对父母变老、老人衰老是自然还是悲哀，是『生命的规律』vs『情感的接受』的矛盾——父母变老（白发/皱纹/体力下降/记性变差（衰老的迹象）、子女的感受（心疼（不想父母老）、悲哀（变老（意味着（失去/告别）、衰老的真相（"
+  },
+  {
+   "q": "老人怎么接受变老？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "合题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怎么面对父母变老、老人衰老是自然还是悲哀，是『生命的规律』vs『情感的接受』的矛盾——父母变老（白发/皱纹/体力下降/记性变差（衰老的迹象）、子女的感受（心疼（不想父母老）、悲哀（变老（意味着（失去/告别）、衰老的真相（"
+  },
+  {
+   "q": "孩子多大该独立？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "正题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子多大该独立、父母什么时候该放手，是『成长的必然』vs『父母的不舍』的矛盾——孩子独立（长大（自己做事（自己决定（独立）、父母放手（让孩子独立（不舍（担心（不放心）——独立的真相：孩子独立（是成长（必然）、父母放手（是"
+  },
+  {
+   "q": "父母什么时候该放手？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "正题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子多大该独立、父母什么时候该放手，是『成长的必然』vs『父母的不舍』的矛盾——孩子独立（长大（自己做事（自己决定（独立）、父母放手（让孩子独立（不舍（担心（不放心）——独立的真相：孩子独立（是成长（必然）、父母放手（是"
+  },
+  {
+   "q": "放手是放任？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "反题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子多大该独立、父母什么时候该放手，是『成长的必然』vs『父母的不舍』的矛盾——孩子独立（长大（自己做事（自己决定（独立）、父母放手（让孩子独立（不舍（担心（不放心）——独立的真相：孩子独立（是成长（必然）、父母放手（是"
+  },
+  {
+   "q": "管着是爱？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "反题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子多大该独立、父母什么时候该放手，是『成长的必然』vs『父母的不舍』的矛盾——孩子独立（长大（自己做事（自己决定（独立）、父母放手（让孩子独立（不舍（担心（不放心）——独立的真相：孩子独立（是成长（必然）、父母放手（是"
+  },
+  {
+   "q": "孩子独立怎么培养？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "合题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子多大该独立、父母什么时候该放手，是『成长的必然』vs『父母的不舍』的矛盾——孩子独立（长大（自己做事（自己决定（独立）、父母放手（让孩子独立（不舍（担心（不放心）——独立的真相：孩子独立（是成长（必然）、父母放手（是"
+  },
+  {
+   "q": "放手和守护怎么平衡？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "合题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  }
+ ]
+}
