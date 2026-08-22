@@ -168,6 +168,17 @@ def _tools():
          "description": "中断生命周期自发循环（source: user/designer/verifier/vital_system）。",
          "inputSchema": {"type": "object",
                          "properties": {"source": {"type": "string"}}}},
+        {"name": "condition_space_operate",
+         "description": "条件空间 7 操作（白箱自进化协议算子·确定性）：identify(变体fp命中测试)/declare(簇触发词+直答状态)/separate(候选冲突检测)/compose(合并建议)/switch(路由归属)/reverse(反题)/loop(一轮收敛报告)。",
+         "inputSchema": {"type": "object",
+                         "properties": {
+                             "operation": {"type": "string",
+                                           "enum": ["identify", "declare", "separate",
+                                                    "compose", "switch", "reverse", "loop"]},
+                             "theme": {"type": "string"},
+                             "variants": {"type": "array", "items": {"type": "string"}},
+                             "candidates": {"type": "array", "items": {"type": "string"}}},
+                         "required": ["operation"]}},
         {"name": "self_check",
          "description": "完整性自检（孤儿边/表统计/integrity_ok）。",
          "inputSchema": {"type": "object"}},
@@ -437,6 +448,42 @@ def _tools():
                          "properties": {"role_id": {"type": "string"},
                                         "data_dir": {"type": "string"}},
                          "required": ["role_id"]}},
+        {"name": "importance_recalc",
+         "description": "灵枢 · 结构重要性重算（v2.2，设计规格§13/§14）：importance_v2=min(1.0, importance+min(β·min(因果出度,C)/C+γ·度/max度, 上限))，只升不降（延迟提升）。v2.2 因果上游度传播 concept_influence=Σ(路径置信度×下游重要性/深度)——越上游影响越大；≥protect_threshold 自动保护+importance保底（越上游越要记录），写入 state_attributes.concept_influence。dry_run=true 仅报告不写库。",
+         "inputSchema": {"type": "object",
+                         "properties": {"dry_run": {"type": "boolean"},
+                                        "boost_cap": {"type": "number"},
+                                        "beta": {"type": "number"},
+                                        "gamma": {"type": "number"},
+                                        "c": {"type": "number"},
+                                        "min_degree": {"type": "number"},
+                                        "min_causal": {"type": "number"},
+                                        "max_depth": {"type": "number"},
+                                        "protect_threshold": {"type": "number"},
+                                        "floor_importance": {"type": "number"}}}},
+        {"name": "insight_record",
+         "description": "灵枢 · 洞察条件层：记录洞见事件（insight_event 节点 + 条件快照 C1–C8 + pending）。conditions 可传：memory_retrievability(0-1)/outside_observer/cross_domain([])/premise_questioned(bool)/pressure(low|medium|high)/continuity_turns/externalized(bool)/tone。",
+         "inputSchema": {"type": "object",
+                         "properties": {"content": {"type": "string"},
+                                        "conditions": {"type": "object"},
+                                        "source": {"type": "string"},
+                                        "importance": {"type": "number"}},
+                         "required": ["content"]}},
+        {"name": "insight_verify",
+         "description": "灵枢 · 洞察条件层：提交验证证据（V1/V2/V3）。V2/V3 或 V1+证据≥3 → verified（importance 保底 0.9）；证据可追加。",
+         "inputSchema": {"type": "object",
+                         "properties": {"insight_id": {"type": "string"},
+                                        "level": {"type": "string"},
+                                        "evidence": {"type": ["string", "array"]}},
+                         "required": ["insight_id"]}},
+        {"name": "insight_report",
+         "description": "灵枢 · 洞察条件层：CER 报告（条件有效洞见率 + 2×SE 显著性 + 层状态 reliable/watch/degraded；样本<20 不判定）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"window": {"type": "number"}}}},
+        {"name": "insight_window",
+         "description": "灵枢 · 洞察条件层：当前洞察窗口检测（默认假设 C1≥0.6 ∧ 跨域 ∧ 低压力 → 开）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"conditions": {"type": "object"}}}},
     ]
 
 
@@ -561,6 +608,29 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.flywheel_report())}], "isError": False}
         if name == "transfer_test":
             return {"content": [{"type": "text", "text": _dump(agent.transfer_test())}], "isError": False}
+        if name == "importance_recalc":
+            return {"content": [{"type": "text", "text": _dump(agent.engine.store.recalc_structural_importance(
+                dry_run=a.get("dry_run", True),
+                boost_cap=a.get("boost_cap", 0.15),
+                beta=a.get("beta", 0.30),
+                gamma=a.get("gamma", 0.40),
+                c=a.get("c", 6.0),
+                min_degree=a.get("min_degree", 5),
+                min_causal=a.get("min_causal", 3),
+                max_depth=a.get("max_depth", 5),
+                protect_threshold=a.get("protect_threshold", 1.0),
+                floor_importance=a.get("floor_importance", 0.9)))}], "isError": False}
+        if name == "insight_record":
+            return {"content": [{"type": "text", "text": _dump(agent.insight_record(
+                a.get("content", ""), conditions=a.get("conditions"),
+                source=a.get("source", ""), importance=a.get("importance", 0.7)))}], "isError": False}
+        if name == "insight_verify":
+            return {"content": [{"type": "text", "text": _dump(agent.insight_verify(
+                a.get("insight_id"), level=a.get("level", "V2"), evidence=a.get("evidence")))}], "isError": False}
+        if name == "insight_report":
+            return {"content": [{"type": "text", "text": _dump(agent.insight_report(window=a.get("window")))}], "isError": False}
+        if name == "insight_window":
+            return {"content": [{"type": "text", "text": _dump(agent.insight_window(conditions=a.get("conditions")))}], "isError": False}
         if name == "calibrate":
             return {"content": [{"type": "text", "text": _dump(agent.calibrate())}], "isError": False}
         if name == "lifecycle_step":
@@ -571,6 +641,10 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.start_lifecycle(interval=a.get("interval", 60.0)))}], "isError": False}
         if name == "stop_lifecycle":
             return {"content": [{"type": "text", "text": _dump(agent.stop_lifecycle(source=a.get("source", "user")))}], "isError": False}
+        if name == "condition_space_operate":
+            return {"content": [{"type": "text", "text": _dump(agent.condition_space_operate(
+                operation=a.get("operation", ""), theme=a.get("theme", ""),
+                variants=a.get("variants"), candidates=a.get("candidates")))}], "isError": False}
         if name == "self_check":
             return {"content": [{"type": "text", "text": _dump(agent.self_check())}], "isError": False}
         if name == "gap_trend":
