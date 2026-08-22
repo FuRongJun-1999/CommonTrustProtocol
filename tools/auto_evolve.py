@@ -71,33 +71,38 @@ def llm_generate(prompt, max_tokens=800, temperature=0.7):
         return ""
 
 def gen_llm_variants(theme, knowledge, count=15):
-    """变异（LLM）：生成式条件延伸问法（v2 可选）。"""
+    """变异（LLM 生成式）：生成自然的中文条件延伸问法（矛盾情境域用）。
+    输出解析：按行取（每行一问），过滤英文/编号/占位符。"""
     prompt = (
-        f"你是一个知识变异器。给定知识主题「{theme}」及其原理：{knowledge}\n"
-        f"请生成 {count} 个「不同条件下」的延伸问法——同样的原理出现在不同环境/介质/场景\n"
-        f"（如水滴、露珠、喷泉、瀑布、油膜、冰晶、水雾、霓虹、月光等变体），\n"
-        f"以普通人的困惑口吻提问（如「为什么XX会XX？」）。\n"
-        f"【硬性要求】所有问法【禁止出现】「{theme}」二字——用现象描述替代。\n"
-        f"只输出 JSON 数组字符串，如 [\"为什么喷泉边会有彩色？\",\"...\"]，不要其他文字。"
+        f"你是一个中文知识变异器。主题「{theme}」，原理：{knowledge}\n"
+        f"请生成 {count} 个【自然的中文问句】，表达「不同情境下关于这个主题的普通人困惑」\n"
+        f"（例如不同场景、人群、时机、场合下的提问）。\n"
+        f"要求：\n"
+        f"1. 全部是日常口语问句，自然流畅（像普通人真的会问）\n"
+        f"2. 每题不超过 25 个字\n"
+        f"3. 不要出现「{theme}」这几个字当主题词（可以用现象/情境描述）\n"
+        f"4. 禁止英文、禁止编号、禁止引号、禁止解释\n"
+        f"输出格式：每行恰好一个问题，共 {count} 行，不要任何其他文字。"
     )
-    text = llm_generate(prompt)
+    text = llm_generate(prompt, max_tokens=600, temperature=0.9)
     if not text:
         return []
-    m = re.search(r"\[.*\]", text, re.S)
-    if not m:
-        print("  [LLM] 未解析到 JSON 数组，原文:", text[:120])
-        return []
-    try:
-        items = json.loads(m.group(0))
-        out = []
-        for x in items:
-            s = str(x).strip()
-            if s and s not in ("...", "…", "……") and len(s) >= 6 and theme not in s:
-                out.append(s)
-        return out
-    except Exception as e:
-        print("  [LLM] JSON 解析失败:", e, "|", text[:100])
-        return []
+    out = []
+    for line in text.splitlines():
+        s = line.strip()
+        s = s.lstrip("0123456789.、-· ")
+        s = s.strip('"\'“”「」')
+        if not s or len(s) < 6 or len(s) > 28:
+            continue
+        if any(ord(ch) > 127 for ch in s) is False:  # 纯 ASCII（英文）跳过
+            continue
+        if theme in s:
+            continue
+        if any(w in s for w in ("...", "…", "……")):
+            continue
+        if s not in out:
+            out.append(s)
+    return out[:count]
 
 def gen_variants(theme, knowledge, count, mode):
     if mode == "llm":
