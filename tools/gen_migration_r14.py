@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+"""round14 自然问法迁移测试集（燃烧/溶解/汽水气泡/血液循环）——固定归档"""
+import json, sys
+sys.stdout.reconfigure(encoding="utf-8")
+ITEMS = [
+    {"q": "为什么木头点燃后要烧很久才能烧完？", "theme": "燃烧"},
+    {"q": "为什么用锅盖盖住火就能灭？", "theme": "燃烧"},
+    {"q": "为什么火堆一吹反而烧得更旺？", "theme": "燃烧"},
+    {"q": "为什么蜡烛能一直烧？", "theme": "燃烧"},
+    {"q": "为什么热水里糖化得更快？", "theme": "溶解"},
+    {"q": "冰块掉进水里，到底是化了还是溶进去了？", "theme": "溶解"},
+    {"q": "为什么泡枸杞要用热水？", "theme": "溶解"},
+    {"q": "为什么我打开汽水时会有很多气泡冒出来？", "theme": "汽水气泡"},
+    {"q": "为什么放了一天的汽水就不冒泡了？", "theme": "汽水气泡"},
+    {"q": "为什么摇晃一下汽水就会喷出来？", "theme": "汽水气泡"},
+    {"q": "为什么刚买的汽水很爽，放久了就没气了？", "theme": "汽水气泡"},
+    {"q": "为什么冰镇后汽水的气泡更丰富？", "theme": "汽水气泡"},
+    {"q": "为什么碳酸饮料放久了没味道？", "theme": "汽水气泡"},
+    {"q": "每次跑完步心跳好半天才恢复正常，正常吗？", "theme": "血液循环"},
+    {"q": "压力大时总觉得胸闷气短，心脏是不是累了？", "theme": "血液循环"},
+    {"q": "经常加班熬夜的人，心脏能扛得住吗？", "theme": "血液循环"},
+    {"q": "运动员心跳慢，是不是比普通人更健康？", "theme": "血液循环"},
+    {"q": "老年人手脚总是冰凉，是不是身体有问题？", "theme": "血液循环"},
+]
+with open(r"D:\Program Files\2_ai\CommonTrustProtocol\testsets\migration\natural_variants_r14.json", "w", encoding="utf-8") as f:
+    json.dump({"name": "natural_variants_r14", "themes": ["燃烧", "溶解", "汽水气泡", "血液循环"], "items": ITEMS}, f, ensure_ascii=False, indent=1)
+print("saved", len(ITEMS))
