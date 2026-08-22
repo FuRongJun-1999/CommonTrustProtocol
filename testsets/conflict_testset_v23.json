@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v23",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么越来越多人婚前同居？",
+   "conflict_id": "fam-cohabit",
+   "domain": "婚恋观念",
+   "stage": "正题",
+   "need": "试出合适",
+   "conflict": "婚前同居 vs 传统观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "同居是试婚还是风险？",
+   "conflict_id": "fam-cohabit",
+   "domain": "婚恋观念",
+   "stage": "正题",
+   "need": "试出合适",
+   "conflict": "婚前同居 vs 传统观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "同居是婚前必备？",
+   "conflict_id": "fam-cohabit",
+   "domain": "婚恋观念",
+   "stage": "反题",
+   "need": "试出合适",
+   "conflict": "婚前同居 vs 传统观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "不同居，怎么知道合不合适？",
+   "conflict_id": "fam-cohabit",
+   "domain": "婚恋观念",
+   "stage": "反题",
+   "need": "试出合适",
+   "conflict": "婚前同居 vs 传统观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "婚前同居怎么决定？",
+   "conflict_id": "fam-cohabit",
+   "domain": "婚恋观念",
+   "stage": "合题",
+   "need": "试出合适",
+   "conflict": "婚前同居 vs 传统观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "同居怎么不伤感情？",
+   "conflict_id": "fam-cohabit",
+   "domain": "婚恋观念",
+   "stage": "合题",
+   "need": "试出合适",
+   "conflict": "婚前同居 vs 传统观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "为什么男性婚育压力这么大？",
+   "conflict_id": "gen-malepressure",
+   "domain": "婚育压力",
+   "stage": "正题",
+   "need": "压力分担",
+   "conflict": "男方买房彩礼 vs 压力分担",
+   "linked": [
+    "fam-betrothal",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "男方要买房彩礼，公平吗？",
+   "conflict_id": "gen-malepressure",
+   "domain": "婚育压力",
+   "stage": "正题",
+   "need": "压力分担",
+   "conflict": "男方买房彩礼 vs 压力分担",
+   "linked": [
+    "fam-betrothal",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "男性压力大，是矫情吗？",
+   "conflict_id": "gen-malepressure",
+   "domain": "婚育压力",
+   "stage": "反题",
+   "need": "压力分担",
+   "conflict": "男方买房彩礼 vs 压力分担",
+   "linked": [
+    "fam-betrothal",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "婚育是两个人的事，凭什么男方扛？",
+   "conflict_id": "gen-malepressure",
+   "domain": "婚育压力",
+   "stage": "反题",
+   "need": "压力分担",
+   "conflict": "男方买房彩礼 vs 压力分担",
+   "linked": [
+    "fam-betrothal",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "婚育压力怎么分担？",
+   "conflict_id": "gen-malepressure",
+   "domain": "婚育压力",
+   "stage": "合题",
+   "need": "压力分担",
+   "conflict": "男方买房彩礼 vs 压力分担",
+   "linked": [
+    "fam-betrothal",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "男性压力怎么缓解？",
+   "conflict_id": "gen-malepressure",
+   "domain": "婚育压力",
+   "stage": "合题",
+   "need": "压力分担",
+   "conflict": "男方买房彩礼 vs 压力分担",
+   "linked": [
+    "fam-betrothal",
+    "gen-income"
+   ]
+  },
+  {
+   "q": "为什么婚后和父母边界这么难？",
+   "conflict_id": "fam-boundary",
+   "domain": "家庭边界",
+   "stage": "正题",
+   "need": "小家主权",
+   "conflict": "婚后与父母边界 vs 亲情",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婚后父母还管你，怎么办？",
+   "conflict_id": "fam-boundary",
+   "domain": "家庭边界",
+   "stage": "正题",
+   "need": "小家主权",
+   "conflict": "婚后与父母边界 vs 亲情",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "父母关心有错吗？",
+   "conflict_id": "fam-boundary",
+   "domain": "家庭边界",
+   "stage": "反题",
+   "need": "小家主权",
+   "conflict": "婚后与父母边界 vs 亲情",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "划清边界，是不孝吗？",
+   "conflict_id": "fam-boundary",
+   "domain": "家庭边界",
+   "stage": "反题",
+   "need": "小家主权",
+   "conflict": "婚后与父母边界 vs 亲情",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婚后和父母怎么处？",
+   "conflict_id": "fam-boundary",
+   "domain": "家庭边界",
+   "stage": "合题",
+   "need": "小家主权",
+   "conflict": "婚后与父母边界 vs 亲情",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "原生家庭和小家怎么平衡？",
+   "conflict_id": "fam-boundary",
+   "domain": "家庭边界",
+   "stage": "合题",
+   "need": "小家主权",
+   "conflict": "婚后与父母边界 vs 亲情",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "为什么全职爸爸这么少？",
+   "conflict_id": "gen-staydad",
+   "domain": "育儿分工",
+   "stage": "正题",
+   "need": "分工不看性别",
+   "conflict": "男性全职带娃 vs 观念",
+   "linked": [
+    "gen-stayhome",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "男性全职带娃，丢人吗？",
+   "conflict_id": "gen-staydad",
+   "domain": "育儿分工",
+   "stage": "正题",
+   "need": "分工不看性别",
+   "conflict": "男性全职带娃 vs 观念",
+   "linked": [
+    "gen-stayhome",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "男人带孩子，像话吗？",
+   "conflict_id": "gen-staydad",
+   "domain": "育儿分工",
+   "stage": "反题",
+   "need": "分工不看性别",
+   "conflict": "男性全职带娃 vs 观念",
+   "linked": [
+    "gen-stayhome",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "全职爸爸是逃避工作吗？",
+   "conflict_id": "gen-staydad",
+   "domain": "育儿分工",
+   "stage": "反题",
+   "need": "分工不看性别",
+   "conflict": "男性全职带娃 vs 观念",
+   "linked": [
+    "gen-stayhome",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "全职爸爸怎么当？",
+   "conflict_id": "gen-staydad",
+   "domain": "育儿分工",
+   "stage": "合题",
+   "need": "分工不看性别",
+   "conflict": "男性全职带娃 vs 观念",
+   "linked": [
+    "gen-stayhome",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "带娃谁全职怎么定？",
+   "conflict_id": "gen-staydad",
+   "domain": "育儿分工",
+   "stage": "合题",
+   "need": "分工不看性别",
+   "conflict": "男性全职带娃 vs 观念",
+   "linked": [
+    "gen-stayhome",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "为什么姐弟恋争议这么大？",
+   "conflict_id": "fam-agediff",
+   "domain": "婚恋选择",
+   "stage": "正题",
+   "need": "年龄不是问题",
+   "conflict": "姐弟恋 vs 年龄差观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "年龄差是问题吗？",
+   "conflict_id": "fam-agediff",
+   "domain": "婚恋选择",
+   "stage": "正题",
+   "need": "年龄不是问题",
+   "conflict": "姐弟恋 vs 年龄差观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "姐弟恋有错吗？",
+   "conflict_id": "fam-agediff",
+   "domain": "婚恋选择",
+   "stage": "反题",
+   "need": "年龄不是问题",
+   "conflict": "姐弟恋 vs 年龄差观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "年龄差大，合适吗？",
+   "conflict_id": "fam-agediff",
+   "domain": "婚恋选择",
+   "stage": "反题",
+   "need": "年龄不是问题",
+   "conflict": "姐弟恋 vs 年龄差观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "姐弟恋怎么处？",
+   "conflict_id": "fam-agediff",
+   "domain": "婚恋选择",
+   "stage": "合题",
+   "need": "年龄不是问题",
+   "conflict": "姐弟恋 vs 年龄差观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "年龄差怎么看？",
+   "conflict_id": "fam-agediff",
+   "domain": "婚恋选择",
+   "stage": "合题",
+   "need": "年龄不是问题",
+   "conflict": "姐弟恋 vs 年龄差观念",
+   "linked": [
+    "fam-date",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "为什么越来越多人选择丁克？",
+   "conflict_id": "fam-dink",
+   "domain": "生育选择",
+   "stage": "正题",
+   "need": "生育自主",
+   "conflict": "丁克 vs 家庭压力",
+   "linked": [
+    "fam-birth",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "丁克会后悔吗？",
+   "conflict_id": "fam-dink",
+   "domain": "生育选择",
+   "stage": "正题",
+   "need": "生育自主",
+   "conflict": "丁克 vs 家庭压力",
+   "linked": [
+    "fam-birth",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "不生孩子有错吗？",
+   "conflict_id": "fam-dink",
+   "domain": "生育选择",
+   "stage": "反题",
+   "need": "生育自主",
+   "conflict": "丁克 vs 家庭压力",
+   "linked": [
+    "fam-birth",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "丁克老了怎么办？",
+   "conflict_id": "fam-dink",
+   "domain": "生育选择",
+   "stage": "反题",
+   "need": "生育自主",
+   "conflict": "丁克 vs 家庭压力",
+   "linked": [
+    "fam-birth",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "丁克怎么面对压力？",
+   "conflict_id": "fam-dink",
+   "domain": "生育选择",
+   "stage": "合题",
+   "need": "生育自主",
+   "conflict": "丁克 vs 家庭压力",
+   "linked": [
+    "fam-birth",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "生育怎么决定？",
+   "conflict_id": "fam-dink",
+   "domain": "生育选择",
+   "stage": "合题",
+   "need": "生育自主",
+   "conflict": "丁克 vs 家庭压力",
+   "linked": [
+    "fam-birth",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "为什么婚前财产公证越来越多？",
+   "conflict_id": "fam-prenup",
+   "domain": "婚姻财产",
+   "stage": "正题",
+   "need": "财产与感情兼得",
+   "conflict": "婚前财产协议 vs 感情",
+   "linked": [
+    "fam-aa",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "婚前公证伤感情吗？",
+   "conflict_id": "fam-prenup",
+   "domain": "婚姻财产",
+   "stage": "正题",
+   "need": "财产与感情兼得",
+   "conflict": "婚前财产协议 vs 感情",
+   "linked": [
+    "fam-aa",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "公证是保护自己，有错吗？",
+   "conflict_id": "fam-prenup",
+   "domain": "婚姻财产",
+   "stage": "反题",
+   "need": "财产与感情兼得",
+   "conflict": "婚前财产协议 vs 感情",
+   "linked": [
+    "fam-aa",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "还没结婚就防着，怎么过？",
+   "conflict_id": "fam-prenup",
+   "domain": "婚姻财产",
+   "stage": "反题",
+   "need": "财产与感情兼得",
+   "conflict": "婚前财产协议 vs 感情",
+   "linked": [
+    "fam-aa",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "婚前财产怎么安排？",
+   "conflict_id": "fam-prenup",
+   "domain": "婚姻财产",
+   "stage": "合题",
+   "need": "财产与感情兼得",
+   "conflict": "婚前财产协议 vs 感情",
+   "linked": [
+    "fam-aa",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "公证和感情怎么平衡？",
+   "conflict_id": "fam-prenup",
+   "domain": "婚姻财产",
+   "stage": "合题",
+   "need": "财产与感情兼得",
+   "conflict": "婚前财产协议 vs 感情",
+   "linked": [
+    "fam-aa",
+    "fam-betrothal"
+   ]
+  },
+  {
+   "q": "为什么独生女养老压力这么大？",
+   "conflict_id": "fam-onlychild",
+   "domain": "养老责任",
+   "stage": "正题",
+   "need": "独生女不独扛",
+   "conflict": "独生女 vs 养老压力",
+   "linked": [
+    "fam-eldercare",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "独生女嫁人，父母谁管？",
+   "conflict_id": "fam-onlychild",
+   "domain": "养老责任",
+   "stage": "正题",
+   "need": "独生女不独扛",
+   "conflict": "独生女 vs 养老压力",
+   "linked": [
+    "fam-eldercare",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "女儿养老有错吗？",
+   "conflict_id": "fam-onlychild",
+   "domain": "养老责任",
+   "stage": "反题",
+   "need": "独生女不独扛",
+   "conflict": "独生女 vs 养老压力",
+   "linked": [
+    "fam-eldercare",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "独生女压力大，是矫情吗？",
+   "conflict_id": "fam-onlychild",
+   "domain": "养老责任",
+   "stage": "反题",
+   "need": "独生女不独扛",
+   "conflict": "独生女 vs 养老压力",
+   "linked": [
+    "fam-eldercare",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "独生女怎么平衡养老？",
+   "conflict_id": "fam-onlychild",
+   "domain": "养老责任",
+   "stage": "合题",
+   "need": "独生女不独扛",
+   "conflict": "独生女 vs 养老压力",
+   "linked": [
+    "fam-eldercare",
+    "fam-birth"
+   ]
+  },
+  {
+   "q": "女儿养老怎么支持？",
+   "conflict_id": "fam-onlychild",
+   "domain": "养老责任",
+   "stage": "合题",
+   "need": "独生女不独扛",
+   "conflict": "独生女 vs 养老压力",
+   "linked": [
+    "fam-eldercare",
+    "fam-birth"
+   ]
+  }
+ ]
+}

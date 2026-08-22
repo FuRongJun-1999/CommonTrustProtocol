@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么孩子要接受性教育？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "正题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子要接受性教育吗、会不会教坏孩子，是『保护的需要』vs『观念的羞耻』的矛盾——性教育是保护（教孩子认识身体/辨别侵犯/学会拒绝，性侵案件中90%的受害者是孩子，而多数孩子不知道怎么说不），但家长羞于启齿（『孩子还小』『"
+  },
+  {
+   "q": "性教育会不会教坏孩子？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "正题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子要接受性教育吗、会不会教坏孩子，是『保护的需要』vs『观念的羞耻』的矛盾——性教育是保护（教孩子认识身体/辨别侵犯/学会拒绝，性侵案件中90%的受害者是孩子，而多数孩子不知道怎么说不），但家长羞于启齿（『孩子还小』『"
+  },
+  {
+   "q": "孩子还小，讲这个合适吗？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "反题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子要接受性教育吗、会不会教坏孩子，是『保护的需要』vs『观念的羞耻』的矛盾——性教育是保护（教孩子认识身体/辨别侵犯/学会拒绝，性侵案件中90%的受害者是孩子，而多数孩子不知道怎么说不），但家长羞于启齿（『孩子还小』『"
+  },
+  {
+   "q": "性教育是家长的事还是学校的事？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "反题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子要接受性教育吗、会不会教坏孩子，是『保护的需要』vs『观念的羞耻』的矛盾——性教育是保护（教孩子认识身体/辨别侵犯/学会拒绝，性侵案件中90%的受害者是孩子，而多数孩子不知道怎么说不），但家长羞于启齿（『孩子还小』『"
+  },
+  {
+   "q": "儿童性教育怎么做？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "合题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子要接受性教育吗、会不会教坏孩子，是『保护的需要』vs『观念的羞耻』的矛盾——性教育是保护（教孩子认识身体/辨别侵犯/学会拒绝，性侵案件中90%的受害者是孩子，而多数孩子不知道怎么说不），但家长羞于启齿（『孩子还小』『"
+  },
+  {
+   "q": "怎么教孩子保护自己？",
+   "conflict_id": "edu-sexed",
+   "domain": "儿童教育",
+   "stage": "合题",
+   "need": "孩子的安全",
+   "conflict": "性教育 vs 羞耻/教坏",
+   "linked": [
+    "edu-punish",
+    "digit-scam"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子要接受性教育吗、会不会教坏孩子，是『保护的需要』vs『观念的羞耻』的矛盾——性教育是保护（教孩子认识身体/辨别侵犯/学会拒绝，性侵案件中90%的受害者是孩子，而多数孩子不知道怎么说不），但家长羞于启齿（『孩子还小』『"
+  },
+  {
+   "q": "宠物保险有必要买吗？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "正题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童保险这么火、有必要买吗，是『孩子的保障』vs『保险的智商税』的矛盾——儿童保险（重疾/医疗/教育金，一年几百到几万）让家长纠结：买（孩子生病/意外，保险是底线保障——孩子生病砸锅卖铁的新闻太多）、不买（保险是骗人的/"
+  },
+  {
+   "q": "宠物看病这么贵，保险能报吗？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "正题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物看病贵、花几万值不值，是『宠物是家人』vs『医疗的现实』的矛盾——宠物医疗贵有成本（宠物没有医保/设备药品和人的同价/医生培养），宠物生病动辄几千上万（手术/住院/重症），主人面临『花钱救还是放弃』的艰难选择（宠物不"
+  },
+  {
+   "q": "给宠物买保险，值得吗？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "反题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童保险这么火、有必要买吗，是『孩子的保障』vs『保险的智商税』的矛盾——儿童保险（重疾/医疗/教育金，一年几百到几万）让家长纠结：买（孩子生病/意外，保险是底线保障——孩子生病砸锅卖铁的新闻太多）、不买（保险是骗人的/"
+  },
+  {
+   "q": "宠物保险是智商税吗？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "反题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "⚠️ 这条内容已被灵枢内容安全拦截（不显示）。"
+  },
+  {
+   "q": "宠物保险怎么买？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "合题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童保险这么火、有必要买吗，是『孩子的保障』vs『保险的智商税』的矛盾——儿童保险（重疾/医疗/教育金，一年几百到几万）让家长纠结：买（孩子生病/意外，保险是底线保障——孩子生病砸锅卖铁的新闻太多）、不买（保险是骗人的/"
+  },
+  {
+   "q": "宠物看病怎么省钱？",
+   "conflict_id": "pet-insurance",
+   "domain": "养宠保障",
+   "stage": "合题",
+   "need": "宠物看病不慌",
+   "conflict": "宠物保险 vs 值不值",
+   "linked": [
+    "pet-medical",
+    "fin-childinsurance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物看病贵、花几万值不值，是『宠物是家人』vs『医疗的现实』的矛盾——宠物医疗贵有成本（宠物没有医保/设备药品和人的同价/医生培养），宠物生病动辄几千上万（手术/住院/重症），主人面临『花钱救还是放弃』的艰难选择（宠物不"
+  },
+  {
+   "q": "为什么大学生都在考证？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "正题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生都在考证、证书真的有用吗，是『证书的敲门砖』vs『能力的含金量』的矛盾——考证热（四六级/计算机/普通话/教师资格证/会计证/法律职业资格……大学生人均考几个证）源于就业焦虑（证书=敲门砖，简历上有证=多一份竞争力"
+  },
+  {
+   "q": "证书真的有用吗？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "正题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生都在考证、证书真的有用吗，是『证书的敲门砖』vs『能力的含金量』的矛盾——考证热（四六级/计算机/普通话/教师资格证/会计证/法律职业资格……大学生人均考几个证）源于就业焦虑（证书=敲门砖，简历上有证=多一份竞争力"
+  },
+  {
+   "q": "多考一个证，多一条路？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "反题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生都在考证、证书真的有用吗，是『证书的敲门砖』vs『能力的含金量』的矛盾——考证热（四六级/计算机/普通话/教师资格证/会计证/法律职业资格……大学生人均考几个证）源于就业焦虑（证书=敲门砖，简历上有证=多一份竞争力"
+  },
+  {
+   "q": "考证是投资还是焦虑？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "反题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "焦虑的时候深呼吸一下，把问题拆小——大学生都在考证、证书真的有用吗，是『证书的敲门砖』vs『能力的含金量』的矛盾——考证热（四六级/计算机/普通话/教师资格证/会计证/法律职业资格……大学生人均考几个证）源于就业焦虑（证"
+  },
+  {
+   "q": "证该怎么考？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "合题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生都在考证、证书真的有用吗，是『证书的敲门砖』vs『能力的含金量』的矛盾——考证热（四六级/计算机/普通话/教师资格证/会计证/法律职业资格……大学生人均考几个证）源于就业焦虑（证书=敲门砖，简历上有证=多一份竞争力"
+  },
+  {
+   "q": "证书和能力怎么选？",
+   "conflict_id": "edu-cert",
+   "domain": "职业准备",
+   "stage": "合题",
+   "need": "证书有用",
+   "conflict": "考证热 vs 含金量",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生都在考证、证书真的有用吗，是『证书的敲门砖』vs『能力的含金量』的矛盾——考证热（四六级/计算机/普通话/教师资格证/会计证/法律职业资格……大学生人均考几个证）源于就业焦虑（证书=敲门砖，简历上有证=多一份竞争力"
+  },
+  {
+   "q": "为什么住院要家属陪护？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "正题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "住院要家属陪护、陪护是义务还是负担，是『患者的照护』vs『家庭的负担』的矛盾——住院需要人陪护（打点滴看着/上厕所扶/吃饭喂/和医生沟通/心理陪伴），医院不提供陪护（护士只管医疗护理（打针发药），生活照护家属/护工负责）"
+  },
+  {
+   "q": "陪护是义务还是负担？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "正题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "住院要家属陪护、陪护是义务还是负担，是『患者的照护』vs『家庭的负担』的矛盾——住院需要人陪护（打点滴看着/上厕所扶/吃饭喂/和医生沟通/心理陪伴），医院不提供陪护（护士只管医疗护理（打针发药），生活照护家属/护工负责）"
+  },
+  {
+   "q": "医院不管陪护，合理吗？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "反题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "医患关系紧张、看病难，是『生命期望』vs『医疗现实』的落差——患者要『一定治好』，医学给的是『尽力而为』；信息不对称（患者不懂医）+资源稀缺（挂号难/排队久）把落差变成冲突。真相：①医患冲突的深层——不是医生坏或患者刁，"
+  },
+  {
+   "q": "请护工贵，家属陪省钱？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "反题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "结婚越来越贵、婚礼是给谁办的，是『仪式感』vs『消费攀比』的矛盾——婚礼本来是两个人/两个家庭的仪式（见证+祝福），但被消费主义包装成『一生一次的豪华演出』（五星酒店/大钻戒/专业婚庆/全程摄影，一场下来几十万），『办得"
+  },
+  {
+   "q": "住院陪护怎么安排？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "合题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "住院要家属陪护、陪护是义务还是负担，是『患者的照护』vs『家庭的负担』的矛盾——住院需要人陪护（打点滴看着/上厕所扶/吃饭喂/和医生沟通/心理陪伴），医院不提供陪护（护士只管医疗护理（打针发药），生活照护家属/护工负责）"
+  },
+  {
+   "q": "医院陪护制度怎么改？",
+   "conflict_id": "med-accompany",
+   "domain": "医疗照护",
+   "stage": "合题",
+   "need": "住院有人管",
+   "conflict": "家属陪护 vs 家庭负担",
+   "linked": [
+    "medical-cost",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "住院要家属陪护、陪护是义务还是负担，是『患者的照护』vs『家庭的负担』的矛盾——住院需要人陪护（打点滴看着/上厕所扶/吃饭喂/和医生沟通/心理陪伴），医院不提供陪护（护士只管医疗护理（打针发药），生活照护家属/护工负责）"
+  },
+  {
+   "q": "为什么孩子蛀牙这么多？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "正题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子蛀牙这么多、刷牙为什么还蛀牙，是『甜食的诱惑』vs『牙齿的保护』的矛盾——儿童蛀牙率超70%（中国5岁儿童乳牙蛀牙率71.9%），原因：爱吃糖（甜食/饮料/零食——细菌吃糖产酸腐蚀牙齿）、刷牙不到位（孩子自己刷不干净"
+  },
+  {
+   "q": "刷牙为什么还蛀牙？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "正题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我不太确定「刷牙为什么还蛀牙？」对应的知识，但最接近的是「微观经济学/宏观经济学知识点内容（按骨架填充）」。你问的是这个吗？"
+  },
+  {
+   "q": "乳牙会换，蛀了没事？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "反题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子蛀牙这么多、刷牙为什么还蛀牙，是『甜食的诱惑』vs『牙齿的保护』的矛盾——儿童蛀牙率超70%（中国5岁儿童乳牙蛀牙率71.9%），原因：爱吃糖（甜食/饮料/零食——细菌吃糖产酸腐蚀牙齿）、刷牙不到位（孩子自己刷不干净"
+  },
+  {
+   "q": "孩子不爱刷牙，怎么办？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "反题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子蛀牙这么多、刷牙为什么还蛀牙，是『甜食的诱惑』vs『牙齿的保护』的矛盾——儿童蛀牙率超70%（中国5岁儿童乳牙蛀牙率71.9%），原因：爱吃糖（甜食/饮料/零食——细菌吃糖产酸腐蚀牙齿）、刷牙不到位（孩子自己刷不干净"
+  },
+  {
+   "q": "儿童护牙怎么做？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "合题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子蛀牙这么多、刷牙为什么还蛀牙，是『甜食的诱惑』vs『牙齿的保护』的矛盾——儿童蛀牙率超70%（中国5岁儿童乳牙蛀牙率71.9%），原因：爱吃糖（甜食/饮料/零食——细菌吃糖产酸腐蚀牙齿）、刷牙不到位（孩子自己刷不干净"
+  },
+  {
+   "q": "蛀牙怎么预防？",
+   "conflict_id": "health-teeth",
+   "domain": "儿童健康",
+   "stage": "合题",
+   "need": "一口好牙",
+   "conflict": "蛀牙 vs 护牙习惯",
+   "linked": [
+    "health-medicine",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子蛀牙这么多、刷牙为什么还蛀牙，是『甜食的诱惑』vs『牙齿的保护』的矛盾——儿童蛀牙率超70%（中国5岁儿童乳牙蛀牙率71.9%），原因：爱吃糖（甜食/饮料/零食——细菌吃糖产酸腐蚀牙齿）、刷牙不到位（孩子自己刷不干净"
+  },
+  {
+   "q": "为什么网购退货这么多？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "正题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网购退货这么多、退货是权利还是滥用，是『消费者的权益』vs『商家的成本』的矛盾——网购退货是法律权利（七日无理由退货：消费者权益保护法），让消费者买得放心（不合适/不满意/冲动消费——退！），但退货率飙升（服装退货率30"
+  },
+  {
+   "q": "退货是权利还是滥用？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "正题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网购退货这么多、退货是权利还是滥用，是『消费者的权益』vs『商家的成本』的矛盾——网购退货是法律权利（七日无理由退货：消费者权益保护法），让消费者买得放心（不合适/不满意/冲动消费——退！），但退货率飙升（服装退货率30"
+  },
+  {
+   "q": "不合适就退，有错吗？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "反题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网购退货这么多、退货是权利还是滥用，是『消费者的权益』vs『商家的成本』的矛盾——网购退货是法律权利（七日无理由退货：消费者权益保护法），让消费者买得放心（不合适/不满意/冲动消费——退！），但退货率飙升（服装退货率30"
+  },
+  {
+   "q": "退货让商家亏钱，内疚吗？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "反题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网购退货这么多、退货是权利还是滥用，是『消费者的权益』vs『商家的成本』的矛盾——网购退货是法律权利（七日无理由退货：消费者权益保护法），让消费者买得放心（不合适/不满意/冲动消费——退！），但退货率飙升（服装退货率30"
+  },
+  {
+   "q": "网购怎么减少退货？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "合题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网购退货这么多、退货是权利还是滥用，是『消费者的权益』vs『商家的成本』的矛盾——网购退货是法律权利（七日无理由退货：消费者权益保护法），让消费者买得放心（不合适/不满意/冲动消费——退！），但退货率飙升（服装退货率30"
+  },
+  {
+   "q": "退货怎么退不亏？",
+   "conflict_id": "soc-return",
+   "domain": "线上消费",
+   "stage": "合题",
+   "need": "买得放心退得方便",
+   "conflict": "退货 vs 运费/浪费",
+   "linked": [
+    "digit-live",
+    "soc-secondhand"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网购退货这么多、退货是权利还是滥用，是『消费者的权益』vs『商家的成本』的矛盾——网购退货是法律权利（七日无理由退货：消费者权益保护法），让消费者买得放心（不合适/不满意/冲动消费——退！），但退货率飙升（服装退货率30"
+  },
+  {
+   "q": "老人该运动吗？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "正题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人该运动吗、运动会受伤吗，是『活动的益处』vs『受伤的风险』的矛盾——运动对老人好（延缓衰老/防跌倒/防慢病/心情好，不运动肌肉萎缩更快、更容易摔），但老人运动有风险（心脑血管（剧烈运动诱发心梗/脑梗）、骨关节（爬山/"
+  },
+  {
+   "q": "老人运动会受伤吗？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "正题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人该运动吗、运动会受伤吗，是『活动的益处』vs『受伤的风险』的矛盾——运动对老人好（延缓衰老/防跌倒/防慢病/心情好，不运动肌肉萎缩更快、更容易摔），但老人运动有风险（心脑血管（剧烈运动诱发心梗/脑梗）、骨关节（爬山/"
+  },
+  {
+   "q": "老人就该静养，动什么动？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "反题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人该运动吗、运动会受伤吗，是『活动的益处』vs『受伤的风险』的矛盾——运动对老人好（延缓衰老/防跌倒/防慢病/心情好，不运动肌肉萎缩更快、更容易摔），但老人运动有风险（心脑血管（剧烈运动诱发心梗/脑梗）、骨关节（爬山/"
+  },
+  {
+   "q": "广场舞/暴走，伤膝盖怎么办？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "反题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人该运动吗、运动会受伤吗，是『活动的益处』vs『受伤的风险』的矛盾——运动对老人好（延缓衰老/防跌倒/防慢病/心情好，不运动肌肉萎缩更快、更容易摔），但老人运动有风险（心脑血管（剧烈运动诱发心梗/脑梗）、骨关节（爬山/"
+  },
+  {
+   "q": "老人怎么运动不受伤？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "合题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人该运动吗、运动会受伤吗，是『活动的益处』vs『受伤的风险』的矛盾——运动对老人好（延缓衰老/防跌倒/防慢病/心情好，不运动肌肉萎缩更快、更容易摔），但老人运动有风险（心脑血管（剧烈运动诱发心梗/脑梗）、骨关节（爬山/"
+  },
+  {
+   "q": "适合老人的运动有哪些？",
+   "conflict_id": "health-exercise",
+   "domain": "老年健康",
+   "stage": "合题",
+   "need": "动得安全",
+   "conflict": "运动 vs 受伤风险",
+   "linked": [
+    "health-fall",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人该运动吗、运动会受伤吗，是『活动的益处』vs『受伤的风险』的矛盾——运动对老人好（延缓衰老/防跌倒/防慢病/心情好，不运动肌肉萎缩更快、更容易摔），但老人运动有风险（心脑血管（剧烈运动诱发心梗/脑梗）、骨关节（爬山/"
+  },
+  {
+   "q": "为什么辅导作业这么崩溃？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "正题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "辅导作业这么崩溃、辅导是父母的必修课吗，是『辅导的责任』vs『亲子关系的消耗』的矛盾——辅导作业（检查/讲解/陪写，一年级到高中）让家长崩溃（『辅导作业气到心梗』是热梗，不是段子）、亲子关系紧张（辅导一小时=吵架一小时，"
+  },
+  {
+   "q": "辅导作业是父母的必修课吗？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "正题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "辅导作业这么崩溃、辅导是父母的必修课吗，是『辅导的责任』vs『亲子关系的消耗』的矛盾——辅导作业（检查/讲解/陪写，一年级到高中）让家长崩溃（『辅导作业气到心梗』是热梗，不是段子）、亲子关系紧张（辅导一小时=吵架一小时，"
+  },
+  {
+   "q": "不辅导，孩子学不会？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "反题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "辅导作业这么崩溃、辅导是父母的必修课吗，是『辅导的责任』vs『亲子关系的消耗』的矛盾——辅导作业（检查/讲解/陪写，一年级到高中）让家长崩溃（『辅导作业气到心梗』是热梗，不是段子）、亲子关系紧张（辅导一小时=吵架一小时，"
+  },
+  {
+   "q": "辅导崩溃，是孩子笨吗？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "反题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "辅导作业这么崩溃、辅导是父母的必修课吗，是『辅导的责任』vs『亲子关系的消耗』的矛盾——辅导作业（检查/讲解/陪写，一年级到高中）让家长崩溃（『辅导作业气到心梗』是热梗，不是段子）、亲子关系紧张（辅导一小时=吵架一小时，"
+  },
+  {
+   "q": "辅导作业怎么不崩溃？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "合题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "辅导作业这么崩溃、辅导是父母的必修课吗，是『辅导的责任』vs『亲子关系的消耗』的矛盾——辅导作业（检查/讲解/陪写，一年级到高中）让家长崩溃（『辅导作业气到心梗』是热梗，不是段子）、亲子关系紧张（辅导一小时=吵架一小时，"
+  },
+  {
+   "q": "作业辅导和独立怎么平衡？",
+   "conflict_id": "edu-homework",
+   "domain": "家庭教育",
+   "stage": "合题",
+   "need": "辅导不崩溃",
+   "conflict": "辅导作业 vs 亲子关系",
+   "linked": [
+    "edu-score",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "辅导作业这么崩溃、辅导是父母的必修课吗，是『辅导的责任』vs『亲子关系的消耗』的矛盾——辅导作业（检查/讲解/陪写，一年级到高中）让家长崩溃（『辅导作业气到心梗』是热梗，不是段子）、亲子关系紧张（辅导一小时=吵架一小时，"
+  }
+ ]
+}

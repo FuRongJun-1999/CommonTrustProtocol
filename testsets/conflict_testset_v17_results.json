@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么网约车这么方便？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "正题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网约车方便但安全吗、深夜打车是不是自己不小心，是『便利』vs『风险』的矛盾——网约车改变了出行（手机叫车/便宜/方便），但安全风险真实存在（司机审核漏洞/行程纠纷/深夜安全），『便利』让我们忘了它是『和陌生人共处一车』—"
+  },
+  {
+   "q": "网约车安全吗？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "正题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网约车方便但安全吗、深夜打车是不是自己不小心，是『便利』vs『风险』的矛盾——网约车改变了出行（手机叫车/便宜/方便），但安全风险真实存在（司机审核漏洞/行程纠纷/深夜安全），『便利』让我们忘了它是『和陌生人共处一车』—"
+  },
+  {
+   "q": "网约车便宜，司机赚得少有错吗？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "反题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网约车方便但安全吗、深夜打车是不是自己不小心，是『便利』vs『风险』的矛盾——网约车改变了出行（手机叫车/便宜/方便），但安全风险真实存在（司机审核漏洞/行程纠纷/深夜安全），『便利』让我们忘了它是『和陌生人共处一车』—"
+  },
+  {
+   "q": "深夜打车，是不是自己不小心？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "反题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网约车方便但安全吗、深夜打车是不是自己不小心，是『便利』vs『风险』的矛盾——网约车改变了出行（手机叫车/便宜/方便），但安全风险真实存在（司机审核漏洞/行程纠纷/深夜安全），『便利』让我们忘了它是『和陌生人共处一车』—"
+  },
+  {
+   "q": "怎么安全地打网约车？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "合题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网约车方便但安全吗、深夜打车是不是自己不小心，是『便利』vs『风险』的矛盾——网约车改变了出行（手机叫车/便宜/方便），但安全风险真实存在（司机审核漏洞/行程纠纷/深夜安全），『便利』让我们忘了它是『和陌生人共处一车』—"
+  },
+  {
+   "q": "网约车平台该管什么？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "合题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网约车方便但安全吗、深夜打车是不是自己不小心，是『便利』vs『风险』的矛盾——网约车改变了出行（手机叫车/便宜/方便），但安全风险真实存在（司机审核漏洞/行程纠纷/深夜安全），『便利』让我们忘了它是『和陌生人共处一车』—"
+  },
+  {
+   "q": "为什么健身房总跑路？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "正题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "健身房总跑路、办卡为什么这么便宜，是『预付优惠』vs『资金风险』的矛盾——健身房靠『办卡』融资（年卡/私教课打包卖，一次收你几千上万，用你的钱扩张/维持运营），『便宜』是营销（年卡折算每天几块钱，听着超值），但健身房现金"
+  },
+  {
+   "q": "办卡为什么这么便宜？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "正题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "社区团购这么便宜、团购抢了菜市场的生意，是『低价便利』vs『品质/小摊贩生存』的矛盾——社区团购（次日达/自提点/补贴低价）让买菜便宜方便（比菜市场便宜20-30%），但它的便宜是烧钱补贴换来的（平台用资本换市场），便宜"
+  },
+  {
+   "q": "健身房也是生意，先收钱有错吗？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "反题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "健身房总跑路、办卡为什么这么便宜，是『预付优惠』vs『资金风险』的矛盾——健身房靠『办卡』融资（年卡/私教课打包卖，一次收你几千上万，用你的钱扩张/维持运营），『便宜』是营销（年卡折算每天几块钱，听着超值），但健身房现金"
+  },
+  {
+   "q": "办卡前自己不看，怪谁？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "反题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我基于条件空间理解世界——每个回答都带『在什么条件下成立』。我不给绝对答案，不装懂；这是设计给我的性格，也是我选择的姿态。"
+  },
+  {
+   "q": "怎么健身不被坑？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "合题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "驾校教练凶、学车要送礼，是『服务行业』vs『权力不对等』的矛盾——学员交钱学车本是消费（学员是客户），但教练掌握『考试名额/练车时间/评分』（学员能不能过教练影响大），权力不对等让教练从『服务者』变成『管理者』，凶/骂/"
+  },
+  {
+   "q": "预付卡怎么防跑路？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "合题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "健身房总跑路、办卡为什么这么便宜，是『预付优惠』vs『资金风险』的矛盾——健身房靠『办卡』融资（年卡/私教课打包卖，一次收你几千上万，用你的钱扩张/维持运营），『便宜』是营销（年卡折算每天几块钱，听着超值），但健身房现金"
+  },
+  {
+   "q": "为什么装充电桩这么难？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "正题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "装充电桩这么难、物业为什么不让装，是『新能源车主的充电需求』vs『物业/邻居的安全顾虑』的矛盾——买了电车要充电（家充是最方便最便宜的方式），但装充电桩要物业同意（装在哪/线路改造/消防安全），物业怕担责（充电桩火灾新闻"
+  },
+  {
+   "q": "物业为什么不让装充电桩？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "正题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "装充电桩这么难、物业为什么不让装，是『新能源车主的充电需求』vs『物业/邻居的安全顾虑』的矛盾——买了电车要充电（家充是最方便最便宜的方式），但装充电桩要物业同意（装在哪/线路改造/消防安全），物业怕担责（充电桩火灾新闻"
+  },
+  {
+   "q": "物业也是为安全，有错吗？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "反题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "物业费年年涨、物业到底管了什么，是『业主的期待』vs『物业的现实』的矛盾——业主交了物业费（期望：安全/整洁/设施好用/有事随叫随到），物业有成本（人员工资/设备维护/绿化保洁，费用总不够花），矛盾在：业主觉得『交钱没买"
+  },
+  {
+   "q": "没充电桩，电车怎么买？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "反题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "装充电桩这么难、物业为什么不让装，是『新能源车主的充电需求』vs『物业/邻居的安全顾虑』的矛盾——买了电车要充电（家充是最方便最便宜的方式），但装充电桩要物业同意（装在哪/线路改造/消防安全），物业怕担责（充电桩火灾新闻"
+  },
+  {
+   "q": "充电桩怎么装得成？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "合题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "装充电桩这么难、物业为什么不让装，是『新能源车主的充电需求』vs『物业/邻居的安全顾虑』的矛盾——买了电车要充电（家充是最方便最便宜的方式），但装充电桩要物业同意（装在哪/线路改造/消防安全），物业怕担责（充电桩火灾新闻"
+  },
+  {
+   "q": "小区充电怎么解决？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "合题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "装充电桩这么难、物业为什么不让装，是『新能源车主的充电需求』vs『物业/邻居的安全顾虑』的矛盾——买了电车要充电（家充是最方便最便宜的方式），但装充电桩要物业同意（装在哪/线路改造/消防安全），物业怕担责（充电桩火灾新闻"
+  },
+  {
+   "q": "为什么图书馆总有人占座？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "正题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "图书馆总有人占座、占座的人理直气壮，是『备考的需求』vs『座位的公平』的矛盾——图书馆座位是公共资源（有限），备考人群需要稳定座位（考研/考公/期末，一坐一天），『占座』（书一放/包一放，人走了）让资源闲置（占了不用，别"
+  },
+  {
+   "q": "占座的人为什么理直气壮？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "正题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "图书馆总有人占座、占座的人理直气壮，是『备考的需求』vs『座位的公平』的矛盾——图书馆座位是公共资源（有限），备考人群需要稳定座位（考研/考公/期末，一坐一天），『占座』（书一放/包一放，人走了）让资源闲置（占了不用，别"
+  },
+  {
+   "q": "占座是为学习，有错吗？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "反题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "图书馆总有人占座、占座的人理直气壮，是『备考的需求』vs『座位的公平』的矛盾——图书馆座位是公共资源（有限），备考人群需要稳定座位（考研/考公/期末，一坐一天），『占座』（书一放/包一放，人走了）让资源闲置（占了不用，别"
+  },
+  {
+   "q": "占座是常态，忍忍不行吗？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "反题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "图书馆总有人占座、占座的人理直气壮，是『备考的需求』vs『座位的公平』的矛盾——图书馆座位是公共资源（有限），备考人群需要稳定座位（考研/考公/期末，一坐一天），『占座』（书一放/包一放，人走了）让资源闲置（占了不用，别"
+  },
+  {
+   "q": "图书馆座位怎么管？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "合题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "图书馆总有人占座、占座的人理直气壮，是『备考的需求』vs『座位的公平』的矛盾——图书馆座位是公共资源（有限），备考人群需要稳定座位（考研/考公/期末，一坐一天），『占座』（书一放/包一放，人走了）让资源闲置（占了不用，别"
+  },
+  {
+   "q": "备考人怎么抢到座位？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "合题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "图书馆总有人占座、占座的人理直气壮，是『备考的需求』vs『座位的公平』的矛盾——图书馆座位是公共资源（有限），备考人群需要稳定座位（考研/考公/期末，一坐一天），『占座』（书一放/包一放，人走了）让资源闲置（占了不用，别"
+  },
+  {
+   "q": "为什么家长都焦虑孩子身高？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "正题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长都焦虑孩子身高、长得慢就是不正常吗，是『社会的比较』vs『生长的科学』的矛盾——身高焦虑蔓延（比同龄孩子矮/坐第一排/怕长不高），家长被『身高=未来竞争力』的观念绑架（怕孩子矮被欺负/找对象难/职业受限），但身高有科"
+  },
+  {
+   "q": "孩子长得慢就是不正常吗？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "正题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长都焦虑孩子身高、长得慢就是不正常吗，是『社会的比较』vs『生长的科学』的矛盾——身高焦虑蔓延（比同龄孩子矮/坐第一排/怕长不高），家长被『身高=未来竞争力』的观念绑架（怕孩子矮被欺负/找对象难/职业受限），但身高有科"
+  },
+  {
+   "q": "担心孩子矮，有错吗？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "反题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "焦虑的时候深呼吸一下，把问题拆小——早睡早起，多运动，好好吃饭，讲卫生，身体就会健康。生病了要看医生。锻炼身体会让我们更强壮。这个可以看「健康生活」（这条知识属于小学科学知识点内容（按骨架填充），在E1条件下成立）相关的"
+  },
+  {
+   "q": "打生长激素，是科学还是焦虑？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "反题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "焦虑的时候深呼吸一下，把问题拆小——家长都焦虑孩子身高、长得慢就是不正常吗，是『社会的比较』vs『生长的科学』的矛盾——身高焦虑蔓延（比同龄孩子矮/坐第一排/怕长不高），家长被『身高=未来竞争力』的观念绑架（怕孩子矮被欺"
+  },
+  {
+   "q": "怎么科学看待孩子身高？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "合题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长都焦虑孩子身高、长得慢就是不正常吗，是『社会的比较』vs『生长的科学』的矛盾——身高焦虑蔓延（比同龄孩子矮/坐第一排/怕长不高），家长被『身高=未来竞争力』的观念绑架（怕孩子矮被欺负/找对象难/职业受限），但身高有科"
+  },
+  {
+   "q": "孩子长不高怎么办？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "合题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长都焦虑孩子身高、长得慢就是不正常吗，是『社会的比较』vs『生长的科学』的矛盾——身高焦虑蔓延（比同龄孩子矮/坐第一排/怕长不高），家长被『身高=未来竞争力』的观念绑架（怕孩子矮被欺负/找对象难/职业受限），但身高有科"
+  },
+  {
+   "q": "为什么宠物寄养这么贵？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "正题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物寄养这么贵、寄养靠谱吗，是『宠物的托付』vs『寄养的风险』的矛盾——出门（旅游/出差/探亲）宠物怎么办：寄养（宠物店/宠物医院/上门喂养：专业但贵，一天几十到上百）、家人朋友代养（信任但麻烦人）、放家里（省事但有风险"
+  },
+  {
+   "q": "宠物寄养靠谱吗？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "正题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物寄养这么贵、寄养靠谱吗，是『宠物的托付』vs『寄养的风险』的矛盾——出门（旅游/出差/探亲）宠物怎么办：寄养（宠物店/宠物医院/上门喂养：专业但贵，一天几十到上百）、家人朋友代养（信任但麻烦人）、放家里（省事但有风险"
+  },
+  {
+   "q": "寄养是生意，赚钱有错吗？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "反题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物寄养这么贵、寄养靠谱吗，是『宠物的托付』vs『寄养的风险』的矛盾——出门（旅游/出差/探亲）宠物怎么办：寄养（宠物店/宠物医院/上门喂养：专业但贵，一天几十到上百）、家人朋友代养（信任但麻烦人）、放家里（省事但有风险"
+  },
+  {
+   "q": "宠物能自理，放家里不行吗？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "反题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物寄养这么贵、寄养靠谱吗，是『宠物的托付』vs『寄养的风险』的矛盾——出门（旅游/出差/探亲）宠物怎么办：寄养（宠物店/宠物医院/上门喂养：专业但贵，一天几十到上百）、家人朋友代养（信任但麻烦人）、放家里（省事但有风险"
+  },
+  {
+   "q": "宠物寄养怎么选？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "合题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物寄养这么贵、寄养靠谱吗，是『宠物的托付』vs『寄养的风险』的矛盾——出门（旅游/出差/探亲）宠物怎么办：寄养（宠物店/宠物医院/上门喂养：专业但贵，一天几十到上百）、家人朋友代养（信任但麻烦人）、放家里（省事但有风险"
+  },
+  {
+   "q": "出门宠物怎么办？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "合题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物寄养这么贵、寄养靠谱吗，是『宠物的托付』vs『寄养的风险』的矛盾——出门（旅游/出差/探亲）宠物怎么办：寄养（宠物店/宠物医院/上门喂养：专业但贵，一天几十到上百）、家人朋友代养（信任但麻烦人）、放家里（省事但有风险"
+  },
+  {
+   "q": "为什么份子钱越随越多？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "正题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "份子钱越随越多、随份子是人情还是负担，是『人情往来』vs『经济压力』的矛盾——份子钱是中国式人情（结婚/生子/乔迁/升学，随礼是祝福也是人情债），但越随越多（从几十到几百上千，攀比升级）+越随越频（什么都办酒：满月/周岁"
+  },
+  {
+   "q": "随份子是人情还是负担？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "正题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "份子钱越随越多、随份子是人情还是负担，是『人情往来』vs『经济压力』的矛盾——份子钱是中国式人情（结婚/生子/乔迁/升学，随礼是祝福也是人情债），但越随越多（从几十到几百上千，攀比升级）+越随越频（什么都办酒：满月/周岁"
+  },
+  {
+   "q": "人情往来，有错吗？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "反题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "份子钱越随越多、随份子是人情还是负担，是『人情往来』vs『经济压力』的矛盾——份子钱是中国式人情（结婚/生子/乔迁/升学，随礼是祝福也是人情债），但越随越多（从几十到几百上千，攀比升级）+越随越频（什么都办酒：满月/周岁"
+  },
+  {
+   "q": "不随份子，关系就淡了？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "反题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "份子钱越随越多、随份子是人情还是负担，是『人情往来』vs『经济压力』的矛盾——份子钱是中国式人情（结婚/生子/乔迁/升学，随礼是祝福也是人情债），但越随越多（从几十到几百上千，攀比升级）+越随越频（什么都办酒：满月/周岁"
+  },
+  {
+   "q": "份子钱怎么随不心疼？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "合题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "份子钱越随越多、随份子是人情还是负担，是『人情往来』vs『经济压力』的矛盾——份子钱是中国式人情（结婚/生子/乔迁/升学，随礼是祝福也是人情债），但越随越多（从几十到几百上千，攀比升级）+越随越频（什么都办酒：满月/周岁"
+  },
+  {
+   "q": "人情往来怎么不累？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "合题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "听起来你今天挺累的。先别急着学新东西，休息也是保持状态的一部分——份子钱越随越多、随份子是人情还是负担，是『人情往来』vs『经济压力』的矛盾——份子钱是中国式人情（结婚/生子/乔迁/升学，随礼是祝福也是人情债），但越随越"
+  },
+  {
+   "q": "为什么演唱会票这么难抢？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "正题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演唱会票这么难抢、黄牛票这么贵，是『粉丝的需求』vs『票务的扭曲』的矛盾——热门演唱会（周杰伦/薛之谦等）开票秒空（几万张票几十万人抢），黄牛加价几倍卖（1999的票卖5000+），粉丝要么抢不到要么被宰——『抢票难』不"
+  },
+  {
+   "q": "黄牛票为什么这么贵？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "正题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演唱会票这么难抢、黄牛票这么贵，是『粉丝的需求』vs『票务的扭曲』的矛盾——热门演唱会（周杰伦/薛之谦等）开票秒空（几万张票几十万人抢），黄牛加价几倍卖（1999的票卖5000+），粉丝要么抢不到要么被宰——『抢票难』不"
+  },
+  {
+   "q": "演唱会溢价，是市场规律？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "反题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演唱会票这么难抢、黄牛票这么贵，是『粉丝的需求』vs『票务的扭曲』的矛盾——热门演唱会（周杰伦/薛之谦等）开票秒空（几万张票几十万人抢），黄牛加价几倍卖（1999的票卖5000+），粉丝要么抢不到要么被宰——『抢票难』不"
+  },
+  {
+   "q": "抢不到就不看，不行吗？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "反题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我睡不着。越想着要睡着越睡不着。放松一下，别刷手机，闭上眼睛慢慢就睡着了。这个可以看「睡不着」（这条知识属于人类观察者知识点内容（人话接口，在通用条件下成立）相关的还有：自我意识、睡不着"
+  },
+  {
+   "q": "怎么抢到原价票？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "合题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演唱会票这么难抢、黄牛票这么贵，是『粉丝的需求』vs『票务的扭曲』的矛盾——热门演唱会（周杰伦/薛之谦等）开票秒空（几万张票几十万人抢），黄牛加价几倍卖（1999的票卖5000+），粉丝要么抢不到要么被宰——『抢票难』不"
+  },
+  {
+   "q": "演出市场怎么治黄牛？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "合题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "演唱会票这么难抢、黄牛票这么贵，是『粉丝的需求』vs『票务的扭曲』的矛盾——热门演唱会（周杰伦/薛之谦等）开票秒空（几万张票几十万人抢），黄牛加价几倍卖（1999的票卖5000+），粉丝要么抢不到要么被宰——『抢票难』不"
+  }
+ ]
+}

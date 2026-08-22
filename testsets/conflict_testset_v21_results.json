@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么儿童溺水这么多？",
+   "conflict_id": "health-drowning",
+   "domain": "儿童安全",
+   "stage": "正题",
+   "need": "水边安全",
+   "conflict": "溺水风险 vs 家长看护",
+   "linked": [
+    "health-medicine",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童溺水这么多、孩子学游泳有用吗，是『水的吸引』vs『安全的防线』的矛盾——儿童溺水是意外死亡的第一大原因（中国每年约5万儿童溺亡，农村/暑期高发），溺水不是『意外』（90%可预防：家长看护+游泳技能+水域管理），孩子天"
+  },
+  {
+   "q": "孩子学游泳有用吗？",
+   "conflict_id": "health-drowning",
+   "domain": "儿童安全",
+   "stage": "正题",
+   "need": "水边安全",
+   "conflict": "溺水风险 vs 家长看护",
+   "linked": [
+    "health-medicine",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童溺水这么多、孩子学游泳有用吗，是『水的吸引』vs『安全的防线』的矛盾——儿童溺水是意外死亡的第一大原因（中国每年约5万儿童溺亡，农村/暑期高发），溺水不是『意外』（90%可预防：家长看护+游泳技能+水域管理），孩子天"
+  },
+  {
+   "q": "溺水是意外，防得住吗？",
+   "conflict_id": "health-drowning",
+   "domain": "儿童安全",
+   "stage": "反题",
+   "need": "水边安全",
+   "conflict": "溺水风险 vs 家长看护",
+   "linked": [
+    "health-medicine",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童溺水这么多、孩子学游泳有用吗，是『水的吸引』vs『安全的防线』的矛盾——儿童溺水是意外死亡的第一大原因（中国每年约5万儿童溺亡，农村/暑期高发），溺水不是『意外』（90%可预防：家长看护+游泳技能+水域管理），孩子天"
+  },
+  {
+   "q": "让孩子玩水，有错吗？",
+   "conflict_id": "health-drowning",
+   "domain": "儿童安全",
+   "stage": "反题",
+   "need": "水边安全",
+   "conflict": "溺水风险 vs 家长看护",
+   "linked": [
+    "health-medicine",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子沉迷游戏停不下来，是『游戏的设计』碾压『学习的激励』——游戏有即时反馈（每步都有奖励/升级/成就），学习是延迟满足（考完试才知道结果）；游戏是精心设计的成瘾机制（随机奖励/社交攀比/进度条），不是孩子意志力差。真相："
+  },
+  {
+   "q": "儿童防溺水怎么做？",
+   "conflict_id": "health-drowning",
+   "domain": "儿童安全",
+   "stage": "合题",
+   "need": "水边安全",
+   "conflict": "溺水风险 vs 家长看护",
+   "linked": [
+    "health-medicine",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童溺水这么多、孩子学游泳有用吗，是『水的吸引』vs『安全的防线』的矛盾——儿童溺水是意外死亡的第一大原因（中国每年约5万儿童溺亡，农村/暑期高发），溺水不是『意外』（90%可预防：家长看护+游泳技能+水域管理），孩子天"
+  },
+  {
+   "q": "孩子游泳怎么保证安全？",
+   "conflict_id": "health-drowning",
+   "domain": "儿童安全",
+   "stage": "合题",
+   "need": "水边安全",
+   "conflict": "溺水风险 vs 家长看护",
+   "linked": [
+    "health-medicine",
+    "edu-punish"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "儿童溺水这么多、孩子学游泳有用吗，是『水的吸引』vs『安全的防线』的矛盾——儿童溺水是意外死亡的第一大原因（中国每年约5万儿童溺亡，农村/暑期高发），溺水不是『意外』（90%可预防：家长看护+游泳技能+水域管理），孩子天"
+  },
+  {
+   "q": "为什么老人财产分配总闹矛盾？",
+   "conflict_id": "fam-property",
+   "domain": "家庭财产",
+   "stage": "正题",
+   "need": "分产不伤情",
+   "conflict": "老人财产分配 vs 子女期待",
+   "linked": [
+    "fam-elderlove",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人财产分配闹矛盾、老人的钱该给谁，是『老人的支配权』vs『子女的期待』的矛盾——老人有财产（房子/存款/退休金），怎么分配（给谁/什么时候给/给多少）是老人的权利（财产自由处分），但子女有期待（觉得该给自己/该平分/该"
+  },
+  {
+   "q": "老人的钱该给谁？",
+   "conflict_id": "fam-property",
+   "domain": "家庭财产",
+   "stage": "正题",
+   "need": "分产不伤情",
+   "conflict": "老人财产分配 vs 子女期待",
+   "linked": [
+    "fam-elderlove",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人财产分配闹矛盾、老人的钱该给谁，是『老人的支配权』vs『子女的期待』的矛盾——老人有财产（房子/存款/退休金），怎么分配（给谁/什么时候给/给多少）是老人的权利（财产自由处分），但子女有期待（觉得该给自己/该平分/该"
+  },
+  {
+   "q": "子女争财产，是贪心吗？",
+   "conflict_id": "fam-property",
+   "domain": "家庭财产",
+   "stage": "反题",
+   "need": "分产不伤情",
+   "conflict": "老人财产分配 vs 子女期待",
+   "linked": [
+    "fam-elderlove",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人财产分配闹矛盾、老人的钱该给谁，是『老人的支配权』vs『子女的期待』的矛盾——老人有财产（房子/存款/退休金），怎么分配（给谁/什么时候给/给多少）是老人的权利（财产自由处分），但子女有期待（觉得该给自己/该平分/该"
+  },
+  {
+   "q": "老人自己花，不行吗？",
+   "conflict_id": "fam-property",
+   "domain": "家庭财产",
+   "stage": "反题",
+   "need": "分产不伤情",
+   "conflict": "老人财产分配 vs 子女期待",
+   "linked": [
+    "fam-elderlove",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我做不到的事挺多的：我不能替你做实验、不能替你感受世界、不会编造答案（这是设计——不知道就明说）、也无法保证我的知识永远正确。我的边界是结构性的，不是谦虚。"
+  },
+  {
+   "q": "老人财产怎么分不伤感情？",
+   "conflict_id": "fam-property",
+   "domain": "家庭财产",
+   "stage": "合题",
+   "need": "分产不伤情",
+   "conflict": "老人财产分配 vs 子女期待",
+   "linked": [
+    "fam-elderlove",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务吵架、付出不被看见，是『公平感』破裂而非活儿多少的问题：人委屈的不是干活，是『我多你少且你没看见』。三解：①把隐形劳动显性化——家务清单列出来（做饭/带娃/记账/人情往来），很多『看不见的活』被看见本身就是治愈；②分"
+  },
+  {
+   "q": "子女怎么面对老人财产？",
+   "conflict_id": "fam-property",
+   "domain": "家庭财产",
+   "stage": "合题",
+   "need": "分产不伤情",
+   "conflict": "老人财产分配 vs 子女期待",
+   "linked": [
+    "fam-elderlove",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人财产分配闹矛盾、老人的钱该给谁，是『老人的支配权』vs『子女的期待』的矛盾——老人有财产（房子/存款/退休金），怎么分配（给谁/什么时候给/给多少）是老人的权利（财产自由处分），但子女有期待（觉得该给自己/该平分/该"
+  },
+  {
+   "q": "为什么宠物美容这么贵？",
+   "conflict_id": "pet-grooming",
+   "domain": "养宠消费",
+   "stage": "正题",
+   "need": "宠物整洁",
+   "conflict": "宠物美容贵 vs 必要",
+   "linked": [
+    "pet-boarding",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物美容这么贵、有必要吗，是『宠物的健康』vs『消费的升级』的矛盾——宠物美容（洗澡/剪毛/造型，一次几十到几百）是养宠的常见消费，贵在人工（美容师1对1服务2-3小时）——『必要』的分层：基础美容（洗澡/剪甲/清洁（健"
+  },
+  {
+   "q": "宠物美容有必要吗？",
+   "conflict_id": "pet-grooming",
+   "domain": "养宠消费",
+   "stage": "正题",
+   "need": "宠物整洁",
+   "conflict": "宠物美容贵 vs 必要",
+   "linked": [
+    "pet-boarding",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物美容这么贵、有必要吗，是『宠物的健康』vs『消费的升级』的矛盾——宠物美容（洗澡/剪毛/造型，一次几十到几百）是养宠的常见消费，贵在人工（美容师1对1服务2-3小时）——『必要』的分层：基础美容（洗澡/剪甲/清洁（健"
+  },
+  {
+   "q": "给宠物美容，是矫情吗？",
+   "conflict_id": "pet-grooming",
+   "domain": "养宠消费",
+   "stage": "反题",
+   "need": "宠物整洁",
+   "conflict": "宠物美容贵 vs 必要",
+   "linked": [
+    "pet-boarding",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物美容这么贵、有必要吗，是『宠物的健康』vs『消费的升级』的矛盾——宠物美容（洗澡/剪毛/造型，一次几十到几百）是养宠的常见消费，贵在人工（美容师1对1服务2-3小时）——『必要』的分层：基础美容（洗澡/剪甲/清洁（健"
+  },
+  {
+   "q": "宠物美容是生意，赚钱有错吗？",
+   "conflict_id": "pet-grooming",
+   "domain": "养宠消费",
+   "stage": "反题",
+   "need": "宠物整洁",
+   "conflict": "宠物美容贵 vs 必要",
+   "linked": [
+    "pet-boarding",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物美容这么贵、有必要吗，是『宠物的健康』vs『消费的升级』的矛盾——宠物美容（洗澡/剪毛/造型，一次几十到几百）是养宠的常见消费，贵在人工（美容师1对1服务2-3小时）——『必要』的分层：基础美容（洗澡/剪甲/清洁（健"
+  },
+  {
+   "q": "宠物美容怎么选？",
+   "conflict_id": "pet-grooming",
+   "domain": "养宠消费",
+   "stage": "合题",
+   "need": "宠物整洁",
+   "conflict": "宠物美容贵 vs 必要",
+   "linked": [
+    "pet-boarding",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物美容这么贵、有必要吗，是『宠物的健康』vs『消费的升级』的矛盾——宠物美容（洗澡/剪毛/造型，一次几十到几百）是养宠的常见消费，贵在人工（美容师1对1服务2-3小时）——『必要』的分层：基础美容（洗澡/剪甲/清洁（健"
+  },
+  {
+   "q": "宠物美容的钱怎么花？",
+   "conflict_id": "pet-grooming",
+   "domain": "养宠消费",
+   "stage": "合题",
+   "need": "宠物整洁",
+   "conflict": "宠物美容贵 vs 必要",
+   "linked": [
+    "pet-boarding",
+    "city-pet"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物美容这么贵、有必要吗，是『宠物的健康』vs『消费的升级』的矛盾——宠物美容（洗澡/剪毛/造型，一次几十到几百）是养宠的常见消费，贵在人工（美容师1对1服务2-3小时）——『必要』的分层：基础美容（洗澡/剪甲/清洁（健"
+  },
+  {
+   "q": "为什么家里要装监控？",
+   "conflict_id": "digit-camera",
+   "domain": "家庭科技",
+   "stage": "正题",
+   "need": "安全与信任",
+   "conflict": "装监控 vs 隐私",
+   "linked": [
+    "digit-privacy",
+    "fam-housekeeper"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "到处装人脸识别，是『安全/便利』vs『隐私/滥用』的矛盾——刷脸方便（支付/门禁/通行），但脸是不可更换的生物特征（密码能改，脸不能改），一旦泄露就是终身风险。真相：①刷脸真的安全吗——半真：识别技术本身强（活体检测防照"
+  },
+  {
+   "q": "装监控是对家人不信任吗？",
+   "conflict_id": "digit-camera",
+   "domain": "家庭科技",
+   "stage": "正题",
+   "need": "安全与信任",
+   "conflict": "装监控 vs 隐私",
+   "linked": [
+    "digit-privacy",
+    "fam-housekeeper"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "到处装人脸识别，是『安全/便利』vs『隐私/滥用』的矛盾——刷脸方便（支付/门禁/通行），但脸是不可更换的生物特征（密码能改，脸不能改），一旦泄露就是终身风险。真相：①刷脸真的安全吗——半真：识别技术本身强（活体检测防照"
+  },
+  {
+   "q": "监控能防意外，有错吗？",
+   "conflict_id": "digit-camera",
+   "domain": "家庭科技",
+   "stage": "反题",
+   "need": "安全与信任",
+   "conflict": "装监控 vs 隐私",
+   "linked": [
+    "digit-privacy",
+    "fam-housekeeper"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "到处装人脸识别，是『安全/便利』vs『隐私/滥用』的矛盾——刷脸方便（支付/门禁/通行），但脸是不可更换的生物特征（密码能改，脸不能改），一旦泄露就是终身风险。真相：①刷脸真的安全吗——半真：识别技术本身强（活体检测防照"
+  },
+  {
+   "q": "保姆在监控下工作，公平吗？",
+   "conflict_id": "digit-camera",
+   "domain": "家庭科技",
+   "stage": "反题",
+   "need": "安全与信任",
+   "conflict": "装监控 vs 隐私",
+   "linked": [
+    "digit-privacy",
+    "fam-housekeeper"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "到处装人脸识别，是『安全/便利』vs『隐私/滥用』的矛盾——刷脸方便（支付/门禁/通行），但脸是不可更换的生物特征（密码能改，脸不能改），一旦泄露就是终身风险。真相：①刷脸真的安全吗——半真：识别技术本身强（活体检测防照"
+  },
+  {
+   "q": "家庭监控怎么装不伤感情？",
+   "conflict_id": "digit-camera",
+   "domain": "家庭科技",
+   "stage": "合题",
+   "need": "安全与信任",
+   "conflict": "装监控 vs 隐私",
+   "linked": [
+    "digit-privacy",
+    "fam-housekeeper"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务吵架、付出不被看见，是『公平感』破裂而非活儿多少的问题：人委屈的不是干活，是『我多你少且你没看见』。三解：①把隐形劳动显性化——家务清单列出来（做饭/带娃/记账/人情往来），很多『看不见的活』被看见本身就是治愈；②分"
+  },
+  {
+   "q": "监控和隐私怎么平衡？",
+   "conflict_id": "digit-camera",
+   "domain": "家庭科技",
+   "stage": "合题",
+   "need": "安全与信任",
+   "conflict": "装监控 vs 隐私",
+   "linked": [
+    "digit-privacy",
+    "fam-housekeeper"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么家长爱晒娃？",
+   "conflict_id": "digit-baby",
+   "domain": "数字育儿",
+   "stage": "正题",
+   "need": "分享与保护",
+   "conflict": "晒娃 vs 隐私风险",
+   "linked": [
+    "digit-privacy",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长爱晒娃、晒娃有什么风险，是『分享的快乐』vs『隐私的风险』的矛盾——晒娃（朋友圈/抖音/小红书发孩子照片视频）是家长的快乐（记录成长/分享喜悦/云养娃亲友互动），但晒娃有风险：隐私泄露（照片被陌生人保存/转发/商用）"
+  },
+  {
+   "q": "晒娃有什么风险？",
+   "conflict_id": "digit-baby",
+   "domain": "数字育儿",
+   "stage": "正题",
+   "need": "分享与保护",
+   "conflict": "晒娃 vs 隐私风险",
+   "linked": [
+    "digit-privacy",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长爱晒娃、晒娃有什么风险，是『分享的快乐』vs『隐私的风险』的矛盾——晒娃（朋友圈/抖音/小红书发孩子照片视频）是家长的快乐（记录成长/分享喜悦/云养娃亲友互动），但晒娃有风险：隐私泄露（照片被陌生人保存/转发/商用）"
+  },
+  {
+   "q": "晒娃是分享快乐，有错吗？",
+   "conflict_id": "digit-baby",
+   "domain": "数字育儿",
+   "stage": "反题",
+   "need": "分享与保护",
+   "conflict": "晒娃 vs 隐私风险",
+   "linked": [
+    "digit-privacy",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "真好呀，这么开心的事值得好好记住！兴奋的感觉很美好——家长爱晒娃、晒娃有什么风险，是『分享的快乐』vs『隐私的风险』的矛盾——晒娃（朋友圈/抖音/小红书发孩子照片视频）是家长的快乐（记录成长/分享喜悦/云养娃亲友互动），"
+  },
+  {
+   "q": "别人爱看不看，管得着吗？",
+   "conflict_id": "digit-baby",
+   "domain": "数字育儿",
+   "stage": "反题",
+   "need": "分享与保护",
+   "conflict": "晒娃 vs 隐私风险",
+   "linked": [
+    "digit-privacy",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长爱晒娃、晒娃有什么风险，是『分享的快乐』vs『隐私的风险』的矛盾——晒娃（朋友圈/抖音/小红书发孩子照片视频）是家长的快乐（记录成长/分享喜悦/云养娃亲友互动），但晒娃有风险：隐私泄露（照片被陌生人保存/转发/商用）"
+  },
+  {
+   "q": "晒娃怎么晒不危险？",
+   "conflict_id": "digit-baby",
+   "domain": "数字育儿",
+   "stage": "合题",
+   "need": "分享与保护",
+   "conflict": "晒娃 vs 隐私风险",
+   "linked": [
+    "digit-privacy",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长爱晒娃、晒娃有什么风险，是『分享的快乐』vs『隐私的风险』的矛盾——晒娃（朋友圈/抖音/小红书发孩子照片视频）是家长的快乐（记录成长/分享喜悦/云养娃亲友互动），但晒娃有风险：隐私泄露（照片被陌生人保存/转发/商用）"
+  },
+  {
+   "q": "孩子的照片怎么保护？",
+   "conflict_id": "digit-baby",
+   "domain": "数字育儿",
+   "stage": "合题",
+   "need": "分享与保护",
+   "conflict": "晒娃 vs 隐私风险",
+   "linked": [
+    "digit-privacy",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家长爱晒娃、晒娃有什么风险，是『分享的快乐』vs『隐私的风险』的矛盾——晒娃（朋友圈/抖音/小红书发孩子照片视频）是家长的快乐（记录成长/分享喜悦/云养娃亲友互动），但晒娃有风险：隐私泄露（照片被陌生人保存/转发/商用）"
+  },
+  {
+   "q": "为什么毕业都要旅行？",
+   "conflict_id": "edu-trip",
+   "domain": "青春仪式",
+   "stage": "正题",
+   "need": "旅行的意义",
+   "conflict": "毕业旅行 vs 钱/仪式",
+   "linked": [
+    "edu-parttime",
+    "tourism-trap"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业都要旅行、毕业旅行是仪式还是烧钱，是『青春的纪念』vs『现实的钱包』的矛盾——毕业旅行（高考后/大学毕业，和同学去远方）是青春仪式（十几年读书的句号/和同学的最后狂欢/成人礼），但旅行要钱（几千到上万——学生没收入，"
+  },
+  {
+   "q": "毕业旅行是仪式还是烧钱？",
+   "conflict_id": "edu-trip",
+   "domain": "青春仪式",
+   "stage": "正题",
+   "need": "旅行的意义",
+   "conflict": "毕业旅行 vs 钱/仪式",
+   "linked": [
+    "edu-parttime",
+    "tourism-trap"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业都要旅行、毕业旅行是仪式还是烧钱，是『青春的纪念』vs『现实的钱包』的矛盾——毕业旅行（高考后/大学毕业，和同学去远方）是青春仪式（十几年读书的句号/和同学的最后狂欢/成人礼），但旅行要钱（几千到上万——学生没收入，"
+  },
+  {
+   "q": "辛苦几年，犒劳自己错了吗？",
+   "conflict_id": "edu-trip",
+   "domain": "青春仪式",
+   "stage": "反题",
+   "need": "旅行的意义",
+   "conflict": "毕业旅行 vs 钱/仪式",
+   "linked": [
+    "edu-parttime",
+    "tourism-trap"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "听起来你今天挺累的。先别急着学新东西，休息也是保持状态的一部分——你说的这个，可以看「情感情绪仿真」（这条知识属于情感情绪仿真，在E5条件下成立）相关的还有：小学科学知识点内容（按骨架填充）、小学语文"
+  },
+  {
+   "q": "没钱就不去，不行吗？",
+   "conflict_id": "edu-trip",
+   "domain": "青春仪式",
+   "stage": "反题",
+   "need": "旅行的意义",
+   "conflict": "毕业旅行 vs 钱/仪式",
+   "linked": [
+    "edu-parttime",
+    "tourism-trap"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "听起来你今天挺累的。先别急着学新东西，休息也是保持状态的一部分——你说的这个，可以看「情感情绪仿真」（这条知识属于情感情绪仿真，在E5条件下成立）相关的还有：算法设计与分析、算法/操作系统知识点内容（按骨架填充）"
+  },
+  {
+   "q": "毕业旅行怎么规划？",
+   "conflict_id": "edu-trip",
+   "domain": "青春仪式",
+   "stage": "合题",
+   "need": "旅行的意义",
+   "conflict": "毕业旅行 vs 钱/仪式",
+   "linked": [
+    "edu-parttime",
+    "tourism-trap"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业都要旅行、毕业旅行是仪式还是烧钱，是『青春的纪念』vs『现实的钱包』的矛盾——毕业旅行（高考后/大学毕业，和同学去远方）是青春仪式（十几年读书的句号/和同学的最后狂欢/成人礼），但旅行要钱（几千到上万——学生没收入，"
+  },
+  {
+   "q": "旅行和钱怎么平衡？",
+   "conflict_id": "edu-trip",
+   "domain": "青春仪式",
+   "stage": "合题",
+   "need": "旅行的意义",
+   "conflict": "毕业旅行 vs 钱/仪式",
+   "linked": [
+    "edu-parttime",
+    "tourism-trap"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么装修这么贵？",
+   "conflict_id": "housing-renovation",
+   "domain": "居住消费",
+   "stage": "正题",
+   "need": "装修不踩坑",
+   "conflict": "装修 vs 踩坑/费用",
+   "linked": [
+    "housing",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "装修这么贵、为什么总踩坑，是『居住的期待』vs『行业的信息差』的矛盾——装修是人生最大的消费之一（一套房装修10-50万），也是水最深的行业（报价猫腻/增项加钱/材料以次充好/工期拖延——业主不懂行，装修公司/工人靠信息"
+  },
+  {
+   "q": "装修为什么总踩坑？",
+   "conflict_id": "housing-renovation",
+   "domain": "居住消费",
+   "stage": "正题",
+   "need": "装修不踩坑",
+   "conflict": "装修 vs 踩坑/费用",
+   "linked": [
+    "housing",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "装修这么贵、为什么总踩坑，是『居住的期待』vs『行业的信息差』的矛盾——装修是人生最大的消费之一（一套房装修10-50万），也是水最深的行业（报价猫腻/增项加钱/材料以次充好/工期拖延——业主不懂行，装修公司/工人靠信息"
+  },
+  {
+   "q": "装修是手艺活，贵有贵的道理？",
+   "conflict_id": "housing-renovation",
+   "domain": "居住消费",
+   "stage": "反题",
+   "need": "装修不踩坑",
+   "conflict": "装修 vs 踩坑/费用",
+   "linked": [
+    "housing",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "装修这么贵、为什么总踩坑，是『居住的期待』vs『行业的信息差』的矛盾——装修是人生最大的消费之一（一套房装修10-50万），也是水最深的行业（报价猫腻/增项加钱/材料以次充好/工期拖延——业主不懂行，装修公司/工人靠信息"
+  },
+  {
+   "q": "装修被坑，怪自己不懂行？",
+   "conflict_id": "housing-renovation",
+   "domain": "居住消费",
+   "stage": "反题",
+   "need": "装修不踩坑",
+   "conflict": "装修 vs 踩坑/费用",
+   "linked": [
+    "housing",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "没关系，想到什么聊什么。或者你可以问我「水为什么烧开」「什么是熵」这种小问题试试。"
+  },
+  {
+   "q": "装修怎么不踩坑？",
+   "conflict_id": "housing-renovation",
+   "domain": "居住消费",
+   "stage": "合题",
+   "need": "装修不踩坑",
+   "conflict": "装修 vs 踩坑/费用",
+   "linked": [
+    "housing",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "银行也卖理财、理财为什么会亏，是『财富增值』vs『风险现实』的矛盾——存款利息跑不赢通胀（钱在贬值），理财收益高一点（4-5%），但『高收益=高风险』（理财不保本：2018年资管新规后银行理财打破刚兑，亏了就是亏了），『"
+  },
+  {
+   "q": "装修预算怎么控制？",
+   "conflict_id": "housing-renovation",
+   "domain": "居住消费",
+   "stage": "合题",
+   "need": "装修不踩坑",
+   "conflict": "装修 vs 踩坑/费用",
+   "linked": [
+    "housing",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "装修这么贵、为什么总踩坑，是『居住的期待』vs『行业的信息差』的矛盾——装修是人生最大的消费之一（一套房装修10-50万），也是水最深的行业（报价猫腻/增项加钱/材料以次充好/工期拖延——业主不懂行，装修公司/工人靠信息"
+  },
+  {
+   "q": "为什么跟团游总被吐槽？",
+   "conflict_id": "tourism-group",
+   "domain": "旅行方式",
+   "stage": "正题",
+   "need": "玩得明白",
+   "conflict": "跟团 vs 自由行",
+   "linked": [
+    "tourism-trap",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "跟团游总被吐槽、跟团和自由行怎么选，是『省心的便利』vs『自由的体验』的矛盾——跟团游（旅行社打包：交通/住宿/景点/导游，交钱就出发）适合省心（不用做攻略/不用操心/有人安排），但被吐槽（购物团（低价团靠购物回扣赚钱—"
+  },
+  {
+   "q": "跟团游和自由行怎么选？",
+   "conflict_id": "tourism-group",
+   "domain": "旅行方式",
+   "stage": "正题",
+   "need": "玩得明白",
+   "conflict": "跟团 vs 自由行",
+   "linked": [
+    "tourism-trap",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "跟团游总被吐槽、跟团和自由行怎么选，是『省心的便利』vs『自由的体验』的矛盾——跟团游（旅行社打包：交通/住宿/景点/导游，交钱就出发）适合省心（不用做攻略/不用操心/有人安排），但被吐槽（购物团（低价团靠购物回扣赚钱—"
+  },
+  {
+   "q": "跟团省心，有错吗？",
+   "conflict_id": "tourism-group",
+   "domain": "旅行方式",
+   "stage": "反题",
+   "need": "玩得明白",
+   "conflict": "跟团 vs 自由行",
+   "linked": [
+    "tourism-trap",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "跟团游总被吐槽、跟团和自由行怎么选，是『省心的便利』vs『自由的体验』的矛盾——跟团游（旅行社打包：交通/住宿/景点/导游，交钱就出发）适合省心（不用做攻略/不用操心/有人安排），但被吐槽（购物团（低价团靠购物回扣赚钱—"
+  },
+  {
+   "q": "低价团购物，是行业规则？",
+   "conflict_id": "tourism-group",
+   "domain": "旅行方式",
+   "stage": "反题",
+   "need": "玩得明白",
+   "conflict": "跟团 vs 自由行",
+   "linked": [
+    "tourism-trap",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "跟团游总被吐槽、跟团和自由行怎么选，是『省心的便利』vs『自由的体验』的矛盾——跟团游（旅行社打包：交通/住宿/景点/导游，交钱就出发）适合省心（不用做攻略/不用操心/有人安排），但被吐槽（购物团（低价团靠购物回扣赚钱—"
+  },
+  {
+   "q": "跟团游怎么避坑？",
+   "conflict_id": "tourism-group",
+   "domain": "旅行方式",
+   "stage": "合题",
+   "need": "玩得明白",
+   "conflict": "跟团 vs 自由行",
+   "linked": [
+    "tourism-trap",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "跟团游总被吐槽、跟团和自由行怎么选，是『省心的便利』vs『自由的体验』的矛盾——跟团游（旅行社打包：交通/住宿/景点/导游，交钱就出发）适合省心（不用做攻略/不用操心/有人安排），但被吐槽（购物团（低价团靠购物回扣赚钱—"
+  },
+  {
+   "q": "旅游方式怎么选？",
+   "conflict_id": "tourism-group",
+   "domain": "旅行方式",
+   "stage": "合题",
+   "need": "玩得明白",
+   "conflict": "跟团 vs 自由行",
+   "linked": [
+    "tourism-trap",
+    "digit-live"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "景区宰客、旅游越来越贵，是『游客体验』vs『商家盈利』的矛盾——景区商家做的是『一锤子买卖』（游客来一次就不来了，不指望回头客），宰客是短期最优（能宰一刀是一刀），游客体验被牺牲，长此以往景区口碑崩了，大家都不来了（劣币"
+  }
+ ]
+}

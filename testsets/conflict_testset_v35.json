@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v35",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "孩子几岁能独自在家？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "正题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ]
+  },
+  {
+   "q": "孩子独自在家安全吗？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "正题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ]
+  },
+  {
+   "q": "孩子独立是锻炼？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "反题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ]
+  },
+  {
+   "q": "独自在家是冒险？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "反题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ]
+  },
+  {
+   "q": "孩子独自在家怎么安排？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "合题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ]
+  },
+  {
+   "q": "孩子独自在家的安全怎么保障？",
+   "conflict_id": "fam-childhome",
+   "domain": "孩子安全",
+   "stage": "合题",
+   "need": "独立又安全",
+   "conflict": "孩子独自在家 vs 安全",
+   "linked": [
+    "fam-childprivacy",
+    "public-night"
+   ]
+  },
+  {
+   "q": "通勤两小时值得吗？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "正题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "极端通勤是无奈还是选择？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "正题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "近的工作不好找？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "反题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "通勤是打工人常态？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "反题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "通勤怎么优化？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "合题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "工作和居住怎么平衡？",
+   "conflict_id": "work-commute",
+   "domain": "通勤生活",
+   "stage": "合题",
+   "need": "通勤不消耗",
+   "conflict": "极端通勤 vs 生活",
+   "linked": [
+    "traffic-jam",
+    "work-burnout"
+   ]
+  },
+  {
+   "q": "为什么短剧这么上头？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "正题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ]
+  },
+  {
+   "q": "短剧是娱乐还是陷阱？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "正题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ]
+  },
+  {
+   "q": "短剧放松一下怎么了？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "反题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ]
+  },
+  {
+   "q": "短剧比电视剧好看？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "反题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ]
+  },
+  {
+   "q": "短剧怎么不沉迷？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "合题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ]
+  },
+  {
+   "q": "短剧和休息怎么平衡？",
+   "conflict_id": "digit-drama",
+   "domain": "短剧娱乐",
+   "stage": "合题",
+   "need": "短剧不沉迷",
+   "conflict": "短剧 vs 沉迷",
+   "linked": [
+    "digit-scroll",
+    "digit-tipping"
+   ]
+  },
+  {
+   "q": "周末该干嘛？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "正题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ]
+  },
+  {
+   "q": "周末是休息还是陪家人？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "正题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ]
+  },
+  {
+   "q": "周末补觉不行吗？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "反题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ]
+  },
+  {
+   "q": "周末被安排，累不累？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "反题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ]
+  },
+  {
+   "q": "周末怎么安排？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "合题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ]
+  },
+  {
+   "q": "休息和家庭怎么平衡？",
+   "conflict_id": "fam-weekend",
+   "domain": "周末生活",
+   "stage": "合题",
+   "need": "周末不累",
+   "conflict": "周末休息 vs 家庭",
+   "linked": [
+    "fam-trip",
+    "fam-schedule"
+   ]
+  },
+  {
+   "q": "孩子离家后夫妻怎么办？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "正题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "空巢期是解放还是失落？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "正题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "空巢是自由？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "反题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "空巢是空虚？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "反题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "空巢期夫妻怎么过？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "合题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "空巢期怎么重新开始？",
+   "conflict_id": "fam-empty",
+   "domain": "空巢期",
+   "stage": "合题",
+   "need": "空巢不空虚",
+   "conflict": "空巢期 vs 解放/失落",
+   "linked": [
+    "fam-solitude",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "暑假怎么安排孩子？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "正题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "暑假是放松还是弯道超车？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "正题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "暑假玩，开学落后？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "反题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "暑假排满，孩子太累？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "反题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "暑假怎么安排合理？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "合题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "学习和玩怎么平衡？",
+   "conflict_id": "fam-summer",
+   "domain": "暑假安排",
+   "stage": "合题",
+   "need": "暑假两不误",
+   "conflict": "暑假放松 vs 弯道超车",
+   "linked": [
+    "edu-hobby",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "家人病了谁来照顾？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "正题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "照顾病人是责任还是负担？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "正题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "照顾是应该的？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "反题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "照顾病人，谁来照顾照顾者？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "反题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "家人照护怎么安排？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "合题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "照护者怎么照顾自己？",
+   "conflict_id": "fam-caregiving",
+   "domain": "家人照护",
+   "stage": "合题",
+   "need": "照护不垮",
+   "conflict": "家人照护 vs 责任/负担",
+   "linked": [
+    "med-accompany",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "失能老人谁来照顾？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "正题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "失能照护是家庭能扛的吗？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "正题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "送机构是不孝？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "反题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "失能照护是专业的事？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "反题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "失能照护怎么安排？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "合题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "失能家庭怎么获得支持？",
+   "conflict_id": "fam-disabled",
+   "domain": "失能照护",
+   "stage": "合题",
+   "need": "失能有出路",
+   "conflict": "失能老人 vs 家庭/专业",
+   "linked": [
+    "med-eldercare",
+    "fam-eldercare3"
+   ]
+  }
+ ]
+}

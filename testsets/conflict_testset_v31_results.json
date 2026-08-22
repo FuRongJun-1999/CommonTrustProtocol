@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "异地婚姻能长久吗？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "正题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "异地婚姻能长久吗、夫妻异地感情会淡吗，是『现实的分离』vs『感情的距离』的矛盾——异地婚姻（夫妻因工作/求学/生计分居两地（异地生活）、争议（长久吗（距离产生美（小别胜新婚）还是距离产生隔阂（感情变淡）——异地婚姻的真相"
+  },
+  {
+   "q": "夫妻异地，感情会淡吗？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "正题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "异地婚姻能长久吗、夫妻异地感情会淡吗，是『现实的分离』vs『感情的距离』的矛盾——异地婚姻（夫妻因工作/求学/生计分居两地（异地生活）、争议（长久吗（距离产生美（小别胜新婚）还是距离产生隔阂（感情变淡）——异地婚姻的真相"
+  },
+  {
+   "q": "异地是为了生活？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "反题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "异地婚姻能长久吗、夫妻异地感情会淡吗，是『现实的分离』vs『感情的距离』的矛盾——异地婚姻（夫妻因工作/求学/生计分居两地（异地生活）、争议（长久吗（距离产生美（小别胜新婚）还是距离产生隔阂（感情变淡）——异地婚姻的真相"
+  },
+  {
+   "q": "异地是感情杀手？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "反题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "异地婚姻能长久吗、夫妻异地感情会淡吗，是『现实的分离』vs『感情的距离』的矛盾——异地婚姻（夫妻因工作/求学/生计分居两地（异地生活）、争议（长久吗（距离产生美（小别胜新婚）还是距离产生隔阂（感情变淡）——异地婚姻的真相"
+  },
+  {
+   "q": "异地婚姻怎么维系？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "合题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "异地婚姻能长久吗、夫妻异地感情会淡吗，是『现实的分离』vs『感情的距离』的矛盾——异地婚姻（夫妻因工作/求学/生计分居两地（异地生活）、争议（长久吗（距离产生美（小别胜新婚）还是距离产生隔阂（感情变淡）——异地婚姻的真相"
+  },
+  {
+   "q": "异地夫妻怎么安排？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "合题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "异地婚姻能长久吗、夫妻异地感情会淡吗，是『现实的分离』vs『感情的距离』的矛盾——异地婚姻（夫妻因工作/求学/生计分居两地（异地生活）、争议（长久吗（距离产生美（小别胜新婚）还是距离产生隔阂（感情变淡）——异地婚姻的真相"
+  },
+  {
+   "q": "收养孩子要注意什么？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "正题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "收养孩子要注意什么、收养和亲生一样吗，是『爱的给予』vs『关系的真相』的矛盾——收养（领养非亲生的孩子（给无家可归的孩子一个家（善举）、收养的现实（法律（收养程序（民法典收养规定）、关系（收养的孩子（血缘不同（但爱可以一"
+  },
+  {
+   "q": "收养和亲生一样吗？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "正题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "收养孩子要注意什么、收养和亲生一样吗，是『爱的给予』vs『关系的真相』的矛盾——收养（领养非亲生的孩子（给无家可归的孩子一个家（善举）、收养的现实（法律（收养程序（民法典收养规定）、关系（收养的孩子（血缘不同（但爱可以一"
+  },
+  {
+   "q": "收养是善举？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "反题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "收养孩子要注意什么、收养和亲生一样吗，是『爱的给予』vs『关系的真相』的矛盾——收养（领养非亲生的孩子（给无家可归的孩子一个家（善举）、收养的现实（法律（收养程序（民法典收养规定）、关系（收养的孩子（血缘不同（但爱可以一"
+  },
+  {
+   "q": "收养的孩子能当亲生的吗？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "反题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "收养孩子要注意什么、收养和亲生一样吗，是『爱的给予』vs『关系的真相』的矛盾——收养（领养非亲生的孩子（给无家可归的孩子一个家（善举）、收养的现实（法律（收养程序（民法典收养规定）、关系（收养的孩子（血缘不同（但爱可以一"
+  },
+  {
+   "q": "收养怎么决定？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "合题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "收养孩子要注意什么、收养和亲生一样吗，是『爱的给予』vs『关系的真相』的矛盾——收养（领养非亲生的孩子（给无家可归的孩子一个家（善举）、收养的现实（法律（收养程序（民法典收养规定）、关系（收养的孩子（血缘不同（但爱可以一"
+  },
+  {
+   "q": "收养家庭怎么相处？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "合题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性也要养家、谁赚钱养家重要吗，是『经济的现实』vs『角色的惯性』的矛盾——传统分工（男主外女主内：男人赚钱养家，女人相夫教子）正在被现实打破（房价/育儿成本高，单靠男性养不起家——双职工是常态）、女性经济独立（受教育/"
+  },
+  {
+   "q": "夫妻分房睡正常吗？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "正题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻分房睡正常吗、分房是感情淡了吗，是『睡眠的需求』vs『亲密的形式』的矛盾——夫妻分房（分床/分房睡（一方打呼噜/作息不同/睡眠浅（为了睡好而分开）、争议（分房=感情淡（同床才是夫妻（分房是分居的前兆）vs 分房=自由"
+  },
+  {
+   "q": "分房是感情淡了吗？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "正题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻分房睡正常吗、分房是感情淡了吗，是『睡眠的需求』vs『亲密的形式』的矛盾——夫妻分房（分床/分房睡（一方打呼噜/作息不同/睡眠浅（为了睡好而分开）、争议（分房=感情淡（同床才是夫妻（分房是分居的前兆）vs 分房=自由"
+  },
+  {
+   "q": "分房是自由？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "反题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻分房睡正常吗、分房是感情淡了吗，是『睡眠的需求』vs『亲密的形式』的矛盾——夫妻分房（分床/分房睡（一方打呼噜/作息不同/睡眠浅（为了睡好而分开）、争议（分房=感情淡（同床才是夫妻（分房是分居的前兆）vs 分房=自由"
+  },
+  {
+   "q": "同床才叫夫妻？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "反题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻分房睡正常吗、分房是感情淡了吗，是『睡眠的需求』vs『亲密的形式』的矛盾——夫妻分房（分床/分房睡（一方打呼噜/作息不同/睡眠浅（为了睡好而分开）、争议（分房=感情淡（同床才是夫妻（分房是分居的前兆）vs 分房=自由"
+  },
+  {
+   "q": "分房怎么不伤感情？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "合题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务吵架、付出不被看见，是『公平感』破裂而非活儿多少的问题：人委屈的不是干活，是『我多你少且你没看见』。三解：①把隐形劳动显性化——家务清单列出来（做饭/带娃/记账/人情往来），很多『看不见的活』被看见本身就是治愈；②分"
+  },
+  {
+   "q": "分房还是同房怎么选？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "合题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻分房睡正常吗、分房是感情淡了吗，是『睡眠的需求』vs『亲密的形式』的矛盾——夫妻分房（分床/分房睡（一方打呼噜/作息不同/睡眠浅（为了睡好而分开）、争议（分房=感情淡（同床才是夫妻（分房是分居的前兆）vs 分房=自由"
+  },
+  {
+   "q": "夫妻一起创业好吗？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "正题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻一起创业好吗、创业会伤感情吗，是『事业的共同体』vs『感情的消耗』的矛盾——夫妻创业（夫妻一起开公司/做生意（把事业和婚姻绑在一起）、好处（同心（目标一致（全力以赴（夫妻同心其利断金）、风险（创业的累（压力（吵架（工"
+  },
+  {
+   "q": "创业会伤感情吗？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "正题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性创业更难、女性创业是异类吗，是『创业的挑战』vs『性别的偏见』的矛盾——女性创业在增加（女性创业者占比上升），但难：融资难（投资人更信任男性创业者（女性拿投资更难）、偏见（'女强人'的标签（事业心强=不顾家/不温柔—"
+  },
+  {
+   "q": "夫妻同心其利断金？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "反题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻一起创业好吗、创业会伤感情吗，是『事业的共同体』vs『感情的消耗』的矛盾——夫妻创业（夫妻一起开公司/做生意（把事业和婚姻绑在一起）、好处（同心（目标一致（全力以赴（夫妻同心其利断金）、风险（创业的累（压力（吵架（工"
+  },
+  {
+   "q": "工作和生活分得开吗？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "反题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻一起创业好吗、创业会伤感情吗，是『事业的共同体』vs『感情的消耗』的矛盾——夫妻创业（夫妻一起开公司/做生意（把事业和婚姻绑在一起）、好处（同心（目标一致（全力以赴（夫妻同心其利断金）、风险（创业的累（压力（吵架（工"
+  },
+  {
+   "q": "夫妻创业怎么合作？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "合题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻一起创业好吗、创业会伤感情吗，是『事业的共同体』vs『感情的消耗』的矛盾——夫妻创业（夫妻一起开公司/做生意（把事业和婚姻绑在一起）、好处（同心（目标一致（全力以赴（夫妻同心其利断金）、风险（创业的累（压力（吵架（工"
+  },
+  {
+   "q": "创业和婚姻怎么平衡？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "合题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻一起创业好吗、创业会伤感情吗，是『事业的共同体』vs『感情的消耗』的矛盾——夫妻创业（夫妻一起开公司/做生意（把事业和婚姻绑在一起）、好处（同心（目标一致（全力以赴（夫妻同心其利断金）、风险（创业的累（压力（吵架（工"
+  },
+  {
+   "q": "婚前买房算谁的？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "正题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "房价高、年轻人买不起房，是『居住需求』vs『市场定价』的矛盾——房子本质是住的（居住权），但在市场里它同时是资产（保值增值/学区/户口绑定），当房子被当成投资品炒，价格就脱离了居住价值，年轻人买不起。真相：①为什么房价这"
+  },
+  {
+   "q": "婚前买房婚后还贷怎么算？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "正题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "房价高、年轻人买不起房，是『居住需求』vs『市场定价』的矛盾——房子本质是住的（居住权），但在市场里它同时是资产（保值增值/学区/户口绑定），当房子被当成投资品炒，价格就脱离了居住价值，年轻人买不起。真相：①为什么房价这"
+  },
+  {
+   "q": "婚前财产是保障？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "反题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚前财产公证越来越多、婚前公证伤感情吗，是『财产的保护』vs『感情的纯粹』的矛盾——婚前财产公证（把婚前财产（房子/存款/股权）约定清楚：各自所有/婚后怎么算）越来越多（高净值人群/再婚家庭/法律意识增强），但争议：伤感"
+  },
+  {
+   "q": "一起买房更公平？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "反题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "房价高、年轻人买不起房，是『居住需求』vs『市场定价』的矛盾——房子本质是住的（居住权），但在市场里它同时是资产（保值增值/学区/户口绑定），当房子被当成投资品炒，价格就脱离了居住价值，年轻人买不起。真相：①为什么房价这"
+  },
+  {
+   "q": "婚前买房怎么安排？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "合题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "房价高、年轻人买不起房，是『居住需求』vs『市场定价』的矛盾——房子本质是住的（居住权），但在市场里它同时是资产（保值增值/学区/户口绑定），当房子被当成投资品炒，价格就脱离了居住价值，年轻人买不起。真相：①为什么房价这"
+  },
+  {
+   "q": "房产和婚姻怎么处理？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "合题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻家庭：结婚条件和程序、夫妻财产关系、父母子女关系、继承。家庭受法律保护。这个可以看「婚姻家庭」（这条知识属于政治，在E3条件下成立）相关的还有：政治经济学、婚姻家庭"
+  },
+  {
+   "q": "婚姻中的情绪价值重要吗？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "正题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中的情绪价值重要吗、提供不了情绪价值怎么办，是『情感的滋养』vs『生活的务实』的矛盾——婚姻中的情绪价值（被理解/被支持/被安慰（情绪被接住（'我懂你'的价值）、争议（情绪价值重要吗（重要（婚姻是情感的港湾（情绪价值"
+  },
+  {
+   "q": "提供不了情绪价值，怎么办？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "正题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中的情绪价值重要吗、提供不了情绪价值怎么办，是『情感的滋养』vs『生活的务实』的矛盾——婚姻中的情绪价值（被理解/被支持/被安慰（情绪被接住（'我懂你'的价值）、争议（情绪价值重要吗（重要（婚姻是情感的港湾（情绪价值"
+  },
+  {
+   "q": "结婚是为了过日子的？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "反题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中的情绪价值重要吗、提供不了情绪价值怎么办，是『情感的滋养』vs『生活的务实』的矛盾——婚姻中的情绪价值（被理解/被支持/被安慰（情绪被接住（'我懂你'的价值）、争议（情绪价值重要吗（重要（婚姻是情感的港湾（情绪价值"
+  },
+  {
+   "q": "情绪价值是矫情吗？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "反题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中的情绪价值重要吗、提供不了情绪价值怎么办，是『情感的滋养』vs『生活的务实』的矛盾——婚姻中的情绪价值（被理解/被支持/被安慰（情绪被接住（'我懂你'的价值）、争议（情绪价值重要吗（重要（婚姻是情感的港湾（情绪价值"
+  },
+  {
+   "q": "婚姻的情绪价值怎么给？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "合题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中的情绪价值重要吗、提供不了情绪价值怎么办，是『情感的滋养』vs『生活的务实』的矛盾——婚姻中的情绪价值（被理解/被支持/被安慰（情绪被接住（'我懂你'的价值）、争议（情绪价值重要吗（重要（婚姻是情感的港湾（情绪价值"
+  },
+  {
+   "q": "情绪和物质怎么平衡？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "合题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻中的情绪价值重要吗、提供不了情绪价值怎么办，是『情感的滋养』vs『生活的务实』的矛盾——婚姻中的情绪价值（被理解/被支持/被安慰（情绪被接住（'我懂你'的价值）、争议（情绪价值重要吗（重要（婚姻是情感的港湾（情绪价值"
+  },
+  {
+   "q": "为什么妈妈被要求完美？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "正题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么妈妈被要求完美、为母则刚是赞美还是绑架，是『社会的期待』vs『妈妈的人性』的矛盾——母职绑架（社会对妈妈的期待（完美妈妈（为孩子牺牲一切（'为母则刚'（'妈妈是超人'（母职的绑架）、绑架的表现（要求妈妈完美（不能累"
+  },
+  {
+   "q": "为母则刚是赞美还是绑架？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "正题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么妈妈被要求完美、为母则刚是赞美还是绑架，是『社会的期待』vs『妈妈的人性』的矛盾——母职绑架（社会对妈妈的期待（完美妈妈（为孩子牺牲一切（'为母则刚'（'妈妈是超人'（母职的绑架）、绑架的表现（要求妈妈完美（不能累"
+  },
+  {
+   "q": "当妈就该牺牲？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "反题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么妈妈被要求完美、为母则刚是赞美还是绑架，是『社会的期待』vs『妈妈的人性』的矛盾——母职绑架（社会对妈妈的期待（完美妈妈（为孩子牺牲一切（'为母则刚'（'妈妈是超人'（母职的绑架）、绑架的表现（要求妈妈完美（不能累"
+  },
+  {
+   "q": "妈妈也要有自己？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "反题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么妈妈被要求完美、为母则刚是赞美还是绑架，是『社会的期待』vs『妈妈的人性』的矛盾——母职绑架（社会对妈妈的期待（完美妈妈（为孩子牺牲一切（'为母则刚'（'妈妈是超人'（母职的绑架）、绑架的表现（要求妈妈完美（不能累"
+  },
+  {
+   "q": "怎么摆脱母职绑架？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "合题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么妈妈被要求完美、为母则刚是赞美还是绑架，是『社会的期待』vs『妈妈的人性』的矛盾——母职绑架（社会对妈妈的期待（完美妈妈（为孩子牺牲一切（'为母则刚'（'妈妈是超人'（母职的绑架）、绑架的表现（要求妈妈完美（不能累"
+  },
+  {
+   "q": "妈妈怎么做自己？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "合题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我挺开心的。做自己喜欢的事、和喜欢的人在一起，人就会开心。开心的时候要珍惜。这个可以看「人类观察者」（这条知识属于人类，在E4条件下成立）相关的还有：人类观察者知识点内容（人话接口 · 人类自身观察条件空间）、小学科学知"
+  },
+  {
+   "q": "为什么家庭聚餐都在刷手机？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "正题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么家庭聚餐都在刷手机、手机偷走了家庭时光，是『屏幕的诱惑』vs『陪伴的缺席』的矛盾——家庭场景的屏幕（聚餐刷手机（各自看手机（家庭成员（同处一室（各自屏幕（'在一起'但'没在一起'）——屏幕偷走的（家庭时光（交流（陪"
+  },
+  {
+   "q": "手机偷走了家庭时光？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "正题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么家庭聚餐都在刷手机、手机偷走了家庭时光，是『屏幕的诱惑』vs『陪伴的缺席』的矛盾——家庭场景的屏幕（聚餐刷手机（各自看手机（家庭成员（同处一室（各自屏幕（'在一起'但'没在一起'）——屏幕偷走的（家庭时光（交流（陪"
+  },
+  {
+   "q": "吃饭玩手机怎么了？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "反题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么家庭聚餐都在刷手机、手机偷走了家庭时光，是『屏幕的诱惑』vs『陪伴的缺席』的矛盾——家庭场景的屏幕（聚餐刷手机（各自看手机（家庭成员（同处一室（各自屏幕（'在一起'但'没在一起'）——屏幕偷走的（家庭时光（交流（陪"
+  },
+  {
+   "q": "各自看手机也是陪伴？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "反题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "你不是一个人，我陪着你。我一直在，想聊什么都可以——为什么家庭聚餐都在刷手机、手机偷走了家庭时光，是『屏幕的诱惑』vs『陪伴的缺席』的矛盾——家庭场景的屏幕（聚餐刷手机（各自看手机（家庭成员（同处一室（各自屏幕（'在一起"
+  },
+  {
+   "q": "家庭时间怎么放下手机？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "合题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "话题：个人信息（name、age、hobby）、家庭（family members、jobs）。话题词汇和句型要系统掌握。这个可以看「初中英语」（这条知识属于英语，在E2条件下成立）相关的还有：初中英语、初中地理\n\n相关"
+  },
+  {
+   "q": "屏幕和陪伴怎么平衡？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "合题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  }
+ ]
+}

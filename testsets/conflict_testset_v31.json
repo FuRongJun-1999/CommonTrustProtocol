@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v31",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "异地婚姻能长久吗？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "正题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ]
+  },
+  {
+   "q": "夫妻异地，感情会淡吗？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "正题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ]
+  },
+  {
+   "q": "异地是为了生活？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "反题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ]
+  },
+  {
+   "q": "异地是感情杀手？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "反题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ]
+  },
+  {
+   "q": "异地婚姻怎么维系？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "合题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ]
+  },
+  {
+   "q": "异地夫妻怎么安排？",
+   "conflict_id": "fam-longdistance",
+   "domain": "异地婚姻",
+   "stage": "合题",
+   "need": "异地不散",
+   "conflict": "异地婚姻 vs 维系",
+   "linked": [
+    "fam-couple",
+    "digit-dating"
+   ]
+  },
+  {
+   "q": "收养孩子要注意什么？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "正题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "收养和亲生一样吗？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "正题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "收养是善举？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "反题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "收养的孩子能当亲生的吗？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "反题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "收养怎么决定？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "合题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "收养家庭怎么相处？",
+   "conflict_id": "fam-adoption",
+   "domain": "收养",
+   "stage": "合题",
+   "need": "收养是家",
+   "conflict": "收养 vs 亲生",
+   "linked": [
+    "fam-birth",
+    "fam-remarry"
+   ]
+  },
+  {
+   "q": "夫妻分房睡正常吗？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "正题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "分房是感情淡了吗？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "正题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "分房是自由？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "反题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "同床才叫夫妻？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "反题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "分房怎么不伤感情？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "合题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "分房还是同房怎么选？",
+   "conflict_id": "fam-separatebeds",
+   "domain": "夫妻睡眠",
+   "stage": "合题",
+   "need": "分房不伤情",
+   "conflict": "夫妻分房 vs 感情",
+   "linked": [
+    "fam-intimacy",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "夫妻一起创业好吗？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "正题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "创业会伤感情吗？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "正题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "夫妻同心其利断金？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "反题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "工作和生活分得开吗？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "反题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "夫妻创业怎么合作？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "合题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "创业和婚姻怎么平衡？",
+   "conflict_id": "fam-couplebusiness",
+   "domain": "夫妻创业",
+   "stage": "合题",
+   "need": "创业不伤情",
+   "conflict": "夫妻创业 vs 关系",
+   "linked": [
+    "gen-entrepreneur",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婚前买房算谁的？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "正题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "婚前买房婚后还贷怎么算？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "正题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "婚前财产是保障？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "反题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "一起买房更公平？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "反题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "婚前买房怎么安排？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "合题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "房产和婚姻怎么处理？",
+   "conflict_id": "fam-premarriagehouse",
+   "domain": "婚前房产",
+   "stage": "合题",
+   "need": "房产不纠纷",
+   "conflict": "婚前买房 vs 婚后",
+   "linked": [
+    "fam-prenup",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "婚姻中的情绪价值重要吗？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "正题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "提供不了情绪价值，怎么办？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "正题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "结婚是为了过日子的？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "反题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "情绪价值是矫情吗？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "反题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "婚姻的情绪价值怎么给？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "合题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "情绪和物质怎么平衡？",
+   "conflict_id": "fam-emotionalvalue",
+   "domain": "婚姻情绪",
+   "stage": "合题",
+   "need": "情绪被接住",
+   "conflict": "婚姻情绪价值 vs 物质",
+   "linked": [
+    "fam-couple",
+    "fam-intimacy"
+   ]
+  },
+  {
+   "q": "为什么妈妈被要求完美？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "正题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "为母则刚是赞美还是绑架？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "正题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "当妈就该牺牲？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "反题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "妈妈也要有自己？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "反题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "怎么摆脱母职绑架？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "合题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "妈妈怎么做自己？",
+   "conflict_id": "gen-motherrole",
+   "domain": "母职压力",
+   "stage": "合题",
+   "need": "妈妈不完美也没关系",
+   "conflict": "为母则刚 vs 自我",
+   "linked": [
+    "gen-stayhome",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "为什么家庭聚餐都在刷手机？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "正题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "手机偷走了家庭时光？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "正题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "吃饭玩手机怎么了？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "反题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "各自看手机也是陪伴？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "反题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "家庭时间怎么放下手机？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "合题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "屏幕和陪伴怎么平衡？",
+   "conflict_id": "digit-familytime",
+   "domain": "家庭陪伴",
+   "stage": "合题",
+   "need": "陪伴在场",
+   "conflict": "家庭屏幕时间 vs 陪伴",
+   "linked": [
+    "fam-groupchat",
+    "digit-scroll"
+   ]
+  }
+ ]
+}

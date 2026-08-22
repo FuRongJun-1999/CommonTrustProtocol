@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v27",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "分手了订婚礼金要退吗？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "正题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "离婚时收的礼金该还吗？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "正题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "礼金是诚意，退什么退？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "反题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "礼金是买卖吗？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "反题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "礼金纠纷怎么处理？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "合题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "礼金怎么给不伤感情不惹纠纷？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "合题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ]
+  },
+  {
+   "q": "什么是婚姻中的精神操控？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "正题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ]
+  },
+  {
+   "q": "亲密关系也会PUA吗？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "正题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ]
+  },
+  {
+   "q": "操控是爱得太深？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "反题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ]
+  },
+  {
+   "q": "被操控是自己想太多？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "反题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ]
+  },
+  {
+   "q": "精神操控怎么识别？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "合题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ]
+  },
+  {
+   "q": "婚姻PUA怎么摆脱？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "合题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ]
+  },
+  {
+   "q": "为什么选择试管婴儿？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "正题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "试管婴儿对身体伤害大吗？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "正题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "生不了就试管，值得吗？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "反题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "试管是希望还是执念？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "反题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "试管婴儿怎么决定？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "合题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "生育压力怎么面对？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "合题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "为什么相亲总遇骗局？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "正题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "婚托怎么识别？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "正题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "相亲机构是正规服务？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "反题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "被骗是自己不小心？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "反题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "相亲怎么防骗？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "合题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "相亲机构怎么选？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "合题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "未婚先孕怎么办？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "正题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "意外怀孕是危机还是选择？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "正题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "未婚先孕丢人吗？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "反题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "奉子成婚，能幸福吗？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "反题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "未婚先孕怎么决定？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "合题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "意外怀孕怎么面对？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "合题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "家暴为什么难以摆脱？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "正题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ]
+  },
+  {
+   "q": "被打为什么不报警？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "正题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ]
+  },
+  {
+   "q": "家暴是家务事？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "反题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ]
+  },
+  {
+   "q": "被打忍忍就过去了吗？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "反题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ]
+  },
+  {
+   "q": "家暴怎么识别和求助？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "合题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ]
+  },
+  {
+   "q": "被家暴怎么保护自己？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "合题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ]
+  },
+  {
+   "q": "单亲爸爸带孩子行吗？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "正题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ]
+  },
+  {
+   "q": "单亲爸爸和单亲妈妈一样难吗？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "正题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ]
+  },
+  {
+   "q": "爸爸带娃，能行吗？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "反题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ]
+  },
+  {
+   "q": "单亲爸爸需要帮助吗？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "反题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ]
+  },
+  {
+   "q": "单亲爸爸怎么带好娃？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "合题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ]
+  },
+  {
+   "q": "单亲爸爸怎么获得支持？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "合题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ]
+  },
+  {
+   "q": "为什么老年人也离婚？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "正题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ]
+  },
+  {
+   "q": "老了还离婚，值得吗？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "正题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ]
+  },
+  {
+   "q": "忍了一辈子，为什么不忍了？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "反题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ]
+  },
+  {
+   "q": "老年离婚是自由还是冲动？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "反题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ]
+  },
+  {
+   "q": "老年离婚怎么面对？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "合题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ]
+  },
+  {
+   "q": "老年婚姻怎么经营？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "合题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ]
+  }
+ ]
+}

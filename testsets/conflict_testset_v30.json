@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v30",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "婚内出轨能原谅吗？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "正题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "出轨该离婚还是原谅？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "正题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "为了孩子不离婚？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "反题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "原谅一次，会有第二次？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "反题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "出轨后怎么决定？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "合题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "婚姻的信任怎么重建？",
+   "conflict_id": "fam-affair",
+   "domain": "婚姻背叛",
+   "stage": "合题",
+   "need": "背叛后的决定",
+   "conflict": "婚内出轨 vs 原谅",
+   "linked": [
+    "fam-lies",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "为什么老年人选择同居不领证？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "正题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "老年同居是趋势吗？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "正题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "同居不领证，是不负责？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "反题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "领证有保障，为什么不领？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "反题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "老年同居怎么决定？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "合题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "老年同居的保障怎么安排？",
+   "conflict_id": "fam-eldercohabit",
+   "domain": "老年同居",
+   "stage": "合题",
+   "need": "同居有保障",
+   "conflict": "老年同居 vs 领证",
+   "linked": [
+    "fam-elderlove",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "同居分手财产怎么分？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "正题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "同居期间的买房怎么算？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "正题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "同居财产是共同财产？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "反题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "没结婚，凭什么分？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "反题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "同居财产怎么约定？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "合题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "同居期间的权益怎么保护？",
+   "conflict_id": "fam-cohabitreturn",
+   "domain": "同居财产",
+   "stage": "合题",
+   "need": "同居权益",
+   "conflict": "同居分手 vs 财产",
+   "linked": [
+    "fam-betrothalreturn",
+    "fam-cohabit"
+   ]
+  },
+  {
+   "q": "为什么产后身材难恢复？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "正题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "产后身材回不去，正常吗？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "正题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "产后恢复是必须的？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "反题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "身材焦虑是矫情吗？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "反题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "产后身材怎么恢复？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "合题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "产后身体怎么爱护？",
+   "conflict_id": "gen-postbody",
+   "domain": "产后身体",
+   "stage": "合题",
+   "need": "产后不焦虑",
+   "conflict": "产后身材 vs 恢复",
+   "linked": [
+    "gen-postpartum",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "闪婚靠谱吗？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "正题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "认识三个月结婚，太快了？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "正题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "闪婚是冲动还是缘分？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "反题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "恋爱久结婚就稳？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "反题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "闪婚怎么决定？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "合题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "闪婚的风险怎么降低？",
+   "conflict_id": "fam-flashmarriage",
+   "domain": "闪婚",
+   "stage": "合题",
+   "need": "闪婚不后悔",
+   "conflict": "闪婚 vs 了解",
+   "linked": [
+    "fam-cohabit",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "孩子目睹家暴有什么影响？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "正题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "当着孩子面吵架，没事吗？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "正题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "孩子小，不懂事？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "反题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "家暴是夫妻的事，与孩子无关？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "反题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "怎么减少对孩子的伤害？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "合题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "目睹家暴的孩子怎么帮助？",
+   "conflict_id": "fam-violencechild",
+   "domain": "家暴孩子",
+   "stage": "合题",
+   "need": "孩子少受伤",
+   "conflict": "孩子目睹家暴 vs 影响",
+   "linked": [
+    "fam-violence",
+    "fam-postbirth"
+   ]
+  },
+  {
+   "q": "婚前体检有必要吗？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "正题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "婚前检查是信任问题吗？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "正题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "查出来有病，还结婚吗？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "反题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "不查，是信任还是侥幸？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "反题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "婚前体检怎么做？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "合题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "体检结果怎么面对？",
+   "conflict_id": "fam-premarriagecheck",
+   "domain": "婚前检查",
+   "stage": "合题",
+   "need": "婚前心里有底",
+   "conflict": "婚前体检 vs 信任",
+   "linked": [
+    "fam-cohabit",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "男性生育有年龄限制吗？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "正题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ]
+  },
+  {
+   "q": "男性高龄生育有风险吗？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "正题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ]
+  },
+  {
+   "q": "男的50岁还能生？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "反题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ]
+  },
+  {
+   "q": "男性生育压力大吗？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "反题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ]
+  },
+  {
+   "q": "男性生育年龄怎么看？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "合题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ]
+  },
+  {
+   "q": "生育计划怎么规划？",
+   "conflict_id": "gen-malefertility",
+   "domain": "男性生育",
+   "stage": "合题",
+   "need": "生育不焦虑",
+   "conflict": "男性生育 vs 年龄",
+   "linked": [
+    "gen-birthanxiety",
+    "gen-malepressure"
+   ]
+  }
+ ]
+}

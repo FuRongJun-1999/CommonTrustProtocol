@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v16",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么大学生都在兼职？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "正题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ]
+  },
+  {
+   "q": "兼职会影响学习吗？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "正题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ]
+  },
+  {
+   "q": "自己赚钱有错吗？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "反题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ]
+  },
+  {
+   "q": "大学不兼职，毕业没经验怎么办？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "反题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ]
+  },
+  {
+   "q": "兼职和学习怎么平衡？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "合题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ]
+  },
+  {
+   "q": "大学生该找什么兼职？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "合题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ]
+  },
+  {
+   "q": "为什么老人也想找老伴？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "正题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "父母再婚，子女为什么反对？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "正题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "老人有追求幸福的权利，有错吗？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "反题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "老人再婚就是图财产吗？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "反题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "怎么看待父母再婚？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "合题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "老人再婚怎么处理好财产？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "合题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ]
+  },
+  {
+   "q": "宠物离世怎么处理？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "正题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "宠物殡葬是智商税吗？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "正题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "宠物只是动物，随便处理不行吗？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "反题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "给宠物办葬礼，矫情吗？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "反题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "宠物离世怎么告别？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "合题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "怎么面对宠物的离开？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "合题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "为什么越来越多人不读书了？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "正题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "读书有什么用？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "正题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "手机也能学知识，有错吗？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "反题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "读不读书是自己事，管得着吗？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "反题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "怎么重新开始读书？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "合题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "读书和刷手机怎么平衡？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "合题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "为什么快递都不送上门了？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "正题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ]
+  },
+  {
+   "q": "驿站取件方便吗？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "正题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ]
+  },
+  {
+   "q": "驿站省了快递员时间，不好吗？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "反题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ]
+  },
+  {
+   "q": "不送到家，凭什么？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "反题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ]
+  },
+  {
+   "q": "快递上门和驿站怎么平衡？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "合题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ]
+  },
+  {
+   "q": "快递服务怎么选？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "合题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ]
+  },
+  {
+   "q": "为什么老年代步车这么多？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "正题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "老年代步车安全吗？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "正题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "老人腿脚不便，开车有错吗？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "反题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "管老年代步车，是欺负老人吗？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "反题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "老年代步车怎么管？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "合题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "老人出行怎么解决？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "合题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ]
+  },
+  {
+   "q": "为什么孩子都在上兴趣班？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "正题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ]
+  },
+  {
+   "q": "兴趣班是真兴趣吗？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "正题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ]
+  },
+  {
+   "q": "多学点才艺有错吗？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "反题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ]
+  },
+  {
+   "q": "不报兴趣班，孩子就输了吗？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "反题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ]
+  },
+  {
+   "q": "兴趣班怎么选？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "合题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ]
+  },
+  {
+   "q": "兴趣班和玩怎么平衡？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "合题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ]
+  },
+  {
+   "q": "酒店卫生真的干净吗？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "正题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "酒店床单为什么总出事？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "正题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "酒店要赚钱，成本能省就省？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "反题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "酒店卫生是酒店的事，消费者管不了？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "反题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "住酒店怎么保障卫生？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "合题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "酒店卫生怎么管？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "合题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ]
+  }
+ ]
+}

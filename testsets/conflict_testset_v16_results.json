@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么大学生都在兼职？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "正题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生都在兼职、自己赚钱有错吗，是『自立需求』vs『学业投入』的矛盾——兼职给大学生钱（生活费/零花/攒学费/减轻家里负担）+经验（社会锻炼/简历加分），但大学的核心是学习（专业/思维/人脉，四年黄金学习期），兼职挤占学"
+  },
+  {
+   "q": "兼职会影响学习吗？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "正题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "学生恋爱多，不是心思不学习，而是青春期正常的心理发育：①生理——性激素激增驱动对异性的好奇与吸引（这是发育的必然，不是堕落）；②同伴规范——同学都在谈，恋爱变成『合群/被认可』的社交行为，单身的反而有压力；③归属与自我认"
+  },
+  {
+   "q": "自己赚钱有错吗？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "反题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生都在兼职、自己赚钱有错吗，是『自立需求』vs『学业投入』的矛盾——兼职给大学生钱（生活费/零花/攒学费/减轻家里负担）+经验（社会锻炼/简历加分），但大学的核心是学习（专业/思维/人脉，四年黄金学习期），兼职挤占学"
+  },
+  {
+   "q": "大学不兼职，毕业没经验怎么办？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "反题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生都在兼职、自己赚钱有错吗，是『自立需求』vs『学业投入』的矛盾——兼职给大学生钱（生活费/零花/攒学费/减轻家里负担）+经验（社会锻炼/简历加分），但大学的核心是学习（专业/思维/人脉，四年黄金学习期），兼职挤占学"
+  },
+  {
+   "q": "兼职和学习怎么平衡？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "合题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "大学生该找什么兼职？",
+   "conflict_id": "edu-parttime",
+   "domain": "大学阶段",
+   "stage": "合题",
+   "need": "学业与自立",
+   "conflict": "兼职赚钱 vs 学业时间",
+   "linked": [
+    "edu-job",
+    "fin-loan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大学生都在兼职、自己赚钱有错吗，是『自立需求』vs『学业投入』的矛盾——兼职给大学生钱（生活费/零花/攒学费/减轻家里负担）+经验（社会锻炼/简历加分），但大学的核心是学习（专业/思维/人脉，四年黄金学习期），兼职挤占学"
+  },
+  {
+   "q": "为什么老人也想找老伴？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "正题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人想找老伴、子女为什么反对，是『老人的情感需求』vs『子女的担忧』的矛盾——老人丧偶/离异后也想有人陪（老伴是情感依靠/生活照应/说话的人），但子女反对（怕被骗（财产）/怕麻烦（遗产/赡养）/怕丢面子（『这么大年纪还结"
+  },
+  {
+   "q": "父母再婚，子女为什么反对？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "正题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人想找老伴、子女为什么反对，是『老人的情感需求』vs『子女的担忧』的矛盾——老人丧偶/离异后也想有人陪（老伴是情感依靠/生活照应/说话的人），但子女反对（怕被骗（财产）/怕麻烦（遗产/赡养）/怕丢面子（『这么大年纪还结"
+  },
+  {
+   "q": "老人有追求幸福的权利，有错吗？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "反题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人想找老伴、子女为什么反对，是『老人的情感需求』vs『子女的担忧』的矛盾——老人丧偶/离异后也想有人陪（老伴是情感依靠/生活照应/说话的人），但子女反对（怕被骗（财产）/怕麻烦（遗产/赡养）/怕丢面子（『这么大年纪还结"
+  },
+  {
+   "q": "老人再婚就是图财产吗？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "反题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人想找老伴、子女为什么反对，是『老人的情感需求』vs『子女的担忧』的矛盾——老人丧偶/离异后也想有人陪（老伴是情感依靠/生活照应/说话的人），但子女反对（怕被骗（财产）/怕麻烦（遗产/赡养）/怕丢面子（『这么大年纪还结"
+  },
+  {
+   "q": "怎么看待父母再婚？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "合题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人想找老伴、子女为什么反对，是『老人的情感需求』vs『子女的担忧』的矛盾——老人丧偶/离异后也想有人陪（老伴是情感依靠/生活照应/说话的人），但子女反对（怕被骗（财产）/怕麻烦（遗产/赡养）/怕丢面子（『这么大年纪还结"
+  },
+  {
+   "q": "老人再婚怎么处理好财产？",
+   "conflict_id": "fam-elderlove",
+   "domain": "家庭情感",
+   "stage": "合题",
+   "need": "老人的幸福",
+   "conflict": "父母再婚 vs 子女态度/财产",
+   "linked": [
+    "fam-remarry",
+    "fam-gener"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人想找老伴、子女为什么反对，是『老人的情感需求』vs『子女的担忧』的矛盾——老人丧偶/离异后也想有人陪（老伴是情感依靠/生活照应/说话的人），但子女反对（怕被骗（财产）/怕麻烦（遗产/赡养）/怕丢面子（『这么大年纪还结"
+  },
+  {
+   "q": "宠物离世怎么处理？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "正题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物离世怎么处理、宠物殡葬是智商税吗，是『宠物的意义』vs『处理的方式』的矛盾——宠物养了十几年（家人/伙伴/孩子），离世时主人悲痛（宠物不会说话，它的全部世界是你），处理方式选择：随便扔（垃圾桶/河里——不尊重也污染环"
+  },
+  {
+   "q": "宠物殡葬是智商税吗？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "正题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "⚠️ 这条内容已被灵枢内容安全拦截（不显示）。"
+  },
+  {
+   "q": "宠物只是动物，随便处理不行吗？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "反题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "没关系，想到什么聊什么。或者你可以问我「水为什么烧开」「什么是熵」这种小问题试试。"
+  },
+  {
+   "q": "给宠物办葬礼，矫情吗？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "反题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物离世怎么处理、宠物殡葬是智商税吗，是『宠物的意义』vs『处理的方式』的矛盾——宠物养了十几年（家人/伙伴/孩子），离世时主人悲痛（宠物不会说话，它的全部世界是你），处理方式选择：随便扔（垃圾桶/河里——不尊重也污染环"
+  },
+  {
+   "q": "宠物离世怎么告别？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "合题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物离世怎么处理、宠物殡葬是智商税吗，是『宠物的意义』vs『处理的方式』的矛盾——宠物养了十几年（家人/伙伴/孩子），离世时主人悲痛（宠物不会说话，它的全部世界是你），处理方式选择：随便扔（垃圾桶/河里——不尊重也污染环"
+  },
+  {
+   "q": "怎么面对宠物的离开？",
+   "conflict_id": "pet-funeral",
+   "domain": "养宠生命",
+   "stage": "合题",
+   "need": "体面的告别",
+   "conflict": "宠物离世 vs 处理方式",
+   "linked": [
+    "pet-medical",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "宠物离世怎么处理、宠物殡葬是智商税吗，是『宠物的意义』vs『处理的方式』的矛盾——宠物养了十几年（家人/伙伴/孩子），离世时主人悲痛（宠物不会说话，它的全部世界是你），处理方式选择：随便扔（垃圾桶/河里——不尊重也污染环"
+  },
+  {
+   "q": "为什么越来越多人不读书了？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "正题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人不读书了、读书有什么用，是『深度思考』vs『碎片信息』的矛盾——书是深度信息的载体（系统/完整/经过时间检验），手机是碎片信息的海洋（快/多/短），人的大脑天然选快的（刷手机2小时不累，看书20分钟就困），『不"
+  },
+  {
+   "q": "读书有什么用？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "正题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人不读书了、读书有什么用，是『深度思考』vs『碎片信息』的矛盾——书是深度信息的载体（系统/完整/经过时间检验），手机是碎片信息的海洋（快/多/短），人的大脑天然选快的（刷手机2小时不累，看书20分钟就困），『不"
+  },
+  {
+   "q": "手机也能学知识，有错吗？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "反题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人不读书了、读书有什么用，是『深度思考』vs『碎片信息』的矛盾——书是深度信息的载体（系统/完整/经过时间检验），手机是碎片信息的海洋（快/多/短），人的大脑天然选快的（刷手机2小时不累，看书20分钟就困），『不"
+  },
+  {
+   "q": "读不读书是自己事，管得着吗？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "反题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人不读书了、读书有什么用，是『深度思考』vs『碎片信息』的矛盾——书是深度信息的载体（系统/完整/经过时间检验），手机是碎片信息的海洋（快/多/短），人的大脑天然选快的（刷手机2小时不累，看书20分钟就困），『不"
+  },
+  {
+   "q": "怎么重新开始读书？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "合题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人不读书了、读书有什么用，是『深度思考』vs『碎片信息』的矛盾——书是深度信息的载体（系统/完整/经过时间检验），手机是碎片信息的海洋（快/多/短），人的大脑天然选快的（刷手机2小时不累，看书20分钟就困），『不"
+  },
+  {
+   "q": "读书和刷手机怎么平衡？",
+   "conflict_id": "soc-reading",
+   "domain": "精神生活",
+   "stage": "合题",
+   "need": "阅读的习惯",
+   "conflict": "读书 vs 手机碎片化",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人不读书了、读书有什么用，是『深度思考』vs『碎片信息』的矛盾——书是深度信息的载体（系统/完整/经过时间检验），手机是碎片信息的海洋（快/多/短），人的大脑天然选快的（刷手机2小时不累，看书20分钟就困），『不"
+  },
+  {
+   "q": "为什么快递都不送上门了？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "正题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "快递都不送上门了、驿站取件方便吗，是『快递效率』vs『服务体验』的矛盾——驿站模式（快递放驿站，用户自取）让快递公司降成本（快递员一天送300件（全上门只能送100件），少爬楼少等待），但对用户：大件搬不动/老人不方便/"
+  },
+  {
+   "q": "驿站取件方便吗？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "正题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "快递都不送上门了、驿站取件方便吗，是『快递效率』vs『服务体验』的矛盾——驿站模式（快递放驿站，用户自取）让快递公司降成本（快递员一天送300件（全上门只能送100件），少爬楼少等待），但对用户：大件搬不动/老人不方便/"
+  },
+  {
+   "q": "驿站省了快递员时间，不好吗？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "反题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "快递都不送上门了、驿站取件方便吗，是『快递效率』vs『服务体验』的矛盾——驿站模式（快递放驿站，用户自取）让快递公司降成本（快递员一天送300件（全上门只能送100件），少爬楼少等待），但对用户：大件搬不动/老人不方便/"
+  },
+  {
+   "q": "不送到家，凭什么？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "反题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "依据：快递都不送上门了、驿站取件方便吗，是『快递效率』vs『服务体验』的矛盾——驿站模式（快递放驿站，用户自取）让快递公司降成本（快递员一天送300件（全上门只能送100件），少爬楼少等待），但对用户：大件搬不动/老人不"
+  },
+  {
+   "q": "快递上门和驿站怎么平衡？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "合题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "快递服务怎么选？",
+   "conflict_id": "logistics-station",
+   "domain": "物流服务",
+   "stage": "合题",
+   "need": "取件方便",
+   "conflict": "驿站取件 vs 送货上门",
+   "linked": [
+    "gov-platform",
+    "soc-urban"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "快递都不送上门了、驿站取件方便吗，是『快递效率』vs『服务体验』的矛盾——驿站模式（快递放驿站，用户自取）让快递公司降成本（快递员一天送300件（全上门只能送100件），少爬楼少等待），但对用户：大件搬不动/老人不方便/"
+  },
+  {
+   "q": "为什么老年代步车这么多？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "正题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年代步车这么多、安全吗，是『老人出行需求』vs『车辆安全监管』的矛盾——老人出行难（公交挤/腿脚慢/考驾照难（年纪大了科目一都难过）），老年代步车（低速四轮电动车）便宜（1-3万）不用驾照（现在要了）不用上牌（混乱期）"
+  },
+  {
+   "q": "老年代步车安全吗？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "正题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年代步车这么多、安全吗，是『老人出行需求』vs『车辆安全监管』的矛盾——老人出行难（公交挤/腿脚慢/考驾照难（年纪大了科目一都难过）），老年代步车（低速四轮电动车）便宜（1-3万）不用驾照（现在要了）不用上牌（混乱期）"
+  },
+  {
+   "q": "老人腿脚不便，开车有错吗？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "反题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年代步车这么多、安全吗，是『老人出行需求』vs『车辆安全监管』的矛盾——老人出行难（公交挤/腿脚慢/考驾照难（年纪大了科目一都难过）），老年代步车（低速四轮电动车）便宜（1-3万）不用驾照（现在要了）不用上牌（混乱期）"
+  },
+  {
+   "q": "管老年代步车，是欺负老人吗？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "反题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年代步车这么多、安全吗，是『老人出行需求』vs『车辆安全监管』的矛盾——老人出行难（公交挤/腿脚慢/考驾照难（年纪大了科目一都难过）），老年代步车（低速四轮电动车）便宜（1-3万）不用驾照（现在要了）不用上牌（混乱期）"
+  },
+  {
+   "q": "老年代步车怎么管？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "合题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年代步车这么多、安全吗，是『老人出行需求』vs『车辆安全监管』的矛盾——老人出行难（公交挤/腿脚慢/考驾照难（年纪大了科目一都难过）），老年代步车（低速四轮电动车）便宜（1-3万）不用驾照（现在要了）不用上牌（混乱期）"
+  },
+  {
+   "q": "老人出行怎么解决？",
+   "conflict_id": "traffic-eldercar",
+   "domain": "老年出行",
+   "stage": "合题",
+   "need": "老人出行自由",
+   "conflict": "老年代步车 vs 安全/管理",
+   "linked": [
+    "traffic-e",
+    "age-digital"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年代步车这么多、安全吗，是『老人出行需求』vs『车辆安全监管』的矛盾——老人出行难（公交挤/腿脚慢/考驾照难（年纪大了科目一都难过）），老年代步车（低速四轮电动车）便宜（1-3万）不用驾照（现在要了）不用上牌（混乱期）"
+  },
+  {
+   "q": "为什么孩子都在上兴趣班？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "正题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子都在上兴趣班、兴趣班是真兴趣吗，是『家长的期待』vs『孩子的意愿』的矛盾——兴趣班的初衷是培养兴趣（钢琴/舞蹈/画画/编程，发现孩子的天赋），现实中多是家长的安排（别人家孩子都上/不学就落后/圆自己小时候的梦），孩子"
+  },
+  {
+   "q": "兴趣班是真兴趣吗？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "正题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子都在上兴趣班、兴趣班是真兴趣吗，是『家长的期待』vs『孩子的意愿』的矛盾——兴趣班的初衷是培养兴趣（钢琴/舞蹈/画画/编程，发现孩子的天赋），现实中多是家长的安排（别人家孩子都上/不学就落后/圆自己小时候的梦），孩子"
+  },
+  {
+   "q": "多学点才艺有错吗？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "反题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子都在上兴趣班、兴趣班是真兴趣吗，是『家长的期待』vs『孩子的意愿』的矛盾——兴趣班的初衷是培养兴趣（钢琴/舞蹈/画画/编程，发现孩子的天赋），现实中多是家长的安排（别人家孩子都上/不学就落后/圆自己小时候的梦），孩子"
+  },
+  {
+   "q": "不报兴趣班，孩子就输了吗？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "反题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子都在上兴趣班、兴趣班是真兴趣吗，是『家长的期待』vs『孩子的意愿』的矛盾——兴趣班的初衷是培养兴趣（钢琴/舞蹈/画画/编程，发现孩子的天赋），现实中多是家长的安排（别人家孩子都上/不学就落后/圆自己小时候的梦），孩子"
+  },
+  {
+   "q": "兴趣班怎么选？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "合题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子都在上兴趣班、兴趣班是真兴趣吗，是『家长的期待』vs『孩子的意愿』的矛盾——兴趣班的初衷是培养兴趣（钢琴/舞蹈/画画/编程，发现孩子的天赋），现实中多是家长的安排（别人家孩子都上/不学就落后/圆自己小时候的梦），孩子"
+  },
+  {
+   "q": "兴趣班和玩怎么平衡？",
+   "conflict_id": "edu-hobby",
+   "domain": "儿童教育",
+   "stage": "合题",
+   "need": "兴趣还是任务",
+   "conflict": "兴趣班 vs 孩子意愿/玩",
+   "linked": [
+    "edu-chicken",
+    "edu-allowance"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子都在上兴趣班、兴趣班是真兴趣吗，是『家长的期待』vs『孩子的意愿』的矛盾——兴趣班的初衷是培养兴趣（钢琴/舞蹈/画画/编程，发现孩子的天赋），现实中多是家长的安排（别人家孩子都上/不学就落后/圆自己小时候的梦），孩子"
+  },
+  {
+   "q": "酒店卫生真的干净吗？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "正题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒店卫生真的干净吗、床单为什么总出事，是『住客的健康』vs『酒店的利润』的矛盾——酒店卫生的核心是床单/毛巾（贴身接触，不换洗=皮肤病/传染病风险），但床单洗涤是成本（一客一换 vs 反复使用，洗涤费×房量=巨额支出），"
+  },
+  {
+   "q": "酒店床单为什么总出事？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "正题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我不太确定「酒店床单为什么总出事？」对应的知识，但最接近的是「微观经济学/宏观经济学知识点内容（按骨架填充）」。你问的是这个吗？"
+  },
+  {
+   "q": "酒店要赚钱，成本能省就省？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "反题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒店卫生真的干净吗、床单为什么总出事，是『住客的健康』vs『酒店的利润』的矛盾——酒店卫生的核心是床单/毛巾（贴身接触，不换洗=皮肤病/传染病风险），但床单洗涤是成本（一客一换 vs 反复使用，洗涤费×房量=巨额支出），"
+  },
+  {
+   "q": "酒店卫生是酒店的事，消费者管不了？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "反题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒店卫生真的干净吗、床单为什么总出事，是『住客的健康』vs『酒店的利润』的矛盾——酒店卫生的核心是床单/毛巾（贴身接触，不换洗=皮肤病/传染病风险），但床单洗涤是成本（一客一换 vs 反复使用，洗涤费×房量=巨额支出），"
+  },
+  {
+   "q": "住酒店怎么保障卫生？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "合题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒店卫生真的干净吗、床单为什么总出事，是『住客的健康』vs『酒店的利润』的矛盾——酒店卫生的核心是床单/毛巾（贴身接触，不换洗=皮肤病/传染病风险），但床单洗涤是成本（一客一换 vs 反复使用，洗涤费×房量=巨额支出），"
+  },
+  {
+   "q": "酒店卫生怎么管？",
+   "conflict_id": "tourism-hotel",
+   "domain": "住宿消费",
+   "stage": "合题",
+   "need": "住得放心",
+   "conflict": "酒店卫生 vs 成本",
+   "linked": [
+    "tourism-trap",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "酒店卫生真的干净吗、床单为什么总出事，是『住客的健康』vs『酒店的利润』的矛盾——酒店卫生的核心是床单/毛巾（贴身接触，不换洗=皮肤病/传染病风险），但床单洗涤是成本（一客一换 vs 反复使用，洗涤费×房量=巨额支出），"
+  }
+ ]
+}

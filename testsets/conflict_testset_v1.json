@@ -1,0 +1,349 @@
+{
+ "name": "conflict_testset_v1",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么老师管的这么严？学生一点娱乐时间都没有。",
+   "conflict_id": "edu-strict",
+   "domain": "教育",
+   "stage": "正题",
+   "need": "学生需要自由成长与娱乐空间"
+  },
+  {
+   "q": "为什么作业这么多？晚上十点都写不完。",
+   "conflict_id": "edu-strict",
+   "domain": "教育",
+   "stage": "正题",
+   "need": "学生需要自由成长与娱乐空间"
+  },
+  {
+   "q": "如果老师不管，学生能自觉学习吗？",
+   "conflict_id": "edu-strict",
+   "domain": "教育",
+   "stage": "反题",
+   "need": "学生需要自由成长与娱乐空间"
+  },
+  {
+   "q": "国外学生玩得多，是不是学得差？",
+   "conflict_id": "edu-strict",
+   "domain": "教育",
+   "stage": "反题",
+   "need": "学生需要自由成长与娱乐空间"
+  },
+  {
+   "q": "管这么严有用吗？为什么还是学不好？",
+   "conflict_id": "edu-strict",
+   "domain": "教育",
+   "stage": "反题",
+   "need": "学生需要自由成长与娱乐空间"
+  },
+  {
+   "q": "怎么在严格和学习兴趣之间平衡？",
+   "conflict_id": "edu-strict",
+   "domain": "教育",
+   "stage": "合题",
+   "need": "学生需要自由成长与娱乐空间"
+  },
+  {
+   "q": "怎样才能让学习既有效又不痛苦？",
+   "conflict_id": "edu-strict",
+   "domain": "教育",
+   "stage": "合题",
+   "need": "学生需要自由成长与娱乐空间"
+  },
+  {
+   "q": "为什么班里的学生总是在谈恋爱？为什么不把心思用在学习上？",
+   "conflict_id": "edu-romance",
+   "domain": "教育",
+   "stage": "正题",
+   "need": "青春期学生需要亲密感与归属"
+  },
+  {
+   "q": "学生早恋正常吗？",
+   "conflict_id": "edu-romance",
+   "domain": "教育",
+   "stage": "正题",
+   "need": "青春期学生需要亲密感与归属"
+  },
+  {
+   "q": "恋爱真的影响学习吗？有没有正面例子？",
+   "conflict_id": "edu-romance",
+   "domain": "教育",
+   "stage": "反题",
+   "need": "青春期学生需要亲密感与归属"
+  },
+  {
+   "q": "禁止早恋会不会适得其反？",
+   "conflict_id": "edu-romance",
+   "domain": "教育",
+   "stage": "反题",
+   "need": "青春期学生需要亲密感与归属"
+  },
+  {
+   "q": "怎么引导青春期恋爱而不压制？",
+   "conflict_id": "edu-romance",
+   "domain": "教育",
+   "stage": "合题",
+   "need": "青春期学生需要亲密感与归属"
+  },
+  {
+   "q": "恋爱和学习可以兼顾吗？",
+   "conflict_id": "edu-romance",
+   "domain": "教育",
+   "stage": "合题",
+   "need": "青春期学生需要亲密感与归属"
+  },
+  {
+   "q": "老师讲课为什么总是很无聊？为什么不能做的像故事书一样有趣？",
+   "conflict_id": "edu-teaching",
+   "domain": "教育",
+   "stage": "正题",
+   "need": "学生需要听得懂、学得会、有成就感"
+  },
+  {
+   "q": "为什么学生总是学不会？讲过多次还是会犯错。",
+   "conflict_id": "edu-teaching",
+   "domain": "教育",
+   "stage": "正题",
+   "need": "学生需要听得懂、学得会、有成就感"
+  },
+  {
+   "q": "有趣的教学会不会降低知识密度？",
+   "conflict_id": "edu-teaching",
+   "domain": "教育",
+   "stage": "反题",
+   "need": "学生需要听得懂、学得会、有成就感"
+  },
+  {
+   "q": "考试要考，怎么可能都讲成故事？",
+   "conflict_id": "edu-teaching",
+   "domain": "教育",
+   "stage": "反题",
+   "need": "学生需要听得懂、学得会、有成就感"
+  },
+  {
+   "q": "怎么把枯燥的知识讲得有趣又不失严谨？",
+   "conflict_id": "edu-teaching",
+   "domain": "教育",
+   "stage": "合题",
+   "need": "学生需要听得懂、学得会、有成就感"
+  },
+  {
+   "q": "怎么让学生真正掌握而不是背过？",
+   "conflict_id": "edu-teaching",
+   "domain": "教育",
+   "stage": "合题",
+   "need": "学生需要听得懂、学得会、有成就感"
+  },
+  {
+   "q": "爸妈总让我考公务员，我不想怎么办？",
+   "conflict_id": "family-expect",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "孩子需要被理解与自主"
+  },
+  {
+   "q": "父母为什么总拿我和别人家孩子比？",
+   "conflict_id": "family-expect",
+   "domain": "家庭",
+   "stage": "正题",
+   "need": "孩子需要被理解与自主"
+  },
+  {
+   "q": "父母管我是为我好，我是不是不该顶嘴？",
+   "conflict_id": "family-expect",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "孩子需要被理解与自主"
+  },
+  {
+   "q": "不听父母的，以后后悔了怎么办？",
+   "conflict_id": "family-expect",
+   "domain": "家庭",
+   "stage": "反题",
+   "need": "孩子需要被理解与自主"
+  },
+  {
+   "q": "怎么和父母沟通我的选择？",
+   "conflict_id": "family-expect",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "孩子需要被理解与自主"
+  },
+  {
+   "q": "父母反对我的梦想，怎么坚持又不伤感情？",
+   "conflict_id": "family-expect",
+   "domain": "家庭",
+   "stage": "合题",
+   "need": "孩子需要被理解与自主"
+  },
+  {
+   "q": "为什么工作永远做不完？下班了还觉得心累。",
+   "conflict_id": "work-burnout",
+   "domain": "职场",
+   "stage": "正题",
+   "need": "工作意义感与生活平衡"
+  },
+  {
+   "q": "996 真的有必要吗？",
+   "conflict_id": "work-burnout",
+   "domain": "职场",
+   "stage": "正题",
+   "need": "工作意义感与生活平衡"
+  },
+  {
+   "q": "不拼命工作，会不会被淘汰？",
+   "conflict_id": "work-burnout",
+   "domain": "职场",
+   "stage": "反题",
+   "need": "工作意义感与生活平衡"
+  },
+  {
+   "q": "别人都在加班，我不加是不是不合群？",
+   "conflict_id": "work-burnout",
+   "domain": "职场",
+   "stage": "反题",
+   "need": "工作意义感与生活平衡"
+  },
+  {
+   "q": "怎么在工作和生活之间划清边界？",
+   "conflict_id": "work-burnout",
+   "domain": "职场",
+   "stage": "合题",
+   "need": "工作意义感与生活平衡"
+  },
+  {
+   "q": "怎么判断该坚持还是该换工作？",
+   "conflict_id": "work-burnout",
+   "domain": "职场",
+   "stage": "合题",
+   "need": "工作意义感与生活平衡"
+  },
+  {
+   "q": "为什么恋爱中总是患得患失？",
+   "conflict_id": "relation-attach",
+   "domain": "亲密关系",
+   "stage": "正题",
+   "need": "安全感的依恋与自由独立"
+  },
+  {
+   "q": "对象不回消息，是我想太多了吗？",
+   "conflict_id": "relation-attach",
+   "domain": "亲密关系",
+   "stage": "正题",
+   "need": "安全感的依恋与自由独立"
+  },
+  {
+   "q": "是不是我太黏人了，才会这样？",
+   "conflict_id": "relation-attach",
+   "domain": "亲密关系",
+   "stage": "反题",
+   "need": "安全感的依恋与自由独立"
+  },
+  {
+   "q": "不查手机不报备，是不是不重视我？",
+   "conflict_id": "relation-attach",
+   "domain": "亲密关系",
+   "stage": "反题",
+   "need": "安全感的依恋与自由独立"
+  },
+  {
+   "q": "怎么建立安全的依恋而不焦虑？",
+   "conflict_id": "relation-attach",
+   "domain": "亲密关系",
+   "stage": "合题",
+   "need": "安全感的依恋与自由独立"
+  },
+  {
+   "q": "感情里怎么平衡亲密和独立？",
+   "conflict_id": "relation-attach",
+   "domain": "亲密关系",
+   "stage": "合题",
+   "need": "安全感的依恋与自由独立"
+  },
+  {
+   "q": "该选喜欢但不确定的路，还是稳定但无趣的路？",
+   "conflict_id": "self-choice",
+   "domain": "自我发展",
+   "stage": "正题",
+   "need": "做想做的事 vs 稳妥的路径"
+  },
+  {
+   "q": "为什么我总在纠结选择？",
+   "conflict_id": "self-choice",
+   "domain": "自我发展",
+   "stage": "正题",
+   "need": "做想做的事 vs 稳妥的路径"
+  },
+  {
+   "q": "坚持理想失败了怎么办？",
+   "conflict_id": "self-choice",
+   "domain": "自我发展",
+   "stage": "反题",
+   "need": "做想做的事 vs 稳妥的路径"
+  },
+  {
+   "q": "选择稳定是不是就放弃自己了？",
+   "conflict_id": "self-choice",
+   "domain": "自我发展",
+   "stage": "反题",
+   "need": "做想做的事 vs 稳妥的路径"
+  },
+  {
+   "q": "怎么在不确定里做选择？",
+   "conflict_id": "self-choice",
+   "domain": "自我发展",
+   "stage": "合题",
+   "need": "做想做的事 vs 稳妥的路径"
+  },
+  {
+   "q": "怎么接受选择带来的代价？",
+   "conflict_id": "self-choice",
+   "domain": "自我发展",
+   "stage": "合题",
+   "need": "做想做的事 vs 稳妥的路径"
+  },
+  {
+   "q": "为什么我总是不会拒绝别人？",
+   "conflict_id": "social-boundary",
+   "domain": "人际",
+   "stage": "正题",
+   "need": "被喜欢（合群）与做自己（边界）"
+  },
+  {
+   "q": "怕得罪人，什么忙都答应，好累。",
+   "conflict_id": "social-boundary",
+   "domain": "人际",
+   "stage": "正题",
+   "need": "被喜欢（合群）与做自己（边界）"
+  },
+  {
+   "q": "拒绝了朋友，会不会显得冷漠？",
+   "conflict_id": "social-boundary",
+   "domain": "人际",
+   "stage": "反题",
+   "need": "被喜欢（合群）与做自己（边界）"
+  },
+  {
+   "q": "不讨好别人，是不是就没有朋友了？",
+   "conflict_id": "social-boundary",
+   "domain": "人际",
+   "stage": "反题",
+   "need": "被喜欢（合群）与做自己（边界）"
+  },
+  {
+   "q": "怎么温和地拒绝而不伤关系？",
+   "conflict_id": "social-boundary",
+   "domain": "人际",
+   "stage": "合题",
+   "need": "被喜欢（合群）与做自己（边界）"
+  },
+  {
+   "q": "怎么分辨该帮和不该帮？",
+   "conflict_id": "social-boundary",
+   "domain": "人际",
+   "stage": "合题",
+   "need": "被喜欢（合群）与做自己（边界）"
+  }
+ ]
+}

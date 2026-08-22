@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v22",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么现在男女对立这么严重？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "正题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ]
+  },
+  {
+   "q": "网上为什么天天吵性别？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "正题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ]
+  },
+  {
+   "q": "女性争取权利，有错吗？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "反题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ]
+  },
+  {
+   "q": "男性被骂，冤吗？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "反题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ]
+  },
+  {
+   "q": "男女怎么放下对立？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "合题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ]
+  },
+  {
+   "q": "性别话题怎么理性讨论？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "合题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ]
+  },
+  {
+   "q": "为什么丈夫总在婆媳中间为难？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "正题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婆媳吵架，丈夫该帮谁？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "正题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "丈夫向着妈，有错吗？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "反题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "丈夫向着老婆，是不孝吗？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "反题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "丈夫怎么处理婆媳矛盾？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "合题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "婆媳矛盾中丈夫该怎么做？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "合题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "为什么女性消费欲望这么高？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "正题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ]
+  },
+  {
+   "q": "工作没耐心，是女性问题吗？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "正题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ]
+  },
+  {
+   "q": "赚钱不就是为了花？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "反题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ]
+  },
+  {
+   "q": "消费和耐心有关系吗？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "反题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ]
+  },
+  {
+   "q": "消费和工作怎么平衡？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "合题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ]
+  },
+  {
+   "q": "怎么看待消费高耐心低的现象？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "合题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ]
+  },
+  {
+   "q": "为什么现在女性也要养家？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "正题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "谁赚钱养家重要吗？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "正题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "男性养家，天经地义？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "反题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "女性不赚钱，行吗？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "反题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "家庭收入怎么分工？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "合题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "赚钱和顾家怎么平衡？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "合题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "为什么越来越多人婚后AA？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "正题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "婚后AA是独立还是生分？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "正题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "AA伤感情吗？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "反题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "钱分开，心也分开了？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "反题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "婚后钱怎么管？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "合题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "AA和共同账户怎么选？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "合题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ]
+  },
+  {
+   "q": "为什么全职妈妈重返职场这么难？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "正题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ]
+  },
+  {
+   "q": "全职带娃几年，还能回去吗？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "正题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ]
+  },
+  {
+   "q": "全职妈妈是选择，有错吗？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "反题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ]
+  },
+  {
+   "q": "不工作不独立，怪谁？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "反题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ]
+  },
+  {
+   "q": "全职妈妈怎么回归职场？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "合题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ]
+  },
+  {
+   "q": "家庭和事业怎么平衡？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "合题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ]
+  },
+  {
+   "q": "为什么大龄未婚要被贴标签？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "正题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ]
+  },
+  {
+   "q": "剩女剩男是侮辱吗？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "正题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ]
+  },
+  {
+   "q": "晚婚是自己的选择，有错吗？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "反题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ]
+  },
+  {
+   "q": "不结婚，老了怎么办？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "反题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ]
+  },
+  {
+   "q": "怎么面对大龄未婚标签？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "合题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ]
+  },
+  {
+   "q": "婚姻和独立怎么平衡？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "合题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ]
+  },
+  {
+   "q": "为什么婆媳同住矛盾多？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "正题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "要不要和婆婆一起住？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "正题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "老人想和儿子住，有错吗？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "反题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "分开住是不孝吗？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "反题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "婆媳同住怎么处？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "合题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ]
+  },
+  {
+   "q": "同住和分开怎么选？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "合题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ]
+  }
+ ]
+}

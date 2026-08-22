@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v9",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么网贷这么容易借到？",
+   "conflict_id": "fin-loan",
+   "domain": "消费金融",
+   "stage": "正题",
+   "need": "超前消费的便利",
+   "conflict": "网贷/消费贷的便利 vs 高息/过度借贷",
+   "linked": [
+    "digit-live",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "信用卡透支是不是坑？",
+   "conflict_id": "fin-loan",
+   "domain": "消费金融",
+   "stage": "正题",
+   "need": "超前消费的便利",
+   "conflict": "网贷/消费贷的便利 vs 高息/过度借贷",
+   "linked": [
+    "digit-live",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "缺钱的时候不借怎么办？",
+   "conflict_id": "fin-loan",
+   "domain": "消费金融",
+   "stage": "反题",
+   "need": "超前消费的便利",
+   "conflict": "网贷/消费贷的便利 vs 高息/过度借贷",
+   "linked": [
+    "digit-live",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "借钱消费有错吗？",
+   "conflict_id": "fin-loan",
+   "domain": "消费金融",
+   "stage": "反题",
+   "need": "超前消费的便利",
+   "conflict": "网贷/消费贷的便利 vs 高息/过度借贷",
+   "linked": [
+    "digit-live",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "怎么避免陷入网贷陷阱？",
+   "conflict_id": "fin-loan",
+   "domain": "消费金融",
+   "stage": "合题",
+   "need": "超前消费的便利",
+   "conflict": "网贷/消费贷的便利 vs 高息/过度借贷",
+   "linked": [
+    "digit-live",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "超前消费和理性消费怎么平衡？",
+   "conflict_id": "fin-loan",
+   "domain": "消费金融",
+   "stage": "合题",
+   "need": "超前消费的便利",
+   "conflict": "网贷/消费贷的便利 vs 高息/过度借贷",
+   "linked": [
+    "digit-live",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "食品添加剂到底安不安全？",
+   "conflict_id": "food-safe",
+   "domain": "食品安全",
+   "stage": "正题",
+   "need": "吃得放心",
+   "conflict": "食品工业的添加剂/预制菜 vs 健康担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "预制菜是不是科技与狠活？",
+   "conflict_id": "food-safe",
+   "domain": "食品安全",
+   "stage": "正题",
+   "need": "吃得放心",
+   "conflict": "食品工业的添加剂/预制菜 vs 健康担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "没有添加剂，食品怎么保存？",
+   "conflict_id": "food-safe",
+   "domain": "食品安全",
+   "stage": "反题",
+   "need": "吃得放心",
+   "conflict": "食品工业的添加剂/预制菜 vs 健康担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "谈添加剂色变是不是过度恐慌？",
+   "conflict_id": "food-safe",
+   "domain": "食品安全",
+   "stage": "反题",
+   "need": "吃得放心",
+   "conflict": "食品工业的添加剂/预制菜 vs 健康担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "怎么吃得放心又现实？",
+   "conflict_id": "food-safe",
+   "domain": "食品安全",
+   "stage": "合题",
+   "need": "吃得放心",
+   "conflict": "食品工业的添加剂/预制菜 vs 健康担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "食品安全怎么保障？",
+   "conflict_id": "food-safe",
+   "domain": "食品安全",
+   "stage": "合题",
+   "need": "吃得放心",
+   "conflict": "食品工业的添加剂/预制菜 vs 健康担忧",
+   "linked": [
+    "health-takeout",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "为什么电动车起火事故这么多？",
+   "conflict_id": "traffic-e",
+   "domain": "交通出行",
+   "stage": "正题",
+   "need": "出行便利",
+   "conflict": "电动车/电瓶车的便利 vs 安全/充电/管理",
+   "linked": [
+    "city-share",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "电动车进楼充电该不该禁？",
+   "conflict_id": "traffic-e",
+   "domain": "交通出行",
+   "stage": "正题",
+   "need": "出行便利",
+   "conflict": "电动车/电瓶车的便利 vs 安全/充电/管理",
+   "linked": [
+    "city-share",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "没电动车怎么接送孩子上班？",
+   "conflict_id": "traffic-e",
+   "domain": "交通出行",
+   "stage": "反题",
+   "need": "出行便利",
+   "conflict": "电动车/电瓶车的便利 vs 安全/充电/管理",
+   "linked": [
+    "city-share",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "管的太多是不是不让人活了？",
+   "conflict_id": "traffic-e",
+   "domain": "交通出行",
+   "stage": "反题",
+   "need": "出行便利",
+   "conflict": "电动车/电瓶车的便利 vs 安全/充电/管理",
+   "linked": [
+    "city-share",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "电动车怎么用才安全？",
+   "conflict_id": "traffic-e",
+   "domain": "交通出行",
+   "stage": "合题",
+   "need": "出行便利",
+   "conflict": "电动车/电瓶车的便利 vs 安全/充电/管理",
+   "linked": [
+    "city-share",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "城市出行怎么更合理？",
+   "conflict_id": "traffic-e",
+   "domain": "交通出行",
+   "stage": "合题",
+   "need": "出行便利",
+   "conflict": "电动车/电瓶车的便利 vs 安全/充电/管理",
+   "linked": [
+    "city-share",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "为什么城市越来越堵？",
+   "conflict_id": "traffic-jam",
+   "domain": "交通出行",
+   "stage": "正题",
+   "need": "通勤效率",
+   "conflict": "私家车便利 vs 拥堵/停车难",
+   "linked": [
+    "soc-urban",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "停车位为什么永远不够？",
+   "conflict_id": "traffic-jam",
+   "domain": "交通出行",
+   "stage": "正题",
+   "need": "通勤效率",
+   "conflict": "私家车便利 vs 拥堵/停车难",
+   "linked": [
+    "soc-urban",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "不买车，公共交通够用吗？",
+   "conflict_id": "traffic-jam",
+   "domain": "交通出行",
+   "stage": "反题",
+   "need": "通勤效率",
+   "conflict": "私家车便利 vs 拥堵/停车难",
+   "linked": [
+    "soc-urban",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "限号限行是不是治标不治本？",
+   "conflict_id": "traffic-jam",
+   "domain": "交通出行",
+   "stage": "反题",
+   "need": "通勤效率",
+   "conflict": "私家车便利 vs 拥堵/停车难",
+   "linked": [
+    "soc-urban",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "怎么缓解城市拥堵？",
+   "conflict_id": "traffic-jam",
+   "domain": "交通出行",
+   "stage": "合题",
+   "need": "通勤效率",
+   "conflict": "私家车便利 vs 拥堵/停车难",
+   "linked": [
+    "soc-urban",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "买车还是用公共交通？",
+   "conflict_id": "traffic-jam",
+   "domain": "交通出行",
+   "stage": "合题",
+   "need": "通勤效率",
+   "conflict": "私家车便利 vs 拥堵/停车难",
+   "linked": [
+    "soc-urban",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "为什么老字号越来越少？",
+   "conflict_id": "culture-heritage",
+   "domain": "公共文化",
+   "stage": "正题",
+   "need": "传统文化传承",
+   "conflict": "老字号/非遗的传承 vs 市场生存（年轻不吃）",
+   "linked": [
+    "relig-trad",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "非遗手艺没人学怎么办？",
+   "conflict_id": "culture-heritage",
+   "domain": "公共文化",
+   "stage": "正题",
+   "need": "传统文化传承",
+   "conflict": "老字号/非遗的传承 vs 市场生存（年轻不吃）",
+   "linked": [
+    "relig-trad",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "老东西过时了，淘汰不是自然吗？",
+   "conflict_id": "culture-heritage",
+   "domain": "公共文化",
+   "stage": "反题",
+   "need": "传统文化传承",
+   "conflict": "老字号/非遗的传承 vs 市场生存（年轻不吃）",
+   "linked": [
+    "relig-trad",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "非遗靠补贴养着有意义吗？",
+   "conflict_id": "culture-heritage",
+   "domain": "公共文化",
+   "stage": "反题",
+   "need": "传统文化传承",
+   "conflict": "老字号/非遗的传承 vs 市场生存（年轻不吃）",
+   "linked": [
+    "relig-trad",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "老字号怎么焕发新生？",
+   "conflict_id": "culture-heritage",
+   "domain": "公共文化",
+   "stage": "合题",
+   "need": "传统文化传承",
+   "conflict": "老字号/非遗的传承 vs 市场生存（年轻不吃）",
+   "linked": [
+    "relig-trad",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "非遗传承和创新怎么结合？",
+   "conflict_id": "culture-heritage",
+   "domain": "公共文化",
+   "stage": "合题",
+   "need": "传统文化传承",
+   "conflict": "老字号/非遗的传承 vs 市场生存（年轻不吃）",
+   "linked": [
+    "relig-trad",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "为什么体育圈也饭圈化了？",
+   "conflict_id": "sport-fan",
+   "domain": "体育竞技",
+   "stage": "正题",
+   "need": "运动员的纯粹竞技",
+   "conflict": "竞技体育的饭圈化（追星式）vs 运动本身",
+   "linked": [
+    "youth-idol",
+    "pub-violence"
+   ]
+  },
+  {
+   "q": "运动员该不该接代言？",
+   "conflict_id": "sport-fan",
+   "domain": "体育竞技",
+   "stage": "正题",
+   "need": "运动员的纯粹竞技",
+   "conflict": "竞技体育的饭圈化（追星式）vs 运动本身",
+   "linked": [
+    "youth-idol",
+    "pub-violence"
+   ]
+  },
+  {
+   "q": "运动员也是偶像，粉丝支持有错吗？",
+   "conflict_id": "sport-fan",
+   "domain": "体育竞技",
+   "stage": "反题",
+   "need": "运动员的纯粹竞技",
+   "conflict": "竞技体育的饭圈化（追星式）vs 运动本身",
+   "linked": [
+    "youth-idol",
+    "pub-violence"
+   ]
+  },
+  {
+   "q": "成绩不好被骂，是不是应该？",
+   "conflict_id": "sport-fan",
+   "domain": "体育竞技",
+   "stage": "反题",
+   "need": "运动员的纯粹竞技",
+   "conflict": "竞技体育的饭圈化（追星式）vs 运动本身",
+   "linked": [
+    "youth-idol",
+    "pub-violence"
+   ]
+  },
+  {
+   "q": "怎么让体育回归竞技？",
+   "conflict_id": "sport-fan",
+   "domain": "体育竞技",
+   "stage": "合题",
+   "need": "运动员的纯粹竞技",
+   "conflict": "竞技体育的饭圈化（追星式）vs 运动本身",
+   "linked": [
+    "youth-idol",
+    "pub-violence"
+   ]
+  },
+  {
+   "q": "运动员怎么面对舆论？",
+   "conflict_id": "sport-fan",
+   "domain": "体育竞技",
+   "stage": "合题",
+   "need": "运动员的纯粹竞技",
+   "conflict": "竞技体育的饭圈化（追星式）vs 运动本身",
+   "linked": [
+    "youth-idol",
+    "pub-violence"
+   ]
+  },
+  {
+   "q": "为什么水资源越来越紧张？",
+   "conflict_id": "water-res",
+   "domain": "资源环境",
+   "stage": "正题",
+   "need": "用水自由",
+   "conflict": "水资源短缺 vs 浪费/污染",
+   "linked": [
+    "gov-carbon",
+    "disaster-dev"
+   ]
+  },
+  {
+   "q": "水费涨价合理吗？",
+   "conflict_id": "water-res",
+   "domain": "资源环境",
+   "stage": "正题",
+   "need": "用水自由",
+   "conflict": "水资源短缺 vs 浪费/污染",
+   "linked": [
+    "gov-carbon",
+    "disaster-dev"
+   ]
+  },
+  {
+   "q": "水到处都有，怎么会缺？",
+   "conflict_id": "water-res",
+   "domain": "资源环境",
+   "stage": "反题",
+   "need": "用水自由",
+   "conflict": "水资源短缺 vs 浪费/污染",
+   "linked": [
+    "gov-carbon",
+    "disaster-dev"
+   ]
+  },
+  {
+   "q": "我多用点水有什么关系？",
+   "conflict_id": "water-res",
+   "domain": "资源环境",
+   "stage": "反题",
+   "need": "用水自由",
+   "conflict": "水资源短缺 vs 浪费/污染",
+   "linked": [
+    "gov-carbon",
+    "disaster-dev"
+   ]
+  },
+  {
+   "q": "怎么节约用水？",
+   "conflict_id": "water-res",
+   "domain": "资源环境",
+   "stage": "合题",
+   "need": "用水自由",
+   "conflict": "水资源短缺 vs 浪费/污染",
+   "linked": [
+    "gov-carbon",
+    "disaster-dev"
+   ]
+  },
+  {
+   "q": "水资源怎么分配才公平？",
+   "conflict_id": "water-res",
+   "domain": "资源环境",
+   "stage": "合题",
+   "need": "用水自由",
+   "conflict": "水资源短缺 vs 浪费/污染",
+   "linked": [
+    "gov-carbon",
+    "disaster-dev"
+   ]
+  },
+  {
+   "q": "为什么限塑令效果不好？",
+   "conflict_id": "plastic-waste",
+   "domain": "资源环境",
+   "stage": "正题",
+   "need": "一次性便利",
+   "conflict": "塑料制品便利 vs 白色污染",
+   "linked": [
+    "gov-carbon",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "外卖塑料垃圾怎么这么多？",
+   "conflict_id": "plastic-waste",
+   "domain": "资源环境",
+   "stage": "正题",
+   "need": "一次性便利",
+   "conflict": "塑料制品便利 vs 白色污染",
+   "linked": [
+    "gov-carbon",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "不用塑料，外卖怎么送？",
+   "conflict_id": "plastic-waste",
+   "domain": "资源环境",
+   "stage": "反题",
+   "need": "一次性便利",
+   "conflict": "塑料制品便利 vs 白色污染",
+   "linked": [
+    "gov-carbon",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "塑料袋收费是不是变相赚钱？",
+   "conflict_id": "plastic-waste",
+   "domain": "资源环境",
+   "stage": "反题",
+   "need": "一次性便利",
+   "conflict": "塑料制品便利 vs 白色污染",
+   "linked": [
+    "gov-carbon",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "怎么减少塑料污染？",
+   "conflict_id": "plastic-waste",
+   "domain": "资源环境",
+   "stage": "合题",
+   "need": "一次性便利",
+   "conflict": "塑料制品便利 vs 白色污染",
+   "linked": [
+    "gov-carbon",
+    "health-takeout"
+   ]
+  },
+  {
+   "q": "限塑和个人习惯怎么配合？",
+   "conflict_id": "plastic-waste",
+   "domain": "资源环境",
+   "stage": "合题",
+   "need": "一次性便利",
+   "conflict": "塑料制品便利 vs 白色污染",
+   "linked": [
+    "gov-carbon",
+    "health-takeout"
+   ]
+  }
+ ]
+}

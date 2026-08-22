@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么毕业就失业？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "正题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业就失业、第一份工作不知道怎么选，是『岗位需求』vs『应届生供给』的矛盾——每年上千万毕业生涌向市场，企业要的是『有经验/能直接干活』，应届生有的是『学历+可塑性』，供需错配让『毕业即失业』成为结构性现象（不是你不优秀"
+  },
+  {
+   "q": "第一份工作怎么选？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "正题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业就失业、第一份工作不知道怎么选，是『岗位需求』vs『应届生供给』的矛盾——每年上千万毕业生涌向市场，企业要的是『有经验/能直接干活』，应届生有的是『学历+可塑性』，供需错配让『毕业即失业』成为结构性现象（不是你不优秀"
+  },
+  {
+   "q": "先就业再择业，有错吗？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "反题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业就失业、第一份工作不知道怎么选，是『岗位需求』vs『应届生供给』的矛盾——每年上千万毕业生涌向市场，企业要的是『有经验/能直接干活』，应届生有的是『学历+可塑性』，供需错配让『毕业即失业』成为结构性现象（不是你不优秀"
+  },
+  {
+   "q": "第一份工作必须对口吗？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "反题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业就失业、第一份工作不知道怎么选，是『岗位需求』vs『应届生供给』的矛盾——每年上千万毕业生涌向市场，企业要的是『有经验/能直接干活』，应届生有的是『学历+可塑性』，供需错配让『毕业即失业』成为结构性现象（不是你不优秀"
+  },
+  {
+   "q": "怎么找到第一份工作？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "合题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业就失业、第一份工作不知道怎么选，是『岗位需求』vs『应届生供给』的矛盾——每年上千万毕业生涌向市场，企业要的是『有经验/能直接干活』，应届生有的是『学历+可塑性』，供需错配让『毕业即失业』成为结构性现象（不是你不优秀"
+  },
+  {
+   "q": "第一份工作看重什么？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "合题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "毕业就失业、第一份工作不知道怎么选，是『岗位需求』vs『应届生供给』的矛盾——每年上千万毕业生涌向市场，企业要的是『有经验/能直接干活』，应届生有的是『学历+可塑性』，供需错配让『毕业即失业』成为结构性现象（不是你不优秀"
+  },
+  {
+   "q": "为什么老人容易被骗？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "正题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易被骗、钱追不回来，是『诈骗手段升级』vs『老人防范薄弱』的矛盾——骗子用最先进的技术（AI换脸/仿冒公检法/精准信息）打最脆弱的人群（老人：信息差大/怕事/孤独/想占便宜），骗的是老人的养老钱（退休金/存款），追"
+  },
+  {
+   "q": "电信诈骗怎么防？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "正题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易被骗、钱追不回来，是『诈骗手段升级』vs『老人防范薄弱』的矛盾——骗子用最先进的技术（AI换脸/仿冒公检法/精准信息）打最脆弱的人群（老人：信息差大/怕事/孤独/想占便宜），骗的是老人的养老钱（退休金/存款），追"
+  },
+  {
+   "q": "被骗是老人糊涂吗？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "反题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易被骗、钱追不回来，是『诈骗手段升级』vs『老人防范薄弱』的矛盾——骗子用最先进的技术（AI换脸/仿冒公检法/精准信息）打最脆弱的人群（老人：信息差大/怕事/孤独/想占便宜），骗的是老人的养老钱（退休金/存款），追"
+  },
+  {
+   "q": "被骗的钱还能追回来吗？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "反题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易被骗、钱追不回来，是『诈骗手段升级』vs『老人防范薄弱』的矛盾——骗子用最先进的技术（AI换脸/仿冒公检法/精准信息）打最脆弱的人群（老人：信息差大/怕事/孤独/想占便宜），骗的是老人的养老钱（退休金/存款），追"
+  },
+  {
+   "q": "怎么让老人不被骗？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "合题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易被骗、钱追不回来，是『诈骗手段升级』vs『老人防范薄弱』的矛盾——骗子用最先进的技术（AI换脸/仿冒公检法/精准信息）打最脆弱的人群（老人：信息差大/怕事/孤独/想占便宜），骗的是老人的养老钱（退休金/存款），追"
+  },
+  {
+   "q": "反诈怎么才有效？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "合题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人容易被骗、钱追不回来，是『诈骗手段升级』vs『老人防范薄弱』的矛盾——骗子用最先进的技术（AI换脸/仿冒公检法/精准信息）打最脆弱的人群（老人：信息差大/怕事/孤独/想占便宜），骗的是老人的养老钱（退休金/存款），追"
+  },
+  {
+   "q": "为什么有人花那么多钱打赏？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "正题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "各国抢着登月探火，是『国家实力象征』+『战略资源争夺』+『科学好奇』的三重驱动——航天是综合国力的橱窗（技术/资金/组织能力），月球/火星有资源（氦-3/稀土/水冰）和战略位置（深空中转站）。真相：①『地球上问题都没解决"
+  },
+  {
+   "q": "打赏的人傻吗？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "正题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "有人花几十万打赏、打赏的人傻吗，是『情感需求』vs『金钱理性』的矛盾——打赏本质是『花钱买情绪价值』（主播的感谢/关注/互动让人有存在感），和追星买周边/看演出买票类似，但直播打赏的设计让它更容易失控（实时互动/氛围烘托"
+  },
+  {
+   "q": "打赏是支持主播，有错吗？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "反题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "看直播忍不住买东西，是『即时冲动』被『销售话术』精准触发——限时抢购（制造稀缺）、主播砍价（制造占便宜感）、弹幕刷屏（制造从众），每句『家人们』都在降低你的理性。真相：①直播便宜是错觉——主播的『全网最低价』多数是话术，"
+  },
+  {
+   "q": "花自己的钱打赏，别人管得着吗？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "反题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "有人花几十万打赏、打赏的人傻吗，是『情感需求』vs『金钱理性』的矛盾——打赏本质是『花钱买情绪价值』（主播的感谢/关注/互动让人有存在感），和追星买周边/看演出买票类似，但直播打赏的设计让它更容易失控（实时互动/氛围烘托"
+  },
+  {
+   "q": "怎么理性看待打赏？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "合题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "有人花几十万打赏、打赏的人傻吗，是『情感需求』vs『金钱理性』的矛盾——打赏本质是『花钱买情绪价值』（主播的感谢/关注/互动让人有存在感），和追星买周边/看演出买票类似，但直播打赏的设计让它更容易失控（实时互动/氛围烘托"
+  },
+  {
+   "q": "未成年人打赏怎么管？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "合题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "有人花几十万打赏、打赏的人傻吗，是『情感需求』vs『金钱理性』的矛盾——打赏本质是『花钱买情绪价值』（主播的感谢/关注/互动让人有存在感），和追星买周边/看演出买票类似，但直播打赏的设计让它更容易失控（实时互动/氛围烘托"
+  },
+  {
+   "q": "为什么越来越多人整容？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "正题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "容貌焦虑，是『社会审美标准』vs『真实自我接纳』的矛盾——滤镜/修图/审美工业制造『标准美』（大眼睛/白瘦/无瑕），现实的人永远够不到标准，于是焦虑。真相：①不漂亮没人喜欢是认知扭曲——喜欢你的朋友家人是因为『你是你』（"
+  },
+  {
+   "q": "整容有风险吗？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "正题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "容貌焦虑，是『社会审美标准』vs『真实自我接纳』的矛盾——滤镜/修图/审美工业制造『标准美』（大眼睛/白瘦/无瑕），现实的人永远够不到标准，于是焦虑。真相：①不漂亮没人喜欢是认知扭曲——喜欢你的朋友家人是因为『你是你』（"
+  },
+  {
+   "q": "变美有错吗？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "反题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "容貌焦虑，是『社会审美标准』vs『真实自我接纳』的矛盾——滤镜/修图/审美工业制造『标准美』（大眼睛/白瘦/无瑕），现实的人永远够不到标准，于是焦虑。真相：①不漂亮没人喜欢是认知扭曲——喜欢你的朋友家人是因为『你是你』（"
+  },
+  {
+   "q": "整容是自信还是自卑？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "反题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "容貌焦虑，是『社会审美标准』vs『真实自我接纳』的矛盾——滤镜/修图/审美工业制造『标准美』（大眼睛/白瘦/无瑕），现实的人永远够不到标准，于是焦虑。真相：①不漂亮没人喜欢是认知扭曲——喜欢你的朋友家人是因为『你是你』（"
+  },
+  {
+   "q": "整容还是不整容怎么选？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "合题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "容貌焦虑，是『社会审美标准』vs『真实自我接纳』的矛盾——滤镜/修图/审美工业制造『标准美』（大眼睛/白瘦/无瑕），现实的人永远够不到标准，于是焦虑。真相：①不漂亮没人喜欢是认知扭曲——喜欢你的朋友家人是因为『你是你』（"
+  },
+  {
+   "q": "医美怎么避坑？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "合题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "容貌焦虑，是『社会审美标准』vs『真实自我接纳』的矛盾——滤镜/修图/审美工业制造『标准美』（大眼睛/白瘦/无瑕），现实的人永远够不到标准，于是焦虑。真相：①不漂亮没人喜欢是认知扭曲——喜欢你的朋友家人是因为『你是你』（"
+  },
+  {
+   "q": "为什么月嫂这么贵？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "正题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "月嫂一个月一两万、该不该请，是『专业照护』vs『家庭经济』的矛盾——月嫂贵（月薪过万：专业育儿/月子餐/夜间护理，比普通保姆贵3-5倍），但新手父母确实需要（产后妈妈虚弱+婴儿护理专业+婆媳矛盾缓冲），矛盾在『这笔钱花得"
+  },
+  {
+   "q": "请月嫂有必要吗？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "正题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "月嫂一个月一两万、该不该请，是『专业照护』vs『家庭经济』的矛盾——月嫂贵（月薪过万：专业育儿/月子餐/夜间护理，比普通保姆贵3-5倍），但新手父母确实需要（产后妈妈虚弱+婴儿护理专业+婆媳矛盾缓冲），矛盾在『这笔钱花得"
+  },
+  {
+   "q": "婆婆妈妈带娃不行吗？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "反题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "月嫂一个月一两万、该不该请，是『专业照护』vs『家庭经济』的矛盾——月嫂贵（月薪过万：专业育儿/月子餐/夜间护理，比普通保姆贵3-5倍），但新手父母确实需要（产后妈妈虚弱+婴儿护理专业+婆媳矛盾缓冲），矛盾在『这笔钱花得"
+  },
+  {
+   "q": "月嫂的钱花得值吗？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "反题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "各国抢着登月探火，是『国家实力象征』+『战略资源争夺』+『科学好奇』的三重驱动——航天是综合国力的橱窗（技术/资金/组织能力），月球/火星有资源（氦-3/稀土/水冰）和战略位置（深空中转站）。真相：①『地球上问题都没解决"
+  },
+  {
+   "q": "月嫂还是家人带，怎么选？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "合题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "月嫂一个月一两万、该不该请，是『专业照护』vs『家庭经济』的矛盾——月嫂贵（月薪过万：专业育儿/月子餐/夜间护理，比普通保姆贵3-5倍），但新手父母确实需要（产后妈妈虚弱+婴儿护理专业+婆媳矛盾缓冲），矛盾在『这笔钱花得"
+  },
+  {
+   "q": "月子怎么坐才科学？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "合题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "月嫂一个月一两万、该不该请，是『专业照护』vs『家庭经济』的矛盾——月嫂贵（月薪过万：专业育儿/月子餐/夜间护理，比普通保姆贵3-5倍），但新手父母确实需要（产后妈妈虚弱+婴儿护理专业+婆媳矛盾缓冲），矛盾在『这笔钱花得"
+  },
+  {
+   "q": "为什么孩子近视越来越多？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "正题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子近视越来越多、是遗传还是玩手机，是『近距离用眼』vs『眼睛发育』的矛盾——近视是『眼轴变长』（看远模糊），儿童近视的元凶是『长时间近距离用眼』（手机/平板/作业都算），遗传只是易感（父母近视的孩子更容易近视），环境和"
+  },
+  {
+   "q": "近视是遗传还是玩手机？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "正题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子近视越来越多、是遗传还是玩手机，是『近距离用眼』vs『眼睛发育』的矛盾——近视是『眼轴变长』（看远模糊），儿童近视的元凶是『长时间近距离用眼』（手机/平板/作业都算），遗传只是易感（父母近视的孩子更容易近视），环境和"
+  },
+  {
+   "q": "不玩手机，作业也伤眼啊？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "反题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子近视越来越多、是遗传还是玩手机，是『近距离用眼』vs『眼睛发育』的矛盾——近视是『眼轴变长』（看远模糊），儿童近视的元凶是『长时间近距离用眼』（手机/平板/作业都算），遗传只是易感（父母近视的孩子更容易近视），环境和"
+  },
+  {
+   "q": "近视了戴眼镜就行吗？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "反题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子近视越来越多、是遗传还是玩手机，是『近距离用眼』vs『眼睛发育』的矛盾——近视是『眼轴变长』（看远模糊），儿童近视的元凶是『长时间近距离用眼』（手机/平板/作业都算），遗传只是易感（父母近视的孩子更容易近视），环境和"
+  },
+  {
+   "q": "怎么保护孩子的视力？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "合题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子近视越来越多、是遗传还是玩手机，是『近距离用眼』vs『眼睛发育』的矛盾——近视是『眼轴变长』（看远模糊），儿童近视的元凶是『长时间近距离用眼』（手机/平板/作业都算），遗传只是易感（父母近视的孩子更容易近视），环境和"
+  },
+  {
+   "q": "近视防控怎么做？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "合题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子近视越来越多、是遗传还是玩手机，是『近距离用眼』vs『眼睛发育』的矛盾——近视是『眼轴变长』（看远模糊），儿童近视的元凶是『长时间近距离用眼』（手机/平板/作业都算），遗传只是易感（父母近视的孩子更容易近视），环境和"
+  },
+  {
+   "q": "为什么广场舞总有矛盾？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "正题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "广场舞扰民、老人跳个舞怎么了，是『老人健身需求』vs『周边安宁』的矛盾——广场舞是老人最便宜的锻炼方式（免费/门槛低/社交属性：跳完聊聊天，孤独感减半），但音响高分贝（音乐开大才有气氛）吵到居民（上班族要休息/学生要写作"
+  },
+  {
+   "q": "广场舞扰民该不该管？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "正题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "广场舞扰民、老人跳个舞怎么了，是『老人健身需求』vs『周边安宁』的矛盾——广场舞是老人最便宜的锻炼方式（免费/门槛低/社交属性：跳完聊聊天，孤独感减半），但音响高分贝（音乐开大才有气氛）吵到居民（上班族要休息/学生要写作"
+  },
+  {
+   "q": "老人跳个舞怎么了？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "反题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "广场舞扰民、老人跳个舞怎么了，是『老人健身需求』vs『周边安宁』的矛盾——广场舞是老人最便宜的锻炼方式（免费/门槛低/社交属性：跳完聊聊天，孤独感减半），但音响高分贝（音乐开大才有气氛）吵到居民（上班族要休息/学生要写作"
+  },
+  {
+   "q": "不让跳广场舞，老人去哪锻炼？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "反题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "广场舞扰民、老人跳个舞怎么了，是『老人健身需求』vs『周边安宁』的矛盾——广场舞是老人最便宜的锻炼方式（免费/门槛低/社交属性：跳完聊聊天，孤独感减半），但音响高分贝（音乐开大才有气氛）吵到居民（上班族要休息/学生要写作"
+  },
+  {
+   "q": "广场舞和安宁怎么平衡？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "合题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "广场舞怎么跳不扰民？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "合题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "广场舞扰民、老人跳个舞怎么了，是『老人健身需求』vs『周边安宁』的矛盾——广场舞是老人最便宜的锻炼方式（免费/门槛低/社交属性：跳完聊聊天，孤独感减半），但音响高分贝（音乐开大才有气氛）吵到居民（上班族要休息/学生要写作"
+  },
+  {
+   "q": "为什么浪费食物这么普遍？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "正题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "浪费食物普遍、光盘行动难，是『面子文化』vs『粮食珍惜』的矛盾——中国每年浪费的食物够几千万人吃一年（餐饮浪费占大头：请客点多了/食堂剩饭/家庭剩菜），浪费的根源不是『不爱惜』是『面子』（请客点少了显得小气/打包显得穷酸"
+  },
+  {
+   "q": "光盘行动为什么难？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "正题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "浪费食物普遍、光盘行动难，是『面子文化』vs『粮食珍惜』的矛盾——中国每年浪费的食物够几千万人吃一年（餐饮浪费占大头：请客点多了/食堂剩饭/家庭剩菜），浪费的根源不是『不爱惜』是『面子』（请客点少了显得小气/打包显得穷酸"
+  },
+  {
+   "q": "点多了浪费，点少了不够吃？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "反题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "听起来你今天挺累的。先别急着学新东西，休息也是保持状态的一部分——浪费食物普遍、光盘行动难，是『面子文化』vs『粮食珍惜』的矛盾——中国每年浪费的食物够几千万人吃一年（餐饮浪费占大头：请客点多了/食堂剩饭/家庭剩菜），浪"
+  },
+  {
+   "q": "打包丢人吗？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "反题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "浪费食物普遍、光盘行动难，是『面子文化』vs『粮食珍惜』的矛盾——中国每年浪费的食物够几千万人吃一年（餐饮浪费占大头：请客点多了/食堂剩饭/家庭剩菜），浪费的根源不是『不爱惜』是『面子』（请客点少了显得小气/打包显得穷酸"
+  },
+  {
+   "q": "怎么做到不浪费？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "合题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "浪费食物普遍、光盘行动难，是『面子文化』vs『粮食珍惜』的矛盾——中国每年浪费的食物够几千万人吃一年（餐饮浪费占大头：请客点多了/食堂剩饭/家庭剩菜），浪费的根源不是『不爱惜』是『面子』（请客点少了显得小气/打包显得穷酸"
+  },
+  {
+   "q": "请客吃饭怎么不浪费？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "合题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "浪费食物普遍、光盘行动难，是『面子文化』vs『粮食珍惜』的矛盾——中国每年浪费的食物够几千万人吃一年（餐饮浪费占大头：请客点多了/食堂剩饭/家庭剩菜），浪费的根源不是『不爱惜』是『面子』（请客点少了显得小气/打包显得穷酸"
+  }
+ ]
+}

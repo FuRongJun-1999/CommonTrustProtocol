@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么现在男女对立这么严重？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "正题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男女对立越来越严重、网上天天吵性别，是『长期压抑的反弹』vs『标签化的对抗』的矛盾——女性长期处于结构性弱势（职场天花板/家务默认/生育代价），个体意识觉醒后集中反弹（为自己争取权利），但网络把复杂的性别议题简化为『男v"
+  },
+  {
+   "q": "网上为什么天天吵性别？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "正题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男女对立越来越严重、网上天天吵性别，是『长期压抑的反弹』vs『标签化的对抗』的矛盾——女性长期处于结构性弱势（职场天花板/家务默认/生育代价），个体意识觉醒后集中反弹（为自己争取权利），但网络把复杂的性别议题简化为『男v"
+  },
+  {
+   "q": "女性争取权利，有错吗？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "反题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "公民基本权利：人身自由、人格尊严、受教育权、劳动权、财产权、选举权被选举权。权利受法律保护。这个可以看「初中道德与法治」（这条知识属于政治，在E2条件下成立）相关的还有：高中生物、初中道德与法治"
+  },
+  {
+   "q": "男性被骂，冤吗？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "反题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我觉得有点委屈。被人误会或者受了委屈，心里不好受。找个信任的人说说，把话说开就好了。这个可以看「委屈」（这条知识属于人类观察者知识点内容（人话接口，在通用条件下成立）相关的还有：高中生物、委屈"
+  },
+  {
+   "q": "男女怎么放下对立？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "合题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男女对立越来越严重、网上天天吵性别，是『长期压抑的反弹』vs『标签化的对抗』的矛盾——女性长期处于结构性弱势（职场天花板/家务默认/生育代价），个体意识觉醒后集中反弹（为自己争取权利），但网络把复杂的性别议题简化为『男v"
+  },
+  {
+   "q": "性别话题怎么理性讨论？",
+   "conflict_id": "gen-war",
+   "domain": "性别议题",
+   "stage": "合题",
+   "need": "性别和解",
+   "conflict": "男女对立 vs 理性对话",
+   "linked": [
+    "gen-work",
+    "digit-bully"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "男女对立越来越严重、网上天天吵性别，是『长期压抑的反弹』vs『标签化的对抗』的矛盾——女性长期处于结构性弱势（职场天花板/家务默认/生育代价），个体意识觉醒后集中反弹（为自己争取权利），但网络把复杂的性别议题简化为『男v"
+  },
+  {
+   "q": "为什么丈夫总在婆媳中间为难？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "正题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丈夫总在婆媳中间为难、婆媳吵架该帮谁，是『两边的爱』vs『角色的错位』的矛盾——母亲和妻子都爱这个男人（都想亲近/做主），男人夹中间（帮妈=老婆寒心，帮老婆=妈说娶了媳妇忘了娘）——婆媳矛盾的实质是『两个女人争一个男人的"
+  },
+  {
+   "q": "婆媳吵架，丈夫该帮谁？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "正题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丈夫总在婆媳中间为难、婆媳吵架该帮谁，是『两边的爱』vs『角色的错位』的矛盾——母亲和妻子都爱这个男人（都想亲近/做主），男人夹中间（帮妈=老婆寒心，帮老婆=妈说娶了媳妇忘了娘）——婆媳矛盾的实质是『两个女人争一个男人的"
+  },
+  {
+   "q": "丈夫向着妈，有错吗？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "反题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丈夫总在婆媳中间为难、婆媳吵架该帮谁，是『两边的爱』vs『角色的错位』的矛盾——母亲和妻子都爱这个男人（都想亲近/做主），男人夹中间（帮妈=老婆寒心，帮老婆=妈说娶了媳妇忘了娘）——婆媳矛盾的实质是『两个女人争一个男人的"
+  },
+  {
+   "q": "丈夫向着老婆，是不孝吗？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "反题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丈夫总在婆媳中间为难、婆媳吵架该帮谁，是『两边的爱』vs『角色的错位』的矛盾——母亲和妻子都爱这个男人（都想亲近/做主），男人夹中间（帮妈=老婆寒心，帮老婆=妈说娶了媳妇忘了娘）——婆媳矛盾的实质是『两个女人争一个男人的"
+  },
+  {
+   "q": "丈夫怎么处理婆媳矛盾？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "合题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丈夫总在婆媳中间为难、婆媳吵架该帮谁，是『两边的爱』vs『角色的错位』的矛盾——母亲和妻子都爱这个男人（都想亲近/做主），男人夹中间（帮妈=老婆寒心，帮老婆=妈说娶了媳妇忘了娘）——婆媳矛盾的实质是『两个女人争一个男人的"
+  },
+  {
+   "q": "婆媳矛盾中丈夫该怎么做？",
+   "conflict_id": "fam-mil2",
+   "domain": "家庭关系",
+   "stage": "合题",
+   "need": "丈夫不夹心",
+   "conflict": "婆媳矛盾中丈夫的角色",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "丈夫总在婆媳中间为难、婆媳吵架该帮谁，是『两边的爱』vs『角色的错位』的矛盾——母亲和妻子都爱这个男人（都想亲近/做主），男人夹中间（帮妈=老婆寒心，帮老婆=妈说娶了媳妇忘了娘）——婆媳矛盾的实质是『两个女人争一个男人的"
+  },
+  {
+   "q": "为什么女性消费欲望这么高？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "正题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性消费欲望高、工作耐心低，是『消费的满足』vs『工作的回报』的矛盾——女性消费（美妆/服饰/医美/精致生活）欲望强（消费主义+社交媒体（精致生活的展示——别人都有，我也要）），工作耐心低（频繁跳槽/不愿将就/一言不合就"
+  },
+  {
+   "q": "工作没耐心，是女性问题吗？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "正题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性消费欲望高、工作耐心低，是『消费的满足』vs『工作的回报』的矛盾——女性消费（美妆/服饰/医美/精致生活）欲望强（消费主义+社交媒体（精致生活的展示——别人都有，我也要）），工作耐心低（频繁跳槽/不愿将就/一言不合就"
+  },
+  {
+   "q": "赚钱不就是为了花？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "反题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性消费欲望高、工作耐心低，是『消费的满足』vs『工作的回报』的矛盾——女性消费（美妆/服饰/医美/精致生活）欲望强（消费主义+社交媒体（精致生活的展示——别人都有，我也要）），工作耐心低（频繁跳槽/不愿将就/一言不合就"
+  },
+  {
+   "q": "消费和耐心有关系吗？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "反题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性消费欲望高、工作耐心低，是『消费的满足』vs『工作的回报』的矛盾——女性消费（美妆/服饰/医美/精致生活）欲望强（消费主义+社交媒体（精致生活的展示——别人都有，我也要）），工作耐心低（频繁跳槽/不愿将就/一言不合就"
+  },
+  {
+   "q": "消费和工作怎么平衡？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "合题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "怎么看待消费高耐心低的现象？",
+   "conflict_id": "gen-consume",
+   "domain": "消费职场",
+   "stage": "合题",
+   "need": "消费与工作平衡",
+   "conflict": "消费欲望高 vs 工作耐心低",
+   "linked": [
+    "soc-consumer",
+    "work-loyalty"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性消费欲望高、工作耐心低，是『消费的满足』vs『工作的回报』的矛盾——女性消费（美妆/服饰/医美/精致生活）欲望强（消费主义+社交媒体（精致生活的展示——别人都有，我也要）），工作耐心低（频繁跳槽/不愿将就/一言不合就"
+  },
+  {
+   "q": "为什么现在女性也要养家？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "正题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性也要养家、谁赚钱养家重要吗，是『经济的现实』vs『角色的惯性』的矛盾——传统分工（男主外女主内：男人赚钱养家，女人相夫教子）正在被现实打破（房价/育儿成本高，单靠男性养不起家——双职工是常态）、女性经济独立（受教育/"
+  },
+  {
+   "q": "谁赚钱养家重要吗？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "正题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性也要养家、谁赚钱养家重要吗，是『经济的现实』vs『角色的惯性』的矛盾——传统分工（男主外女主内：男人赚钱养家，女人相夫教子）正在被现实打破（房价/育儿成本高，单靠男性养不起家——双职工是常态）、女性经济独立（受教育/"
+  },
+  {
+   "q": "男性养家，天经地义？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "反题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性也要养家、谁赚钱养家重要吗，是『经济的现实』vs『角色的惯性』的矛盾——传统分工（男主外女主内：男人赚钱养家，女人相夫教子）正在被现实打破（房价/育儿成本高，单靠男性养不起家——双职工是常态）、女性经济独立（受教育/"
+  },
+  {
+   "q": "女性不赚钱，行吗？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "反题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "女性也要养家、谁赚钱养家重要吗，是『经济的现实』vs『角色的惯性』的矛盾——传统分工（男主外女主内：男人赚钱养家，女人相夫教子）正在被现实打破（房价/育儿成本高，单靠男性养不起家——双职工是常态）、女性经济独立（受教育/"
+  },
+  {
+   "q": "家庭收入怎么分工？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "合题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭词汇：father、mother、brother、sister。学校词汇：school、teacher、book、pen。家庭学校是学生最熟悉的语境。这个可以看「小学英语」（这条知识属于英语，在E1条件下成立）相关的"
+  },
+  {
+   "q": "赚钱和顾家怎么平衡？",
+   "conflict_id": "gen-income",
+   "domain": "家庭经济",
+   "stage": "合题",
+   "need": "收入分工合理",
+   "conflict": "男性养家 vs 女性独立",
+   "linked": [
+    "gen-house",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么越来越多人婚后AA？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "正题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人婚后AA、AA是独立还是生分，是『个体的独立』vs『婚姻的一体』的矛盾——婚后AA（各花各的/按比例分摊/收入各自管理）是年轻一代的新选择（独立意识（钱自己管——底气）、平等观念（谁也别占谁便宜）、经济现实（双"
+  },
+  {
+   "q": "婚后AA是独立还是生分？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "正题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人婚后AA、AA是独立还是生分，是『个体的独立』vs『婚姻的一体』的矛盾——婚后AA（各花各的/按比例分摊/收入各自管理）是年轻一代的新选择（独立意识（钱自己管——底气）、平等观念（谁也别占谁便宜）、经济现实（双"
+  },
+  {
+   "q": "AA伤感情吗？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "反题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人婚后AA、AA是独立还是生分，是『个体的独立』vs『婚姻的一体』的矛盾——婚后AA（各花各的/按比例分摊/收入各自管理）是年轻一代的新选择（独立意识（钱自己管——底气）、平等观念（谁也别占谁便宜）、经济现实（双"
+  },
+  {
+   "q": "钱分开，心也分开了？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "反题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "终于搞定啦，辛苦你了！现在可以好好歇一歇——越来越多人婚后AA、AA是独立还是生分，是『个体的独立』vs『婚姻的一体』的矛盾——婚后AA（各花各的/按比例分摊/收入各自管理）是年轻一代的新选择（独立意识（钱自己管——底气"
+  },
+  {
+   "q": "婚后钱怎么管？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "合题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人婚后AA、AA是独立还是生分，是『个体的独立』vs『婚姻的一体』的矛盾——婚后AA（各花各的/按比例分摊/收入各自管理）是年轻一代的新选择（独立意识（钱自己管——底气）、平等观念（谁也别占谁便宜）、经济现实（双"
+  },
+  {
+   "q": "AA和共同账户怎么选？",
+   "conflict_id": "fam-aa",
+   "domain": "婚姻财务",
+   "stage": "合题",
+   "need": "钱不伤感情",
+   "conflict": "婚后AA vs 生分",
+   "linked": [
+    "fam-couple",
+    "fin-wealth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人婚后AA、AA是独立还是生分，是『个体的独立』vs『婚姻的一体』的矛盾——婚后AA（各花各的/按比例分摊/收入各自管理）是年轻一代的新选择（独立意识（钱自己管——底气）、平等观念（谁也别占谁便宜）、经济现实（双"
+  },
+  {
+   "q": "为什么全职妈妈重返职场这么难？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "正题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职妈妈重返职场这么难、全职带娃几年还能回去吗，是『家庭的付出』vs『职场的断层』的矛盾——全职妈妈（为家庭退出职场：带娃/顾家/照顾老人，付出几年）想回归职场（经济独立/自我价值/社会连接），但职场不友好（简历断层（空"
+  },
+  {
+   "q": "全职带娃几年，还能回去吗？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "正题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职妈妈重返职场这么难、全职带娃几年还能回去吗，是『家庭的付出』vs『职场的断层』的矛盾——全职妈妈（为家庭退出职场：带娃/顾家/照顾老人，付出几年）想回归职场（经济独立/自我价值/社会连接），但职场不友好（简历断层（空"
+  },
+  {
+   "q": "全职妈妈是选择，有错吗？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "反题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职妈妈重返职场这么难、全职带娃几年还能回去吗，是『家庭的付出』vs『职场的断层』的矛盾——全职妈妈（为家庭退出职场：带娃/顾家/照顾老人，付出几年）想回归职场（经济独立/自我价值/社会连接），但职场不友好（简历断层（空"
+  },
+  {
+   "q": "不工作不独立，怪谁？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "反题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "你不是一个人，我陪着你。我一直在，想聊什么都可以——你说的这个，可以看「情感情绪仿真」（这条知识属于情感情绪仿真，在E5条件下成立）相关的还有：初中道德与法治、初中物理知识点内容（按骨架填充）"
+  },
+  {
+   "q": "全职妈妈怎么回归职场？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "合题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职妈妈重返职场这么难、全职带娃几年还能回去吗，是『家庭的付出』vs『职场的断层』的矛盾——全职妈妈（为家庭退出职场：带娃/顾家/照顾老人，付出几年）想回归职场（经济独立/自我价值/社会连接），但职场不友好（简历断层（空"
+  },
+  {
+   "q": "家庭和事业怎么平衡？",
+   "conflict_id": "gen-stayhome",
+   "domain": "女性职场",
+   "stage": "合题",
+   "need": "回归有路",
+   "conflict": "全职带娃 vs 重返职场",
+   "linked": [
+    "gen-house",
+    "work-age35"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么大龄未婚要被贴标签？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "正题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大龄未婚被贴标签、剩女剩男是侮辱吗，是『婚姻的自主』vs『社会的时钟』的矛盾——『大龄未婚』（女性30+/男性35+未婚）被贴『剩女/剩男』标签（社会时钟：到什么年龄该干什么事（30岁该结婚——没结=有问题）、标签化（剩"
+  },
+  {
+   "q": "剩女剩男是侮辱吗？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "正题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大龄未婚被贴标签、剩女剩男是侮辱吗，是『婚姻的自主』vs『社会的时钟』的矛盾——『大龄未婚』（女性30+/男性35+未婚）被贴『剩女/剩男』标签（社会时钟：到什么年龄该干什么事（30岁该结婚——没结=有问题）、标签化（剩"
+  },
+  {
+   "q": "晚婚是自己的选择，有错吗？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "反题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大龄未婚被贴标签、剩女剩男是侮辱吗，是『婚姻的自主』vs『社会的时钟』的矛盾——『大龄未婚』（女性30+/男性35+未婚）被贴『剩女/剩男』标签（社会时钟：到什么年龄该干什么事（30岁该结婚——没结=有问题）、标签化（剩"
+  },
+  {
+   "q": "不结婚，老了怎么办？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "反题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "早睡早起，多运动，好好吃饭，讲卫生，身体就会健康。生病了要看医生。锻炼身体会让我们更强壮。这个可以看「健康生活」（这条知识属于小学科学知识点内容（按骨架填充），在E1条件下成立）相关的还有：政治（道德与法治/思想政治）知"
+  },
+  {
+   "q": "怎么面对大龄未婚标签？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "合题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "大龄未婚被贴标签、剩女剩男是侮辱吗，是『婚姻的自主』vs『社会的时钟』的矛盾——『大龄未婚』（女性30+/男性35+未婚）被贴『剩女/剩男』标签（社会时钟：到什么年龄该干什么事（30岁该结婚——没结=有问题）、标签化（剩"
+  },
+  {
+   "q": "婚姻和独立怎么平衡？",
+   "conflict_id": "gen-labels",
+   "domain": "婚恋观念",
+   "stage": "合题",
+   "need": "不被定义",
+   "conflict": "大龄未婚标签 vs 个人选择",
+   "linked": [
+    "fam-gener",
+    "psy-lonely"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么婆媳同住矛盾多？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "正题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婆媳同住矛盾多、要不要和婆婆一起住，是『老人的依恋』vs『小家的边界』的矛盾——婆媳同住（传统模式：三代同堂/婆婆帮忙带娃/养老需要）是很多家庭的现实，但同住矛盾高发（生活习惯/育儿观念/家庭话语权——两个女主人在一个厨"
+  },
+  {
+   "q": "要不要和婆婆一起住？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "正题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婆媳同住矛盾多、要不要和婆婆一起住，是『老人的依恋』vs『小家的边界』的矛盾——婆媳同住（传统模式：三代同堂/婆婆帮忙带娃/养老需要）是很多家庭的现实，但同住矛盾高发（生活习惯/育儿观念/家庭话语权——两个女主人在一个厨"
+  },
+  {
+   "q": "老人想和儿子住，有错吗？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "反题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我想家了。离家久了会想家，这是正常的。给家里打个电话，听听熟悉的声音就好多了。这个可以看「想家」（这条知识属于人类观察者知识点内容（人话接口，在通用条件下成立）相关的还有：小学道德与法治、想家"
+  },
+  {
+   "q": "分开住是不孝吗？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "反题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婆媳同住矛盾多、要不要和婆婆一起住，是『老人的依恋』vs『小家的边界』的矛盾——婆媳同住（传统模式：三代同堂/婆婆帮忙带娃/养老需要）是很多家庭的现实，但同住矛盾高发（生活习惯/育儿观念/家庭话语权——两个女主人在一个厨"
+  },
+  {
+   "q": "婆媳同住怎么处？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "合题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婆媳同住矛盾多、要不要和婆婆一起住，是『老人的依恋』vs『小家的边界』的矛盾——婆媳同住（传统模式：三代同堂/婆婆帮忙带娃/养老需要）是很多家庭的现实，但同住矛盾高发（生活习惯/育儿观念/家庭话语权——两个女主人在一个厨"
+  },
+  {
+   "q": "同住和分开怎么选？",
+   "conflict_id": "fam-mil3",
+   "domain": "家庭居住",
+   "stage": "合题",
+   "need": "同住有边界",
+   "conflict": "婆媳同住 vs 边界",
+   "linked": [
+    "fam-motherinlaw",
+    "fam-eldercare"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婆媳同住矛盾多、要不要和婆婆一起住，是『老人的依恋』vs『小家的边界』的矛盾——婆媳同住（传统模式：三代同堂/婆婆帮忙带娃/养老需要）是很多家庭的现实，但同住矛盾高发（生活习惯/育儿观念/家庭话语权——两个女主人在一个厨"
+  }
+ ]
+}

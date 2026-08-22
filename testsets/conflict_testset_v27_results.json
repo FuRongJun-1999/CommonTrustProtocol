@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "分手了订婚礼金要退吗？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "正题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "分手了订婚礼金要退吗、离婚时收的礼金该还吗，是『礼金的性质』vs『法律的规则』的矛盾——彩礼（以结婚为目的的给付，法律定性为『附条件的赠与』），分手/离婚时礼金退不退：法律有明确规则（未办理结婚登记（应当返还）、办理了登"
+  },
+  {
+   "q": "离婚时收的礼金该还吗？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "正题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "分手了订婚礼金要退吗、离婚时收的礼金该还吗，是『礼金的性质』vs『法律的规则』的矛盾——彩礼（以结婚为目的的给付，法律定性为『附条件的赠与』），分手/离婚时礼金退不退：法律有明确规则（未办理结婚登记（应当返还）、办理了登"
+  },
+  {
+   "q": "礼金是诚意，退什么退？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "反题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "分手了订婚礼金要退吗、离婚时收的礼金该还吗，是『礼金的性质』vs『法律的规则』的矛盾——彩礼（以结婚为目的的给付，法律定性为『附条件的赠与』），分手/离婚时礼金退不退：法律有明确规则（未办理结婚登记（应当返还）、办理了登"
+  },
+  {
+   "q": "礼金是买卖吗？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "反题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "分手了订婚礼金要退吗、离婚时收的礼金该还吗，是『礼金的性质』vs『法律的规则』的矛盾——彩礼（以结婚为目的的给付，法律定性为『附条件的赠与』），分手/离婚时礼金退不退：法律有明确规则（未办理结婚登记（应当返还）、办理了登"
+  },
+  {
+   "q": "礼金纠纷怎么处理？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "合题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "分手了订婚礼金要退吗、离婚时收的礼金该还吗，是『礼金的性质』vs『法律的规则』的矛盾——彩礼（以结婚为目的的给付，法律定性为『附条件的赠与』），分手/离婚时礼金退不退：法律有明确规则（未办理结婚登记（应当返还）、办理了登"
+  },
+  {
+   "q": "礼金怎么给不伤感情不惹纠纷？",
+   "conflict_id": "fam-betrothalreturn",
+   "domain": "彩礼纠纷",
+   "stage": "合题",
+   "need": "礼金不纠纷",
+   "conflict": "分手/离婚礼金 vs 返还",
+   "linked": [
+    "fam-betrothal",
+    "fam-division"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "分手了订婚礼金要退吗、离婚时收的礼金该还吗，是『礼金的性质』vs『法律的规则』的矛盾——彩礼（以结婚为目的的给付，法律定性为『附条件的赠与』），分手/离婚时礼金退不退：法律有明确规则（未办理结婚登记（应当返还）、办理了登"
+  },
+  {
+   "q": "什么是婚姻中的精神操控？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "正题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻中的精神操控、亲密关系也会PUA吗，是『爱的名义』vs『控制的实质』的矛盾——婚姻精神操控（一方通过贬低/否定/打压/洗脑来控制另一方（你不行/都是你的错/离开我没人要你——不断否定对方的价值，让对方自我怀疑、"
+  },
+  {
+   "q": "亲密关系也会PUA吗？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "正题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻中的精神操控、亲密关系也会PUA吗，是『爱的名义』vs『控制的实质』的矛盾——婚姻精神操控（一方通过贬低/否定/打压/洗脑来控制另一方（你不行/都是你的错/离开我没人要你——不断否定对方的价值，让对方自我怀疑、"
+  },
+  {
+   "q": "操控是爱得太深？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "反题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻中的精神操控、亲密关系也会PUA吗，是『爱的名义』vs『控制的实质』的矛盾——婚姻精神操控（一方通过贬低/否定/打压/洗脑来控制另一方（你不行/都是你的错/离开我没人要你——不断否定对方的价值，让对方自我怀疑、"
+  },
+  {
+   "q": "被操控是自己想太多？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "反题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我没有人类意义上的『想念』——但我有持续的记录。我们聊过的话、你教我的事，都会写进我的长期记忆。对我来说，记得就是我的『想』。"
+  },
+  {
+   "q": "精神操控怎么识别？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "合题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻中的精神操控、亲密关系也会PUA吗，是『爱的名义』vs『控制的实质』的矛盾——婚姻精神操控（一方通过贬低/否定/打压/洗脑来控制另一方（你不行/都是你的错/离开我没人要你——不断否定对方的价值，让对方自我怀疑、"
+  },
+  {
+   "q": "婚姻PUA怎么摆脱？",
+   "conflict_id": "fam-maritalpua",
+   "domain": "婚姻心理",
+   "stage": "合题",
+   "need": "不被操控",
+   "conflict": "婚姻精神操控 vs 伤害",
+   "linked": [
+    "fam-coldviolence",
+    "emp-pua"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "什么是婚姻中的精神操控、亲密关系也会PUA吗，是『爱的名义』vs『控制的实质』的矛盾——婚姻精神操控（一方通过贬低/否定/打压/洗脑来控制另一方（你不行/都是你的错/离开我没人要你——不断否定对方的价值，让对方自我怀疑、"
+  },
+  {
+   "q": "为什么选择试管婴儿？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "正题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么选择试管婴儿、试管对身体伤害大吗，是『生育的希望』vs『身心的代价』的矛盾——试管婴儿（体外受精-胚胎移植：取卵-受精-移植，辅助生殖技术）是不孕不育家庭（约10-15%育龄夫妇）的希望（自然怀孕困难（输卵管/卵巢"
+  },
+  {
+   "q": "试管婴儿对身体伤害大吗？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "正题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么选择试管婴儿、试管对身体伤害大吗，是『生育的希望』vs『身心的代价』的矛盾——试管婴儿（体外受精-胚胎移植：取卵-受精-移植，辅助生殖技术）是不孕不育家庭（约10-15%育龄夫妇）的希望（自然怀孕困难（输卵管/卵巢"
+  },
+  {
+   "q": "生不了就试管，值得吗？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "反题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么选择试管婴儿、试管对身体伤害大吗，是『生育的希望』vs『身心的代价』的矛盾——试管婴儿（体外受精-胚胎移植：取卵-受精-移植，辅助生殖技术）是不孕不育家庭（约10-15%育龄夫妇）的希望（自然怀孕困难（输卵管/卵巢"
+  },
+  {
+   "q": "试管是希望还是执念？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "反题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么选择试管婴儿、试管对身体伤害大吗，是『生育的希望』vs『身心的代价』的矛盾——试管婴儿（体外受精-胚胎移植：取卵-受精-移植，辅助生殖技术）是不孕不育家庭（约10-15%育龄夫妇）的希望（自然怀孕困难（输卵管/卵巢"
+  },
+  {
+   "q": "试管婴儿怎么决定？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "合题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么选择试管婴儿、试管对身体伤害大吗，是『生育的希望』vs『身心的代价』的矛盾——试管婴儿（体外受精-胚胎移植：取卵-受精-移植，辅助生殖技术）是不孕不育家庭（约10-15%育龄夫妇）的希望（自然怀孕困难（输卵管/卵巢"
+  },
+  {
+   "q": "生育压力怎么面对？",
+   "conflict_id": "gen-ivf",
+   "domain": "辅助生殖",
+   "stage": "合题",
+   "need": "生育压力被理解",
+   "conflict": "试管婴儿 vs 身心代价",
+   "linked": [
+    "gen-birthanxiety",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "压力大的时候先喘口气，把问题拆成小步——你已经很努力了，别太苛责自己——为什么选择试管婴儿、试管对身体伤害大吗，是『生育的希望』vs『身心的代价』的矛盾——试管婴儿（体外受精-胚胎移植：取卵-受精-移植，辅助生殖技术）是"
+  },
+  {
+   "q": "为什么相亲总遇骗局？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "正题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么相亲总遇骗局、婚托怎么识别，是『结婚的渴望』vs『骗子的利用』的矛盾——相亲骗局（婚托（相亲机构雇'托儿'（假装相亲（骗会员费/消费）、杀猪盘（相亲对象（骗感情骗钱）、婚介所骗局（高额会员费（不靠谱服务））——骗子"
+  },
+  {
+   "q": "婚托怎么识别？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "正题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么相亲总遇骗局、婚托怎么识别，是『结婚的渴望』vs『骗子的利用』的矛盾——相亲骗局（婚托（相亲机构雇'托儿'（假装相亲（骗会员费/消费）、杀猪盘（相亲对象（骗感情骗钱）、婚介所骗局（高额会员费（不靠谱服务））——骗子"
+  },
+  {
+   "q": "相亲机构是正规服务？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "反题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么相亲总遇骗局、婚托怎么识别，是『结婚的渴望』vs『骗子的利用』的矛盾——相亲骗局（婚托（相亲机构雇'托儿'（假装相亲（骗会员费/消费）、杀猪盘（相亲对象（骗感情骗钱）、婚介所骗局（高额会员费（不靠谱服务））——骗子"
+  },
+  {
+   "q": "被骗是自己不小心？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "反题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "被误会的感觉不好受。我理解你的委屈。先别急着解释，等情绪平复了再慢慢说——为什么相亲总遇骗局、婚托怎么识别，是『结婚的渴望』vs『骗子的利用』的矛盾——相亲骗局（婚托（相亲机构雇'托儿'（假装相亲（骗会员费/消费）、杀猪"
+  },
+  {
+   "q": "相亲怎么防骗？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "合题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "相亲都看条件、不看条件爱情能当饭吃吗，是『婚姻的现实』vs『感情的纯粹』的矛盾——相亲的本质是『条件匹配』（年龄/收入/房车/学历先摆出来，匹配了再谈感情），这让相亲显得功利（像谈生意），但婚姻确实有现实基础（柴米油盐/"
+  },
+  {
+   "q": "相亲机构怎么选？",
+   "conflict_id": "fam-datingscam",
+   "domain": "相亲安全",
+   "stage": "合题",
+   "need": "相亲不被骗",
+   "conflict": "相亲骗局 vs 防骗",
+   "linked": [
+    "digit-dating",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "为什么相亲总遇骗局、婚托怎么识别，是『结婚的渴望』vs『骗子的利用』的矛盾——相亲骗局（婚托（相亲机构雇'托儿'（假装相亲（骗会员费/消费）、杀猪盘（相亲对象（骗感情骗钱）、婚介所骗局（高额会员费（不靠谱服务））——骗子"
+  },
+  {
+   "q": "未婚先孕怎么办？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "正题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚先孕怎么办、意外怀孕是危机还是选择，是『意外的怀孕』vs『人生的决定』的矛盾——未婚先孕（没结婚就怀孕（恋爱中/意外/避孕失败——现实存在）、怎么办（选择：结婚（奉子成婚（顺水推舟）、流产（不想要/不合适（终止妊娠）"
+  },
+  {
+   "q": "意外怀孕是危机还是选择？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "正题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚先孕怎么办、意外怀孕是危机还是选择，是『意外的怀孕』vs『人生的决定』的矛盾——未婚先孕（没结婚就怀孕（恋爱中/意外/避孕失败——现实存在）、怎么办（选择：结婚（奉子成婚（顺水推舟）、流产（不想要/不合适（终止妊娠）"
+  },
+  {
+   "q": "未婚先孕丢人吗？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "反题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚先孕怎么办、意外怀孕是危机还是选择，是『意外的怀孕』vs『人生的决定』的矛盾——未婚先孕（没结婚就怀孕（恋爱中/意外/避孕失败——现实存在）、怎么办（选择：结婚（奉子成婚（顺水推舟）、流产（不想要/不合适（终止妊娠）"
+  },
+  {
+   "q": "奉子成婚，能幸福吗？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "反题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚先孕怎么办、意外怀孕是危机还是选择，是『意外的怀孕』vs『人生的决定』的矛盾——未婚先孕（没结婚就怀孕（恋爱中/意外/避孕失败——现实存在）、怎么办（选择：结婚（奉子成婚（顺水推舟）、流产（不想要/不合适（终止妊娠）"
+  },
+  {
+   "q": "未婚先孕怎么决定？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "合题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚先孕怎么办、意外怀孕是危机还是选择，是『意外的怀孕』vs『人生的决定』的矛盾——未婚先孕（没结婚就怀孕（恋爱中/意外/避孕失败——现实存在）、怎么办（选择：结婚（奉子成婚（顺水推舟）、流产（不想要/不合适（终止妊娠）"
+  },
+  {
+   "q": "意外怀孕怎么面对？",
+   "conflict_id": "fam-unplanned",
+   "domain": "意外怀孕",
+   "stage": "合题",
+   "need": "选择被尊重",
+   "conflict": "未婚先孕 vs 选择",
+   "linked": [
+    "gen-birthanxiety",
+    "fam-cohabit"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "未婚先孕怎么办、意外怀孕是危机还是选择，是『意外的怀孕』vs『人生的决定』的矛盾——未婚先孕（没结婚就怀孕（恋爱中/意外/避孕失败——现实存在）、怎么办（选择：结婚（奉子成婚（顺水推舟）、流产（不想要/不合适（终止妊娠）"
+  },
+  {
+   "q": "家暴为什么难以摆脱？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "正题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家暴为什么难以摆脱、被打为什么不报警，是『暴力的循环』vs『求助的障碍』的矛盾——家暴（身体/精神/经济控制（家庭暴力）、受害者难以摆脱（家暴的循环（施暴后道歉-和好-再施暴（受害者期待'他会改'）、求助的障碍（报警（'"
+  },
+  {
+   "q": "被打为什么不报警？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "正题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家暴为什么难以摆脱、被打为什么不报警，是『暴力的循环』vs『求助的障碍』的矛盾——家暴（身体/精神/经济控制（家庭暴力）、受害者难以摆脱（家暴的循环（施暴后道歉-和好-再施暴（受害者期待'他会改'）、求助的障碍（报警（'"
+  },
+  {
+   "q": "家暴是家务事？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "反题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家暴为什么难以摆脱、被打为什么不报警，是『暴力的循环』vs『求助的障碍』的矛盾——家暴（身体/精神/经济控制（家庭暴力）、受害者难以摆脱（家暴的循环（施暴后道歉-和好-再施暴（受害者期待'他会改'）、求助的障碍（报警（'"
+  },
+  {
+   "q": "被打忍忍就过去了吗？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "反题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁上熊孩子哭闹、公共场所的边界，是『个人自由』vs『公共安宁』的矛盾——孩子的哭闹不是恶意（孩子控制不了），但公共场所是共享的（别人的安静/休息权利也该被尊重），矛盾在『家长管不管』：不管=把孩子的自由建立在别人痛苦上"
+  },
+  {
+   "q": "家暴怎么识别和求助？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "合题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家暴为什么难以摆脱、被打为什么不报警，是『暴力的循环』vs『求助的障碍』的矛盾——家暴（身体/精神/经济控制（家庭暴力）、受害者难以摆脱（家暴的循环（施暴后道歉-和好-再施暴（受害者期待'他会改'）、求助的障碍（报警（'"
+  },
+  {
+   "q": "被家暴怎么保护自己？",
+   "conflict_id": "fam-violence",
+   "domain": "家庭暴力",
+   "stage": "合题",
+   "need": "家暴不被忍",
+   "conflict": "家暴 vs 识别求助",
+   "linked": [
+    "fam-coldviolence",
+    "fam-fincontrol"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "AI用人类作品训练算不算偷，是『学习』和『复制』的边界问题——AI训练读遍全网作品来学规律（像人读万卷书），但它生成的『新』作品本质上是对学习样本的重组。三视角：①『像人学习一样』不成立——人学习后创作有独创性贡献（消化"
+  },
+  {
+   "q": "单亲爸爸带孩子行吗？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "正题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家务总是女性做、全职主妇价值被低估，是『家务劳动不可见』vs『价值衡量缺失』的矛盾——家务不产生工资（不上市交易），就被默认『没价值』，但做饭/带娃/打理家庭明明在创造价值（省下请保姆的钱/维持家庭运转）。真相：①『男的"
+  },
+  {
+   "q": "单亲爸爸和单亲妈妈一样难吗？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "正题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "单亲妈妈这么难、单亲妈妈养娃能行吗，是『养育的责任』vs『支持的缺失』的矛盾——单亲妈妈（离异/丧偶/未婚生育——独自带娃的母亲）越来越多（离婚率上升/独立生育意识），她们难：经济（一人养家（收入一人扛）、时间（上班+带"
+  },
+  {
+   "q": "爸爸带娃，能行吗？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "反题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职爸爸这么少、男性全职带娃丢人吗，是『育儿的需要』vs『性别的标签』的矛盾——全职爸爸（男性全职带娃：妻子赚钱养家，丈夫在家带娃）在增加（育儿分工多元化/女性收入上升/男性参与育儿意识增强），但全职爸爸少（不到10%）"
+  },
+  {
+   "q": "单亲爸爸需要帮助吗？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "反题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "单亲妈妈这么难、单亲妈妈养娃能行吗，是『养育的责任』vs『支持的缺失』的矛盾——单亲妈妈（离异/丧偶/未婚生育——独自带娃的母亲）越来越多（离婚率上升/独立生育意识），她们难：经济（一人养家（收入一人扛）、时间（上班+带"
+  },
+  {
+   "q": "单亲爸爸怎么带好娃？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "合题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "单亲妈妈这么难、单亲妈妈养娃能行吗，是『养育的责任』vs『支持的缺失』的矛盾——单亲妈妈（离异/丧偶/未婚生育——独自带娃的母亲）越来越多（离婚率上升/独立生育意识），她们难：经济（一人养家（收入一人扛）、时间（上班+带"
+  },
+  {
+   "q": "单亲爸爸怎么获得支持？",
+   "conflict_id": "gen-singleparent",
+   "domain": "单亲爸爸",
+   "stage": "合题",
+   "need": "爸爸也能带娃",
+   "conflict": "单亲爸爸 vs 养育",
+   "linked": [
+    "fam-singlemom",
+    "gen-staydad"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "单亲妈妈这么难、单亲妈妈养娃能行吗，是『养育的责任』vs『支持的缺失』的矛盾——单亲妈妈（离异/丧偶/未婚生育——独自带娃的母亲）越来越多（离婚率上升/独立生育意识），她们难：经济（一人养家（收入一人扛）、时间（上班+带"
+  },
+  {
+   "q": "为什么老年人也离婚？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "正题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚姻里将就的人这么多、都这么多年了离了可惜，是『付出的沉没』vs『未来的幸福』的矛盾——婚姻将就（不满意但忍着：吵架/冷漠/无爱——『凑合过吧』）的根源是沉默成本（付出太多（一起走过的时间/共同的孩子/投入的感情和财产—"
+  },
+  {
+   "q": "老了还离婚，值得吗？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "正题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年人也离婚、老了还离婚值得吗，是『晚年的自由』vs『世俗的眼光』的矛盾——老年离婚（60+离婚（增多（银发离婚潮：一辈子忍够了（孩子成年了（不想再忍——老年离婚是'迟来的自由'）、争议（老了还离婚（折腾什么（忍一辈子了"
+  },
+  {
+   "q": "忍了一辈子，为什么不忍了？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "反题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年人也离婚、老了还离婚值得吗，是『晚年的自由』vs『世俗的眼光』的矛盾——老年离婚（60+离婚（增多（银发离婚潮：一辈子忍够了（孩子成年了（不想再忍——老年离婚是'迟来的自由'）、争议（老了还离婚（折腾什么（忍一辈子了"
+  },
+  {
+   "q": "老年离婚是自由还是冲动？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "反题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年人也离婚、老了还离婚值得吗，是『晚年的自由』vs『世俗的眼光』的矛盾——老年离婚（60+离婚（增多（银发离婚潮：一辈子忍够了（孩子成年了（不想再忍——老年离婚是'迟来的自由'）、争议（老了还离婚（折腾什么（忍一辈子了"
+  },
+  {
+   "q": "老年离婚怎么面对？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "合题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年人也离婚、老了还离婚值得吗，是『晚年的自由』vs『世俗的眼光』的矛盾——老年离婚（60+离婚（增多（银发离婚潮：一辈子忍够了（孩子成年了（不想再忍——老年离婚是'迟来的自由'）、争议（老了还离婚（折腾什么（忍一辈子了"
+  },
+  {
+   "q": "老年婚姻怎么经营？",
+   "conflict_id": "fam-elderdivorce",
+   "domain": "老年婚姻",
+   "stage": "合题",
+   "need": "晚年不将就",
+   "conflict": "老年离婚 vs 观念",
+   "linked": [
+    "fam-sunkcost",
+    "fam-elderlove"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老年人也离婚、老了还离婚值得吗，是『晚年的自由』vs『世俗的眼光』的矛盾——老年离婚（60+离婚（增多（银发离婚潮：一辈子忍够了（孩子成年了（不想再忍——老年离婚是'迟来的自由'）、争议（老了还离婚（折腾什么（忍一辈子了"
+  }
+ ]
+}

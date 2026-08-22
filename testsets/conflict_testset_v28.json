@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v28",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "恋爱中谁该花钱？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "正题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "恋爱AA，伤感情吗？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "正题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "男生买单是应该的？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "反题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "恋爱花钱是投资吗？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "反题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "恋爱消费怎么分担？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "合题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "恋爱和钱怎么处理？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "合题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ]
+  },
+  {
+   "q": "夫妻该互相查手机吗？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "正题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "查手机是爱还是控制？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "正题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "不查手机，怎么知道忠诚？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "反题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "隐私在婚姻里重要吗？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "反题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "夫妻手机边界怎么定？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "合题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "信任和隐私怎么平衡？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "合题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "为什么生娃后夫妻关系变淡？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "正题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "有了孩子忘了爱人？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "正题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "孩子是家庭的中心，不对吗？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "反题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "夫妻感情可以等孩子大点再说？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "反题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "生娃后夫妻感情怎么保鲜？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "合题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "育儿和婚姻怎么兼顾？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "合题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "全职主妇离婚有家务补偿吗？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "正题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "家务劳动值多少钱？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "正题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "家务是爱的付出，要算钱吗？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "反题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "补偿是让婚姻变买卖吗？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "反题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "家务补偿怎么算？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "合题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "家务价值怎么被承认？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "合题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ]
+  },
+  {
+   "q": "怀孕会被辞退吗？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "正题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "孕期被调岗降薪，合法吗？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "正题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "企业怕负担，有错吗？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "反题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "孕期上班，是正常职场吗？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "反题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "孕期职场权益怎么保护？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "合题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "孕期上班怎么应对？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "合题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ]
+  },
+  {
+   "q": "为什么婚后激情会消退？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "正题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "老夫老妻就该平淡吗？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "正题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "激情消退是自然规律？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "反题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "平淡就是不爱了吗？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "反题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "婚姻激情怎么保鲜？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "合题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "平淡和激情怎么平衡？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "合题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ]
+  },
+  {
+   "q": "为什么岳母女婿也有矛盾？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "正题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "女婿和岳母怎么处？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "正题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "岳母疼女儿，有错吗？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "反题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "女婿是半个儿，对吗？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "反题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "岳母女婿怎么相处？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "合题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "两家的关系怎么平衡？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "合题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ]
+  },
+  {
+   "q": "为什么家族群让人压力大？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "正题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "家族群的养生文章怎么办？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "正题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "家族群是亲情纽带？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "反题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "家族群是情感绑架吗？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "反题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "家族群怎么相处？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "合题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ]
+  },
+  {
+   "q": "家族群的边界怎么定？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "合题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ]
+  }
+ ]
+}

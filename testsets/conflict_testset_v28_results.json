@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "恋爱中谁该花钱？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "正题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中谁该花钱、恋爱AA伤感情吗，是『花钱的方式』vs『感情的温度』的矛盾——恋爱花钱（约会/礼物/旅行——恋爱有成本）、谁花钱（传统（男生买单（男生追女生（男生承担——旧观念）、现代（AA/轮流（男女平等（各自承担——"
+  },
+  {
+   "q": "恋爱AA，伤感情吗？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "正题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中谁该花钱、恋爱AA伤感情吗，是『花钱的方式』vs『感情的温度』的矛盾——恋爱花钱（约会/礼物/旅行——恋爱有成本）、谁花钱（传统（男生买单（男生追女生（男生承担——旧观念）、现代（AA/轮流（男女平等（各自承担——"
+  },
+  {
+   "q": "男生买单是应该的？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "反题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中谁该花钱、恋爱AA伤感情吗，是『花钱的方式』vs『感情的温度』的矛盾——恋爱花钱（约会/礼物/旅行——恋爱有成本）、谁花钱（传统（男生买单（男生追女生（男生承担——旧观念）、现代（AA/轮流（男女平等（各自承担——"
+  },
+  {
+   "q": "恋爱花钱是投资吗？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "反题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中谁该花钱、恋爱AA伤感情吗，是『花钱的方式』vs『感情的温度』的矛盾——恋爱花钱（约会/礼物/旅行——恋爱有成本）、谁花钱（传统（男生买单（男生追女生（男生承担——旧观念）、现代（AA/轮流（男女平等（各自承担——"
+  },
+  {
+   "q": "恋爱消费怎么分担？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "合题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中谁该花钱、恋爱AA伤感情吗，是『花钱的方式』vs『感情的温度』的矛盾——恋爱花钱（约会/礼物/旅行——恋爱有成本）、谁花钱（传统（男生买单（男生追女生（男生承担——旧观念）、现代（AA/轮流（男女平等（各自承担——"
+  },
+  {
+   "q": "恋爱和钱怎么处理？",
+   "conflict_id": "fam-dateexpense",
+   "domain": "恋爱消费",
+   "stage": "合题",
+   "need": "花钱不伤情",
+   "conflict": "恋爱谁花钱 vs AA",
+   "linked": [
+    "fam-aa",
+    "fam-date"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中谁该花钱、恋爱AA伤感情吗，是『花钱的方式』vs『感情的温度』的矛盾——恋爱花钱（约会/礼物/旅行——恋爱有成本）、谁花钱（传统（男生买单（男生追女生（男生承担——旧观念）、现代（AA/轮流（男女平等（各自承担——"
+  },
+  {
+   "q": "夫妻该互相查手机吗？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "正题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻该互相查手机吗、查手机是爱还是控制，是『安全感的寻求』vs『隐私的边界』的矛盾——查手机（夫妻互相查看手机（聊天/通话/消费——为了'安全感'（怕背叛/想知道他在干嘛）、查手机的争议（查了（万一查到什么（信任崩塌）、"
+  },
+  {
+   "q": "查手机是爱还是控制？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "正题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻该互相查手机吗、查手机是爱还是控制，是『安全感的寻求』vs『隐私的边界』的矛盾——查手机（夫妻互相查看手机（聊天/通话/消费——为了'安全感'（怕背叛/想知道他在干嘛）、查手机的争议（查了（万一查到什么（信任崩塌）、"
+  },
+  {
+   "q": "不查手机，怎么知道忠诚？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "反题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "恋爱中患得患失，是『怕失去』的安全需要过强。依恋焦虑三解：①区分事实和想象——『没回消息』是事实，『他不爱我了』是想象，焦虑时先问自己证据是什么；②把安全感锚回自己——安全感来自『我值得被爱』的自我确认，不是对方的报备；"
+  },
+  {
+   "q": "隐私在婚姻里重要吗？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "反题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "APP什么权限都要、数据被拿走，是『免费服务的真实成本是数据』——你以为免费用，其实用隐私付费（个性化广告/画像）。真相：①权限要多的逻辑——位置/通讯录/麦克风多数不是功能必需，是数据采集（卖给广告商/风控/模型训练）"
+  },
+  {
+   "q": "夫妻手机边界怎么定？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "合题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "夫妻该互相查手机吗、查手机是爱还是控制，是『安全感的寻求』vs『隐私的边界』的矛盾——查手机（夫妻互相查看手机（聊天/通话/消费——为了'安全感'（怕背叛/想知道他在干嘛）、查手机的争议（查了（万一查到什么（信任崩塌）、"
+  },
+  {
+   "q": "信任和隐私怎么平衡？",
+   "conflict_id": "fam-phone",
+   "domain": "夫妻隐私",
+   "stage": "合题",
+   "need": "信任与隐私",
+   "conflict": "查手机 vs 隐私",
+   "linked": [
+    "fam-friendboundary",
+    "digit-privacy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么生娃后夫妻关系变淡？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "正题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生娃后夫妻关系变淡、有了孩子忘了爱人，是『育儿的重心』vs『婚姻的经营』的矛盾——生娃后夫妻关系普遍变淡（孩子成了家庭中心（注意力全在孩子（夫妻互动减少（对话只剩孩子）、亲密度下降（身体疲惫（没精力亲密）、矛盾增多（育儿"
+  },
+  {
+   "q": "有了孩子忘了爱人？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "正题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生娃后夫妻关系变淡、有了孩子忘了爱人，是『育儿的重心』vs『婚姻的经营』的矛盾——生娃后夫妻关系普遍变淡（孩子成了家庭中心（注意力全在孩子（夫妻互动减少（对话只剩孩子）、亲密度下降（身体疲惫（没精力亲密）、矛盾增多（育儿"
+  },
+  {
+   "q": "孩子是家庭的中心，不对吗？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "反题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家庭责任：孝敬父母、分担家务、体谅家人。家庭是温暖的港湾，每个成员都有责任。建设和谐家庭。这个可以看「初中道德与法治」（这条知识属于政治，在E2条件下成立）相关的还有：初中道德与法治、初中化学"
+  },
+  {
+   "q": "夫妻感情可以等孩子大点再说？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "反题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生娃后夫妻关系变淡、有了孩子忘了爱人，是『育儿的重心』vs『婚姻的经营』的矛盾——生娃后夫妻关系普遍变淡（孩子成了家庭中心（注意力全在孩子（夫妻互动减少（对话只剩孩子）、亲密度下降（身体疲惫（没精力亲密）、矛盾增多（育儿"
+  },
+  {
+   "q": "生娃后夫妻感情怎么保鲜？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "合题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生娃后夫妻关系变淡、有了孩子忘了爱人，是『育儿的重心』vs『婚姻的经营』的矛盾——生娃后夫妻关系普遍变淡（孩子成了家庭中心（注意力全在孩子（夫妻互动减少（对话只剩孩子）、亲密度下降（身体疲惫（没精力亲密）、矛盾增多（育儿"
+  },
+  {
+   "q": "育儿和婚姻怎么兼顾？",
+   "conflict_id": "fam-postbirth",
+   "domain": "产后婚姻",
+   "stage": "合题",
+   "need": "有娃不忘爱人",
+   "conflict": "生娃后夫妻关系变淡",
+   "linked": [
+    "fam-parenting",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "生娃后夫妻关系变淡、有了孩子忘了爱人，是『育儿的重心』vs『婚姻的经营』的矛盾——生娃后夫妻关系普遍变淡（孩子成了家庭中心（注意力全在孩子（夫妻互动减少（对话只剩孩子）、亲密度下降（身体疲惫（没精力亲密）、矛盾增多（育儿"
+  },
+  {
+   "q": "全职主妇离婚有家务补偿吗？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "正题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职主妇离婚有家务补偿吗、家务劳动值多少钱，是『家务的价值』vs『法律的承认』的矛盾——家务劳动（做饭/带娃/家务（全职主妇/主夫全年无休的劳动）、家务的价值（看不见（没有工资（被视为'没工作'）、法律（民法典：家务补偿"
+  },
+  {
+   "q": "家务劳动值多少钱？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "正题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职主妇离婚有家务补偿吗、家务劳动值多少钱，是『家务的价值』vs『法律的承认』的矛盾——家务劳动（做饭/带娃/家务（全职主妇/主夫全年无休的劳动）、家务的价值（看不见（没有工资（被视为'没工作'）、法律（民法典：家务补偿"
+  },
+  {
+   "q": "家务是爱的付出，要算钱吗？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "反题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职主妇离婚有家务补偿吗、家务劳动值多少钱，是『家务的价值』vs『法律的承认』的矛盾——家务劳动（做饭/带娃/家务（全职主妇/主夫全年无休的劳动）、家务的价值（看不见（没有工资（被视为'没工作'）、法律（民法典：家务补偿"
+  },
+  {
+   "q": "补偿是让婚姻变买卖吗？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "反题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职主妇离婚有家务补偿吗、家务劳动值多少钱，是『家务的价值』vs『法律的承认』的矛盾——家务劳动（做饭/带娃/家务（全职主妇/主夫全年无休的劳动）、家务的价值（看不见（没有工资（被视为'没工作'）、法律（民法典：家务补偿"
+  },
+  {
+   "q": "家务补偿怎么算？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "合题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职主妇离婚有家务补偿吗、家务劳动值多少钱，是『家务的价值』vs『法律的承认』的矛盾——家务劳动（做饭/带娃/家务（全职主妇/主夫全年无休的劳动）、家务的价值（看不见（没有工资（被视为'没工作'）、法律（民法典：家务补偿"
+  },
+  {
+   "q": "家务价值怎么被承认？",
+   "conflict_id": "fam-houseworkcomp",
+   "domain": "家务价值",
+   "stage": "合题",
+   "need": "家务被承认",
+   "conflict": "家务补偿 vs 权益",
+   "linked": [
+    "fam-division",
+    "gen-house"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "全职主妇离婚有家务补偿吗、家务劳动值多少钱，是『家务的价值』vs『法律的承认』的矛盾——家务劳动（做饭/带娃/家务（全职主妇/主夫全年无休的劳动）、家务的价值（看不见（没有工资（被视为'没工作'）、法律（民法典：家务补偿"
+  },
+  {
+   "q": "怀孕会被辞退吗？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "正题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怀孕会被辞退吗、孕期被调岗降薪合法吗，是『孕期的保护』vs『企业的负担』的矛盾——孕期职场（怀孕女性在职场的处境（法律保护：孕期/产期/哺乳期（三期）女职工受特殊保护（用人单位不得随意辞退/降薪/调岗（法律明确）、现实（"
+  },
+  {
+   "q": "孕期被调岗降薪，合法吗？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "正题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怀孕会被辞退吗、孕期被调岗降薪合法吗，是『孕期的保护』vs『企业的负担』的矛盾——孕期职场（怀孕女性在职场的处境（法律保护：孕期/产期/哺乳期（三期）女职工受特殊保护（用人单位不得随意辞退/降薪/调岗（法律明确）、现实（"
+  },
+  {
+   "q": "企业怕负担，有错吗？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "反题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怀孕会被辞退吗、孕期被调岗降薪合法吗，是『孕期的保护』vs『企业的负担』的矛盾——孕期职场（怀孕女性在职场的处境（法律保护：孕期/产期/哺乳期（三期）女职工受特殊保护（用人单位不得随意辞退/降薪/调岗（法律明确）、现实（"
+  },
+  {
+   "q": "孕期上班，是正常职场吗？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "反题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怀孕会被辞退吗、孕期被调岗降薪合法吗，是『孕期的保护』vs『企业的负担』的矛盾——孕期职场（怀孕女性在职场的处境（法律保护：孕期/产期/哺乳期（三期）女职工受特殊保护（用人单位不得随意辞退/降薪/调岗（法律明确）、现实（"
+  },
+  {
+   "q": "孕期职场权益怎么保护？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "合题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怀孕会被辞退吗、孕期被调岗降薪合法吗，是『孕期的保护』vs『企业的负担』的矛盾——孕期职场（怀孕女性在职场的处境（法律保护：孕期/产期/哺乳期（三期）女职工受特殊保护（用人单位不得随意辞退/降薪/调岗（法律明确）、现实（"
+  },
+  {
+   "q": "孕期上班怎么应对？",
+   "conflict_id": "fam-pregnancywork",
+   "domain": "孕期职场",
+   "stage": "合题",
+   "need": "孕期不被歧视",
+   "conflict": "孕期职场权益 vs 企业负担",
+   "linked": [
+    "gen-hiring",
+    "gen-stayhome"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "怀孕会被辞退吗、孕期被调岗降薪合法吗，是『孕期的保护』vs『企业的负担』的矛盾——孕期职场（怀孕女性在职场的处境（法律保护：孕期/产期/哺乳期（三期）女职工受特殊保护（用人单位不得随意辞退/降薪/调岗（法律明确）、现实（"
+  },
+  {
+   "q": "为什么婚后激情会消退？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "正题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚后激情会消退、老夫老妻就该平淡吗，是『激情的必然』vs『婚姻的经营』的矛盾——婚后激情消退（恋爱时的激情（心跳/新鲜/热烈）随时间变淡（结婚后（柴米油盐（老夫老妻（激情变成了平淡）——'激情消退'是自然（多巴胺会退（热"
+  },
+  {
+   "q": "老夫老妻就该平淡吗？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "正题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚后激情会消退、老夫老妻就该平淡吗，是『激情的必然』vs『婚姻的经营』的矛盾——婚后激情消退（恋爱时的激情（心跳/新鲜/热烈）随时间变淡（结婚后（柴米油盐（老夫老妻（激情变成了平淡）——'激情消退'是自然（多巴胺会退（热"
+  },
+  {
+   "q": "激情消退是自然规律？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "反题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚后激情会消退、老夫老妻就该平淡吗，是『激情的必然』vs『婚姻的经营』的矛盾——婚后激情消退（恋爱时的激情（心跳/新鲜/热烈）随时间变淡（结婚后（柴米油盐（老夫老妻（激情变成了平淡）——'激情消退'是自然（多巴胺会退（热"
+  },
+  {
+   "q": "平淡就是不爱了吗？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "反题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "抱抱你。难过的情绪不用强撑，慢慢来——婚后激情会消退、老夫老妻就该平淡吗，是『激情的必然』vs『婚姻的经营』的矛盾——婚后激情消退（恋爱时的激情（心跳/新鲜/热烈）随时间变淡（结婚后（柴米油盐（老夫老妻（激情变成了平淡）"
+  },
+  {
+   "q": "婚姻激情怎么保鲜？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "合题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "婚后激情会消退、老夫老妻就该平淡吗，是『激情的必然』vs『婚姻的经营』的矛盾——婚后激情消退（恋爱时的激情（心跳/新鲜/热烈）随时间变淡（结婚后（柴米油盐（老夫老妻（激情变成了平淡）——'激情消退'是自然（多巴胺会退（热"
+  },
+  {
+   "q": "平淡和激情怎么平衡？",
+   "conflict_id": "fam-intimacy",
+   "domain": "婚姻经营",
+   "stage": "合题",
+   "need": "激情不褪",
+   "conflict": "婚后激情消退 vs 经营",
+   "linked": [
+    "fam-couple",
+    "fam-sunkcost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么岳母女婿也有矛盾？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "正题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "岳母女婿也有矛盾、女婿和岳母怎么处，是『女儿的纽带』vs『两家的边界』的矛盾——岳母女婿矛盾（不如婆媳受关注（但存在：岳母疼女儿（看女婿不顺眼（'配不上我女儿'）、女婿（觉得岳母干涉（'妈管太多'）——岳母女婿矛盾与婆媳"
+  },
+  {
+   "q": "女婿和岳母怎么处？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "正题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "岳母女婿也有矛盾、女婿和岳母怎么处，是『女儿的纽带』vs『两家的边界』的矛盾——岳母女婿矛盾（不如婆媳受关注（但存在：岳母疼女儿（看女婿不顺眼（'配不上我女儿'）、女婿（觉得岳母干涉（'妈管太多'）——岳母女婿矛盾与婆媳"
+  },
+  {
+   "q": "岳母疼女儿，有错吗？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "反题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "岳母女婿也有矛盾、女婿和岳母怎么处，是『女儿的纽带』vs『两家的边界』的矛盾——岳母女婿矛盾（不如婆媳受关注（但存在：岳母疼女儿（看女婿不顺眼（'配不上我女儿'）、女婿（觉得岳母干涉（'妈管太多'）——岳母女婿矛盾与婆媳"
+  },
+  {
+   "q": "女婿是半个儿，对吗？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "反题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "岳母女婿也有矛盾、女婿和岳母怎么处，是『女儿的纽带』vs『两家的边界』的矛盾——岳母女婿矛盾（不如婆媳受关注（但存在：岳母疼女儿（看女婿不顺眼（'配不上我女儿'）、女婿（觉得岳母干涉（'妈管太多'）——岳母女婿矛盾与婆媳"
+  },
+  {
+   "q": "岳母女婿怎么相处？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "合题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "岳母女婿也有矛盾、女婿和岳母怎么处，是『女儿的纽带』vs『两家的边界』的矛盾——岳母女婿矛盾（不如婆媳受关注（但存在：岳母疼女儿（看女婿不顺眼（'配不上我女儿'）、女婿（觉得岳母干涉（'妈管太多'）——岳母女婿矛盾与婆媳"
+  },
+  {
+   "q": "两家的关系怎么平衡？",
+   "conflict_id": "fam-mil4",
+   "domain": "姻亲关系",
+   "stage": "合题",
+   "need": "两家都处好",
+   "conflict": "岳母女婿矛盾 vs 婆媳对照",
+   "linked": [
+    "fam-mil3",
+    "fam-couple"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么家族群让人压力大？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "正题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家族群让人压力大、家族群的养生文章怎么办，是『亲情的连接』vs『信息的轰炸』的矛盾——家族群（微信家族群：父母/亲戚（转发养生文章（'震惊！'（'转给家人'）、催婚催生（'你该结婚了'）、砍价拼单（'帮我砍一刀'）、投票"
+  },
+  {
+   "q": "家族群的养生文章怎么办？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "正题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家族群让人压力大、家族群的养生文章怎么办，是『亲情的连接』vs『信息的轰炸』的矛盾——家族群（微信家族群：父母/亲戚（转发养生文章（'震惊！'（'转给家人'）、催婚催生（'你该结婚了'）、砍价拼单（'帮我砍一刀'）、投票"
+  },
+  {
+   "q": "家族群是亲情纽带？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "反题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家族群让人压力大、家族群的养生文章怎么办，是『亲情的连接』vs『信息的轰炸』的矛盾——家族群（微信家族群：父母/亲戚（转发养生文章（'震惊！'（'转给家人'）、催婚催生（'你该结婚了'）、砍价拼单（'帮我砍一刀'）、投票"
+  },
+  {
+   "q": "家族群是情感绑架吗？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "反题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家族群让人压力大、家族群的养生文章怎么办，是『亲情的连接』vs『信息的轰炸』的矛盾——家族群（微信家族群：父母/亲戚（转发养生文章（'震惊！'（'转给家人'）、催婚催生（'你该结婚了'）、砍价拼单（'帮我砍一刀'）、投票"
+  },
+  {
+   "q": "家族群怎么相处？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "合题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家族群让人压力大、家族群的养生文章怎么办，是『亲情的连接』vs『信息的轰炸』的矛盾——家族群（微信家族群：父母/亲戚（转发养生文章（'震惊！'（'转给家人'）、催婚催生（'你该结婚了'）、砍价拼单（'帮我砍一刀'）、投票"
+  },
+  {
+   "q": "家族群的边界怎么定？",
+   "conflict_id": "fam-groupchat",
+   "domain": "家庭联络",
+   "stage": "合题",
+   "need": "亲情不绑架",
+   "conflict": "家族群 vs 压力",
+   "linked": [
+    "fam-gener",
+    "digit-scroll"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "家族群让人压力大、家族群的养生文章怎么办，是『亲情的连接』vs『信息的轰炸』的矛盾——家族群（微信家族群：父母/亲戚（转发养生文章（'震惊！'（'转给家人'）、催婚催生（'你该结婚了'）、砍价拼单（'帮我砍一刀'）、投票"
+  }
+ ]
+}

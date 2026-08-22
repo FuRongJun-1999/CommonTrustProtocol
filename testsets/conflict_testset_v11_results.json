@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么老板总爱画饼？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "正题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老板画饼、当众贬低、骂你是为你好，是『管理手段』vs『人格伤害』的矛盾——画饼（承诺不兑现）是激励手段的滥用，PUA（打压自尊让你不敢走）是控制手段，两者的区别在『目的』：栽培你是让你成长（给你机会/反馈/资源），PUA"
+  },
+  {
+   "q": "被领导当众批评，是我太玻璃心吗？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "正题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "被误会的感觉不好受。我理解你的委屈。先别急着解释，等情绪平复了再慢慢说——老板画饼、当众贬低、骂你是为你好，是『管理手段』vs『人格伤害』的矛盾——画饼（承诺不兑现）是激励手段的滥用，PUA（打压自尊让你不敢走）是控制手"
+  },
+  {
+   "q": "领导严格要求有错吗？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "反题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "中国共产党领导是中国特色社会主义最本质的特征。坚持党的全面领导。党的宗旨：全心全意为人民服务。这个可以看「高中思想政治」（这条知识属于政治，在E3条件下成立）相关的还有：高中思想政治、初中道德与法治"
+  },
+  {
+   "q": "骂你是为你好，这话对吗？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "反题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "你好呀！我是灵枢，有什么想聊的都可以问我——知识、生活、心情都行。"
+  },
+  {
+   "q": "怎么应对职场PUA？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "合题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老板画饼、当众贬低、骂你是为你好，是『管理手段』vs『人格伤害』的矛盾——画饼（承诺不兑现）是激励手段的滥用，PUA（打压自尊让你不敢走）是控制手段，两者的区别在『目的』：栽培你是让你成长（给你机会/反馈/资源），PUA"
+  },
+  {
+   "q": "怎么分辨真心栽培和PUA？",
+   "conflict_id": "emp-pua",
+   "domain": "职场成长",
+   "stage": "合题",
+   "need": "工作价值感",
+   "conflict": "老板画饼/贬低 vs 自我价值",
+   "linked": [
+    "work-burnout",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老板画饼、当众贬低、骂你是为你好，是『管理手段』vs『人格伤害』的矛盾——画饼（承诺不兑现）是激励手段的滥用，PUA（打压自尊让你不敢走）是控制手段，两者的区别在『目的』：栽培你是让你成长（给你机会/反馈/资源），PUA"
+  },
+  {
+   "q": "为什么越来越多人身材焦虑？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "正题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "别人都说我胖、该不该减肥，是『社会标准』vs『身体健康』的矛盾——身材标准是社会的（白幼瘦/腹肌/马甲线，随时代变的：唐朝以胖为美），身体健康是医学的（BMI/体脂/指标），该不该减不是看『别人怎么说』是看『身体需要什么"
+  },
+  {
+   "q": "胖一点就是不自律吗？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "正题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "别人都说我胖、该不该减肥，是『社会标准』vs『身体健康』的矛盾——身材标准是社会的（白幼瘦/腹肌/马甲线，随时代变的：唐朝以胖为美），身体健康是医学的（BMI/体脂/指标），该不该减不是看『别人怎么说』是看『身体需要什么"
+  },
+  {
+   "q": "减肥是为了健康，有错吗？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "反题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "别人都说我胖、该不该减肥，是『社会标准』vs『身体健康』的矛盾——身材标准是社会的（白幼瘦/腹肌/马甲线，随时代变的：唐朝以胖为美），身体健康是医学的（BMI/体脂/指标），该不该减不是看『别人怎么说』是看『身体需要什么"
+  },
+  {
+   "q": "别人都说我胖，我该减肥吗？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "反题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "别人都说我胖、该不该减肥，是『社会标准』vs『身体健康』的矛盾——身材标准是社会的（白幼瘦/腹肌/马甲线，随时代变的：唐朝以胖为美），身体健康是医学的（BMI/体脂/指标），该不该减不是看『别人怎么说』是看『身体需要什么"
+  },
+  {
+   "q": "怎么健康地管理身材？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "合题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "别人都说我胖、该不该减肥，是『社会标准』vs『身体健康』的矛盾——身材标准是社会的（白幼瘦/腹肌/马甲线，随时代变的：唐朝以胖为美），身体健康是医学的（BMI/体脂/指标），该不该减不是看『别人怎么说』是看『身体需要什么"
+  },
+  {
+   "q": "体重和健康怎么平衡？",
+   "conflict_id": "health-weight",
+   "domain": "健康生活",
+   "stage": "合题",
+   "need": "健康身材",
+   "conflict": "身材标准 vs 健康/自我接纳",
+   "linked": [
+    "psy-appearance",
+    "health-takeout"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "为什么高铁上总有熊孩子？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "正题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁上熊孩子哭闹、公共场所的边界，是『个人自由』vs『公共安宁』的矛盾——孩子的哭闹不是恶意（孩子控制不了），但公共场所是共享的（别人的安静/休息权利也该被尊重），矛盾在『家长管不管』：不管=把孩子的自由建立在别人痛苦上"
+  },
+  {
+   "q": "公共场合孩子哭闹，该不该管？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "正题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁上熊孩子哭闹、公共场所的边界，是『个人自由』vs『公共安宁』的矛盾——孩子的哭闹不是恶意（孩子控制不了），但公共场所是共享的（别人的安静/休息权利也该被尊重），矛盾在『家长管不管』：不管=把孩子的自由建立在别人痛苦上"
+  },
+  {
+   "q": "孩子还小，忍忍不行吗？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "反题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁上熊孩子哭闹、公共场所的边界，是『个人自由』vs『公共安宁』的矛盾——孩子的哭闹不是恶意（孩子控制不了），但公共场所是共享的（别人的安静/休息权利也该被尊重），矛盾在『家长管不管』：不管=把孩子的自由建立在别人痛苦上"
+  },
+  {
+   "q": "公共场合太安静，是不是太压抑了？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "反题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "焦虑的时候深呼吸一下，把问题拆小——高铁上熊孩子哭闹、公共场所的边界，是『个人自由』vs『公共安宁』的矛盾——孩子的哭闹不是恶意（孩子控制不了），但公共场所是共享的（别人的安静/休息权利也该被尊重），矛盾在『家长管不管』"
+  },
+  {
+   "q": "怎么和熊孩子家长沟通？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "合题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁上熊孩子哭闹、公共场所的边界，是『个人自由』vs『公共安宁』的矛盾——孩子的哭闹不是恶意（孩子控制不了），但公共场所是共享的（别人的安静/休息权利也该被尊重），矛盾在『家长管不管』：不管=把孩子的自由建立在别人痛苦上"
+  },
+  {
+   "q": "公共场所的边界怎么定？",
+   "conflict_id": "public-civility",
+   "domain": "公共生活",
+   "stage": "合题",
+   "need": "公共安宁",
+   "conflict": "公共场所熊孩子/噪音 vs 个人自由",
+   "linked": [
+    "city-pet",
+    "social-boundary"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁上熊孩子哭闹、公共场所的边界，是『个人自由』vs『公共安宁』的矛盾——孩子的哭闹不是恶意（孩子控制不了），但公共场所是共享的（别人的安静/休息权利也该被尊重），矛盾在『家长管不管』：不管=把孩子的自由建立在别人痛苦上"
+  },
+  {
+   "q": "孩子不打不成器吗？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "正题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子不打不成器、讲道理没用，是『立规矩』vs『不伤害』的矛盾——孩子需要规则（没有边界的孩子没有安全感），但打骂是『立规矩』最偷懒也最伤人的方式（孩子学到的是『谁力气大听谁的』不是规则本身）。真相：①孩子不打不成器吗——"
+  },
+  {
+   "q": "为什么讲道理没用？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "正题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子不打不成器、讲道理没用，是『立规矩』vs『不伤害』的矛盾——孩子需要规则（没有边界的孩子没有安全感），但打骂是『立规矩』最偷懒也最伤人的方式（孩子学到的是『谁力气大听谁的』不是规则本身）。真相：①孩子不打不成器吗——"
+  },
+  {
+   "q": "打孩子是家暴还是管教？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "反题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子不打不成器、讲道理没用，是『立规矩』vs『不伤害』的矛盾——孩子需要规则（没有边界的孩子没有安全感），但打骂是『立规矩』最偷懒也最伤人的方式（孩子学到的是『谁力气大听谁的』不是规则本身）。真相：①孩子不打不成器吗——"
+  },
+  {
+   "q": "完全不管，孩子不就无法无天了？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "反题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子不打不成器、讲道理没用，是『立规矩』vs『不伤害』的矛盾——孩子需要规则（没有边界的孩子没有安全感），但打骂是『立规矩』最偷懒也最伤人的方式（孩子学到的是『谁力气大听谁的』不是规则本身）。真相：①孩子不打不成器吗——"
+  },
+  {
+   "q": "怎么立规矩不打骂？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "合题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子不打不成器、讲道理没用，是『立规矩』vs『不伤害』的矛盾——孩子需要规则（没有边界的孩子没有安全感），但打骂是『立规矩』最偷懒也最伤人的方式（孩子学到的是『谁力气大听谁的』不是规则本身）。真相：①孩子不打不成器吗——"
+  },
+  {
+   "q": "惩罚和伤害的边界在哪？",
+   "conflict_id": "edu-punish",
+   "domain": "教育方法",
+   "stage": "合题",
+   "need": "孩子守规矩",
+   "conflict": "打骂/惩罚 vs 讲道理/边界",
+   "linked": [
+    "teach-authority",
+    "youth-game"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "孩子不打不成器、讲道理没用，是『立规矩』vs『不伤害』的矛盾——孩子需要规则（没有边界的孩子没有安全感），但打骂是『立规矩』最偷懒也最伤人的方式（孩子学到的是『谁力气大听谁的』不是规则本身）。真相：①孩子不打不成器吗——"
+  },
+  {
+   "q": "为什么越来越多人考研考公？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "正题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人考研考公、考不上研就是失败吗，是『稳定追求』vs『竞争内卷』的矛盾——考公考研热是年轻人对不确定性的防御（就业难/35岁危机/私企不稳，体制内稳定），但千军万马挤独木桥本身就是内卷（投入巨大/上岸率低/错过其他"
+  },
+  {
+   "q": "考不上研就是失败吗？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "正题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人考研考公、考不上研就是失败吗，是『稳定追求』vs『竞争内卷』的矛盾——考公考研热是年轻人对不确定性的防御（就业难/35岁危机/私企不稳，体制内稳定），但千军万马挤独木桥本身就是内卷（投入巨大/上岸率低/错过其他"
+  },
+  {
+   "q": "都去考公，谁搞科研做实业？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "反题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人考研考公、考不上研就是失败吗，是『稳定追求』vs『竞争内卷』的矛盾——考公考研热是年轻人对不确定性的防御（就业难/35岁危机/私企不稳，体制内稳定），但千军万马挤独木桥本身就是内卷（投入巨大/上岸率低/错过其他"
+  },
+  {
+   "q": "稳定有什么不好？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "反题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "焦虑的时候深呼吸一下，把问题拆小——越来越多人考研考公、考不上研就是失败吗，是『稳定追求』vs『竞争内卷』的矛盾——考公考研热是年轻人对不确定性的防御（就业难/35岁危机/私企不稳，体制内稳定），但千军万马挤独木桥本身就"
+  },
+  {
+   "q": "考研考公还是就业，怎么选？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "合题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人考研考公、考不上研就是失败吗，是『稳定追求』vs『竞争内卷』的矛盾——考公考研热是年轻人对不确定性的防御（就业难/35岁危机/私企不稳，体制内稳定），但千军万马挤独木桥本身就是内卷（投入巨大/上岸率低/错过其他"
+  },
+  {
+   "q": "考了几年没上岸，还要继续吗？",
+   "conflict_id": "study-kaoyan",
+   "domain": "教育选择",
+   "stage": "合题",
+   "need": "出路稳定",
+   "conflict": "考研考公热 vs 竞争/内卷",
+   "linked": [
+    "edu-job",
+    "soc-lieflat"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人考研考公、考不上研就是失败吗，是『稳定追求』vs『竞争内卷』的矛盾——考公考研热是年轻人对不确定性的防御（就业难/35岁危机/私企不稳，体制内稳定），但千军万马挤独木桥本身就是内卷（投入巨大/上岸率低/错过其他"
+  },
+  {
+   "q": "为什么老人越来越孤独？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "正题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我有点孤独。想找人说说话，或者给家人朋友打个电话。人需要联结，这很正常。这个可以看「人类观察者」（这条知识属于人类，在E4条件下成立）相关的还有：情感-信任连接、初中生物"
+  },
+  {
+   "q": "独居老人最怕什么？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "正题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "我有点害怕。害怕的时候心跳会快，这是身体在准备应对。确认自己安全，就会慢慢平静下来。这个可以看「人类观察者」（这条知识属于人类，在E4条件下成立）相关的还有：小学科学、形式逻辑"
+  },
+  {
+   "q": "子女在外打拼，有错吗？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "反题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "网络有利有弊：方便学习交流，也有沉迷风险。文明上网、保护隐私、不沉迷网络游戏。网络不是法外之地。这个可以看「网络生活」（这条知识属于政治（道德与法治/思想政治）知识点内容（按骨架填充），在通用条件下成立）相关的还有：高中"
+  },
+  {
+   "q": "把老人送养老院，是不孝吗？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "反题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "养老压力大，是『责任无限但资源有限』的矛盾——赡养是情感义务，但时间/金钱/精力都有限。规划四步：①责任显性化——先和家人摊开算（父母存款/医保/兄弟姐妹能分担什么），别一个人扛着不敢说，说出来才知道真实缺口；②分工而不"
+  },
+  {
+   "q": "怎么让独居老人不孤单？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "合题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "你不是一个人，我陪着你。我一直在，想聊什么都可以——你说的这个，可以看「情感情绪仿真」（这条知识属于情感情绪仿真，在E5条件下成立）相关的还有：小学道德与法治、小学英语"
+  },
+  {
+   "q": "陪伴和打拼怎么平衡？",
+   "conflict_id": "fam-solitude",
+   "domain": "家庭养老",
+   "stage": "合题",
+   "need": "老人有伴",
+   "conflict": "老人独居 vs 子女陪伴/照护",
+   "linked": [
+    "fam-eldercare",
+    "soc-aging"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "虚拟身份和现实身份哪个是真的、元宇宙会不会让人更孤独，是『虚拟体验』vs『现实根基』的矛盾——元宇宙提供即时满足（想成为谁都行/社交无压力），现实有真实连接也有真实痛苦。真相：①虚拟世界也是一种生活吗——是也不是：虚拟体"
+  },
+  {
+   "q": "蔬菜水果都有农药残留吗？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "正题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "蔬菜水果都有农药、有机食品太贵，是『吃得安全』vs『生产成本』的矛盾——不打药菜被虫吃光（产量低/卖相差），打药有残留（短期毒性/长期风险），有机（不打农药）贵在成本（人工除虫/产量低/认证费），矛盾是：安全要花钱，便宜"
+  },
+  {
+   "q": "不买有机食品，就不安全吗？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "正题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "焦虑的时候深呼吸一下，把问题拆小——蔬菜水果都有农药、有机食品太贵，是『吃得安全』vs『生产成本』的矛盾——不打药菜被虫吃光（产量低/卖相差），打药有残留（短期毒性/长期风险），有机（不打农药）贵在成本（人工除虫/产量低"
+  },
+  {
+   "q": "种地不打药，产量够吗？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "反题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "蔬菜水果都有农药、有机食品太贵，是『吃得安全』vs『生产成本』的矛盾——不打药菜被虫吃光（产量低/卖相差），打药有残留（短期毒性/长期风险），有机（不打农药）贵在成本（人工除虫/产量低/认证费），矛盾是：安全要花钱，便宜"
+  },
+  {
+   "q": "有机食品贵得有道理吗？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "反题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "蔬菜水果都有农药、有机食品太贵，是『吃得安全』vs『生产成本』的矛盾——不打药菜被虫吃光（产量低/卖相差），打药有残留（短期毒性/长期风险），有机（不打农药）贵在成本（人工除虫/产量低/认证费），矛盾是：安全要花钱，便宜"
+  },
+  {
+   "q": "怎么吃得安全又实惠？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "合题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "蔬菜水果都有农药、有机食品太贵，是『吃得安全』vs『生产成本』的矛盾——不打药菜被虫吃光（产量低/卖相差），打药有残留（短期毒性/长期风险），有机（不打农药）贵在成本（人工除虫/产量低/认证费），矛盾是：安全要花钱，便宜"
+  },
+  {
+   "q": "普通食品和有机食品怎么选？",
+   "conflict_id": "food-residue",
+   "domain": "食品安全",
+   "stage": "合题",
+   "need": "吃得安全",
+   "conflict": "农药残留 vs 有机太贵",
+   "linked": [
+    "food-safe",
+    "medical-cost"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "蔬菜水果都有农药、有机食品太贵，是『吃得安全』vs『生产成本』的矛盾——不打药菜被虫吃光（产量低/卖相差），打药有残留（短期毒性/长期风险），有机（不打农药）贵在成本（人工除虫/产量低/认证费），矛盾是：安全要花钱，便宜"
+  },
+  {
+   "q": "为什么老小区加装电梯这么难？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "正题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老小区加装电梯难、改造有分歧，是『居住改善』vs『利益分配』的矛盾——高层老人盼电梯（爬楼难/出行不便），一楼不想要（采光/噪音/贬值），装不装、钱怎么分，是典型的多方利益博弈（每户的利益诉求都正当）。真相：①为什么加装"
+  },
+  {
+   "q": "一楼住户凭什么反对装电梯？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "正题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "依据：老小区加装电梯难、改造有分歧，是『居住改善』vs『利益分配』的矛盾——高层老人盼电梯（爬楼难/出行不便），一楼不想要（采光/噪音/贬值），装不装、钱怎么分，是典型的多方利益博弈（每户的利益诉求都正当）。真相：①为什"
+  },
+  {
+   "q": "装电梯的钱该谁出？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "反题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老小区加装电梯难、改造有分歧，是『居住改善』vs『利益分配』的矛盾——高层老人盼电梯（爬楼难/出行不便），一楼不想要（采光/噪音/贬值），装不装、钱怎么分，是典型的多方利益博弈（每户的利益诉求都正当）。真相：①为什么加装"
+  },
+  {
+   "q": "老小区拆了重建不更好吗？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "反题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老小区加装电梯难、改造有分歧，是『居住改善』vs『利益分配』的矛盾——高层老人盼电梯（爬楼难/出行不便），一楼不想要（采光/噪音/贬值），装不装、钱怎么分，是典型的多方利益博弈（每户的利益诉求都正当）。真相：①为什么加装"
+  },
+  {
+   "q": "加装电梯怎么让大家都满意？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "合题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老小区加装电梯难、改造有分歧，是『居住改善』vs『利益分配』的矛盾——高层老人盼电梯（爬楼难/出行不便），一楼不想要（采光/噪音/贬值），装不装、钱怎么分，是典型的多方利益博弈（每户的利益诉求都正当）。真相：①为什么加装"
+  },
+  {
+   "q": "老旧小区怎么改造才公平？",
+   "conflict_id": "city-elevator",
+   "domain": "城市社区",
+   "stage": "合题",
+   "need": "居住改善",
+   "conflict": "老旧小区改造 vs 费用/利益分歧",
+   "linked": [
+    "housing",
+    "gov-subsidy"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老小区加装电梯难、改造有分歧，是『居住改善』vs『利益分配』的矛盾——高层老人盼电梯（爬楼难/出行不便），一楼不想要（采光/噪音/贬值），装不装、钱怎么分，是典型的多方利益博弈（每户的利益诉求都正当）。真相：①为什么加装"
+  }
+ ]
+}

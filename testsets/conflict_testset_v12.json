@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v12",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么毕业就失业？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "正题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "第一份工作怎么选？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "正题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "先就业再择业，有错吗？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "反题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "第一份工作必须对口吗？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "反题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "怎么找到第一份工作？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "合题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "第一份工作看重什么？",
+   "conflict_id": "edu-graduate",
+   "domain": "职业起步",
+   "stage": "合题",
+   "need": "第一份工作",
+   "conflict": "毕业就失业 vs 岗位需求错配",
+   "linked": [
+    "edu-job",
+    "study-kaoyan"
+   ]
+  },
+  {
+   "q": "为什么老人容易被骗？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "正题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "电信诈骗怎么防？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "正题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "被骗是老人糊涂吗？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "反题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "被骗的钱还能追回来吗？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "反题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "怎么让老人不被骗？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "合题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "反诈怎么才有效？",
+   "conflict_id": "digit-scam",
+   "domain": "数字安全",
+   "stage": "合题",
+   "need": "守住钱袋子",
+   "conflict": "诈骗手段升级 vs 老人防范薄弱",
+   "linked": [
+    "age-digital",
+    "digit-privacy"
+   ]
+  },
+  {
+   "q": "为什么有人花那么多钱打赏？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "正题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "打赏的人傻吗？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "正题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "打赏是支持主播，有错吗？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "反题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "花自己的钱打赏，别人管得着吗？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "反题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "怎么理性看待打赏？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "合题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "未成年人打赏怎么管？",
+   "conflict_id": "digit-tipping",
+   "domain": "数字消费",
+   "stage": "合题",
+   "need": "打赏的理性",
+   "conflict": "打赏主播 vs 钱/理性",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "为什么越来越多人整容？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "正题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "整容有风险吗？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "正题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "变美有错吗？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "反题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "整容是自信还是自卑？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "反题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "整容还是不整容怎么选？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "合题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "医美怎么避坑？",
+   "conflict_id": "med-cosmetic",
+   "domain": "健康消费",
+   "stage": "合题",
+   "need": "变美的自由",
+   "conflict": "变美需求 vs 手术风险",
+   "linked": [
+    "psy-appearance",
+    "medical-cost"
+   ]
+  },
+  {
+   "q": "为什么月嫂这么贵？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "正题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "请月嫂有必要吗？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "正题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "婆婆妈妈带娃不行吗？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "反题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "月嫂的钱花得值吗？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "反题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "月嫂还是家人带，怎么选？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "合题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "月子怎么坐才科学？",
+   "conflict_id": "fam-yuesao",
+   "domain": "家庭养育",
+   "stage": "合题",
+   "need": "月子有保障",
+   "conflict": "请月嫂花钱 vs 家人带/值不值",
+   "linked": [
+    "fam-birth",
+    "fam-parenting"
+   ]
+  },
+  {
+   "q": "为什么孩子近视越来越多？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "正题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "近视是遗传还是玩手机？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "正题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "不玩手机，作业也伤眼啊？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "反题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "近视了戴眼镜就行吗？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "反题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "怎么保护孩子的视力？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "合题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "近视防控怎么做？",
+   "conflict_id": "health-myopia",
+   "domain": "健康生活",
+   "stage": "合题",
+   "need": "孩子视力",
+   "conflict": "电子产品/作业 vs 视力保护",
+   "linked": [
+    "digit-scroll",
+    "edu-score"
+   ]
+  },
+  {
+   "q": "为什么广场舞总有矛盾？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "正题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "广场舞扰民该不该管？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "正题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "老人跳个舞怎么了？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "反题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "不让跳广场舞，老人去哪锻炼？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "反题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "广场舞和安宁怎么平衡？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "合题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "广场舞怎么跳不扰民？",
+   "conflict_id": "city-square",
+   "domain": "社区生活",
+   "stage": "合题",
+   "need": "锻炼有去处",
+   "conflict": "老人健身需求 vs 周边安宁",
+   "linked": [
+    "public-civility",
+    "fam-solitude"
+   ]
+  },
+  {
+   "q": "为什么浪费食物这么普遍？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "正题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "光盘行动为什么难？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "正题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "点多了浪费，点少了不够吃？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "反题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "打包丢人吗？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "反题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "怎么做到不浪费？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "合题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "请客吃饭怎么不浪费？",
+   "conflict_id": "food-waste",
+   "domain": "饮食文化",
+   "stage": "合题",
+   "need": "不浪费",
+   "conflict": "面子/点多了 vs 粮食浪费",
+   "linked": [
+    "plastic-waste",
+    "soc-consumer"
+   ]
+  }
+ ]
+}

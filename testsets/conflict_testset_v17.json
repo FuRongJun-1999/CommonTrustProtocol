@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v17",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "为什么网约车这么方便？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "正题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ]
+  },
+  {
+   "q": "网约车安全吗？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "正题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ]
+  },
+  {
+   "q": "网约车便宜，司机赚得少有错吗？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "反题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ]
+  },
+  {
+   "q": "深夜打车，是不是自己不小心？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "反题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ]
+  },
+  {
+   "q": "怎么安全地打网约车？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "合题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ]
+  },
+  {
+   "q": "网约车平台该管什么？",
+   "conflict_id": "traffic-ridehailing",
+   "domain": "出行服务",
+   "stage": "合题",
+   "need": "打车的安全",
+   "conflict": "网约车便利 vs 安全/司机权益",
+   "linked": [
+    "gov-platform",
+    "traffic-e"
+   ]
+  },
+  {
+   "q": "为什么健身房总跑路？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "正题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "办卡为什么这么便宜？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "正题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "健身房也是生意，先收钱有错吗？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "反题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "办卡前自己不看，怪谁？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "反题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "怎么健身不被坑？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "合题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "预付卡怎么防跑路？",
+   "conflict_id": "fitness-card",
+   "domain": "健身消费",
+   "stage": "合题",
+   "need": "健身的保障",
+   "conflict": "办卡优惠 vs 跑路风险",
+   "linked": [
+    "fin-loan",
+    "gov-reg"
+   ]
+  },
+  {
+   "q": "为什么装充电桩这么难？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "正题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ]
+  },
+  {
+   "q": "物业为什么不让装充电桩？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "正题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ]
+  },
+  {
+   "q": "物业也是为安全，有错吗？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "反题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ]
+  },
+  {
+   "q": "没充电桩，电车怎么买？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "反题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ]
+  },
+  {
+   "q": "充电桩怎么装得成？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "合题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ]
+  },
+  {
+   "q": "小区充电怎么解决？",
+   "conflict_id": "traffic-charge",
+   "domain": "新能源出行",
+   "stage": "合题",
+   "need": "充电便利",
+   "conflict": "装桩需求 vs 物业/安全阻力",
+   "linked": [
+    "traffic-e",
+    "city-property"
+   ]
+  },
+  {
+   "q": "为什么图书馆总有人占座？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "正题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ]
+  },
+  {
+   "q": "占座的人为什么理直气壮？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "正题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ]
+  },
+  {
+   "q": "占座是为学习，有错吗？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "反题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ]
+  },
+  {
+   "q": "占座是常态，忍忍不行吗？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "反题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ]
+  },
+  {
+   "q": "图书馆座位怎么管？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "合题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ]
+  },
+  {
+   "q": "备考人怎么抢到座位？",
+   "conflict_id": "city-library",
+   "domain": "公共空间",
+   "stage": "合题",
+   "need": "座位公平",
+   "conflict": "占座 vs 座位资源",
+   "linked": [
+    "edu-score",
+    "public-civility"
+   ]
+  },
+  {
+   "q": "为什么家长都焦虑孩子身高？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "正题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "孩子长得慢就是不正常吗？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "正题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "担心孩子矮，有错吗？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "反题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "打生长激素，是科学还是焦虑？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "反题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "怎么科学看待孩子身高？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "合题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "孩子长不高怎么办？",
+   "conflict_id": "health-height",
+   "domain": "儿童健康",
+   "stage": "合题",
+   "need": "身高不焦虑",
+   "conflict": "比身高 vs 科学/个体差异",
+   "linked": [
+    "psy-appearance",
+    "health-weight"
+   ]
+  },
+  {
+   "q": "为什么宠物寄养这么贵？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "正题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ]
+  },
+  {
+   "q": "宠物寄养靠谱吗？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "正题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ]
+  },
+  {
+   "q": "寄养是生意，赚钱有错吗？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "反题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ]
+  },
+  {
+   "q": "宠物能自理，放家里不行吗？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "反题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ]
+  },
+  {
+   "q": "宠物寄养怎么选？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "合题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ]
+  },
+  {
+   "q": "出门宠物怎么办？",
+   "conflict_id": "pet-boarding",
+   "domain": "养宠服务",
+   "stage": "合题",
+   "need": "出门宠物有托付",
+   "conflict": "寄养费用 vs 宠物应激/靠谱",
+   "linked": [
+    "city-pet",
+    "pet-medical"
+   ]
+  },
+  {
+   "q": "为什么份子钱越随越多？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "正题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "随份子是人情还是负担？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "正题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "人情往来，有错吗？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "反题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "不随份子，关系就淡了？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "反题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "份子钱怎么随不心疼？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "合题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "人情往来怎么不累？",
+   "conflict_id": "fam-giftmoney",
+   "domain": "人情往来",
+   "stage": "合题",
+   "need": "人情不累",
+   "conflict": "随份子 vs 经济负担",
+   "linked": [
+    "fam-wedding",
+    "soc-consumer"
+   ]
+  },
+  {
+   "q": "为什么演唱会票这么难抢？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "正题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "黄牛票为什么这么贵？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "正题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "演唱会溢价，是市场规律？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "反题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "抢不到就不看，不行吗？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "反题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "怎么抢到原价票？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "合题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  },
+  {
+   "q": "演出市场怎么治黄牛？",
+   "conflict_id": "culture-ticket",
+   "domain": "演出消费",
+   "stage": "合题",
+   "need": "看到喜欢的演出",
+   "conflict": "抢票难 vs 黄牛溢价",
+   "linked": [
+    "digit-live",
+    "youth-idol"
+   ]
+  }
+ ]
+}

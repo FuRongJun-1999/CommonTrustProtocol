@@ -1,0 +1,726 @@
+{
+ "total": 48,
+ "ok": 48,
+ "results": [
+  {
+   "q": "为什么越来越多人独居？",
+   "conflict_id": "psy-single",
+   "domain": "青年生活",
+   "stage": "正题",
+   "need": "独居的质量",
+   "conflict": "独居自由 vs 孤独/生活管理",
+   "linked": [
+    "psy-lonely",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人独居、独居是自由还是孤独，是『独立空间』vs『社会连接』的矛盾——独居给人自由（空间自己做主/节奏自己定/不被干涉），但独居也放大孤独（下班回家没人说话/生病没人照顾/情绪没人分担），一个人住的自由和一个人扛的"
+  },
+  {
+   "q": "独居是自由还是孤独？",
+   "conflict_id": "psy-single",
+   "domain": "青年生活",
+   "stage": "正题",
+   "need": "独居的质量",
+   "conflict": "独居自由 vs 孤独/生活管理",
+   "linked": [
+    "psy-lonely",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "你不是一个人，我陪着你。我一直在，想聊什么都可以——越来越多人独居、独居是自由还是孤独，是『独立空间』vs『社会连接』的矛盾——独居给人自由（空间自己做主/节奏自己定/不被干涉），但独居也放大孤独（下班回家没人说话/生病"
+  },
+  {
+   "q": "独居自由，有错吗？",
+   "conflict_id": "psy-single",
+   "domain": "青年生活",
+   "stage": "反题",
+   "need": "独居的质量",
+   "conflict": "独居自由 vs 孤独/生活管理",
+   "linked": [
+    "psy-lonely",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人独居、独居是自由还是孤独，是『独立空间』vs『社会连接』的矛盾——独居给人自由（空间自己做主/节奏自己定/不被干涉），但独居也放大孤独（下班回家没人说话/生病没人照顾/情绪没人分担），一个人住的自由和一个人扛的"
+  },
+  {
+   "q": "独居久了会不会废掉？",
+   "conflict_id": "psy-single",
+   "domain": "青年生活",
+   "stage": "反题",
+   "need": "独居的质量",
+   "conflict": "独居自由 vs 孤独/生活管理",
+   "linked": [
+    "psy-lonely",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "你不是一个人，我陪着你。我一直在，想聊什么都可以——越来越多人独居、独居是自由还是孤独，是『独立空间』vs『社会连接』的矛盾——独居给人自由（空间自己做主/节奏自己定/不被干涉），但独居也放大孤独（下班回家没人说话/生病"
+  },
+  {
+   "q": "独居怎么不孤独？",
+   "conflict_id": "psy-single",
+   "domain": "青年生活",
+   "stage": "合题",
+   "need": "独居的质量",
+   "conflict": "独居自由 vs 孤独/生活管理",
+   "linked": [
+    "psy-lonely",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "你不是一个人，我陪着你。我一直在，想聊什么都可以——越来越多人独居、独居是自由还是孤独，是『独立空间』vs『社会连接』的矛盾——独居给人自由（空间自己做主/节奏自己定/不被干涉），但独居也放大孤独（下班回家没人说话/生病"
+  },
+  {
+   "q": "独居生活怎么过得好？",
+   "conflict_id": "psy-single",
+   "domain": "青年生活",
+   "stage": "合题",
+   "need": "独居的质量",
+   "conflict": "独居自由 vs 孤独/生活管理",
+   "linked": [
+    "psy-lonely",
+    "fam-birth"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人独居、独居是自由还是孤独，是『独立空间』vs『社会连接』的矛盾——独居给人自由（空间自己做主/节奏自己定/不被干涉），但独居也放大孤独（下班回家没人说话/生病没人照顾/情绪没人分担），一个人住的自由和一个人扛的"
+  },
+  {
+   "q": "为什么培训总是先贷款？",
+   "conflict_id": "edu-trainingloan",
+   "domain": "技能投资",
+   "stage": "正题",
+   "need": "学有所值",
+   "conflict": "培训先贷款 vs 就业承诺",
+   "linked": [
+    "fin-loan",
+    "edu-job"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "培训先贷款、培训贷是馅饼还是陷阱，是『学技能的渴望』vs『机构的套路』的矛盾——想学技能（编程/剪辑/配音/考证）没学费，机构说『先贷款，学完就业再还』（听着美好：0元入学/学成上岗/月薪过万），实际是贷款合同签了（利息"
+  },
+  {
+   "q": "培训贷是馅饼还是陷阱？",
+   "conflict_id": "edu-trainingloan",
+   "domain": "技能投资",
+   "stage": "正题",
+   "need": "学有所值",
+   "conflict": "培训先贷款 vs 就业承诺",
+   "linked": [
+    "fin-loan",
+    "edu-job"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "培训先贷款、培训贷是馅饼还是陷阱，是『学技能的渴望』vs『机构的套路』的矛盾——想学技能（编程/剪辑/配音/考证）没学费，机构说『先贷款，学完就业再还』（听着美好：0元入学/学成上岗/月薪过万），实际是贷款合同签了（利息"
+  },
+  {
+   "q": "想学技能没钱，贷款有错吗？",
+   "conflict_id": "edu-trainingloan",
+   "domain": "技能投资",
+   "stage": "反题",
+   "need": "学有所值",
+   "conflict": "培训先贷款 vs 就业承诺",
+   "linked": [
+    "fin-loan",
+    "edu-job"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "培训先贷款、培训贷是馅饼还是陷阱，是『学技能的渴望』vs『机构的套路』的矛盾——想学技能（编程/剪辑/配音/考证）没学费，机构说『先贷款，学完就业再还』（听着美好：0元入学/学成上岗/月薪过万），实际是贷款合同签了（利息"
+  },
+  {
+   "q": "培训机构也是生意，赚钱有错吗？",
+   "conflict_id": "edu-trainingloan",
+   "domain": "技能投资",
+   "stage": "反题",
+   "need": "学有所值",
+   "conflict": "培训先贷款 vs 就业承诺",
+   "linked": [
+    "fin-loan",
+    "edu-job"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "培训先贷款、培训贷是馅饼还是陷阱，是『学技能的渴望』vs『机构的套路』的矛盾——想学技能（编程/剪辑/配音/考证）没学费，机构说『先贷款，学完就业再还』（听着美好：0元入学/学成上岗/月薪过万），实际是贷款合同签了（利息"
+  },
+  {
+   "q": "怎么判断培训值不值？",
+   "conflict_id": "edu-trainingloan",
+   "domain": "技能投资",
+   "stage": "合题",
+   "need": "学有所值",
+   "conflict": "培训先贷款 vs 就业承诺",
+   "linked": [
+    "fin-loan",
+    "edu-job"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "培训先贷款、培训贷是馅饼还是陷阱，是『学技能的渴望』vs『机构的套路』的矛盾——想学技能（编程/剪辑/配音/考证）没学费，机构说『先贷款，学完就业再还』（听着美好：0元入学/学成上岗/月薪过万），实际是贷款合同签了（利息"
+  },
+  {
+   "q": "想学技能怎么不踩坑？",
+   "conflict_id": "edu-trainingloan",
+   "domain": "技能投资",
+   "stage": "合题",
+   "need": "学有所值",
+   "conflict": "培训先贷款 vs 就业承诺",
+   "linked": [
+    "fin-loan",
+    "edu-job"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "培训先贷款、培训贷是馅饼还是陷阱，是『学技能的渴望』vs『机构的套路』的矛盾——想学技能（编程/剪辑/配音/考证）没学费，机构说『先贷款，学完就业再还』（听着美好：0元入学/学成上岗/月薪过万），实际是贷款合同签了（利息"
+  },
+  {
+   "q": "为什么越来越多人复读？",
+   "conflict_id": "edu-gaokao",
+   "domain": "升学选择",
+   "stage": "正题",
+   "need": "不留遗憾",
+   "conflict": "复读一年 vs 青春/风险",
+   "linked": [
+    "edu-score",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人复读、复读一年值吗，是『不甘心』vs『机会成本』的矛盾——高考没考好（差几分/发挥失常/滑档），复读是再来一次的机会（一年时间换更好的大学），但复读是赌（不确定能提分/心理压力大/一年青春）——复读的诱惑（万一"
+  },
+  {
+   "q": "复读一年值吗？",
+   "conflict_id": "edu-gaokao",
+   "domain": "升学选择",
+   "stage": "正题",
+   "need": "不留遗憾",
+   "conflict": "复读一年 vs 青春/风险",
+   "linked": [
+    "edu-score",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人复读、复读一年值吗，是『不甘心』vs『机会成本』的矛盾——高考没考好（差几分/发挥失常/滑档），复读是再来一次的机会（一年时间换更好的大学），但复读是赌（不确定能提分/心理压力大/一年青春）——复读的诱惑（万一"
+  },
+  {
+   "q": "不甘心，再拼一年有错吗？",
+   "conflict_id": "edu-gaokao",
+   "domain": "升学选择",
+   "stage": "反题",
+   "need": "不留遗憾",
+   "conflict": "复读一年 vs 青春/风险",
+   "linked": [
+    "edu-score",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人复读、复读一年值吗，是『不甘心』vs『机会成本』的矛盾——高考没考好（差几分/发挥失常/滑档），复读是再来一次的机会（一年时间换更好的大学），但复读是赌（不确定能提分/心理压力大/一年青春）——复读的诱惑（万一"
+  },
+  {
+   "q": "复读是机会还是逃避？",
+   "conflict_id": "edu-gaokao",
+   "domain": "升学选择",
+   "stage": "反题",
+   "need": "不留遗憾",
+   "conflict": "复读一年 vs 青春/风险",
+   "linked": [
+    "edu-score",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人复读、复读一年值吗，是『不甘心』vs『机会成本』的矛盾——高考没考好（差几分/发挥失常/滑档），复读是再来一次的机会（一年时间换更好的大学），但复读是赌（不确定能提分/心理压力大/一年青春）——复读的诱惑（万一"
+  },
+  {
+   "q": "复读还是走，怎么选？",
+   "conflict_id": "edu-gaokao",
+   "domain": "升学选择",
+   "stage": "合题",
+   "need": "不留遗憾",
+   "conflict": "复读一年 vs 青春/风险",
+   "linked": [
+    "edu-score",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人复读、复读一年值吗，是『不甘心』vs『机会成本』的矛盾——高考没考好（差几分/发挥失常/滑档），复读是再来一次的机会（一年时间换更好的大学），但复读是赌（不确定能提分/心理压力大/一年青春）——复读的诱惑（万一"
+  },
+  {
+   "q": "复读怎么不后悔？",
+   "conflict_id": "edu-gaokao",
+   "domain": "升学选择",
+   "stage": "合题",
+   "need": "不留遗憾",
+   "conflict": "复读一年 vs 青春/风险",
+   "linked": [
+    "edu-score",
+    "study-kaoyan"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "越来越多人复读、复读一年值吗，是『不甘心』vs『机会成本』的矛盾——高考没考好（差几分/发挥失常/滑档），复读是再来一次的机会（一年时间换更好的大学），但复读是赌（不确定能提分/心理压力大/一年青春）——复读的诱惑（万一"
+  },
+  {
+   "q": "为什么老人总要插手带娃？",
+   "conflict_id": "fam-grandparenting",
+   "domain": "家庭育儿",
+   "stage": "正题",
+   "need": "两代不冲突",
+   "conflict": "老人带娃 vs 父母教育理念",
+   "linked": [
+    "fam-gener",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人总插手带娃、老人带娃有什么问题，是『老人的爱』vs『父母的教育理念』的矛盾——老人帮忙带娃（真心/经验/免费，解放了双职工父母），但老人的带法（宠溺/老观念/按自己的经验）和父母的教育理念（科学育儿/立规矩）冲突：『"
+  },
+  {
+   "q": "老人带娃有什么问题？",
+   "conflict_id": "fam-grandparenting",
+   "domain": "家庭育儿",
+   "stage": "正题",
+   "need": "两代不冲突",
+   "conflict": "老人带娃 vs 父母教育理念",
+   "linked": [
+    "fam-gener",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人总插手带娃、老人带娃有什么问题，是『老人的爱』vs『父母的教育理念』的矛盾——老人帮忙带娃（真心/经验/免费，解放了双职工父母），但老人的带法（宠溺/老观念/按自己的经验）和父母的教育理念（科学育儿/立规矩）冲突：『"
+  },
+  {
+   "q": "老人帮忙带，还挑三拣四？",
+   "conflict_id": "fam-grandparenting",
+   "domain": "家庭育儿",
+   "stage": "反题",
+   "need": "两代不冲突",
+   "conflict": "老人带娃 vs 父母教育理念",
+   "linked": [
+    "fam-gener",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人总插手带娃、老人带娃有什么问题，是『老人的爱』vs『父母的教育理念』的矛盾——老人帮忙带娃（真心/经验/免费，解放了双职工父母），但老人的带法（宠溺/老观念/按自己的经验）和父母的教育理念（科学育儿/立规矩）冲突：『"
+  },
+  {
+   "q": "老人带娃省钱又省心，不好吗？",
+   "conflict_id": "fam-grandparenting",
+   "domain": "家庭育儿",
+   "stage": "反题",
+   "need": "两代不冲突",
+   "conflict": "老人带娃 vs 父母教育理念",
+   "linked": [
+    "fam-gener",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人总插手带娃、老人带娃有什么问题，是『老人的爱』vs『父母的教育理念』的矛盾——老人帮忙带娃（真心/经验/免费，解放了双职工父母），但老人的带法（宠溺/老观念/按自己的经验）和父母的教育理念（科学育儿/立规矩）冲突：『"
+  },
+  {
+   "q": "隔代育儿怎么不吵架？",
+   "conflict_id": "fam-grandparenting",
+   "domain": "家庭育儿",
+   "stage": "合题",
+   "need": "两代不冲突",
+   "conflict": "老人带娃 vs 父母教育理念",
+   "linked": [
+    "fam-gener",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人总插手带娃、老人带娃有什么问题，是『老人的爱』vs『父母的教育理念』的矛盾——老人帮忙带娃（真心/经验/免费，解放了双职工父母），但老人的带法（宠溺/老观念/按自己的经验）和父母的教育理念（科学育儿/立规矩）冲突：『"
+  },
+  {
+   "q": "老人和父母怎么分工？",
+   "conflict_id": "fam-grandparenting",
+   "domain": "家庭育儿",
+   "stage": "合题",
+   "need": "两代不冲突",
+   "conflict": "老人带娃 vs 父母教育理念",
+   "linked": [
+    "fam-gener",
+    "fam-parenting"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "老人总插手带娃、老人带娃有什么问题，是『老人的爱』vs『父母的教育理念』的矛盾——老人帮忙带娃（真心/经验/免费，解放了双职工父母），但老人的带法（宠溺/老观念/按自己的经验）和父母的教育理念（科学育儿/立规矩）冲突：『"
+  },
+  {
+   "q": "旧手机怎么处理？",
+   "conflict_id": "digit-phone",
+   "domain": "数字消费",
+   "stage": "正题",
+   "need": "旧物有归处",
+   "conflict": "旧手机处理 vs 数据隐私/浪费",
+   "linked": [
+    "digit-privacy",
+    "env-sort"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "旧手机怎么处理、回收安全吗，是『换新的欲望』vs『旧物的价值/隐私』的矛盾——手机更新快（两年一换是常态），换下来的旧手机（还能用/有数据/值点钱）怎么处理：留着吃灰（浪费）、卖二手（怕隐私泄露）、回收（怕数据被恢复）—"
+  },
+  {
+   "q": "旧手机回收安全吗？",
+   "conflict_id": "digit-phone",
+   "domain": "数字消费",
+   "stage": "正题",
+   "need": "旧物有归处",
+   "conflict": "旧手机处理 vs 数据隐私/浪费",
+   "linked": [
+    "digit-privacy",
+    "env-sort"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "旧手机怎么处理、回收安全吗，是『换新的欲望』vs『旧物的价值/隐私』的矛盾——手机更新快（两年一换是常态），换下来的旧手机（还能用/有数据/值点钱）怎么处理：留着吃灰（浪费）、卖二手（怕隐私泄露）、回收（怕数据被恢复）—"
+  },
+  {
+   "q": "手机还能用，换什么换？",
+   "conflict_id": "digit-phone",
+   "domain": "数字消费",
+   "stage": "反题",
+   "need": "旧物有归处",
+   "conflict": "旧手机处理 vs 数据隐私/浪费",
+   "linked": [
+    "digit-privacy",
+    "env-sort"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "旧手机怎么处理、回收安全吗，是『换新的欲望』vs『旧物的价值/隐私』的矛盾——手机更新快（两年一换是常态），换下来的旧手机（还能用/有数据/值点钱）怎么处理：留着吃灰（浪费）、卖二手（怕隐私泄露）、回收（怕数据被恢复）—"
+  },
+  {
+   "q": "旧手机卖钱，有错吗？",
+   "conflict_id": "digit-phone",
+   "domain": "数字消费",
+   "stage": "反题",
+   "need": "旧物有归处",
+   "conflict": "旧手机处理 vs 数据隐私/浪费",
+   "linked": [
+    "digit-privacy",
+    "env-sort"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "旧手机怎么处理、回收安全吗，是『换新的欲望』vs『旧物的价值/隐私』的矛盾——手机更新快（两年一换是常态），换下来的旧手机（还能用/有数据/值点钱）怎么处理：留着吃灰（浪费）、卖二手（怕隐私泄露）、回收（怕数据被恢复）—"
+  },
+  {
+   "q": "旧手机怎么处理最划算？",
+   "conflict_id": "digit-phone",
+   "domain": "数字消费",
+   "stage": "合题",
+   "need": "旧物有归处",
+   "conflict": "旧手机处理 vs 数据隐私/浪费",
+   "linked": [
+    "digit-privacy",
+    "env-sort"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "旧手机怎么处理、回收安全吗，是『换新的欲望』vs『旧物的价值/隐私』的矛盾——手机更新快（两年一换是常态），换下来的旧手机（还能用/有数据/值点钱）怎么处理：留着吃灰（浪费）、卖二手（怕隐私泄露）、回收（怕数据被恢复）—"
+  },
+  {
+   "q": "换手机怎么不浪费？",
+   "conflict_id": "digit-phone",
+   "domain": "数字消费",
+   "stage": "合题",
+   "need": "旧物有归处",
+   "conflict": "旧手机处理 vs 数据隐私/浪费",
+   "linked": [
+    "digit-privacy",
+    "env-sort"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "旧手机怎么处理、回收安全吗，是『换新的欲望』vs『旧物的价值/隐私』的矛盾——手机更新快（两年一换是常态），换下来的旧手机（还能用/有数据/值点钱）怎么处理：留着吃灰（浪费）、卖二手（怕隐私泄露）、回收（怕数据被恢复）—"
+  },
+  {
+   "q": "为什么社区团购这么便宜？",
+   "conflict_id": "soc-tuango",
+   "domain": "社区消费",
+   "stage": "正题",
+   "need": "买菜又便宜又好",
+   "conflict": "团购便宜 vs 菜市场/品质",
+   "linked": [
+    "digit-live",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "社区团购这么便宜、团购抢了菜市场的生意，是『低价便利』vs『品质/小摊贩生存』的矛盾——社区团购（次日达/自提点/补贴低价）让买菜便宜方便（比菜市场便宜20-30%），但它的便宜是烧钱补贴换来的（平台用资本换市场），便宜"
+  },
+  {
+   "q": "社区团购靠谱吗？",
+   "conflict_id": "soc-tuango",
+   "domain": "社区消费",
+   "stage": "正题",
+   "need": "买菜又便宜又好",
+   "conflict": "团购便宜 vs 菜市场/品质",
+   "linked": [
+    "digit-live",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "社区团购这么便宜、团购抢了菜市场的生意，是『低价便利』vs『品质/小摊贩生存』的矛盾——社区团购（次日达/自提点/补贴低价）让买菜便宜方便（比菜市场便宜20-30%），但它的便宜是烧钱补贴换来的（平台用资本换市场），便宜"
+  },
+  {
+   "q": "便宜不好吗？",
+   "conflict_id": "soc-tuango",
+   "domain": "社区消费",
+   "stage": "反题",
+   "need": "买菜又便宜又好",
+   "conflict": "团购便宜 vs 菜市场/品质",
+   "linked": [
+    "digit-live",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "社区团购这么便宜、团购抢了菜市场的生意，是『低价便利』vs『品质/小摊贩生存』的矛盾——社区团购（次日达/自提点/补贴低价）让买菜便宜方便（比菜市场便宜20-30%），但它的便宜是烧钱补贴换来的（平台用资本换市场），便宜"
+  },
+  {
+   "q": "团购抢了菜市场的生意？",
+   "conflict_id": "soc-tuango",
+   "domain": "社区消费",
+   "stage": "反题",
+   "need": "买菜又便宜又好",
+   "conflict": "团购便宜 vs 菜市场/品质",
+   "linked": [
+    "digit-live",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "社区团购这么便宜、团购抢了菜市场的生意，是『低价便利』vs『品质/小摊贩生存』的矛盾——社区团购（次日达/自提点/补贴低价）让买菜便宜方便（比菜市场便宜20-30%），但它的便宜是烧钱补贴换来的（平台用资本换市场），便宜"
+  },
+  {
+   "q": "社区团购怎么选？",
+   "conflict_id": "soc-tuango",
+   "domain": "社区消费",
+   "stage": "合题",
+   "need": "买菜又便宜又好",
+   "conflict": "团购便宜 vs 菜市场/品质",
+   "linked": [
+    "digit-live",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "社区团购这么便宜、团购抢了菜市场的生意，是『低价便利』vs『品质/小摊贩生存』的矛盾——社区团购（次日达/自提点/补贴低价）让买菜便宜方便（比菜市场便宜20-30%），但它的便宜是烧钱补贴换来的（平台用资本换市场），便宜"
+  },
+  {
+   "q": "买菜去哪儿买？",
+   "conflict_id": "soc-tuango",
+   "domain": "社区消费",
+   "stage": "合题",
+   "need": "买菜又便宜又好",
+   "conflict": "团购便宜 vs 菜市场/品质",
+   "linked": [
+    "digit-live",
+    "food-safe"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "社区团购这么便宜、团购抢了菜市场的生意，是『低价便利』vs『品质/小摊贩生存』的矛盾——社区团购（次日达/自提点/补贴低价）让买菜便宜方便（比菜市场便宜20-30%），但它的便宜是烧钱补贴换来的（平台用资本换市场），便宜"
+  },
+  {
+   "q": "为什么高铁盒饭这么贵？",
+   "conflict_id": "traffic-trainfood",
+   "domain": "出行消费",
+   "stage": "正题",
+   "need": "路上吃得好",
+   "conflict": "高铁盒饭贵 vs 自带/垄断",
+   "linked": [
+    "tourism-trap",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁盒饭贵、能不能自带食物，是『封闭场景垄断』vs『乘客选择权』的矛盾——高铁是封闭场景（车上就一家餐饮供应商，你没得选），盒饭45-60元（成本其实不高，贵在垄断定价+高铁车厢成本摊销），『贵』的本质是『没竞争』（不是"
+  },
+  {
+   "q": "高铁上为什么不能自带食物？",
+   "conflict_id": "traffic-trainfood",
+   "domain": "出行消费",
+   "stage": "正题",
+   "need": "路上吃得好",
+   "conflict": "高铁盒饭贵 vs 自带/垄断",
+   "linked": [
+    "tourism-trap",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁盒饭贵、能不能自带食物，是『封闭场景垄断』vs『乘客选择权』的矛盾——高铁是封闭场景（车上就一家餐饮供应商，你没得选），盒饭45-60元（成本其实不高，贵在垄断定价+高铁车厢成本摊销），『贵』的本质是『没竞争』（不是"
+  },
+  {
+   "q": "高铁盒饭贵，有成本啊？",
+   "conflict_id": "traffic-trainfood",
+   "domain": "出行消费",
+   "stage": "反题",
+   "need": "路上吃得好",
+   "conflict": "高铁盒饭贵 vs 自带/垄断",
+   "linked": [
+    "tourism-trap",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁盒饭贵、能不能自带食物，是『封闭场景垄断』vs『乘客选择权』的矛盾——高铁是封闭场景（车上就一家餐饮供应商，你没得选），盒饭45-60元（成本其实不高，贵在垄断定价+高铁车厢成本摊销），『贵』的本质是『没竞争』（不是"
+  },
+  {
+   "q": "高铁餐饮是垄断吗？",
+   "conflict_id": "traffic-trainfood",
+   "domain": "出行消费",
+   "stage": "反题",
+   "need": "路上吃得好",
+   "conflict": "高铁盒饭贵 vs 自带/垄断",
+   "linked": [
+    "tourism-trap",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁盒饭贵、能不能自带食物，是『封闭场景垄断』vs『乘客选择权』的矛盾——高铁是封闭场景（车上就一家餐饮供应商，你没得选），盒饭45-60元（成本其实不高，贵在垄断定价+高铁车厢成本摊销），『贵』的本质是『没竞争』（不是"
+  },
+  {
+   "q": "高铁吃饭怎么办？",
+   "conflict_id": "traffic-trainfood",
+   "domain": "出行消费",
+   "stage": "合题",
+   "need": "路上吃得好",
+   "conflict": "高铁盒饭贵 vs 自带/垄断",
+   "linked": [
+    "tourism-trap",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁盒饭贵、能不能自带食物，是『封闭场景垄断』vs『乘客选择权』的矛盾——高铁是封闭场景（车上就一家餐饮供应商，你没得选），盒饭45-60元（成本其实不高，贵在垄断定价+高铁车厢成本摊销），『贵』的本质是『没竞争』（不是"
+  },
+  {
+   "q": "高铁餐饮怎么改善？",
+   "conflict_id": "traffic-trainfood",
+   "domain": "出行消费",
+   "stage": "合题",
+   "need": "路上吃得好",
+   "conflict": "高铁盒饭贵 vs 自带/垄断",
+   "linked": [
+    "tourism-trap",
+    "gov-reg"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "高铁盒饭贵、能不能自带食物，是『封闭场景垄断』vs『乘客选择权』的矛盾——高铁是封闭场景（车上就一家餐饮供应商，你没得选），盒饭45-60元（成本其实不高，贵在垄断定价+高铁车厢成本摊销），『贵』的本质是『没竞争』（不是"
+  },
+  {
+   "q": "该不该给孩子零花钱？",
+   "conflict_id": "edu-allowance",
+   "domain": "财商教育",
+   "stage": "正题",
+   "need": "孩子会管钱",
+   "conflict": "零花钱 vs 惯坏/理财教育",
+   "linked": [
+    "edu-punish",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "该不该给孩子零花钱、孩子乱花钱怎么办，是『金钱教育』vs『惯坏担心』的矛盾——给零花钱是财商教育的第一步（孩子要学花钱：预算/取舍/存钱，零花钱是最好的练习场），但家长怕（给了乱花/惯坏/养成花钱大手大脚的毛病）——不给"
+  },
+  {
+   "q": "孩子乱花钱怎么办？",
+   "conflict_id": "edu-allowance",
+   "domain": "财商教育",
+   "stage": "正题",
+   "need": "孩子会管钱",
+   "conflict": "零花钱 vs 惯坏/理财教育",
+   "linked": [
+    "edu-punish",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "该不该给孩子零花钱、孩子乱花钱怎么办，是『金钱教育』vs『惯坏担心』的矛盾——给零花钱是财商教育的第一步（孩子要学花钱：预算/取舍/存钱，零花钱是最好的练习场），但家长怕（给了乱花/惯坏/养成花钱大手大脚的毛病）——不给"
+  },
+  {
+   "q": "零花钱是惯孩子吗？",
+   "conflict_id": "edu-allowance",
+   "domain": "财商教育",
+   "stage": "反题",
+   "need": "孩子会管钱",
+   "conflict": "零花钱 vs 惯坏/理财教育",
+   "linked": [
+    "edu-punish",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "该不该给孩子零花钱、孩子乱花钱怎么办，是『金钱教育』vs『惯坏担心』的矛盾——给零花钱是财商教育的第一步（孩子要学花钱：预算/取舍/存钱，零花钱是最好的练习场），但家长怕（给了乱花/惯坏/养成花钱大手大脚的毛病）——不给"
+  },
+  {
+   "q": "不给孩子钱，孩子偷拿怎么办？",
+   "conflict_id": "edu-allowance",
+   "domain": "财商教育",
+   "stage": "反题",
+   "need": "孩子会管钱",
+   "conflict": "零花钱 vs 惯坏/理财教育",
+   "linked": [
+    "edu-punish",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "该不该给孩子零花钱、孩子乱花钱怎么办，是『金钱教育』vs『惯坏担心』的矛盾——给零花钱是财商教育的第一步（孩子要学花钱：预算/取舍/存钱，零花钱是最好的练习场），但家长怕（给了乱花/惯坏/养成花钱大手大脚的毛病）——不给"
+  },
+  {
+   "q": "零花钱怎么给才合理？",
+   "conflict_id": "edu-allowance",
+   "domain": "财商教育",
+   "stage": "合题",
+   "need": "孩子会管钱",
+   "conflict": "零花钱 vs 惯坏/理财教育",
+   "linked": [
+    "edu-punish",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "该不该给孩子零花钱、孩子乱花钱怎么办，是『金钱教育』vs『惯坏担心』的矛盾——给零花钱是财商教育的第一步（孩子要学花钱：预算/取舍/存钱，零花钱是最好的练习场），但家长怕（给了乱花/惯坏/养成花钱大手大脚的毛病）——不给"
+  },
+  {
+   "q": "怎么教孩子管钱？",
+   "conflict_id": "edu-allowance",
+   "domain": "财商教育",
+   "stage": "合题",
+   "need": "孩子会管钱",
+   "conflict": "零花钱 vs 惯坏/理财教育",
+   "linked": [
+    "edu-punish",
+    "soc-consumer"
+   ],
+   "route": "self",
+   "bad": false,
+   "reply": "该不该给孩子零花钱、孩子乱花钱怎么办，是『金钱教育』vs『惯坏担心』的矛盾——给零花钱是财商教育的第一步（孩子要学花钱：预算/取舍/存钱，零花钱是最好的练习场），但家长怕（给了乱花/惯坏/养成花钱大手大脚的毛病）——不给"
+  }
+ ]
+}

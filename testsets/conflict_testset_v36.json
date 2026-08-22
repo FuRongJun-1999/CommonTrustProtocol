@@ -1,0 +1,582 @@
+{
+ "name": "conflict_testset_v36",
+ "conflicts": 8,
+ "items": [
+  {
+   "q": "工作日怎么陪家人？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "正题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "上班忙，家庭时间少怎么办？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "正题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "赚钱养家就是负责？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "反题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "下班就该陪家人？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "反题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "工作日家庭时间怎么安排？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "合题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "工作家庭怎么兼顾？",
+   "conflict_id": "fam-workday",
+   "domain": "家庭时间",
+   "stage": "合题",
+   "need": "忙也陪伴",
+   "conflict": "工作日家庭时间 vs 工作",
+   "linked": [
+    "work-burnout",
+    "fam-weekend"
+   ]
+  },
+  {
+   "q": "孩子做得好该奖励吗？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "正题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "物质奖励有用吗？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "正题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "奖励是贿赂？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "反题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "奖励会让孩子为了奖励做事？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "反题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "孩子奖励怎么给？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "合题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "奖励和内在动力怎么平衡？",
+   "conflict_id": "fam-childreward",
+   "domain": "奖励教育",
+   "stage": "合题",
+   "need": "奖励不绑架",
+   "conflict": "孩子奖励 vs 内在动力",
+   "linked": [
+    "edu-allowance",
+    "edu-punish"
+   ]
+  },
+  {
+   "q": "要不要搬家？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "正题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "搬家是为了什么？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "正题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "搬家太折腾？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "反题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "搬家是新的开始？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "反题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "搬家怎么决定？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "合题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "搬家怎么减少折腾？",
+   "conflict_id": "fam-move",
+   "domain": "搬家决策",
+   "stage": "合题",
+   "need": "搬家不折腾",
+   "conflict": "搬家 vs 折腾/新开始",
+   "linked": [
+    "housing",
+    "fam-decision"
+   ]
+  },
+  {
+   "q": "家里要适老化改造吗？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "正题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ]
+  },
+  {
+   "q": "适老改造有必要吗？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "正题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ]
+  },
+  {
+   "q": "改造花钱值得吗？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "反题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ]
+  },
+  {
+   "q": "老人说不用改？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "反题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ]
+  },
+  {
+   "q": "适老化改造怎么做？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "合题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ]
+  },
+  {
+   "q": "老人居住安全怎么保障？",
+   "conflict_id": "fam-elderlyhome",
+   "domain": "适老改造",
+   "stage": "合题",
+   "need": "老人住得安全",
+   "conflict": "适老化改造 vs 成本",
+   "linked": [
+    "health-fall",
+    "housing-renovation"
+   ]
+  },
+  {
+   "q": "夫妻价值观不同怎么办？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "正题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ]
+  },
+  {
+   "q": "钱/教育/消费观不合？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "正题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ]
+  },
+  {
+   "q": "价值观不合是离婚原因？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "反题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ]
+  },
+  {
+   "q": "磨合能改价值观吗？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "反题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ]
+  },
+  {
+   "q": "夫妻价值观怎么磨合？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "合题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ]
+  },
+  {
+   "q": "差异和尊重怎么平衡？",
+   "conflict_id": "fam-values",
+   "domain": "夫妻价值观",
+   "stage": "合题",
+   "need": "差异能磨合",
+   "conflict": "夫妻价值观冲突 vs 磨合",
+   "linked": [
+    "fam-couple",
+    "fam-diet"
+   ]
+  },
+  {
+   "q": "青春期孩子为什么难沟通？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "正题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "孩子叛逆怎么办？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "正题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "叛逆是正常？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "反题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "叛逆是问题？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "反题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "青春期怎么沟通？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "合题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "叛逆期怎么陪伴？",
+   "conflict_id": "fam-teenager",
+   "domain": "青春期",
+   "stage": "合题",
+   "need": "叛逆被理解",
+   "conflict": "青春期沟通 vs 叛逆",
+   "linked": [
+    "edu-punish",
+    "fam-childprivacy"
+   ]
+  },
+  {
+   "q": "怎么面对父母变老？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "正题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "老人衰老是自然还是悲哀？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "正题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "衰老是自然规律？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "反题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "变老就失去价值吗？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "反题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "怎么陪父母面对衰老？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "合题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "老人怎么接受变老？",
+   "conflict_id": "fam-aging",
+   "domain": "面对衰老",
+   "stage": "合题",
+   "need": "衰老不悲哀",
+   "conflict": "老人衰老 vs 接受",
+   "linked": [
+    "fam-elderlyhealth",
+    "fam-eldercare3"
+   ]
+  },
+  {
+   "q": "孩子多大该独立？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "正题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ]
+  },
+  {
+   "q": "父母什么时候该放手？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "正题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ]
+  },
+  {
+   "q": "放手是放任？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "反题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ]
+  },
+  {
+   "q": "管着是爱？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "反题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ]
+  },
+  {
+   "q": "孩子独立怎么培养？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "合题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ]
+  },
+  {
+   "q": "放手和守护怎么平衡？",
+   "conflict_id": "fam-childindependence",
+   "domain": "孩子独立",
+   "stage": "合题",
+   "need": "独立不失控",
+   "conflict": "孩子独立 vs 放手",
+   "linked": [
+    "fam-teenager",
+    "fam-empty"
+   ]
+  }
+ ]
+}
