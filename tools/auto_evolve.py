@@ -136,7 +136,13 @@ def solidity(w):
     return sum(1 for ch in w if ch not in FUNC_CHARS) / len(w)
 
 # 2 字候选黑名单（曾污染路由的裸泛词，经验：彩色/电梯/犯困/激光）
-BLACKLIST_2CHAR = {"彩色", "电梯", "犯困", "激光", "天气", "颜色", "温度", "时间", "时候"}
+BLACKLIST_2CHAR = {"彩色", "电梯", "犯困", "激光", "天气", "颜色", "温度", "时间", "时候",
+                   "我家", "一层", "那个", "这个", "什么", "怎么", "为什么", "一个",
+                   "上面", "下面", "里面", "外面", "旁边", "时候", "东西"}
+# 代词/量词/功能字（2 字候选若全由这些构成则丢弃——LLM 自然问法的口语碎片）
+FRAGMENT_CHARS = set("我你他她它们这那哪个些层块片张条根只个点下上里外旁前后左右")
+PUNCT = set("，。、！？；：,.!?;:（）()「」『』\"'·…—")
+
 
 def extract_candidates(theme, misses, existing, all_other):
     cand = {}
@@ -150,6 +156,10 @@ def extract_candidates(theme, misses, existing, all_other):
                     continue
                 # 分离条件空间：2 字裸泛词黑名单；≥3 字要求实词度
                 if len(w) == 2 and w in BLACKLIST_2CHAR:
+                    continue
+                if len(w) == 2 and all(ch in FRAGMENT_CHARS for ch in w):
+                    continue
+                if any(ch in PUNCT for ch in w):
                     continue
                 if solidity(w) < 0.7:
                     continue
