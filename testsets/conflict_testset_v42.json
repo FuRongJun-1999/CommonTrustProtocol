@@ -1,0 +1,48 @@
+{
+ "name": "conflict_testset_v42",
+ "conflicts": 1,
+ "items": [
+  {
+   "q": "为什么冬天脱毛衣会噼啪响？",
+   "domain": "静电",
+   "stage": "正题",
+   "need": "摩擦起电",
+   "conflict": "摩擦起电 vs 电流"
+  },
+  {
+   "q": "为什么摸门把手会被电？",
+   "domain": "静电",
+   "stage": "正题",
+   "need": "人体静电放电",
+   "conflict": "摩擦起电 vs 电流"
+  },
+  {
+   "q": "静电是电吗？",
+   "domain": "静电",
+   "stage": "反题",
+   "need": "静止电荷",
+   "conflict": "摩擦起电 vs 电流"
+  },
+  {
+   "q": "静电有害吗？",
+   "domain": "静电",
+   "stage": "反题",
+   "need": "一般无害",
+   "conflict": "摩擦起电 vs 电流"
+  },
+  {
+   "q": "怎么防静电？",
+   "domain": "静电",
+   "stage": "合题",
+   "need": "加湿纯棉放电",
+   "conflict": "摩擦起电 vs 电流"
+  },
+  {
+   "q": "静电有什么用？",
+   "domain": "静电",
+   "stage": "合题",
+   "need": "复印除尘喷涂",
+   "conflict": "摩擦起电 vs 电流"
+  }
+ ]
+}
