@@ -1,0 +1,41 @@
+# -*- coding: utf-8 -*-
+"""矛盾测试集 v50（12 物理概念·常识迁移 c1）"""
+import json, sys
+sys.stdout.reconfigure(encoding="utf-8")
+ITEMS = [
+    {"q": "为什么搓手会发热？", "domain": "摩擦", "stage": "正题",
+     "need": "摩擦生热", "conflict": "摩擦 vs 光滑"},
+    {"q": "摩擦都是坏的吗？", "domain": "摩擦", "stage": "反题",
+     "need": "有好有坏", "conflict": "摩擦 vs 光滑"},
+    {"q": "电流是什么？", "domain": "电流", "stage": "正题",
+     "need": "电荷定向移动", "conflict": "电流 vs 电"},
+    {"q": "为什么木头能漂在水上？", "domain": "浮力", "stage": "正题",
+     "need": "密度比水小", "conflict": "浮力 vs 重力"},
+    {"q": "为什么铁船能浮在水上？", "domain": "浮力", "stage": "反题",
+     "need": "空心增大体积", "conflict": "浮力 vs 重力"},
+    {"q": "为什么苹果熟了会往下掉？", "domain": "重力", "stage": "正题",
+     "need": "地球引力", "conflict": "重力 vs 地球引力"},
+    {"q": "为什么撬棍能省力？", "domain": "杠杆", "stage": "正题",
+     "need": "力臂长", "conflict": "杠杆 vs 力臂"},
+    {"q": "为什么吸管能把饮料吸上来？", "domain": "大气压", "stage": "正题",
+     "need": "气压差", "conflict": "大气压 vs 吸力"},
+    {"q": "电压是什么？", "domain": "电压", "stage": "正题",
+     "need": "电位差", "conflict": "电压 vs 电流"},
+    {"q": "为什么筷子插水里看起来弯了？", "domain": "折射", "stage": "正题",
+     "need": "光的折射", "conflict": "折射 vs 直线传播"},
+    {"q": "小孔成像为什么是倒的？", "domain": "光的直线传播", "stage": "反题",
+     "need": "直线交叉", "conflict": "直线传播 vs 反射"},
+    {"q": "发电机为什么能发电？", "domain": "电磁感应", "stage": "正题",
+     "need": "电磁感应", "conflict": "电磁感应 vs 电流"},
+    {"q": "定滑轮和动滑轮什么区别？", "domain": "滑轮", "stage": "正题",
+     "need": "改变方向vs省力", "conflict": "滑轮 vs 杠杆"},
+    {"q": "为什么石头会碎？", "domain": "风化", "stage": "正题",
+     "need": "风化力量", "conflict": "风化 vs 侵蚀"},
+    {"q": "为什么海水每天定时涨落？", "domain": "潮汐", "stage": "正题",
+     "need": "月球引力", "conflict": "潮汐 vs 月球引力"},
+    {"q": "潮汐和波浪一样吗？", "domain": "潮汐", "stage": "反题",
+     "need": "引力vs风", "conflict": "潮汐 vs 月球引力"},
+]
+with open(r"D:\Program Files\2_ai\knowledge-base\conflict_testset_v50.json", "w", encoding="utf-8") as f:
+    json.dump({"name": "conflict_testset_v50", "conflicts": 12, "items": ITEMS}, f, ensure_ascii=False, indent=1)
+print("v50 testset:", len(ITEMS))
