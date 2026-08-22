@@ -1032,12 +1032,13 @@ def _assemble(message, hits, emotion):
     # 命中时，直答是人工校准的确定性语义，优先于 bge 近似检索（检索噪声/
     # 记忆状态不应左右确定性直答——「拖到最后一刻」被小学英语卡压住 bug：
     # 同问法不同调用路径结果不同）。提前到 hits 检查之前。
+    # v1.28（round15 收官）：条件词防护收窄——沸腾/沸点与气压已有完整直答，
+    # 高原/海拔/高压锅等不再拦截（否则「高原上水煮不熟饭」被拦到 bge 导航）；
+    # 仅保留无确定性直答的 潜水/深海 防护（防「大气压」吸管答案劫持历史 bug 回归）。
     try:
         import semantic_translate as _st
         _fp = _st.encode(message)
-        _cond_guard = any(w in message for w in
-                          ("珠峰", "珠穆朗玛", "高原", "山顶", "高压锅", "海拔",
-                           "气压", "高压", "低压", "潜水", "深海"))
+        _cond_guard = any(w in message for w in ("潜水", "深海"))
         if not _cond_guard:
             _long = [t for t in _fp if len(t) >= 2 and t in _st.REVERSE_DAILY]
             if _long:
