@@ -1897,14 +1897,16 @@
   },
   "循环": {
    "domain": "",
-   "rd_len": 39,
+   "rd_len": 906,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "煮饭原理": {
    "domain": "",
@@ -2628,14 +2630,16 @@
   },
   "神经缩放定律": {
    "domain": "",
-   "rd_len": 50,
+   "rd_len": 989,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "对抗鲁棒性": {
    "domain": "",
@@ -2663,14 +2667,16 @@
   },
   "贝叶斯决策": {
    "domain": "",
-   "rd_len": 52,
+   "rd_len": 1001,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "效用理论": {
    "domain": "",
@@ -2713,47 +2719,55 @@
   },
   "合作演化": {
    "domain": "",
-   "rd_len": 60,
+   "rd_len": 938,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "模因论": {
    "domain": "",
-   "rd_len": 47,
+   "rd_len": 959,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "复制子方程": {
    "domain": "",
-   "rd_len": 60,
+   "rd_len": 1027,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "适应度景观": {
    "domain": "",
-   "rd_len": 57,
+   "rd_len": 938,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "奇异值分解": {
    "domain": "",
@@ -2886,14 +2900,16 @@
   },
   "偏差方差权衡": {
    "domain": "",
-   "rd_len": 52,
+   "rd_len": 920,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "PAC学习": {
    "domain": "",
@@ -2921,14 +2937,16 @@
   },
   "交叉验证与信息准则": {
    "domain": "",
-   "rd_len": 47,
+   "rd_len": 992,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "核与像": {
    "domain": "",
@@ -3260,14 +3278,16 @@
   },
   "神经振荡": {
    "domain": "",
-   "rd_len": 50,
+   "rd_len": 952,
    "trigger_count": 6,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "预测编码": {
    "domain": "",
@@ -3284,14 +3304,16 @@
   },
   "前额叶执行功能": {
    "domain": "",
-   "rd_len": 48,
+   "rd_len": 966,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "默认模式网络": {
    "domain": "",
@@ -3334,14 +3356,16 @@
   },
   "PID控制": {
    "domain": "",
-   "rd_len": 48,
+   "rd_len": 977,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "自由能原理": {
    "domain": "",
@@ -3369,14 +3393,16 @@
   },
   "二阶控制论": {
    "domain": "",
-   "rd_len": 47,
+   "rd_len": 960,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "涌现": {
    "domain": "",
@@ -3406,14 +3432,16 @@
   },
   "网络科学": {
    "domain": "",
-   "rd_len": 63,
+   "rd_len": 988,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "混沌的边缘": {
    "domain": "",
@@ -7355,14 +7383,16 @@
   },
   "分岔理论": {
    "domain": "",
-   "rd_len": 48,
+   "rd_len": 936,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v67"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "Kuramoto模型": {
    "domain": "",
