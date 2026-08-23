@@ -2474,14 +2474,16 @@
   },
   "概率图模型": {
    "domain": "",
-   "rd_len": 58,
+   "rd_len": 976,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "高斯过程": {
    "domain": "",
@@ -2600,25 +2602,29 @@
   },
   "注意力机制": {
    "domain": "",
-   "rd_len": 75,
+   "rd_len": 1010,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "Transformer": {
    "domain": "",
-   "rd_len": 67,
+   "rd_len": 1143,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "大语言模型": {
    "domain": "",
@@ -2633,14 +2639,16 @@
   },
   "扩散模型": {
    "domain": "",
-   "rd_len": 58,
+   "rd_len": 983,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "强化学习": {
    "domain": "",
@@ -2657,14 +2665,16 @@
   },
   "元学习": {
    "domain": "",
-   "rd_len": 65,
+   "rd_len": 1023,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "神经缩放定律": {
    "domain": "",
@@ -2681,14 +2691,16 @@
   },
   "对抗鲁棒性": {
    "domain": "",
-   "rd_len": 52,
+   "rd_len": 930,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "机制设计": {
    "domain": "",
@@ -2874,14 +2886,16 @@
   },
   "希尔伯特空间": {
    "domain": "",
-   "rd_len": 59,
+   "rd_len": 966,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "蒙特卡洛方法": {
    "domain": "",
@@ -2924,14 +2938,16 @@
   },
   "凸优化": {
    "domain": "",
-   "rd_len": 58,
+   "rd_len": 876,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "VC维": {
    "domain": "",
@@ -2961,14 +2977,16 @@
   },
   "PAC学习": {
    "domain": "",
-   "rd_len": 52,
+   "rd_len": 1016,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "正则化": {
    "domain": "",
@@ -3050,14 +3068,16 @@
   },
   "极限运算法则": {
    "domain": "",
-   "rd_len": 62,
+   "rd_len": 924,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "方向导数与梯度": {
    "domain": "",
@@ -3159,14 +3179,16 @@
   },
   "色谱法": {
    "domain": "",
-   "rd_len": 63,
+   "rd_len": 925,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "能级": {
    "domain": "",
@@ -3443,14 +3465,16 @@
   },
   "自由能原理": {
    "domain": "",
-   "rd_len": 60,
+   "rd_len": 1000,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "内稳态": {
    "domain": "",
@@ -3545,14 +3569,16 @@
   },
   "标度律": {
    "domain": "",
-   "rd_len": 59,
+   "rd_len": 914,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "工作记忆": {
    "domain": "",
@@ -7311,14 +7337,16 @@
   },
   "注意机制": {
    "domain": "",
-   "rd_len": 58,
+   "rd_len": 1061,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "香农熵": {
    "domain": "",
@@ -7478,14 +7506,16 @@
   },
   "Kuramoto模型": {
    "domain": "",
-   "rd_len": 78,
+   "rd_len": 1021,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "混沌与蝴蝶效应": {
    "domain": "",
@@ -7528,14 +7558,16 @@
   },
   "滤波器组": {
    "domain": "",
-   "rd_len": 61,
+   "rd_len": 919,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v71"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "自适应滤波": {
    "domain": "",
