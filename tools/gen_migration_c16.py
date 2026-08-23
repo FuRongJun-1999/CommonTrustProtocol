@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+"""c16 自然问法迁移测试集（学科理论 12 簇）归档"""
+import json, sys
+sys.stdout.reconfigure(encoding="utf-8")
+ITEMS = [
+    {"q": "什么是好奇心？", "theme": "好奇心"},
+    {"q": "好奇心有什么用？", "theme": "好奇心"},
+    {"q": "睡眠怎么巩固记忆？", "theme": "睡眠记忆巩固"},
+    {"q": "为什么熬夜记不住东西？", "theme": "睡眠记忆巩固"},
+    {"q": "数据压缩的极限是什么？", "theme": "数据压缩熵界"},
+    {"q": "为什么压缩有极限？", "theme": "数据压缩熵界"},
+    {"q": "采样频率要多少才不丢信息？", "theme": "奈奎斯特采样定理"},
+    {"q": "CD为什么用44.1kHz？", "theme": "奈奎斯特采样定理"},
+    {"q": "什么是信息瓶颈？", "theme": "信息瓶颈"},
+    {"q": "信息瓶颈和深度学习什么关系？", "theme": "信息瓶颈"},
+    {"q": "什么是元认知？", "theme": "元认知"},
+    {"q": "怎么提高元认知？", "theme": "元认知"},
+    {"q": "什么是周期？", "theme": "周期"},
+    {"q": "周期和频率什么关系？", "theme": "周期"},
+    {"q": "什么是VC维？", "theme": "VC维"},
+    {"q": "VC维和过拟合什么关系？", "theme": "VC维"},
+    {"q": "什么是KL散度？", "theme": "KL散度"},
+    {"q": "KL散度和信息差什么关系？", "theme": "KL散度"},
+    {"q": "什么是相空间与吸引子？", "theme": "相空间与吸引子"},
+    {"q": "混沌系统有吸引子吗？", "theme": "相空间与吸引子"},
+    {"q": "什么是自我认知？", "theme": "自我认知"},
+    {"q": "怎么提高自我认知？", "theme": "自我认知"},
+    {"q": "什么是效用理论？", "theme": "效用理论"},
+    {"q": "效用和金钱是一回事吗？", "theme": "效用理论"},
+]
+themes = ["好奇心", "睡眠记忆巩固", "数据压缩熵界", "奈奎斯特采样定理", "信息瓶颈",
+          "元认知", "周期", "VC维", "KL散度", "相空间与吸引子", "自我认知", "效用理论"]
+with open(r"D:\Program Files\2_ai\CommonTrustProtocol\testsets\migration\natural_variants_c16.json", "w", encoding="utf-8") as f:
+    json.dump({"name": "natural_variants_c16", "themes": themes, "items": ITEMS}, f, ensure_ascii=False, indent=1)
+print("saved", len(ITEMS), "题,", len(themes), "主题")

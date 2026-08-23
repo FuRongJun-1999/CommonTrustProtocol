@@ -29,15 +29,17 @@ def step(tag, msg):
 
 
 def run_py(script, args=None):
-    """用子进程跑 python 脚本（避免本进程模块缓存）"""
+    """用子进程跑 python 脚本（避免本进程模块缓存）；输出容错解码（tqdm 等非 UTF-8 字节）"""
     cmd = [sys.executable, script] + (args or [])
-    r = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8')
-    if r.stdout:
-        print(r.stdout, end='')
+    r = subprocess.run(cmd, capture_output=True, text=False)  # binary 模式防解码崩
+    out = r.stdout.decode('utf-8', errors='replace')
+    err = r.stderr.decode('utf-8', errors='replace')
+    if out:
+        print(out, end='')
     if r.returncode != 0:
-        print(f'[stderr] {r.stderr[:2000]}', file=sys.stderr)
+        print(f'[stderr] {err[:2000]}', file=sys.stderr)
         raise RuntimeError(f'脚本失败: {script} rc={r.returncode}')
-    return r.stdout
+    return out
 
 
 def sync_copies():
@@ -146,7 +148,7 @@ def main():
 
     # 6. 全量回归（验证单元·稳态检测 = 存在保护）
     step('6/7', '全量回归 v44-当前（稳态检测）')
-    run_py(os.path.join(CTP, 'tools', 'run_regress_c14.py'))
+    run_py(os.path.join(CTP, 'tools', 'run_regress_c16.py'))
 
     # 7. 台账刷新（记录单元·记录）
     step('7/7', '台账刷新')

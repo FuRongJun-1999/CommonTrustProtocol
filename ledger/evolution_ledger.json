@@ -1459,14 +1459,16 @@
   },
   "周期": {
    "domain": "",
-   "rd_len": 45,
-   "trigger_count": 5,
+   "rd_len": 924,
+   "trigger_count": 17,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "介质": {
    "domain": "",
@@ -2670,14 +2672,16 @@
   },
   "效用理论": {
    "domain": "",
-   "rd_len": 47,
+   "rd_len": 1021,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "合作博弈": {
    "domain": "",
@@ -2775,7 +2779,7 @@
    "trigger_count": 13,
    "condition_hints": [],
    "upgraded": true,
-   "p_trust": 0.5,
+   "p_trust": 1.0,
    "test_versions": [
     "v64"
    ],
@@ -2863,14 +2867,16 @@
   },
   "VC维": {
    "domain": "",
-   "rd_len": 45,
+   "rd_len": 1024,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "偏差方差权衡": {
    "domain": "",
@@ -3292,14 +3298,16 @@
   },
   "睡眠记忆巩固": {
    "domain": "",
-   "rd_len": 45,
+   "rd_len": 1002,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "卡尔曼滤波": {
    "domain": "",
@@ -3448,14 +3456,16 @@
   },
   "元认知": {
    "domain": "",
-   "rd_len": 44,
+   "rd_len": 1005,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "认知负荷理论": {
    "domain": "",
@@ -7206,14 +7216,16 @@
   },
   "KL散度": {
    "domain": "",
-   "rd_len": 46,
+   "rd_len": 1036,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "信道容量": {
    "domain": "",
@@ -7239,14 +7251,16 @@
   },
   "信息瓶颈": {
    "domain": "",
-   "rd_len": 43,
+   "rd_len": 1002,
    "trigger_count": 2,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "Kolmogorov复杂度": {
    "domain": "",
@@ -7261,36 +7275,42 @@
   },
   "奈奎斯特采样定理": {
    "domain": "",
-   "rd_len": 41,
+   "rd_len": 1037,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "数据压缩熵界": {
    "domain": "",
-   "rd_len": 36,
+   "rd_len": 999,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "相空间与吸引子": {
    "domain": "",
-   "rd_len": 46,
+   "rd_len": 1078,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "李雅普诺夫稳定性": {
    "domain": "",
@@ -7399,7 +7419,7 @@
    "trigger_count": 21,
    "condition_hints": [],
    "upgraded": true,
-   "p_trust": 0.5,
+   "p_trust": 1.0,
    "test_versions": [
     "v64"
    ],
@@ -7434,25 +7454,29 @@
   },
   "好奇心": {
    "domain": "智能论",
-   "rd_len": 27,
+   "rd_len": 982,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "自我认知": {
    "domain": "自我意识",
-   "rd_len": 46,
+   "rd_len": 1062,
    "trigger_count": 12,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v65"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "创造者": {
    "domain": "",
