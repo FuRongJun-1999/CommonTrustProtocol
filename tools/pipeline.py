@@ -53,16 +53,38 @@ def sync_copies():
 
 
 def apply_patches(patches):
-    """按 patch 锚点纪律（最后一个 '"key": "' 匹配 = RD 区）写入答案"""
+    """按 patch 锚点纪律写入答案。
+    v72 修复：新建簇（REVERSE_DAILY 无此 key）时在 REVERSE_DAILY 字典内插入，
+    绝不匹配 '"key": "'（会误中 DOMAIN_ROUTE 的 '"key": "环境科学"'，c13/v72 双次教训）"""
     src = open(SRC_ST, encoding='utf-8').read()
+    # 找 REVERSE_DAILY 字典闭合（括号深度匹配）
+    i_rd = src.find('REVERSE_DAILY = {')
+    assert i_rd >= 0, 'REVERSE_DAILY 未找到'
+    depth = 0
+    end = -1
+    j = src.find('{', i_rd)
+    for k in range(j, len(src)):
+        if src[k] == '{':
+            depth += 1
+        elif src[k] == '}':
+            depth -= 1
+            if depth == 0:
+                end = k
+                break
+    assert end > 0, 'REVERSE_DAILY 闭合未找到'
+    rd_zone = src[i_rd:end]
+
+    new_entries = []
     for p in patches:
         key = p['key']
         newv = p['answer']
-        matches = list(re.finditer('"' + re.escape(key) + r'"\s*:\s*"', src))
+        # 只允许在 REVERSE_DAILY 区内的 '"key": "' 匹配
+        matches = list(re.finditer('"' + re.escape(key) + r'"\s*:\s*"', rd_zone))
         if not matches:
-            print(f'!! {key}: key 未找到（跳过）')
+            new_entries.append(p)
+            print(f'新建簇 {key}: 加入 REVERSE_DAILY ({len(newv)}ch)')
             continue
-        idx = matches[-1].start()
+        idx = matches[-1].start() + i_rd  # 转回全文件坐标
         line_start = src.rfind('\n', 0, idx) + 1
         line_end = src.find('\n', idx)
         row = src[line_start:line_end]
@@ -71,6 +93,11 @@ def apply_patches(patches):
         new_full = key_prefix + '"' + key + '": "' + newv + '",'
         src = src[:line_start] + new_full + src[line_end:]
         print(f'patch {key}: -> {len(newv)}ch')
+
+    # 新建簇在 REVERSE_DAILY 末尾插入
+    if new_entries:
+        block = ''.join(f'    "{p["key"]}": "{p["answer"]}",\n' for p in new_entries)
+        src = src[:end] + '\n' + block + src[end:]
     open(SRC_ST, 'w', encoding='utf-8').write(src)
 
 
