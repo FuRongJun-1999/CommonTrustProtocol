@@ -2772,7 +2772,7 @@
   "贝叶斯推断": {
    "domain": "",
    "rd_len": 997,
-   "trigger_count": 5,
+   "trigger_count": 13,
    "condition_hints": [],
    "upgraded": true,
    "p_trust": 0.5,
@@ -7396,7 +7396,7 @@
   "负反馈": {
    "domain": "负反馈系统",
    "rd_len": 988,
-   "trigger_count": 2,
+   "trigger_count": 21,
    "condition_hints": [],
    "upgraded": true,
    "p_trust": 0.5,
