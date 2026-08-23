@@ -19,7 +19,7 @@
   },
   "沸点与气压": {
    "domain": "",
-   "rd_len": 70,
+   "rd_len": 1010,
    "trigger_count": 16,
    "condition_hints": [
     "沸点与气压",
@@ -30,11 +30,13 @@
     "气压越高",
     "气压越低"
    ],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "蒸发": {
    "domain": "物理学",
@@ -494,14 +496,16 @@
   },
   "科学方法论": {
    "domain": "科学方法论",
-   "rd_len": 67,
+   "rd_len": 967,
    "trigger_count": 6,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "饿": {
    "domain": "",
@@ -1248,36 +1252,42 @@
   },
   "诚实边界": {
    "domain": "",
-   "rd_len": 37,
+   "rd_len": 963,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "bug": {
    "domain": "",
-   "rd_len": 36,
+   "rd_len": 940,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "朋友吵架": {
    "domain": "",
-   "rd_len": 38,
+   "rd_len": 891,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "考试": {
    "domain": "",
@@ -1732,14 +1742,16 @@
   },
   "面粉面团": {
    "domain": "",
-   "rd_len": 48,
+   "rd_len": 934,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "开水晾凉": {
    "domain": "",
@@ -2349,14 +2361,16 @@
   },
   "信息差": {
    "domain": "智能论",
-   "rd_len": 57,
+   "rd_len": 1013,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "PythonRust对比": {
    "domain": "",
@@ -2371,14 +2385,16 @@
   },
   "复分析": {
    "domain": "",
-   "rd_len": 53,
+   "rd_len": 909,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "群论与对称性": {
    "domain": "",
@@ -2393,58 +2409,68 @@
   },
   "随机微分方程": {
    "domain": "",
-   "rd_len": 63,
+   "rd_len": 1047,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "生成函数": {
    "domain": "",
-   "rd_len": 49,
+   "rd_len": 923,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "有限元方法": {
    "domain": "",
-   "rd_len": 60,
+   "rd_len": 949,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "共轭梯度法": {
    "domain": "",
-   "rd_len": 61,
+   "rd_len": 930,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "张量分解": {
    "domain": "",
-   "rd_len": 48,
+   "rd_len": 982,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "概率图模型": {
    "domain": "",
@@ -2459,69 +2485,81 @@
   },
   "高斯过程": {
    "domain": "",
-   "rd_len": 54,
+   "rd_len": 954,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "最优传输": {
    "domain": "",
-   "rd_len": 68,
+   "rd_len": 1068,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "微分几何与流形": {
    "domain": "",
-   "rd_len": 62,
+   "rd_len": 971,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "数值线性代数": {
    "domain": "",
-   "rd_len": 53,
+   "rd_len": 955,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "短时傅里叶变换": {
    "domain": "",
-   "rd_len": 57,
+   "rd_len": 973,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "排队论": {
    "domain": "",
-   "rd_len": 57,
+   "rd_len": 999,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "马尔可夫链蒙特卡洛": {
    "domain": "",
@@ -2771,14 +2809,16 @@
   },
   "奇异值分解": {
    "domain": "",
-   "rd_len": 71,
+   "rd_len": 977,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "梯度下降法": {
    "domain": "",
@@ -2821,14 +2861,16 @@
   },
   "拉普拉斯变换": {
    "domain": "",
-   "rd_len": 59,
+   "rd_len": 989,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "希尔伯特空间": {
    "domain": "",
@@ -2843,36 +2885,42 @@
   },
   "蒙特卡洛方法": {
    "domain": "",
-   "rd_len": 57,
+   "rd_len": 985,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "不动点定理": {
    "domain": "",
-   "rd_len": 66,
+   "rd_len": 1016,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "谱图论": {
    "domain": "",
-   "rd_len": 56,
+   "rd_len": 945,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "凸优化": {
    "domain": "",
@@ -2950,36 +2998,42 @@
   },
   "核与像": {
    "domain": "",
-   "rd_len": 77,
+   "rd_len": 903,
    "trigger_count": 6,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "相似对角化": {
    "domain": "",
-   "rd_len": 74,
+   "rd_len": 950,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "施密特正交化": {
    "domain": "",
-   "rd_len": 58,
+   "rd_len": 960,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "行列式": {
    "domain": "",
@@ -3007,36 +3061,42 @@
   },
   "方向导数与梯度": {
    "domain": "",
-   "rd_len": 58,
+   "rd_len": 968,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v69"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "格林公式": {
    "domain": "",
-   "rd_len": 64,
+   "rd_len": 961,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "多元极值": {
    "domain": "",
-   "rd_len": 60,
+   "rd_len": 978,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "二阶常系数线性方程": {
    "domain": "",
@@ -3051,25 +3111,29 @@
   },
   "回溯算法": {
    "domain": "",
-   "rd_len": 69,
+   "rd_len": 898,
    "trigger_count": 6,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "分支限界法": {
    "domain": "",
-   "rd_len": 66,
+   "rd_len": 917,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "随机化算法": {
    "domain": "",
@@ -3184,25 +3248,29 @@
   },
   "放射性衰变": {
    "domain": "",
-   "rd_len": 67,
+   "rd_len": 949,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "辩证法": {
    "domain": "",
-   "rd_len": 55,
+   "rd_len": 988,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "能带": {
    "domain": "",
@@ -3232,14 +3300,16 @@
   },
   "唯物史观": {
    "domain": "",
-   "rd_len": 60,
+   "rd_len": 979,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "黑洞": {
    "domain": "",
@@ -3256,25 +3326,29 @@
   },
   "突触可塑性": {
    "domain": "",
-   "rd_len": 57,
+   "rd_len": 1012,
    "trigger_count": 5,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "STDP": {
    "domain": "",
-   "rd_len": 70,
+   "rd_len": 1044,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "神经振荡": {
    "domain": "",
@@ -3445,14 +3519,16 @@
   },
   "混沌的边缘": {
    "domain": "",
-   "rd_len": 53,
+   "rd_len": 996,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "复杂适应系统": {
    "domain": "",
@@ -3519,16 +3595,18 @@
   },
   "认知负荷理论": {
    "domain": "",
-   "rd_len": 59,
+   "rd_len": 952,
    "trigger_count": 3,
    "condition_hints": [
     "认知超载"
    ],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v70"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "讲课无趣": {
    "domain": "",
@@ -4343,14 +4421,16 @@
   },
   "概念形成": {
    "domain": "",
-   "rd_len": 56,
+   "rd_len": 964,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "职场边界": {
    "domain": "",
@@ -7320,14 +7400,16 @@
   },
   "Kolmogorov复杂度": {
    "domain": "",
-   "rd_len": 55,
+   "rd_len": 1131,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "奈奎斯特采样定理": {
    "domain": "",
@@ -7407,14 +7489,16 @@
   },
   "混沌与蝴蝶效应": {
    "domain": "",
-   "rd_len": 55,
+   "rd_len": 1006,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "傅里叶变换": {
    "domain": "",
@@ -7431,14 +7515,16 @@
   },
   "小波变换": {
    "domain": "",
-   "rd_len": 51,
+   "rd_len": 967,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "滤波器组": {
    "domain": "",
@@ -7453,25 +7539,29 @@
   },
   "自适应滤波": {
    "domain": "",
-   "rd_len": 51,
+   "rd_len": 935,
    "trigger_count": 4,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "功率谱密度": {
    "domain": "",
-   "rd_len": 52,
+   "rd_len": 940,
    "trigger_count": 3,
    "condition_hints": [],
-   "upgraded": false,
-   "p_trust": null,
-   "test_versions": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v68"
+   ],
    "change_log": [],
-   "status": "pending"
+   "status": "upgraded"
   },
   "负反馈": {
    "domain": "负反馈系统",
