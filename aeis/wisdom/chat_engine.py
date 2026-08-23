@@ -1054,7 +1054,10 @@ def _assemble(message, hits, emotion):
         _fp = _st.encode(message)
         _cond_guard = any(w in message for w in ("潜水", "深海"))
         if not _cond_guard:
-            _long = [t for t in _fp if len(t) >= 2 and t in _st.REVERSE_DAILY]
+            _long = [t for t in _fp if t in _st.REVERSE_DAILY]
+            # c14：去掉 len>=2 过滤——REVERSE_DAILY 本身是白名单，单字 key
+            # 仅 饿/波 两个，「什么是波」encode 产出『波』此前被 len>=2 过滤
+            # 致 fp 直答不触发（单字误伤由 encode 的 SINGLE_CHAR_EXCLUDE 负责）
             if _long:
                 _present = [t for t in _long if t in message]
                 for _t in _long:
