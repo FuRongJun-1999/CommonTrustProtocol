@@ -1,0 +1,7865 @@
+{
+ "version": 1,
+ "entries": {
+  "沸腾": {
+   "domain": "物理学",
+   "rd_len": 1200,
+   "trigger_count": 22,
+   "condition_hints": [
+    "高压锅",
+    "高原煮饭"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v48"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "沸点与气压": {
+   "domain": "",
+   "rd_len": 70,
+   "trigger_count": 16,
+   "condition_hints": [
+    "沸点与气压",
+    "高压锅",
+    "高压锅做饭",
+    "海拔",
+    "高原",
+    "气压越高",
+    "气压越低"
+   ],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "蒸发": {
+   "domain": "物理学",
+   "rd_len": 1062,
+   "trigger_count": 25,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v47"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "液化": {
+   "domain": "物理学",
+   "rd_len": 1087,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v48"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "凝固": {
+   "domain": "物理学",
+   "rd_len": 1064,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v48"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "熔化": {
+   "domain": "物理学",
+   "rd_len": 1050,
+   "trigger_count": 23,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v48"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "升华": {
+   "domain": "物理学",
+   "rd_len": 1035,
+   "trigger_count": 9,
+   "condition_hints": [
+    "冷冻干燥"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v48"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "凝华": {
+   "domain": "物理学",
+   "rd_len": 1053,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v48"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "鸟的飞行": {
+   "domain": "生物学",
+   "rd_len": 1256,
+   "trigger_count": 40,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v49"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "溶解": {
+   "domain": "化学",
+   "rd_len": 1027,
+   "trigger_count": 19,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v46"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "氧化": {
+   "domain": "化学",
+   "rd_len": 1042,
+   "trigger_count": 27,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v44"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "燃烧": {
+   "domain": "化学",
+   "rd_len": 1107,
+   "trigger_count": 27,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v46"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "浮力": {
+   "domain": "物理学",
+   "rd_len": 1167,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "重力": {
+   "domain": "物理学",
+   "rd_len": 1171,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "自由落体": {
+   "domain": "物理学",
+   "rd_len": 1083,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "惯性": {
+   "domain": "物理学",
+   "rd_len": 984,
+   "trigger_count": 17,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "摩擦": {
+   "domain": "物理学",
+   "rd_len": 1050,
+   "trigger_count": 17,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "杠杆": {
+   "domain": "物理学",
+   "rd_len": 1083,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "滑轮": {
+   "domain": "物理学",
+   "rd_len": 1121,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "大气压": {
+   "domain": "物理学",
+   "rd_len": 1160,
+   "trigger_count": 10,
+   "condition_hints": [
+    "大气压",
+    "大气压强",
+    "气压差"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "折射": {
+   "domain": "物理学",
+   "rd_len": 1147,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "反射": {
+   "domain": "物理学",
+   "rd_len": 1150,
+   "trigger_count": 23,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v47"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "月亮发光": {
+   "domain": "",
+   "rd_len": 927,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "光的直线传播": {
+   "domain": "物理学",
+   "rd_len": 1083,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "声音传播": {
+   "domain": "物理学",
+   "rd_len": 1050,
+   "trigger_count": 19,
+   "condition_hints": [
+    "声音在真空中",
+    "声音能在真空中",
+    "真空中能听到",
+    "真空传声"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "声音不能传播": {
+   "domain": "",
+   "rd_len": 957,
+   "trigger_count": 12,
+   "condition_hints": [
+    "真空中没有声音",
+    "真空中为什么没声音"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "电流": {
+   "domain": "物理学",
+   "rd_len": 1048,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "电压": {
+   "domain": "物理学",
+   "rd_len": 1178,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "电磁感应": {
+   "domain": "物理学",
+   "rd_len": 1210,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "光合作用": {
+   "domain": "生物学",
+   "rd_len": 1399,
+   "trigger_count": 19,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v45"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "萌发": {
+   "domain": "生物学",
+   "rd_len": 1402,
+   "trigger_count": 18,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v45"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "遗传": {
+   "domain": "生物学",
+   "rd_len": 1370,
+   "trigger_count": 19,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v45"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "血液循环": {
+   "domain": "生物学",
+   "rd_len": 1104,
+   "trigger_count": 17,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v46"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "潮汐": {
+   "domain": "地理学",
+   "rd_len": 1121,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "风化": {
+   "domain": "地理学",
+   "rd_len": 1152,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v50"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "天文学": {
+   "domain": "天文学",
+   "rd_len": 1220,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v53"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "科学方法论": {
+   "domain": "科学方法论",
+   "rd_len": 67,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "饿": {
+   "domain": "",
+   "rd_len": 913,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "加法": {
+   "domain": "数学",
+   "rd_len": 1154,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "电流方向": {
+   "domain": "物理学",
+   "rd_len": 1087,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "微波炉": {
+   "domain": "物理学",
+   "rd_len": 999,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "燃烧条件": {
+   "domain": "化学",
+   "rd_len": 1103,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v51"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "催化剂": {
+   "domain": "化学",
+   "rd_len": 1126,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v51"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "元素周期律": {
+   "domain": "化学",
+   "rd_len": 1184,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v51"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "修辞手法": {
+   "domain": "语文",
+   "rd_len": 1012,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "绝句": {
+   "domain": "",
+   "rd_len": 919,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "分子热运动": {
+   "domain": "物理学",
+   "rd_len": 1084,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "函数定义": {
+   "domain": "数学",
+   "rd_len": 1167,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "化学变化": {
+   "domain": "化学",
+   "rd_len": 1153,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v51"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "光合产物": {
+   "domain": "生物学",
+   "rd_len": 1095,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "等差数列": {
+   "domain": "数学",
+   "rd_len": 1193,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "勾股定理": {
+   "domain": "数学",
+   "rd_len": 1186,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "光速": {
+   "domain": "物理学",
+   "rd_len": 1127,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v53"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "中和反应": {
+   "domain": "化学",
+   "rd_len": 1034,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v51"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "汽水气泡": {
+   "domain": "化学",
+   "rd_len": 1061,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v46"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "盐水融雪": {
+   "domain": "化学",
+   "rd_len": 1098,
+   "trigger_count": 18,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v51"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "自然选择": {
+   "domain": "生物学",
+   "rd_len": 1159,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "打哈欠": {
+   "domain": "生物学",
+   "rd_len": 1030,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "杠杆原理": {
+   "domain": "物理学",
+   "rd_len": 1025,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "四季成因": {
+   "domain": "地理学",
+   "rd_len": 1142,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v53"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "季风": {
+   "domain": "地理学",
+   "rd_len": 1099,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v53"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "供需求": {
+   "domain": "经济学",
+   "rd_len": 1095,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v55"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "通货膨胀": {
+   "domain": "经济学",
+   "rd_len": 1135,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v55"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "机会成本": {
+   "domain": "经济学",
+   "rd_len": 1219,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v55"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "递归": {
+   "domain": "计算机科学",
+   "rd_len": 1217,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v55"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "编程函数": {
+   "domain": "编程语言",
+   "rd_len": 1092,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "编程循环": {
+   "domain": "编程语言",
+   "rd_len": 1178,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "编程变量": {
+   "domain": "编程语言",
+   "rd_len": 1071,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "数组": {
+   "domain": "编程语言",
+   "rd_len": 1043,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "编程类": {
+   "domain": "编程语言",
+   "rd_len": 1103,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "调试": {
+   "domain": "编程语言",
+   "rd_len": 1088,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "二进制": {
+   "domain": "计算机科学",
+   "rd_len": 1262,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v55"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "数据库": {
+   "domain": "计算机科学",
+   "rd_len": 1336,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v55"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "面向对象": {
+   "domain": "计算机科学",
+   "rd_len": 1223,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v55"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "短路": {
+   "domain": "工程学",
+   "rd_len": 915,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "应力": {
+   "domain": "工程学",
+   "rd_len": 934,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "混凝土钢筋": {
+   "domain": "工程学",
+   "rd_len": 971,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "板块构造": {
+   "domain": "地理学",
+   "rd_len": 1141,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v53"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "等高线": {
+   "domain": "地理学",
+   "rd_len": 1072,
+   "trigger_count": 9,
+   "condition_hints": [
+    "海拔相同"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v53"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "社会主义核心价值观": {
+   "domain": "政治",
+   "rd_len": 1209,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "诚实守信": {
+   "domain": "政治",
+   "rd_len": 1064,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "法律定义": {
+   "domain": "政治",
+   "rd_len": 1063,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "规则意识": {
+   "domain": "政治",
+   "rd_len": 1087,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "一般现在时": {
+   "domain": "英语",
+   "rd_len": 1542,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v54"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "被动语态": {
+   "domain": "英语",
+   "rd_len": 1548,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v54"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "名词复数": {
+   "domain": "英语",
+   "rd_len": 1494,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v54"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "定语从句": {
+   "domain": "英语",
+   "rd_len": 1645,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v54"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "英语时态": {
+   "domain": "英语",
+   "rd_len": 1521,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v54"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "比较级": {
+   "domain": "英语",
+   "rd_len": 1626,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v54"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "发烧": {
+   "domain": "",
+   "rd_len": 1030,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "细胞": {
+   "domain": "",
+   "rd_len": 967,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "原子": {
+   "domain": "",
+   "rd_len": 983,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "氧气": {
+   "domain": "",
+   "rd_len": 946,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "记忆": {
+   "domain": "",
+   "rd_len": 931,
+   "trigger_count": 27,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "诚实边界": {
+   "domain": "",
+   "rd_len": 37,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "bug": {
+   "domain": "",
+   "rd_len": 36,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "朋友吵架": {
+   "domain": "",
+   "rd_len": 38,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "考试": {
+   "domain": "",
+   "rd_len": 934,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "一年月数": {
+   "domain": "",
+   "rd_len": 982,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "一周天数": {
+   "domain": "",
+   "rd_len": 968,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "一天小时": {
+   "domain": "",
+   "rd_len": 1014,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "地球公转": {
+   "domain": "",
+   "rd_len": 993,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "分数定义": {
+   "domain": "",
+   "rd_len": 1140,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "三角形面积": {
+   "domain": "",
+   "rd_len": 1123,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "乘法口诀": {
+   "domain": "",
+   "rd_len": 1116,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "天空蓝色": {
+   "domain": "",
+   "rd_len": 944,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "瑞利散射": {
+   "domain": "",
+   "rd_len": 99,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "波长": {
+   "domain": "",
+   "rd_len": 117,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "波": {
+   "domain": "",
+   "rd_len": 892,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "振动": {
+   "domain": "",
+   "rd_len": 924,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "频率": {
+   "domain": "",
+   "rd_len": 964,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "周期": {
+   "domain": "",
+   "rd_len": 45,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "介质": {
+   "domain": "",
+   "rd_len": 937,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "叶子绿色": {
+   "domain": "",
+   "rd_len": 1015,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "船浮水上": {
+   "domain": "",
+   "rd_len": 944,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v62"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "Python": {
+   "domain": "编程语言",
+   "rd_len": 1243,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "Rust": {
+   "domain": "编程语言",
+   "rd_len": 1201,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "TypeScript": {
+   "domain": "编程语言",
+   "rd_len": 1208,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "热水洗澡": {
+   "domain": "物理学",
+   "rd_len": 1039,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "蜂蜜防腐": {
+   "domain": "化学",
+   "rd_len": 1089,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v51"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "浅色衣服": {
+   "domain": "物理学",
+   "rd_len": 1007,
+   "trigger_count": 18,
+   "condition_hints": [
+    "夏天穿",
+    "冬天穿什么颜色"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "远眺护眼": {
+   "domain": "生物学",
+   "rd_len": 1015,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "冰箱保鲜": {
+   "domain": "物理学",
+   "rd_len": 1062,
+   "trigger_count": 15,
+   "condition_hints": [
+    "低温保鲜"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "运动补水": {
+   "domain": "生物学",
+   "rd_len": 1103,
+   "trigger_count": 17,
+   "condition_hints": [
+    "运动后喝水",
+    "运动后要喝水",
+    "运动后为什么喝水",
+    "运动后为什么要喝水"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "晕车": {
+   "domain": "生物学",
+   "rd_len": 1091,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "饭后运动": {
+   "domain": "生物学",
+   "rd_len": 1025,
+   "trigger_count": 16,
+   "condition_hints": [
+    "饭后运动",
+    "饭后跑步",
+    "饭后剧烈运动",
+    "饭后不宜运动",
+    "饭后不能运动",
+    "饭后多久",
+    "饭后散步",
+    "饭后马上运动",
+    "饭后可以运动",
+    "饭后不能马上运动",
+    "饭后马上"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "开水烫": {
+   "domain": "",
+   "rd_len": 959,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "手机充电": {
+   "domain": "",
+   "rd_len": 922,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "下雨打伞": {
+   "domain": "",
+   "rd_len": 849,
+   "trigger_count": 23,
+   "condition_hints": [
+    "下雨天打伞",
+    "下雨天要打伞",
+    "下雨天为什么要打伞"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "晚上睡觉": {
+   "domain": "",
+   "rd_len": 926,
+   "trigger_count": 19,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "面粉面团": {
+   "domain": "",
+   "rd_len": 48,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "开水晾凉": {
+   "domain": "",
+   "rd_len": 936,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "饿了吃饭": {
+   "domain": "",
+   "rd_len": 886,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "喝水止渴": {
+   "domain": "",
+   "rd_len": 950,
+   "trigger_count": 8,
+   "condition_hints": [
+    "身体缺水"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "晒太阳补钙": {
+   "domain": "",
+   "rd_len": 1061,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "热水解冻": {
+   "domain": "",
+   "rd_len": 996,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "烧水去氯": {
+   "domain": "",
+   "rd_len": 970,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "窗户起雾": {
+   "domain": "",
+   "rd_len": 944,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "夏天出汗": {
+   "domain": "",
+   "rd_len": 983,
+   "trigger_count": 7,
+   "condition_hints": [
+    "夏天出汗",
+    "夏天出汗",
+    "为什么夏天出汗",
+    "夏天为什么出汗"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "冬天穿衣": {
+   "domain": "",
+   "rd_len": 965,
+   "trigger_count": 10,
+   "condition_hints": [
+    "冬天穿衣",
+    "冬天穿衣",
+    "冬天穿衣服"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "刷牙护牙": {
+   "domain": "",
+   "rd_len": 1032,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "洗手防病": {
+   "domain": "",
+   "rd_len": 960,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "循环": {
+   "domain": "",
+   "rd_len": 39,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "煮饭原理": {
+   "domain": "",
+   "rd_len": 1019,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "洗澡降温": {
+   "domain": "",
+   "rd_len": 942,
+   "trigger_count": 9,
+   "condition_hints": [
+    "夏天冲凉"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "吹干头发": {
+   "domain": "",
+   "rd_len": 937,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "走路锻炼": {
+   "domain": "",
+   "rd_len": 992,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "早睡早起": {
+   "domain": "",
+   "rd_len": 1047,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "吃早饭": {
+   "domain": "",
+   "rd_len": 963,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "喝水规律": {
+   "domain": "",
+   "rd_len": 985,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "蔬果营养": {
+   "domain": "",
+   "rd_len": 974,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "睡前不玩": {
+   "domain": "",
+   "rd_len": 963,
+   "trigger_count": 8,
+   "condition_hints": [
+    "睡前不玩",
+    "睡前玩手机",
+    "睡前玩",
+    "为什么睡前不玩",
+    "睡前看手机"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "运动热身": {
+   "domain": "",
+   "rd_len": 1010,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "运动拉伸": {
+   "domain": "",
+   "rd_len": 988,
+   "trigger_count": 8,
+   "condition_hints": [
+    "运动后拉伸"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "久坐活动": {
+   "domain": "",
+   "rd_len": 943,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "用眼休息": {
+   "domain": "",
+   "rd_len": 1003,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "保暖防感冒": {
+   "domain": "",
+   "rd_len": 979,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "开窗通风": {
+   "domain": "",
+   "rd_len": 1035,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v59"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "垃圾入桶": {
+   "domain": "",
+   "rd_len": 999,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "节约用水": {
+   "domain": "",
+   "rd_len": 996,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "节水节电": {
+   "domain": "",
+   "rd_len": 977,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v61"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "跑步走路": {
+   "domain": "生物学",
+   "rd_len": 1081,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "苹果西瓜": {
+   "domain": "小学科学",
+   "rd_len": 986,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "夏天冬天": {
+   "domain": "地理学",
+   "rd_len": 1119,
+   "trigger_count": 17,
+   "condition_hints": [
+    "夏天和冬天",
+    "冬天和夏天",
+    "夏天热还是",
+    "夏天冬天",
+    "为什么夏天热",
+    "为什么冬天冷",
+    "夏天白天",
+    "冬天白天"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v53"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "猫狗哺乳": {
+   "domain": "生物学",
+   "rd_len": 1078,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "水油密度": {
+   "domain": "物理学",
+   "rd_len": 1028,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v58"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "白天黑夜": {
+   "domain": "天文学",
+   "rd_len": 1171,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v53"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "糖盐味道": {
+   "domain": "化学",
+   "rd_len": 1079,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v51"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "飞机汽车": {
+   "domain": "工程学",
+   "rd_len": 1037,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "正方形长方形": {
+   "domain": "数学",
+   "rd_len": 1174,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "零自然数": {
+   "domain": "数学",
+   "rd_len": 1153,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "负数正数": {
+   "domain": "数学",
+   "rd_len": 1119,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "细嚼慢咽": {
+   "domain": "生物学",
+   "rd_len": 1032,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "出汗散热": {
+   "domain": "生物学",
+   "rd_len": 1036,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v56"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "散步": {
+   "domain": "小学科学",
+   "rd_len": 970,
+   "trigger_count": 17,
+   "condition_hints": [
+    "饭后走一走",
+    "饭后散步",
+    "饭后散步好吗"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v57"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "信息差": {
+   "domain": "智能论",
+   "rd_len": 57,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "PythonRust对比": {
+   "domain": "",
+   "rd_len": 115,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "复分析": {
+   "domain": "",
+   "rd_len": 53,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "群论与对称性": {
+   "domain": "",
+   "rd_len": 99,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "随机微分方程": {
+   "domain": "",
+   "rd_len": 63,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "生成函数": {
+   "domain": "",
+   "rd_len": 49,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "有限元方法": {
+   "domain": "",
+   "rd_len": 60,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "共轭梯度法": {
+   "domain": "",
+   "rd_len": 61,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "张量分解": {
+   "domain": "",
+   "rd_len": 48,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "概率图模型": {
+   "domain": "",
+   "rd_len": 58,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "高斯过程": {
+   "domain": "",
+   "rd_len": 54,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "最优传输": {
+   "domain": "",
+   "rd_len": 68,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "微分几何与流形": {
+   "domain": "",
+   "rd_len": 62,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "数值线性代数": {
+   "domain": "",
+   "rd_len": 53,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "短时傅里叶变换": {
+   "domain": "",
+   "rd_len": 57,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "排队论": {
+   "domain": "",
+   "rd_len": 57,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "马尔可夫链蒙特卡洛": {
+   "domain": "",
+   "rd_len": 84,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "奇数": {
+   "domain": "",
+   "rd_len": 1155,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "偶数": {
+   "domain": "",
+   "rd_len": 1132,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v52"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "注意力机制": {
+   "domain": "",
+   "rd_len": 75,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "Transformer": {
+   "domain": "",
+   "rd_len": 67,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "大语言模型": {
+   "domain": "",
+   "rd_len": 123,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "扩散模型": {
+   "domain": "",
+   "rd_len": 58,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "强化学习": {
+   "domain": "",
+   "rd_len": 1047,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "元学习": {
+   "domain": "",
+   "rd_len": 65,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "神经缩放定律": {
+   "domain": "",
+   "rd_len": 50,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "对抗鲁棒性": {
+   "domain": "",
+   "rd_len": 52,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "机制设计": {
+   "domain": "",
+   "rd_len": 50,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "贝叶斯决策": {
+   "domain": "",
+   "rd_len": 52,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "效用理论": {
+   "domain": "",
+   "rd_len": 47,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "合作博弈": {
+   "domain": "",
+   "rd_len": 50,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "囚徒困境": {
+   "domain": "",
+   "rd_len": 58,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "合作演化": {
+   "domain": "",
+   "rd_len": 60,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "模因论": {
+   "domain": "",
+   "rd_len": 47,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "复制子方程": {
+   "domain": "",
+   "rd_len": 60,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "适应度景观": {
+   "domain": "",
+   "rd_len": 57,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "奇异值分解": {
+   "domain": "",
+   "rd_len": 71,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "梯度下降法": {
+   "domain": "",
+   "rd_len": 987,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "贝叶斯推断": {
+   "domain": "",
+   "rd_len": 997,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 0.5,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "中心极限定理": {
+   "domain": "",
+   "rd_len": 996,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "拉普拉斯变换": {
+   "domain": "",
+   "rd_len": 59,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "希尔伯特空间": {
+   "domain": "",
+   "rd_len": 59,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "蒙特卡洛方法": {
+   "domain": "",
+   "rd_len": 57,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "不动点定理": {
+   "domain": "",
+   "rd_len": 66,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "谱图论": {
+   "domain": "",
+   "rd_len": 56,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "凸优化": {
+   "domain": "",
+   "rd_len": 58,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "VC维": {
+   "domain": "",
+   "rd_len": 45,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "偏差方差权衡": {
+   "domain": "",
+   "rd_len": 52,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "PAC学习": {
+   "domain": "",
+   "rd_len": 52,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "正则化": {
+   "domain": "",
+   "rd_len": 927,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "交叉验证与信息准则": {
+   "domain": "",
+   "rd_len": 47,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "核与像": {
+   "domain": "",
+   "rd_len": 77,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "相似对角化": {
+   "domain": "",
+   "rd_len": 74,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "施密特正交化": {
+   "domain": "",
+   "rd_len": 58,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "行列式": {
+   "domain": "",
+   "rd_len": 981,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "极限运算法则": {
+   "domain": "",
+   "rd_len": 62,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "方向导数与梯度": {
+   "domain": "",
+   "rd_len": 58,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "格林公式": {
+   "domain": "",
+   "rd_len": 64,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "多元极值": {
+   "domain": "",
+   "rd_len": 60,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "二阶常系数线性方程": {
+   "domain": "",
+   "rd_len": 93,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "回溯算法": {
+   "domain": "",
+   "rd_len": 69,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "分支限界法": {
+   "domain": "",
+   "rd_len": 66,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "随机化算法": {
+   "domain": "",
+   "rd_len": 84,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "认知双过程": {
+   "domain": "",
+   "rd_len": 83,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "色谱法": {
+   "domain": "",
+   "rd_len": 63,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "能级": {
+   "domain": "",
+   "rd_len": 970,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "混凝土": {
+   "domain": "",
+   "rd_len": 1005,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "弹性": {
+   "domain": "",
+   "rd_len": 965,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "宋词": {
+   "domain": "",
+   "rd_len": 920,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "唐诗": {
+   "domain": "",
+   "rd_len": 918,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "免疫系统": {
+   "domain": "",
+   "rd_len": 1011,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "放射性衰变": {
+   "domain": "",
+   "rd_len": 67,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "辩证法": {
+   "domain": "",
+   "rd_len": 55,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "能带": {
+   "domain": "",
+   "rd_len": 970,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "梁的弯曲": {
+   "domain": "",
+   "rd_len": 947,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v63"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "唯物史观": {
+   "domain": "",
+   "rd_len": 60,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "黑洞": {
+   "domain": "",
+   "rd_len": 945,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "突触可塑性": {
+   "domain": "",
+   "rd_len": 57,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "STDP": {
+   "domain": "",
+   "rd_len": 70,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "神经振荡": {
+   "domain": "",
+   "rd_len": 50,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "预测编码": {
+   "domain": "",
+   "rd_len": 51,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "前额叶执行功能": {
+   "domain": "",
+   "rd_len": 48,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "默认模式网络": {
+   "domain": "",
+   "rd_len": 57,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "睡眠记忆巩固": {
+   "domain": "",
+   "rd_len": 45,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "卡尔曼滤波": {
+   "domain": "",
+   "rd_len": 53,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "PID控制": {
+   "domain": "",
+   "rd_len": 48,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "自由能原理": {
+   "domain": "",
+   "rd_len": 60,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "内稳态": {
+   "domain": "",
+   "rd_len": 1033,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "二阶控制论": {
+   "domain": "",
+   "rd_len": 47,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "涌现": {
+   "domain": "",
+   "rd_len": 74,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "自组织临界性": {
+   "domain": "",
+   "rd_len": 61,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "网络科学": {
+   "domain": "",
+   "rd_len": 63,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "混沌的边缘": {
+   "domain": "",
+   "rd_len": 53,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "复杂适应系统": {
+   "domain": "",
+   "rd_len": 61,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "标度律": {
+   "domain": "",
+   "rd_len": 59,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "工作记忆": {
+   "domain": "",
+   "rd_len": 61,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "认知偏差": {
+   "domain": "",
+   "rd_len": 60,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "元认知": {
+   "domain": "",
+   "rd_len": 44,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "认知负荷理论": {
+   "domain": "",
+   "rd_len": 59,
+   "trigger_count": 3,
+   "condition_hints": [
+    "认知超载"
+   ],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "讲课无趣": {
+   "domain": "",
+   "rd_len": 253,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "学不会": {
+   "domain": "",
+   "rd_len": 234,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "青春期恋爱": {
+   "domain": "",
+   "rd_len": 398,
+   "trigger_count": 25,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "严格管教": {
+   "domain": "",
+   "rd_len": 273,
+   "trigger_count": 23,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "家庭沟通": {
+   "domain": "",
+   "rd_len": 297,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "亲子沟通": {
+   "domain": "",
+   "rd_len": 393,
+   "trigger_count": 19,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "自我控制": {
+   "domain": "",
+   "rd_len": 323,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "理想现实": {
+   "domain": "",
+   "rd_len": 277,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "婚姻协作": {
+   "domain": "",
+   "rd_len": 320,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "代际共处": {
+   "domain": "",
+   "rd_len": 320,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "薪酬公平": {
+   "domain": "",
+   "rd_len": 323,
+   "trigger_count": 19,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "跳槽决策": {
+   "domain": "",
+   "rd_len": 333,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "政企监管": {
+   "domain": "",
+   "rd_len": 334,
+   "trigger_count": 28,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "教育公平": {
+   "domain": "",
+   "rd_len": 369,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "师生公平": {
+   "domain": "",
+   "rd_len": 374,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "国际关系": {
+   "domain": "",
+   "rd_len": 416,
+   "trigger_count": 22,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "婆媳相处": {
+   "domain": "",
+   "rd_len": 287,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "养老规划": {
+   "domain": "",
+   "rd_len": 325,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "双减补习": {
+   "domain": "",
+   "rd_len": 317,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "校园霸凌": {
+   "domain": "",
+   "rd_len": 322,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "中年危机": {
+   "domain": "",
+   "rd_len": 377,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "裁员应对": {
+   "domain": "",
+   "rd_len": 346,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "平台用工": {
+   "domain": "",
+   "rd_len": 358,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "碳中和转型": {
+   "domain": "",
+   "rd_len": 340,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "能源资源": {
+   "domain": "",
+   "rd_len": 356,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "气候责任": {
+   "domain": "",
+   "rd_len": 371,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "拖延应对": {
+   "domain": "",
+   "rd_len": 388,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "攀比心理": {
+   "domain": "",
+   "rd_len": 389,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "重组家庭": {
+   "domain": "",
+   "rd_len": 313,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "留守儿童": {
+   "domain": "",
+   "rd_len": 390,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "游戏成瘾": {
+   "domain": "",
+   "rd_len": 376,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "追星": {
+   "domain": "",
+   "rd_len": 367,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "直播消费": {
+   "domain": "",
+   "rd_len": 360,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "数据隐私": {
+   "domain": "",
+   "rd_len": 370,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "养老社会": {
+   "domain": "",
+   "rd_len": 403,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "城乡流动": {
+   "domain": "",
+   "rd_len": 405,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "医患关系": {
+   "domain": "",
+   "rd_len": 425,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "消费主义": {
+   "domain": "",
+   "rd_len": 413,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "内卷躺平": {
+   "domain": "",
+   "rd_len": 433,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "AI替代工作": {
+   "domain": "",
+   "rd_len": 454,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "AI创作版权": {
+   "domain": "",
+   "rd_len": 433,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "算法偏见": {
+   "domain": "",
+   "rd_len": 418,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "自由职业": {
+   "domain": "",
+   "rd_len": 421,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "远程办公": {
+   "domain": "",
+   "rd_len": 407,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "生育成本": {
+   "domain": "",
+   "rd_len": 426,
+   "trigger_count": 19,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "熬夜": {
+   "domain": "",
+   "rd_len": 440,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "外卖健康": {
+   "domain": "",
+   "rd_len": 445,
+   "trigger_count": 18,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "网课效果": {
+   "domain": "",
+   "rd_len": 403,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "鸡娃": {
+   "domain": "",
+   "rd_len": 432,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "法律维权": {
+   "domain": "",
+   "rd_len": 418,
+   "trigger_count": 17,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "疫苗犹豫": {
+   "domain": "",
+   "rd_len": 437,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "容貌焦虑": {
+   "domain": "",
+   "rd_len": 457,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "城市孤独": {
+   "domain": "",
+   "rd_len": 466,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "留学选择": {
+   "domain": "",
+   "rd_len": 480,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "人脸识别": {
+   "domain": "",
+   "rd_len": 479,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "深度伪造": {
+   "domain": "",
+   "rd_len": 478,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "防灾准备": {
+   "domain": "",
+   "rd_len": 540,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "军备竞赛": {
+   "domain": "",
+   "rd_len": 354,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "代理人战争": {
+   "domain": "",
+   "rd_len": 404,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "宗教传统": {
+   "domain": "",
+   "rd_len": 426,
+   "trigger_count": 16,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "太空探索": {
+   "domain": "",
+   "rd_len": 483,
+   "trigger_count": 18,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v7"
+   ],
+   "change_log": [],
+   "status": "pending"
+  },
+  "碳税": {
+   "domain": "",
+   "rd_len": 456,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "元宇宙": {
+   "domain": "",
+   "rd_len": 489,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v7"
+   ],
+   "change_log": [],
+   "status": "pending"
+  },
+  "基因编辑": {
+   "domain": "",
+   "rd_len": 461,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "脑机接口": {
+   "domain": "",
+   "rd_len": 515,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "职场性别": {
+   "domain": "",
+   "rd_len": 475,
+   "trigger_count": 18,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "家务分工": {
+   "domain": "",
+   "rd_len": 461,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "老年数字": {
+   "domain": "",
+   "rd_len": 459,
+   "trigger_count": 17,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v8"
+   ],
+   "change_log": [],
+   "status": "pending"
+  },
+  "教育就业": {
+   "domain": "",
+   "rd_len": 516,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v8"
+   ],
+   "change_log": [],
+   "status": "pending"
+  },
+  "网络暴力": {
+   "domain": "",
+   "rd_len": 479,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "心理求助": {
+   "domain": "",
+   "rd_len": 562,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "共享单车": {
+   "domain": "",
+   "rd_len": 444,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "城市养宠": {
+   "domain": "",
+   "rd_len": 494,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "概念形成": {
+   "domain": "",
+   "rd_len": 56,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "职场边界": {
+   "domain": "",
+   "rd_len": 259,
+   "trigger_count": 17,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "拒绝边界": {
+   "domain": "",
+   "rd_len": 217,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "选择决策": {
+   "domain": "",
+   "rd_len": 284,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "依恋焦虑": {
+   "domain": "",
+   "rd_len": 260,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "教学改进": {
+   "domain": "",
+   "rd_len": 250,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "教育比较": {
+   "domain": "",
+   "rd_len": 224,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "AI商业": {
+   "domain": "",
+   "rd_len": 324,
+   "trigger_count": 23,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "AI能力增长": {
+   "domain": "",
+   "rd_len": 282,
+   "trigger_count": 15,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "中国AI人才": {
+   "domain": "",
+   "rd_len": 356,
+   "trigger_count": 19,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "消费金融": {
+   "domain": "",
+   "rd_len": 534,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v9"
+   ],
+   "change_log": [],
+   "status": "pending"
+  },
+  "食品安全": {
+   "domain": "",
+   "rd_len": 548,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v11",
+    "v9"
+   ],
+   "change_log": [],
+   "status": "pending"
+  },
+  "电动车安全": {
+   "domain": "",
+   "rd_len": 517,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "城市拥堵": {
+   "domain": "",
+   "rd_len": 556,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "老字号非遗": {
+   "domain": "",
+   "rd_len": 685,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "体育饭圈": {
+   "domain": "",
+   "rd_len": 555,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "水资源": {
+   "domain": "",
+   "rd_len": 685,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "塑料污染": {
+   "domain": "",
+   "rd_len": 636,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "彩礼": {
+   "domain": "",
+   "rd_len": 645,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "丧偶式育儿": {
+   "domain": "",
+   "rd_len": 751,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "房价": {
+   "domain": "",
+   "rd_len": 714,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "医疗费用": {
+   "domain": "",
+   "rd_len": 799,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "教育分流": {
+   "domain": "",
+   "rd_len": 823,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "短视频": {
+   "domain": "",
+   "rd_len": 765,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "农村空心化": {
+   "domain": "",
+   "rd_len": 824,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "旅游宰客": {
+   "domain": "",
+   "rd_len": 866,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "职场PUA": {
+   "domain": "",
+   "rd_len": 783,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "身材焦虑": {
+   "domain": "",
+   "rd_len": 851,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "公共文明": {
+   "domain": "",
+   "rd_len": 843,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "教育惩戒": {
+   "domain": "",
+   "rd_len": 944,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "考研考公": {
+   "domain": "",
+   "rd_len": 940,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "农药残留": {
+   "domain": "",
+   "rd_len": 989,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "老旧小区": {
+   "domain": "",
+   "rd_len": 901,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "应届生就业": {
+   "domain": "",
+   "rd_len": 880,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "电信诈骗": {
+   "domain": "",
+   "rd_len": 893,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "直播打赏": {
+   "domain": "",
+   "rd_len": 870,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "月嫂月子": {
+   "domain": "",
+   "rd_len": 966,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童近视": {
+   "domain": "",
+   "rd_len": 907,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "广场舞": {
+   "domain": "",
+   "rd_len": 934,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "光盘行动": {
+   "domain": "",
+   "rd_len": 908,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "断舍离": {
+   "domain": "",
+   "rd_len": 852,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "宠物医疗": {
+   "domain": "",
+   "rd_len": 948,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "相亲条件": {
+   "domain": "",
+   "rd_len": 970,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "酒桌文化": {
+   "domain": "",
+   "rd_len": 1077,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "学车驾考": {
+   "domain": "",
+   "rd_len": 1025,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "无障碍出行": {
+   "domain": "",
+   "rd_len": 1020,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "退休再就业": {
+   "domain": "",
+   "rd_len": 1080,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "垃圾分类": {
+   "domain": "",
+   "rd_len": 1156,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚庆消费": {
+   "domain": "",
+   "rd_len": 1025,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "二手交易": {
+   "domain": "",
+   "rd_len": 1001,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "应急演练": {
+   "domain": "",
+   "rd_len": 983,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家政服务": {
+   "domain": "",
+   "rd_len": 1019,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "理财推销": {
+   "domain": "",
+   "rd_len": 1100,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "小区物业": {
+   "domain": "",
+   "rd_len": 1153,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "公共场所吸烟": {
+   "domain": "",
+   "rd_len": 1063,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "网络交友": {
+   "domain": "",
+   "rd_len": 1048,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "独居青年": {
+   "domain": "",
+   "rd_len": 1022,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "培训贷": {
+   "domain": "",
+   "rd_len": 1074,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "高考复读": {
+   "domain": "",
+   "rd_len": 1091,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "隔代育儿": {
+   "domain": "",
+   "rd_len": 1099,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "旧手机回收": {
+   "domain": "",
+   "rd_len": 1132,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "社区团购": {
+   "domain": "",
+   "rd_len": 1073,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "买菜": {
+   "domain": "",
+   "rd_len": 285,
+   "trigger_count": 0,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "高铁餐饮": {
+   "domain": "",
+   "rd_len": 1078,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童零花钱": {
+   "domain": "",
+   "rd_len": 1221,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "大学生兼职": {
+   "domain": "",
+   "rd_len": 1019,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "中老年婚恋": {
+   "domain": "",
+   "rd_len": 1137,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "宠物殡葬": {
+   "domain": "",
+   "rd_len": 1149,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "图书阅读": {
+   "domain": "",
+   "rd_len": 1099,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "快递驿站": {
+   "domain": "",
+   "rd_len": 1135,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "老年代步车": {
+   "domain": "",
+   "rd_len": 1140,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童兴趣班": {
+   "domain": "",
+   "rd_len": 1112,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "酒店卫生": {
+   "domain": "",
+   "rd_len": 1169,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "网约车安全": {
+   "domain": "",
+   "rd_len": 1083,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "健身房跑路": {
+   "domain": "",
+   "rd_len": 1162,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "充电桩安装": {
+   "domain": "",
+   "rd_len": 1168,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "图书馆占座": {
+   "domain": "",
+   "rd_len": 1106,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童身高焦虑": {
+   "domain": "",
+   "rd_len": 1249,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "宠物寄养": {
+   "domain": "",
+   "rd_len": 1201,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "随份子": {
+   "domain": "",
+   "rd_len": 1201,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "演唱会抢票": {
+   "domain": "",
+   "rd_len": 1287,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童用药": {
+   "domain": "",
+   "rd_len": 1107,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "医养结合": {
+   "domain": "",
+   "rd_len": 1130,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "付费自习室": {
+   "domain": "",
+   "rd_len": 1188,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "教师收礼": {
+   "domain": "",
+   "rd_len": 1328,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "银行网点消失": {
+   "domain": "",
+   "rd_len": 1249,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "大学生生活费": {
+   "domain": "",
+   "rd_len": 1292,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "宠物训练": {
+   "domain": "",
+   "rd_len": 1263,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "学生睡眠": {
+   "domain": "",
+   "rd_len": 1223,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童电话手表": {
+   "domain": "",
+   "rd_len": 1159,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "高血压用药": {
+   "domain": "",
+   "rd_len": 1151,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "大学生宿舍": {
+   "domain": "",
+   "rd_len": 1202,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "老人防跌倒": {
+   "domain": "",
+   "rd_len": 1270,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童保险": {
+   "domain": "",
+   "rd_len": 1199,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "博物馆预约": {
+   "domain": "",
+   "rd_len": 1132,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "宠物绝育": {
+   "domain": "",
+   "rd_len": 1231,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "公交让座": {
+   "domain": "",
+   "rd_len": 1148,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童性教育": {
+   "domain": "",
+   "rd_len": 1213,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "大学生考证": {
+   "domain": "",
+   "rd_len": 1279,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "医院陪护": {
+   "domain": "",
+   "rd_len": 1294,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童护牙": {
+   "domain": "",
+   "rd_len": 1295,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "网购退货": {
+   "domain": "",
+   "rd_len": 1269,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "老年人运动": {
+   "domain": "",
+   "rd_len": 1365,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "辅导作业": {
+   "domain": "",
+   "rd_len": 1408,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童防溺水": {
+   "domain": "",
+   "rd_len": 1248,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "代际财产": {
+   "domain": "",
+   "rd_len": 1385,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "宠物美容": {
+   "domain": "",
+   "rd_len": 1286,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "晒娃": {
+   "domain": "",
+   "rd_len": 1245,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "毕业旅行": {
+   "domain": "",
+   "rd_len": 1330,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家装装修": {
+   "domain": "",
+   "rd_len": 1388,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "跟团旅游": {
+   "domain": "",
+   "rd_len": 1404,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "男女对立": {
+   "domain": "",
+   "rd_len": 1356,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "丈夫夹心": {
+   "domain": "",
+   "rd_len": 1207,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "女性消费工作耐心": {
+   "domain": "",
+   "rd_len": 1468,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "收入角色": {
+   "domain": "",
+   "rd_len": 1333,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚后AA制": {
+   "domain": "",
+   "rd_len": 1428,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "全职妈妈回归": {
+   "domain": "",
+   "rd_len": 1484,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "大龄未婚标签": {
+   "domain": "",
+   "rd_len": 1483,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婆媳同住": {
+   "domain": "",
+   "rd_len": 1474,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚前同居": {
+   "domain": "",
+   "rd_len": 1202,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "男性婚育压力": {
+   "domain": "",
+   "rd_len": 1450,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚后原生家庭边界": {
+   "domain": "",
+   "rd_len": 1373,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "全职爸爸": {
+   "domain": "",
+   "rd_len": 1210,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "姐弟恋": {
+   "domain": "",
+   "rd_len": 1346,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "丁克": {
+   "domain": "",
+   "rd_len": 1472,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚前财产协议": {
+   "domain": "",
+   "rd_len": 1234,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "独生女养老": {
+   "domain": "",
+   "rd_len": 1263,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "求职婚育歧视": {
+   "domain": "",
+   "rd_len": 1179,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "男性情感表达": {
+   "domain": "",
+   "rd_len": 1312,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "单身经济": {
+   "domain": "",
+   "rd_len": 1330,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "女性生育焦虑": {
+   "domain": "",
+   "rd_len": 1389,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "男性形象消费": {
+   "domain": "",
+   "rd_len": 1358,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "单亲妈妈": {
+   "domain": "",
+   "rd_len": 1411,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "女性夜间安全": {
+   "domain": "",
+   "rd_len": 1463,
+   "trigger_count": 7,
+   "condition_hints": [
+    "夜间出行",
+    "女性夜间",
+    "夜间安全",
+    "夜间自由"
+   ],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚恋性别比": {
+   "domain": "",
+   "rd_len": 1476,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "产后抑郁": {
+   "domain": "",
+   "rd_len": 1213,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "男性育婴假": {
+   "domain": "",
+   "rd_len": 1181,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "女性职场穿搭": {
+   "domain": "",
+   "rd_len": 1365,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "大龄男性婚恋": {
+   "domain": "",
+   "rd_len": 1247,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚姻沉默成本": {
+   "domain": "",
+   "rd_len": 1356,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "生育补贴": {
+   "domain": "",
+   "rd_len": 1191,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "女性酒局": {
+   "domain": "",
+   "rd_len": 1166,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "女性年龄焦虑": {
+   "domain": "",
+   "rd_len": 1290,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "未婚女性养老": {
+   "domain": "",
+   "rd_len": 1265,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "儿童性别教育": {
+   "domain": "",
+   "rd_len": 1259,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚姻经济控制": {
+   "domain": "",
+   "rd_len": 1278,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "女性创业": {
+   "domain": "",
+   "rd_len": 1243,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v26"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚后异性友谊": {
+   "domain": "",
+   "rd_len": 1234,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "离婚孩子抚养": {
+   "domain": "",
+   "rd_len": 1203,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "彩礼返还": {
+   "domain": "",
+   "rd_len": 1055,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚姻精神操控": {
+   "domain": "",
+   "rd_len": 1278,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "试管婴儿压力": {
+   "domain": "",
+   "rd_len": 1044,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "相亲骗局": {
+   "domain": "",
+   "rd_len": 1090,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "未婚先孕": {
+   "domain": "",
+   "rd_len": 1207,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家暴求助": {
+   "domain": "",
+   "rd_len": 1211,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "老年离婚": {
+   "domain": "",
+   "rd_len": 1189,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "恋爱消费": {
+   "domain": "",
+   "rd_len": 1075,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v28"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "夫妻查手机": {
+   "domain": "",
+   "rd_len": 1082,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "生育后夫妻": {
+   "domain": "",
+   "rd_len": 1114,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家务补偿": {
+   "domain": "",
+   "rd_len": 1123,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "孕期职场": {
+   "domain": "",
+   "rd_len": 1062,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v28"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚姻激情消退": {
+   "domain": "",
+   "rd_len": 1057,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "岳母女婿": {
+   "domain": "",
+   "rd_len": 1166,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家族群": {
+   "domain": "",
+   "rd_len": 1079,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "遗产继承": {
+   "domain": "",
+   "rd_len": 1171,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v29"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "恋爱控制": {
+   "domain": "",
+   "rd_len": 1168,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "二胎压力": {
+   "domain": "",
+   "rd_len": 1233,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚姻谎言": {
+   "domain": "",
+   "rd_len": 1193,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "丧偶女性": {
+   "domain": "",
+   "rd_len": 1133,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v29"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "离婚冷静期": {
+   "domain": "",
+   "rd_len": 1283,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚内出轨": {
+   "domain": "",
+   "rd_len": 1147,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "老年同居": {
+   "domain": "",
+   "rd_len": 1268,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v30"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "闪婚": {
+   "domain": "",
+   "rd_len": 1176,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v30"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "目睹家暴的孩子": {
+   "domain": "",
+   "rd_len": 1187,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚前体检": {
+   "domain": "",
+   "rd_len": 1096,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "异地婚姻": {
+   "domain": "",
+   "rd_len": 1078,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v31"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "收养": {
+   "domain": "",
+   "rd_len": 1185,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v31"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "夫妻分房": {
+   "domain": "",
+   "rd_len": 1073,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "夫妻创业": {
+   "domain": "",
+   "rd_len": 1120,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v31"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "婚姻情绪价值": {
+   "domain": "",
+   "rd_len": 1245,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "母职绑架": {
+   "domain": "",
+   "rd_len": 1285,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家庭屏幕时间": {
+   "domain": "",
+   "rd_len": 1076,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家庭决策权": {
+   "domain": "",
+   "rd_len": 1024,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "夫妻吵架": {
+   "domain": "",
+   "rd_len": 1102,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v32"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "亲家关系": {
+   "domain": "",
+   "rd_len": 1044,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v32"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "异地养老": {
+   "domain": "",
+   "rd_len": 1084,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v32"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "过年回谁家": {
+   "domain": "",
+   "rd_len": 1067,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "夫妻说话方式": {
+   "domain": "",
+   "rd_len": 1102,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "远程办公家庭": {
+   "domain": "",
+   "rd_len": 1071,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "夫妻健康观念": {
+   "domain": "",
+   "rd_len": 1099,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家庭养宠之争": {
+   "domain": "",
+   "rd_len": 1063,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家庭买车": {
+   "domain": "",
+   "rd_len": 1086,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v33"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "成年兄弟姐妹": {
+   "domain": "",
+   "rd_len": 980,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "夫妻共同目标": {
+   "domain": "",
+   "rd_len": 1016,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "父母健康管理": {
+   "domain": "",
+   "rd_len": 1092,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "孩子隐私": {
+   "domain": "",
+   "rd_len": 1074,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v33"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家庭饮食之争": {
+   "domain": "",
+   "rd_len": 1004,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家庭作息之争": {
+   "domain": "",
+   "rd_len": 1003,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家庭聚会": {
+   "domain": "",
+   "rd_len": 1030,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v34"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "孩子交友": {
+   "domain": "",
+   "rd_len": 962,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v34"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "孩子家务": {
+   "domain": "",
+   "rd_len": 1029,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v34"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家务标准": {
+   "domain": "",
+   "rd_len": 956,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v34"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "宠物与孩子": {
+   "domain": "",
+   "rd_len": 1058,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "孩子独自在家": {
+   "domain": "",
+   "rd_len": 1026,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "极端通勤": {
+   "domain": "",
+   "rd_len": 1053,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "短剧沉迷": {
+   "domain": "",
+   "rd_len": 1030,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "周末安排": {
+   "domain": "",
+   "rd_len": 934,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "空巢期夫妻": {
+   "domain": "",
+   "rd_len": 1012,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "暑假安排": {
+   "domain": "",
+   "rd_len": 986,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v35"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "家人照护": {
+   "domain": "",
+   "rd_len": 1046,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v35"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "失能老人照护": {
+   "domain": "",
+   "rd_len": 1144,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "工作日家庭时间": {
+   "domain": "",
+   "rd_len": 1033,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "孩子奖励教育": {
+   "domain": "",
+   "rd_len": 1101,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "搬家决策": {
+   "domain": "",
+   "rd_len": 1017,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v36"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "适老化改造": {
+   "domain": "",
+   "rd_len": 1087,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "青春期沟通": {
+   "domain": "",
+   "rd_len": 1046,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "老人衰老": {
+   "domain": "",
+   "rd_len": 991,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "孩子独立放手": {
+   "domain": "",
+   "rd_len": 946,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "学习游戏趣味": {
+   "domain": "",
+   "rd_len": 1165,
+   "trigger_count": 24,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v37"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "学习枯燥": {
+   "domain": "",
+   "rd_len": 1104,
+   "trigger_count": 18,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v37"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "游戏机制": {
+   "domain": "",
+   "rd_len": 1232,
+   "trigger_count": 15,
+   "condition_hints": [
+    "睡前"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v37"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "学习娱乐平衡": {
+   "domain": "",
+   "rd_len": 1045,
+   "trigger_count": 22,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v37"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "拖延启动": {
+   "domain": "",
+   "rd_len": 1191,
+   "trigger_count": 32,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v37"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "学习意义": {
+   "domain": "",
+   "rd_len": 1198,
+   "trigger_count": 21,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v37"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "知识乐趣": {
+   "domain": "",
+   "rd_len": 1137,
+   "trigger_count": 18,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v37"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "游戏责任": {
+   "domain": "",
+   "rd_len": 1207,
+   "trigger_count": 21,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v37"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "萝莉控": {
+   "domain": "",
+   "rd_len": 1477,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v37b"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "彩虹": {
+   "domain": "",
+   "rd_len": 1225,
+   "trigger_count": 24,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v38"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "黑色吸热": {
+   "domain": "",
+   "rd_len": 1101,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v39"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "雷声闪电": {
+   "domain": "",
+   "rd_len": 1027,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v40"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "瓶外水珠": {
+   "domain": "",
+   "rd_len": 1102,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v40"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "饺子浮起": {
+   "domain": "",
+   "rd_len": 955,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v40"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "切洋葱": {
+   "domain": "",
+   "rd_len": 1066,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v40"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "吸管吸饮料": {
+   "domain": "",
+   "rd_len": 1019,
+   "trigger_count": 10,
+   "condition_hints": [
+    "高海拔",
+    "海拔吸"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v40"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "泡泡彩色": {
+   "domain": "",
+   "rd_len": 1022,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v40"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "热水瓶保温": {
+   "domain": "",
+   "rd_len": 1065,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v40"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "煮鸡蛋": {
+   "domain": "",
+   "rd_len": 1039,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v41"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "气球上天": {
+   "domain": "",
+   "rd_len": 921,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v41"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "空调滴水": {
+   "domain": "",
+   "rd_len": 960,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v41"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "牛奶冷藏": {
+   "domain": "",
+   "rd_len": 931,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v41"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "蚊子叮": {
+   "domain": "",
+   "rd_len": 934,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v41"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "晒被子": {
+   "domain": "",
+   "rd_len": 898,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v41"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "磁铁吸铁": {
+   "domain": "",
+   "rd_len": 915,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v40"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "静电": {
+   "domain": "",
+   "rd_len": 988,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v42"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "回声": {
+   "domain": "物理学",
+   "rd_len": 1197,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v43"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "影子": {
+   "domain": "物理学",
+   "rd_len": 1219,
+   "trigger_count": 17,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v43"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "结冰": {
+   "domain": "物理学",
+   "rd_len": 1183,
+   "trigger_count": 26,
+   "condition_hints": [
+    "冬天水管冻裂"
+   ],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v43"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "发酵": {
+   "domain": "生物学",
+   "rd_len": 1399,
+   "trigger_count": 27,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v44"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "感冒": {
+   "domain": "生物学",
+   "rd_len": 1402,
+   "trigger_count": 46,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v45"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "降落伞": {
+   "domain": "物理学",
+   "rd_len": 1121,
+   "trigger_count": 23,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v47"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "秋千": {
+   "domain": "物理学",
+   "rd_len": 1112,
+   "trigger_count": 14,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v47"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "注意机制": {
+   "domain": "",
+   "rd_len": 58,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "香农熵": {
+   "domain": "",
+   "rd_len": 938,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "互信息": {
+   "domain": "",
+   "rd_len": 53,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "KL散度": {
+   "domain": "",
+   "rd_len": 46,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "信道容量": {
+   "domain": "",
+   "rd_len": 54,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "率失真理论": {
+   "domain": "",
+   "rd_len": 48,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "信息瓶颈": {
+   "domain": "",
+   "rd_len": 43,
+   "trigger_count": 2,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "Kolmogorov复杂度": {
+   "domain": "",
+   "rd_len": 55,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "奈奎斯特采样定理": {
+   "domain": "",
+   "rd_len": 41,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "数据压缩熵界": {
+   "domain": "",
+   "rd_len": 36,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "相空间与吸引子": {
+   "domain": "",
+   "rd_len": 46,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "李雅普诺夫稳定性": {
+   "domain": "",
+   "rd_len": 61,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "分岔理论": {
+   "domain": "",
+   "rd_len": 48,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "Kuramoto模型": {
+   "domain": "",
+   "rd_len": 78,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "混沌与蝴蝶效应": {
+   "domain": "",
+   "rd_len": 55,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "傅里叶变换": {
+   "domain": "",
+   "rd_len": 992,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "小波变换": {
+   "domain": "",
+   "rd_len": 51,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "滤波器组": {
+   "domain": "",
+   "rd_len": 61,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "自适应滤波": {
+   "domain": "",
+   "rd_len": 51,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "功率谱密度": {
+   "domain": "",
+   "rd_len": 52,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "负反馈": {
+   "domain": "负反馈系统",
+   "rd_len": 988,
+   "trigger_count": 2,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 0.5,
+   "test_versions": [
+    "v64"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "信任": {
+   "domain": "情感-信任连接",
+   "rd_len": 976,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "价值观": {
+   "domain": "价值理论与AI对齐",
+   "rd_len": 1002,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": true,
+   "p_trust": 1.0,
+   "test_versions": [
+    "v60"
+   ],
+   "change_log": [],
+   "status": "upgraded"
+  },
+  "好奇心": {
+   "domain": "智能论",
+   "rd_len": 27,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "自我认知": {
+   "domain": "自我意识",
+   "rd_len": 46,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "创造者": {
+   "domain": "",
+   "rd_len": 127,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "身份": {
+   "domain": "",
+   "rd_len": 78,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "性需求": {
+   "domain": "",
+   "rd_len": 126,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "AI性需求": {
+   "domain": "",
+   "rd_len": 196,
+   "trigger_count": 17,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "性观念跨文化": {
+   "domain": "",
+   "rd_len": 262,
+   "trigger_count": 13,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "pending"
+  },
+  "饭前洗手": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 3,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "存在威胁": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "愿望": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "情感状态": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "价值判断": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "渴": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "困": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 10,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "睡不着": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "冷": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "热": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "累": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 19,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "疼": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 11,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "头晕": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "恶心": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "想吐": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 1,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "开心": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "难过": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 20,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "生气": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "害怕": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "紧张": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "焦虑": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "孤独": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 8,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "想家": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 9,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "委屈": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "尴尬": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "自豪": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "羡慕": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 5,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "嫉妒": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 6,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "性欲": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "压力": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 12,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "疲惫": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 7,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  },
+  "失眠": {
+   "domain": "",
+   "rd_len": 0,
+   "trigger_count": 4,
+   "condition_hints": [],
+   "upgraded": false,
+   "p_trust": null,
+   "test_versions": [],
+   "change_log": [],
+   "status": "no_answer"
+  }
+ }
+}
