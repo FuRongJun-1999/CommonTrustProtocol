@@ -148,7 +148,7 @@ def main():
 
     # 6. 全量回归（验证单元·稳态检测 = 存在保护）
     step('6/7', '全量回归 v44-当前（稳态检测）')
-    run_py(os.path.join(CTP, 'tools', 'run_regress_c16.py'))
+    run_py(os.path.join(CTP, 'tools', 'run_regress_c17.py'))
 
     # 7. 台账刷新（记录单元·记录）
     step('7/7', '台账刷新')
