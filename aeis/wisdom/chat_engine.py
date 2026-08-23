@@ -945,16 +945,30 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
         except Exception:
             hits = []
 
+    # 2.55 fp 确定性直答预检（c12 修复）：encode 命中 REVERSE_DAILY 时，
+    # 人工校准的确定性直答优先于 bge 近似检索——检索低分/空不算 miss，
+    # 搜索收敛纪律不得拦截确定性直答（「为什么晚上要睡觉」等问法
+    # graph_retrieve 低分 → 连续 miss → 收敛提前 return，fp 直答到不了
+    # _assemble。确定性知识优先：_fp_has 时跳过 miss 累计）。
+    _fp_has = False
+    try:
+        import semantic_translate as _st2
+        _fp_has = any(len(t) >= 2 and t in _st2.REVERSE_DAILY
+                      for t in _st2.encode(message))
+    except Exception:
+        _fp_has = False
+
     # 2.6 搜索收敛纪律（v1.16 第 10 条机制 · 设计者挖出的工具纪律盲区）：
     # 工具纪律防「同一查询重复搜」，但防不了「发散换词永远在搜」——
     # 连续 N 次低相关命中 → 停止换词，诚实收敛（搜索循环陷阱）。
     # miss 判定：①个人事务前缀（知识库必然没有个人数据——「我上周三午饭」
-    # 命中「高中历史」0.454 是检索噪声，分数不可靠）②hits 空或 score<0.3。
+    # 命中「高中历史」0.454 是检索噪声，分数不可靠）②hits 空或 score<0.3
+    # ③fp 确定性直答命中时不算 miss（2.55）。
     _PERSONAL = ["我小区", "我上周", "我的快递", "我女朋友", "我的工资",
                  "我的银行", "我的手机", "我昨天买", "我中午吃", "我家里",
                  "我门口", "我上个月", "我的密码", "我的保险"]
-    _miss = (not hits) or (hits[0].get("score") or 0) < 0.3 \
-        or any(p in message for p in _PERSONAL)
+    _miss = ((not hits) or (hits[0].get("score") or 0) < 0.3 \
+        or any(p in message for p in _PERSONAL)) and not _fp_has
     # v1.16 状态跟踪器（爸爸架构结论：LLM 数不出搜索次数——状态外部化，
     # 机制付导航税）：记录 session 搜索历史（次数/最近命中），
     # 硬触发（外部计数）而非让模型判断「该停了吗」
