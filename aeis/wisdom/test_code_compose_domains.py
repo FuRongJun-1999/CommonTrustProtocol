@@ -3195,5 +3195,41 @@ try:
 except Exception as ex:
     check('㊻c 队列→格式化→排序端到端（1 你好甲 [a,1][b,2]）', False, str(ex)[:60])
 
+# ㊼ 目标7 深化：流量/代理/组播（滑动窗口限流/反向代理/组播 经正式管线）
+n7_qs = {
+    "滑动窗口限流": "写一个滑动窗口限流单元（窗口计数）",
+    "反向代理": "写一个反向代理单元（轮询转发）",
+    "组播": "写一个组播单元（组内广播）",
+}
+n7_ok = 0
+for label, q in n7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n7_ok += 1
+    check(f'㊼ {label} 网络流量/代理单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊼b 网络流量/代理三单元全部生成', n7_ok == 3, f'{n7_ok}/3')
+
+# ㊼c 流量端到端：限流→反向代理→组播（[allow,deny] 轮询1 组播广播）
+r_rl = domain_route("写一个滑动窗口限流单元（窗口计数）")
+r_rp = domain_route("写一个反向代理单元（轮询转发）")
+r_mc = domain_route("写一个组播单元（组内广播）")
+try:
+    ns_rl, ns_rp, ns_mc = {}, {}, {}
+    exec(r_rl["code"], ns_rl)
+    exec(r_rp["code"], ns_rp)
+    exec(r_mc["code"], ns_mc)
+    rl = ns_rl["rate_limit"]([1, 11], 10, 1)
+    rp = ns_rp["reverse_proxy"](
+        [{'up': True, 'hits': 0}, {'up': True, 'hits': 1}], 'route')
+    mc = ns_mc["multicast_group"]({'g1': ['a', 'b']}, 'send', 'g1', None, 'hi')
+    check('㊼c 限流→代理→组播端到端（[allow,deny] 1 [(a,hi),(b,hi)]）',
+          rl == ['allow', 'deny'] and rp == 1
+          and mc == [('a', 'hi'), ('b', 'hi')],
+          f'rl={rl} proxy={rp} mc={mc}')
+except Exception as ex:
+    check('㊼c 限流→代理→组播端到端（[allow,deny] 1 [(a,hi),(b,hi)]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

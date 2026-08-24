@@ -956,6 +956,77 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：链路聚合 bonding——多链路负载均衡+故障切换",
     },
+    "网络-滑动窗口限流": {
+        "task": "滑动窗口限流",
+        "pattern": (
+            "def rate_limit(requests, window, limit):\n"
+            "    # 滑动窗口限流：窗口内请求数 ≤ 上限（时间戳窗口滑动）\n"
+            "    out = []\n"
+            "    for i, ts in enumerate(requests):\n"
+            "        window_start = ts - window\n"
+            "        cnt = sum(1 for t in requests[:i + 1] if t >= window_start)\n"
+            "        out.append('allow' if cnt <= limit else 'deny')\n"
+            "    return out\n"),
+        "cases": [(([1, 2, 3], 10, 2), ['allow', 'allow', 'deny']),
+                  (([1, 2, 3], 10, 3), ['allow', 'allow', 'allow']),
+                  (([], 10, 2), []),
+                  (([1, 11], 10, 1), ['allow', 'deny'])],
+        "params": [],
+        "calibration": "对照：滑动窗口限流——窗口内请求计数（超限拒绝）",
+    },
+    "网络-反向代理": {
+        "task": "反向代理",
+        "pattern": (
+            "def reverse_proxy(backends, op, backend_id=None):\n"
+            "    # 反向代理：route 轮询转发（客户端不知后端）/ fail 摘除 / recover 恢复\n"
+            "    if op == 'route':\n"
+            "        healthy = [i for i, b in enumerate(backends) if b.get('up', True)]\n"
+            "        if not healthy:\n"
+            "            return 'no_backend'\n"
+            "        hits = [b.get('hits', 0) for b in backends]\n"
+            "        total = sum(hits[i] for i in healthy)\n"
+            "        idx = healthy[total % len(healthy)]\n"
+            "        backends[idx]['hits'] = hits[idx] + 1\n"
+            "        return idx\n"
+            "    if op == 'fail':\n"
+            "        backends[backend_id]['up'] = False\n"
+            "        return 'failed'\n"
+            "    if op == 'recover':\n"
+            "        backends[backend_id]['up'] = True\n"
+            "        return 'recovered'\n"
+            "    return None\n"),
+        "cases": [(([{'up': True, 'hits': 0}], 'route'), 0),
+                  (([{'up': False}], 'route'), 'no_backend'),
+                  (([{'up': True, 'hits': 0}, {'up': True, 'hits': 1}],
+                    'route'), 1),
+                  (([{'up': True, 'hits': 0}], 'fail', 0), 'failed')],
+        "params": [],
+        "calibration": "对照：反向代理——轮询转发/健康摘除（后端对客户端透明）",
+    },
+    "网络-组播": {
+        "task": "组播",
+        "pattern": (
+            "def multicast_group(groups, op, group=None, member=None, msg=None):\n"
+            "    # 组播：join 加入组 / leave 离开 / send 组内广播（成员管理）\n"
+            "    if op == 'join':\n"
+            "        groups.setdefault(group, []).append(member)\n"
+            "        return groups[group]\n"
+            "    if op == 'leave':\n"
+            "        g = groups.get(group, [])\n"
+            "        if member in g:\n"
+            "            g.remove(member)\n"
+            "        return g\n"
+            "    if op == 'send':\n"
+            "        return [(m, msg) for m in groups.get(group, [])]\n"
+            "    return None\n"),
+        "cases": [(({}, 'join', 'g1', 'a'), ['a']),
+                  (({'g1': ['a', 'b']}, 'leave', 'g1', 'a'), ['b']),
+                  (({'g1': ['a', 'b']}, 'send', 'g1', None, 'hi'),
+                   [('a', 'hi'), ('b', 'hi')]),
+                  (({}, 'send', 'g1', None, 'hi'), [])],
+        "params": [],
+        "calibration": "对照：IP 组播——组成员加入/离开/组内广播（成员管理）",
+    },
 }
 
 
