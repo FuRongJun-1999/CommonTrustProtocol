@@ -4544,5 +4544,40 @@ try:
 except Exception as ex:
     check('㋡c MTU→扫描→超时端到端（reduced scan timeout）', False, str(ex)[:60])
 
+# ㋢ 目标2/4 深化：C4 工具链（条件断点/调用计数/覆盖率 经正式管线）
+c16_qs = {
+    "条件断点": "写一个条件断点单元（条件命中）",
+    "调用计数": "写一个调用计数单元（profiler）",
+    "覆盖率": "写一个覆盖率单元（指令覆盖）",
+}
+c16_ok = 0
+for label, q in c16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c16_ok += 1
+    check(f'㋢ {label} C4工具链单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋢b C4工具链三单元全部生成', c16_ok == 3, f'{c16_ok}/3')
+
+# ㋢c 工具链端到端：条件断点→调用计数→覆盖率（True 3 0.5）
+r_cb = domain_route("写一个条件断点单元（条件命中）")
+r_cc = domain_route("写一个调用计数单元（profiler）")
+r_cv = domain_route("写一个覆盖率单元（指令覆盖）")
+try:
+    ns_cb, ns_cc, ns_cv = {}, {}, {}
+    exec(r_cb["code"], ns_cb)
+    exec(r_cc["code"], ns_cc)
+    exec(r_cv["code"], ns_cv)
+    cb = ns_cb["cond_breakpoint"](
+        {5: lambda e: e.get('x') > 3}, 'hit', 5, None, {'x': 5})
+    cc = ns_cc["call_counter"]({'f1': 2}, 'count', 'f1')
+    cv = ns_cv["coverage_track"]({1, 2}, 'report', None, 4)
+    check('㋢c 条件断点→调用计数→覆盖率端到端（True 3 0.5）',
+          cb is True and cc == 3 and cv == 0.5,
+          f'cond={cb} count={cc} cov={cv}')
+except Exception as ex:
+    check('㋢c 条件断点→调用计数→覆盖率端到端（True 3 0.5）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

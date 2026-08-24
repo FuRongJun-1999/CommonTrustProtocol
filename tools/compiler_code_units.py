@@ -1659,6 +1659,65 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：智能论——条件空间=类型系统（未声明空间拦截）",
     },
+    "调试-条件断点": {
+        "task": "条件断点",
+        "pattern": (
+            "def cond_breakpoint(breaks, op, addr=None, cond=None, env=None):\n"
+            "    # 条件断点：set 设置条件 / hit 命中（条件满足才停）\n"
+            "    if op == 'set':\n"
+            "        breaks[addr] = cond\n"
+            "        return addr\n"
+            "    if op == 'hit':\n"
+            "        if addr in breaks:\n"
+            "            c = breaks[addr]\n"
+            "            return c(env) if c else True\n"
+            "        return False\n"
+            "    return None\n"),
+        "cases": [(({}, 'set', 5, lambda e: e.get('x') > 3), 5),
+                  (({5: lambda e: e.get('x') > 3}, 'hit', 5, None, {'x': 5}),
+                   True),
+                  (({5: lambda e: e.get('x') > 3}, 'hit', 5, None, {'x': 1}),
+                   False),
+                  (({}, 'hit', 5, None, {'x': 5}), False)],
+        "params": [],
+        "calibration": "对照：C4 调试器——条件断点（条件满足才暂停）",
+    },
+    "调试-调用计数": {
+        "task": "调用计数",
+        "pattern": (
+            "def call_counter(stats, op, func=None):\n"
+            "    # 调用计数：count 记录调用 / report 报告（profiler 调用次数）\n"
+            "    if op == 'count':\n"
+            "        stats[func] = stats.get(func, 0) + 1\n"
+            "        return stats[func]\n"
+            "    if op == 'report':\n"
+            "        return dict(stats)\n"
+            "    return None\n"),
+        "cases": [(({}, 'count', 'f1'), 1),
+                  (({'f1': 2}, 'count', 'f1'), 3),
+                  (({'f1': 2}, 'report'), {'f1': 2})],
+        "params": [],
+        "calibration": "对照：C4 profiler——函数调用次数统计",
+    },
+    "调试-覆盖率": {
+        "task": "覆盖率",
+        "pattern": (
+            "def coverage_track(covered, op, addr=None, total=None):\n"
+            "    # 覆盖率：mark 标记执行 / report 报告（指令覆盖百分比）\n"
+            "    if op == 'mark':\n"
+            "        covered.add(addr)\n"
+            "        return len(covered)\n"
+            "    if op == 'report':\n"
+            "        if not total:\n"
+            "            return 0.0\n"
+            "        return round(len(covered) / total, 3)\n"
+            "    return None\n"),
+        "cases": [((set(), 'mark', 1), 1),
+                  (({1, 2}, 'mark', 3), 3),
+                  (({1, 2}, 'report', None, 4), 0.5)],
+        "params": [],
+        "calibration": "对照：C4 覆盖率——指令覆盖百分比（测试充分性）",
+    },
 }
 
 
