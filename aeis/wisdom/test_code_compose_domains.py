@@ -593,5 +593,41 @@ try:
 except Exception as ex:
     check('㉓c 冒泡路径→监听→动画帧端到端（btn→form→body / 0 监听 / 帧1,2,3）', False, str(ex)[:60])
 
+# ㉔ 目标1 深化：闭包族（捕获更新/工厂/延迟绑定 经正式管线）
+p3_qs = {
+    "捕获更新": "写一个闭包捕获更新单元（nonlocal 修改）",
+    "闭包工厂": "写一个闭包工厂单元（乘子生成）",
+    "延迟绑定": "写一个闭包延迟绑定单元（循环捕获）",
+}
+p3_ok = 0
+for label, q in p3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p3_ok += 1
+    check(f'㉔ {label} 闭包族单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉔b 闭包族三单元全部生成', p3_ok == 3, f'{p3_ok}/3')
+
+# ㉔c 端到端：捕获更新(nonlocal 递增) + 工厂(乘子) + 延迟绑定(陷阱)
+r_mu = domain_route("写一个闭包捕获更新单元（nonlocal 修改）")
+r_fc = domain_route("写一个闭包工厂单元（乘子生成）")
+r_lz = domain_route("写一个闭包延迟绑定单元（循环捕获）")
+try:
+    ns_mu, ns_fc, ns_lz = {}, {}, {}
+    exec(r_mu["code"], ns_mu)
+    exec(r_fc["code"], ns_fc)
+    exec(r_lz["code"], ns_lz)
+    f = ns_mu["counter_nonlocal"]()
+    incs = (f(), f(), f())
+    dbl = ns_fc["make_multiplier"](2)
+    d = dbl(5)
+    lazy = ns_lz["lazy_bindings"]()
+    check('㉔c 捕获更新→工厂→延迟绑定端到端（1,2,3 / 10 / [2,2,2]）',
+          incs == (1, 2, 3) and d == 10 and lazy == [2, 2, 2],
+          f'inc={incs} double={d} lazy={lazy}')
+except Exception as ex:
+    check('㉔c 捕获更新→工厂→延迟绑定端到端（1,2,3 / 10 / [2,2,2]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

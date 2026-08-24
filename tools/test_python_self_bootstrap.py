@@ -45,6 +45,11 @@ for uid, u in PYTHON_UNITS.items():
                     elif uid == "异常-传播":
                         # 注入验证：内层抛 → 外层捕获
                         got = ns["propagate"](None, ValueError, "深层错误")
+                    elif uid in ("闭包-捕获更新", "闭包-工厂", "闭包-延迟绑定"):
+                        # 注入验证：闭包族入口（捕获更新/工厂/延迟绑定）
+                        entry = ns.get("closure_mutate_test") or \
+                            ns.get("closure_factory_test") or ns.get("lazy_bindings")
+                        got = entry()
                     else:
                         entry = ns.get("closure_test") or ns.get("env_scope")
                         got = entry()

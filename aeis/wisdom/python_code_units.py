@@ -218,6 +218,56 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python 闭包语义——独立捕获（a(1)=4、b(1)=11 互不干扰）",
     },
+    "闭包-捕获更新": {
+        "task": "捕获更新",
+        "pattern": (
+            "def counter_nonlocal():\n"
+            "    # nonlocal 语义：闭包修改捕获变量（非只读）\n"
+            "    count = 0\n"
+            "    def inc():\n"
+            "        nonlocal count\n"
+            "        count += 1\n"
+            "        return count\n"
+            "    return inc\n"
+            "def closure_mutate_test():\n"
+            "    f = counter_nonlocal()\n"
+            "    return (f(), f(), f())\n"),
+        "cases": [("call", (1, 2, 3))],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python nonlocal——闭包内修改捕获变量（连续调用递增）",
+    },
+    "闭包-工厂": {
+        "task": "闭包工厂",
+        "pattern": (
+            "def make_multiplier(factor):\n"
+            "    # 闭包工厂：返回绑定了 factor 的乘法闭包\n"
+            "    def mul(x):\n"
+            "        return x * factor\n"
+            "    return mul\n"
+            "def closure_factory_test():\n"
+            "    double = make_multiplier(2)\n"
+            "    triple = make_multiplier(3)\n"
+            "    return (double(5), triple(5))\n"),
+        "cases": [("call", (10, 15))],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 闭包工厂——函数返回绑定参数的闭包（乘子工厂）",
+    },
+    "闭包-延迟绑定": {
+        "task": "延迟绑定",
+        "pattern": (
+            "def lazy_bindings():\n"
+            "    # 延迟绑定陷阱：循环后调用闭包 → 全捕获同一最终值\n"
+            "    funcs = []\n"
+            "    for i in range(3):\n"
+            "        funcs.append(lambda: i)\n"
+            "    return [f() for f in funcs]\n"),
+        "cases": [("call", [2, 2, 2])],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 延迟绑定——循环变量 i 闭包捕获最终值（经典陷阱：全 2 非 0,1,2）",
+    },
     "栈机-完整执行": {
         "task": "完整栈机",
         "pattern": (
