@@ -1948,5 +1948,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:browser|PWA-应用清单": {
+  "task": "应用清单",
+  "unit": "PWA-应用清单",
+  "code": "def manifest_check(manifest):\n    # PWA 清单：最小字段校验（名称/图标/启动地址——可安装条件）\n    required = ['name', 'icons', 'start_url']\n    missing = [k for k in required if not manifest.get(k)]\n    return (not missing), missing\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|PWA-缓存策略": {
+  "task": "缓存策略",
+  "unit": "PWA-缓存策略",
+  "code": "def cache_strategy(strategy, cache, url, network_ok=True):\n    # PWA 缓存策略：cache-first 缓存优先 / network-first 网络优先\n    # / stale 陈旧再验证（离线可用性策略）\n    cached = cache.get(url)\n    if strategy == 'cache-first':\n        return ('cached', cached) if cached is not None else ('network', url)\n    if strategy == 'network-first':\n        if network_ok:\n            return ('network', url)\n        return ('cached', cached) if cached is not None else ('error', url)\n    return ('stale', cached) if cached is not None else ('network', url)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|PWA-安装事件": {
+  "task": "安装事件",
+  "unit": "PWA-安装事件",
+  "code": "def install_prompt(state, action):\n    # PWA 安装：beforeinstallprompt 捕获 → 提示展示 → 接受/拒绝/延迟\n    if action == 'capture':\n        state['available'] = True\n        return 'captured'\n    if action == 'prompt':\n        return 'showing' if state.get('available') else 'not_available'\n    if action == 'accept':\n        state['installed'] = True\n        return 'installed'\n    if action == 'dismiss':\n        return 'dismissed'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

@@ -2501,5 +2501,44 @@ try:
 except Exception as ex:
     check('㊨c 消息队列→共享内存→邮箱端到端（(1,甲) 65 a）', False, str(ex)[:60])
 
+# ㊩ 目标5 深化：PWA（应用清单/缓存策略/安装事件 经正式管线）
+b3_qs = {
+    "应用清单": "写一个 PWA 应用清单单元（最小字段）",
+    "缓存策略": "写一个缓存策略单元（SW 离线可用）",
+    "安装事件": "写一个安装事件单元（安装提示流）",
+}
+b3_ok = 0
+for label, q in b3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b3_ok += 1
+    check(f'㊩ {label} PWA单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊩b PWA三单元全部生成', b3_ok == 3, f'{b3_ok}/3')
+
+# ㊩c PWA 端到端：清单→缓存策略→安装（可安装 缓存优先D 捕获→提示→安装）
+r_mf = domain_route("写一个 PWA 应用清单单元（最小字段）")
+r_cs = domain_route("写一个缓存策略单元（SW 离线可用）")
+r_ip = domain_route("写一个安装事件单元（安装提示流）")
+try:
+    ns_mf, ns_cs, ns_ip = {}, {}, {}
+    exec(r_mf["code"], ns_mf)
+    exec(r_cs["code"], ns_cs)
+    exec(r_ip["code"], ns_ip)
+    ok_mf, miss = ns_mf["manifest_check"]({'name': '应用', 'icons': ['i'],
+                                           'start_url': '/'})
+    got_cs = ns_cs["cache_strategy"]('cache-first', {'/a': 'D'}, '/a')
+    st = {}
+    ns_ip["install_prompt"](st, 'capture')
+    shown = ns_ip["install_prompt"](st, 'prompt')
+    done = ns_ip["install_prompt"](st, 'accept')
+    check('㊩c 清单→缓存策略→安装端到端（可安装 缓存D 捕获→提示→安装）',
+          ok_mf is True and miss == [] and got_cs == ('cached', 'D')
+          and shown == 'showing' and done == 'installed',
+          f'manifest={ok_mf} cache={got_cs} prompt={shown} installed={done}')
+except Exception as ex:
+    check('㊩c 清单→缓存策略→安装端到端（可安装 缓存D 捕获→提示→安装）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

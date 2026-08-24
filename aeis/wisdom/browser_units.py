@@ -544,6 +544,67 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器性能——节流（限频执行，减少高频事件处理）",
     },
+    "PWA-应用清单": {
+        "task": "应用清单",
+        "pattern": (
+            "def manifest_check(manifest):\n"
+            "    # PWA 清单：最小字段校验（名称/图标/启动地址——可安装条件）\n"
+            "    required = ['name', 'icons', 'start_url']\n"
+            "    missing = [k for k in required if not manifest.get(k)]\n"
+            "    return (not missing), missing\n"),
+        "cases": [(({'name': '应用', 'icons': ['i.png'], 'start_url': '/'},),
+                   (True, [])),
+                  (({'name': '应用'},), (False, ['icons', 'start_url'])),
+                  (({},), (False, ['name', 'icons', 'start_url']))],
+        "params": [],
+        "calibration": "对照：PWA manifest——名称/图标/启动地址最小字段（安装条件）",
+    },
+    "PWA-缓存策略": {
+        "task": "缓存策略",
+        "pattern": (
+            "def cache_strategy(strategy, cache, url, network_ok=True):\n"
+            "    # PWA 缓存策略：cache-first 缓存优先 / network-first 网络优先\n"
+            "    # / stale 陈旧再验证（离线可用性策略）\n"
+            "    cached = cache.get(url)\n"
+            "    if strategy == 'cache-first':\n"
+            "        return ('cached', cached) if cached is not None else ('network', url)\n"
+            "    if strategy == 'network-first':\n"
+            "        if network_ok:\n"
+            "            return ('network', url)\n"
+            "        return ('cached', cached) if cached is not None else ('error', url)\n"
+            "    return ('stale', cached) if cached is not None else ('network', url)\n"),
+        "cases": [(('cache-first', {'/a': 'D'}, '/a'), ('cached', 'D')),
+                  (('cache-first', {}, '/b'), ('network', '/b')),
+                  (('network-first', {'/a': 'D'}, '/a', False), ('cached', 'D')),
+                  (('network-first', {}, '/a', False), ('error', '/a')),
+                  (('stale', {'/a': 'D'}, '/a'), ('stale', 'D'))],
+        "params": [],
+        "calibration": "对照：PWA Service Worker——缓存策略（缓存优先/网络优先/陈旧再验证）",
+    },
+    "PWA-安装事件": {
+        "task": "安装事件",
+        "pattern": (
+            "def install_prompt(state, action):\n"
+            "    # PWA 安装：beforeinstallprompt 捕获 → 提示展示 → 接受/拒绝/延迟\n"
+            "    if action == 'capture':\n"
+            "        state['available'] = True\n"
+            "        return 'captured'\n"
+            "    if action == 'prompt':\n"
+            "        return 'showing' if state.get('available') else 'not_available'\n"
+            "    if action == 'accept':\n"
+            "        state['installed'] = True\n"
+            "        return 'installed'\n"
+            "    if action == 'dismiss':\n"
+            "        return 'dismissed'\n"
+            "    return None\n"),
+        "cases": [(({}, 'capture'), 'captured'),
+                  (({'available': True}, 'prompt'), 'showing'),
+                  (({}, 'prompt'), 'not_available'),
+                  (({'available': True}, 'accept'), 'installed'),
+                  (({'available': True}, 'dismiss'), 'dismissed')],
+        "params": [],
+        "calibration": "对照：PWA beforeinstallprompt——捕获/展示/接受/拒绝（安装事件流）",
+    },
 }
 
 
