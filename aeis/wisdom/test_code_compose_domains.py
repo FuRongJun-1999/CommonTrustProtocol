@@ -284,5 +284,45 @@ try:
 except Exception as ex:
     check('⑮c BFS最短2跳 vs Dijkstra加权选缺氧链(代价3<4)', False, str(ex)[:60])
 
+# ⑯ 目标4 深化：虚拟内存（页表映射/缺页处理/页面错误分类 经正式管线）
+o3_qs = {
+    "页表映射": "写一个页表映射单元（虚拟页到物理帧）",
+    "缺页处理": "写一个缺页处理单元（空闲帧加载）",
+    "页面错误": "写一个页面错误分类单元（MMU 错误类型）",
+}
+o3_ok = 0
+for label, q in o3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o3_ok += 1
+    check(f'⑯ {label} 虚拟内存单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑯b 虚拟内存三单元全部生成', o3_ok == 3, f'{o3_ok}/3')
+
+# ⑯c 端到端：页表→缺页处理→错误分类（缺页→加载→可访问）
+r_pt = domain_route("写一个页表映射单元（虚拟页到物理帧）")
+r_pf = domain_route("写一个缺页处理单元（空闲帧加载）")
+r_cl = domain_route("写一个页面错误分类单元（MMU 错误类型）")
+try:
+    ns_pt, ns_pf, ns_cl = {}, {}, {}
+    exec(r_pt["code"], ns_pt)
+    exec(r_pf["code"], ns_pf)
+    exec(r_cl["code"], ns_cl)
+    pt = {}
+    # 首次访问 VPN 2 → 缺页 → 加载到帧 8
+    res = ns_pf["page_fault_handler"](pt, 2, [8], lambda v, f: None)
+    frm = res[1]
+    # 分类：已加载+可写 → ok；未映射 VPN 9 → segment_fault
+    pt[2]["writable"] = True
+    c1 = ns_cl["classify_page_fault"](2, pt, 'write')
+    c2 = ns_cl["classify_page_fault"](9, pt, 'read')
+    check('⑯c 缺页→加载→分类端到端（VPN2可写ok / VPN9段错误）',
+          res[0] == 'page_fault_loaded' and frm == 8
+          and c1 == 'ok' and c2 == 'segment_fault',
+          f'load={res[0]} frame={frm} vpn2={c1} vpn9={c2}')
+except Exception as ex:
+    check('⑯c 缺页→加载→分类端到端（VPN2可写ok / VPN9段错误）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -178,5 +178,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:os|内存-页表映射": {
+  "task": "页表映射",
+  "unit": "内存-页表映射",
+  "code": "def page_table_lookup(page_table, vpn):\n    # 虚拟内存页表：虚拟页号 → 物理帧号（present=1 已映射，0 缺页）\n    entry = page_table.get(vpn)\n    if entry is None or entry.get('present') != 1:\n        return None   # 缺页：页不在物理内存\n    return entry['frame']\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|内存-缺页处理": {
+  "task": "缺页处理",
+  "unit": "内存-缺页处理",
+  "code": "def page_fault_handler(page_table, vpn, free_frames, load):\n    # 缺页处理：present=0 → 分配空闲帧加载；无空闲帧 → 拒绝（置换由上层调度）\n    if vpn in page_table and page_table[vpn].get('present') == 1:\n        return 'hit', page_table[vpn]['frame']\n    if not free_frames:\n        return 'page_fault_no_frame', None\n    frame = free_frames.pop(0)\n    page_table[vpn] = {'present': 1, 'frame': frame}\n    load(vpn, frame)\n    return 'page_fault_loaded', frame\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|内存-页面错误": {
+  "task": "页面错误分类",
+  "unit": "内存-页面错误",
+  "code": "def classify_page_fault(vpn, page_table, access):\n    # 页面错误分类：未映射/未驻留/写保护 → 错误类型（MMU 语义）\n    entry = page_table.get(vpn)\n    if entry is None:\n        return 'segment_fault'      # 非法地址（未映射）\n    if entry.get('present') != 1:\n        return 'minor_fault'        # 缺页（软缺页：磁盘→内存）\n    if access == 'write' and not entry.get('writable'):\n        return 'protection_fault'   # 写保护违例\n    return 'ok'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
