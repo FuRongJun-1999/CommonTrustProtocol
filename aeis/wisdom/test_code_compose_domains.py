@@ -629,5 +629,40 @@ try:
 except Exception as ex:
     check('㉔c 捕获更新→工厂→延迟绑定端到端（1,2,3 / 10 / [2,2,2]）', False, str(ex)[:60])
 
+# ㉕ 目标7 深化：IP 层（CIDR 子网/距离矢量/NAT 经正式管线）
+n5_qs = {
+    "CIDR": "写一个 CIDR 子网计算单元（网络广播地址）",
+    "距离矢量": "写一个距离矢量路由单元（RIP 合并）",
+    "NAT": "写一个 NAT 转换单元（地址映射）",
+}
+n5_ok = 0
+for label, q in n5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n5_ok += 1
+    check(f'㉕ {label} IP层单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉕b IP层三单元全部生成', n5_ok == 3, f'{n5_ok}/3')
+
+# ㉕c 端到端：CIDR 划网→路由传播→NAT 出网（内网主机经 NAT 访问公网）
+r_cidr = domain_route("写一个 CIDR 子网计算单元（网络广播地址）")
+r_dv = domain_route("写一个距离矢量路由单元（RIP 合并）")
+r_nat = domain_route("写一个 NAT 转换单元（地址映射）")
+try:
+    ns_cidr, ns_dv, ns_nat = {}, {}, {}
+    exec(r_cidr["code"], ns_cidr)
+    exec(r_dv["code"], ns_dv)
+    exec(r_nat["code"], ns_nat)
+    sub = ns_cidr["cidr_network"]('192.168.1.130', 24)
+    routes = ns_dv["distance_vector"]({'A': 0, 'B': 1}, 'C', {'A': 2, 'D': 1})
+    out = ns_nat["nat_translate"]({}, '192.168.1.10', 5000, '8.8.8.8')
+    check('㉕c CIDR→路由→NAT 端到端（网192.168.1.0 路由D=2 NAT=8.8.8.8:1024）',
+          sub['network'] == '192.168.1.0' and sub['hosts'] == 254
+          and routes.get('D') == 2 and out == ('8.8.8.8', 1024),
+          f'sub={sub["network"]} routes={routes} nat={out}')
+except Exception as ex:
+    check('㉕c CIDR→路由→NAT 端到端（网192.168.1.0 路由D=2 NAT=8.8.8.8:1024）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

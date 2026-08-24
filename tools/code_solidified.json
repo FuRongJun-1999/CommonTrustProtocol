@@ -448,5 +448,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:net|网络-CIDR": {
+  "task": "CIDR子网",
+  "unit": "网络-CIDR",
+  "code": "def cidr_network(ip, prefix):\n    # IP 子网计算：IP + 前缀长度 → 网络地址/广播地址/主机数\n    parts = [int(x) for x in ip.split('.')]\n    mask_int = (0xFFFFFFFF << (32 - prefix)) & 0xFFFFFFFF\n    ip_int = (parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]\n    net_int = ip_int & mask_int\n    bcast_int = net_int | (~mask_int & 0xFFFFFFFF)\n    def to_ip(v):\n        return '.'.join(str((v >> s) & 0xFF) for s in (24, 16, 8, 0))\n    return {'network': to_ip(net_int), 'broadcast': to_ip(bcast_int),\n            'hosts': max(0, (1 << (32 - prefix)) - 2)}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-距离矢量": {
+  "task": "距离矢量",
+  "unit": "网络-距离矢量",
+  "code": "def distance_vector(routes, neighbor, neighbor_routes):\n    # 距离矢量路由（RIP）：收到邻居路由表 → 合并（距离+1，取最短）\n    for dst, dist in neighbor_routes.items():\n        nd = dist + 1\n        if dst not in routes or nd < routes[dst]:\n            routes[dst] = nd\n    return dict(routes)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-NAT": {
+  "task": "NAT转换",
+  "unit": "网络-NAT",
+  "code": "def nat_translate(table, src_ip, src_port, pub_ip):\n    # NAT：内网地址→公网地址（端口映射表；已映射复用端口）\n    key = (src_ip, src_port)\n    if key in table:\n        return table[key]\n    pub_port = len(table) + 1024  # 分配新公网端口\n    table[key] = (pub_ip, pub_port)\n    return table[key]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

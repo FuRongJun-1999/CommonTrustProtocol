@@ -261,6 +261,68 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：TCP 拥塞控制——慢启动指数增长→阈值后线性+1；丢包减半阈值+重置窗口",
     },
+    "网络-CIDR": {
+        "task": "CIDR子网",
+        "pattern": (
+            "def cidr_network(ip, prefix):\n"
+            "    # IP 子网计算：IP + 前缀长度 → 网络地址/广播地址/主机数\n"
+            "    parts = [int(x) for x in ip.split('.')]\n"
+            "    mask_int = (0xFFFFFFFF << (32 - prefix)) & 0xFFFFFFFF\n"
+            "    ip_int = (parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]\n"
+            "    net_int = ip_int & mask_int\n"
+            "    bcast_int = net_int | (~mask_int & 0xFFFFFFFF)\n"
+            "    def to_ip(v):\n"
+            "        return '.'.join(str((v >> s) & 0xFF) for s in (24, 16, 8, 0))\n"
+            "    return {'network': to_ip(net_int), 'broadcast': to_ip(bcast_int),\n"
+            "            'hosts': max(0, (1 << (32 - prefix)) - 2)}\n"),
+        "cases": [(('192.168.1.130', 24),
+                   {'network': '192.168.1.0', 'broadcast': '192.168.1.255',
+                    'hosts': 254}),
+                  (('10.0.0.5', 8),
+                   {'network': '10.0.0.0', 'broadcast': '10.255.255.255',
+                    'hosts': 16777214})],
+        "params": [],
+        "calibration": "对照：网络 IP——CIDR 子网计算（/24 网络地址+广播地址+可用主机数）",
+    },
+    "网络-距离矢量": {
+        "task": "距离矢量",
+        "pattern": (
+            "def distance_vector(routes, neighbor, neighbor_routes):\n"
+            "    # 距离矢量路由（RIP）：收到邻居路由表 → 合并（距离+1，取最短）\n"
+            "    for dst, dist in neighbor_routes.items():\n"
+            "        nd = dist + 1\n"
+            "        if dst not in routes or nd < routes[dst]:\n"
+            "            routes[dst] = nd\n"
+            "    return dict(routes)\n"),
+        "cases": [(({'A': 0, 'B': 1}, 'C', {'A': 2, 'D': 1}),
+                   {'A': 0, 'B': 1, 'D': 2}),
+                  (({'A': 0}, 'B', {'A': 5, 'C': 1}),
+                   {'A': 0, 'C': 2})],
+        "params": [],
+        "calibration": "对照：网络路由——距离矢量（邻居路由表合并，距离+1 取最短——RIP 语义）",
+    },
+    "网络-NAT": {
+        "task": "NAT转换",
+        "pattern": (
+            "def nat_translate(table, src_ip, src_port, pub_ip):\n"
+            "    # NAT：内网地址→公网地址（端口映射表；已映射复用端口）\n"
+            "    key = (src_ip, src_port)\n"
+            "    if key in table:\n"
+            "        return table[key]\n"
+            "    pub_port = len(table) + 1024  # 分配新公网端口\n"
+            "    table[key] = (pub_ip, pub_port)\n"
+            "    return table[key]\n"),
+        "cases": [(({}, '192.168.1.10', 5000, '8.8.8.8'),
+                   ('8.8.8.8', 1024)),
+                  (({('192.168.1.10', 5000): ('8.8.8.8', 1024)},
+                    '192.168.1.10', 5000, '8.8.8.8'),
+                   ('8.8.8.8', 1024)),
+                  (({('192.168.1.10', 5000): ('8.8.8.8', 1024)},
+                    '192.168.1.11', 5000, '8.8.8.8'),
+                   ('8.8.8.8', 1025))],
+        "params": [],
+        "calibration": "对照：网络 NAT——内网→公网地址转换（端口映射表，复用已映射端口）",
+    },
 }
 
 
