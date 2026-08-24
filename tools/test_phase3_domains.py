@@ -46,6 +46,26 @@ ans = r.get("answer", "")
 ok_rec = rec and r.get("ok") and "气压低" in ans or ("沸点" in ans and len(ans) > 30)
 check('③ 递归组合（高压锅×高原 双层条件链）', ok_rec, f'递归={rec} | {ans[:60]}')
 
+# ③b 地球/技术域
+EARTH_TECH = {
+    "为什么有白天和黑夜？": ("自转", "昼夜"),
+    "为什么有春夏秋冬四季？": ("公转", "四季"),
+    "为什么海水会涨潮退潮？": ("引力", "潮汐"),
+    "为什么灯泡不亮了？": ("回路", "电流"),
+    "为什么撬棍能撬起大石头？": ("杠杆", "省力"),
+    "为什么升旗要用定滑轮？": ("定滑轮", "方向"),
+    "为什么筷子放在水里看起来像折断了？": ("折射", "弯折"),
+}
+for q, (kw1, kw2) in EARTH_TECH.items():
+    r = ce.route_compose(q)
+    ok = r.get("ok") and kw1 in r.get("answer", "") and kw2 in r.get("answer", "")
+    check(f'地球/技术: {q[:14]}…', ok, r.get("answer", "?")[:44])
+
+# ③c 类比（条件结构相似：真空=气压低 → 同高原规律域）
+r = ce.route_compose("为什么真空瓶里煮饭也煮不熟？")
+ok_analogy = r.get("ok") and "气压低" in r.get("answer", "") and "沸点" in r.get("answer", "")
+check('③c 类比: 真空瓶煮饭 → 同高原规律域（气压×沸点）', ok_analogy, r.get("answer", "?")[:50])
+
 # ④ 回归（原 4 域）
 REGRESS = [
     "为什么高原上煮饭不容易熟？", "为什么铁块会沉入水底？",
