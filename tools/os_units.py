@@ -105,6 +105,90 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS IPC 管道——FIFO 缓冲，读端消费数据",
     },
+    "内存-页置换": {
+        "task": "页置换",
+        "pattern": (
+            "def lru_replace(page_seq, capacity):\n"
+            "    # LRU 页置换：页序列 + 容量 → 缺页次数（最近最久未使用淘汰）\n"
+            "    frames, faults = [], 0\n"
+            "    for p in page_seq:\n"
+            "        if p in frames:\n"
+            "            frames.remove(p)\n"
+            "            frames.append(p)\n"
+            "        else:\n"
+            "            if len(frames) >= capacity:\n"
+            "                frames.pop(0)\n"
+            "            frames.append(p)\n"
+            "            faults += 1\n"
+            "    return faults\n"),
+        "cases": [(([1, 2, 3, 2, 1, 4, 2, 3], 3), 5),
+                  (([1, 1, 1], 2), 1),
+                  (([], 2), 0)],
+        "params": [],
+        "calibration": "对照：OS 虚拟内存——LRU 页置换（容量 3 时 8 页访问 5 次缺页）",
+    },
+    "文件-inode": {
+        "task": "inode查询",
+        "pattern": (
+            "def inode_lookup(files, name):\n"
+            "    # inode 表查询：文件名 → (大小, 权限) 或 None\n"
+            "    for f in files:\n"
+            "        if f['name'] == name:\n"
+            "            return (f['size'], f['perm'])\n"
+            "    return None\n"),
+        "cases": [(([{'name': 'a.txt', 'size': 100, 'perm': 644},
+                      {'name': 'b', 'size': 50, 'perm': 600}], 'a.txt'), (100, 644)),
+                  (([{'name': 'a.txt', 'size': 100, 'perm': 644}], 'c.txt'), None)],
+        "params": [],
+        "calibration": "对照：OS 文件系统 inode——文件名→元数据（大小/权限）查询",
+    },
+    "进程-状态机": {
+        "task": "进程状态",
+        "pattern": (
+            "def process_state(transitions):\n"
+            "    # 进程状态机：事件序列 → 最终状态（就绪→运行→阻塞→就绪→终止）\n"
+            "    state = '就绪'\n"
+            "    for ev in transitions:\n"
+            "        if state == '就绪' and ev == '调度':\n"
+            "            state = '运行'\n"
+            "        elif state == '运行' and ev == 'IO等待':\n"
+            "            state = '阻塞'\n"
+            "        elif state == '阻塞' and ev == 'IO完成':\n"
+            "            state = '就绪'\n"
+            "        elif state == '运行' and ev == '完成':\n"
+            "            state = '终止'\n"
+            "    return state\n"),
+        "cases": [((['调度', 'IO等待', 'IO完成', '调度', '完成'],), '终止'),
+                  ((['IO完成'],), '就绪'),
+                  ((['调度', 'IO等待'],), '阻塞')],
+        "params": [],
+        "calibration": "对照：OS 进程状态机——就绪/运行/阻塞/终止 事件驱动转换",
+    },
+    "调度-SJF": {
+        "task": "最短作业",
+        "pattern": (
+            "def sjf_schedule(processes):\n"
+            "    # SJF 最短作业优先（非抢占）：[(到达, 时长)] → 完成时间列表\n"
+            "    time, done, ready = 0, [], []\n"
+            "    remaining = sorted(processes)\n"
+            "    while remaining or ready:\n"
+            "        ready += [p for p in remaining if p[0] <= time]\n"
+            "        remaining = [p for p in remaining if p[0] > time]\n"
+            "        if not ready:\n"
+            "            time = remaining[0][0]\n"
+            "            ready.append(remaining.pop(0))\n"
+            "            continue\n"
+            "        ready.sort(key=lambda p: p[1])\n"
+            "        at, dur = ready.pop(0)\n"
+            "        time += dur\n"
+            "        done.append(time)\n"
+            "    return done\n"),
+        "cases": [(([(0, 3), (1, 2), (2, 5)],), [3, 5, 10]),
+                  (([(0, 2)],), [2]),
+                  (([],), [])],
+        "params": [],
+        "calibration": "对照：OS 调度 SJF——最短作业优先（平均等待最小化）",
+    },
 }
 
 

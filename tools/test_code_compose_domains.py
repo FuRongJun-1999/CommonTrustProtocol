@@ -38,16 +38,16 @@ check('②a 域识别(编译器)', detect_domain("写个类型推断单元") == 
 check('②b 域识别(操作系统)', detect_domain("写个内存分页分配") == "os", '')
 check('②c 域识别(图)', detect_domain("写个条件路由图查询") == "graph", '')
 
-# ③ 固化（自举纪律：验证通过才固化）
+# ③ 固化（自举纪律：验证通过才固化；用未固化单元——进程状态机）
 before = {k for k in CODE_SOLIDIFIED if k.startswith("domain:")}
-e = domain_solidify("写一个闭包机制单元（捕获自由变量）")
+e = domain_solidify("写一个进程状态机单元（就绪运行阻塞）")
 check('③ 域固化', e is not None and e.get("source") == "domain_solidified",
       str(e.get("unit") if e else None))
 after = {k for k in CODE_SOLIDIFIED if k.startswith("domain:")}
 check('③b 固化写入JSON', len(after) > len(before), f'{len(after)} 域固化条目')
 
 # ④ 固化直出
-r2 = domain_route("写一个闭包机制单元（捕获自由变量）")
+r2 = domain_route("写一个进程状态机单元（就绪运行阻塞）")
 check('④ 固化直出', r2.get("solidified") is True
       and r2.get("unit") == e.get("unit"), f'unit={r2.get("unit")}')
 
@@ -60,6 +60,23 @@ check('⑤ 域未识别回落', not r3.get("ok") and "域未识别" in r3.get("r
 from code_compose import code_route
 r4 = code_route("写一个函数把数组从小到大排序")
 check('⑥ 旧管线回归', r4.get("ok") and "def " in r4.get("code", ""), '')
+
+# ⑦ 目标4 迷你 Linux 深化（os 域 9 单元：页置换/inode/状态机/SJF 经正式管线）
+os_qs = {
+    "页置换": "写一个内存页置换单元（LRU 缺页次数）",
+    "inode": "写一个 inode 查询单元（文件名→大小权限）",
+    "状态机": "写一个进程状态机单元（就绪运行阻塞）",
+    "SJF": "写一个最短作业调度单元（SJF 完成时间）",
+}
+os_ok = 0
+for label, q in os_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        os_ok += 1
+    check(f'⑦ {label} OS单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑦b OS 四新单元全部生成', os_ok == 4, f'{os_ok}/4')
 
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
