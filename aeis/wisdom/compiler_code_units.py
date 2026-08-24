@@ -1054,6 +1054,52 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：C4 调试器变量监视（watch 名 → 当前值，未知为 None）",
     },
+    "编译-内联展开": {
+        "task": "内联展开",
+        "pattern": (
+            "def inline_small(funcs, name, call_site):\n"
+            "    # 内联展开：小函数（指令数 ≤ 3）调用处直接展开（减少调用开销）\n"
+            "    body = funcs.get(name)\n"
+            "    if body is None or len(body) > 3:\n"
+            "        return call_site\n"
+            "    return list(body)\n"),
+        "cases": [(({'f': [("DE", 0.1)]}, 'f', ('CALL', 'f')), [("DE", 0.1)]),
+                  (({'f': [("DE", 0.1), ("DE", 0.2), ("DE", 0.3),
+                           ("DE", 0.4)]}, 'f', ('CALL', 'f')), ('CALL', 'f')),
+                  (({}, 'f', ('CALL', 'f')), ('CALL', 'f'))],
+        "params": [],
+        "calibration": "对照：编译优化——内联展开（小函数体复制到调用处，减少调用开销）",
+    },
+    "编译-循环展开": {
+        "task": "循环展开",
+        "pattern": (
+            "def loop_unroll(body, times, max_unroll=3):\n"
+            "    # 循环展开：循环体复制 times 次（减少回跳，阈值上限防代码膨胀）\n"
+            "    if times > max_unroll or times <= 0:\n"
+            "        return list(body)\n"
+            "    return list(body) * times\n"),
+        "cases": [(([("DE", 0.1)], 3), [("DE", 0.1), ("DE", 0.1), ("DE", 0.1)]),
+                  (([("DE", 0.1)], 4), [("DE", 0.1)]),
+                  (([("DE", 0.1)], 0), [("DE", 0.1)]),
+                  (([], 2), [])],
+        "params": [],
+        "calibration": "对照：编译优化——循环展开（固定次数体复制，上限防膨胀）",
+    },
+    "编译-尾调用优化": {
+        "task": "尾调用优化",
+        "pattern": (
+            "def tail_call_opt(body):\n"
+            "    # 尾调用优化：末尾调用指令 → 跳转指令（尾递归转循环，栈安全）\n"
+            "    if body and body[-1][0] == 'CALL':\n"
+            "        return list(body[:-1]) + [('JUMP', body[-1][1])]\n"
+            "    return list(body)\n"),
+        "cases": [(([("DE", 0.1), ("CALL", 'f')],),
+                   [("DE", 0.1), ("JUMP", 'f')]),
+                  (([("DE", 0.1)],), [("DE", 0.1)]),
+                  (([],), [])],
+        "params": [],
+        "calibration": "对照：编译优化——尾调用优化（CALL→JUMP，尾递归不增栈帧）",
+    },
 }
 
 

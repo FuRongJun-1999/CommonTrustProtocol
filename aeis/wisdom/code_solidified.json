@@ -2068,5 +2068,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:compiler|编译-内联展开": {
+  "task": "内联展开",
+  "unit": "编译-内联展开",
+  "code": "def inline_small(funcs, name, call_site):\n    # 内联展开：小函数（指令数 ≤ 3）调用处直接展开（减少调用开销）\n    body = funcs.get(name)\n    if body is None or len(body) > 3:\n        return call_site\n    return list(body)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-循环展开": {
+  "task": "循环展开",
+  "unit": "编译-循环展开",
+  "code": "def loop_unroll(body, times, max_unroll=3):\n    # 循环展开：循环体复制 times 次（减少回跳，阈值上限防代码膨胀）\n    if times > max_unroll or times <= 0:\n        return list(body)\n    return list(body) * times\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-尾调用优化": {
+  "task": "尾调用优化",
+  "unit": "编译-尾调用优化",
+  "code": "def tail_call_opt(body):\n    # 尾调用优化：末尾调用指令 → 跳转指令（尾递归转循环，栈安全）\n    if body and body[-1][0] == 'CALL':\n        return list(body[:-1]) + [('JUMP', body[-1][1])]\n    return list(body)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

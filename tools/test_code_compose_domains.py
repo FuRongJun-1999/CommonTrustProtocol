@@ -2651,5 +2651,40 @@ try:
 except Exception as ex:
     check('㊬c 重载→枚举→数据类端到端（__add__=6 红→1 名甲年龄3）', False, str(ex)[:60])
 
+# ㊭ 目标2 深化：编译优化族（内联展开/循环展开/尾调用优化 经正式管线）
+c5_qs = {
+    "内联展开": "写一个内联展开单元（小函数内联）",
+    "循环展开": "写一个循环展开单元（体复制）",
+    "尾调用优化": "写一个尾调用优化单元（CALL转JUMP）",
+}
+c5_ok = 0
+for label, q in c5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c5_ok += 1
+    check(f'㊭ {label} 编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊭b 编译优化三单元全部生成', c5_ok == 3, f'{c5_ok}/3')
+
+# ㊭c 优化端到端：内联→循环展开→尾调用（f内联[DE0.1] 展开3次 尾调用转JUMP）
+r_il = domain_route("写一个内联展开单元（小函数内联）")
+r_lu = domain_route("写一个循环展开单元（体复制）")
+r_tc = domain_route("写一个尾调用优化单元（CALL转JUMP）")
+try:
+    ns_il, ns_lu, ns_tc = {}, {}, {}
+    exec(r_il["code"], ns_il)
+    exec(r_lu["code"], ns_lu)
+    exec(r_tc["code"], ns_tc)
+    inl = ns_il["inline_small"]({'f': [("DE", 0.1)]}, 'f', ('CALL', 'f'))
+    unroll = ns_lu["loop_unroll"]([("DE", 0.1)], 3)
+    tco = ns_tc["tail_call_opt"]([("DE", 0.1), ("CALL", 'f')])
+    check('㊭c 内联→循环展开→尾调用端到端（[DE0.1] ×3 JUMP）',
+          inl == [("DE", 0.1)] and unroll == [("DE", 0.1)] * 3
+          and tco == [("DE", 0.1), ("JUMP", 'f')],
+          f'inline={inl} unroll={len(unroll)} tco={tco}')
+except Exception as ex:
+    check('㊭c 内联→循环展开→尾调用端到端（[DE0.1] ×3 JUMP）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
