@@ -3559,5 +3559,41 @@ try:
 except Exception as ex:
     check('㋅c SCAN→快照→磨损端到端（[50,30,10] 快照A 选b）', False, str(ex)[:60])
 
+# ㋆ 目标1 深化：P 线异常/OO（自定义异常/对象组合/深拷贝 经正式管线）
+p8_qs = {
+    "自定义异常": "写一个自定义异常单元（类层级）",
+    "对象组合": "写一个对象组合单元（has-a 委托）",
+    "深拷贝": "写一个深拷贝单元（嵌套复制）",
+}
+p8_ok = 0
+for label, q in p8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p8_ok += 1
+    check(f'㋆ {label} P线异常/OO单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋆b P线异常/OO三单元全部生成', p8_ok == 3, f'{p8_ok}/3')
+
+# ㋆c 异常/OO 端到端：自定义异常→组合→深拷贝（子类捕获 引擎启动 嵌套复制）
+r_cx = domain_route("写一个自定义异常单元（类层级）")
+r_cp = domain_route("写一个对象组合单元（has-a 委托）")
+r_dc = domain_route("写一个深拷贝单元（嵌套复制）")
+try:
+    ns_cx, ns_cp, ns_dc = {}, {}, {}
+    exec(r_cx["code"], ns_cx)
+    exec(r_cp["code"], ns_cp)
+    exec(r_dc["code"], ns_dc)
+    sub = ns_cx["exception_subclass"](
+        [('值错误', '异常'), ('输入错误', '值错误')], '输入错误', '异常')
+    parts = {'引擎': {'启动': lambda: 'vroom'}}
+    call = ns_cp["compose_objects"](parts, 'call', '引擎', None, '启动', None)
+    cp = ns_dc["deep_copy"]({'a': [1, {'b': 2}]})
+    check('㋆c 异常→组合→深拷贝端到端（True vroom 嵌套一致）',
+          sub is True and call == 'vroom' and cp == {'a': [1, {'b': 2}]},
+          f'sub={sub} call={call} copy={cp}')
+except Exception as ex:
+    check('㋆c 异常→组合→深拷贝端到端（True vroom 嵌套一致）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

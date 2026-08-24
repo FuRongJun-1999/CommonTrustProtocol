@@ -2818,5 +2818,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:pylang|异常-自定义异常": {
+  "task": "自定义异常",
+  "unit": "异常-自定义异常",
+  "code": "def exception_subclass(names, child, ancestor):\n    # 自定义异常：异常类层级（父→子继承，判断继承关系）\n    parents = dict(names)\n    cur = child\n    seen = set()\n    while cur is not None and cur not in seen:\n        if cur == ancestor:\n            return True\n        seen.add(cur)\n        cur = parents.get(cur)\n    return False\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|面向对象-组合": {
+  "task": "对象组合",
+  "unit": "面向对象-组合",
+  "code": "def compose_objects(parts, op, name=None, part=None, method=None,\n                    arg=None):\n    # 组合：对象含对象（add 添加部件 / call 转发调用部件方法——has-a 委托）\n    if op == 'add':\n        parts[name] = part\n        return name\n    if op == 'call':\n        p = parts.get(name)\n        if p is None or method not in p:\n            return 'missing'\n        fn = p[method]\n        return fn() if arg is None else fn(arg)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-深拷贝": {
+  "task": "深拷贝",
+  "unit": "工具-深拷贝",
+  "code": "def deep_copy(obj):\n    # 深拷贝：嵌套结构完整复制（列表/字典递归——修改互不影响）\n    if isinstance(obj, list):\n        return [deep_copy(x) for x in obj]\n    if isinstance(obj, dict):\n        return {k: deep_copy(v) for k, v in obj.items()}\n    return obj\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

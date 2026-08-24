@@ -872,6 +872,68 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：itertools.groupby（按键函数分组）",
     },
+    "异常-自定义异常": {
+        "task": "自定义异常",
+        "pattern": (
+            "def exception_subclass(names, child, ancestor):\n"
+            "    # 自定义异常：异常类层级（父→子继承，判断继承关系）\n"
+            "    parents = dict(names)\n"
+            "    cur = child\n"
+            "    seen = set()\n"
+            "    while cur is not None and cur not in seen:\n"
+            "        if cur == ancestor:\n"
+            "            return True\n"
+            "        seen.add(cur)\n"
+            "        cur = parents.get(cur)\n"
+            "    return False\n"),
+        "cases": [(([('值错误', '异常'), ('输入错误', '值错误')],
+                    '输入错误', '异常'), True),
+                  (([('值错误', '异常')], '输入错误', '异常'), False),
+                  (([('值错误', '异常'), ('输入错误', '值错误')],
+                    '输入错误', '值错误'), True),
+                  (([], 'a', 'b'), False)],
+        "params": [],
+        "calibration": "对照：Python 自定义异常——类层级继承（子类捕获父类）",
+    },
+    "面向对象-组合": {
+        "task": "对象组合",
+        "pattern": (
+            "def compose_objects(parts, op, name=None, part=None, method=None,\n"
+            "                    arg=None):\n"
+            "    # 组合：对象含对象（add 添加部件 / call 转发调用部件方法——has-a 委托）\n"
+            "    if op == 'add':\n"
+            "        parts[name] = part\n"
+            "        return name\n"
+            "    if op == 'call':\n"
+            "        p = parts.get(name)\n"
+            "        if p is None or method not in p:\n"
+            "            return 'missing'\n"
+            "        fn = p[method]\n"
+            "        return fn() if arg is None else fn(arg)\n"
+            "    return None\n"),
+        "cases": [(({}, 'add', '引擎', {'启动': lambda: 'vroom'}), '引擎'),
+                  (({'引擎': {'启动': lambda: 'vroom'}}, 'call', '引擎',
+                    None, '启动', None), 'vroom'),
+                  (({}, 'call', '引擎', None, '启动', None), 'missing')],
+        "params": [],
+        "calibration": "对照：Python 组合——has-a 关系（对象含对象，方法委托转发）",
+    },
+    "工具-深拷贝": {
+        "task": "深拷贝",
+        "pattern": (
+            "def deep_copy(obj):\n"
+            "    # 深拷贝：嵌套结构完整复制（列表/字典递归——修改互不影响）\n"
+            "    if isinstance(obj, list):\n"
+            "        return [deep_copy(x) for x in obj]\n"
+            "    if isinstance(obj, dict):\n"
+            "        return {k: deep_copy(v) for k, v in obj.items()}\n"
+            "    return obj\n"),
+        "cases": [(([[1, 2], [3]],), [[1, 2], [3]]),
+                  (({'a': [1, {'b': 2}]},), {'a': [1, {'b': 2}]}),
+                  ((5,), 5)],
+        "params": [],
+        "calibration": "对照：copy.deepcopy——嵌套结构递归复制（引用隔离）",
+    },
 }
 
 
