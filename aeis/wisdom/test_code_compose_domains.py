@@ -1076,7 +1076,7 @@ except Exception as ex:
 o8_qs = {
     "日志恢复": "写一个日志恢复单元（journal 重放）",
     "系统监控": "写一个系统监控单元（采样统计）",
-    "守护进程": "写一个守护进程单元（生命周期）",
+    "守护进程": "写一个守护进程单元（后台运行）",
 }
 o8_ok = 0
 for label, q in o8_qs.items():
@@ -1090,7 +1090,7 @@ check('㊁b 可靠性三单元全部生成', o8_ok == 3, f'{o8_ok}/3')
 
 # ㊁c 端到端：日志重放→守护进程→监控（崩溃恢复→服务运行→负载统计）
 r_jr = domain_route("写一个日志恢复单元（journal 重放）")
-r_dm = domain_route("写一个守护进程单元（生命周期）")
+r_dm = domain_route("写一个守护进程单元（后台运行）")
 r_sm = domain_route("写一个系统监控单元（采样统计）")
 try:
     ns_jr, ns_dm, ns_sm = {}, {}, {}
@@ -3266,6 +3266,44 @@ try:
           f'csr=({off},{adj}) merge={mg} edge={ea}')
 except Exception as ex:
     check('㊽c CSR→合并→属性边端到端（[0,2,3,3] {a:[b,c]} [(a,b)]）', False, str(ex)[:60])
+
+# ㊾ 目标4 深化：OS 并发/进程（屏障同步/工作池/进程生命周期 经正式管线）
+o7_qs = {
+    "屏障同步": "写一个屏障同步单元（汇合点）",
+    "工作池": "写一个工作池单元（任务分发）",
+    "进程生命周期": "写一个进程生命周期单元（fork exec）",
+}
+o7_ok = 0
+for label, q in o7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o7_ok += 1
+    check(f'㊾ {label} OS并发/进程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊾b OS并发/进程三单元全部生成', o7_ok == 3, f'{o7_ok}/3')
+
+# ㊾c 并发端到端：屏障→工作池→进程生命周期（3到齐释放 / 4任务2worker / fork→exec→wait）
+r_br = domain_route("写一个屏障同步单元（汇合点）")
+r_wp = domain_route("写一个工作池单元（任务分发）")
+r_pl = domain_route("写一个进程生命周期单元（fork exec）")
+try:
+    ns_br, ns_wp, ns_pl = {}, {}, {}
+    exec(r_br["code"], ns_br)
+    exec(r_wp["code"], ns_wp)
+    exec(r_pl["code"], ns_pl)
+    st = {'arrived': 2}
+    br = ns_br["barrier_ops"](st, 'wait', 3)
+    wp = ns_wp["worker_pool"]([1, 2, 3, 4], 2)
+    pl = {}
+    ns_pl["proc_life"](pl, 'fork', 1)
+    ns_pl["proc_life"](pl, 'exec', 1)
+    w = ns_pl["proc_life"](pl, 'wait', 1, 0)
+    check('㊾c 屏障→工作池→进程端到端（released [[1,3],[2,4]] 退出0）',
+          br == 'released' and wp == [[1, 3], [2, 4]] and w == 0,
+          f'barrier={br} pool={wp} exit={w}')
+except Exception as ex:
+    check('㊾c 屏障→工作池→进程端到端（released [[1,3],[2,4]] 退出0）', False, str(ex)[:60])
 
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

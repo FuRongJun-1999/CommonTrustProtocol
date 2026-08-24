@@ -1324,6 +1324,65 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS mmap——文件映射到内存（读偏移/写回）",
     },
+    "并发-屏障同步": {
+        "task": "屏障同步",
+        "pattern": (
+            "def barrier_ops(state, op, n=None):\n"
+            "    # 屏障同步：wait 到达汇合点 / 全部到达释放（多线程同步汇合）\n"
+            "    if op == 'wait':\n"
+            "        state['arrived'] = state.get('arrived', 0) + 1\n"
+            "        if state['arrived'] >= n:\n"
+            "            state['arrived'] = 0\n"
+            "            return 'released'\n"
+            "        return 'waiting'\n"
+            "    return None\n"),
+        "cases": [(({'arrived': 0}, 'wait', 3), 'waiting'),
+                  (({'arrived': 2}, 'wait', 3), 'released'),
+                  (({'arrived': 0}, 'wait', 1), 'released')],
+        "params": [],
+        "calibration": "对照：OS 并发——屏障同步（全部到达汇合点才释放）",
+    },
+    "并发-工作池": {
+        "task": "工作池",
+        "pattern": (
+            "def worker_pool(tasks, workers):\n"
+            "    # 工作池：任务队列分发给固定 worker（并发处理，轮询负载均衡）\n"
+            "    out = [[] for _ in range(workers)]\n"
+            "    for i, t in enumerate(tasks):\n"
+            "        out[i % workers].append(t)\n"
+            "    return out\n"),
+        "cases": [(([1, 2, 3, 4], 2), [[1, 3], [2, 4]]),
+                  (([1, 2, 3], 3), [[1], [2], [3]]),
+                  (([], 2), [[], []])],
+        "params": [],
+        "calibration": "对照：OS 并发——工作池（任务分发固定 worker，并发处理）",
+    },
+    "进程-生命周期": {
+        "task": "进程生命周期",
+        "pattern": (
+            "def proc_life(states, op, pid=None, code=0):\n"
+            "    # 进程生命周期：fork 创建 / exec 执行 / wait 等待退出（状态机）\n"
+            "    if op == 'fork':\n"
+            "        states[pid] = 'created'\n"
+            "        return 'created'\n"
+            "    if op == 'exec':\n"
+            "        if pid in states:\n"
+            "            states[pid] = 'running'\n"
+            "            return 'running'\n"
+            "        return 'unknown'\n"
+            "    if op == 'wait':\n"
+            "        if pid in states:\n"
+            "            states[pid] = 'exited'\n"
+            "            return code\n"
+            "        return 'unknown'\n"
+            "    return None\n"),
+        "cases": [(({}, 'fork', 1), 'created'),
+                  (({1: 'created'}, 'exec', 1), 'running'),
+                  (({1: 'running'}, 'wait', 1, 0), 0),
+                  (({}, 'exec', 9), 'unknown')],
+        "params": [],
+        "calibration": "对照：OS 进程——fork/exec/wait 生命周期状态机",
+    },
 }
 
 

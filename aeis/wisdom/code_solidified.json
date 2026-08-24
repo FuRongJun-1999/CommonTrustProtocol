@@ -2578,5 +2578,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:os|并发-屏障同步": {
+  "task": "屏障同步",
+  "unit": "并发-屏障同步",
+  "code": "def barrier_ops(state, op, n=None):\n    # 屏障同步：wait 到达汇合点 / 全部到达释放（多线程同步汇合）\n    if op == 'wait':\n        state['arrived'] = state.get('arrived', 0) + 1\n        if state['arrived'] >= n:\n            state['arrived'] = 0\n            return 'released'\n        return 'waiting'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|并发-工作池": {
+  "task": "工作池",
+  "unit": "并发-工作池",
+  "code": "def worker_pool(tasks, workers):\n    # 工作池：任务队列分发给固定 worker（并发处理，轮询负载均衡）\n    out = [[] for _ in range(workers)]\n    for i, t in enumerate(tasks):\n        out[i % workers].append(t)\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|进程-生命周期": {
+  "task": "进程生命周期",
+  "unit": "进程-生命周期",
+  "code": "def proc_life(states, op, pid=None, code=0):\n    # 进程生命周期：fork 创建 / exec 执行 / wait 等待退出（状态机）\n    if op == 'fork':\n        states[pid] = 'created'\n        return 'created'\n    if op == 'exec':\n        if pid in states:\n            states[pid] = 'running'\n            return 'running'\n        return 'unknown'\n    if op == 'wait':\n        if pid in states:\n            states[pid] = 'exited'\n            return code\n        return 'unknown'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
