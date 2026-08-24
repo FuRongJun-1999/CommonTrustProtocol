@@ -323,6 +323,55 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：网络 NAT——内网→公网地址转换（端口映射表，复用已映射端口）",
     },
+    "网络-DNS解析": {
+        "task": "DNS解析",
+        "pattern": (
+            "def dns_resolve(cache, domain):\n"
+            "    # DNS 解析：域名→IP（缓存命中直返；未命中模拟查询 8.8.8.8）\n"
+            "    if domain in cache:\n"
+            "        return cache[domain], 'cache'\n"
+            "    ip = '8.8.8.8'\n"
+            "    cache[domain] = ip\n"
+            "    return ip, 'query'\n"),
+        "cases": [(({'a.com': '1.1.1.1'}, 'a.com'), ('1.1.1.1', 'cache')),
+                  (({}, 'b.com'), ('8.8.8.8', 'query')),
+                  (({'a.com': '1.1.1.1'}, 'b.com'), ('8.8.8.8', 'query'))],
+        "params": [],
+        "calibration": "对照：DNS——域名解析（缓存命中直返/未命中查询，缓存加速语义）",
+    },
+    "网络-HTTP状态码": {
+        "task": "HTTP状态码",
+        "pattern": (
+            "def http_status_class(code):\n"
+            "    # HTTP 状态码分类：2xx 成功/3xx 重定向/4xx 客户端错/5xx 服务端错\n"
+            "    if 200 <= code < 300:\n"
+            "        return '成功'\n"
+            "    if 300 <= code < 400:\n"
+            "        return '重定向'\n"
+            "    if 400 <= code < 500:\n"
+            "        return '客户端错误'\n"
+            "    if 500 <= code < 600:\n"
+            "        return '服务端错误'\n"
+            "    return '未知'\n"),
+        "cases": [((200,), '成功'), ((301,), '重定向'),
+                  ((404,), '客户端错误'), ((500,), '服务端错误')],
+        "params": [],
+        "calibration": "对照：HTTP 状态码分类（RFC 9110：2xx/3xx/4xx/5xx）",
+    },
+    "网络-负载均衡": {
+        "task": "负载均衡",
+        "pattern": (
+            "def load_balance(servers, request_id):\n"
+            "    # 负载均衡：轮询调度（请求 → 服务器轮转分配）\n"
+            "    if not servers:\n"
+            "        return None\n"
+            "    return servers[request_id % len(servers)]\n"),
+        "cases": [((['s1', 's2', 's3'], 0), 's1'),
+                  ((['s1', 's2', 's3'], 4), 's2'),
+                  (([], 0), None)],
+        "params": [],
+        "calibration": "对照：网络负载均衡——轮询调度（请求均匀分布到服务器）",
+    },
 }
 
 

@@ -628,5 +628,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:net|网络-DNS解析": {
+  "task": "DNS解析",
+  "unit": "网络-DNS解析",
+  "code": "def dns_resolve(cache, domain):\n    # DNS 解析：域名→IP（缓存命中直返；未命中模拟查询 8.8.8.8）\n    if domain in cache:\n        return cache[domain], 'cache'\n    ip = '8.8.8.8'\n    cache[domain] = ip\n    return ip, 'query'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-HTTP状态码": {
+  "task": "HTTP状态码",
+  "unit": "网络-HTTP状态码",
+  "code": "def http_status_class(code):\n    # HTTP 状态码分类：2xx 成功/3xx 重定向/4xx 客户端错/5xx 服务端错\n    if 200 <= code < 300:\n        return '成功'\n    if 300 <= code < 400:\n        return '重定向'\n    if 400 <= code < 500:\n        return '客户端错误'\n    if 500 <= code < 600:\n        return '服务端错误'\n    return '未知'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-负载均衡": {
+  "task": "负载均衡",
+  "unit": "网络-负载均衡",
+  "code": "def load_balance(servers, request_id):\n    # 负载均衡：轮询调度（请求 → 服务器轮转分配）\n    if not servers:\n        return None\n    return servers[request_id % len(servers)]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

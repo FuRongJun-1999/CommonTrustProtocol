@@ -857,5 +857,40 @@ try:
 except Exception as ex:
     check('㉚c 拓扑→连通→PageRank 端到端（4 节点序/1 分量/4 排名）', False, str(ex)[:60])
 
+# ㉛ 目标7 深化：应用层（DNS/HTTP状态码/负载均衡 经正式管线）
+n6_qs = {
+    "DNS": "写一个 DNS 解析单元（域名到 IP）",
+    "状态码": "写一个 HTTP 状态码分类单元（2xx 4xx）",
+    "负载均衡": "写一个负载均衡单元（轮询调度）",
+}
+n6_ok = 0
+for label, q in n6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n6_ok += 1
+    check(f'㉛ {label} 应用层单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉛b 应用层三单元全部生成', n6_ok == 3, f'{n6_ok}/3')
+
+# ㉛c 端到端：DNS 解析→HTTP 状态码→负载均衡（访问流程：解析→请求→分配）
+r_dns = domain_route("写一个 DNS 解析单元（域名到 IP）")
+r_hs = domain_route("写一个 HTTP 状态码分类单元（2xx 4xx）")
+r_lb = domain_route("写一个负载均衡单元（轮询调度）")
+try:
+    ns_dns, ns_hs, ns_lb = {}, {}, {}
+    exec(r_dns["code"], ns_dns)
+    exec(r_hs["code"], ns_hs)
+    exec(r_lb["code"], ns_lb)
+    ip, src = ns_dns["dns_resolve"]({}, 'a.com')
+    cls = ns_hs["http_status_class"](404)
+    srv = ns_lb["load_balance"](['s1', 's2', 's3'], 5)
+    check('㉛c DNS→状态码→负载均衡端到端（8.8.8.8查询/404客户端错/s3轮询）',
+          ip == '8.8.8.8' and src == 'query' and cls == '客户端错误'
+          and srv == 's3',
+          f'dns={ip}({src}) status={cls} lb={srv}')
+except Exception as ex:
+    check('㉛c DNS→状态码→负载均衡端到端（8.8.8.8查询/404客户端错/s3轮询）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
