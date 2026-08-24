@@ -928,5 +928,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:browser|安全-同源策略": {
+  "task": "同源策略",
+  "unit": "安全-同源策略",
+  "code": "def same_origin(a, b):\n    # 同源策略：协议+域名+端口 全同才同源（跨域请求拦截）\n    def parts(u):\n        s, rest = u.split('://')\n        host_port = rest.split('/')[0]\n        if ':' in host_port:\n            host, port = host_port.split(':')\n        else:\n            host, port = host_port, ('443' if s == 'https' else '80')\n        return (s, host, port)\n    return parts(a) == parts(b)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|安全-CSP策略": {
+  "task": "CSP策略",
+  "unit": "安全-CSP策略",
+  "code": "def csp_allow(policy, resource_type, source):\n    # CSP：内容安全策略（资源类型 → 允许的来源白名单）\n    allowed = policy.get(resource_type, [])\n    return source in allowed or '*' in allowed\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|安全-XSS防护": {
+  "task": "XSS防护",
+  "unit": "安全-XSS防护",
+  "code": "def escape_html(text):\n    # XSS 防护：HTML 转义（< > & \" ' → 实体，防脚本注入）\n    return (text.replace('&', '&amp;').replace('<', '&lt;')\n            .replace('>', '&gt;').replace('\"', '&quot;')\n            .replace(\"'\", '&#39;'))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

@@ -386,6 +386,54 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器网络——Cookie（设置/读取/删除，会话状态保持）",
     },
+    "安全-同源策略": {
+        "task": "同源策略",
+        "pattern": (
+            "def same_origin(a, b):\n"
+            "    # 同源策略：协议+域名+端口 全同才同源（跨域请求拦截）\n"
+            "    def parts(u):\n"
+            "        s, rest = u.split('://')\n"
+            "        host_port = rest.split('/')[0]\n"
+            "        if ':' in host_port:\n"
+            "            host, port = host_port.split(':')\n"
+            "        else:\n"
+            "            host, port = host_port, ('443' if s == 'https' else '80')\n"
+            "        return (s, host, port)\n"
+            "    return parts(a) == parts(b)\n"),
+        "cases": [(('https://a.com/x', 'https://a.com/y'), True),
+                  (('https://a.com', 'http://a.com'), False),
+                  (('https://a.com:8080', 'https://a.com'), False)],
+        "params": [],
+        "calibration": "对照：浏览器安全——同源策略（协议+域名+端口，同源才允许跨域读写）",
+    },
+    "安全-CSP策略": {
+        "task": "CSP策略",
+        "pattern": (
+            "def csp_allow(policy, resource_type, source):\n"
+            "    # CSP：内容安全策略（资源类型 → 允许的来源白名单）\n"
+            "    allowed = policy.get(resource_type, [])\n"
+            "    return source in allowed or '*' in allowed\n"),
+        "cases": [(({'script': ['self', 'cdn.com']}, 'script', 'cdn.com'), True),
+                  (({'script': ['self']}, 'script', 'evil.com'), False),
+                  (({'img': ['*']}, 'img', 'any.com'), True)],
+        "params": [],
+        "calibration": "对照：浏览器安全——CSP（资源类型白名单，* 通配允许）",
+    },
+    "安全-XSS防护": {
+        "task": "XSS防护",
+        "pattern": (
+            "def escape_html(text):\n"
+            "    # XSS 防护：HTML 转义（< > & \" ' → 实体，防脚本注入）\n"
+            "    return (text.replace('&', '&amp;').replace('<', '&lt;')\n"
+            "            .replace('>', '&gt;').replace('\"', '&quot;')\n"
+            "            .replace(\"'\", '&#39;'))\n"),
+        "cases": [('<script>alert(1)</script>',
+                  '&lt;script&gt;alert(1)&lt;/script&gt;'),
+                  ('a&b', 'a&amp;b'),
+                  ('普通文本', '普通文本')],
+        "params": [],
+        "calibration": "对照：浏览器安全——XSS 防护（HTML 实体转义，防脚本注入）",
+    },
 }
 
 

@@ -1218,5 +1218,40 @@ try:
 except Exception as ex:
     check('㊄c 注释→逻辑→链式端到端（剥离注释 且短路 链式组合）', False, str(ex)[:60])
 
+# ㊅ 目标5 深化：浏览器安全（同源策略/CSP/XSS防护 经正式管线）
+b7_qs = {
+    "同源策略": "写一个同源策略单元（协议域名端口）",
+    "CSP策略": "写一个 CSP 策略单元（资源白名单）",
+    "XSS防护": "写一个 XSS 防护单元（HTML 转义）",
+}
+b7_ok = 0
+for label, q in b7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b7_ok += 1
+    check(f'㊅ {label} 浏览器安全单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊅b 浏览器安全三单元全部生成', b7_ok == 3, f'{b7_ok}/3')
+
+# ㊅c 端到端：同源判定→CSP 拦截→XSS 转义（安全链：访问控制→策略→净化）
+r_so = domain_route("写一个同源策略单元（协议域名端口）")
+r_csp = domain_route("写一个 CSP 策略单元（资源白名单）")
+r_xss = domain_route("写一个 XSS 防护单元（HTML 转义）")
+try:
+    ns_so, ns_csp, ns_xss = {}, {}, {}
+    exec(r_so["code"], ns_so)
+    exec(r_csp["code"], ns_csp)
+    exec(r_xss["code"], ns_xss)
+    same = ns_so["same_origin"]('https://a.com/x', 'https://a.com/y')
+    evil = ns_csp["csp_allow"]({'script': ['self']}, 'script', 'evil.com')
+    safe = ns_xss["escape_html"]('<script>x</script>')
+    check('㊅c 同源→CSP→XSS 端到端（同源真 外部脚本拒 脚本转义）',
+          same is True and evil is False
+          and safe == '&lt;script&gt;x&lt;/script&gt;',
+          f'same={same} csp={evil} xss={safe}')
+except Exception as ex:
+    check('㊅c 同源→CSP→XSS 端到端（同源真 外部脚本拒 脚本转义）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
