@@ -2724,5 +2724,41 @@ try:
 except Exception as ex:
     check('㊮c MLFQ→EDF→文件系统调用端到端（x b fd0 写入hi读出hi）', False, str(ex)[:60])
 
+# ㊯ 目标6 深化：图算法（最小生成树/二分图判定/度中心性 经正式管线）
+g16_qs = {
+    "最小生成树": "写一个最小生成树单元（Kruskal 避环）",
+    "二分图": "写一个二分图判定单元（染色）",
+    "度中心性": "写一个度中心性单元（归一化）",
+}
+g16_ok = 0
+for label, q in g16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g16_ok += 1
+    check(f'㊯ {label} 图算法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊯b 图算法三单元全部生成', g16_ok == 3, f'{g16_ok}/3')
+
+# ㊯c 算法端到端：Kruskal→二分判定→中心性（代价3 线二分 三角非二分 中心{0:1.0}）
+r_mst = domain_route("写一个最小生成树单元（Kruskal 避环）")
+r_bp = domain_route("写一个二分图判定单元（染色）")
+r_dc = domain_route("写一个度中心性单元（归一化）")
+try:
+    ns_mst, ns_bp, ns_dc = {}, {}, {}
+    exec(r_mst["code"], ns_mst)
+    exec(r_bp["code"], ns_bp)
+    exec(r_dc["code"], ns_dc)
+    mst = ns_mst["kruskal_mst"]([(0, 1, 1), (1, 2, 2), (0, 2, 3)], 3)
+    line = ns_bp["is_bipartite"]({0: [1], 1: [0, 2], 2: [1]}, 3)
+    tri = ns_bp["is_bipartite"]({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 3)
+    cent = ns_dc["degree_centrality"]({0: [1, 2], 1: [0], 2: [0]}, 3)
+    check('㊯c Kruskal→二分→中心性端到端（代价3 线True三角False 中心{0:1.0}）',
+          mst == (3, 2) and line is True and tri is False
+          and cent == {0: 1.0, 1: 0.5, 2: 0.5},
+          f'mst={mst} line={line} tri={tri} cent={cent}')
+except Exception as ex:
+    check('㊯c Kruskal→二分→中心性端到端（代价3 线True三角False 中心{0:1.0}）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

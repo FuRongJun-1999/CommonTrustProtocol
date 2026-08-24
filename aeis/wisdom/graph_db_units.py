@@ -1053,6 +1053,73 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：数据库在线扩容——分片重平衡（确定性哈希，迁移键计数）",
     },
+    "图算法-最小生成树": {
+        "task": "最小生成树",
+        "pattern": (
+            "def kruskal_mst(edges, n):\n"
+            "    # 最小生成树：Kruskal——按权重升序加边，并查集避环（最小连通代价）\n"
+            "    parent = list(range(n))\n"
+            "    def find(x):\n"
+            "        while parent[x] != x:\n"
+            "            parent[x] = parent[parent[x]]\n"
+            "            x = parent[x]\n"
+            "        return x\n"
+            "    total, count = 0, 0\n"
+            "    for u, v, w in sorted(edges, key=lambda e: e[2]):\n"
+            "        ru, rv = find(u), find(v)\n"
+            "        if ru != rv:\n"
+            "            parent[ru] = rv\n"
+            "            total += w\n"
+            "            count += 1\n"
+            "            if count == n - 1:\n"
+            "                break\n"
+            "    return total, count\n"),
+        "cases": [(([(0, 1, 1), (1, 2, 2), (0, 2, 3)], 3), (3, 2)),
+                  (([(0, 1, 5), (1, 2, 3), (0, 2, 1)], 3), (4, 2)),
+                  (([], 1), (0, 0))],
+        "params": [],
+        "calibration": "对照：图算法——Kruskal 最小生成树（升序加边+并查集避环）",
+    },
+    "图算法-二分图判定": {
+        "task": "二分图判定",
+        "pattern": (
+            "def is_bipartite(adj, n):\n"
+            "    # 二分图判定：BFS 染色（相邻异色，颜色冲突即非二分）\n"
+            "    color = [-1] * n\n"
+            "    for s in range(n):\n"
+            "        if color[s] != -1:\n"
+            "            continue\n"
+            "        color[s] = 0\n"
+            "        queue = [s]\n"
+            "        while queue:\n"
+            "            u = queue.pop(0)\n"
+            "            for v in adj.get(u, []):\n"
+            "                if color[v] == -1:\n"
+            "                    color[v] = 1 - color[u]\n"
+            "                    queue.append(v)\n"
+            "                elif color[v] == color[u]:\n"
+            "                    return False\n"
+            "    return True\n"),
+        "cases": [(({0: [1], 1: [0, 2], 2: [1]}, 3), True),
+                  (({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 3), False),
+                  (({}, 1), True)],
+        "params": [],
+        "calibration": "对照：图算法——二分图判定（BFS 双色染色，相邻异色）",
+    },
+    "图算法-度中心性": {
+        "task": "度中心性",
+        "pattern": (
+            "def degree_centrality(adj, n):\n"
+            "    # 度中心性：节点度数 / (n-1)（归一化——重要度排序依据）\n"
+            "    norm = n - 1 if n > 1 else 1\n"
+            "    return {k: round(len(v) / norm, 3) for k, v in adj.items()}\n"),
+        "cases": [(({0: [1, 2], 1: [0], 2: [0]}, 3),
+                   {0: 1.0, 1: 0.5, 2: 0.5}),
+                  (({}, 1), {}),
+                  (({0: [1]}, 2), {0: 1.0})],
+        "params": [],
+        "calibration": "对照：图算法——度中心性（度数/(n-1) 归一化重要度）",
+    },
 }
 
 
