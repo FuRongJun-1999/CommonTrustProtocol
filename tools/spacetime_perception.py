@@ -76,7 +76,7 @@ class SpacetimePerception:
             return "没有检测到周期性。"
         if qtype == "静止":
             if "静止" in content:
-                return "是的，那个是静止的（时空 CNN 检测运动量为 0）。"
+                return "不，那个是静止的（时空 CNN 检测运动量为 0）。"
             return "不，它在运动（有方向/速度记录）。"
         # 事件
         return f"刚才发生的是：{content[content.find(']')+1:].strip()[:60]}"
