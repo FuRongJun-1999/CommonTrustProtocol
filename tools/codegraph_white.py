@@ -8,6 +8,7 @@
 """
 import sys
 import ast
+import os
 sys.stdout.reconfigure(encoding='utf-8')
 
 
@@ -20,8 +21,17 @@ def extract_code_ir(source, file_path="<source>"):
     ir = {"file": file_path, "functions": [], "classes": [], "imports": [], "calls": []}
 
     def calls_of(node):
-        return [n.func.id for n in ast.walk(node)
-                if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)]
+        """提取函数内所有调用：Name 调用（parse()）+ Attribute 调用（utils.parse() → parse）
+        v2：Attribute 调用跨文件解析需要——utils.parse 定位到 utils.py"""
+        out = []
+        for n in ast.walk(node):
+            if isinstance(n, ast.Call):
+                f = n.func
+                if isinstance(f, ast.Name):
+                    out.append(f.id)
+                elif isinstance(f, ast.Attribute):
+                    out.append(f.attr)
+        return out
 
     for n in ast.walk(tree):
         if isinstance(n, ast.Import):
@@ -121,6 +131,77 @@ def detect_cycles(ir):
         if v not in index:
             strongconnect(v)
     return result
+
+
+# ============ 五、仓库级分析（多文件：依赖树 + 跨文件调用） ============
+def analyze_repository(dirpath, suffix=".py"):
+    """目录 → 仓库 IR：逐文件 extract_code_ir + 文件归属 + 文件级导入
+    返回 {"files": {path: ir}, "functions": [带 file], "classes": [带 file],
+          "imports": [{from_file, module}], "file_count", "function_count"}"""
+    repo = {"files": {}, "functions": [], "classes": [], "imports": [], "file_count": 0}
+    if not os.path.isdir(dirpath):
+        return repo
+    for name in sorted(os.listdir(dirpath)):
+        path = os.path.join(dirpath, name)
+        if not (os.path.isfile(path) and name.endswith(suffix)):
+            continue
+        with open(path, encoding="utf-8") as f:
+            ir = extract_code_ir(f.read(), name)
+        repo["files"][name] = ir
+        for fn in ir["functions"]:
+            fn["file"] = name
+            repo["functions"].append(fn)
+        for cls in ir["classes"]:
+            cls["file"] = name
+            repo["classes"].append(cls)
+        for imp in ir["imports"]:
+            imp["from_file"] = name
+            repo["imports"].append(imp)
+        repo["file_count"] += 1
+    repo["function_count"] = len(repo["functions"])
+    return repo
+
+
+def build_dependency_tree(repo):
+    """仓库 IR → 文件依赖树：文件 → [它导入的文件模块]
+    本地模块 = 仓库内存在的文件名（去 .py）；返回 {file: [dep_files]}"""
+    local = {name[:-3] for name in repo["files"] if name.endswith(".py")}
+    tree = {name: [] for name in repo["files"]}
+    for imp in repo["imports"]:
+        mod = imp["module"]
+        dep = mod + ".py" if mod in local else None
+        if dep and dep in tree and dep != imp["from_file"]:
+            tree[imp["from_file"]].append(dep)
+    return {k: sorted(set(v)) for k, v in tree.items()}
+
+
+def cross_file_calls(repo):
+    """跨文件调用解析：函数调用目标定位到定义文件
+    返回 {file: {caller_func: [(callee, def_file)]}}——调用发生在 A 文件、定义在 B 文件"""
+    # 函数名 → 定义文件
+    def_of = {}
+    for fn in repo["functions"]:
+        base = fn["name"].split(".")[-1]  # 类方法取方法名
+        def_of.setdefault(base, []).append(fn["file"])
+    out = {}
+    for fn in repo["functions"]:
+        for callee in fn["calls"]:
+            if callee not in def_of:
+                continue
+            for dfile in def_of[callee]:
+                if dfile != fn["file"]:  # 跨文件
+                    out.setdefault(fn["file"], []).append(
+                        (fn["name"], callee, dfile))
+    return out
+
+
+def repo_stats(repo):
+    """仓库统计：文件/函数/类/导入/跨文件调用数"""
+    return {"files": repo["file_count"],
+            "functions": repo["function_count"],
+            "classes": len(repo["classes"]),
+            "imports": len(repo["imports"]),
+            "cross_calls": sum(len(v) for v in cross_file_calls(repo).values())}
 
 
 if __name__ == "__main__":
