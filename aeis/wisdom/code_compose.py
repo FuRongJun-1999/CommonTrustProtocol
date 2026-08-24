@@ -222,7 +222,8 @@ DOMAIN_KEYWORDS = {
            "inode", "页置换", "缺页", "状态机", "最短作业", "SJF",
            "块管理", "位图", "优先级调度", "互斥", "首次适配", "文件块"],
     "browser": ["浏览器", "HTTP", "响应解析", "DOM", "HTML", "CSS", "选择器",
-                "渲染", "布局", "网页", "标签解析"],
+                "渲染", "布局", "网页", "标签解析", "URL", "请求", "主机",
+                "端口", "协议", "盒模型", "级联", "样式", "padding", "border"],
     "net": ["网络", "TCP", "UDP", "IP分片", "握手", "校验和", "广播",
             "局域网", "蜂群", "socket", "中继", "分片", "路由表", "重传",
             "停等", "去重", "确认"],
@@ -230,12 +231,17 @@ DOMAIN_KEYWORDS = {
 
 
 def detect_domain(question):
-    """域识别：问题 → 域（compiler/pylang/graph/os/None）"""
-    best, best_len = None, 0
+    """域识别：问题 → 域（compiler/pylang/graph/os/browser/net/None）
+    命中计数优先（「CSS级联+样式优先级」= browser 3 词 > pylang 1 词），
+    平局取最长关键词（「路由表」len3 > 「路由」len2）"""
+    best, best_cnt, best_len = None, 0, 0
     for domain, kws in DOMAIN_KEYWORDS.items():
-        for k in kws:
-            if k in question and len(k) > best_len:
-                best, best_len = domain, len(k)
+        hit = [k for k in kws if k in question]
+        if not hit:
+            continue
+        cnt, max_len = len(hit), max(len(k) for k in hit)
+        if cnt > best_cnt or (cnt == best_cnt and max_len > best_len):
+            best, best_cnt, best_len = domain, cnt, max_len
     return best
 
 
@@ -251,12 +257,17 @@ def compose_domain_code(question, domain=None, unit_id=None):
             + u["task"].replace("-", "").split() \
             + [p for p in uid.split("-") if p]
 
-    best_uid, best_score = None, 0
+    best_uid, best_cnt, best_len = None, 0, 0
     q_compact = question.replace(" ", "")  # 空格归一化（"IP 分片"→"IP分片"）
     for uid, u in units.items():
-        for kw in _unit_kws(u, uid):
-            if kw and (kw in question or kw in q_compact) and len(kw) > best_score:
-                best_uid, best_score = uid, len(kw)
+        kws = _unit_kws(u, uid)
+        hit = [kw for kw in kws
+               if kw and (kw in question or kw in q_compact)]
+        if not hit:
+            continue
+        cnt, max_len = len(hit), max(len(kw) for kw in hit)
+        if cnt > best_cnt or (cnt == best_cnt and max_len > best_len):
+            best_uid, best_cnt, best_len = uid, cnt, max_len
     if unit_id is not None and unit_id in units:
         best_uid = unit_id
     if best_uid is None:
@@ -287,28 +298,20 @@ def domain_solidify(question, domain=None, uid=None):
 
 
 def domain_route(question, uid=None):
-    """域路由统一入口：固化层直出 → 域组合生成 + 自校验"""
+    """域路由统一入口：单元匹配 → 已固化直出 → 域组合生成 + 自校验"""
     domain = detect_domain(question)
     if domain is None:
         return {"question": question, "ok": False,
                 "reason": "域未识别（诚实边界）", "domain": None, "code": None}
-    # 固化层直出（unit 拆词匹配，最长命中优先——「互斥锁」优于「进程」泛匹配）
-    q_compact = question.replace(" ", "")
-    best = None
-    for k, entry in CODE_SOLIDIFIED.items():
-        if entry.get("source") == "domain_solidified" and entry.get("domain") == domain:
-            unit = entry.get("unit", "")
-            kws = [unit] + [p for p in unit.split("-") if p]
-            hit_len = max((len(kw) for kw in kws
-                           if kw and (kw in question or kw in q_compact)), default=0)
-            if hit_len > 0 and (best is None or hit_len > best[0]):
-                best = (hit_len, entry)
-    if best:
-        entry = best[1]
-        return {"question": question, "ok": True, "solidified": True,
-                "code": entry["code"], "task": entry.get("task"),
-                "unit": entry.get("unit"), "domain": domain, "checks": []}
+    # 单元匹配先行（与组合生成同一套逻辑），匹配到的单元已固化 → 直出
     t, u, code, unit, domain = compose_domain_code(question, domain, uid)
+    if code is not None:
+        key = f"domain:{domain}|{u}"
+        if key in CODE_SOLIDIFIED:
+            entry = CODE_SOLIDIFIED[key]
+            return {"question": question, "ok": True, "solidified": True,
+                    "code": entry["code"], "task": entry.get("task"),
+                    "unit": entry.get("unit"), "domain": domain, "checks": []}
     if code is None:
         return {"question": question, "ok": False, "reason": u,
                 "task": t, "code": None, "domain": domain}

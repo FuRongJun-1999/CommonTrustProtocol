@@ -8,5 +8,115 @@
   ],
   "source": "code_solidified",
   "lang": "python"
+ },
+ "domain:compiler|词法-道德经": {
+  "task": "道德经词法",
+  "unit": "词法-道德经",
+  "code": "def instr_token(word):\n    # 道德经助记符 → 指令 Token（剥离尾部标点；未接入 VM 的指令诚实返回 None）\n    m = {'道': 'DAO', '德': 'DE', '自然': 'ZIRAN', '无为': 'WUWEI',\n         '止': 'ZHI', '知足': 'ZHIZU'}\n    return m.get((word or '').rstrip('。；;，,'))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 6 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:pylang|求值-闭包": {
+  "task": "闭包机制",
+  "unit": "求值-闭包",
+  "code": "def closure_adder(n):\n    # 闭包：内部函数捕获自由变量 n（定义环境）\n    def add(x):\n        return x + n\n    return add\ndef closure_test():\n    a = closure_adder(3)\n    b = closure_adder(10)\n    return (a(1), b(1))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:os|进程-状态机": {
+  "task": "进程状态",
+  "unit": "进程-状态机",
+  "code": "def process_state(transitions):\n    # 进程状态机：事件序列 → 最终状态（就绪→运行→阻塞→就绪→终止）\n    state = '就绪'\n    for ev in transitions:\n        if state == '就绪' and ev == '调度':\n            state = '运行'\n        elif state == '运行' and ev == 'IO等待':\n            state = '阻塞'\n        elif state == '阻塞' and ev == 'IO完成':\n            state = '就绪'\n        elif state == '运行' and ev == '完成':\n            state = '终止'\n    return state\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:browser|HTTP-响应解析": {
+  "task": "HTTP解析",
+  "unit": "HTTP-响应解析",
+  "code": "def parse_http_response(raw):\n    # HTTP 响应解析：状态行/头/体 → {status, headers, body}\n    lines = raw.split('\\r\\n')\n    status = int(lines[0].split()[1])\n    headers = {}\n    i = 1\n    while i < len(lines) and lines[i]:\n        k, _, v = lines[i].partition(':')\n        headers[k.strip().lower()] = v.strip()\n        i += 1\n    body = '\\n'.join(lines[i + 1:])\n    return {'status': status, 'headers': headers, 'body': body}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|HTML-DOM解析": {
+  "task": "DOM解析",
+  "unit": "HTML-DOM解析",
+  "code": "def parse_dom(html):\n    # HTML → DOM 树（简化：标签 → 直接子标签列表）\n    import re\n    dom = {}\n    stack = []\n    for m in re.finditer(r'<(\\w+)[^>]*>|</(\\w+)>', html):\n        if m.group(1):\n            tag = m.group(1)\n            dom.setdefault(tag, [])\n            if stack:\n                dom[stack[-1]].append(tag)\n            stack.append(tag)\n        elif m.group(2) and stack:\n            stack.pop()\n    return dom\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:net|网络-IP分片": {
+  "task": "IP分片",
+  "unit": "网络-IP分片",
+  "code": "def ip_fragment(packet_size, mtu):\n    # IP 分片：包大小 + MTU → 分片数（每片含 20B IP 头）\n    import math\n    if packet_size <= mtu:\n        return 1\n    payload = mtu - 20\n    return math.ceil(packet_size / payload)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-TCP握手": {
+  "task": "TCP握手",
+  "unit": "网络-TCP握手",
+  "code": "def tcp_handshake(states):\n    # TCP 三次握手：CLOSED → SYN → SYN-ACK → ESTABLISHED\n    state = 'CLOSED'\n    for ev in states:\n        if state == 'CLOSED' and ev == 'SYN':\n            state = 'SYN_SENT'\n        elif state == 'SYN_SENT' and ev == 'SYN-ACK':\n            state = 'ESTABLISHED'\n    return state\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:browser|HTTP-请求构建": {
+  "task": "请求构建",
+  "unit": "HTTP-请求构建",
+  "code": "def build_get_request(url, host, headers=None):\n    # 构建 HTTP GET 请求：请求行 + Host 头 + 自定义头\n    h = headers or {}\n    lines = ['GET ' + url + ' HTTP/1.1', 'Host: ' + host]\n    for k, v in h.items():\n        lines.append(k + ': ' + v)\n    return '\\r\\n'.join(lines) + '\\r\\n\\r\\n'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|URL-解析": {
+  "task": "URL解析",
+  "unit": "URL-解析",
+  "code": "def parse_url(url):\n    # URL 解析：协议/主机/端口/路径\n    import re\n    m = re.match(r'(\\w+)://([^/:]+)(?::(\\d+))?(/.*)?', url)\n    return {'scheme': m.group(1), 'host': m.group(2),\n            'port': int(m.group(3)) if m.group(3) else None,\n            'path': m.group(4) or '/'}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|CSS-级联": {
+  "task": "CSS级联",
+  "unit": "CSS-级联",
+  "code": "def cascade_apply(rules):\n    # 级联应用：选择最高优先级规则\n    return max(rules, key=cascade_weight)\ndef cascade_weight(rule):\n    # CSS 级联优先级：内联1000 > id100 > class10 > 标签1\n    w = 0\n    if rule.get('inline'):\n        w += 1000\n    w += 100 * len(rule.get('ids', []))\n    w += 10 * len(rule.get('classes', []))\n    w += 1 * len(rule.get('tags', []))\n    return w\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-盒模型": {
+  "task": "盒模型",
+  "unit": "渲染-盒模型",
+  "code": "def box_model(width, padding, border, margin):\n    # 盒模型：内容+padding+border → 元素总宽（margin 不计入）\n    return width + 2 * padding + 2 * border\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

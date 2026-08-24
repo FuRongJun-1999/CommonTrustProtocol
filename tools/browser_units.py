@@ -93,6 +93,77 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器渲染——块级布局（宽度约束换行堆叠）",
     },
+    "HTTP-请求构建": {
+        "task": "请求构建",
+        "pattern": (
+            "def build_get_request(url, host, headers=None):\n"
+            "    # 构建 HTTP GET 请求：请求行 + Host 头 + 自定义头\n"
+            "    h = headers or {}\n"
+            "    lines = ['GET ' + url + ' HTTP/1.1', 'Host: ' + host]\n"
+            "    for k, v in h.items():\n"
+            "        lines.append(k + ': ' + v)\n"
+            "    return '\\r\\n'.join(lines) + '\\r\\n\\r\\n'\n"),
+        "cases": [(("/index.html", "example.com"),
+                   "GET /index.html HTTP/1.1\r\nHost: example.com\r\n\r\n"),
+                  (("/", "a.com"),
+                   "GET / HTTP/1.1\r\nHost: a.com\r\n\r\n")],
+        "params": [],
+        "calibration": "对照：浏览器 HTTP 客户端——GET 请求构建（请求行+头）",
+    },
+    "URL-解析": {
+        "task": "URL解析",
+        "pattern": (
+            "def parse_url(url):\n"
+            "    # URL 解析：协议/主机/端口/路径\n"
+            "    import re\n"
+            "    m = re.match(r'(\\w+)://([^/:]+)(?::(\\d+))?(/.*)?', url)\n"
+            "    return {'scheme': m.group(1), 'host': m.group(2),\n"
+            "            'port': int(m.group(3)) if m.group(3) else None,\n"
+            "            'path': m.group(4) or '/'}\n"),
+        "cases": [("https://example.com:8080/page?a=1",
+                   {'scheme': 'https', 'host': 'example.com', 'port': 8080,
+                    'path': '/page?a=1'}),
+                  ("http://a.com/x", {'scheme': 'http', 'host': 'a.com',
+                                      'port': None, 'path': '/x'})],
+        "params": [],
+        "calibration": "对照：浏览器 URL——协议/主机/端口/路径解析",
+    },
+    "CSS-级联": {
+        "task": "CSS级联",
+        "pattern": (
+            "def cascade_apply(rules):\n"
+            "    # 级联应用：选择最高优先级规则\n"
+            "    return max(rules, key=cascade_weight)\n"
+            "def cascade_weight(rule):\n"
+            "    # CSS 级联优先级：内联1000 > id100 > class10 > 标签1\n"
+            "    w = 0\n"
+            "    if rule.get('inline'):\n"
+            "        w += 1000\n"
+            "    w += 100 * len(rule.get('ids', []))\n"
+            "    w += 10 * len(rule.get('classes', []))\n"
+            "    w += 1 * len(rule.get('tags', []))\n"
+            "    return w\n"),
+        "cases": [(([{'ids': ['a'], 'classes': [], 'tags': [], 'val': 'id'},
+                     {'ids': [], 'classes': ['b'], 'tags': [], 'val': 'class'}],),
+                   {'ids': ['a'], 'classes': [], 'tags': [], 'val': 'id'}),
+                  (([{'ids': [], 'classes': [], 'tags': ['p'], 'val': 'tag'},
+                     {'inline': True, 'val': 'inline'}],),
+                   {'inline': True, 'val': 'inline'})],
+        "params": [],
+        "calibration": "对照：浏览器 CSS——级联优先级（内联>id>class>标签）",
+    },
+    "渲染-盒模型": {
+        "task": "盒模型",
+        "pattern": (
+            "def box_model(width, padding, border, margin):\n"
+            "    # 盒模型：内容+padding+border → 元素总宽（margin 不计入）\n"
+            "    return width + 2 * padding + 2 * border\n"),
+        "cases": [((100, 10, 2, 5), 124),
+                  ((50, 0, 1, 0), 52),
+                  ((0, 0, 0, 0), 0)],
+        "params": [],
+        "calibration": "对照：浏览器渲染——盒模型（padding/border 计入元素尺寸，margin 不计）",
+    },
 }
 
 
