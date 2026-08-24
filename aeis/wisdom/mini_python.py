@@ -17,8 +17,8 @@ class MiniPyError(Exception):
 # ============ 一、词法分析 ============
 _TOKEN_RE = [
     ("NUMBER", r"\d+\.\d+|\d+"),
-    ("OP", r"\*\*|//|==|!=|<=|>=|[+\-*/%<>()=]"),
-    ("KEY", r"and|or|not|True|False|None|if|elif|else|while"),
+    ("OP", r"\*\*|//|==|!=|<=|>=|[+\-*/%<>()=,]"),
+    ("KEY", r"and|or|not|True|False|None|if|elif|else|while|def|return"),
     ("NAME", r"[A-Za-z_]\w*"),
     ("WS", r"\s+"),
 ]
@@ -146,8 +146,17 @@ class Parser:
         if t[0] == "NUMBER":
             self.advance()
             return ("num", t[1])
-        if t[0] == "NAME":  # 变量名（P2：从环境取值）
+        if t[0] == "NAME":  # 变量/函数调用（P3）
             self.advance()
+            if self.peek()[1] == "(":
+                self.advance()
+                args = []
+                if self.peek()[1] != ")":
+                    args.append(self.or_expr())
+                    while self.match(","):
+                        args.append(self.or_expr())
+                self.expect(")")
+                return ("call", t[1], args)
             return ("name", t[1])
         if t[1] == "True":
             self.advance()
@@ -221,6 +230,23 @@ def eval_node(node, env=None):
         return eval_node(node[1], env) % b
     if kind == "**":
         return eval_node(node[1], env) ** eval_node(node[2], env)
+    if kind == "call":  # 函数调用（P3：局部作用域 + 参数绑定 + return 捕获）
+        f = env.get(node[1])
+        if not (isinstance(f, tuple) and f[0] == "func"):
+            raise MiniPyError(f"'{node[1]}' is not a function")
+        _, params, body, def_env = f
+        local = Env(def_env)
+        args = [eval_node(a, env) for a in node[2]]
+        if len(args) != len(params):
+            raise MiniPyError(f"参数数量不符：{node[1]} 需要 {len(params)}，给了 {len(args)}")
+        for p, a in zip(params, args):
+            local.set(p, a)
+        try:
+            for s in body:
+                exec_stmt(s, local)
+        except ReturnSignal as rs:
+            return rs.value
+        return None
     raise MiniPyError(f"未知节点: {node}")
 
 
@@ -242,17 +268,26 @@ def eval_expr(src):
 # 缩进块解析：行 → (缩进, 语句) → 嵌套树
 
 class Env:
-    """变量环境（名实对应：变量名 → 值）"""
-    def __init__(self):
+    """变量环境（P3：作用域链——局部 → 父环境）"""
+    def __init__(self, parent=None):
         self.vars = {}
+        self.parent = parent
 
     def get(self, name):
-        if name not in self.vars:
-            raise MiniPyError(f"NameError: name '{name}' is not defined")
-        return self.vars[name]
+        if name in self.vars:
+            return self.vars[name]
+        if self.parent:
+            return self.parent.get(name)
+        raise MiniPyError(f"NameError: name '{name}' is not defined")
 
     def set(self, name, value):
         self.vars[name] = value
+
+
+class ReturnSignal(Exception):
+    """return 语句信号（P3）"""
+    def __init__(self, value):
+        self.value = value
 
 
 def parse_program(src):
@@ -283,6 +318,15 @@ def parse_program(src):
             return ("assign", name.strip(),
                     Parser(tokenize(expr)).parse())
         # if/elif/else
+        if code.startswith("def "):
+            import re as _re
+            m = _re.match(r"def\s+(\w+)\s*\(([^)]*)\)\s*:", code)
+            name = m.group(1)
+            params = [p.strip() for p in m.group(2).split(",") if p.strip()]
+            body = build(idx, lines[idx[0]][0] if idx[0] < len(lines) else 0)
+            return ("funcdef", name, params, body)
+        if code.startswith("return "):
+            return ("return", Parser(tokenize(code[7:])).parse())
         if code.startswith("if "):
             cond = Parser(tokenize(code[3:].rstrip(":"))).parse()
             then_indent = lines[idx[0]][0] if idx[0] < len(lines) else 0
@@ -308,10 +352,15 @@ def parse_program(src):
 
 
 def exec_stmt(stmt, env):
-    """执行单条语句（if/while 递归执行块）"""
+    """执行单条语句（if/while/funcdef 递归执行块）"""
     kind = stmt[0]
     if kind == "assign":
         env.set(stmt[1], eval_node(stmt[2], env))
+    elif kind == "funcdef":
+        # 函数对象 = 参数 + body + 定义环境（P4 闭包基础）
+        env.set(stmt[1], ("func", stmt[2], stmt[3], env))
+    elif kind == "return":
+        raise ReturnSignal(eval_node(stmt[1], env))
     elif kind == "if":
         if is_truthy(eval_node(stmt[1], env)):
             for s in stmt[2]:
