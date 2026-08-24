@@ -504,7 +504,13 @@ def self_check(scene, answer, chain, facts, direction, query):
 
 
 def route_compose(query):
-    """组合引擎统一入口（Route 递归，输出含证据链，可解释）"""
+    """组合引擎统一入口（Route 递归，输出含证据链，可解释）
+    固化层优先：已固化的问法（生成→自校验→固化）直接直答，不再重新组合"""
+    _sol = solidified_lookup(query)
+    if _sol:
+        return {"query": query, "ok": True, "solidified": True,
+                "answer": _sol["answer"], "scene": _sol.get("scene"),
+                "units": [], "checks": [], "chain_evidence": []}
     scene, answer, chain, facts, direction = compose_answer(query)
     if chain is None:
         return {"query": query, "ok": False, "reason": answer,
@@ -516,6 +522,59 @@ def route_compose(query):
         "answer": answer, "ok": ok, "checks": checks,
         "chain_evidence": [c[1]["source"] for c in chain],
     }
+
+
+# ============ 七、固化层（生成自举闭环：生成→自校验→固化→直答） ============
+# 白箱组合生成+自校验通过的知识，固化为直答——下次同类问法直接命中，
+# 不再重新组合。持久化到 JSON（启动加载），跨进程生效。
+import json as _json
+import os as _os
+
+_SOLIDIFY_FILE = _os.path.join(
+    _os.path.dirname(_os.path.abspath(__file__)), "solidified_knowledge.json")
+
+SOLIDIFIED = {}
+if _os.path.exists(_SOLIDIFY_FILE):
+    try:
+        _loaded = _json.load(open(_SOLIDIFY_FILE, encoding="utf-8"))
+        if isinstance(_loaded, dict):
+            SOLIDIFIED = _loaded
+    except Exception:
+        SOLIDIFIED = {}
+
+
+def solidified_lookup(query):
+    """查固化层：原问法或触发词命中 → 已固化直答（含触发优先级）"""
+    best = None
+    for key, entry in SOLIDIFIED.items():
+        tr = entry.get("triggers") or []
+        if any(t and t in query for t in tr):
+            # 最长触发词优先（「金属勺放进热汤」优于「金属」）
+            tlen = max(len(t) for t in tr if t and t in query)
+            if best is None or tlen > best[0]:
+                best = (tlen, entry)
+        elif key and key in query and (best is None or len(key) > best[0]):
+            best = (len(key), entry)
+    return best[1] if best else None
+
+
+def solidify(query, triggers=None, scene=None):
+    """固化：组合生成 + 自校验通过 → 写入固化库（持久化）
+    自校验未通过的知识不固化（自举纪律：错误生成不得固化）"""
+    r = route_compose(query)
+    if not r.get("ok") or not r.get("answer"):
+        return None
+    key = query.strip("？?。！! ")
+    entry = {"answer": r["answer"], "triggers": triggers or [],
+             "scene": scene or r.get("scene"), "query": query,
+             "source": "compose_solidified"}
+    SOLIDIFIED[key] = entry
+    try:
+        _json.dump(SOLIDIFIED, open(_SOLIDIFY_FILE, "w", encoding="utf-8"),
+                   ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+    return entry
 
 
 # ============ 六、自举判定统计 ============
