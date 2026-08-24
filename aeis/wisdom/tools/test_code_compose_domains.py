@@ -5511,5 +5511,40 @@ except Exception as ex:
     check('㋼c 聚类→介数→边索引端到端（1.0 {0:0.0,1:1.0,2:0.0} friend）',
           False, str(ex)[:60])
 
+# ㋽ 目标1 深化：P 线数据结构/工具（默认字典/排列组合/二分查找 经正式管线）
+p18_qs = {
+    "默认字典": "写一个默认字典单元（缺失键默认）",
+    "排列组合": "写一个排列组合单元（有序无序选取）",
+    "二分查找": "写一个二分查找单元（折半定位）",
+}
+p18_ok = 0
+for label, q in p18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p18_ok += 1
+    check(f'㋽ {label} P线数据结构/工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋽b P线数据结构/工具三单元全部生成', p18_ok == 3, f'{p18_ok}/3')
+
+# ㋽c 端到端：默认字典→排列组合→二分查找（0 [(1,2),(2,1)] 2）
+r_dd = domain_route("写一个默认字典单元（缺失键默认）")
+r_pc = domain_route("写一个排列组合单元（有序无序选取）")
+r_bs = domain_route("写一个二分查找单元（折半定位）")
+try:
+    ns_dd, ns_pc, ns_bs = {}, {}, {}
+    exec(r_dd["code"], ns_dd)
+    exec(r_pc["code"], ns_pc)
+    exec(r_bs["code"], ns_bs)
+    dd = ns_dd["default_dict"]({}, 'a', 0)
+    pc = ns_pc["permute_combine"]([1, 2], 2, 'permutations')
+    bs = ns_bs["binary_search"]([1, 3, 5, 7, 9], 5)
+    check('㋽c 默认字典→排列组合→二分查找端到端（0 [(1,2),(2,1)] 2）',
+          dd == 0 and pc == [(1, 2), (2, 1)] and bs == 2,
+          f'def={dd} perm={pc} bs={bs}')
+except Exception as ex:
+    check('㋽c 默认字典→排列组合→二分查找端到端（0 [(1,2),(2,1)] 2）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

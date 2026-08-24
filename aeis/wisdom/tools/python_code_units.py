@@ -1527,6 +1527,62 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python 类装饰器——类对象增强（附加标记/注册语义）",
     },
+    "数据结构-默认字典": {
+        "task": "默认字典",
+        "pattern": (
+            "def default_dict(d, key, default=0):\n"
+            "    # 默认字典：缺失键返回默认值并登记（defaultdict 语义）\n"
+            "    if key not in d:\n"
+            "        d[key] = default\n"
+            "    return d[key]\n"),
+        "cases": [
+            (({}, 'a', 0), 0),
+            (({'a': 5}, 'a'), 5),
+            (({}, 'b', []), []),
+            (({'x': 1}, 'y', 7), 7)],
+        "params": [],
+        "calibration": "对照：collections.defaultdict——缺失键返回默认值并登记",
+    },
+    "工具-排列组合": {
+        "task": "排列组合",
+        "pattern": (
+            "def permute_combine(items, r, op):\n"
+            "    # 排列组合：permutations 排列 / combinations 组合（有序/无序选取）\n"
+            "    from itertools import permutations, combinations\n"
+            "    if op == 'permutations':\n"
+            "        return list(permutations(items, r))\n"
+            "    if op == 'combinations':\n"
+            "        return list(combinations(items, r))\n"
+            "    return None\n"),
+        "cases": [
+            (([1, 2, 3], 2, 'permutations'), [(1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2)]),
+            (([1, 2, 3], 2, 'combinations'), [(1, 2), (1, 3), (2, 3)])],
+        "params": [],
+        "calibration": "对照：itertools.permutations/combinations——有序排列/无序组合",
+    },
+    "工具-二分查找": {
+        "task": "二分查找",
+        "pattern": (
+            "def binary_search(seq, target):\n"
+            "    # 二分查找：有序序列定位目标（折半查找）\n"
+            "    lo, hi = 0, len(seq) - 1\n"
+            "    while lo <= hi:\n"
+            "        mid = (lo + hi) // 2\n"
+            "        if seq[mid] == target:\n"
+            "            return mid\n"
+            "        if seq[mid] < target:\n"
+            "            lo = mid + 1\n"
+            "        else:\n"
+            "            hi = mid - 1\n"
+            "    return -1\n"),
+        "cases": [
+            (([1, 3, 5, 7, 9], 5), 2),
+            (([1, 3, 5, 7, 9], 8), -1),
+            (([], 1), -1),
+            (([2], 2), 0)],
+        "params": [],
+        "calibration": "对照：bisect——有序序列折半查找（命中索引/-1）",
+    },
 }
 
 
