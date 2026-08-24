@@ -4265,5 +4265,39 @@ try:
 except Exception as ex:
     check('㋙c 邻居→路径→三角形端到端（[1,2] [[0,1]] 1）', False, str(ex)[:60])
 
+# ㋚ 目标2 深化：VM 执行族（栈操作/算术执行/比较执行 经正式管线）
+c14_qs = {
+    "栈操作": "写一个栈操作单元（DUP SWAP）",
+    "算术执行": "写一个算术执行单元（栈机算术）",
+    "比较执行": "写一个比较执行单元（栈机比较）",
+}
+c14_ok = 0
+for label, q in c14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c14_ok += 1
+    check(f'㋚ {label} VM执行单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋚b VM执行三单元全部生成', c14_ok == 3, f'{c14_ok}/3')
+
+# ㋚c VM 端到端：栈操作→算术→比较（DUP2 ADD3 LT True）
+r_so = domain_route("写一个栈操作单元（DUP SWAP）")
+r_ae = domain_route("写一个算术执行单元（栈机算术）")
+r_ce = domain_route("写一个比较执行单元（栈机比较）")
+try:
+    ns_so, ns_ae, ns_ce = {}, {}, {}
+    exec(r_so["code"], ns_so)
+    exec(r_ae["code"], ns_ae)
+    exec(r_ce["code"], ns_ce)
+    so = ns_so["stack_ops"]([1, 2], 'DUP')
+    ae = ns_ae["arith_exec"]([1, 2], 'ADD')
+    ce = ns_ce["cmp_exec"]([1, 2], 'LT')
+    check('㋚c 栈→算术→比较端到端（2 3 True）',
+          so == 2 and ae == 3 and ce is True,
+          f'stack={so} arith={ae} cmp={ce}')
+except Exception as ex:
+    check('㋚c 栈→算术→比较端到端（2 3 True）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -1534,6 +1534,83 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：语法——函数签名参数列表（默认值剥离）",
     },
+    "VM-栈操作": {
+        "task": "栈操作",
+        "pattern": (
+            "def stack_ops(stack, op):\n"
+            "    # 栈操作：DUP 复制栈顶 / SWAP 交换栈顶两元素（栈指令）\n"
+            "    if op == 'DUP':\n"
+            "        if not stack:\n"
+            "            return None\n"
+            "        stack.append(stack[-1])\n"
+            "        return stack[-1]\n"
+            "    if op == 'SWAP':\n"
+            "        if len(stack) < 2:\n"
+            "            return None\n"
+            "        stack[-1], stack[-2] = stack[-2], stack[-1]\n"
+            "        return stack[-2]\n"
+            "    return None\n"),
+        "cases": [(([1, 2], 'DUP'), 2),
+                  (([1], 'DUP'), 1),
+                  (([1, 2], 'SWAP'), 2),
+                  (([], 'DUP'), None)],
+        "params": [],
+        "calibration": "对照：VM 栈指令——DUP 复制/SWAP 交换（栈机操作）",
+    },
+    "VM-算术执行": {
+        "task": "算术执行",
+        "pattern": (
+            "def arith_exec(stack, op):\n"
+            "    # 算术执行：弹出两操作数执行 ADD/SUB/MUL/DIV（栈机算术指令）\n"
+            "    if len(stack) < 2:\n"
+            "        return None\n"
+            "    b = stack.pop()\n"
+            "    a = stack.pop()\n"
+            "    if op == 'ADD':\n"
+            "        r = a + b\n"
+            "    elif op == 'SUB':\n"
+            "        r = a - b\n"
+            "    elif op == 'MUL':\n"
+            "        r = a * b\n"
+            "    elif op == 'DIV':\n"
+            "        r = a / b\n"
+            "    else:\n"
+            "        return None\n"
+            "    stack.append(r)\n"
+            "    return r\n"),
+        "cases": [(([1, 2], 'ADD'), 3),
+                  (([5, 2], 'SUB'), 3),
+                  (([3, 4], 'MUL'), 12),
+                  (([8, 2], 'DIV'), 4.0)],
+        "params": [],
+        "calibration": "对照：VM 算术指令——ADD/SUB/MUL/DIV（栈机执行）",
+    },
+    "VM-比较执行": {
+        "task": "比较执行",
+        "pattern": (
+            "def cmp_exec(stack, op):\n"
+            "    # 比较执行：弹出两操作数比较 LT/GT/EQ（栈机比较指令→布尔）\n"
+            "    if len(stack) < 2:\n"
+            "        return None\n"
+            "    b = stack.pop()\n"
+            "    a = stack.pop()\n"
+            "    if op == 'LT':\n"
+            "        r = a < b\n"
+            "    elif op == 'GT':\n"
+            "        r = a > b\n"
+            "    elif op == 'EQ':\n"
+            "        r = a == b\n"
+            "    else:\n"
+            "        return None\n"
+            "    stack.append(r)\n"
+            "    return r\n"),
+        "cases": [(([1, 2], 'LT'), True),
+                  (([3, 2], 'GT'), True),
+                  (([2, 2], 'EQ'), True),
+                  (([3, 2], 'LT'), False)],
+        "params": [],
+        "calibration": "对照：VM 比较指令——LT/GT/EQ（栈机比较→布尔）",
+    },
 }
 
 
