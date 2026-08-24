@@ -706,6 +706,58 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：容器生命周期——create/start/stop/remove（镜像→实例状态机）",
     },
+    "文件-RAID条带": {
+        "task": "RAID条带",
+        "pattern": (
+            "def raid_stripe(data, disks):\n"
+            "    # RAID 0：数据条带化（分块分布到多盘——并行读写）\n"
+            "    if not disks:\n"
+            "        return []\n"
+            "    return [data[i::disks] for i in range(disks)]\n"),
+        "cases": [((list('abcdef'), 2), [list('ace'), list('bdf')]),
+                  ((list('abc'), 1), [list('abc')]),
+                  ((list('ab'), 0), [])],
+        "params": [],
+        "calibration": "对照：RAID 0——数据条带化（分块分布，并行 I/O 语义）",
+    },
+    "文件-RAID奇偶校验": {
+        "task": "RAID奇偶",
+        "pattern": (
+            "def raid_parity(blocks):\n"
+            "    # RAID 5：XOR 奇偶校验（N-1 容错——单盘故障可恢复）\n"
+            "    parity = 0\n"
+            "    for b in blocks:\n"
+            "        parity ^= b\n"
+            "    return parity\n"),
+        "cases": [(([1, 2, 3],), 0),
+                  (([5, 3],), 6),
+                  (([7],), 7)],
+        "params": [],
+        "calibration": "对照：RAID 5——XOR 奇偶校验（任一数据盘故障可由其余+奇偶恢复）",
+    },
+    "文件-文件系统快照": {
+        "task": "文件快照",
+        "pattern": (
+            "def fs_snapshot(blocks, op, idx=None, data=None):\n"
+            "    # 文件系统快照：写时复制（修改前复制原块——快照一致性）\n"
+            "    if op == 'snap':\n"
+            "        blocks['snap'] = dict(blocks['data'])\n"
+            "        return 'snapped'\n"
+            "    if op == 'write':\n"
+            "        if 'snap' in blocks and idx not in blocks['snap']:\n"
+            "            blocks['snap'][idx] = blocks['data'][idx]  # 写时复制\n"
+            "        blocks['data'][idx] = data\n"
+            "        return blocks['data'][idx]\n"
+            "    if op == 'rollback':\n"
+            "        blocks['data'] = dict(blocks.get('snap', {}))\n"
+            "        return blocks['data']\n"
+            "    return None\n"),
+        "cases": [(({'data': {1: 'a'}}, 'snap'), 'snapped'),
+                  (({'data': {1: 'a'}, 'snap': {1: 'a'}}, 'write', 1, 'b'), 'b'),
+                  (({'data': {1: 'b'}, 'snap': {1: 'a'}}, 'rollback'), {1: 'a'})],
+        "params": [],
+        "calibration": "对照：文件系统快照——写时复制（修改前复制原块，可回滚）",
+    },
 }
 
 

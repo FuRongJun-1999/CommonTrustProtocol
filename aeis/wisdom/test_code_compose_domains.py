@@ -1484,5 +1484,43 @@ try:
 except Exception as ex:
     check('㊍c BGP→Anycast→CRC 端到端（AS5最短 就近a CRC1929）', False, str(ex)[:60])
 
+# ㊎ 目标4 深化：RAID/快照（条带/奇偶校验/文件快照 经正式管线）
+o11_qs = {
+    "RAID条带": "写一个 RAID 条带单元（分块分布）",
+    "RAID奇偶": "写一个 RAID 奇偶校验单元（XOR 容错）",
+    "文件快照": "写一个文件系统快照单元（写时复制）",
+}
+o11_ok = 0
+for label, q in o11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o11_ok += 1
+    check(f'㊎ {label} RAID/快照单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊎b RAID/快照三单元全部生成', o11_ok == 3, f'{o11_ok}/3')
+
+# ㊎c 端到端：条带→奇偶校验→快照回滚（存储冗余→容错→恢复）
+r_rs = domain_route("写一个 RAID 条带单元（分块分布）")
+r_rp = domain_route("写一个 RAID 奇偶校验单元（XOR 容错）")
+r_fs = domain_route("写一个文件系统快照单元（写时复制）")
+try:
+    ns_rs, ns_rp, ns_fs = {}, {}, {}
+    exec(r_rs["code"], ns_rs)
+    exec(r_rp["code"], ns_rp)
+    exec(r_fs["code"], ns_fs)
+    st = ns_rs["raid_stripe"](list('abcdef'), 2)
+    p = ns_rp["raid_parity"]([1, 2, 3])
+    fs = {'data': {1: 'a'}}
+    ns_fs["fs_snapshot"](fs, 'snap')
+    ns_fs["fs_snapshot"](fs, 'write', 1, 'b')
+    rb = ns_fs["fs_snapshot"](fs, 'rollback')
+    check('㊎c 条带→奇偶→快照端到端（ace/bdf 奇偶0 回滚a）',
+          st == [list('ace'), list('bdf')] and p == 0
+          and rb == {1: 'a'},
+          f'stripe={st} parity={p} rollback={rb}')
+except Exception as ex:
+    check('㊎c 条带→奇偶→快照端到端（ace/bdf 奇偶0 回滚a）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
