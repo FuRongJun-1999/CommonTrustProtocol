@@ -1009,7 +1009,10 @@ def _layer_work(query, scene):
     jacobian_steps = 0
     try:
         import numpy as np
-        from condition_algebra import build_influence_jacobian
+        try:
+            from condition_algebra import build_influence_jacobian
+        except ImportError:
+            from .condition_algebra import build_influence_jacobian
         J, knowledges, conditions = build_influence_jacobian(CONDITION_UNITS)
         if conditions:
             rng = np.random.default_rng(hash(scene) % (2**32))
