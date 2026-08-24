@@ -32,15 +32,19 @@ for uid, u in COMPILER_UNITS.items():
     # L2 样例自校验（运行生成函数断言）
     ns = {}
     exec(compile(tree, "<unit>", "exec"), ns)
-    fn = next((v for k, v in ns.items() if k.startswith("exec_") or
-               k.startswith("accumulate_") or k.startswith("condition_") or
-               k.startswith("compile_")), None)
+    fn_names = [n.name for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]
+    fn = ns[fn_names[0]] if fn_names else None
     l2_ok, detail = True, ""
     if fn:
         for args, expect in u["cases"]:
             try:
                 got = fn(*args) if isinstance(args, tuple) else fn(args)
-                if got != expect:
+                if isinstance(expect, dict) and isinstance(got, dict):
+                    # dict 期望：子集匹配（VM 执行循环返回状态 dict）
+                    if not all(got.get(k) == v for k, v in expect.items()):
+                        l2_ok, detail = False, f"{args} → {got} ⊉ {expect}"
+                        break
+                elif got != expect:
                     l2_ok, detail = False, f"{args} → {got!r} ≠ {expect!r}"
                     break
             except Exception as e:
@@ -71,6 +75,33 @@ if "VM-条件跳转" in generated and "VM-信任累积" in generated:
 # 校准③：任务识别
 check('校准③ 任务识别', route_compiler_unit("实现条件跳转") == "VM-条件跳转"
       and route_compiler_unit("信任累积怎么写") == "VM-信任累积", '')
+
+# 校准④：端到端组装管线——白箱生成单元组装「中文程序 → 编译 → VM 执行」
+def _fn(uid):
+    t = ast.parse(COMPILER_UNITS[uid]["pattern"])
+    ns = {}
+    exec(compile(t, "<u>", "exec"), ns)
+    return ns[[n.name for n in ast.walk(t) if isinstance(n, ast.FunctionDef)][0]]
+
+vm_run = _fn("VM-执行循环")
+compile_instr = _fn("编译-指令")
+instr_token = _fn("词法-道德经")
+check('校准④a 词法→编译→执行(道/德/止)',
+      instr_token("道") == "DAO" and compile_instr("DAO", "路径甲") == ("DAO", "路径甲"), '')
+prog = [("DAO", "新信任路径"), ("DE", "0.3"), ("DE", "0.5"), ("ZHI", None)]
+instrs = [compile_instr(k, v) for k, v in prog if compile_instr(k, v)]
+state = vm_run(instrs)
+check('校准④b 端到端(信任累积+条件空间+止)',
+      state["trust"] == 0.8 and state["cond"] == [{"name": "新信任路径"}]
+      and state["halt"] == "halt",
+      f'trust={state["trust"]} cond={state["cond"]} halt={state["halt"]}')
+# 若则端到端：条件为假跳过 then
+compile_condition = _fn("编译-若则")
+cond_code = compile_condition([("PUSH", False)], [("DE", 0.5)], [("DE", 0.1)])
+state2 = vm_run(cond_code)
+check('校准④c 端到端(若则假跳→else)',
+      state2["trust"] == 0.1 and state2["halt"] is None,
+      f'trust={state2["trust"]}（假→跳过 then 的 0.5 执行 else 的 0.1）')
 
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

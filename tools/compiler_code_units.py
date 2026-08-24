@@ -82,6 +82,121 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：赋值 = target = expr（名实对应）",
     },
+    "词法-道德经": {
+        "task": "道德经词法",
+        "pattern": (
+            "def instr_token(word):\n"
+            "    # 道德经助记符 → 指令 Token（白箱词法；未接入 VM 的指令诚实返回 None）\n"
+            "    m = {'道': 'DAO', '德': 'DE', '自然': 'ZIRAN', '无为': 'WUWEI',\n"
+            "         '止': 'ZHI', '知足': 'ZHIZU'}\n"
+            "    return m.get(word)\n"),
+        "cases": [("道", "DAO"), ("德", "DE"), ("止", "ZHI"), ("知足", "ZHIZU"),
+                  ("谷", None), ("随便", None)],
+        "params": [],
+        "calibration": "对照：TokenType 道德经助记符（道/德/自然/无为/谷/牝/柔/朴/止/知足）",
+    },
+    "词法-九章算术": {
+        "task": "九章算术",
+        "pattern": (
+            "def structure_token(text):\n"
+            "    # 九章算术结构：问曰/答曰/术曰 → (TokenType, 原文)\n"
+            "    for kw in ('问曰', '答曰', '术曰'):\n"
+            "        if text.startswith(kw):\n"
+            "            return (kw + '_STRUCT', kw)\n"
+            "    return None\n"),
+        "cases": [("问曰：如何验证", ("问曰_STRUCT", "问曰")),
+                  ("术曰：", ("术曰_STRUCT", "术曰")),
+                  ("答曰：信任值", ("答曰_STRUCT", "答曰")),
+                  ("随便文本", None)],
+        "params": [],
+        "calibration": "对照：TokenType WENYUE/DAYUE/SHUYUE（九章算术结构）",
+    },
+    "校验-名实": {
+        "task": "名实校验",
+        "pattern": (
+            "def check_names(required, declared):\n"
+            "    # 以名举实：要求的符号必须已声明（墨辩静态检查）\n"
+            "    return [s for s in required if s not in declared]\n"),
+        "cases": [((["a"], {"a": 1, "b": 2}), []),
+                  ((["a", "b"], {"a": 1}), ["b"]),
+                  (([], {}), [])],
+        "params": [],
+        "calibration": "对照：name_checker 以名举实（符号表→协议实体）",
+    },
+    "VM-执行循环": {
+        "task": "执行循环",
+        "pattern": (
+            "def vm_run(code, symbols=None, trust=0.0, cond_stack=None):\n"
+            "    # 智能论 VM 执行循环：ip 顺序执行；止/无为 = 控制流信号；名实不符报错\n"
+            "    ip, stack = 0, []\n"
+            "    symbols = dict(symbols or {})\n"
+            "    cond_stack = list(cond_stack or [])\n"
+            "    result = {'trust': trust, 'symbols': symbols, 'cond': cond_stack,\n"
+            "              'stack': [], 'halt': None, 'error': None}\n"
+            "    while ip < len(code):\n"
+            "        op, arg = code[ip]\n"
+            "        ip += 1\n"
+            "        if op == 'PUSH':\n"
+            "            stack.append(arg)\n"
+            "        elif op == 'STORE':\n"
+            "            symbols[arg] = stack.pop()\n"
+            "        elif op == 'LOAD':\n"
+            "            if arg not in symbols:\n"
+            "                result['error'] = '名实不符：' + arg\n"
+            "                break\n"
+            "            stack.append(symbols[arg])\n"
+            "        elif op == 'JUMP_IF_FALSE':\n"
+            "            v = stack.pop() if stack else False\n"
+            "            if v is False or v is None or v == 0:\n"
+            "                ip = arg\n"
+            "        elif op == 'JUMP':\n"
+            "            ip = arg\n"
+            "        elif op == 'DE':\n"
+            "            trust = round(trust + arg, 3)\n"
+            "        elif op == 'DAO':\n"
+            "            cond_stack.append({'name': arg})\n"
+            "        elif op == 'ZIRAN':\n"
+            "            while len(cond_stack) > 1:\n"
+            "                cond_stack.pop()\n"
+            "        elif op == 'ZHIZU':\n"
+            "            if trust >= arg[0]:\n"
+            "                ip = arg[1]\n"
+            "        elif op == 'ZHI':\n"
+            "            result['halt'] = 'halt'\n"
+            "            break\n"
+            "        elif op == 'WUWEI':\n"
+            "            result['halt'] = 'yield'\n"
+            "            break\n"
+            "    result['stack'] = list(stack)\n"
+            "    result['trust'] = trust\n"
+            "    return result\n"),
+        "cases": [(([("DE", 0.3), ("DE", 0.5)],), {"trust": 0.8}),
+                  (([("PUSH", False), ("JUMP_IF_FALSE", 3), ("DE", 0.5),
+                     ("DE", 0.2)],), {"trust": 0.2}),
+                  (([("DAO", "路径甲"), ("ZIRAN", None)],), {"cond": [{"name": "路径甲"}]}),
+                  (([("ZHI", None)],), {"halt": "halt"}),
+                  (([("WUWEI", None)],), {"halt": "yield"}),
+                  (([("LOAD", "未声明")],), {"error": "名实不符：未声明"})],
+        "params": [],
+        "calibration": "对照：condition_vm 执行循环（止=halt/无为=yield/名实不符=错误）",
+    },
+    "编译-指令": {
+        "task": "编译指令",
+        "pattern": (
+            "def compile_instr(kind, operand=None):\n"
+            "    # 道德经指令 AST → VM 指令（未接入 VM 的指令诚实返回 None）\n"
+            "    if kind == 'DAO':\n"
+            "        return ('DAO', operand or '无名路径')\n"
+            "    if kind == 'DE':\n"
+            "        return ('DE', float(operand or 0))\n"
+            "    if kind in ('ZIRAN', 'WUWEI', 'ZHI'):\n"
+            "        return (kind, None)\n"
+            "    return None\n"),
+        "cases": [(("DAO", "路径甲"), ("DAO", "路径甲")), (("DE", "0.5"), ("DE", 0.5)),
+                  (("ZHI", None), ("ZHI", None)), (("谷", "x"), None)],
+        "params": [],
+        "calibration": "对照：INSTRUCTION_MAP（道→create_path 等；未接入指令诚实边界）",
+    },
 }
 
 
