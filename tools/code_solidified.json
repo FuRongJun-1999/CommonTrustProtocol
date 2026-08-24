@@ -1708,5 +1708,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:browser|性能-渲染优化": {
+  "task": "渲染优化",
+  "unit": "性能-渲染优化",
+  "code": "def batch_update(updates):\n    # 渲染优化：批量 DOM 更新（合并多次修改为一次）\n    merged = {}\n    for u in updates:\n        merged[u['id']] = u['html']\n    return merged\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|性能-懒加载": {
+  "task": "懒加载",
+  "unit": "性能-懒加载",
+  "code": "def lazy_load(loads, viewport):\n    # 懒加载：视口内才加载（按需加载优化）\n    return [l for l in loads if l['pos'] <= viewport]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|性能-防抖节流": {
+  "task": "节流",
+  "unit": "性能-防抖节流",
+  "code": "def throttle(events, interval):\n    # 节流：限频执行（首个事件立即执行，后续间隔 ≥ interval）\n    last = -float('inf')\n    out = []\n    for e in events:\n        if e - last >= interval:\n            out.append(e)\n            last = e\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

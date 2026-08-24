@@ -2198,5 +2198,40 @@ try:
 except Exception as ex:
     check('㊠c 节点特征→图特征→推荐端到端（a出1 3节点2边 推荐[b,c]）', False, str(ex)[:60])
 
+# ㊡ 目标5 深化：性能优化（渲染优化/懒加载/防抖节流 经正式管线）
+b9_qs = {
+    "渲染优化": "写一个渲染优化单元（批量更新）",
+    "懒加载": "写一个懒加载单元（视口按需）",
+    "防抖节流": "写一个节流单元（限频执行）",
+}
+b9_ok = 0
+for label, q in b9_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b9_ok += 1
+    check(f'㊡ {label} 性能优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊡b 性能优化三单元全部生成', b9_ok == 3, f'{b9_ok}/3')
+
+# ㊡c 端到端：批量更新→懒加载→节流（渲染→加载→事件优化）
+r_bu = domain_route("写一个渲染优化单元（批量更新）")
+r_ll = domain_route("写一个懒加载单元（视口按需）")
+r_th = domain_route("写一个节流单元（限频执行）")
+try:
+    ns_bu, ns_ll, ns_th = {}, {}, {}
+    exec(r_bu["code"], ns_bu)
+    exec(r_ll["code"], ns_ll)
+    exec(r_th["code"], ns_th)
+    m = ns_bu["batch_update"]([{'id': 'a', 'html': 'x'}, {'id': 'a', 'html': 'y'}])
+    l = ns_ll["lazy_load"]([{'id': 'a', 'pos': 100}, {'id': 'b', 'pos': 500}], 300)
+    t = ns_th["throttle"]([0, 5, 10, 20], 10)
+    check('㊡c 批量→懒加载→节流端到端（合并a=y 加载a 限频[0,10,20]）',
+          m == {'a': 'y'} and len(l) == 1 and l[0]['id'] == 'a'
+          and t == [0, 10, 20],
+          f'batch={m} lazy={len(l)} throttle={t}')
+except Exception as ex:
+    check('㊡c 批量→懒加载→节流端到端（合并a=y 加载a 限频[0,10,20]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

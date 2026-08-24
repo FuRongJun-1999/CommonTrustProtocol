@@ -498,6 +498,52 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：IndexedDB——对象存储事务（put/get/delete 键值事务）",
     },
+    "性能-渲染优化": {
+        "task": "渲染优化",
+        "pattern": (
+            "def batch_update(updates):\n"
+            "    # 渲染优化：批量 DOM 更新（合并多次修改为一次）\n"
+            "    merged = {}\n"
+            "    for u in updates:\n"
+            "        merged[u['id']] = u['html']\n"
+            "    return merged\n"),
+        "cases": [(([{'id': 'a', 'html': 'x'}, {'id': 'a', 'html': 'y'},
+                     {'id': 'b', 'html': 'z'}],),
+                   {'a': 'y', 'b': 'z'}),
+                  (([],), {})],
+        "params": [],
+        "calibration": "对照：浏览器性能——批量 DOM 更新（合并修改减少重排）",
+    },
+    "性能-懒加载": {
+        "task": "懒加载",
+        "pattern": (
+            "def lazy_load(loads, viewport):\n"
+            "    # 懒加载：视口内才加载（按需加载优化）\n"
+            "    return [l for l in loads if l['pos'] <= viewport]\n"),
+        "cases": [(([{'id': 'a', 'pos': 100}, {'id': 'b', 'pos': 500}], 300),
+                   [{'id': 'a', 'pos': 100}]),
+                  (([{'id': 'a', 'pos': 50}], 100), [{'id': 'a', 'pos': 50}])],
+        "params": [],
+        "calibration": "对照：浏览器性能——懒加载（视口内才加载，按需优化）",
+    },
+    "性能-防抖节流": {
+        "task": "节流",
+        "pattern": (
+            "def throttle(events, interval):\n"
+            "    # 节流：限频执行（首个事件立即执行，后续间隔 ≥ interval）\n"
+            "    last = -float('inf')\n"
+            "    out = []\n"
+            "    for e in events:\n"
+            "        if e - last >= interval:\n"
+            "            out.append(e)\n"
+            "            last = e\n"
+            "    return out\n"),
+        "cases": [(([0, 5, 10, 20], 10), [0, 10, 20]),
+                  (([0, 1, 2], 5), [0]),
+                  (([], 5), [])],
+        "params": [],
+        "calibration": "对照：浏览器性能——节流（限频执行，减少高频事件处理）",
+    },
 }
 
 
