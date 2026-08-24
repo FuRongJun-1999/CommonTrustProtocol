@@ -3014,5 +3014,43 @@ try:
 except Exception as ex:
     check('㊶c 历史→书签→标签页端到端（后退a 书签h.com 切换0）', False, str(ex)[:60])
 
+# ㊷ 目标7 深化：网络工程（端口转发/QoS队列/链路聚合 经正式管线）
+n6_qs = {
+    "端口转发": "写一个端口转发单元（NAT 映射）",
+    "QoS": "写一个 QoS 队列单元（优先级出队）",
+    "链路聚合": "写一个链路聚合单元（多链路bonding）",
+}
+n6_ok = 0
+for label, q in n6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n6_ok += 1
+    check(f'㊷ {label} 网络工程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊷b 网络工程三单元全部生成', n6_ok == 3, f'{n6_ok}/3')
+
+# ㊷c 工程端到端：端口转发→QoS→链路聚合（8080映射 高优先f1 选最少链路2）
+r_pf = domain_route("写一个端口转发单元（NAT 映射）")
+r_qs = domain_route("写一个 QoS 队列单元（优先级出队）")
+r_la = domain_route("写一个链路聚合单元（多链路bonding）")
+try:
+    ns_pf, ns_qs, ns_la = {}, {}, {}
+    exec(r_pf["code"], ns_pf)
+    exec(r_qs["code"], ns_qs)
+    exec(r_la["code"], ns_la)
+    pf = ns_pf["port_forward"]({8080: ('192.168.1.10', 80)}, 'lookup', 8080)
+    ns_qs["qos_queue"]({}, 'enqueue', 'f1', 5)
+    q = {'high': ['f1']}
+    dq = ns_qs["qos_queue"](q, 'dequeue')
+    la = ns_la["link_aggregation"](
+        [{'id': 1, 'up': True, 'sent': 2}, {'id': 2, 'up': True, 'sent': 0}],
+        'send')
+    check('㊷c 端口→QoS→链路端到端（(内网,80) f1 链路2）',
+          pf == ('192.168.1.10', 80) and dq == 'f1' and la == 2,
+          f'pf={pf} qos={dq} link={la}')
+except Exception as ex:
+    check('㊷c 端口→QoS→链路端到端（(内网,80) f1 链路2）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -878,6 +878,84 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：TCP SACK——块确认只重传缺失段（高效丢包恢复）",
     },
+    "网络-端口转发": {
+        "task": "端口转发",
+        "pattern": (
+            "def port_forward(table, op, ext_port=None, int_host=None, int_port=None):\n"
+            "    # 端口转发：add 映射 / lookup 查询 / remove 删除（外网端口→内网）\n"
+            "    if op == 'add':\n"
+            "        table[ext_port] = (int_host, int_port)\n"
+            "        return 'added'\n"
+            "    if op == 'lookup':\n"
+            "        return table.get(ext_port)\n"
+            "    if op == 'remove':\n"
+            "        return table.pop(ext_port, None)\n"
+            "    return None\n"),
+        "cases": [(({}, 'add', 8080, '192.168.1.10', 80), 'added'),
+                  (({8080: ('192.168.1.10', 80)}, 'lookup', 8080),
+                   ('192.168.1.10', 80)),
+                  (({}, 'lookup', 8080), None),
+                  (({8080: ('h', 80)}, 'remove', 8080), ('h', 80))],
+        "params": [],
+        "calibration": "对照：NAT 端口转发——外网端口→内网主机端口映射（增删查）",
+    },
+    "网络-QoS队列": {
+        "task": "QoS队列",
+        "pattern": (
+            "def qos_queue(queues, op, flow=None, priority=None):\n"
+            "    # QoS 队列：classify 流量分类 / enqueue 按优先级入队 / dequeue 高优先先出\n"
+            "    if op == 'classify':\n"
+            "        return 'high' if priority and priority >= 3 else 'low'\n"
+            "    if op == 'enqueue':\n"
+            "        lvl = 'high' if priority and priority >= 3 else 'low'\n"
+            "        queues.setdefault(lvl, []).append(flow)\n"
+            "        return lvl\n"
+            "    if op == 'dequeue':\n"
+            "        for lvl in ('high', 'low'):\n"
+            "            q = queues.get(lvl)\n"
+            "            if q:\n"
+            "                return q.pop(0)\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [(({}, 'classify', None, 5), 'high'),
+                  (({}, 'classify', None, 1), 'low'),
+                  (({}, 'enqueue', 'f1', 5), 'high'),
+                  (({'high': ['f1']}, 'dequeue', None, None), 'f1'),
+                  (({}, 'dequeue', None, None), None)],
+        "params": [],
+        "calibration": "对照：网络 QoS——流量分类+优先级队列（高优先先出）",
+    },
+    "网络-链路聚合": {
+        "task": "链路聚合",
+        "pattern": (
+            "def link_aggregation(links, op, link_id=None, data=None):\n"
+            "    # 链路聚合：add 加链路 / send 选最少链路分发（负载均衡）/ fail 故障切换\n"
+            "    if op == 'add':\n"
+            "        links.append({'id': link_id, 'up': True, 'sent': 0})\n"
+            "        return len(links) - 1\n"
+            "    if op == 'send':\n"
+            "        up = [l for l in links if l['up']]\n"
+            "        if not up:\n"
+            "            return 'no_link'\n"
+            "        best = min(up, key=lambda l: l['sent'])\n"
+            "        best['sent'] += 1\n"
+            "        return best['id']\n"
+            "    if op == 'fail':\n"
+            "        for l in links:\n"
+            "            if l['id'] == link_id:\n"
+            "                l['up'] = False\n"
+            "                return 'failed'\n"
+            "        return 'missing'\n"
+            "    return None\n"),
+        "cases": [(([], 'add', 1), 0),
+                  (([{'id': 1, 'up': True, 'sent': 0}], 'send'), 1),
+                  (([{'id': 1, 'up': False}], 'send'), 'no_link'),
+                  (([{'id': 1, 'up': True, 'sent': 2},
+                     {'id': 2, 'up': True, 'sent': 0}], 'send'), 2),
+                  (([{'id': 1, 'up': True, 'sent': 0}], 'fail', 1), 'failed')],
+        "params": [],
+        "calibration": "对照：链路聚合 bonding——多链路负载均衡+故障切换",
+    },
 }
 
 

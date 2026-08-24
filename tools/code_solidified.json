@@ -2368,5 +2368,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:net|网络-端口转发": {
+  "task": "端口转发",
+  "unit": "网络-端口转发",
+  "code": "def port_forward(table, op, ext_port=None, int_host=None, int_port=None):\n    # 端口转发：add 映射 / lookup 查询 / remove 删除（外网端口→内网）\n    if op == 'add':\n        table[ext_port] = (int_host, int_port)\n        return 'added'\n    if op == 'lookup':\n        return table.get(ext_port)\n    if op == 'remove':\n        return table.pop(ext_port, None)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-QoS队列": {
+  "task": "QoS队列",
+  "unit": "网络-QoS队列",
+  "code": "def qos_queue(queues, op, flow=None, priority=None):\n    # QoS 队列：classify 流量分类 / enqueue 按优先级入队 / dequeue 高优先先出\n    if op == 'classify':\n        return 'high' if priority and priority >= 3 else 'low'\n    if op == 'enqueue':\n        lvl = 'high' if priority and priority >= 3 else 'low'\n        queues.setdefault(lvl, []).append(flow)\n        return lvl\n    if op == 'dequeue':\n        for lvl in ('high', 'low'):\n            q = queues.get(lvl)\n            if q:\n                return q.pop(0)\n        return None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-链路聚合": {
+  "task": "链路聚合",
+  "unit": "网络-链路聚合",
+  "code": "def link_aggregation(links, op, link_id=None, data=None):\n    # 链路聚合：add 加链路 / send 选最少链路分发（负载均衡）/ fail 故障切换\n    if op == 'add':\n        links.append({'id': link_id, 'up': True, 'sent': 0})\n        return len(links) - 1\n    if op == 'send':\n        up = [l for l in links if l['up']]\n        if not up:\n            return 'no_link'\n        best = min(up, key=lambda l: l['sent'])\n        best['sent'] += 1\n        return best['id']\n    if op == 'fail':\n        for l in links:\n            if l['id'] == link_id:\n                l['up'] = False\n                return 'failed'\n        return 'missing'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }
