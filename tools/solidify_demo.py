@@ -43,7 +43,7 @@ import subprocess
 probe = subprocess.run([sys.executable, '-c',
     "import sys; sys.path.insert(0, r'D:\\Program Files\\2_ai\\CommonTrustProtocol\\tools');"
     "import compose_engine as ce;"
-    "r = ce.route_compose('为什么铁勺会烫手？');"
+    "r = ce.route_compose('为什么金属勺放进热汤会烫手？');"
     "print('新进程加载 → 固化直答:', r.get('solidified'), '|', r['answer'][:40])"],
     capture_output=True, text=True, encoding='utf-8')
 print(f'\n⑥ 跨进程持久化: {probe.stdout.strip()}')

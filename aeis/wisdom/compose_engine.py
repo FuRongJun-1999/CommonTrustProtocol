@@ -121,6 +121,7 @@ CONDITION_UNITS = {
         "conclusion": {
             "浮": "{物体}密度比{液体}小 → 上浮（{液体}的浮力托住它）",
             "沉": "{物体}密度比{液体}大 → 下沉（{液体}浮力托不住它）",
+            "空心": "{物体}虽是钢铁（密度比水大），但内部空心 → 排水体积大 → 浮力=排开水的重力 → 浮着（阿基米德原理）",
         },
         "examples": ["铁块沉入水中", "木块浮在水面", "轮船浮着（空心等效密度小）", "鱼靠鱼鳔调节浮沉"],
         "domain": "密度与浮力",
@@ -332,21 +333,35 @@ def match_units_by_direction(direction, dims):
     return chain
 
 
-def generate_conclusion(unit, scene, facts, direction):
-    """③ 结论生成：单元结论模板 + 场景事实代入 → 新答案句（未预写）"""
+def generate_conclusion(unit, scene, facts, direction, query=""):
+    """③ 结论生成：单元结论模板 + 场景事实代入 → 新答案句（未预写）
+    v5b：query 传入用于蒸发模板按问题强调维度选（夏天→温度/有风→通风）"""
     conclusion = unit.get("conclusion", {})
     if not conclusion:
         return unit["default"]
-    # 选模板：气压效应按 低/高/标准 选；蒸发按事实维度选；其他按场景事实优先
+    # 选模板：气压效应按 低/高/标准 选；蒸发按问题强调维度选（v5b：LLM 对照回填）
     key = None
     temp = facts.get("温度", "")
     if unit["direction"] == "气压效应" and facts.get("气压") in ("低", "高", "标准"):
         key = facts["气压"]
     elif unit["direction"].startswith("液→气(缓慢)") and direction == "液→气(缓慢)":
-        for dim in ("温度", "表面积", "通风"):
-            if dim in facts and dim in conclusion:
-                key = dim
-                break
+        # 按问题强调的维度选：有风→通风 / 夏天热→温度 / 摊开→表面积
+        # （v5 教训：固定顺序会错配——「夏天晾衣」被通风抢答）
+        if any(w in query for w in ("风", "吹")):
+            key = "通风"
+        elif any(w in query for w in ("夏天", "热", "晒", "温度", "高温")):
+            key = "温度"
+        elif any(w in query for w in ("摊", "展开", "面积")):
+            key = "表面积"
+        else:
+            for dim in ("通风", "温度", "表面积"):
+                if dim in facts and dim in conclusion:
+                    key = dim
+                    break
+    elif unit["direction"] == "浮沉" and facts.get("原因") == "空心":
+        # v5（LLM 对照回填）：轮船是钢铁（密度比水大）但空心 → 排水体积大 → 浮
+        # （必须先于「浮沉」分支——否则 facts 浮沉=浮 先命中「密度小」模板）
+        key = "空心"
     elif unit["direction"] == "浮沉" and facts.get("浮沉") in conclusion:
         key = facts["浮沉"]
     elif unit["direction"] == "热传递" and facts.get("导热") in conclusion:
@@ -395,7 +410,7 @@ def compose_answer(query):
         return None, "无匹配单元（条件链不完整）", None, None, None
 
     facts = SCENE_FACTS.get(scene, {}) if scene else {}
-    answer = generate_conclusion(chain[0][1], scene, facts, direction)
+    answer = generate_conclusion(chain[0][1], scene, facts, direction, query)
     return scene, answer, chain, facts, direction
 
 
@@ -433,7 +448,7 @@ def reverse_condition(query):
     if uid is None:
         return None, "无逆转单元（诚实边界）", None, None
     unit = CONDITION_UNITS[uid]
-    answer = generate_conclusion(unit, scene, facts, None)
+    answer = generate_conclusion(unit, scene, facts, None, query)
     ok, checks = self_check(scene, answer, [(uid, unit)], facts, None, query)
     return scene, answer, ok, checks, rv.get("说明", "")
 
@@ -544,12 +559,15 @@ if _os.path.exists(_SOLIDIFY_FILE):
 
 
 def solidified_lookup(query):
-    """查固化层：原问法或触发词命中 → 已固化直答（含触发优先级）"""
+    """查固化层：原问法或触发词命中 → 已固化直答（含触发优先级）
+    v5（LLM 对照回填）：公共现象词不参与触发匹配——「烫手」会劫持
+    「木筷不烫手」问题（固化层误答金属勺，LLM 对照抓到的 bug）"""
+    _COMMON = {"烫手", "热汤", "热", "为什么", "怎么", "什么", "吗", "会", "能",
+               "干得快", "不烫", "快", "慢"}
     best = None
     for key, entry in SOLIDIFIED.items():
-        tr = entry.get("triggers") or []
+        tr = [t for t in (entry.get("triggers") or []) if t not in _COMMON]
         if any(t and t in query for t in tr):
-            # 最长触发词优先（「金属勺放进热汤」优于「金属」）
             tlen = max(len(t) for t in tr if t and t in query)
             if best is None or tlen > best[0]:
                 best = (tlen, entry)
