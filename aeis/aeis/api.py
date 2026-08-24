@@ -189,6 +189,45 @@ class Agent:
         except Exception:
             return []
 
+    # ---- 条件代数工程化（荣确认·影响雅可比图 v1.16）----
+    # 语义时空图 → 影响雅可比 J：causal/sequential 边 = ∂y/∂x（离散化）
+    # 条件链传播 = 雅可比幂（链式法则 dz/dx = dz/dy·dy/dx）
+
+    def influence_jacobian(self, max_nodes: int = 50) -> Tuple:
+        """语义时空图 → 影响雅可比矩阵 J（因果/时序边 = 影响雅可比结构）
+        返回 (J, node_ids)：J[j][i] = ∂node_j/∂node_i（i 影响 j 的强度=边置信）"""
+        try:
+            import numpy as np
+        except Exception:
+            return None, []
+        nodes = self.engine.store.query_nodes(limit=max_nodes)
+        ids = [n.id for n in nodes]
+        idx = {nid: i for i, nid in enumerate(ids)}
+        J = np.zeros((len(ids), len(ids)), dtype=np.float32)
+        for i, n in enumerate(nodes):
+            try:
+                for e in self.engine.store.get_outgoing_edges(n.id):
+                    if e.relation_type.value in ("causal", "sequential") \
+                            and e.target_id in idx:
+                        J[idx[e.target_id], i] = e.confidence
+            except Exception:
+                pass
+        return J, ids
+
+    def jacobian_chain(self, start_id: str, target_id: str,
+                       steps: int = 2) -> float:
+        """雅可比链式传播：J^steps[target][start] = 条件链组合（链式法则）
+        例：A→B(0.9)→C(0.85)，jacobian_chain(A,C,2) = 0.9×0.85 = 0.765"""
+        try:
+            import numpy as np
+        except Exception:
+            return -1.0
+        J, ids = self.influence_jacobian(max_nodes=200)
+        if J is None or start_id not in ids or target_id not in ids:
+            return -1.0
+        P = np.linalg.matrix_power(J, steps)
+        return float(P[ids.index(target_id), ids.index(start_id)])
+
     def reason(self, start_id: str, end_id: str = None,
                max_depth: int = 5) -> List:
         """因果推理：从起点出发的因果路径集合（List[List[STEdge]]）。"""
