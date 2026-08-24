@@ -2461,5 +2461,45 @@ try:
 except Exception as ex:
     check('㊧c 断点→回溯→监视端到端（命中True 链[f2,f1,main] watch甲=3）', False, str(ex)[:60])
 
+# ㊨ 目标4 深化：OS IPC 族（消息队列/共享内存/邮箱 经正式管线）
+o3_qs = {
+    "消息队列": "写一个 IPC 消息队列单元（类型投递）",
+    "共享内存": "写一个共享内存单元（物理页共享）",
+    "邮箱": "写一个邮箱单元（异步消息槽）",
+}
+o3_ok = 0
+for label, q in o3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o3_ok += 1
+    check(f'㊨ {label} OS IPC单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊨b OS IPC三单元全部生成', o3_ok == 3, f'{o3_ok}/3')
+
+# ㊨c IPC 端到端：消息队列→共享内存→邮箱（类型取甲 / 写65读65 / 投递2取FIFO）
+r_mq = domain_route("写一个 IPC 消息队列单元（类型投递）")
+r_sh = domain_route("写一个共享内存单元（物理页共享）")
+r_mb = domain_route("写一个邮箱单元（异步消息槽）")
+try:
+    ns_mq, ns_sh, ns_mb = {}, {}, {}
+    exec(r_mq["code"], ns_mq)
+    exec(r_sh["code"], ns_sh)
+    exec(r_mb["code"], ns_mb)
+    q = [(1, '甲'), (2, '乙')]
+    got_mq = ns_mq["msg_queue_ops"](q, 'recv', 1)
+    segs = {'k1': {'data': bytearray(4), 'refs': 1}}
+    ns_sh["shm_ops"](segs, 'k1', 'write', 2, 65)
+    got_sh = ns_sh["shm_ops"](segs, 'k1', 'read', 2)
+    mb = []
+    ns_mb["mailbox_ops"](mb, 'put', 'a')
+    ns_mb["mailbox_ops"](mb, 'put', 'b')
+    got_mb = ns_mb["mailbox_ops"](mb, 'get')
+    check('㊨c 消息队列→共享内存→邮箱端到端（(1,甲) 65 a）',
+          got_mq == (1, '甲') and got_sh == 65 and got_mb == 'a',
+          f'msg={got_mq} shm={got_sh} mailbox={got_mb}')
+except Exception as ex:
+    check('㊨c 消息队列→共享内存→邮箱端到端（(1,甲) 65 a）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

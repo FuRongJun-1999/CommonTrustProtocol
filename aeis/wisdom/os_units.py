@@ -1052,6 +1052,80 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：设备树——硬件拓扑节点（compatible 属性）",
     },
+    "IPC-消息队列": {
+        "task": "消息队列",
+        "pattern": (
+            "def msg_queue_ops(q, op, mtype=None, body=None):\n"
+            "    # 消息队列：send 按类型投递 / recv 按类型取最早 / count 统计\n"
+            "    # （SysV msg 语义：消息带类型，按类型取）\n"
+            "    if op == 'send':\n"
+            "        q.append((mtype, body))\n"
+            "        return len(q)\n"
+            "    if op == 'recv':\n"
+            "        for i, (t, b) in enumerate(q):\n"
+            "            if mtype is None or t == mtype:\n"
+            "                q.pop(i)\n"
+            "                return (t, b)\n"
+            "        return None\n"
+            "    if op == 'count':\n"
+            "        return len(q)\n"
+            "    return None\n"),
+        "cases": [(([], 'send', 1, '甲'), 1),
+                  (([(1, '甲'), (2, '乙')], 'recv', 1, None), (1, '甲')),
+                  (([], 'recv', None, None), None),
+                  (([(1, '甲')], 'count', None, None), 1)],
+        "params": [],
+        "calibration": "对照：OS IPC 消息队列——SysV msg（类型投递/按类型取最早）",
+    },
+    "IPC-共享内存": {
+        "task": "共享内存",
+        "pattern": (
+            "def shm_ops(segments, key, op, offset=0, value=None, size=0):\n"
+            "    # 共享内存：attach 挂接 / write 写偏移 / read 读偏移 / detach 释放\n"
+            "    # （多进程映射同一物理页，引用计数）\n"
+            "    if op == 'attach':\n"
+            "        if key not in segments:\n"
+            "            segments[key] = {'data': bytearray(size), 'refs': 0}\n"
+            "        segments[key]['refs'] += 1\n"
+            "        return segments[key]['refs']\n"
+            "    if op == 'write':\n"
+            "        segments[key]['data'][offset] = value\n"
+            "        return value\n"
+            "    if op == 'read':\n"
+            "        return segments[key]['data'][offset]\n"
+            "    if op == 'detach':\n"
+            "        segments[key]['refs'] -= 1\n"
+            "        return segments[key]['refs']\n"
+            "    return None\n"),
+        "cases": [(({}, 'k1', 'attach', 0, None, 8), 1),
+                  (({'k1': {'data': bytearray(4), 'refs': 1}}, 'k1',
+                    'write', 2, 65, 0), 65),
+                  (({'k1': {'data': bytearray([0, 0, 65, 0]), 'refs': 1}},
+                    'k1', 'read', 2, None, 0), 65),
+                  (({'k1': {'data': bytearray(4), 'refs': 2}}, 'k1',
+                    'detach', 0, None, 0), 1)],
+        "params": [],
+        "calibration": "对照：OS IPC 共享内存——attach/write/read/detach（物理页共享，引用计数）",
+    },
+    "IPC-邮箱": {
+        "task": "邮箱",
+        "pattern": (
+            "def mailbox_ops(mb, op, msg=None):\n"
+            "    # 邮箱：put 投递 / get 取最早（FIFO）/ 空返回 None\n"
+            "    # （异步消息槽，收发进程解耦）\n"
+            "    if op == 'put':\n"
+            "        mb.append(msg)\n"
+            "        return len(mb)\n"
+            "    if op == 'get':\n"
+            "        return mb.pop(0) if mb else None\n"
+            "    return None\n"),
+        "cases": [(([], 'put', '甲'), 1),
+                  (([], 'get', None), None),
+                  (([1, 2], 'get', None), 1),
+                  ((['甲'], 'put', '乙'), 2)],
+        "params": [],
+        "calibration": "对照：OS IPC 邮箱——异步消息槽（put 投递/get FIFO 取，进程解耦）",
+    },
 }
 
 

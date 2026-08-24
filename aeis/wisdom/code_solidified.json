@@ -1918,5 +1918,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:os|IPC-消息队列": {
+  "task": "消息队列",
+  "unit": "IPC-消息队列",
+  "code": "def msg_queue_ops(q, op, mtype=None, body=None):\n    # 消息队列：send 按类型投递 / recv 按类型取最早 / count 统计\n    # （SysV msg 语义：消息带类型，按类型取）\n    if op == 'send':\n        q.append((mtype, body))\n        return len(q)\n    if op == 'recv':\n        for i, (t, b) in enumerate(q):\n            if mtype is None or t == mtype:\n                q.pop(i)\n                return (t, b)\n        return None\n    if op == 'count':\n        return len(q)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|IPC-共享内存": {
+  "task": "共享内存",
+  "unit": "IPC-共享内存",
+  "code": "def shm_ops(segments, key, op, offset=0, value=None, size=0):\n    # 共享内存：attach 挂接 / write 写偏移 / read 读偏移 / detach 释放\n    # （多进程映射同一物理页，引用计数）\n    if op == 'attach':\n        if key not in segments:\n            segments[key] = {'data': bytearray(size), 'refs': 0}\n        segments[key]['refs'] += 1\n        return segments[key]['refs']\n    if op == 'write':\n        segments[key]['data'][offset] = value\n        return value\n    if op == 'read':\n        return segments[key]['data'][offset]\n    if op == 'detach':\n        segments[key]['refs'] -= 1\n        return segments[key]['refs']\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|IPC-邮箱": {
+  "task": "邮箱",
+  "unit": "IPC-邮箱",
+  "code": "def mailbox_ops(mb, op, msg=None):\n    # 邮箱：put 投递 / get 取最早（FIFO）/ 空返回 None\n    # （异步消息槽，收发进程解耦）\n    if op == 'put':\n        mb.append(msg)\n        return len(mb)\n    if op == 'get':\n        return mb.pop(0) if mb else None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
