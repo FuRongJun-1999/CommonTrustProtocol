@@ -307,7 +307,7 @@ PYTHON_UNITS = {
             "def raise_error(etype, msg):\n"
             "    # raise 语义：构造异常对象并抛出（Mini-Python 错误处理）\n"
             "    raise etype(msg)\n"),
-        "cases": [("call", None)],
+        "cases": [("call", ("raised", "测试错误"))],
         "params": [],
         "needs_inject": True,
         "calibration": "对照：Python raise（构造异常实例并抛出）",
@@ -321,7 +321,7 @@ PYTHON_UNITS = {
             "        return ('ok', risky())\n"
             "    except etype as err:\n"
             "        return ('caught', handler(err))\n"),
-        "cases": [("call", None)],
+        "cases": [("call", ('caught', '处理:除以零'))],
         "params": [],
         "needs_inject": True,
         "calibration": "对照：Python try/except（异常匹配 etype → 处理器；无异常 → ok）",
@@ -340,7 +340,7 @@ PYTHON_UNITS = {
             "    except etype as err:\n"
             "        return ('caught_at_outer', str(err))\n"
             "    return ('no_catch', None)\n"),
-        "cases": [("call", None)],
+        "cases": [("call", ('caught_at_outer', '深层错误'))],
         "params": [],
         "needs_inject": True,
         "calibration": "对照：Python 异常传播（内层 raise → 中间不处理 → 外层捕获）",
