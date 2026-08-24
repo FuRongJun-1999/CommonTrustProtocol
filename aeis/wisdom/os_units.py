@@ -1772,6 +1772,77 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：文件版本——版本历史保存/列表/取最新",
     },
+    "并发-条件变量": {
+        "task": "条件变量",
+        "pattern": (
+            "def cond_var(state, op, waiters=None):\n"
+            "    # 条件变量：wait 等待 / notify 通知一个 / notify_all 全部（条件同步）\n"
+            "    if op == 'wait':\n"
+            "        state.setdefault('waiting', []).append(waiters)\n"
+            "        return 'waiting'\n"
+            "    if op == 'notify':\n"
+            "        if state.get('waiting'):\n"
+            "            state['waiting'].pop(0)\n"
+            "            return 'notified'\n"
+            "        return 'none'\n"
+            "    if op == 'notify_all':\n"
+            "        n = len(state.get('waiting', []))\n"
+            "        state['waiting'] = []\n"
+            "        return n\n"
+            "    return None\n"),
+        "cases": [(({}, 'wait', 't1'), 'waiting'),
+                  (({'waiting': ['t1']}, 'notify'), 'notified'),
+                  (({}, 'notify'), 'none'),
+                  (({'waiting': ['t1', 't2']}, 'notify_all'), 2)],
+        "params": [],
+        "calibration": "对照：POSIX 条件变量——等待/通知（条件满足唤醒）",
+    },
+    "并发-自旋锁": {
+        "task": "自旋锁",
+        "pattern": (
+            "def spinlock(lock, op):\n"
+            "    # 自旋锁：acquire 忙等获取 / release 释放（锁状态）\n"
+            "    if op == 'acquire':\n"
+            "        if lock.get('held'):\n"
+            "            return 'busy'\n"
+            "        lock['held'] = True\n"
+            "        return 'acquired'\n"
+            "    if op == 'release':\n"
+            "        if lock.get('held'):\n"
+            "            lock['held'] = False\n"
+            "            return 'released'\n"
+            "        return 'not_held'\n"
+            "    return None\n"),
+        "cases": [(({}, 'acquire'), 'acquired'),
+                  (({'held': True}, 'acquire'), 'busy'),
+                  (({'held': True}, 'release'), 'released'),
+                  (({}, 'release'), 'not_held')],
+        "params": [],
+        "calibration": "对照：自旋锁——忙等获取/释放（短临界区）",
+    },
+    "调度-时间片轮转": {
+        "task": "抢占轮转",
+        "pattern": (
+            "def round_robin(ready, op, quantum=None, current=None):\n"
+            "    # 时间片轮转：run 执行队首 / preempt 时间片耗尽抢占回队尾（RR）\n"
+            "    if op == 'run':\n"
+            "        if not ready:\n"
+            "            return None\n"
+            "        return ready.pop(0)\n"
+            "    if op == 'preempt':\n"
+            "        if current is not None:\n"
+            "            ready.append(current)\n"
+            "        return len(ready)\n"
+            "    if op == 'status':\n"
+            "        return list(ready)\n"
+            "    return None\n"),
+        "cases": [(([], 'run'), None),
+                  (([1, 2], 'run'), 1),
+                  ((['t1'], 'preempt', None, 't2'), 2),
+                  (([1, 2], 'status'), [1, 2])],
+        "params": [],
+        "calibration": "对照：RR 时间片轮转——队首执行/时间片耗尽回队尾",
+    },
 }
 
 

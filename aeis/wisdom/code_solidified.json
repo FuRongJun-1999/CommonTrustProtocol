@@ -3898,5 +3898,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:os|并发-条件变量": {
+  "task": "条件变量",
+  "unit": "并发-条件变量",
+  "code": "def cond_var(state, op, waiters=None):\n    # 条件变量：wait 等待 / notify 通知一个 / notify_all 全部（条件同步）\n    if op == 'wait':\n        state.setdefault('waiting', []).append(waiters)\n        return 'waiting'\n    if op == 'notify':\n        if state.get('waiting'):\n            state['waiting'].pop(0)\n            return 'notified'\n        return 'none'\n    if op == 'notify_all':\n        n = len(state.get('waiting', []))\n        state['waiting'] = []\n        return n\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|并发-自旋锁": {
+  "task": "自旋锁",
+  "unit": "并发-自旋锁",
+  "code": "def spinlock(lock, op):\n    # 自旋锁：acquire 忙等获取 / release 释放（锁状态）\n    if op == 'acquire':\n        if lock.get('held'):\n            return 'busy'\n        lock['held'] = True\n        return 'acquired'\n    if op == 'release':\n        if lock.get('held'):\n            lock['held'] = False\n            return 'released'\n        return 'not_held'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|调度-时间片轮转": {
+  "task": "抢占轮转",
+  "unit": "调度-时间片轮转",
+  "code": "def round_robin(ready, op, quantum=None, current=None):\n    # 时间片轮转：run 执行队首 / preempt 时间片耗尽抢占回队尾（RR）\n    if op == 'run':\n        if not ready:\n            return None\n        return ready.pop(0)\n    if op == 'preempt':\n        if current is not None:\n            ready.append(current)\n        return len(ready)\n    if op == 'status':\n        return list(ready)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
