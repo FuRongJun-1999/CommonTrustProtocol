@@ -7,7 +7,10 @@
 import sys
 import numpy as np
 sys.stdout.reconfigure(encoding='utf-8')
-from scene_graph import CATEGORY_COLOR
+try:
+    from scene_graph import CATEGORY_COLOR
+except ImportError:
+    from .scene_graph import CATEGORY_COLOR
 
 
 class World3DCamera:
