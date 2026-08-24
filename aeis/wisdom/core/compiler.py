@@ -78,7 +78,10 @@ class Compiler:
     def _stmt(self, s):
         if s is None:
             return
-        if s.type == NodeType.SHUYUE:
+        if s.type == NodeType.BLOCK:
+            for st in s.statements:
+                self._stmt(st)
+        elif s.type == NodeType.SHUYUE:
             self._emit(Opcode.ENTER_SHUYUE)
             for step in s.steps:
                 self._stmt(step.statement)

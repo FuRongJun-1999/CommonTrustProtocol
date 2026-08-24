@@ -34,6 +34,7 @@ class NodeType(Enum):
     # === 语句 ===
     CONDITION_STMT = auto()    # 条件语句（若...则...）
     LOOP_STMT = auto()         # 循环语句（当...执行...）
+    BLOCK = auto()             # 语句块（多条顺序语句）
     ASSIGN_STMT = auto()       # 赋值语句
     INSTRUCTION_STMT = auto()  # 指令语句（道德经助记符）
     OPERATION_STMT = auto()    # 操作语句
@@ -126,9 +127,8 @@ class StepNode(ASTNode):
 
 @dataclass
 class ConditionStmtNode(ASTNode):
-    """条件语句：若 [条件] 则 [操作] [否则 [操作]]"""
-    def __init__(self, condition: ASTNode, then_body: ASTNode,
-                 else_body: Optional[ASTNode] = None,
+    """条件语句：若 [条件] 则 [操作] [否则 [操作]]（body 可为语句列表）"""
+    def __init__(self, condition: ASTNode, then_body, else_body=None,
                  line: int = 1, column: int = 1):
         super().__init__(NodeType.CONDITION_STMT, line, column)
         self.condition = condition
@@ -136,20 +136,29 @@ class ConditionStmtNode(ASTNode):
         self.else_body = else_body
         self.add_child(condition)
         self.add_child(then_body)
-        if else_body:
+        if else_body is not None:
             self.add_child(else_body)
 
 
 @dataclass
 class LoopStmtNode(ASTNode):
-    """循环语句：当 [条件] 执行 [操作]（while 语义，白箱循环语法）"""
-    def __init__(self, condition: ASTNode, body: ASTNode,
-                 line: int = 1, column: int = 1):
+    """循环语句：当 [条件] 执行 [操作]（while 语义，body 可为语句列表）"""
+    def __init__(self, condition: ASTNode, body, line: int = 1, column: int = 1):
         super().__init__(NodeType.LOOP_STMT, line, column)
         self.condition = condition
         self.body = body
         self.add_child(condition)
         self.add_child(body)
+
+
+@dataclass
+class BlockNode(ASTNode):
+    """语句块：多条顺序执行的语句（循环体/条件体多语句支持）"""
+    def __init__(self, statements, line: int = 1, column: int = 1):
+        super().__init__(NodeType.BLOCK, line, column)
+        self.statements = statements
+        for s in statements:
+            self.add_child(s)
 
 
 @dataclass
@@ -431,12 +440,12 @@ class Parser:
         
         self._consume(TokenType.ZE, "期望 '则'")
         
-        then_body = self._parse_statement_or_block()
+        then_body = self._parse_single_statement()
         
         else_body = None
         if self.current_token and self.current_token.type == TokenType.FOUZE:
             self._advance()
-            else_body = self._parse_statement_or_block()
+            else_body = self._parse_single_statement()
         
         return ConditionStmtNode(condition, then_body, else_body, start_line, start_col)
     
@@ -465,10 +474,36 @@ class Parser:
         ):
             self._advance()
     
-    def _parse_statement_or_block(self) -> Optional[ASTNode]:
-        """解析单个语句"""
+    def _parse_statement_or_block(self) -> Any:
+        """解析语句或块：返回语句列表（单语句=[stmt]；分号/句号分隔多条）
+        块内多条语句：`则 语句1；语句2；...`（支持循环体/条件体多语句）"""
+        stmts = []
+        while True:
+            stmt = self._parse_single_statement()
+            if stmt is not None:
+                stmts.append(stmt)
+            # 分隔符：分号/句号 → 继续收下一条；否则块结束
+            if self.current_token and self.current_token.type in (
+                    TokenType.SEMICOLON, TokenType.PERIOD, TokenType.COMMA):
+                self._advance()
+                # 分隔符后若是步骤号/块边界 → 块结束（九章算术步骤边界 1。…2。…）
+                if (self.current_token and
+                        self.current_token.type in (TokenType.NUMBER, TokenType.SHUYUE)):
+                    break
+                continue
+            break
+        if not stmts:
+            return None
+        if len(stmts) == 1:
+            return stmts[0]
+        return BlockNode(stmts, line=stmts[0].line, column=stmts[0].column)
+
+    def _parse_single_statement(self) -> Optional[ASTNode]:
+        """解析单条语句"""
         if self.current_token and self.current_token.type == TokenType.RUO:
             return self._parse_condition()
+        elif self.current_token and self.current_token.type == TokenType.DANG:
+            return self._parse_loop()
         elif self.current_token and self.current_token.type in self.INSTRUCTION_TOKENS:
             return self._parse_instruction()
         elif self.current_token and self.current_token.type == TokenType.IDENTIFIER:
@@ -479,7 +514,8 @@ class Parser:
             _STOP = (
                 TokenType.PERIOD, TokenType.COMMA, TokenType.SEMICOLON,
                 TokenType.WENYUE, TokenType.DAYUE, TokenType.SHUYUE,
-                TokenType.RUO, TokenType.FOUZE,
+                TokenType.RUO, TokenType.FOUZE, TokenType.DANG,
+                TokenType.ZHIXING,
             )
             while (self.current_token and
                    self.current_token.type not in _STOP and
