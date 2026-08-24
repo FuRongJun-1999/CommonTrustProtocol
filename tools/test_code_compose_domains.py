@@ -5085,5 +5085,41 @@ except Exception as ex:
     check('㋰c SCC→匹配→可达端到端（[[3],[1,2,0]] 3 True）',
           False, str(ex)[:60])
 
+# ㋱ 目标1 深化：P 线数据结构/语法（二叉树/迭代工具/字典合并 经正式管线）
+p15_qs = {
+    "二叉树": "写一个二叉树单元（中序遍历）",
+    "迭代工具": "写一个迭代工具单元（chain 拼接）",
+    "字典合并": "写一个字典合并单元（后者覆盖）",
+}
+p15_ok = 0
+for label, q in p15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p15_ok += 1
+    check(f'㋱ {label} P线数据结构/语法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋱b P线数据结构/语法三单元全部生成', p15_ok == 3, f'{p15_ok}/3')
+
+# ㋱c 数据结构端到端：二叉树→迭代→合并（[1,2,3] [1,2,3] 后者覆盖）
+r_bt = domain_route("写一个二叉树单元（中序遍历）")
+r_iu = domain_route("写一个迭代工具单元（chain 拼接）")
+r_dm = domain_route("写一个字典合并单元（后者覆盖）")
+try:
+    ns_bt, ns_iu, ns_dm = {}, {}, {}
+    exec(r_bt["code"], ns_bt)
+    exec(r_iu["code"], ns_iu)
+    exec(r_dm["code"], ns_dm)
+    root = ns_bt["btree_ops"]([3, 1, 2], 'build')
+    io = ns_bt["btree_ops"](root, 'inorder')
+    ch = ns_iu["iter_utils"]([[1, 2], [3]], 'chain')
+    dm = ns_dm["dict_merge"]({'a': 1}, {'a': 2})
+    check('㋱c 二叉树→迭代→合并端到端（[1,2,3] [1,2,3] {a:2}）',
+          io == [1, 2, 3] and ch == [1, 2, 3] and dm == {'a': 2},
+          f'in={io} chain={ch} merge={dm}')
+except Exception as ex:
+    check('㋱c 二叉树→迭代→合并端到端（[1,2,3] [1,2,3] {a:2}）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

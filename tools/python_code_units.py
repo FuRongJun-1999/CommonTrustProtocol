@@ -1321,6 +1321,76 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python raise ... from ...——异常链保留原因上下文",
     },
+    "数据结构-二叉树": {
+        "task": "二叉树",
+        "pattern": (
+            "def btree_ops(values, op):\n"
+            "    # 二叉树：build 有序列表→BST 插入 / inorder 中序遍历（二叉搜索树）\n"
+            "    def insert(node, v):\n"
+            "        if node is None:\n"
+            "            return {'v': v, 'l': None, 'r': None}\n"
+            "        if v < node['v']:\n"
+            "            node['l'] = insert(node['l'], v)\n"
+            "        else:\n"
+            "            node['r'] = insert(node['r'], v)\n"
+            "        return node\n"
+            "    def inorder(node):\n"
+            "        if node is None:\n"
+            "            return []\n"
+            "        return inorder(node['l']) + [node['v']] + inorder(node['r'])\n"
+            "    if op == 'build':\n"
+            "        root = None\n"
+            "        for v in values:\n"
+            "            root = insert(root, v)\n"
+            "        return root\n"
+            "    if op == 'inorder':\n"
+            "        return inorder(values)\n"
+            "    return None\n"),
+        "cases": [
+            (([3, 1, 2], 'build'), {'v': 3, 'l': {'v': 1, 'l': None, 'r': {'v': 2, 'l': None, 'r': None}}, 'r': None}),
+            (({'v': 2, 'l': {'v': 1, 'l': None, 'r': None}, 'r': {'v': 3, 'l': None, 'r': None}}, 'inorder'), [1, 2, 3]),
+            (([], 'build'), None)],
+        "params": [],
+        "calibration": "对照：二叉搜索树——插入构建 + 中序遍历（升序输出）",
+    },
+    "工具-迭代工具": {
+        "task": "迭代工具",
+        "pattern": (
+            "def iter_utils(seqs, op, n=None):\n"
+            "    # 迭代工具：chain 拼接 / take 取前 n 个 / zip 配对（itertools 语义）\n"
+            "    if op == 'chain':\n"
+            "        out = []\n"
+            "        for s in seqs:\n"
+            "            out.extend(s)\n"
+            "        return out\n"
+            "    if op == 'take':\n"
+            "        return list(seqs[0])[:n]\n"
+            "    if op == 'zip':\n"
+            "        return list(zip(*seqs))\n"
+            "    return None\n"),
+        "cases": [
+            (([[1, 2], [3]], 'chain'), [1, 2, 3]),
+            (([[1, 2, 3]], 'take', 2), [1, 2]),
+            (([[1, 2], ['a', 'b']], 'zip'), [(1, 'a'), (2, 'b')])],
+        "params": [],
+        "calibration": "对照：itertools——chain 拼接/take 截取/zip 配对",
+    },
+    "语法-字典合并": {
+        "task": "字典合并",
+        "pattern": (
+            "def dict_merge(*dicts):\n"
+            "    # 字典合并：多字典顺序合并（后者覆盖前者——| 运算符语义）\n"
+            "    out = {}\n"
+            "    for d in dicts:\n"
+            "        out.update(d)\n"
+            "    return out\n"),
+        "cases": [
+            (({'a': 1}, {'b': 2}), {'a': 1, 'b': 2}),
+            (({'a': 1}, {'a': 2}), {'a': 2}),
+            (({},), {})],
+        "params": [],
+        "calibration": "对照：Python 3.9 dict | 运算符——顺序合并后者覆盖",
+    },
 }
 
 
