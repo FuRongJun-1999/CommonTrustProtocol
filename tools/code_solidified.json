@@ -898,5 +898,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:compiler|词法-注释剥离": {
+  "task": "注释剥离",
+  "unit": "词法-注释剥离",
+  "code": "def strip_comments(src):\n    # 注释剥离：# 行注释 / 井号中文注释（词法预处理）\n    lines = []\n    for line in src.splitlines():\n        idx = line.find('#')\n        lines.append(line[:idx] if idx >= 0 else line)\n    return '\\n'.join(lines)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-逻辑表达式": {
+  "task": "逻辑表达式",
+  "unit": "编译-逻辑表达式",
+  "code": "def compile_logic(left_instrs, op, right_instrs):\n    # 逻辑表达式：且/或 → 短路跳转字节码（AND/OR 语义）\n    code = list(left_instrs)\n    if op == '且':\n        code.append(('JUMP_IF_FALSE', 0))  # 左假短路\n        code.extend(right_instrs)\n    else:  # 或\n        code.append(('JUMP_IF_TRUE', 0))   # 左真短路\n        code.extend(right_instrs)\n    return code\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-链式比较": {
+  "task": "链式比较",
+  "unit": "编译-链式比较",
+  "code": "def compile_chain(cmp1, cmp2):\n    # 链式比较：a < b < c → 比较1 且 比较2（AND 组合）\n    code = list(cmp1)\n    code.append(('JUMP_IF_FALSE', 0))  # 第一比较假 → 短路\n    code.extend(cmp2)\n    return code\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

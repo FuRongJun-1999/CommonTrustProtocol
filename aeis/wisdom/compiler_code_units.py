@@ -838,6 +838,59 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：C4 分析器字节码转储（可读调试输出）",
     },
+    "词法-注释剥离": {
+        "task": "注释剥离",
+        "pattern": (
+            "def strip_comments(src):\n"
+            "    # 注释剥离：# 行注释 / 井号中文注释（词法预处理）\n"
+            "    lines = []\n"
+            "    for line in src.splitlines():\n"
+            "        idx = line.find('#')\n"
+            "        lines.append(line[:idx] if idx >= 0 else line)\n"
+            "    return '\\n'.join(lines)\n"),
+        "cases": [("a = 1  # 赋值", 'a = 1  '),
+                  ("# 注释\nb = 2", '\nb = 2'),
+                  ("无注释", '无注释')],
+        "params": [],
+        "calibration": "对照：词法预处理——注释剥离（# 行注释，中文注释同语义）",
+    },
+    "编译-逻辑表达式": {
+        "task": "逻辑表达式",
+        "pattern": (
+            "def compile_logic(left_instrs, op, right_instrs):\n"
+            "    # 逻辑表达式：且/或 → 短路跳转字节码（AND/OR 语义）\n"
+            "    code = list(left_instrs)\n"
+            "    if op == '且':\n"
+            "        code.append(('JUMP_IF_FALSE', 0))  # 左假短路\n"
+            "        code.extend(right_instrs)\n"
+            "    else:  # 或\n"
+            "        code.append(('JUMP_IF_TRUE', 0))   # 左真短路\n"
+            "        code.extend(right_instrs)\n"
+            "    return code\n"),
+        "cases": [(([("LOAD", "a")], '且', [("LOAD", "b")]),
+                   [("LOAD", "a"), ("JUMP_IF_FALSE", 0), ("LOAD", "b")]),
+                  (([("LOAD", "a")], '或', [("LOAD", "b")]),
+                   [("LOAD", "a"), ("JUMP_IF_TRUE", 0), ("LOAD", "b")])],
+        "params": [],
+        "calibration": "对照：编译逻辑——且/或短路（左操作数决定是否求右——短路求值语义）",
+    },
+    "编译-链式比较": {
+        "task": "链式比较",
+        "pattern": (
+            "def compile_chain(cmp1, cmp2):\n"
+            "    # 链式比较：a < b < c → 比较1 且 比较2（AND 组合）\n"
+            "    code = list(cmp1)\n"
+            "    code.append(('JUMP_IF_FALSE', 0))  # 第一比较假 → 短路\n"
+            "    code.extend(cmp2)\n"
+            "    return code\n"),
+        "cases": [(([("LOAD", "a"), ("LOAD", "b"), ("CMP_LT", None)],
+                    [("LOAD", "b"), ("LOAD", "c"), ("CMP_LT", None)]),
+                   [("LOAD", "a"), ("LOAD", "b"), ("CMP_LT", None),
+                    ("JUMP_IF_FALSE", 0),
+                    ("LOAD", "b"), ("LOAD", "c"), ("CMP_LT", None)])],
+        "params": [],
+        "calibration": "对照：编译链式比较——a<b<c = (a<b) 且 (b<c)（短路组合，Python 链式语义）",
+    },
 }
 
 

@@ -1181,5 +1181,42 @@ try:
 except Exception as ex:
     check('㊃c 信号量→读写锁→生产消费端到端（P获取 读允写阻 生产1消费a）', False, str(ex)[:60])
 
+# ㊄ 目标2 深化：语言语义（注释剥离/逻辑表达式/链式比较 经正式管线）
+c4_qs = {
+    "注释剥离": "写一个注释剥离单元（井号行注释）",
+    "逻辑表达式": "写一个逻辑表达式编译单元（且或短路）",
+    "链式比较": "写一个链式比较编译单元（a b c）",
+}
+c4_ok = 0
+for label, q in c4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c4_ok += 1
+    check(f'㊄ {label} 语言语义单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊄b 语言语义三单元全部生成', c4_ok == 3, f'{c4_ok}/3')
+
+# ㊄c 端到端：注释剥离→逻辑编译→链式比较（预处理→短路→组合）
+r_sc = domain_route("写一个注释剥离单元（井号行注释）")
+r_lg = domain_route("写一个逻辑表达式编译单元（且或短路）")
+r_cc = domain_route("写一个链式比较编译单元（a b c）")
+try:
+    ns_sc, ns_lg, ns_cc = {}, {}, {}
+    exec(r_sc["code"], ns_sc)
+    exec(r_lg["code"], ns_lg)
+    exec(r_cc["code"], ns_cc)
+    clean = ns_sc["strip_comments"]('x = 1  # 注释\n止')
+    log = ns_lg["compile_logic"]([("LOAD", "a")], '且', [("LOAD", "b")])
+    chain = ns_cc["compile_chain"]([("LOAD", "a"), ("LOAD", "b"), ("CMP_LT", None)],
+                                   [("LOAD", "b"), ("LOAD", "c"), ("CMP_LT", None)])
+    check('㊄c 注释→逻辑→链式端到端（剥离注释 且短路 链式组合）',
+          clean == 'x = 1  \n止'
+          and log == [("LOAD", "a"), ("JUMP_IF_FALSE", 0), ("LOAD", "b")]
+          and chain[3] == ("JUMP_IF_FALSE", 0) and len(chain) == 7,
+          f'clean={clean!r} log={log} chain_len={len(chain)}')
+except Exception as ex:
+    check('㊄c 注释→逻辑→链式端到端（剥离注释 且短路 链式组合）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
