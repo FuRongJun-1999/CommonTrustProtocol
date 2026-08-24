@@ -56,6 +56,8 @@ for uid, u in GRAPH_UNITS.items():
                              "煮不熟": {"conditions": ["沸点降"]}}
                     got = fn(units)
                     got = got.neighbors("气压低")  # 期望输出：气压低 的后继
+                elif uid == "条件路由图-对接":
+                    got = len(fn(*args).nodes)  # 建图后节点数（单元+条件）
                 else:
                     got = fn(*args) if isinstance(args, tuple) else fn(args)
                 if got != expect:
@@ -91,6 +93,21 @@ if "图持久化-序列化" in generated:
 # 校准③：任务识别
 check('校准③ 任务识别', route_graph_unit("图遍历怎么做") == "图遍历-BFS"
       and route_graph_unit("图序列化") == "图持久化-序列化", '')
+
+# 校准④：真实条件单元库对接（compose_engine 43 单元 → 条件路由图 → 路由查询）
+if "条件路由图-对接" in generated:
+    db_ns = generated["条件路由图-对接"][0]
+    import compose_engine as ce
+    g = db_ns["build_from_condition_units"](ce.CONDITION_UNITS)
+    impact = db_ns["condition_impact"](g, "气压")
+    check('校准④a 真实条件单元建图(43单元)', len(ce.CONDITION_UNITS) >= 30
+          and len(g.nodes) > 30, f'{len(ce.CONDITION_UNITS)} 单元 → {len(g.nodes)} 节点')
+    check('校准④b 气压影响面含沸点-气压', "沸点-气压" in impact,
+          f'{len(impact)} 规律: {impact[:6]}…')
+    # 与 compose_engine 行为对照：气压条件确实驱动沸点-气压单元（高原煮饭）
+    r = ce.route_compose("为什么高原上煮饭不容易熟？")
+    check('校准④c 与compose行为对照', r.get("ok")
+          and "沸点" in r.get("answer", ""), r.get("answer", "")[:30])
 
 print(f'\n=== 图数据库白箱自举测试: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

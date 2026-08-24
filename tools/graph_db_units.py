@@ -195,6 +195,33 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：条件路由查询——条件 → 影响面（规律集合，compose 条件链组合的图查询形态）",
     },
+    "条件路由图-对接": {
+        "task": "条件单元对接",
+        "pattern": (
+            "def build_from_condition_units(units):\n"
+            "    # compose_engine.CONDITION_UNITS → 条件路由图（知识=单元，conditions=条件入边）\n"
+            "    g = Graph()\n"
+            "    for name, u in units.items():\n"
+            "        g.add_node(name)\n"
+            "        for c in u.get('conditions', []):\n"
+            "            g.add_edge(c, name)\n"
+            "    return g\n"
+            "def condition_impact(g, condition):\n"
+            "    # 条件 → 影响的知识单元（直接+间接——影响面）\n"
+            "    from collections import deque\n"
+            "    visited, queue = set(), deque([condition])\n"
+            "    while queue:\n"
+            "        cur = queue.popleft()\n"
+            "        for nxt in g.neighbors(cur):\n"
+            "            if nxt not in visited:\n"
+            "                visited.add(nxt)\n"
+            "                queue.append(nxt)\n"
+            "    return sorted(visited)\n"),
+        "cases": [(({"沸点-气压": {"conditions": ["气压"]},
+                     "密度-浮沉": {"conditions": ["物体", "液体"]}},), 5)],
+        "params": [],
+        "calibration": "对照：真实条件单元库（compose_engine 43 单元）→ 条件路由图（条件 → 影响的规律单元）",
+    },
 }
 
 
