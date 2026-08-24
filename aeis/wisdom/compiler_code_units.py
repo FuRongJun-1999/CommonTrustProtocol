@@ -1718,6 +1718,73 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：C4 覆盖率——指令覆盖百分比（测试充分性）",
     },
+    "编译-窥孔优化": {
+        "task": "窥孔优化",
+        "pattern": (
+            "def peephole_opt(instrs):\n"
+            "    # 窥孔优化：PUSH 0 + ADD → 弹出（冗余指令模式替换）\n"
+            "    out = []\n"
+            "    i = 0\n"
+            "    while i < len(instrs):\n"
+            "        if (i + 1 < len(instrs) and instrs[i] == ('PUSH', 0)\n"
+            "                and instrs[i + 1][0] == 'ADD'):\n"
+            "            i += 2\n"
+            "            continue\n"
+            "        out.append(instrs[i])\n"
+            "        i += 1\n"
+            "    return out\n"),
+        "cases": [(([("PUSH", 0), ("ADD", None), ("DE", 0.1)],),
+                   [("DE", 0.1)]),
+                  (([("PUSH", 1), ("ADD", None)],),
+                   [("PUSH", 1), ("ADD", None)]),
+                  (([],), [])],
+        "params": [],
+        "calibration": "对照：编译优化——窥孔（PUSH 0+ADD 冗余消除）",
+    },
+    "编译-指令融合": {
+        "task": "指令融合",
+        "pattern": (
+            "def fuse_load_store(instrs):\n"
+            "    # 指令融合：LOAD x + STORE x → MOV（复制指令融合）\n"
+            "    out = []\n"
+            "    i = 0\n"
+            "    while i < len(instrs):\n"
+            "        if (i + 1 < len(instrs) and instrs[i][0] == 'LOAD'\n"
+            "                and instrs[i + 1][0] == 'STORE'):\n"
+            "            out.append(('MOV', instrs[i][1], instrs[i + 1][1]))\n"
+            "            i += 2\n"
+            "            continue\n"
+            "        out.append(instrs[i])\n"
+            "        i += 1\n"
+            "    return out\n"),
+        "cases": [(([("LOAD", "甲"), ("STORE", "乙"), ("DE", 0.1)],),
+                   [("MOV", "甲", "乙"), ("DE", 0.1)]),
+                  (([("LOAD", "甲"), ("DE", 0.1)],),
+                   [("LOAD", "甲"), ("DE", 0.1)]),
+                  (([],), [])],
+        "params": [],
+        "calibration": "对照：编译优化——指令融合（LOAD+STORE→MOV）",
+    },
+    "编译-循环不变式": {
+        "task": "循环不变式",
+        "pattern": (
+            "def loop_invariant(body, invariant_ops):\n"
+            "    # 循环不变式：不变指令外提（循环外计算一次）\n"
+            "    loop_part = []\n"
+            "    hoisted = []\n"
+            "    for ins in body:\n"
+            "        if ins[0] in invariant_ops and ins not in loop_part:\n"
+            "            hoisted.append(ins)\n"
+            "        else:\n"
+            "            loop_part.append(ins)\n"
+            "    return hoisted, loop_part\n"),
+        "cases": [(([("PUSH", 3), ("DE", 0.1), ("LOAD", "i")], ('PUSH',)),
+                   ([("PUSH", 3)], [("DE", 0.1), ("LOAD", "i")])),
+                  (([("DE", 0.1)], ('DE',)), ([("DE", 0.1)], [])),
+                  (([], ('PUSH',)), ([], []))],
+        "params": [],
+        "calibration": "对照：编译优化——循环不变式外提（循环外计算）",
+    },
 }
 
 

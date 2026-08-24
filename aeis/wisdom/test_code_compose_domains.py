@@ -4685,5 +4685,40 @@ try:
 except Exception as ex:
     check('㋥c 模式→标签→模糊端到端（([0,1],matched) {甲,?} [(n1,1)]）', False, str(ex)[:60])
 
+# ㋦ 目标2 深化：优化族（窥孔优化/指令融合/循环不变式 经正式管线）
+c17_qs = {
+    "窥孔优化": "写一个窥孔优化单元（冗余消除）",
+    "指令融合": "写一个指令融合单元（LOAD STORE）",
+    "循环不变式": "写一个循环不变式单元（外提）",
+}
+c17_ok = 0
+for label, q in c17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c17_ok += 1
+    check(f'㋦ {label} 优化族单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋦b 优化族三单元全部生成', c17_ok == 3, f'{c17_ok}/3')
+
+# ㋦c 优化端到端：窥孔→融合→不变式（[DE] [MOV] 外提）
+r_po = domain_route("写一个窥孔优化单元（冗余消除）")
+r_ff = domain_route("写一个指令融合单元（LOAD STORE）")
+r_li = domain_route("写一个循环不变式单元（外提）")
+try:
+    ns_po, ns_ff, ns_li = {}, {}, {}
+    exec(r_po["code"], ns_po)
+    exec(r_ff["code"], ns_ff)
+    exec(r_li["code"], ns_li)
+    po = ns_po["peephole_opt"]([("PUSH", 0), ("ADD", None), ("DE", 0.1)])
+    ff = ns_ff["fuse_load_store"]([("LOAD", "甲"), ("STORE", "乙"), ("DE", 0.1)])
+    li = ns_li["loop_invariant"]([("PUSH", 3), ("DE", 0.1)], ('PUSH',))
+    check('㋦c 窥孔→融合→不变式端到端（[DE] [MOV] 外提PUSH）',
+          po == [("DE", 0.1)] and ff == [("MOV", "甲", "乙"), ("DE", 0.1)]
+          and li == ([("PUSH", 3)], [("DE", 0.1)]),
+          f'peep={po} fuse={ff} inv={li}')
+except Exception as ex:
+    check('㋦c 窥孔→融合→不变式端到端（[DE] [MOV] 外提PUSH）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

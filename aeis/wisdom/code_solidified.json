@@ -3778,5 +3778,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:compiler|编译-窥孔优化": {
+  "task": "窥孔优化",
+  "unit": "编译-窥孔优化",
+  "code": "def peephole_opt(instrs):\n    # 窥孔优化：PUSH 0 + ADD → 弹出（冗余指令模式替换）\n    out = []\n    i = 0\n    while i < len(instrs):\n        if (i + 1 < len(instrs) and instrs[i] == ('PUSH', 0)\n                and instrs[i + 1][0] == 'ADD'):\n            i += 2\n            continue\n        out.append(instrs[i])\n        i += 1\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-指令融合": {
+  "task": "指令融合",
+  "unit": "编译-指令融合",
+  "code": "def fuse_load_store(instrs):\n    # 指令融合：LOAD x + STORE x → MOV（复制指令融合）\n    out = []\n    i = 0\n    while i < len(instrs):\n        if (i + 1 < len(instrs) and instrs[i][0] == 'LOAD'\n                and instrs[i + 1][0] == 'STORE'):\n            out.append(('MOV', instrs[i][1], instrs[i + 1][1]))\n            i += 2\n            continue\n        out.append(instrs[i])\n        i += 1\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-循环不变式": {
+  "task": "循环不变式",
+  "unit": "编译-循环不变式",
+  "code": "def loop_invariant(body, invariant_ops):\n    # 循环不变式：不变指令外提（循环外计算一次）\n    loop_part = []\n    hoisted = []\n    for ins in body:\n        if ins[0] in invariant_ops and ins not in loop_part:\n            hoisted.append(ins)\n        else:\n            loop_part.append(ins)\n    return hoisted, loop_part\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }
