@@ -1835,6 +1835,90 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：BFS 可达性——条件链传导判定（起点→目标能否到达）",
     },
+    "图算法-传递闭包": {
+        "task": "传递闭包",
+        "pattern": (
+            "def transitive_closure(adj, n):\n"
+            "    # 传递闭包：Floyd-Warshall 布尔可达闭包（可达性矩阵）\n"
+            "    reach = [[False] * n for _ in range(n)]\n"
+            "    for i in range(n):\n"
+            "        reach[i][i] = True\n"
+            "    for u in adj:\n"
+            "        for v in adj[u]:\n"
+            "            reach[u][v] = True\n"
+            "    for k in range(n):\n"
+            "        for i in range(n):\n"
+            "            for j in range(n):\n"
+            "                reach[i][j] = reach[i][j] or (reach[i][k] and reach[k][j])\n"
+            "    return reach\n"),
+        "cases": [
+            (({0: [1], 1: [2]}, 3), [[True, True, True], [False, True, True], [False, False, True]]),
+            (({0: [1], 1: [0]}, 2), [[True, True], [True, True]]),
+            (({}, 2), [[True, False], [False, True]])],
+        "params": [],
+        "calibration": "对照：Floyd-Warshall——传递闭包（全节点可达矩阵）",
+    },
+    "图算法-图着色": {
+        "task": "图着色",
+        "pattern": (
+            "def greedy_coloring(adj):\n"
+            "    # 图着色：贪心按邻接已用色最小可用（顶点着色）\n"
+            "    colors = {}\n"
+            "    for u in adj:\n"
+            "        used = {colors[v] for v in adj[u] if v in colors}\n"
+            "        c = 0\n"
+            "        while c in used:\n"
+            "            c += 1\n"
+            "        colors[u] = c\n"
+            "    return colors\n"),
+        "cases": [
+            (({0: [1], 1: [0, 2], 2: [1]},), {0: 0, 1: 1, 2: 0}),
+            (({0: [1], 1: [0]},), {0: 0, 1: 1}),
+            (({},), {})],
+        "params": [],
+        "calibration": "对照：贪心顶点着色——邻接不冲突最小色（图着色）",
+    },
+    "图算法-最小割": {
+        "task": "最小割",
+        "pattern": (
+            "def min_cut(adj, s, t):\n"
+            "    # 最小割：最大流=最小割（BFS 找增广路累加容量）\n"
+            "    flow = 0\n"
+            "    cap = {u: dict(vs) for u, vs in adj.items()}\n"
+            "    while True:\n"
+            "        parent = {}\n"
+            "        q = [s]\n"
+            "        seen = {s}\n"
+            "        while q and t not in parent:\n"
+            "            u = q.pop(0)\n"
+            "            for v, c in cap.get(u, {}).items():\n"
+            "                if v not in seen and c > 0:\n"
+            "                    seen.add(v)\n"
+            "                    parent[v] = u\n"
+            "                    q.append(v)\n"
+            "        if t not in parent:\n"
+            "            break\n"
+            "        path_flow = float('inf')\n"
+            "        v = t\n"
+            "        while v != s:\n"
+            "            u = parent[v]\n"
+            "            path_flow = min(path_flow, cap[u][v])\n"
+            "            v = u\n"
+            "        v = t\n"
+            "        while v != s:\n"
+            "            u = parent[v]\n"
+            "            cap[u][v] -= path_flow\n"
+            "            cap.setdefault(v, {})[u] = cap.get(v, {}).get(u, 0) + path_flow\n"
+            "            v = u\n"
+            "        flow += path_flow\n"
+            "    return flow\n"),
+        "cases": [
+            (({0: {1: 3, 2: 2}, 1: {3: 2}, 2: {3: 4}}, 0, 3), 4),
+            (({0: {1: 5}, 1: {2: 5}}, 0, 2), 5),
+            (({0: {1: 2}, 1: {2: 1}}, 0, 2), 1)],
+        "params": [],
+        "calibration": "对照：最大流=最小割（Ford-Fulkerson BFS 增广路）",
+    },
 }
 
 

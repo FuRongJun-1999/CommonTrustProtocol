@@ -5265,5 +5265,41 @@ except Exception as ex:
     check('㋵c 风暴→保活→重排端到端（True True [a,b]）',
           False, str(ex)[:60])
 
+# ㋶ 目标6 深化：图算法（传递闭包/图着色/最小割 经正式管线）
+g28_qs = {
+    "传递闭包": "写一个传递闭包单元（可达矩阵）",
+    "图着色": "写一个图着色单元（顶点着色）",
+    "最小割": "写一个最小割单元（割容量）",
+}
+g28_ok = 0
+for label, q in g28_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g28_ok += 1
+    check(f'㋶ {label} 图算法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋶b 图算法三单元全部生成', g28_ok == 3, f'{g28_ok}/3')
+
+# ㋶c 算法端到端：闭包→着色→最小割（对角True {0:0,1:1,2:0} 4）
+r_tc = domain_route("写一个传递闭包单元（可达矩阵）")
+r_gc = domain_route("写一个图着色单元（顶点着色）")
+r_mc = domain_route("写一个最小割单元（割容量）")
+try:
+    ns_tc, ns_gc, ns_mc = {}, {}, {}
+    exec(r_tc["code"], ns_tc)
+    exec(r_gc["code"], ns_gc)
+    exec(r_mc["code"], ns_mc)
+    tc = ns_tc["transitive_closure"]({0: [1], 1: [2]}, 3)
+    gc = ns_gc["greedy_coloring"]({0: [1], 1: [0, 2], 2: [1]})
+    mc = ns_mc["min_cut"]({0: {1: 3, 2: 2}, 1: {3: 2}, 2: {3: 4}}, 0, 3)
+    check('㋶c 闭包→着色→最小割端到端（对角True {0:0,1:1,2:0} 4）',
+          tc == [[True, True, True], [False, True, True], [False, False, True]]
+          and gc == {0: 0, 1: 1, 2: 0} and mc == 4,
+          f'tc={tc} gc={gc} mc={mc}')
+except Exception as ex:
+    check('㋶c 闭包→着色→最小割端到端（对角True {0:0,1:1,2:0} 4）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
