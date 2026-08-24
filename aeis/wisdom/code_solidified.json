@@ -2158,5 +2158,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:browser|渲染-合成分层": {
+  "task": "合成分层",
+  "unit": "渲染-合成分层",
+  "code": "def composite_layers(layers, op, layer_id=None, content=None):\n    # 合成分层：add 加层 / update 更新层 / render 按 z 序合成（GPU 合成语义）\n    if op == 'add':\n        layers[layer_id] = content\n        return layer_id\n    if op == 'update':\n        if layer_id in layers:\n            layers[layer_id] = content\n            return 'updated'\n        return 'missing'\n    if op == 'render':\n        return [(lid, layers[lid]) for lid in sorted(layers)]\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-重排重绘": {
+  "task": "重排重绘",
+  "unit": "渲染-重排重绘",
+  "code": "def reflow_classify(change):\n    # 重排/重绘：几何属性→reflow（重排），外观属性→repaint（重绘）\n    # （渲染成本分类：重排更贵）\n    geometry = ['宽度', '高度', '位置', 'margin', 'padding', 'border']\n    if any(g in change for g in geometry):\n        return 'reflow'\n    return 'repaint'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|性能-关键渲染路径": {
+  "task": "关键渲染路径",
+  "unit": "性能-关键渲染路径",
+  "code": "def crp_advance(done, next_step):\n    # 关键渲染路径：按依赖顺序推进（DOM→CSSOM→布局→绘制→合成）\n    order = ['DOM', 'CSSOM', '布局', '绘制', '合成']\n    if next_step not in order:\n        return 'unknown', done\n    need = order.index(next_step)\n    if done >= need:\n        return 'advance', need + 1\n    return 'blocked', done\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

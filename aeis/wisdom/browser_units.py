@@ -605,6 +605,66 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：PWA beforeinstallprompt——捕获/展示/接受/拒绝（安装事件流）",
     },
+    "渲染-合成分层": {
+        "task": "合成分层",
+        "pattern": (
+            "def composite_layers(layers, op, layer_id=None, content=None):\n"
+            "    # 合成分层：add 加层 / update 更新层 / render 按 z 序合成（GPU 合成语义）\n"
+            "    if op == 'add':\n"
+            "        layers[layer_id] = content\n"
+            "        return layer_id\n"
+            "    if op == 'update':\n"
+            "        if layer_id in layers:\n"
+            "            layers[layer_id] = content\n"
+            "            return 'updated'\n"
+            "        return 'missing'\n"
+            "    if op == 'render':\n"
+            "        return [(lid, layers[lid]) for lid in sorted(layers)]\n"
+            "    return None\n"),
+        "cases": [(({}, 'add', 'bg', '白'), 'bg'),
+                  (({'bg': '白'}, 'update', 'bg', '蓝'), 'updated'),
+                  (({'a': '1', 'b': '2'}, 'render', None, None),
+                   [('a', '1'), ('b', '2')]),
+                  (({}, 'update', 'x', '红'), 'missing')],
+        "params": [],
+        "calibration": "对照：浏览器渲染——合成分层（独立图层 z 序合成，滚动不重绘）",
+    },
+    "渲染-重排重绘": {
+        "task": "重排重绘",
+        "pattern": (
+            "def reflow_classify(change):\n"
+            "    # 重排/重绘：几何属性→reflow（重排），外观属性→repaint（重绘）\n"
+            "    # （渲染成本分类：重排更贵）\n"
+            "    geometry = ['宽度', '高度', '位置', 'margin', 'padding', 'border']\n"
+            "    if any(g in change for g in geometry):\n"
+            "        return 'reflow'\n"
+            "    return 'repaint'\n"),
+        "cases": [(('宽度 100',), 'reflow'),
+                  (('margin 5',), 'reflow'),
+                  (('颜色 红',), 'repaint'),
+                  (('背景 蓝',), 'repaint')],
+        "params": [],
+        "calibration": "对照：浏览器渲染——重排/重绘（几何→reflow 贵，外观→repaint）",
+    },
+    "性能-关键渲染路径": {
+        "task": "关键渲染路径",
+        "pattern": (
+            "def crp_advance(done, next_step):\n"
+            "    # 关键渲染路径：按依赖顺序推进（DOM→CSSOM→布局→绘制→合成）\n"
+            "    order = ['DOM', 'CSSOM', '布局', '绘制', '合成']\n"
+            "    if next_step not in order:\n"
+            "        return 'unknown', done\n"
+            "    need = order.index(next_step)\n"
+            "    if done >= need:\n"
+            "        return 'advance', need + 1\n"
+            "    return 'blocked', done\n"),
+        "cases": [((1, 'CSSOM'), ('advance', 2)),
+                  ((1, '布局'), ('blocked', 1)),
+                  ((4, '合成'), ('advance', 5)),
+                  ((0, 'DOM'), ('advance', 1))],
+        "params": [],
+        "calibration": "对照：浏览器性能——关键渲染路径（CRP 依赖序推进，缺前置阻塞）",
+    },
 }
 
 

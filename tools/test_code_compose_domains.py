@@ -2760,5 +2760,44 @@ try:
 except Exception as ex:
     check('㊯c Kruskal→二分→中心性端到端（代价3 线True三角False 中心{0:1.0}）', False, str(ex)[:60])
 
+# ㊰ 目标5 深化：浏览器渲染/性能（合成分层/重排重绘/关键渲染路径 经正式管线）
+b4_qs = {
+    "合成分层": "写一个合成分层单元（z序合成）",
+    "重排重绘": "写一个重排重绘单元（成本分类）",
+    "关键渲染路径": "写一个关键渲染路径单元（依赖推进）",
+}
+b4_ok = 0
+for label, q in b4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b4_ok += 1
+    check(f'㊰ {label} 浏览器渲染/性能单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊰b 浏览器渲染/性能三单元全部生成', b4_ok == 3, f'{b4_ok}/3')
+
+# ㊰c 渲染端到端：合成分层→重排分类→CRP（加层z序 宽度reflow 颜色repaint 缺CSSOM阻塞）
+r_cl = domain_route("写一个合成分层单元（z序合成）")
+r_rf = domain_route("写一个重排重绘单元（成本分类）")
+r_cp = domain_route("写一个关键渲染路径单元（依赖推进）")
+try:
+    ns_cl, ns_rf, ns_cp = {}, {}, {}
+    exec(r_cl["code"], ns_cl)
+    exec(r_rf["code"], ns_rf)
+    exec(r_cp["code"], ns_cp)
+    layers = {}
+    ns_cl["composite_layers"](layers, 'add', 'bg', '白')
+    ns_cl["composite_layers"](layers, 'add', 'txt', '黑')
+    comp = ns_cl["composite_layers"](layers, 'render')
+    rf = ns_rf["reflow_classify"]('宽度 100')
+    rp = ns_rf["reflow_classify"]('颜色 红')
+    crp = ns_cp["crp_advance"](1, '布局')
+    check('㊰c 分层→重排→CRP端到端（z序[bg,txt] reflow repaint 缺CSSOM阻塞）',
+          comp == [('bg', '白'), ('txt', '黑')] and rf == 'reflow'
+          and rp == 'repaint' and crp == ('blocked', 1),
+          f'comp={comp} rf={rf} rp={rp} crp={crp}')
+except Exception as ex:
+    check('㊰c 分层→重排→CRP端到端（z序[bg,txt] reflow repaint 缺CSSOM阻塞）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
