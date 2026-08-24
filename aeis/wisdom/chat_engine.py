@@ -719,12 +719,15 @@ def _cond_analysis(message):
 
 
 def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
-         memory_recall_fn=None):
+         memory_recall_fn=None, role_ctx=None):
     """普通人对话编排。返回 {reply, hits, emotion, matched, honest}
     prefeed_fn: 可选注入的海马体前馈（灵枢 prefeed_input），
     真问题（非闲聊/非情感）先过新奇检测 → 高新奇当场强化编码。
     memory_recall_fn: 可选注入的长期记忆召回（灵枢 session_recall），
-    「记得/刚才」优先查长期层（跨 session 持久）。"""
+    「记得/刚才」优先查长期层（跨 session 持久）。
+    role_ctx: v1.29（角色条件路由）——角色扮演=带条件的知识问答，条件=当前角色。
+    角色条件生效时，问法路由到角色知识域（ROLE_CLUSTERS[role_ctx]），
+    角色知识域未覆盖的问法落回通用域（角色不污染通用、通用不泄漏角色）。"""
     message = (message or "").strip()
     if not message:
         return {"reply": "我在呢，想说点什么？", "hits": [], "emotion": None}
@@ -748,6 +751,21 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
             return {"reply": _INJ_HINTS[_inj_kind], "hits": [],
                     "emotion": None, "honest": True,
                     "honest_kind": "injection_" + _inj_kind}
+
+    # 0. 角色条件路由（v1.29）：角色知识域优先——条件=当前角色。
+    # 触发词命中角色簇 → 角色直答（身份/住处/食物/特征/闲聊，全部角色化）。
+    # 角色知识域是条件路由表条目：角色条件 → 角色知识；未覆盖落回通用域。
+    if role_ctx:
+        try:
+            import semantic_translate as _st_role
+            _rcl = _st_role.ROLE_CLUSTERS.get(role_ctx, {})
+            for _trig, _rans in _rcl.items():
+                if _trig in message:
+                    return {"reply": _rans, "hits": [], "emotion": None,
+                            "honest": False, "role_reply": True,
+                            "role": role_ctx, "role_trigger": _trig}
+        except Exception:
+            pass
 
     # 0. COND-ANALYSIS 元操作（爸爸：任何任务必须先走白箱条件判断一次）
     # 分层/路由是分析的输出（nature），不是预先声明的静态规则

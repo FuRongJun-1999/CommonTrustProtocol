@@ -366,7 +366,8 @@ class LingshuChat:
                     self.dex, message, session_id=ctx_key,
                     memory=self._session_ctx,
                     memory_recall_fn=None,
-                    prefeed_fn=self._prefeed)
+                    prefeed_fn=self._prefeed,
+                    role_ctx=rid)   # v1.29：角色条件路由——角色场景白箱角色化
                 # 白箱直接回答（非任务）：诚实边界/自省/闲聊/追源/知识
                 if w.get("reply"):
                     is_task = w.get("task_reply") and w.get("route") == "llm"
