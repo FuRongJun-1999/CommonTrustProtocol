@@ -3328,5 +3328,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:browser|浏览器-预加载": {
+  "task": "预加载",
+  "unit": "浏览器-预加载",
+  "code": "def preload_ops(preloads, op, url=None, kind=None):\n    # 预加载：add 登记预加载资源 / use 命中使用 / stats 统计（preload）\n    if op == 'add':\n        preloads[url] = {'kind': kind, 'used': False}\n        return url\n    if op == 'use':\n        if url in preloads:\n            preloads[url]['used'] = True\n            return 'hit'\n        return 'miss'\n    if op == 'stats':\n        used = sum(1 for p in preloads.values() if p['used'])\n        return {'total': len(preloads), 'used': used}\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-请求合并": {
+  "task": "请求合并",
+  "unit": "浏览器-请求合并",
+  "code": "def batch_requests(batches, op, batch_id=None, urls=None):\n    # 请求合并：create 建批 / add 加入 / count 计数（多请求合并成批）\n    if op == 'create':\n        batches[batch_id] = []\n        return batch_id\n    if op == 'add':\n        batches[batch_id].extend(urls)\n        return len(batches[batch_id])\n    if op == 'count':\n        return len(batches.get(batch_id, []))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-资源优先级": {
+  "task": "资源优先级",
+  "unit": "浏览器-资源优先级",
+  "code": "def resource_priority(resources, op, url=None, kind=None):\n    # 资源优先级：register 登记类型 / priority 查询（关键 CSS/JS 优先）\n    if op == 'register':\n        resources[url] = kind\n        return kind\n    if op == 'priority':\n        kind = resources.get(url)\n        order = {'script': 3, 'style': 2, 'image': 1}\n        return order.get(kind, 0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

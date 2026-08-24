@@ -4162,5 +4162,40 @@ try:
 except Exception as ex:
     check('㋖c 标识符→操作符→签名端到端（IDENT甲变量 >= [甲,乙]）', False, str(ex)[:60])
 
+# ㋗ 目标5 深化：性能优化（预加载/请求合并/资源优先级 经正式管线）
+b9_qs = {
+    "预加载": "写一个预加载单元（提前加载）",
+    "请求合并": "写一个请求合并单元（批量传输）",
+    "资源优先级": "写一个资源优先级单元（关键优先）",
+}
+b9_ok = 0
+for label, q in b9_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b9_ok += 1
+    check(f'㋗ {label} 性能优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋗b 性能优化三单元全部生成', b9_ok == 3, f'{b9_ok}/3')
+
+# ㋗c 性能端到端：预加载→请求合并→优先级（hit 2 脚本3）
+r_pl = domain_route("写一个预加载单元（提前加载）")
+r_bq = domain_route("写一个请求合并单元（批量传输）")
+r_rp = domain_route("写一个资源优先级单元（关键优先）")
+try:
+    ns_pl, ns_bq, ns_rp = {}, {}, {}
+    exec(r_pl["code"], ns_pl)
+    exec(r_bq["code"], ns_bq)
+    exec(r_rp["code"], ns_rp)
+    pl = ns_pl["preload_ops"](
+        {'/a.css': {'kind': 'style', 'used': False}}, 'use', '/a.css')
+    bq = ns_bq["batch_requests"]({'b1': []}, 'add', 'b1', ['/a', '/b'])
+    rp = ns_rp["resource_priority"]({'/app.js': 'script'}, 'priority', '/app.js')
+    check('㋗c 预加载→合并→优先级端到端（hit 2 3）',
+          pl == 'hit' and bq == 2 and rp == 3,
+          f'preload={pl} batch={bq} prio={rp}')
+except Exception as ex:
+    check('㋗c 预加载→合并→优先级端到端（hit 2 3）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

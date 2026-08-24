@@ -962,6 +962,73 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：Fullscreen API——元素全屏进入/退出",
     },
+    "浏览器-预加载": {
+        "task": "预加载",
+        "pattern": (
+            "def preload_ops(preloads, op, url=None, kind=None):\n"
+            "    # 预加载：add 登记预加载资源 / use 命中使用 / stats 统计（preload）\n"
+            "    if op == 'add':\n"
+            "        preloads[url] = {'kind': kind, 'used': False}\n"
+            "        return url\n"
+            "    if op == 'use':\n"
+            "        if url in preloads:\n"
+            "            preloads[url]['used'] = True\n"
+            "            return 'hit'\n"
+            "        return 'miss'\n"
+            "    if op == 'stats':\n"
+            "        used = sum(1 for p in preloads.values() if p['used'])\n"
+            "        return {'total': len(preloads), 'used': used}\n"
+            "    return None\n"),
+        "cases": [(({}, 'add', '/a.css', 'style'), '/a.css'),
+                  (({'/a.css': {'kind': 'style', 'used': False}},
+                    'use', '/a.css'), 'hit'),
+                  (({}, 'use', '/a.css'), 'miss'),
+                  (({'/a.css': {'kind': 'style', 'used': True}},
+                    'stats'), {'total': 1, 'used': 1})],
+        "params": [],
+        "calibration": "对照：preload——关键资源提前加载（命中统计）",
+    },
+    "浏览器-请求合并": {
+        "task": "请求合并",
+        "pattern": (
+            "def batch_requests(batches, op, batch_id=None, urls=None):\n"
+            "    # 请求合并：create 建批 / add 加入 / count 计数（多请求合并成批）\n"
+            "    if op == 'create':\n"
+            "        batches[batch_id] = []\n"
+            "        return batch_id\n"
+            "    if op == 'add':\n"
+            "        batches[batch_id].extend(urls)\n"
+            "        return len(batches[batch_id])\n"
+            "    if op == 'count':\n"
+            "        return len(batches.get(batch_id, []))\n"
+            "    return None\n"),
+        "cases": [(({}, 'create', 'b1'), 'b1'),
+                  (({'b1': []}, 'add', 'b1', ['/a', '/b']), 2),
+                  (({'b1': ['/a']}, 'count', 'b1'), 1),
+                  (({}, 'count', 'b1'), 0)],
+        "params": [],
+        "calibration": "对照：请求合并——多请求成批传输（减少往返）",
+    },
+    "浏览器-资源优先级": {
+        "task": "资源优先级",
+        "pattern": (
+            "def resource_priority(resources, op, url=None, kind=None):\n"
+            "    # 资源优先级：register 登记类型 / priority 查询（关键 CSS/JS 优先）\n"
+            "    if op == 'register':\n"
+            "        resources[url] = kind\n"
+            "        return kind\n"
+            "    if op == 'priority':\n"
+            "        kind = resources.get(url)\n"
+            "        order = {'script': 3, 'style': 2, 'image': 1}\n"
+            "        return order.get(kind, 0)\n"
+            "    return None\n"),
+        "cases": [(({}, 'register', '/app.js', 'script'), 'script'),
+                  (({'/app.js': 'script'}, 'priority', '/app.js'), 3),
+                  (({'/a.css': 'style'}, 'priority', '/a.css'), 2),
+                  (({}, 'priority', '/x'), 0)],
+        "params": [],
+        "calibration": "对照：资源优先级——关键脚本/样式优先加载",
+    },
 }
 
 
