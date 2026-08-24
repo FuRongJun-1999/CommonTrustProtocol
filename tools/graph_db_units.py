@@ -1443,6 +1443,86 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：条件路由图——信息差收敛（逐节点减半，路由推进决策）",
     },
+    "图存储-增量备份": {
+        "task": "增量备份",
+        "pattern": (
+            "def incremental_backup(backups, op, base=None, changes=None, tag=None):\n"
+            "    # 增量备份：full 全量 / incr 增量（记录变更）/ restore 还原\n"
+            "    if op == 'full':\n"
+            "        backups[tag] = {'type': 'full', 'data': dict(base)}\n"
+            "        return tag\n"
+            "    if op == 'incr':\n"
+            "        backups[tag] = {'type': 'incr', 'base': base,\n"
+            "                        'changes': dict(changes)}\n"
+            "        return tag\n"
+            "    if op == 'restore':\n"
+            "        full = backups.get(base)\n"
+            "        if full is None:\n"
+            "            return None\n"
+            "        data = dict(full['data'])\n"
+            "        incr = backups.get(tag)\n"
+            "        if incr and incr['type'] == 'incr' and incr['base'] == base:\n"
+            "            data.update(incr['changes'])\n"
+            "        return data\n"
+            "    return None\n"),
+        "cases": [(({}, 'full', {'a': 1}, None, 'f1'), 'f1'),
+                  (({'f1': {'type': 'full', 'data': {'a': 1}}},
+                    'incr', 'f1', {'b': 2}, 'i1'), 'i1'),
+                  (({'f1': {'type': 'full', 'data': {'a': 1}},
+                     'i1': {'type': 'incr', 'base': 'f1',
+                            'changes': {'b': 2}}},
+                    'restore', 'f1', None, 'i1'), {'a': 1, 'b': 2}),
+                  (({}, 'restore', 'f1', None, 'i1'), None)],
+        "params": [],
+        "calibration": "对照：数据库备份——全量+增量（变更记录，还原叠加）",
+    },
+    "图存储-一致性快照": {
+        "task": "一致性快照",
+        "pattern": (
+            "def snapshot_isolation(versions, op, key=None, value=None, version=None):\n"
+            "    # 一致性快照：版本化读写（读 ≤ 版本最新值——MVCC 快照隔离）\n"
+            "    if op == 'write':\n"
+            "        versions.setdefault(key, {})[version] = value\n"
+            "        return version\n"
+            "    if op == 'read':\n"
+            "        kv = versions.get(key, {})\n"
+            "        if not kv:\n"
+            "            return None\n"
+            "        avail = [v for v in kv if v <= version]\n"
+            "        return kv[max(avail)] if avail else None\n"
+            "    return None\n"),
+        "cases": [(({}, 'write', 'a', 1, 1), 1),
+                  (({'a': {1: 1, 2: 2}}, 'read', 'a', None, 1), 1),
+                  (({'a': {1: 1, 2: 2}}, 'read', 'a', None, 2), 2),
+                  (({}, 'read', 'a', None, 5), None)],
+        "params": [],
+        "calibration": "对照：MVCC 快照隔离——版本化读写（读旧版本一致视图）",
+    },
+    "图分布式-一致性哈希": {
+        "task": "一致性哈希",
+        "pattern": (
+            "def consistent_hash(ring, op, node=None, key=None):\n"
+            "    # 一致性哈希：add 节点入环 / locate 键定位（哈希环——最小迁移）\n"
+            "    if op == 'add':\n"
+            "        h = sum(ord(c) for c in node)\n"
+            "        ring[h] = node\n"
+            "        return h\n"
+            "    if op == 'locate':\n"
+            "        if not ring:\n"
+            "            return None\n"
+            "        kh = sum(ord(c) for c in key)\n"
+            "        hs = sorted(ring)\n"
+            "        for h in hs:\n"
+            "            if h >= kh:\n"
+            "                return ring[h]\n"
+            "        return ring[hs[0]]\n"
+            "    return None\n"),
+        "cases": [(({}, 'add', 'n1'), 159),
+                  (({159: 'n1', 217: 'n2'}, 'locate', None, 'k1'), 'n1'),
+                  (({159: 'n1'}, 'locate', None, 'k9'), 'n1')],
+        "params": [],
+        "calibration": "对照：分布式哈希环——一致性哈希（键定位，最小迁移）",
+    },
 }
 
 

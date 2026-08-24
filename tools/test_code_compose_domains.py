@@ -4022,5 +4022,41 @@ try:
 except Exception as ex:
     check('㋒c 服务→日志→定时端到端（running rotated True）', False, str(ex)[:60])
 
+# ㋓ 目标6 深化：持久化/分布式（增量备份/一致性快照/一致性哈希 经正式管线）
+g22_qs = {
+    "增量备份": "写一个增量备份单元（全量+增量）",
+    "一致性快照": "写一个一致性快照单元（MVCC）",
+    "一致性哈希": "写一个一致性哈希单元（哈希环）",
+}
+g22_ok = 0
+for label, q in g22_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g22_ok += 1
+    check(f'㋓ {label} 持久化/分布式单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋓b 持久化/分布式三单元全部生成', g22_ok == 3, f'{g22_ok}/3')
+
+# ㋓c 持久化端到端：增量备份→一致性快照→一致性哈希（还原{a,b} 版本2 定位n1）
+r_ib = domain_route("写一个增量备份单元（全量+增量）")
+r_si = domain_route("写一个一致性快照单元（MVCC）")
+r_ch = domain_route("写一个一致性哈希单元（哈希环）")
+try:
+    ns_ib, ns_si, ns_ch = {}, {}, {}
+    exec(r_ib["code"], ns_ib)
+    exec(r_si["code"], ns_si)
+    exec(r_ch["code"], ns_ch)
+    bks = {'f1': {'type': 'full', 'data': {'a': 1}},
+           'i1': {'type': 'incr', 'base': 'f1', 'changes': {'b': 2}}}
+    rst = ns_ib["incremental_backup"](bks, 'restore', 'f1', None, 'i1')
+    sv = ns_si["snapshot_isolation"]({'a': {1: 1, 2: 2}}, 'read', 'a', None, 2)
+    ch = ns_ch["consistent_hash"]({159: 'n1', 217: 'n2'}, 'locate', None, 'k1')
+    check('㋓c 备份→快照→哈希端到端（{a:1,b:2} 2 n1）',
+          rst == {'a': 1, 'b': 2} and sv == 2 and ch == 'n1',
+          f'backup={rst} snap={sv} hash={ch}')
+except Exception as ex:
+    check('㋓c 备份→快照→哈希端到端（{a:1,b:2} 2 n1）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
