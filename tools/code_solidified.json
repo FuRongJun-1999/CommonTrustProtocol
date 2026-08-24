@@ -1438,5 +1438,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:net|网络-CDN缓存": {
+  "task": "CDN缓存",
+  "unit": "网络-CDN缓存",
+  "code": "def cdn_cache(edges, content, url):\n    # CDN：边缘节点缓存（内容就近分发——回源/命中）\n    edge = edges[0] if edges else None\n    if edge is None:\n        return ('origin', url)\n    edge.setdefault('cache', {})\n    if url in edge['cache']:\n        return ('hit', edge['cache'][url])\n    edge['cache'][url] = content\n    return ('miss', content)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-边缘计算": {
+  "task": "边缘计算",
+  "unit": "网络-边缘计算",
+  "code": "def edge_compute(nodes, task, data):\n    # 边缘计算：任务分发到就近节点处理（延迟降低语义）\n    if not nodes:\n        return ('cloud', task)\n    node = min(nodes, key=lambda n: n['loc'])\n    return (node['id'], task, node['fn'](data))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-内容路由": {
+  "task": "内容路由",
+  "unit": "网络-内容路由",
+  "code": "def content_route(table, url):\n    # 内容路由：URL 前缀 → 后端节点（按内容寻址）\n    best = None\n    for prefix, node in table.items():\n        if url.startswith(prefix) and (best is None\n                                       or len(prefix) > len(best[0])):\n            best = (prefix, node)\n    return best[1] if best else None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

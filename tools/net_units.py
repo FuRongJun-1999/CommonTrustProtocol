@@ -620,6 +620,57 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：消息队列——FIFO 入队出队（生产消费解耦）",
     },
+    "网络-CDN缓存": {
+        "task": "CDN缓存",
+        "pattern": (
+            "def cdn_cache(edges, content, url):\n"
+            "    # CDN：边缘节点缓存（内容就近分发——回源/命中）\n"
+            "    edge = edges[0] if edges else None\n"
+            "    if edge is None:\n"
+            "        return ('origin', url)\n"
+            "    edge.setdefault('cache', {})\n"
+            "    if url in edge['cache']:\n"
+            "        return ('hit', edge['cache'][url])\n"
+            "    edge['cache'][url] = content\n"
+            "    return ('miss', content)\n"),
+        "cases": [(([{'cache': {}}], 'DATA', '/a'), ('miss', 'DATA')),
+                  (([{'cache': {'/a': 'DATA'}}], 'X', '/a'), ('hit', 'DATA')),
+                  (([], 'DATA', '/a'), ('origin', '/a'))],
+        "params": [],
+        "calibration": "对照：CDN——边缘缓存（命中/回源/缓存写入，内容就近分发）",
+    },
+    "网络-边缘计算": {
+        "task": "边缘计算",
+        "pattern": (
+            "def edge_compute(nodes, task, data):\n"
+            "    # 边缘计算：任务分发到就近节点处理（延迟降低语义）\n"
+            "    if not nodes:\n"
+            "        return ('cloud', task)\n"
+            "    node = min(nodes, key=lambda n: n['loc'])\n"
+            "    return (node['id'], task, node['fn'](data))\n"),
+        "cases": [(([{'id': 'e1', 'loc': 1, 'fn': lambda x: x * 2}], 'double', 5),
+                   ('e1', 'double', 10)),
+                  (([], 'task', 1), ('cloud', 'task'))],
+        "params": [],
+        "calibration": "对照：边缘计算——任务就近处理（边缘节点/云端回退）",
+    },
+    "网络-内容路由": {
+        "task": "内容路由",
+        "pattern": (
+            "def content_route(table, url):\n"
+            "    # 内容路由：URL 前缀 → 后端节点（按内容寻址）\n"
+            "    best = None\n"
+            "    for prefix, node in table.items():\n"
+            "        if url.startswith(prefix) and (best is None\n"
+            "                                       or len(prefix) > len(best[0])):\n"
+            "            best = (prefix, node)\n"
+            "    return best[1] if best else None\n"),
+        "cases": [(({'/img': 'img-srv', '/img/logo': 'logo-srv'}, '/img/logo/a.png'),
+                   'logo-srv'),
+                  (({'/api': 'api-srv'}, '/static/x'), None)],
+        "params": [],
+        "calibration": "对照：内容路由——URL 最长前缀匹配（按内容寻址到节点）",
+    },
 }
 
 

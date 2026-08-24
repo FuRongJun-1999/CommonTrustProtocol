@@ -1857,5 +1857,41 @@ try:
 except Exception as ex:
     check('㊗c ACL→审计→能力端到端（读允写拒 日志1 有能力）', False, str(ex)[:60])
 
+# ㊘ 目标7 深化：CDN/边缘（CDN缓存/边缘计算/内容路由 经正式管线）
+n12_qs = {
+    "CDN缓存": "写一个 CDN 缓存单元（边缘分发）",
+    "边缘计算": "写一个边缘计算单元（就近处理）",
+    "内容路由": "写一个内容路由单元（前缀匹配）",
+}
+n12_ok = 0
+for label, q in n12_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n12_ok += 1
+    check(f'㊘ {label} CDN/边缘单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊘b CDN/边缘三单元全部生成', n12_ok == 3, f'{n12_ok}/3')
+
+# ㊘c 端到端：CDN 命中→内容路由→边缘计算（分发→寻址→就近处理）
+r_cd = domain_route("写一个 CDN 缓存单元（边缘分发）")
+r_cr = domain_route("写一个内容路由单元（前缀匹配）")
+r_ec = domain_route("写一个边缘计算单元（就近处理）")
+try:
+    ns_cd, ns_cr, ns_ec = {}, {}, {}
+    exec(r_cd["code"], ns_cd)
+    exec(r_cr["code"], ns_cr)
+    exec(r_ec["code"], ns_ec)
+    hit = ns_cd["cdn_cache"]([{'cache': {'/a': 'DATA'}}], 'X', '/a')
+    srv = ns_cr["content_route"]({'/img': 'img-srv', '/img/logo': 'logo-srv'},
+                                 '/img/logo/a.png')
+    e = ns_ec["edge_compute"]([{'id': 'e1', 'loc': 1, 'fn': lambda x: x * 2}],
+                               'double', 5)
+    check('㊘c CDN→内容路由→边缘端到端（命中DATA logo-srv e1计算10）',
+          hit == ('hit', 'DATA') and srv == 'logo-srv' and e == ('e1', 'double', 10),
+          f'cdn={hit} route={srv} edge={e}')
+except Exception as ex:
+    check('㊘c CDN→内容路由→边缘端到端（命中DATA logo-srv e1计算10）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
