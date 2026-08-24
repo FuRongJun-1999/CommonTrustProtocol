@@ -5050,5 +5050,40 @@ except Exception as ex:
     check('㋯c DHCP→ARP→ICMP端到端（10.0.0.1 aa:bb 可达）',
           False, str(ex)[:60])
 
+# ㋰ 目标6 深化：图算法/查询（强连通分量/二分匹配/可达性判定 经正式管线）
+g27_qs = {
+    "强连通分量": "写一个强连通分量单元（Kosaraju）",
+    "二分匹配": "写一个二分匹配单元（最大匹配）",
+    "可达性判定": "写一个可达性判定单元（BFS 传导）",
+}
+g27_ok = 0
+for label, q in g27_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g27_ok += 1
+    check(f'㋰ {label} 图算法/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋰b 图算法/查询三单元全部生成', g27_ok == 3, f'{g27_ok}/3')
+
+# ㋰c 算法端到端：SCC→匹配→可达（[[3],[1,2,0]] 3 True）
+r_sc = domain_route("写一个强连通分量单元（Kosaraju）")
+r_bm = domain_route("写一个二分匹配单元（最大匹配）")
+r_rb = domain_route("写一个可达性判定单元（BFS 传导）")
+try:
+    ns_sc, ns_bm, ns_rb = {}, {}, {}
+    exec(r_sc["code"], ns_sc)
+    exec(r_bm["code"], ns_bm)
+    exec(r_rb["code"], ns_rb)
+    sc = ns_sc["scc_kosaraju"]({0: [1], 1: [2], 2: [0], 3: [3]})
+    bm = ns_bm["bipartite_matching"]({0: ['a', 'b'], 1: ['b'], 2: ['c']}, [0, 1, 2])
+    rb = ns_rb["reachable"]({0: [1], 1: [2]}, 0, 2)
+    check('㋰c SCC→匹配→可达端到端（[[3],[1,2,0]] 3 True）',
+          sc == [[3], [1, 2, 0]] and bm == 3 and rb is True,
+          f'scc={sc} match={bm} reach={rb}')
+except Exception as ex:
+    check('㋰c SCC→匹配→可达端到端（[[3],[1,2,0]] 3 True）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

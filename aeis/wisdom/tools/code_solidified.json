@@ -4088,5 +4088,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:graph|图算法-强连通分量": {
+  "task": "强连通分量",
+  "unit": "图算法-强连通分量",
+  "code": "def scc_kosaraju(graph):\n    # 强连通分量：Kosaraju 两遍 DFS（反向图第二次遍历收集 SCC）\n    visited = set()\n    order = []\n    def dfs(u, g, out):\n        visited.add(u)\n        for v in g.get(u, []):\n            if v not in visited:\n                dfs(v, g, out)\n        out.append(u)\n    for u in graph:\n        if u not in visited:\n            dfs(u, graph, order)\n    rev = {}\n    for u, vs in graph.items():\n        for v in vs:\n            rev.setdefault(v, []).append(u)\n    visited.clear()\n    comps = []\n    for u in reversed(order):\n        if u not in visited:\n            comp = []\n            dfs(u, rev, comp)\n            comps.append(comp)\n    return comps\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-二分匹配": {
+  "task": "二分匹配",
+  "unit": "图算法-二分匹配",
+  "code": "def bipartite_matching(adj, left):\n    # 二分匹配：增广路查找最大匹配（left 集合顶点 → 唯一 right 顶点）\n    match = {}\n    def try_k(u, seen):\n        for v in adj.get(u, []):\n            if v in seen:\n                continue\n            seen.add(v)\n            if v not in match or try_k(match[v], seen):\n                match[v] = u\n                return True\n        return False\n    count = 0\n    for u in left:\n        if try_k(u, set()):\n            count += 1\n    return count\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-可达性判定": {
+  "task": "可达性判定",
+  "unit": "图查询-可达性判定",
+  "code": "def reachable(graph, start, target):\n    # 可达性判定：BFS 从起点能否到达目标（条件链传导）\n    seen = {start}\n    q = [start]\n    while q:\n        u = q.pop(0)\n        if u == target:\n            return True\n        for v in graph.get(u, []):\n            if v not in seen:\n                seen.add(v)\n                q.append(v)\n    return False\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }
