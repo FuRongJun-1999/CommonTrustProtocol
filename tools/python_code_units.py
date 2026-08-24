@@ -551,6 +551,46 @@ PYTHON_UNITS = {
         "needs_inject": True,
         "calibration": "对照：Python 动态属性（__getattr__/__setattr__ 拦截读写）",
     },
+    "类型-类型注解": {
+        "task": "类型注解",
+        "pattern": (
+            "def annotate(params, ret):\n"
+            "    # 类型注解：参数/返回类型标注（def f(x: int) -> str 语义）\n"
+            "    return {'params': dict(params), 'return': ret}\n"
+            "def annotate_test():\n"
+            "    return annotate({'x': int}, str)\n"),
+        "cases": [("call", {'params': {'x': int}, 'return': str})],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 类型注解（参数/返回类型标注——PEP 484）",
+    },
+    "类型-运行时检查": {
+        "task": "运行时检查",
+        "pattern": (
+            "def runtime_check(value, expected):\n"
+            "    # 运行时类型检查：isinstance 语义（鸭子类型——结构兼容即可）\n"
+            "    if isinstance(value, expected):\n"
+            "        return 'ok'\n"
+            "    if expected is int and isinstance(value, float) and value.is_integer():\n"
+            "        return 'ok'\n"
+            "    return 'type_error'\n"),
+        "cases": [((5, int), 'ok'), ((5.0, int), 'ok'),
+                  (('5', int), 'type_error'), (([], list), 'ok')],
+        "params": [],
+        "calibration": "对照：Python 运行时类型检查（isinstance，整值浮点可当整数）",
+    },
+    "类型-协议接口": {
+        "task": "协议接口",
+        "pattern": (
+            "def check_protocol(obj, methods):\n"
+            "    # 协议：结构约定（具 __len__ 即序列协议——鸭子类型）\n"
+            "    return all(hasattr(obj, m) for m in methods)\n"),
+        "cases": [(([], ['__len__', '__iter__']), True),
+                  ((5, ['__len__']), False),
+                  (({}, ['__len__']), True)],
+        "params": [],
+        "calibration": "对照：Python 协议——结构约定（具 __len__ 即序列协议，鸭子类型）",
+    },
 }
 
 

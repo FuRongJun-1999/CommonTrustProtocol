@@ -1783,5 +1783,41 @@ try:
 except Exception as ex:
     check('㊕c 力导向→分层→矩阵端到端（a0.1b0.5 气压低层0 矩阵2x2）', False, str(ex)[:60])
 
+# ㊖ 目标1 深化：类型系统（类型注解/运行时检查/协议 经正式管线）
+p7_qs = {
+    "类型注解": "写一个类型注解单元（参数返回标注）",
+    "运行时检查": "写一个运行时检查单元（isinstance）",
+    "协议": "写一个协议接口单元（结构约定）",
+}
+p7_ok = 0
+for label, q in p7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p7_ok += 1
+    check(f'㊖ {label} 类型系统单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊖b 类型系统三单元全部生成', p7_ok == 3, f'{p7_ok}/3')
+
+# ㊖c 端到端：注解→运行时检查→协议（标注→校验→约定）
+r_an = domain_route("写一个类型注解单元（参数返回标注）")
+r_rc = domain_route("写一个运行时检查单元（isinstance）")
+r_pr = domain_route("写一个协议接口单元（结构约定）")
+try:
+    ns_an, ns_rc, ns_pr = {}, {}, {}
+    exec(r_an["code"], ns_an)
+    exec(r_rc["code"], ns_rc)
+    exec(r_pr["code"], ns_pr)
+    a = ns_an["annotate_test"]()
+    r1 = ns_rc["runtime_check"](5.0, int)
+    r2 = ns_rc["runtime_check"]('5', int)
+    p = ns_pr["check_protocol"]([], ['__len__', '__iter__'])
+    check('㊖c 注解→检查→协议端到端（int标注 浮点ok字符串拒 序列协议真）',
+          a == {'params': {'x': int}, 'return': str}
+          and r1 == 'ok' and r2 == 'type_error' and p is True,
+          f'ann={a} chk={r1},{r2} proto={p}')
+except Exception as ex:
+    check('㊖c 注解→检查→协议端到端（int标注 浮点ok字符串拒 序列协议真）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -63,6 +63,9 @@ for uid, u in PYTHON_UNITS.items():
                         entry = ns.get("decorator_test") or \
                             ns.get("with_test") or ns.get("attr_test")
                         got = entry()
+                    elif uid == "类型-类型注解":
+                        # 注入验证：类型注解
+                        got = ns["annotate_test"]()
                     else:
                         entry = ns.get("closure_test") or ns.get("env_scope")
                         got = entry()
