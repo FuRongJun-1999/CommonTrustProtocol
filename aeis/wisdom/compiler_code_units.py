@@ -364,6 +364,7 @@ COMPILER_UNITS = {
             "    instr_map = {'道': 'DAO', '德': 'DE', '止': 'ZHI', '知足': 'ZHIZU',\n"
             "                 '自然': 'ZIRAN', '无为': 'WUWEI'}\n"
             "    code, errors = [], []\n"
+            "    pending_zhizu = []\n"
             "    for line in source.splitlines():\n"
             "        line = line.strip()\n"
             "        if not line or line.startswith('#'):\n"
@@ -417,10 +418,17 @@ COMPILER_UNITS = {
             "                arg = None\n"
             "                if rest:\n"
             "                    arg = float(rest) if rest.replace('.', '', 1).isdigit() else rest\n"
-            "                code.append((instr_map[kw], arg))\n"
+            "                if kw == '知足':\n"
+            "                    # 知足：信任达标跳转（达标→跳程序末尾=满足；目标末尾回填）\n"
+            "                    code.append(('ZHIZU', (float(rest), 0)))\n"
+            "                    pending_zhizu.append(len(code) - 1)\n"
+            "                else:\n"
+            "                    code.append((instr_map[kw], arg))\n"
             "                break\n"
             "        else:\n"
             "            errors.append('无法识别：' + line)\n"
+            "    for i in pending_zhizu:\n"
+            "        code[i] = ('ZHIZU', (code[i][1][0], len(code)))\n"
             "    if errors:\n"
             "        return None, {'ok': False, 'errors': errors}\n"
             "    return code, {'ok': True}\n"),
@@ -436,6 +444,9 @@ COMPILER_UNITS = {
                   (("甲 = 3\n若 甲 大于 2，则 德 0.5\n止。\n", {"伴侣"}),
                    ([("PUSH", 3), ("STORE", "甲"), ("LOAD", "甲"), ("PUSH", 2.0),
                      ("CMP_GT", None), ("JUMP_IF_FALSE", 7), ("DE", 0.5),
+                     ("ZHI", None)], {"ok": True})),
+                  (("德 0.3\n知足 0.7\n德 0.5\n止。\n", set()),
+                   ([("DE", 0.3), ("ZHIZU", (0.7, 4)), ("DE", 0.5),
                      ("ZHI", None)], {"ok": True})),
                   (("随便文本\n", set()), (None, {"ok": False,
                    "errors": ["无法识别：随便文本"]}))],

@@ -281,5 +281,21 @@ try:
 except ImportError as e:
     check('校准⑩ protocol-compiler 对接', False, f'导入失败: {e}')
 
+# 校准⑪：知足（信任达标跳转，道德经指令全覆盖验证）
+src_z1 = "德 0.3\n知足 0.7\n德 0.5\n止。\n"
+code_z1, r_z1 = compile_full(src_z1, set())
+check('校准⑪a 知足编译(达标目标末尾回填)', r_z1["ok"]
+      and any(op == "ZHIZU" and arg == (0.7, 4) for op, arg in code_z1), str(code_z1))
+if r_z1["ok"]:
+    state_z1 = vm_run(code_z1)
+    check('校准⑪b 知足不达标继续(信任0.8)',
+          state_z1["trust"] == 0.8, f'trust={state_z1["trust"]}')
+src_z2 = "德 0.8\n知足 0.7\n德 0.5\n止。\n"
+code_z2, r_z2 = compile_full(src_z2, set())
+if r_z2["ok"]:
+    state_z2 = vm_run(code_z2)
+    check('校准⑪c 知足达标跳结束(信任0.8,跳过德0.5)',
+          state_z2["trust"] == 0.8, f'trust={state_z2["trust"]}')
+
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
