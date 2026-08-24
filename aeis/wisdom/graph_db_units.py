@@ -222,6 +222,24 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：真实条件单元库（compose_engine 43 单元）→ 条件路由图（条件 → 影响的规律单元）",
     },
+    "图灵枢-导出": {
+        "task": "图导出灵枢",
+        "pattern": (
+            "def graph_to_memories(graph, max_chain=4):\n"
+            "    # 条件路由图 → 灵枢记忆条目（每节点=条件链卡，可写入灵枢记忆库）\n"
+            "    mems = []\n"
+            "    for node in sorted(graph.nodes):\n"
+            "        succ = graph.neighbors(node)\n"
+            "        if succ:\n"
+            "            chain = ' → '.join([node] + succ[:max_chain - 1])\n"
+            "            mems.append({'content': '[条件链] ' + chain,\n"
+            "                         'tags': ['graph', 'condition-chain', node],\n"
+            "                         'importance': 0.7})\n"
+            "    return mems\n"),
+        "cases": [("call", 1)],
+        "params": [],
+        "calibration": "对照：图数据库 × 灵枢——条件路由图导出为灵枢记忆条目（条件链卡，可召回重建）",
+    },
 }
 
 

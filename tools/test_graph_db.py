@@ -35,6 +35,10 @@ for uid, u in GRAPH_UNITS.items():
                         got = ns["graph_to_json"](g)
                     elif uid == "图持久化-文件":
                         got = ns["graph_file_ops"]()
+                    elif uid == "图灵枢-导出":
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压", "沸点-气压")
+                        got = len(fn(g))  # 记忆条目数（气压 有后继 → 1 条）
                     elif uid in ("图遍历-路径枚举", "条件路由图-查询"):
                         g = generated["图存储-节点边"][0]["Graph"]()
                         g.add_edge("气压低", "沸点降")
@@ -58,6 +62,12 @@ for uid, u in GRAPH_UNITS.items():
                     got = got.neighbors("气压低")  # 期望输出：气压低 的后继
                 elif uid == "条件路由图-对接":
                     got = len(fn(*args).nodes)  # 建图后节点数（单元+条件）
+                elif uid == "图灵枢-导出":
+                    # 注入小图：气压→沸点-气压→煮不熟 条件链
+                    g = generated["图存储-节点边"][0]["Graph"]()
+                    g.add_edge("气压", "沸点-气压")
+                    got = fn(g)
+                    got = len(got)  # 记忆条目数 = 有后继的节点数
                 else:
                     got = fn(*args) if isinstance(args, tuple) else fn(args)
                 if got != expect:
