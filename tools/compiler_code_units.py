@@ -295,6 +295,54 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：C2 顶层编译——术曰作用域/道德经指令/止停止",
     },
+    "校验-条件空间存在性": {
+        "task": "条件空间存在",
+        "pattern": (
+            "def check_condition_spaces(used_spaces, declared_spaces):\n"
+            "    # 条件空间=类型系统：使用的条件空间必须已声明（编译期拦截未声明空间）\n"
+            "    return [s for s in used_spaces if s not in declared_spaces]\n"),
+        "cases": [((["伴侣", "高原"], {"伴侣", "高原"}), []),
+                  ((["伴侣"], {"伴侣"}), []),
+                  ((["伴侣", "未知空间"], {"伴侣"}), ["未知空间"]),
+                  (([], set()), [])],
+        "params": [],
+        "calibration": "对照：C2 语义——条件空间=类型系统（使用前必须声明，编译期拦截）",
+    },
+    "编译-管线静态检查": {
+        "task": "编译管线",
+        "pattern": (
+            "def compile_pipeline(statements, symbol_types, declared_spaces):\n"
+            "    # 编译管线（C2 语义：静态检查→字节码）——名实 + 条件空间类型 + 存在性\n"
+            "    errors = []\n"
+            "    for st in statements:\n"
+            "        kind = st[0]\n"
+            "        if kind == 'INSTR' and st[1] == 'DE':\n"
+            "            operand = st[2]\n"
+            "            if operand is not None and not str(operand).replace('.', '', 1).isdigit():\n"
+            "                errors.append('类型错误：德 操作数「' + str(operand) + '」非数值（条件空间类型）')\n"
+            "        elif kind == 'COND':\n"
+            "            import re as _re\n"
+            "            m = _re.search(r'条件空间为(.+?)[，,。\\s]', st[1])\n"
+            "            if m:\n"
+            "                space = m.group(1).strip()\n"
+            "                if space not in declared_spaces:\n"
+            "                    errors.append('条件空间未声明：「' + space + '」（编译期拦截）')\n"
+            "    if errors:\n"
+            "        return None, {'ok': False, 'errors': errors}\n"
+            "    return [('COMPILED', len(statements))], {'ok': True}\n"),
+        "cases": [(([("INSTR", "DE", "0.5"), ("止", None)], {"信任值": "数值"},
+                    {"伴侣"}), ([("COMPILED", 2)], {"ok": True})),
+                  (([("INSTR", "DE", "高信任"), ("止", None)], {"信任值": "数值"},
+                    {"伴侣"}), (None, {"ok": False,
+                    "errors": ["类型错误：德 操作数「高信任」非数值（条件空间类型）"]})),
+                  (([("COND", "条件空间为未知 则 德 0.5", [("DE", "0.5")], [])],
+                    {"信任值": "数值"}, {"伴侣"}), (None, {"ok": False,
+                    "errors": ["条件空间未声明：「未知」（编译期拦截）"]})),
+                  (([("COND", "条件空间为伴侣 则 德 0.5", [("DE", "0.5")], [])],
+                    {"信任值": "数值"}, {"伴侣"}), ([("COMPILED", 1)], {"ok": True}))],
+        "params": [],
+        "calibration": "对照：C2 语义——名实=静态检查、条件空间=类型系统（编译期拦截类型错误/未声明空间）",
+    },
 }
 
 

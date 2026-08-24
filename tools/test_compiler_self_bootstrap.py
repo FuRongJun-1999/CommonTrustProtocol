@@ -150,5 +150,26 @@ check('校准⑤b 端到端执行(信任≥0.8+条件空间+halt)',
       and state5["halt"] == "halt",
       f'trust={state5["trust"]} cond={state5["cond"]} halt={state5["halt"]}')
 
+# 校准⑥：编译期静态检查拦截（条件空间=类型系统/名实=静态检查）
+compile_pipeline = _fn("编译-管线静态检查")
+check_condition_spaces = _fn("校验-条件空间存在性")
+check('校准⑥a 条件空间存在性校验',
+      check_condition_spaces(["伴侣"], {"伴侣"}) == []
+      and check_condition_spaces(["未知"], {"伴侣"}) == ["未知"], '')
+# 类型错误源码：德 操作数非数值 → 编译期拦截
+_, r_bad = compile_pipeline([("INSTR", "DE", "高信任"), ("止", None)],
+                            {"信任值": "数值"}, {"伴侣"})
+check('校准⑥b 类型错误编译期拦截', r_bad["ok"] is False
+      and any("类型错误" in e for e in r_bad["errors"]), str(r_bad["errors"]))
+# 未声明条件空间 → 编译期拦截
+_, r_bad2 = compile_pipeline([("COND", "条件空间为未知 则 德 0.5", [("DE", "0.5")], [])],
+                             {"信任值": "数值"}, {"伴侣"})
+check('校准⑥c 未声明条件空间拦截', r_bad2["ok"] is False
+      and any("条件空间未声明" in e for e in r_bad2["errors"]), str(r_bad2["errors"]))
+# 正确源码 → 通过
+code_ok, r_ok = compile_pipeline([("INSTR", "DE", "0.5"), ("止", None)],
+                                 {"信任值": "数值"}, {"伴侣"})
+check('校准⑥d 正确源码通过', r_ok["ok"] and code_ok == [("COMPILED", 2)], str(r_ok))
+
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
