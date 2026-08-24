@@ -208,5 +208,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:browser|渲染-样式计算": {
+  "task": "样式计算",
+  "unit": "渲染-样式计算",
+  "code": "def style_compute(node, rules):\n    # 样式计算：DOM 节点（tag/classes）→ 匹配规则级联 → 最终样式\n    best, best_w = {}, -1\n    for rule in rules:\n        if rule.get('tag') and rule['tag'] != node.get('tag'):\n            continue\n        if rule.get('class') and rule['class'] not in node.get('classes', []):\n            continue\n        w = (1000 if rule.get('inline') else 0)\n        w += 100 if rule.get('id') else 0\n        w += 10 if rule.get('class') else 0\n        w += 1 if rule.get('tag') else 0\n        if w > best_w:\n            best, best_w = rule.get('style', {}), w\n    return best\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-布局树": {
+  "task": "布局树",
+  "unit": "渲染-布局树",
+  "code": "def layout_tree(nodes, container_w):\n    # 布局树：块级节点（样式宽/高）→ (x, y, w, h) 坐标（纵向堆叠）\n    y = 0\n    out = []\n    for node in nodes:\n        w = node.get('style', {}).get('width', container_w)\n        h = node.get('style', {}).get('height', 1)\n        out.append((node.get('id'), 0, y, w, h))\n        y += h\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-绘制": {
+  "task": "绘制",
+  "unit": "渲染-绘制",
+  "code": "def paint(layout, rows, cols):\n    # 绘制：布局树 → 字符画布（'#'=元素区域，'.'=空白）\n    canvas = [['.' for _ in range(cols)] for _ in range(rows)]\n    for _, x, y, w, h in layout:\n        for dy in range(h):\n            for dx in range(w):\n                if 0 <= y + dy < rows and 0 <= x + dx < cols:\n                    canvas[y + dy][x + dx] = '#'\n    return [''.join(row) for row in canvas]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

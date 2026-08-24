@@ -324,5 +324,46 @@ try:
 except Exception as ex:
     check('⑯c 缺页→加载→分类端到端（VPN2可写ok / VPN9段错误）', False, str(ex)[:60])
 
+# ⑰ 目标5 深化：浏览器渲染引擎（样式计算/布局树/绘制 经正式管线）
+b3_qs = {
+    "样式计算": "写一个样式计算单元（DOM节点匹配规则）",
+    "布局树": "写一个布局树单元（块级坐标计算）",
+    "绘制": "写一个绘制单元（布局到画布）",
+}
+b3_ok = 0
+for label, q in b3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b3_ok += 1
+    check(f'⑰ {label} 浏览器渲染单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑰b 浏览器渲染三单元全部生成', b3_ok == 3, f'{b3_ok}/3')
+
+# ⑰c 端到端：样式计算→布局树→绘制（p.red 红色 → 纵向堆叠 → 画布）
+r_sc = domain_route("写一个样式计算单元（DOM节点匹配规则）")
+r_lt = domain_route("写一个布局树单元（块级坐标计算）")
+r_pn = domain_route("写一个绘制单元（布局到画布）")
+try:
+    ns_sc, ns_lt, ns_pn = {}, {}, {}
+    exec(r_sc["code"], ns_sc)
+    exec(r_lt["code"], ns_lt)
+    exec(r_pn["code"], ns_pn)
+    style = ns_sc["style_compute"](
+        {'tag': 'p', 'classes': ['red']},
+        [{'tag': 'p', 'style': {'color': 'black', 'height': 1}},
+         {'class': 'red', 'style': {'color': 'red', 'height': 1}}])
+    lay = ns_lt["layout_tree"](
+        [{'id': 'a', 'style': {'width': 2, 'height': 1}},
+         {'id': 'b', 'style': {'width': 3, 'height': 1}}], 5)
+    cv = ns_pn["paint"](lay, 2, 5)
+    check('⑰c 样式→布局→绘制端到端（red→堆叠→画布##.. ###.）',
+          style == {'color': 'red', 'height': 1}
+          and lay == [('a', 0, 0, 2, 1), ('b', 0, 1, 3, 1)]
+          and cv == ['##...', '###..'],
+          f'style={style} lay={lay} canvas={cv}')
+except Exception as ex:
+    check('⑰c 样式→布局→绘制端到端（red→堆叠→画布##.. ###.）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

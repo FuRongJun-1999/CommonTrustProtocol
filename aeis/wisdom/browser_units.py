@@ -164,6 +164,74 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器渲染——盒模型（padding/border 计入元素尺寸，margin 不计）",
     },
+    "渲染-样式计算": {
+        "task": "样式计算",
+        "pattern": (
+            "def style_compute(node, rules):\n"
+            "    # 样式计算：DOM 节点（tag/classes）→ 匹配规则级联 → 最终样式\n"
+            "    best, best_w = {}, -1\n"
+            "    for rule in rules:\n"
+            "        if rule.get('tag') and rule['tag'] != node.get('tag'):\n"
+            "            continue\n"
+            "        if rule.get('class') and rule['class'] not in node.get('classes', []):\n"
+            "            continue\n"
+            "        w = (1000 if rule.get('inline') else 0)\n"
+            "        w += 100 if rule.get('id') else 0\n"
+            "        w += 10 if rule.get('class') else 0\n"
+            "        w += 1 if rule.get('tag') else 0\n"
+            "        if w > best_w:\n"
+            "            best, best_w = rule.get('style', {}), w\n"
+            "    return best\n"),
+        "cases": [(({'tag': 'p', 'classes': ['red']},
+                    [{'tag': 'p', 'style': {'color': 'black'}},
+                     {'class': 'red', 'style': {'color': 'red'}}]),
+                   {'color': 'red'}),
+                  (({'tag': 'p', 'classes': []},
+                    [{'tag': 'p', 'style': {'color': 'black'}}]),
+                   {'color': 'black'}),
+                  (({'tag': 'div', 'classes': []},
+                    [{'tag': 'p', 'style': {'color': 'black'}}]), {})],
+        "params": [],
+        "calibration": "对照：浏览器渲染管线——样式计算（DOM×CSS→匹配规则→级联取最高优先级样式）",
+    },
+    "渲染-布局树": {
+        "task": "布局树",
+        "pattern": (
+            "def layout_tree(nodes, container_w):\n"
+            "    # 布局树：块级节点（样式宽/高）→ (x, y, w, h) 坐标（纵向堆叠）\n"
+            "    y = 0\n"
+            "    out = []\n"
+            "    for node in nodes:\n"
+            "        w = node.get('style', {}).get('width', container_w)\n"
+            "        h = node.get('style', {}).get('height', 1)\n"
+            "        out.append((node.get('id'), 0, y, w, h))\n"
+            "        y += h\n"
+            "    return out\n"),
+        "cases": [(([{'id': 'a', 'style': {'width': 5, 'height': 2}},
+                     {'id': 'b', 'style': {'height': 3}}], 10),
+                   [('a', 0, 0, 5, 2), ('b', 0, 2, 10, 3)]),
+                  (([{'id': 'x', 'style': {}}], 7), [('x', 0, 0, 7, 1)])],
+        "params": [],
+        "calibration": "对照：浏览器渲染管线——布局树（块级纵向堆叠，默认宽=容器/高=1）",
+    },
+    "渲染-绘制": {
+        "task": "绘制",
+        "pattern": (
+            "def paint(layout, rows, cols):\n"
+            "    # 绘制：布局树 → 字符画布（'#'=元素区域，'.'=空白）\n"
+            "    canvas = [['.' for _ in range(cols)] for _ in range(rows)]\n"
+            "    for _, x, y, w, h in layout:\n"
+            "        for dy in range(h):\n"
+            "            for dx in range(w):\n"
+            "                if 0 <= y + dy < rows and 0 <= x + dx < cols:\n"
+            "                    canvas[y + dy][x + dx] = '#'\n"
+            "    return [''.join(row) for row in canvas]\n"),
+        "cases": [(([('a', 0, 0, 2, 1), ('b', 0, 1, 3, 1)], 2, 4),
+                   ['##..', '###.']),
+                  (([], 2, 3), ['...', '...'])],
+        "params": [],
+        "calibration": "对照：浏览器渲染管线——绘制（布局坐标→字符画布，像素填充）",
+    },
 }
 
 
