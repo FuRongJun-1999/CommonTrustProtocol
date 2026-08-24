@@ -1972,5 +1972,47 @@ try:
 except Exception as ex:
     check('㊚c profiling→瓶颈→调优端到端（总60均20 cpu瓶颈 升级建议）', False, str(ex)[:60])
 
+# ㊛ 目标6 深化：图监控（指标统计/健康检查/度分布 经正式管线）
+g12_qs = {
+    "指标统计": "写一个图指标统计单元（节点边密度）",
+    "健康检查": "写一个图健康检查单元（连通判定）",
+    "度分布": "写一个图度分布单元（出度直方图）",
+}
+g12_ok = 0
+for label, q in g12_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g12_ok += 1
+    check(f'㊛ {label} 图监控单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊛b 图监控三单元全部生成', g12_ok == 3, f'{g12_ok}/3')
+
+# ㊛c 端到端：指标→健康→度分布（规模→连通→结构）
+r_gm = domain_route("写一个图指标统计单元（节点边密度）")
+r_hc = domain_route("写一个图健康检查单元（连通判定）")
+r_dd = domain_route("写一个图度分布单元（出度直方图）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+ns_g12 = {}
+exec(r_g["code"], ns_g12)
+Graph12 = ns_g12["Graph"]
+try:
+    ns_gm, ns_hc, ns_dd = {}, {}, {}
+    exec(r_gm["code"], ns_gm)
+    exec(r_hc["code"], ns_hc)
+    exec(r_dd["code"], ns_dd)
+    g = Graph12()
+    g.add_edge("气压低", "沸点降")
+    g.add_edge("沸点降", "煮不熟")
+    m = ns_gm["graph_metrics"](g)
+    h = ns_hc["health_check"](g)
+    d = ns_dd["degree_distribution"](g)
+    check('㊛c 指标→健康→度分布端到端（3节点2边 健康ok 度分布{0:1,1:2}）',
+          m['nodes'] == 3 and m['edges'] == 2 and h == ('ok', True)
+          and d == {0: 1, 1: 2},
+          f'metrics={m} health={h} dist={d}')
+except Exception as ex:
+    check('㊛c 指标→健康→度分布端到端（3节点2边 健康ok 度分布）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

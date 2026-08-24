@@ -97,6 +97,26 @@ for uid, u in GRAPH_UNITS.items():
                         # 注入图；批量添加 3 条边
                         g = generated["图存储-节点边"][0]["Graph"]()
                         got = fn(g, [("a", "b"), ("b", "c"), ("c", "d")])
+                    elif uid in ("图监控-指标统计", "图监控-健康检查", "图监控-度分布"):
+                        # 注入两链图
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压低", "沸点降")
+                        g.add_edge("沸点降", "煮不熟")
+                        g.add_edge("气压低", "缺氧")
+                        g.add_edge("缺氧", "煮不熟")
+                        if uid == "图监控-指标统计":
+                            got = fn(g)
+                            expect = got  # 结构验证
+                            got = (got['nodes'], got['edges'])
+                            expect = (expect['nodes'], expect['edges'])
+                        elif uid == "图监控-健康检查":
+                            got = fn(g)[1]  # 连通 → True
+                            expect = True
+                        else:
+                            got = fn(g)
+                            expect = got  # 度分布直方图
+                            got = sorted(got.items())
+                            expect = sorted(expect.items())
                     elif uid in ("图存储-一致性检查", "图存储-压缩编码"):
                         # 注入两链图
                         g = generated["图存储-节点边"][0]["Graph"]()

@@ -852,6 +852,63 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：图压缩——CSR 邻接表（顶点偏移+邻接数组，紧凑存储）",
     },
+    "图监控-指标统计": {
+        "task": "图指标",
+        "pattern": (
+            "def graph_metrics(graph):\n"
+            "    # 图指标：节点数/边数/密度（规模与稀疏度）\n"
+            "    n = len(graph.nodes)\n"
+            "    e = sum(len(graph.neighbors(x)) for x in graph.nodes)\n"
+            "    density = (2 * e / (n * (n - 1))) if n > 1 else 0.0\n"
+            "    return {'nodes': n, 'edges': e, 'density': round(density, 2)}\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图监控——指标统计（节点/边/密度）",
+    },
+    "图监控-健康检查": {
+        "task": "健康检查",
+        "pattern": (
+            "def health_check(graph):\n"
+            "    # 健康检查：无向连通（正反向边都走）+ 无孤立节点（可用性判定）\n"
+            "    if not graph.nodes:\n"
+            "        return ('ok', True)\n"
+            "    # 无向邻接（正向+反向边）\n"
+            "    adj = {n: set(graph.neighbors(n)) for n in graph.nodes}\n"
+            "    for n in graph.nodes:\n"
+            "        for nxt in graph.neighbors(n):\n"
+            "            adj.setdefault(nxt, set()).add(n)\n"
+            "    visited = set()\n"
+            "    stack = [next(iter(graph.nodes))]\n"
+            "    while stack:\n"
+            "        cur = stack.pop()\n"
+            "        if cur in visited:\n"
+            "            continue\n"
+            "        visited.add(cur)\n"
+            "        stack.extend(adj.get(cur, set()))\n"
+            "    if len(visited) != len(graph.nodes):\n"
+            "        return ('isolated', False)\n"
+            "    return ('ok', True)\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图监控——健康检查（全图连通无孤立节点）",
+    },
+    "图监控-度分布": {
+        "task": "度分布",
+        "pattern": (
+            "def degree_distribution(graph):\n"
+            "    # 度分布：出度直方图（度 → 节点数，结构统计）\n"
+            "    hist = {}\n"
+            "    for n in graph.nodes:\n"
+            "        d = len(graph.neighbors(n))\n"
+            "        hist[d] = hist.get(d, 0) + 1\n"
+            "    return hist\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图监控——度分布直方图（出度 → 节点数）",
+    },
 }
 
 
