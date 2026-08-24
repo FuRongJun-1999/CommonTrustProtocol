@@ -1004,6 +1004,54 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：可信计算——文件哈希校验（完整性验证，篡改检测）",
     },
+    "设备-热插拔": {
+        "task": "热插拔",
+        "pattern": (
+            "def hotplug(bus, op, device=None):\n"
+            "    # 热插拔：设备接入/移除（运行中动态管理）\n"
+            "    if op == 'plug':\n"
+            "        bus.add(device)\n"
+            "        return 'plugged'\n"
+            "    if op == 'unplug':\n"
+            "        bus.discard(device)\n"
+            "        return 'unplugged'\n"
+            "    if op == 'list':\n"
+            "        return sorted(bus)\n"
+            "    return None\n"),
+        "cases": [((set(), 'plug', 'usb1'), 'plugged'),
+                  (({'usb1'}, 'unplug', 'usb1'), 'unplugged'),
+                  (({'usb1', 'usb2'}, 'list'), ['usb1', 'usb2'])],
+        "params": [],
+        "calibration": "对照：设备热插拔——接入/移除（运行中动态管理 USB 语义）",
+    },
+    "设备-即插即用": {
+        "task": "即插即用",
+        "pattern": (
+            "def plug_and_play(device, drivers):\n"
+            "    # 即插即用：设备 ID → 自动匹配驱动（免手动配置）\n"
+            "    for d in drivers:\n"
+            "        if device.startswith(d['vendor']):\n"
+            "            return ('matched', d['name'])\n"
+            "    return ('nomatch', None)\n"),
+        "cases": [(('VID_1234_PID_1', [{'vendor': 'VID_1234', 'name': '鼠标'}]),
+                   ('matched', '鼠标')),
+                  (('VID_9999_PID_1', [{'vendor': 'VID_1234', 'name': '鼠标'}]),
+                   ('nomatch', None))],
+        "params": [],
+        "calibration": "对照：即插即用——设备 ID 自动匹配驱动（PnP 语义）",
+    },
+    "设备-设备树": {
+        "task": "设备树",
+        "pattern": (
+            "def device_tree_lookup(tree, node):\n"
+            "    # 设备树：硬件拓扑节点查找（属性查询）\n"
+            "    return tree.get(node)\n"),
+        "cases": [(({'uart0': {'compatible': 'ns16550'}}, 'uart0'),
+                   {'compatible': 'ns16550'}),
+                  (({}, 'uart0'), None)],
+        "params": [],
+        "calibration": "对照：设备树——硬件拓扑节点（compatible 属性）",
+    },
 }
 
 

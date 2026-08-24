@@ -2270,5 +2270,42 @@ try:
 except Exception as ex:
     check('㊢c 报文→抓包→解码端到端（IPv4 TCP 2包 TCP/UDP Hello）', False, str(ex)[:60])
 
+# ㊣ 目标4 深化：设备热插拔（热插拔/即插即用/设备树 经正式管线）
+o17_qs = {
+    "热插拔": "写一个设备热插拔单元（接入移除）",
+    "即插即用": "写一个即插即用单元（驱动匹配）",
+    "设备树": "写一个设备树单元（拓扑查询）",
+}
+o17_ok = 0
+for label, q in o17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o17_ok += 1
+    check(f'㊣ {label} 设备热插拔单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊣b 设备热插拔三单元全部生成', o17_ok == 3, f'{o17_ok}/3')
+
+# ㊣c 端到端：热插拔→即插即用→设备树（接入→匹配→拓扑）
+r_hp = domain_route("写一个设备热插拔单元（接入移除）")
+r_pn = domain_route("写一个即插即用单元（驱动匹配）")
+r_dt = domain_route("写一个设备树单元（拓扑查询）")
+try:
+    ns_hp, ns_pn, ns_dt = {}, {}, {}
+    exec(r_hp["code"], ns_hp)
+    exec(r_pn["code"], ns_pn)
+    exec(r_dt["code"], ns_dt)
+    ns_hp["hotplug"](set(), 'plug', 'usb1')
+    lst = ns_hp["hotplug"]({'usb1'}, 'list')
+    m = ns_pn["plug_and_play"]('VID_1234_PID_1',
+                               [{'vendor': 'VID_1234', 'name': '鼠标'}])
+    dt = ns_dt["device_tree_lookup"]({'uart0': {'compatible': 'ns16550'}}, 'uart0')
+    check('㊣c 热插拔→即插即用→设备树端到端（列表[usb1] 匹配鼠标 拓扑ns16550）',
+          lst == ['usb1'] and m == ('matched', '鼠标')
+          and dt == {'compatible': 'ns16550'},
+          f'hotplug={lst} pnp={m} tree={dt}')
+except Exception as ex:
+    check('㊣c 热插拔→即插即用→设备树端到端（列表[usb1] 匹配鼠标 拓扑ns16550）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

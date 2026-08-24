@@ -1768,5 +1768,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:os|设备-热插拔": {
+  "task": "热插拔",
+  "unit": "设备-热插拔",
+  "code": "def hotplug(bus, op, device=None):\n    # 热插拔：设备接入/移除（运行中动态管理）\n    if op == 'plug':\n        bus.add(device)\n        return 'plugged'\n    if op == 'unplug':\n        bus.discard(device)\n        return 'unplugged'\n    if op == 'list':\n        return sorted(bus)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|设备-即插即用": {
+  "task": "即插即用",
+  "unit": "设备-即插即用",
+  "code": "def plug_and_play(device, drivers):\n    # 即插即用：设备 ID → 自动匹配驱动（免手动配置）\n    for d in drivers:\n        if device.startswith(d['vendor']):\n            return ('matched', d['name'])\n    return ('nomatch', None)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|设备-设备树": {
+  "task": "设备树",
+  "unit": "设备-设备树",
+  "code": "def device_tree_lookup(tree, node):\n    # 设备树：硬件拓扑节点查找（属性查询）\n    return tree.get(node)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
