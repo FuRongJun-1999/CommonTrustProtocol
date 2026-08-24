@@ -2833,5 +2833,41 @@ try:
 except Exception as ex:
     check('㊱c 慢启动→快速重传→SACK端到端（cwnd8 重传True 缺[3,5]）', False, str(ex)[:60])
 
+# ㊲ 目标4 深化：OS 内存族（伙伴系统/写时复制/内存压缩 经正式管线）
+o5_qs = {
+    "伙伴系统": "写一个伙伴系统单元（2幂分配）",
+    "写时复制": "写一个写时复制单元（COW 共享页）",
+    "内存压缩": "写一个内存压缩单元（zswap）",
+}
+o5_ok = 0
+for label, q in o5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o5_ok += 1
+    check(f'㊲ {label} OS内存单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊲b OS内存三单元全部生成', o5_ok == 3, f'{o5_ok}/3')
+
+# ㊲c 内存端到端：伙伴→COW→压缩（阶0取块 共享页写复制 省2字节）
+r_bd = domain_route("写一个伙伴系统单元（2幂分配）")
+r_cw = domain_route("写一个写时复制单元（COW 共享页）")
+r_mc = domain_route("写一个内存压缩单元（zswap）")
+try:
+    ns_bd, ns_cw, ns_mc = {}, {}, {}
+    exec(r_bd["code"], ns_bd)
+    exec(r_cw["code"], ns_cw)
+    exec(r_mc["code"], ns_mc)
+    fl = {0: 0, 1: 1, 2: 0}
+    bd = ns_bd["buddy_alloc"](fl, 1)
+    pages = ['a', 'b']
+    cw = ns_cw["cow_write"](pages, 0, 'X', {0})
+    saved = ns_mc["memory_compress"](['aaaa', 'b'], 2)
+    check('㊲c 伙伴→COW→压缩端到端（allocated copied 省2）',
+          bd == 'allocated' and cw == 'copied' and saved == 2,
+          f'buddy={bd} cow={cw} saved={saved}')
+except Exception as ex:
+    check('㊲c 伙伴→COW→压缩端到端（allocated copied 省2）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

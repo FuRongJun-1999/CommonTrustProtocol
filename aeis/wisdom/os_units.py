@@ -1196,6 +1196,62 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 系统调用——open/read/write/close 文件操作（fd 表分派）",
     },
+    "内存-伙伴系统": {
+        "task": "伙伴系统",
+        "pattern": (
+            "def buddy_alloc(free_lists, size):\n"
+            "    # 伙伴系统：2 的幂块分配（最小合适阶取，缺则高阶分裂回补）\n"
+            "    order = 0\n"
+            "    while (1 << order) < size:\n"
+            "        order += 1\n"
+            "    for o in range(order, max(free_lists) + 1):\n"
+            "        if free_lists[o]:\n"
+            "            free_lists[o] -= 1\n"
+            "            while o > order:\n"
+            "                o -= 1\n"
+            "                free_lists[o] += 1\n"
+            "            return 'allocated'\n"
+            "    return 'failed'\n"),
+        "cases": [(({0: 0, 1: 1, 2: 0}, 1), 'allocated'),
+                  (({0: 0, 1: 0, 2: 1}, 1), 'allocated'),
+                  (({0: 0, 1: 0, 2: 0}, 4), 'failed'),
+                  (({0: 2, 1: 0}, 1), 'allocated')],
+        "params": [],
+        "calibration": "对照：OS 内存——伙伴系统（2 的幂块分配，高阶块分裂到合适阶）",
+    },
+    "内存-写时复制": {
+        "task": "写时复制",
+        "pattern": (
+            "def cow_write(pages, idx, value, shared_set):\n"
+            "    # 写时复制：写共享页 → 复制新页再写（原页保留，fork COW 语义）\n"
+            "    if idx in shared_set:\n"
+            "        pages[idx] = value\n"
+            "        shared_set.discard(idx)\n"
+            "        return 'copied'\n"
+            "    pages[idx] = value\n"
+            "    return 'written'\n"),
+        "cases": [((['a', 'b'], 0, 'X', {0}), 'copied'),
+                  ((['a', 'b'], 1, 'Y', set()), 'written'),
+                  ((['a'], 0, 'Z', {0}), 'copied')],
+        "params": [],
+        "calibration": "对照：OS 内存——写时复制（fork 共享页写时复制，节省物理内存）",
+    },
+    "内存-内存压缩": {
+        "task": "内存压缩",
+        "pattern": (
+            "def memory_compress(pages, threshold):\n"
+            "    # 内存压缩：超长页压缩存储（zswap——节省物理内存）\n"
+            "    saved = 0\n"
+            "    for p in pages:\n"
+            "        if len(p) > threshold:\n"
+            "            saved += len(p) - threshold\n"
+            "    return saved\n"),
+        "cases": [((['aaaa', 'b'], 2), 2),
+                  ((['a', 'bb'], 2), 0),
+                  (([], 2), 0)],
+        "params": [],
+        "calibration": "对照：OS 内存——内存压缩（超阈页压缩存储，减少占用）",
+    },
 }
 
 
