@@ -825,9 +825,19 @@ class Parser:
         return left
     
     def _parse_expression(self) -> ASTNode:
-        """解析表达式（支持二元算术：标识符/数值 + 运算符 + 右操作数）"""
+        """解析表达式（支持二元算术 + 括号优先：标识符/数值/(表达式) + 运算符 + 右）"""
         if self.current_token is None:
             return LiteralNode("", "string")
+        
+        if self.current_token.type == TokenType.LPAREN:
+            # 括号优先： ( 表达式 )
+            line = self.current_token.line
+            col = self.current_token.column
+            self._advance()
+            inner = self._parse_expression()
+            if self.current_token and self.current_token.type == TokenType.RPAREN:
+                self._advance()
+            return self._parse_binary_tail(inner)
         
         if self.current_token.type == TokenType.IDENTIFIER:
             # 若后跟 （ → 函数调用；否则合并多词短语

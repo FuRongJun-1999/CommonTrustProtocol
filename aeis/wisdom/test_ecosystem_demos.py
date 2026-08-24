@@ -84,6 +84,25 @@ try:
 except Exception as e:
     check('目标2c 中文双递归: 斐波那契(6)=8（真实编译器）', False, str(e)[:50])
 
+# 目标2d 中文编译器：多参数递归（欧几里得 gcd——嵌套若则 × 双参数 × 递归）
+try:
+    src_gcd = '''
+定义 最大公约数（甲，乙）：若 甲 等于 乙，则 返回 甲，否则 若 甲 大于 乙，则 返回 最大公约数（甲 减 乙，乙），否则 返回 最大公约数（甲，乙 减 甲）；
+结果 = 最大公约数（48，36）；
+止。
+'''
+    code_gcd, r_gcd = compile_source(src_gcd, strict=False)
+    if r_gcd["ok"]:
+        st_gcd = ConditionVM().run(code_gcd)
+        gcd = st_gcd["symbols"].get("结果")
+        check('目标2d 中文多参数递归: gcd(48,36)=12（真实编译器）',
+              gcd == 12.0, f'gcd(48,36)={gcd}')
+    else:
+        check('目标2d 中文多参数递归: gcd(48,36)=12（真实编译器）', False,
+              str(r_gcd["errors"])[:40])
+except Exception as e:
+    check('目标2d 中文多参数递归: gcd(48,36)=12（真实编译器）', False, str(e)[:50])
+
 # ============ 目标3 中文分析器（compiler：类型推断） ============
 try:
     infer = get('写一个类型推断单元（编译期类型流）', 'infer_types')
