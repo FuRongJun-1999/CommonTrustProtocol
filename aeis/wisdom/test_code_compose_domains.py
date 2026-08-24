@@ -3343,5 +3343,45 @@ try:
 except Exception as ex:
     check('㊿c 字符串→数字→数组端到端（abc 42 3.5 255 [1,2]）', False, str(ex)[:60])
 
+# ㋀ 目标5 深化：浏览器功能（下载管理/扩展管理/网络记录 经正式管线）
+b6_qs = {
+    "下载管理": "写一个下载管理单元（断点续传）",
+    "扩展管理": "写一个扩展管理单元（权限检查）",
+    "网络记录": "写一个网络记录单元（请求过滤）",
+}
+b6_ok = 0
+for label, q in b6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b6_ok += 1
+    check(f'㋀ {label} 浏览器功能单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋀b 浏览器功能三单元全部生成', b6_ok == 3, f'{b6_ok}/3')
+
+# ㋀c 功能端到端：下载→扩展→网络记录（进度30 权限granted 过滤404）
+r_dl = domain_route("写一个下载管理单元（断点续传）")
+r_ex = domain_route("写一个扩展管理单元（权限检查）")
+r_nl = domain_route("写一个网络记录单元（请求过滤）")
+try:
+    ns_dl, ns_ex, ns_nl = {}, {}, {}
+    exec(r_dl["code"], ns_dl)
+    exec(r_ex["code"], ns_ex)
+    exec(r_nl["code"], ns_nl)
+    dl = ns_dl["download_ops"](
+        {'1': {'received': 0, 'total': 100, 'paused': False}}, 'progress', '1', 30)
+    ex = ns_ex["extension_ops"](
+        {'e1': {'enabled': True, 'permissions': ['tabs', 'storage']}},
+        'check', 'e1', None, ['tabs'])
+    nl = ns_nl["network_log"](
+        [{'url': '/a', 'status': 200, 'size': 100},
+         {'url': '/b', 'status': 404, 'size': 50}], 'filter', None, 404)
+    check('㋀c 下载→扩展→网络记录端到端（downloading granted [404条目]）',
+          dl == 'downloading' and ex == 'granted'
+          and nl == [{'url': '/b', 'status': 404, 'size': 50}],
+          f'dl={dl} ext={ex} log={nl}')
+except Exception as ex:
+    check('㋀c 下载→扩展→网络记录端到端（downloading granted [404条目]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -745,6 +745,99 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器标签页——新建/切换/关闭（活动标签维护）",
     },
+    "浏览器-下载管理": {
+        "task": "下载管理",
+        "pattern": (
+            "def download_ops(tasks, op, task_id=None, chunk=None, total=100):\n"
+            "    # 下载管理：start 开始 / progress 进度推进（断点续传）/ pause 暂停 / resume 恢复\n"
+            "    if op == 'start':\n"
+            "        tasks[task_id] = {'received': 0, 'total': total, 'paused': False}\n"
+            "        return 'started'\n"
+            "    if op == 'progress':\n"
+            "        t = tasks.get(task_id)\n"
+            "        if t is None:\n"
+            "            return 'missing'\n"
+            "        if t.get('paused'):\n"
+            "            return 'paused'\n"
+            "        t['received'] += chunk\n"
+            "        return 'done' if t['received'] >= t['total'] else 'downloading'\n"
+            "    if op == 'pause':\n"
+            "        if task_id in tasks:\n"
+            "            tasks[task_id]['paused'] = True\n"
+            "            return 'paused'\n"
+            "        return 'missing'\n"
+            "    if op == 'resume':\n"
+            "        if task_id in tasks:\n"
+            "            tasks[task_id]['paused'] = False\n"
+            "            return 'resumed'\n"
+            "        return 'missing'\n"
+            "    return None\n"),
+        "cases": [(({}, 'start', 1, None, 100), 'started'),
+                  (({'1': {'received': 0, 'total': 100, 'paused': False}},
+                    'progress', '1', 30), 'downloading'),
+                  (({'1': {'received': 80, 'total': 100, 'paused': False}},
+                    'progress', '1', 30), 'done'),
+                  (({'1': {'received': 0, 'total': 100, 'paused': False}},
+                    'pause', '1'), 'paused'),
+                  (({}, 'progress', '1', 10), 'missing')],
+        "params": [],
+        "calibration": "对照：浏览器下载——进度/暂停/恢复（断点续传）",
+    },
+    "浏览器-扩展管理": {
+        "task": "扩展管理",
+        "pattern": (
+            "def extension_ops(exts, op, ext_id=None, permissions=None, requested=None):\n"
+            "    # 扩展管理：install 安装 / enable 启停 / check 权限检查（最小权限）\n"
+            "    if op == 'install':\n"
+            "        exts[ext_id] = {'enabled': True, 'permissions': permissions or []}\n"
+            "        return 'installed'\n"
+            "    if op == 'enable':\n"
+            "        if ext_id in exts:\n"
+            "            exts[ext_id]['enabled'] = not exts[ext_id]['enabled']\n"
+            "            return 'enabled' if exts[ext_id]['enabled'] else 'disabled'\n"
+            "        return 'missing'\n"
+            "    if op == 'check':\n"
+            "        ext = exts.get(ext_id)\n"
+            "        if ext is None:\n"
+            "            return 'missing'\n"
+            "        return ('granted' if set(requested or []) <= set(ext['permissions'])\n"
+            "                else 'denied')\n"
+            "    return None\n"),
+        "cases": [(({}, 'install', 'e1', ['tabs', 'storage']), 'installed'),
+                  (({'e1': {'enabled': True, 'permissions': ['tabs']}},
+                    'enable', 'e1'), 'disabled'),
+                  (({'e1': {'enabled': True, 'permissions': ['tabs', 'storage']}},
+                    'check', 'e1', None, ['tabs']), 'granted'),
+                  (({'e1': {'enabled': True, 'permissions': ['tabs']}},
+                    'check', 'e1', None, ['storage']), 'denied')],
+        "params": [],
+        "calibration": "对照：浏览器扩展——安装/启停/权限检查（最小权限原则）",
+    },
+    "浏览器-网络记录": {
+        "task": "网络记录",
+        "pattern": (
+            "def network_log(log, op, request=None, status=None, size=0):\n"
+            "    # 开发者工具：record 记录请求 / filter 按状态过滤 / stats 汇总\n"
+            "    if op == 'record':\n"
+            "        log.append({'url': request, 'status': status, 'size': size})\n"
+            "        return len(log)\n"
+            "    if op == 'filter':\n"
+            "        return [e for e in log if e['status'] == status]\n"
+            "    if op == 'stats':\n"
+            "        return {'count': len(log),\n"
+            "                'total_size': sum(e['size'] for e in log)}\n"
+            "    return None\n"),
+        "cases": [(([], 'record', '/a', 200, 100), 1),
+                  (([{'url': '/a', 'status': 200, 'size': 100},
+                     {'url': '/b', 'status': 404, 'size': 50}],
+                    'filter', None, 404),
+                   [{'url': '/b', 'status': 404, 'size': 50}]),
+                  (([{'url': '/a', 'status': 200, 'size': 100},
+                     {'url': '/b', 'status': 404, 'size': 50}], 'stats'),
+                   {'count': 2, 'total_size': 150})],
+        "params": [],
+        "calibration": "对照：开发者工具网络面板——请求记录/过滤/汇总",
+    },
 }
 
 

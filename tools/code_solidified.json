@@ -2638,5 +2638,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:browser|浏览器-下载管理": {
+  "task": "下载管理",
+  "unit": "浏览器-下载管理",
+  "code": "def download_ops(tasks, op, task_id=None, chunk=None, total=100):\n    # 下载管理：start 开始 / progress 进度推进（断点续传）/ pause 暂停 / resume 恢复\n    if op == 'start':\n        tasks[task_id] = {'received': 0, 'total': total, 'paused': False}\n        return 'started'\n    if op == 'progress':\n        t = tasks.get(task_id)\n        if t is None:\n            return 'missing'\n        if t.get('paused'):\n            return 'paused'\n        t['received'] += chunk\n        return 'done' if t['received'] >= t['total'] else 'downloading'\n    if op == 'pause':\n        if task_id in tasks:\n            tasks[task_id]['paused'] = True\n            return 'paused'\n        return 'missing'\n    if op == 'resume':\n        if task_id in tasks:\n            tasks[task_id]['paused'] = False\n            return 'resumed'\n        return 'missing'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-扩展管理": {
+  "task": "扩展管理",
+  "unit": "浏览器-扩展管理",
+  "code": "def extension_ops(exts, op, ext_id=None, permissions=None, requested=None):\n    # 扩展管理：install 安装 / enable 启停 / check 权限检查（最小权限）\n    if op == 'install':\n        exts[ext_id] = {'enabled': True, 'permissions': permissions or []}\n        return 'installed'\n    if op == 'enable':\n        if ext_id in exts:\n            exts[ext_id]['enabled'] = not exts[ext_id]['enabled']\n            return 'enabled' if exts[ext_id]['enabled'] else 'disabled'\n        return 'missing'\n    if op == 'check':\n        ext = exts.get(ext_id)\n        if ext is None:\n            return 'missing'\n        return ('granted' if set(requested or []) <= set(ext['permissions'])\n                else 'denied')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-网络记录": {
+  "task": "网络记录",
+  "unit": "浏览器-网络记录",
+  "code": "def network_log(log, op, request=None, status=None, size=0):\n    # 开发者工具：record 记录请求 / filter 按状态过滤 / stats 汇总\n    if op == 'record':\n        log.append({'url': request, 'status': status, 'size': size})\n        return len(log)\n    if op == 'filter':\n        return [e for e in log if e['status'] == status]\n    if op == 'stats':\n        return {'count': len(log),\n                'total_size': sum(e['size'] for e in log)}\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }
