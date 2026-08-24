@@ -1100,6 +1100,66 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：编译优化——尾调用优化（CALL→JUMP，尾递归不增栈帧）",
     },
+    "字节码-文件头校验": {
+        "task": "文件头校验",
+        "pattern": (
+            "def pbc_header_check(header, version):\n"
+            "    # .pbc 文件头：魔数 + 版本兼容（C3 原生编译文件格式）\n"
+            "    if header.get('magic') != 'PBC1':\n"
+            "        return 'bad_magic'\n"
+            "    if header.get('version') != version:\n"
+            "        return 'version_mismatch'\n"
+            "    return 'ok'\n"),
+        "cases": [(({'magic': 'PBC1', 'version': 1}, 1), 'ok'),
+                  (({'magic': 'X', 'version': 1}, 1), 'bad_magic'),
+                  (({'magic': 'PBC1', 'version': 2}, 1), 'version_mismatch')],
+        "params": [],
+        "calibration": "对照：C3 .pbc 文件头——魔数+版本兼容（原生编译格式校验）",
+    },
+    "字节码-完整性校验": {
+        "task": "完整性校验",
+        "pattern": (
+            "def pbc_checksum(data, expected):\n"
+            "    # .pbc 完整性：异或校验和验证（检测字节损坏）\n"
+            "    calc = 0\n"
+            "    for b in data:\n"
+            "        calc ^= b\n"
+            "    return 'ok' if calc == expected else 'corrupted'\n"),
+        "cases": [((b'\x01\x02\x03', 0), 'ok'),
+                  ((b'\x01\x02\x04', 0), 'corrupted'),
+                  ((b'', 0), 'ok')],
+        "params": [],
+        "calibration": "对照：C3 .pbc 完整性——异或校验和（损坏检测）",
+    },
+    "字节码-紧凑编码": {
+        "task": "紧凑编码",
+        "pattern": (
+            "def varint_codec(n_or_bytes, mode):\n"
+            "    # 紧凑编码：encode 变长整数 / decode 还原（7 位一组，小整数省字节）\n"
+            "    if mode == 'encode':\n"
+            "        out = []\n"
+            "        n = n_or_bytes\n"
+            "        while n >= 128:\n"
+            "            out.append((n & 127) | 128)\n"
+            "            n >>= 7\n"
+            "        out.append(n)\n"
+            "        return bytes(out)\n"
+            "    if mode == 'decode':\n"
+            "        n, shift = 0, 0\n"
+            "        for b in n_or_bytes:\n"
+            "            n |= (b & 127) << shift\n"
+            "            if b < 128:\n"
+            "                return n\n"
+            "            shift += 7\n"
+            "        return n\n"
+            "    return None\n"),
+        "cases": [((5, 'encode'), b'\x05'),
+                  ((300, 'encode'), b'\xac\x02'),
+                  ((b'\xac\x02', 'decode'), 300),
+                  ((b'\x05', 'decode'), 5)],
+        "params": [],
+        "calibration": "对照：C3 .pbc 体积优化——varint 变长整数（小整数 1 字节）",
+    },
 }
 
 

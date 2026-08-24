@@ -217,7 +217,7 @@ DOMAIN_KEYWORDS = {
                  "函数", "递归", "定义", "注释", "逻辑表达式", "链式",
                  "常量折叠", "死代码", "寄存器", "优化", "闭包", "词法作用域",
                  "捕获环境", "断点", "回溯", "监视", "内联展开", "循环展开",
-                 "尾调用"],
+                 "尾调用", "文件头校验", "完整性校验", "紧凑编码"],
     "pylang": ["Python", "表达式", "闭包", "闭包机制", "控制流", "作用域", "栈机",
                "优先级", "逻辑短路", "异常", "抛出", "捕获", "try", "raise",
                "工厂", "延迟绑定", "nonlocal", "生成器", "yield", "迭代器",
@@ -281,7 +281,8 @@ def detect_domain(question):
     best, best_cnt, best_len = None, 0, 0
     q_compact = question.replace(" ", "")
     for domain, kws in DOMAIN_KEYWORDS.items():
-        hit = [k for k in kws if k in question or k in q_compact]
+        # set 去重：同词重复出现（如 os「校验」×2）不虚高计数
+        hit = list({k for k in kws if k in question or k in q_compact})
         if not hit:
             continue
         cnt, max_len = len(hit), max(len(k) for k in hit)

@@ -2943,5 +2943,40 @@ try:
 except Exception as ex:
     check('㊴c 正则→日期→JSON端到端（True 3月1日 往返一致）', False, str(ex)[:60])
 
+# ㊵ 目标2 深化：C3 .pbc 工程化（文件头/完整性/紧凑编码 经正式管线）
+c6_qs = {
+    "文件头校验": "写一个文件头校验单元（.pbc 魔数）",
+    "完整性校验": "写一个完整性校验单元（异或和）",
+    "紧凑编码": "写一个紧凑编码单元（varint）",
+}
+c6_ok = 0
+for label, q in c6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c6_ok += 1
+    check(f'㊵ {label} C3工程化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊵b C3工程化三单元全部生成', c6_ok == 3, f'{c6_ok}/3')
+
+# ㊵c .pbc 端到端：头校验→完整性→紧凑编码（ok 异或0 300↔ac02）
+r_hd = domain_route("写一个文件头校验单元（.pbc 魔数）")
+r_ck = domain_route("写一个完整性校验单元（异或和）")
+r_vi = domain_route("写一个紧凑编码单元（varint）")
+try:
+    ns_hd, ns_ck, ns_vi = {}, {}, {}
+    exec(r_hd["code"], ns_hd)
+    exec(r_ck["code"], ns_ck)
+    exec(r_vi["code"], ns_vi)
+    hd = ns_hd["pbc_header_check"]({'magic': 'PBC1', 'version': 1}, 1)
+    ck = ns_ck["pbc_checksum"](b'\x01\x02\x03', 0)
+    enc = ns_vi["varint_codec"](300, 'encode')
+    dec = ns_vi["varint_codec"](enc, 'decode')
+    check('㊵c 头→完整性→紧凑端到端（ok ok 300↔ac02）',
+          hd == 'ok' and ck == 'ok' and enc == b'\xac\x02' and dec == 300,
+          f'hd={hd} ck={ck} enc={enc} dec={dec}')
+except Exception as ex:
+    check('㊵c 头→完整性→紧凑端到端（ok ok 300↔ac02）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
