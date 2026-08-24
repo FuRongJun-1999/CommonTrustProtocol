@@ -1258,5 +1258,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:graph|图存储-分区分片": {
+  "task": "分区分片",
+  "unit": "图存储-分区分片",
+  "code": "def graph_shard(nodes, shards):\n    # 图分区：节点确定性哈希 → 分片（水平扩展语义）\n    parts = {i: [] for i in range(shards)}\n    for n in nodes:\n        parts[sum(ord(c) for c in n) % shards].append(n)\n    return {k: sorted(v) for k, v in parts.items()}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图存储-主从复制": {
+  "task": "主从复制",
+  "unit": "图存储-主从复制",
+  "code": "def replication(replicas, op, key=None, value=None):\n    # 主从复制：写主节点 → 同步从节点（读扩展/容错）\n    if op == 'write':\n        for r in replicas:\n            r[key] = value\n        return len(replicas)\n    if op == 'read':\n        return replicas[0].get(key)  # 读主副本\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-分布式查询": {
+  "task": "分布式查询",
+  "unit": "图查询-分布式查询",
+  "code": "def dist_query(shards, query_fn):\n    # 分布式查询：各分片并行查 → 合并结果（MapReduce 语义）\n    results = []\n    for shard in shards:\n        results.extend(query_fn(shard))\n    return sorted(results)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

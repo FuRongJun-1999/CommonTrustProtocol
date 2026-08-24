@@ -682,6 +682,52 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：动态图——增量边增删（增量维护语义）",
     },
+    "图存储-分区分片": {
+        "task": "分区分片",
+        "pattern": (
+            "def graph_shard(nodes, shards):\n"
+            "    # 图分区：节点确定性哈希 → 分片（水平扩展语义）\n"
+            "    parts = {i: [] for i in range(shards)}\n"
+            "    for n in nodes:\n"
+            "        parts[sum(ord(c) for c in n) % shards].append(n)\n"
+            "    return {k: sorted(v) for k, v in parts.items()}\n"),
+        "cases": [((['a', 'b', 'c', 'd'], 2), {0: ['b', 'd'], 1: ['a', 'c']}),
+                  (([], 3), {0: [], 1: [], 2: []})],
+        "params": [],
+        "calibration": "对照：分布式图——哈希分片（节点分布到分片，水平扩展）",
+    },
+    "图存储-主从复制": {
+        "task": "主从复制",
+        "pattern": (
+            "def replication(replicas, op, key=None, value=None):\n"
+            "    # 主从复制：写主节点 → 同步从节点（读扩展/容错）\n"
+            "    if op == 'write':\n"
+            "        for r in replicas:\n"
+            "            r[key] = value\n"
+            "        return len(replicas)\n"
+            "    if op == 'read':\n"
+            "        return replicas[0].get(key)  # 读主副本\n"
+            "    return None\n"),
+        "cases": [(([{}, {}], 'write', 'k', 'v'), 2),
+                  (([{'k': 'v'}, {'k': 'v'}], 'read', 'k'), 'v'),
+                  (([{'k': 'v'}, {'k': 'x'}], 'read', 'k'), 'v')],
+        "params": [],
+        "calibration": "对照：分布式图——主从复制（写全副本同步，读主副本）",
+    },
+    "图查询-分布式查询": {
+        "task": "分布式查询",
+        "pattern": (
+            "def dist_query(shards, query_fn):\n"
+            "    # 分布式查询：各分片并行查 → 合并结果（MapReduce 语义）\n"
+            "    results = []\n"
+            "    for shard in shards:\n"
+            "        results.extend(query_fn(shard))\n"
+            "    return sorted(results)\n"),
+        "cases": [(([[1, 3], [2, 4]], lambda s: [x * 2 for x in s]), [2, 4, 6, 8]),
+                  (([[], []], lambda s: s), [])],
+        "params": [],
+        "calibration": "对照：分布式查询——分片并行处理合并（Map 归约语义）",
+    },
 }
 
 

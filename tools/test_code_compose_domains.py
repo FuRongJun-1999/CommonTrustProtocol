@@ -1632,5 +1632,41 @@ try:
 except Exception as ex:
     check('㊑c 固件→引导→init 端到端（时间42 内核vmlinuz 存储网络应用）', False, str(ex)[:60])
 
+# ㊒ 目标6 深化：分布式图（分区分片/主从复制/分布式查询 经正式管线）
+g9_qs = {
+    "分区分片": "写一个图分区分片单元（哈希分布）",
+    "主从复制": "写一个主从复制单元（写全同步）",
+    "分布式查询": "写一个分布式查询单元（并行合并）",
+}
+g9_ok = 0
+for label, q in g9_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g9_ok += 1
+    check(f'㊒ {label} 分布式图单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊒b 分布式图三单元全部生成', g9_ok == 3, f'{g9_ok}/3')
+
+# ㊒c 端到端：分片→复制→分布式查询（扩展→容错→并行处理）
+r_gs = domain_route("写一个图分区分片单元（哈希分布）")
+r_rp = domain_route("写一个主从复制单元（写全同步）")
+r_dq = domain_route("写一个分布式查询单元（并行合并）")
+try:
+    ns_gs, ns_rp, ns_dq = {}, {}, {}
+    exec(r_gs["code"], ns_gs)
+    exec(r_rp["code"], ns_rp)
+    exec(r_dq["code"], ns_dq)
+    sh = ns_gs["graph_shard"](['a', 'b', 'c', 'd'], 2)
+    n = ns_rp["replication"]([{}, {}], 'write', 'k', 'v')
+    v = ns_rp["replication"]([{'k': 'v'}, {'k': 'v'}], 'read', 'k')
+    merged = ns_dq["dist_query"]([[1, 3], [2, 4]], lambda s: [x * 2 for x in s])
+    check('㊒c 分片→复制→分布式查询端到端（2片 写2读v 合并[2,4,6,8]）',
+          sh == {0: ['b', 'd'], 1: ['a', 'c']} and n == 2 and v == 'v'
+          and merged == [2, 4, 6, 8],
+          f'shard={sh} repl={n},{v} query={merged}')
+except Exception as ex:
+    check('㊒c 分片→复制→分布式查询端到端（2片 写2读v 合并[2,4,6,8]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
