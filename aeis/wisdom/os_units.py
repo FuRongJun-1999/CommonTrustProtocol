@@ -1498,6 +1498,69 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 安全——加密文件系统（透明加解密存储）",
     },
+    "系统-服务管理": {
+        "task": "服务管理",
+        "pattern": (
+            "def service_ops(services, op, name=None):\n"
+            "    # 服务管理：start 启动 / stop 停止 / status 查询（服务生命周期）\n"
+            "    if op == 'start':\n"
+            "        services[name] = 'running'\n"
+            "        return 'running'\n"
+            "    if op == 'stop':\n"
+            "        if name in services:\n"
+            "            services[name] = 'stopped'\n"
+            "            return 'stopped'\n"
+            "        return 'not_found'\n"
+            "    if op == 'status':\n"
+            "        return services.get(name, 'not_found')\n"
+            "    return None\n"),
+        "cases": [(({}, 'start', 'nginx'), 'running'),
+                  (({'nginx': 'running'}, 'stop', 'nginx'), 'stopped'),
+                  (({}, 'status', 'nginx'), 'not_found'),
+                  (({'nginx': 'running'}, 'status', 'nginx'), 'running')],
+        "params": [],
+        "calibration": "对照：systemd 服务——start/stop/status（服务生命周期）",
+    },
+    "系统-日志轮转": {
+        "task": "日志轮转",
+        "pattern": (
+            "def log_rotate(logs, op, name=None, size=0, limit=1024):\n"
+            "    # 日志轮转：append 追加（超限轮转）/ size 查询（logrotate）\n"
+            "    if op == 'append':\n"
+            "        entry = logs.setdefault(name, {'size': 0, 'rotations': 0})\n"
+            "        entry['size'] += size\n"
+            "        if entry['size'] > limit:\n"
+            "            entry['rotations'] += 1\n"
+            "            entry['size'] = size\n"
+            "            return 'rotated'\n"
+            "        return 'appended'\n"
+            "    if op == 'size':\n"
+            "        return logs.get(name, {}).get('size', 0)\n"
+            "    return None\n"),
+        "cases": [(({}, 'append', 'app.log', 500), 'appended'),
+                  (({'app.log': {'size': 800, 'rotations': 0}},
+                    'append', 'app.log', 500), 'rotated'),
+                  (({'app.log': {'size': 300, 'rotations': 0}},
+                    'size', 'app.log'), 300)],
+        "params": [],
+        "calibration": "对照：logrotate——日志大小超限轮转",
+    },
+    "系统-定时任务": {
+        "task": "定时任务",
+        "pattern": (
+            "def cron_match(rule, minute, hour):\n"
+            "    # 定时任务：cron 规则匹配（'*' 任意 / 数字精确——分钟小时）\n"
+            "    m_rule, h_rule = rule.split()\n"
+            "    m_ok = m_rule == '*' or int(m_rule) == minute\n"
+            "    h_ok = h_rule == '*' or int(h_rule) == hour\n"
+            "    return m_ok and h_ok\n"),
+        "cases": [(('* *', 30, 10), True),
+                  (('30 *', 30, 10), True),
+                  (('30 *', 31, 10), False),
+                  (('* 2', 0, 2), True)],
+        "params": [],
+        "calibration": "对照：cron——分钟/小时规则匹配（* 任意）",
+    },
 }
 
 

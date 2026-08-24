@@ -3987,5 +3987,40 @@ try:
 except Exception as ex:
     check('㋑c 三元→复合赋值→位运算端到端（JIF4 展开 6）', False, str(ex)[:60])
 
+# ㋒ 目标4 深化：系统服务（服务管理/日志轮转/定时任务 经正式管线）
+o10_qs = {
+    "服务管理": "写一个服务管理单元（启停状态）",
+    "日志轮转": "写一个日志轮转单元（超限轮转）",
+    "定时任务": "写一个定时任务单元（cron 规则）",
+}
+o10_ok = 0
+for label, q in o10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o10_ok += 1
+    check(f'㋒ {label} 系统服务单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋒b 系统服务三单元全部生成', o10_ok == 3, f'{o10_ok}/3')
+
+# ㋒c 服务端到端：服务→日志→定时（running rotated True）
+r_sv = domain_route("写一个服务管理单元（启停状态）")
+r_lr = domain_route("写一个日志轮转单元（超限轮转）")
+r_cn = domain_route("写一个定时任务单元（cron 规则）")
+try:
+    ns_sv, ns_lr, ns_cn = {}, {}, {}
+    exec(r_sv["code"], ns_sv)
+    exec(r_lr["code"], ns_lr)
+    exec(r_cn["code"], ns_cn)
+    sv = ns_sv["service_ops"]({}, 'start', 'nginx')
+    lr = ns_lr["log_rotate"](
+        {'app.log': {'size': 800, 'rotations': 0}}, 'append', 'app.log', 500)
+    cn = ns_cn["cron_match"]('30 *', 30, 10)
+    check('㋒c 服务→日志→定时端到端（running rotated True）',
+          sv == 'running' and lr == 'rotated' and cn is True,
+          f'svc={sv} log={lr} cron={cn}')
+except Exception as ex:
+    check('㋒c 服务→日志→定时端到端（running rotated True）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
