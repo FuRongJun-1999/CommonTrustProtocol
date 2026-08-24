@@ -1252,6 +1252,78 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 内存——内存压缩（超阈页压缩存储，减少占用）",
     },
+    "文件-链接管理": {
+        "task": "文件链接",
+        "pattern": (
+            "def link_ops(fs, op, name=None, target=None):\n"
+            "    # 文件链接：hard 硬链接（共享 inode）/ soft 软链接（路径引用）/ resolve 解析\n"
+            "    if op == 'hard':\n"
+            "        if target in fs:\n"
+            "            fs[name] = {'type': 'hard', 'inode': fs[target]['inode']}\n"
+            "            return 'linked'\n"
+            "        return 'missing'\n"
+            "    if op == 'soft':\n"
+            "        fs[name] = {'type': 'soft', 'target': target}\n"
+            "        return 'linked'\n"
+            "    if op == 'resolve':\n"
+            "        entry = fs.get(name)\n"
+            "        if entry is None:\n"
+            "            return None\n"
+            "        if entry['type'] == 'soft':\n"
+            "            return fs.get(entry['target'], {}).get('data')\n"
+            "        return entry.get('data')\n"
+            "    return None\n"),
+        "cases": [(({'a': {'inode': 1, 'data': 'D'}}, 'hard', 'b', 'a'), 'linked'),
+                  (({}, 'hard', 'b', 'a'), 'missing'),
+                  (({'a': {'inode': 1, 'data': 'D'}}, 'soft', 'b', 'a'), 'linked'),
+                  (({'a': {'inode': 1, 'data': 'D'},
+                     'b': {'type': 'soft', 'target': 'a'}}, 'resolve', 'b'), 'D'),
+                  (({}, 'resolve', 'x'), None)],
+        "params": [],
+        "calibration": "对照：OS 文件系统——硬链接共享 inode/软链接路径引用（解析语义）",
+    },
+    "文件-元数据查询": {
+        "task": "文件元数据",
+        "pattern": (
+            "def stat_file(fs, name):\n"
+            "    # 文件元数据：stat 查询（大小/权限/类型——文件信息）\n"
+            "    f = fs.get(name)\n"
+            "    if f is None:\n"
+            "        return None\n"
+            "    return {'size': f.get('size', 0), 'mode': f.get('mode', 'rw'),\n"
+            "            'type': f.get('type', 'file')}\n"),
+        "cases": [(({'a': {'size': 10, 'mode': 'r', 'type': 'file'}}, 'a'),
+                   {'size': 10, 'mode': 'r', 'type': 'file'}),
+                  (({}, 'a'), None),
+                  (({'a': {}}, 'a'), {'size': 0, 'mode': 'rw', 'type': 'file'})],
+        "params": [],
+        "calibration": "对照：OS stat——文件元数据（大小/权限/类型）",
+    },
+    "文件-内存映射": {
+        "task": "内存映射",
+        "pattern": (
+            "def mmap_ops(maps, op, path=None, offset=0, size=0, data=None):\n"
+            "    # 内存映射：map 映射文件段到内存 / read 读偏移 / write 写偏移回写\n"
+            "    if op == 'map':\n"
+            "        maps[path] = {'offset': offset, 'size': size,\n"
+            "                      'data': bytearray(data or b'\\x00' * size)}\n"
+            "        return path\n"
+            "    if op == 'read':\n"
+            "        m = maps[path]\n"
+            "        return bytes(m['data'][offset:offset + size])\n"
+            "    if op == 'write':\n"
+            "        m = maps[path]\n"
+            "        m['data'][offset:offset + len(data)] = data\n"
+            "        return len(data)\n"
+            "    return None\n"),
+        "cases": [(({}, 'map', 'f', 0, 4, b'abcd'), 'f'),
+                  (({'f': {'offset': 0, 'size': 4, 'data': bytearray(b'abcd')}},
+                    'read', 'f', 1, 2), b'bc'),
+                  (({'f': {'offset': 0, 'size': 4, 'data': bytearray(b'abcd')}},
+                    'write', 'f', 1, 0, b'XY'), 2)],
+        "params": [],
+        "calibration": "对照：OS mmap——文件映射到内存（读偏移/写回）",
+    },
 }
 
 

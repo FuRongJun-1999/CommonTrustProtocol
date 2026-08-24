@@ -3052,5 +3052,44 @@ try:
 except Exception as ex:
     check('㊷c 端口→QoS→链路端到端（(内网,80) f1 链路2）', False, str(ex)[:60])
 
+# ㊸ 目标4 深化：OS 文件族（链接管理/元数据/内存映射 经正式管线）
+o6_qs = {
+    "链接管理": "写一个链接管理单元（硬软链接）",
+    "文件元数据": "写一个文件元数据单元（stat）",
+    "内存映射": "写一个内存映射单元（mmap）",
+}
+o6_ok = 0
+for label, q in o6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o6_ok += 1
+    check(f'㊸ {label} OS文件单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊸b OS文件三单元全部生成', o6_ok == 3, f'{o6_ok}/3')
+
+# ㊸c 文件端到端：链接→元数据→mmap（硬链接b 元数据size10 映射读bc写2）
+r_lk = domain_route("写一个链接管理单元（硬软链接）")
+r_st = domain_route("写一个文件元数据单元（stat）")
+r_mm = domain_route("写一个内存映射单元（mmap）")
+try:
+    ns_lk, ns_st, ns_mm = {}, {}, {}
+    exec(r_lk["code"], ns_lk)
+    exec(r_st["code"], ns_st)
+    exec(r_mm["code"], ns_mm)
+    fs = {'a': {'inode': 1, 'data': 'D'}}
+    ln = ns_lk["link_ops"](fs, 'hard', 'b', 'a')
+    meta = ns_st["stat_file"]({'a': {'size': 10, 'mode': 'r', 'type': 'file'}}, 'a')
+    maps = {}
+    ns_mm["mmap_ops"](maps, 'map', 'f', 0, 4, b'abcd')
+    rd = ns_mm["mmap_ops"](maps, 'read', 'f', 1, 2)
+    w = ns_mm["mmap_ops"](maps, 'write', 'f', 1, 0, b'XY')
+    check('㊸c 链接→元数据→mmap端到端（linked size10 读bc写2）',
+          ln == 'linked' and meta == {'size': 10, 'mode': 'r', 'type': 'file'}
+          and rd == b'bc' and w == 2,
+          f'link={ln} stat={meta} mmap=({rd},{w})')
+except Exception as ex:
+    check('㊸c 链接→元数据→mmap端到端（linked size10 读bc写2）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
