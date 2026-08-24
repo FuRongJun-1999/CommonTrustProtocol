@@ -498,6 +498,73 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：protocol-compiler TokenType 枚举（道德经助记符/若则/九章算术）",
     },
+    "字节码-序列化": {
+        "task": "字节码序列化",
+        "pattern": (
+            "def serialize(code):\n"
+            "    # 指令列表 → .pbc 字节串（原生编译产物：op字符串+arg编码）\n"
+            "    import struct\n"
+            "    out = bytearray()\n"
+            "    for op, arg in code:\n"
+            "        b = op.encode('utf-8')\n"
+            "        out.extend(struct.pack('H', len(b))); out.extend(b)\n"
+            "        if arg is None:\n"
+            "            out.append(0)\n"
+            "        elif isinstance(arg, bool):\n"
+            "            out.append(1); out.append(1 if arg else 0)\n"
+            "        elif isinstance(arg, int):\n"
+            "            out.append(2); out.extend(struct.pack('q', arg))\n"
+            "        elif isinstance(arg, float):\n"
+            "            out.append(3); out.extend(struct.pack('d', arg))\n"
+            "        elif isinstance(arg, str):\n"
+            "            s = arg.encode('utf-8')\n"
+            "            out.append(4); out.extend(struct.pack('H', len(s))); out.extend(s)\n"
+            "        elif isinstance(arg, tuple):\n"
+            "            out.append(5); out.extend(struct.pack('d', arg[0]))\n"
+            "            out.extend(struct.pack('q', arg[1]))\n"
+            "        else:\n"
+            "            raise ValueError('无法序列化参数 ' + repr(arg))\n"
+            "    return bytes(out)\n"),
+        "cases": [(([("DE", 0.3), ("ZHI", None)],),
+                   b'\x02\x00DE\x03333333\xd3?\x03\x00ZHI\x00')],
+        "params": [],
+        "calibration": "对照：C3 原生编译——字节码文件格式（op字符串+arg类型标记编码）",
+    },
+    "字节码-反序列化": {
+        "task": "字节码反序列化",
+        "pattern": (
+            "def deserialize(data):\n"
+            "    # .pbc 字节串 → 指令列表（原生编译加载）\n"
+            "    import struct\n"
+            "    code, i = [], 0\n"
+            "    while i < len(data):\n"
+            "        n = struct.unpack_from('H', data, i)[0]; i += 2\n"
+            "        op = data[i:i + n].decode('utf-8'); i += n\n"
+            "        tag = data[i]; i += 1\n"
+            "        if tag == 0:\n"
+            "            arg = None\n"
+            "        elif tag == 1:\n"
+            "            arg = data[i] == 1; i += 1\n"
+            "        elif tag == 2:\n"
+            "            arg = struct.unpack_from('q', data, i)[0]; i += 8\n"
+            "        elif tag == 3:\n"
+            "            arg = struct.unpack_from('d', data, i)[0]; i += 8\n"
+            "        elif tag == 4:\n"
+            "            m = struct.unpack_from('H', data, i)[0]; i += 2\n"
+            "            arg = data[i:i + m].decode('utf-8'); i += m\n"
+            "        elif tag == 5:\n"
+            "            t = struct.unpack_from('d', data, i)[0]\n"
+            "            a = struct.unpack_from('q', data, i + 8)[0]\n"
+            "            arg = (t, a); i += 16\n"
+            "        else:\n"
+            "            raise ValueError('未知标签 ' + str(tag))\n"
+            "        code.append((op, arg))\n"
+            "    return code\n"),
+        "cases": [((b"",), []),
+                  ((bytes([0x03, 0x00]) + b"ZHI" + bytes([0x00])), [("ZHI", None)])],
+        "params": [],
+        "calibration": "对照：C3 原生编译——.pbc 加载（与序列化对称，往返一致性由校准⑫验证）",
+    },
 }
 
 

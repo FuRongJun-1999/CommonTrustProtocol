@@ -297,5 +297,25 @@ if r_z2["ok"]:
     check('校准⑪c 知足达标跳结束(信任0.8,跳过德0.5)',
           state_z2["trust"] == 0.8, f'trust={state_z2["trust"]}')
 
+# 校准⑫：C3 原生编译——字节码序列化/反序列化往返 + .pbc 执行
+serialize = _fn("字节码-序列化")
+deserialize = _fn("字节码-反序列化")
+src_pbc = "德 0.3\n若 信任值 大于 0.2，则 德 0.5\n止。\n"
+code_pbc, r_pbc = compile_full(src_pbc, {"伴侣"})
+check('校准⑫a 编译成功', r_pbc["ok"] and code_pbc, str(r_pbc.get("errors", []))[:30])
+if r_pbc["ok"]:
+    data = serialize(code_pbc)
+    check('校准⑫b 序列化字节串', isinstance(data, bytes) and len(data) > 0,
+          f'{len(data)} 字节')
+    code_rt = deserialize(data)
+    check('校准⑫c 反序列化往返一致', code_rt == code_pbc,
+          f'len={len(code_rt)}')
+    # .pbc 独立执行（不依赖编译流程，直接 VM 加载执行）
+    state_pbc = vm_run(code_rt, symbols={"信任值": 0.5})
+    state_direct = vm_run(code_pbc, symbols={"信任值": 0.5})
+    check('校准⑫d .pbc 执行结果一致(信任0.8)',
+          state_pbc["trust"] == state_direct["trust"] == 0.8,
+          f'trust={state_pbc["trust"]}')
+
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
