@@ -3305,5 +3305,43 @@ try:
 except Exception as ex:
     check('㊾c 屏障→工作池→进程端到端（released [[1,3],[2,4]] 退出0）', False, str(ex)[:60])
 
+# ㊿ 目标2 深化：词法/语法字面量（字符串/数字/数组 经正式管线）
+c8_qs = {
+    "字符串字面量": "写一个字符串字面量单元（引号转义）",
+    "数字字面量": "写一个数字字面量单元（整数浮点）",
+    "数组字面量": "写一个数组字面量单元（元素列表）",
+}
+c8_ok = 0
+for label, q in c8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c8_ok += 1
+    check(f'㊿ {label} 字面量单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊿b 字面量三单元全部生成', c8_ok == 3, f'{c8_ok}/3')
+
+# ㊿c 字面量端到端：字符串→数字→数组（abc 42 3.5 0xFF=255 [1,2]）
+r_st = domain_route("写一个字符串字面量单元（引号转义）")
+r_nu = domain_route("写一个数字字面量单元（整数浮点）")
+r_ar = domain_route("写一个数组字面量单元（元素列表）")
+try:
+    ns_st, ns_nu, ns_ar = {}, {}, {}
+    exec(r_st["code"], ns_st)
+    exec(r_nu["code"], ns_nu)
+    exec(r_ar["code"], ns_ar)
+    st = ns_st["lex_string"]('"abc"', 0)
+    n1 = ns_nu["lex_number"]('42', 0)
+    n2 = ns_nu["lex_number"]('3.5', 0)
+    n3 = ns_nu["lex_number"]('0xFF', 0)
+    arr = ns_ar["parse_array"](['[', 1, ',', 2, ']'], 0)
+    check('㊿c 字符串→数字→数组端到端（abc 42 3.5 255 [1,2]）',
+          st == (('STRING', 'abc'), 5) and n1 == (('NUMBER', 42), 2)
+          and n2 == (('NUMBER', 3.5), 3) and n3 == (('NUMBER', 255), 4)
+          and arr == ([1, 2], 5),
+          f'str={st} num={n1}/{n2}/{n3} arr={arr}')
+except Exception as ex:
+    check('㊿c 字符串→数字→数组端到端（abc 42 3.5 255 [1,2]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

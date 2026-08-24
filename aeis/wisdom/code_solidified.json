@@ -2608,5 +2608,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:compiler|词法-字符串字面量": {
+  "task": "字符串字面量",
+  "unit": "词法-字符串字面量",
+  "code": "def lex_string(src, i):\n    # 字符串字面量：引号内解析（支持反斜杠转义）→ (token, 新位置)\n    if src[i] != '\"':\n        return None, i\n    j = i + 1\n    buf = []\n    while j < len(src) and src[j] != '\"':\n        if src[j] == '\\\\' and j + 1 < len(src):\n            buf.append(src[j + 1])\n            j += 2\n        else:\n            buf.append(src[j])\n            j += 1\n    if j >= len(src):\n        return ('STRING', ''.join(buf), 'unterminated'), j\n    return ('STRING', ''.join(buf)), j + 1\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|词法-数字字面量": {
+  "task": "数字字面量",
+  "unit": "词法-数字字面量",
+  "code": "def lex_number(src, i):\n    # 数字字面量：整数/浮点/十六进制解析 → (token, 新位置)\n    if src[i] == '0' and i + 1 < len(src) and src[i + 1] in 'xX':\n        j = i + 2\n        while j < len(src) and (src[j].isdigit() or src[j] in 'abcdefABCDEF'):\n            j += 1\n        return ('NUMBER', int(src[i + 2:j], 16)), j\n    if src[i].isdigit():\n        j = i\n        while j < len(src) and (src[j].isdigit() or src[j] == '.'):\n            j += 1\n        text = src[i:j]\n        return ('NUMBER', float(text) if '.' in text else int(text)), j\n    return None, i\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|语法-数组字面量": {
+  "task": "数组字面量",
+  "unit": "语法-数组字面量",
+  "code": "def parse_array(tokens, i):\n    # 数组字面量：'[' 元素列表 ']' 解析（逗号分隔）→ (list, 新位置)\n    if tokens[i] != '[':\n        return None, i\n    items = []\n    i += 1\n    while i < len(tokens) and tokens[i] != ']':\n        if tokens[i] != ',':\n            items.append(tokens[i])\n        i += 1\n    return items, i + 1\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }
