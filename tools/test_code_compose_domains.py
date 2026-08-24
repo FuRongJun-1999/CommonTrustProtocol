@@ -2307,5 +2307,48 @@ try:
 except Exception as ex:
     check('㊣c 热插拔→即插即用→设备树端到端（列表[usb1] 匹配鼠标 拓扑ns16550）', False, str(ex)[:60])
 
+# ㊤ 目标6 深化：图安全（权限控制/租户隔离/加密存储 经正式管线）
+g14_qs = {
+    "权限控制": "写一个图权限控制单元（节点 ACL）",
+    "租户隔离": "写一个租户隔离单元（owner 过滤）",
+    "加密存储": "写一个加密存储单元（异或保护）",
+}
+g14_ok = 0
+for label, q in g14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g14_ok += 1
+    check(f'㊤ {label} 图安全单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊤b 图安全三单元全部生成', g14_ok == 3, f'{g14_ok}/3')
+
+# ㊤c 端到端：权限→租户→加密（授权→隔离→保护）
+r_ga = domain_route("写一个图权限控制单元（节点 ACL）")
+r_ts = domain_route("写一个租户隔离单元（owner 过滤）")
+r_es = domain_route("写一个加密存储单元（异或保护）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+ns_g14 = {}
+exec(r_g["code"], ns_g14)
+Graph14 = ns_g14["Graph"]
+try:
+    ns_ga, ns_ts, ns_es = {}, {}, {}
+    exec(r_ga["code"], ns_ga)
+    exec(r_ts["code"], ns_ts)
+    exec(r_es["code"], ns_es)
+    ok_r = ns_ga["graph_acl"]({'n1': [{'user': 'u1', 'action': 'read',
+                                       'allow': True}]}, 'u1', 'n1', 'read')
+    g = Graph14()
+    g.add_edge("a", "b")
+    g.owner = {'a': 't1', 'b': 't2'}
+    vis = ns_ts["tenant_scope"](g, 't1')
+    code = ns_es["encrypt_node"]('秘密', 7)
+    dec = ns_es["decrypt_node"](code, 7)
+    check('㊤c 权限→租户→加密端到端（读允 t1见a 加密解密往返）',
+          ok_r is True and vis == ['a'] and dec == '秘密',
+          f'acl={ok_r} tenant={vis} crypto={dec}')
+except Exception as ex:
+    check('㊤c 权限→租户→加密端到端（读允 t1见a 加密解密往返）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

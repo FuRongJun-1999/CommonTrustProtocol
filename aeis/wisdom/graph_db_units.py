@@ -957,6 +957,47 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：图学习——相似推荐（共同邻居最多，协同过滤）",
     },
+    "图安全-权限控制": {
+        "task": "图权限",
+        "pattern": (
+            "def graph_acl(acl, user, node, action):\n"
+            "    # 图权限：节点级访问控制（用户/节点/动作）\n"
+            "    rules = acl.get(node, [])\n"
+            "    for r in rules:\n"
+            "        if r['user'] == user and r['action'] == action:\n"
+            "            return r['allow']\n"
+            "    return False\n"),
+        "cases": [(({'n1': [{'user': 'u1', 'action': 'read', 'allow': True}]},
+                    'u1', 'n1', 'read'), True),
+                  (({'n1': []}, 'u1', 'n1', 'read'), False)],
+        "params": [],
+        "calibration": "对照：图安全——节点级 ACL（用户/节点/动作权限）",
+    },
+    "图安全-租户隔离": {
+        "task": "租户隔离",
+        "pattern": (
+            "def tenant_scope(graph, tenant):\n"
+            "    # 租户隔离：返回租户可见节点（数据隔离语义）\n"
+            "    return sorted(n for n in graph.nodes\n"
+            "                  if graph.owner.get(n) == tenant)\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图安全——租户隔离（节点 owner 过滤，多租户数据隔离）",
+    },
+    "图安全-加密存储": {
+        "task": "加密存储",
+        "pattern": (
+            "def encrypt_node(value, key):\n"
+            "    # 图加密：节点值异或密钥（静态数据加密）\n"
+            "    return ''.join(chr(ord(c) ^ key) for c in value)\n"
+            "def decrypt_node(code, key):\n"
+            "    return ''.join(chr(ord(c) ^ key) for c in code)\n"),
+        "cases": [(('秘密', 7), '租寁'),
+                  (('数据', 3), '敳捭')],
+        "params": [],
+        "calibration": "对照：图安全——加密存储（异或加密/解密，静态数据保护）",
+    },
 }
 
 

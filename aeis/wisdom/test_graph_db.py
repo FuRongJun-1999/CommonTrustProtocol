@@ -97,6 +97,13 @@ for uid, u in GRAPH_UNITS.items():
                         # 注入图；批量添加 3 条边
                         g = generated["图存储-节点边"][0]["Graph"]()
                         got = fn(g, [("a", "b"), ("b", "c"), ("c", "d")])
+                    elif uid == "图安全-租户隔离":
+                        # 注入两链图 + owner
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压低", "沸点降")
+                        g.owner = {'气压低': 't1', '沸点降': 't2'}
+                        got = fn(g, 't1')
+                        expect = ['气压低']
                     elif uid in ("图嵌入-节点特征", "图嵌入-图特征", "图学习-相似推荐"):
                         # 注入两链图
                         g = generated["图存储-节点边"][0]["Graph"]()
