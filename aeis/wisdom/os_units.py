@@ -648,6 +648,64 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 并发——生产者-消费者（有界缓冲，满/空边界）",
     },
+    "虚拟化-命名空间": {
+        "task": "命名空间",
+        "pattern": (
+            "def ns_map(op, ns, pid=None):\n"
+            "    # 命名空间隔离：PID/网络视图映射（容器进程 → 命名空间内 PID）\n"
+            "    if op == 'register':\n"
+            "        ns['inner'] = ns.get('inner', 100) + 1\n"
+            "        ns[pid] = ns['inner']\n"
+            "        return ns[pid]\n"
+            "    if op == 'lookup':\n"
+            "        return ns.get(pid)\n"
+            "    return None\n"),
+        "cases": [(('register', {}, 'p1'), 101),
+                  (('lookup', {'inner': 100, 'p1': 101}, 'p1'), 101),
+                  (('lookup', {'inner': 100}, 'nope'), None)],
+        "params": [],
+        "calibration": "对照：容器命名空间——PID 视图映射（进程在命名空间内重编号，隔离语义）",
+    },
+    "虚拟化-cgroup限制": {
+        "task": "资源限制",
+        "pattern": (
+            "def cgroup_limit(cg, resource, limit, usage):\n"
+            "    # cgroup：资源配额（CPU/内存 限额，超限拒绝）\n"
+            "    if resource not in cg:\n"
+            "        cg[resource] = limit\n"
+            "    return usage <= cg[resource]\n"),
+        "cases": [(({}, 'cpu', 100, 80), True),
+                  (({}, 'cpu', 100, 120), False),
+                  (({'mem': 50}, 'mem', 50, 50), True)],
+        "params": [],
+        "calibration": "对照：cgroup 资源限制——CPU/内存配额（使用量超限拒绝）",
+    },
+    "容器-生命周期": {
+        "task": "容器生命周期",
+        "pattern": (
+            "def container_ops(state, op, img=None):\n"
+            "    # 容器：创建/启动/停止/删除（镜像 → 运行实例）\n"
+            "    if op == 'create':\n"
+            "        state['img'] = img\n"
+            "        state['status'] = 'created'\n"
+            "        return 'created'\n"
+            "    if op == 'start':\n"
+            "        state['status'] = 'running'\n"
+            "        return 'running'\n"
+            "    if op == 'stop':\n"
+            "        state['status'] = 'exited'\n"
+            "        return 'exited'\n"
+            "    if op == 'remove':\n"
+            "        state.clear()\n"
+            "        return 'removed'\n"
+            "    return None\n"),
+        "cases": [(({}, 'create', 'alpine'), 'created'),
+                  (({'status': 'created'}, 'start'), 'running'),
+                  (({'status': 'running'}, 'stop'), 'exited'),
+                  (({'status': 'exited'}, 'remove'), 'removed')],
+        "params": [],
+        "calibration": "对照：容器生命周期——create/start/stop/remove（镜像→实例状态机）",
+    },
 }
 
 

@@ -1333,5 +1333,42 @@ try:
 except Exception as ex:
     check('㊇c 连接池→多路复用→QUIC 端到端（新建 2流 0-RTT）', False, str(ex)[:60])
 
+# ㊉ 目标4 深化：容器/虚拟化（命名空间/cgroup/容器生命周期 经正式管线）
+o10_qs = {
+    "命名空间": "写一个命名空间单元（PID 隔离）",
+    "资源限制": "写一个 cgroup 资源限制单元（配额）",
+    "容器生命周期": "写一个容器生命周期单元（创建启动停止）",
+}
+o10_ok = 0
+for label, q in o10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o10_ok += 1
+    check(f'㊉ {label} 容器/虚拟化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊉b 容器/虚拟化三单元全部生成', o10_ok == 3, f'{o10_ok}/3')
+
+# ㊉c 端到端：命名空间→cgroup→容器（隔离→限额→生命周期）
+r_ns = domain_route("写一个命名空间单元（PID 隔离）")
+r_cg = domain_route("写一个 cgroup 资源限制单元（配额）")
+r_ct = domain_route("写一个容器生命周期单元（创建启动停止）")
+try:
+    ns_ns, ns_cg, ns_ct = {}, {}, {}
+    exec(r_ns["code"], ns_ns)
+    exec(r_cg["code"], ns_cg)
+    exec(r_ct["code"], ns_ct)
+    pid = ns_ns["ns_map"]('register', {}, 'p1')
+    ok_cg = ns_cg["cgroup_limit"]({}, 'cpu', 100, 80)
+    over = ns_cg["cgroup_limit"]({}, 'cpu', 100, 120)
+    st = ns_ct["container_ops"]({}, 'create', 'alpine')
+    run = ns_ct["container_ops"]({'status': 'created'}, 'start')
+    check('㊉c 命名空间→cgroup→容器端到端（PID101 限内允超限拒 创建运行）',
+          pid == 101 and ok_cg is True and over is False
+          and st == 'created' and run == 'running',
+          f'ns={pid} cg={ok_cg},{over} ctr={st},{run}')
+except Exception as ex:
+    check('㊉c 命名空间→cgroup→容器端到端（PID101 限内允超限拒 创建运行）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

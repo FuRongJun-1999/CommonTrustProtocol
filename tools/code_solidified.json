@@ -1018,5 +1018,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:os|虚拟化-命名空间": {
+  "task": "命名空间",
+  "unit": "虚拟化-命名空间",
+  "code": "def ns_map(op, ns, pid=None):\n    # 命名空间隔离：PID/网络视图映射（容器进程 → 命名空间内 PID）\n    if op == 'register':\n        ns['inner'] = ns.get('inner', 100) + 1\n        ns[pid] = ns['inner']\n        return ns[pid]\n    if op == 'lookup':\n        return ns.get(pid)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|虚拟化-cgroup限制": {
+  "task": "资源限制",
+  "unit": "虚拟化-cgroup限制",
+  "code": "def cgroup_limit(cg, resource, limit, usage):\n    # cgroup：资源配额（CPU/内存 限额，超限拒绝）\n    if resource not in cg:\n        cg[resource] = limit\n    return usage <= cg[resource]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|容器-生命周期": {
+  "task": "容器生命周期",
+  "unit": "容器-生命周期",
+  "code": "def container_ops(state, op, img=None):\n    # 容器：创建/启动/停止/删除（镜像 → 运行实例）\n    if op == 'create':\n        state['img'] = img\n        state['status'] = 'created'\n        return 'created'\n    if op == 'start':\n        state['status'] = 'running'\n        return 'running'\n    if op == 'stop':\n        state['status'] = 'exited'\n        return 'exited'\n    if op == 'remove':\n        state.clear()\n        return 'removed'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
