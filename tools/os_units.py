@@ -1383,6 +1383,69 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 进程——fork/exec/wait 生命周期状态机",
     },
+    "存储-磁盘调度SCAN": {
+        "task": "磁盘调度",
+        "pattern": (
+            "def scan_schedule(requests, head, direction=1):\n"
+            "    # 磁盘调度：SCAN 电梯算法（单向扫描到端再折返）\n"
+            "    up = sorted(r for r in requests if r >= head)\n"
+            "    down = sorted((r for r in requests if r < head), reverse=True)\n"
+            "    if direction == 1:\n"
+            "        return up + down\n"
+            "    return down + up\n"),
+        "cases": [(([10, 30, 50], 40), [50, 30, 10]),
+                  (([10, 30, 50], 20, -1), [10, 30, 50]),
+                  (([], 40), [])],
+        "params": [],
+        "calibration": "对照：OS 磁盘调度——SCAN 电梯算法（单向扫描折返）",
+    },
+    "文件-写时复制快照": {
+        "task": "写时复制快照",
+        "pattern": (
+            "def cow_snapshot(blocks, op, snapshot=None, block=None, data=None,\n"
+            "                 snapshots=None):\n"
+            "    # 写时复制快照：snapshot 冻结块引用 / write 写块时快照侧冻结原值\n"
+            "    snapshots = snapshots if snapshots is not None else {}\n"
+            "    if op == 'snapshot':\n"
+            "        snapshots[snapshot] = dict(blocks)\n"
+            "        return snapshot\n"
+            "    if op == 'write':\n"
+            "        for snap, refs in snapshots.items():\n"
+            "            if block in refs:\n"
+            "                refs['_cow'] = refs.get('_cow', []) + [block]\n"
+            "        blocks[block] = data\n"
+            "        return 'written'\n"
+            "    if op == 'read':\n"
+            "        return snapshots.get(snapshot, {}).get(block)\n"
+            "    return None\n"),
+        "cases": [(({}, 'snapshot', 's1', None, None, {}), 's1'),
+                  (({'b1': 'A'}, 'snapshot', 's1', None, None, {}), 's1'),
+                  (({'b1': 'A'}, 'write', None, 'b1', 'B',
+                    {'s1': {'b1': 'A'}}), 'written'),
+                  (({'b1': 'A'}, 'read', 's1', 'b1', None,
+                    {'s1': {'b1': 'A'}}), 'A')],
+        "params": [],
+        "calibration": "对照：OS 文件系统——写时复制快照（快照冻结，写共享块先复制）",
+    },
+    "存储-磨损均衡": {
+        "task": "磨损均衡",
+        "pattern": (
+            "def wear_leveling(blocks, op, block=None):\n"
+            "    # 磨损均衡：写块记录写入次数，pick 选最少磨损块（SSD 寿命）\n"
+            "    if op == 'write':\n"
+            "        blocks[block] = blocks.get(block, 0) + 1\n"
+            "        return blocks[block]\n"
+            "    if op == 'pick':\n"
+            "        if not blocks:\n"
+            "            return None\n"
+            "        return min(blocks, key=blocks.get)\n"
+            "    return None\n"),
+        "cases": [(({'a': 3, 'b': 1}, 'write', 'b'), 2),
+                  (({'a': 3, 'b': 1}, 'pick'), 'b'),
+                  (({}, 'pick'), None)],
+        "params": [],
+        "calibration": "对照：OS 存储——磨损均衡（写入次数记录，选最少磨损块）",
+    },
 }
 
 

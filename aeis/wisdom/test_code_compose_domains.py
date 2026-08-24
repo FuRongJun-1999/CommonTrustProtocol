@@ -3523,5 +3523,41 @@ try:
 except Exception as ex:
     check('㋄c 最大流→欧拉→直径端到端（4 True 2）', False, str(ex)[:60])
 
+# ㋅ 目标4 深化：OS 存储（磁盘调度/写时复制快照/磨损均衡 经正式管线）
+o8_qs = {
+    "磁盘调度": "写一个磁盘调度单元（SCAN 电梯）",
+    "写时复制快照": "写一个写时复制快照单元（块冻结）",
+    "磨损均衡": "写一个磨损均衡单元（最少磨损）",
+}
+o8_ok = 0
+for label, q in o8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o8_ok += 1
+    check(f'㋅ {label} OS存储单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋅b OS存储三单元全部生成', o8_ok == 3, f'{o8_ok}/3')
+
+# ㋅c 存储端到端：SCAN→CoW快照→磨损均衡（[50,30,10] 快照读A 选b）
+r_sc = domain_route("写一个磁盘调度单元（SCAN 电梯）")
+r_cw = domain_route("写一个写时复制快照单元（块冻结）")
+r_wl = domain_route("写一个磨损均衡单元（最少磨损）")
+try:
+    ns_sc, ns_cw, ns_wl = {}, {}, {}
+    exec(r_sc["code"], ns_sc)
+    exec(r_cw["code"], ns_cw)
+    exec(r_wl["code"], ns_wl)
+    sc = ns_sc["scan_schedule"]([10, 30, 50], 40)
+    snaps = {'s1': {'b1': 'A'}}
+    ns_cw["cow_snapshot"]({'b1': 'A'}, 'write', None, 'b1', 'B', snaps)
+    rd = ns_cw["cow_snapshot"]({'b1': 'B'}, 'read', 's1', 'b1', None, snaps)
+    wl = ns_wl["wear_leveling"]({'a': 3, 'b': 1}, 'pick')
+    check('㋅c SCAN→快照→磨损端到端（[50,30,10] 快照A 选b）',
+          sc == [50, 30, 10] and rd == 'A' and wl == 'b',
+          f'scan={sc} snap={rd} wear={wl}')
+except Exception as ex:
+    check('㋅c SCAN→快照→磨损端到端（[50,30,10] 快照A 选b）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
