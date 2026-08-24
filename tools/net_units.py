@@ -1552,6 +1552,74 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：ICMP Echo——ping 往返测量与可达性判定（RTT 阈值）",
     },
+    "网络-广播风暴": {
+        "task": "广播风暴",
+        "pattern": (
+            "def storm_control(state, op, port=None):\n"
+            "    # 广播风暴：count 计数 / rate 速率 / block 超阈阻塞（风暴抑制）\n"
+            "    if op == 'count':\n"
+            "        state[port] = state.get(port, 0) + 1\n"
+            "        return state[port]\n"
+            "    if op == 'rate':\n"
+            "        return state.get(port, 0)\n"
+            "    if op == 'block':\n"
+            "        return state.get(port, 0) > state.get('limit', 100)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'count', 'p1'), 1),
+            (({'p1': 5}, 'rate', 'p1'), 5),
+            (({'p1': 150, 'limit': 100}, 'block', 'p1'), True),
+            (({'p1': 50, 'limit': 100}, 'block', 'p1'), False)],
+        "params": [],
+        "calibration": "对照：广播风暴抑制——计数/速率/超阈阻塞（环路风暴防护）",
+    },
+    "网络-心跳保活": {
+        "task": "心跳保活",
+        "pattern": (
+            "def keepalive(state, op, now=None):\n"
+            "    # 心跳保活：beat 记录心跳 / alive 超时判定 / reset 重置（连接保活）\n"
+            "    if op == 'beat':\n"
+            "        state['last'] = now\n"
+            "        return now\n"
+            "    if op == 'alive':\n"
+            "        return now - state.get('last', now) <= state.get('timeout', 30)\n"
+            "    if op == 'reset':\n"
+            "        state['last'] = None\n"
+            "        return 'reset'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'beat', 100), 100),
+            (({'last': 100}, 'alive', 120), True),
+            (({'last': 100}, 'alive', 200), False),
+            (({}, 'reset'), 'reset')],
+        "params": [],
+        "calibration": "对照：TCP keepalive——心跳记录/超时判定（连接保活）",
+    },
+    "网络-报文重排序": {
+        "task": "报文重排序",
+        "pattern": (
+            "def reorder_buffer(state, op, seq=None, data=None):\n"
+            "    # 报文重排序：put 乱序存入 / flush 按序取出（重排缓冲）\n"
+            "    if op == 'put':\n"
+            "        state.setdefault('buf', {})[seq] = data\n"
+            "        return len(state['buf'])\n"
+            "    if op == 'flush':\n"
+            "        out = []\n"
+            "        nxt = state.get('next', 0)\n"
+            "        while nxt in state.get('buf', {}):\n"
+            "            out.append(state['buf'].pop(nxt))\n"
+            "            nxt += 1\n"
+            "        state['next'] = nxt\n"
+            "        return out\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'put', 3, 'c'), 1),
+            (({'buf': {1: 'a', 2: 'b'}, 'next': 1}, 'flush'), ['a', 'b']),
+            (({'buf': {}, 'next': 0}, 'flush'), []),
+            (({'buf': {5: 'e'}, 'next': 1}, 'flush'), [])],
+        "params": [],
+        "calibration": "对照：TCP 乱序重排——按序号缓冲并按序递交（reordering）",
+    },
 }
 
 

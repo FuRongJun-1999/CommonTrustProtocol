@@ -5229,5 +5229,41 @@ except Exception as ex:
     check('㋴c 堆→缓存→异步端到端（0 (42,False) 0）',
           False, str(ex)[:60])
 
+# ㋵ 目标7 深化：网络工程（广播风暴/心跳保活/报文重排序 经正式管线）
+n16_qs = {
+    "广播风暴": "写一个广播风暴单元（风暴抑制）",
+    "心跳保活": "写一个心跳保活单元（连接保活）",
+    "报文重排序": "写一个报文重排序单元（按序递交）",
+}
+n16_ok = 0
+for label, q in n16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n16_ok += 1
+    check(f'㋵ {label} 网络工程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋵b 网络工程三单元全部生成', n16_ok == 3, f'{n16_ok}/3')
+
+# ㋵c 工程端到端：风暴→保活→重排（True True [a,b]）
+r_sc = domain_route("写一个广播风暴单元（风暴抑制）")
+r_ka = domain_route("写一个心跳保活单元（连接保活）")
+r_rb = domain_route("写一个报文重排序单元（按序递交）")
+try:
+    ns_sc, ns_ka, ns_rb = {}, {}, {}
+    exec(r_sc["code"], ns_sc)
+    exec(r_ka["code"], ns_ka)
+    exec(r_rb["code"], ns_rb)
+    st = {'p1': 150, 'limit': 100}
+    sc = ns_sc["storm_control"](st, 'block', 'p1')
+    ka = ns_ka["keepalive"]({'last': 100}, 'alive', 120)
+    rb = ns_rb["reorder_buffer"]({'buf': {1: 'a', 2: 'b'}, 'next': 1}, 'flush')
+    check('㋵c 风暴→保活→重排端到端（True True [a,b]）',
+          sc is True and ka is True and rb == ['a', 'b'],
+          f'storm={sc} alive={ka} reorder={rb}')
+except Exception as ex:
+    check('㋵c 风暴→保活→重排端到端（True True [a,b]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
