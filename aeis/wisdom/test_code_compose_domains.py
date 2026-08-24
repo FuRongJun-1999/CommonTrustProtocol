@@ -779,5 +779,40 @@ try:
 except Exception as ex:
     check('㉘c 存储→会话→Worker 端到端（theme=dark 同标签/新标签隔离 42）', False, str(ex)[:60])
 
+# ㉙ 目标1 深化：生成器/迭代器（yield/迭代协议/列表推导 经正式管线）
+p4_qs = {
+    "生成器": "写一个生成器单元（yield 逐个产出）",
+    "迭代器": "写一个迭代器协议单元（iter next）",
+    "列表推导": "写一个列表推导式单元（映射）",
+}
+p4_ok = 0
+for label, q in p4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p4_ok += 1
+    check(f'㉙ {label} 生成器/迭代器单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉙b 生成器/迭代器三单元全部生成', p4_ok == 3, f'{p4_ok}/3')
+
+# ㉙c 端到端：生成器产出→迭代协议遍历→列表推导映射（惰性→协议→映射组合）
+r_gen = domain_route("写一个生成器单元（yield 逐个产出）")
+r_it = domain_route("写一个迭代器协议单元（iter next）")
+r_lc = domain_route("写一个列表推导式单元（映射）")
+try:
+    ns_gen, ns_it, ns_lc = {}, {}, {}
+    exec(r_gen["code"], ns_gen)
+    exec(r_it["code"], ns_it)
+    exec(r_lc["code"], ns_lc)
+    produced = ns_gen["gen_test"]()
+    walked = ns_it["iter_protocol"](produced)
+    mapped = ns_lc["list_comp"](walked, lambda x: x * 10)
+    check('㉙c 生成→迭代→推导端到端（[0,1,2] 遍历 [0,20,30] 映射×10）',
+          produced == [0, 1, 2] and walked == [0, 1, 2]
+          and mapped == [0, 10, 20],
+          f'gen={produced} it={walked} comp={mapped}')
+except Exception as ex:
+    check('㉙c 生成→迭代→推导端到端（[0,1,2] 遍历 [0,20,30] 映射×10）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

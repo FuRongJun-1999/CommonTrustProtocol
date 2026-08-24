@@ -50,6 +50,9 @@ for uid, u in PYTHON_UNITS.items():
                         entry = ns.get("closure_mutate_test") or \
                             ns.get("closure_factory_test") or ns.get("lazy_bindings")
                         got = entry()
+                    elif uid == "生成器-yield":
+                        # 注入验证：生成器 yield 逐个产出
+                        got = ns["gen_test"]()
                     else:
                         entry = ns.get("closure_test") or ns.get("env_scope")
                         got = entry()

@@ -568,5 +568,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:pylang|生成器-yield": {
+  "task": "生成器",
+  "unit": "生成器-yield",
+  "code": "def gen_count(n):\n    # 生成器：yield 暂停/恢复（惰性求值，逐个产出）\n    i = 0\n    while i < n:\n        yield i\n        i += 1\ndef gen_test():\n    return list(gen_count(3))\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|迭代器-协议": {
+  "task": "迭代协议",
+  "unit": "迭代器-协议",
+  "code": "def iter_protocol(data):\n    # 迭代器协议：__iter__/__next__（next 逐个取值，耗尽抛 StopIteration）\n    it = iter(data)\n    out = []\n    while True:\n        try:\n            out.append(next(it))\n        except StopIteration:\n            break\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|推导式-列表推导": {
+  "task": "列表推导",
+  "unit": "推导式-列表推导",
+  "code": "def list_comp(items, transform):\n    # 列表推导式：[transform(x) for x in items]（映射语义）\n    return [transform(x) for x in items]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

@@ -395,6 +395,52 @@ PYTHON_UNITS = {
         "needs_inject": True,
         "calibration": "对照：Python 异常传播（内层 raise → 中间不处理 → 外层捕获）",
     },
+    "生成器-yield": {
+        "task": "生成器",
+        "pattern": (
+            "def gen_count(n):\n"
+            "    # 生成器：yield 暂停/恢复（惰性求值，逐个产出）\n"
+            "    i = 0\n"
+            "    while i < n:\n"
+            "        yield i\n"
+            "        i += 1\n"
+            "def gen_test():\n"
+            "    return list(gen_count(3))\n"),
+        "cases": [("call", [0, 1, 2])],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 生成器——yield 逐个产出（list(gen_count(3))=[0,1,2] 惰性求值）",
+    },
+    "迭代器-协议": {
+        "task": "迭代协议",
+        "pattern": (
+            "def iter_protocol(data):\n"
+            "    # 迭代器协议：__iter__/__next__（next 逐个取值，耗尽抛 StopIteration）\n"
+            "    it = iter(data)\n"
+            "    out = []\n"
+            "    while True:\n"
+            "        try:\n"
+            "            out.append(next(it))\n"
+            "        except StopIteration:\n"
+            "            break\n"
+            "    return out\n"),
+        "cases": [(([1, 2, 3],), [1, 2, 3]),
+                  (([],), []),
+                  ((['a'],), ['a'])],
+        "params": [],
+        "calibration": "对照：Python 迭代器协议（iter/next/StopIteration 耗尽语义）",
+    },
+    "推导式-列表推导": {
+        "task": "列表推导",
+        "pattern": (
+            "def list_comp(items, transform):\n"
+            "    # 列表推导式：[transform(x) for x in items]（映射语义）\n"
+            "    return [transform(x) for x in items]\n"),
+        "cases": [(([1, 2, 3], lambda x: x * 2), [2, 4, 6]),
+                  (([], lambda x: x), [])],
+        "params": [],
+        "calibration": "对照：Python 列表推导式（[f(x) for x in seq] 映射）",
+    },
 }
 
 
