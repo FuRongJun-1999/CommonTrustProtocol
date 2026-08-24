@@ -1480,6 +1480,53 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：async generator——异步逐值产出（yield 语义模拟）",
     },
+    "工具-切片操作": {
+        "task": "切片操作",
+        "pattern": (
+            "def slice_ops(seq, start, stop, step=1):\n"
+            "    # 切片操作：start:stop:step 区间截取（序列切片语义）\n"
+            "    return list(seq[start:stop:step])\n"),
+        "cases": [
+            (([0, 1, 2, 3, 4], 1, 4), [1, 2, 3]),
+            (([0, 1, 2, 3, 4], 0, 5, 2), [0, 2, 4]),
+            (([0, 1, 2, 3, 4], -3, None), [2, 3, 4]),
+            (([], 0, 3), [])],
+        "params": [],
+        "calibration": "对照：Python 切片——start:stop:step 区间截取（含负索引）",
+    },
+    "工具-矩阵运算": {
+        "task": "矩阵运算",
+        "pattern": (
+            "def matrix_ops(a, b=None, op=None):\n"
+            "    # 矩阵运算：add 逐元素加 / mul 矩阵乘（内积和）\n"
+            "    if op == 'add':\n"
+            "        return [[a[i][j] + b[i][j] for j in range(len(a[0]))]\n"
+            "                for i in range(len(a))]\n"
+            "    if op == 'mul':\n"
+            "        n, m, p = len(a), len(a[0]), len(b[0])\n"
+            "        return [[sum(a[i][k] * b[k][j] for k in range(m))\n"
+            "                for j in range(p)] for i in range(n)]\n"
+            "    return None\n"),
+        "cases": [
+            (([[1, 2], [3, 4]], [[5, 6], [7, 8]], 'add'), [[6, 8], [10, 12]]),
+            (([[1, 2], [3, 4]], [[1, 0], [0, 1]], 'mul'), [[1, 2], [3, 4]]),
+            (([[1, 2]], [[1], [2]], 'mul'), [[5]])],
+        "params": [],
+        "calibration": "对照：矩阵运算——逐元素加/矩阵乘（内积和）",
+    },
+    "元编程-类装饰器": {
+        "task": "类装饰器",
+        "pattern": (
+            "def class_decorator(cls, marker):\n"
+            "    # 类装饰器：给类附加标记属性并返回标记（类增强语义）\n"
+            "    cls.__marker__ = marker\n"
+            "    return cls.__marker__\n"),
+        "cases": [
+            ((type('狗', (), {}), '宠物'), '宠物'),
+            ((type('猫', (), {}), '宠物'), '宠物')],
+        "params": [],
+        "calibration": "对照：Python 类装饰器——类对象增强（附加标记/注册语义）",
+    },
 }
 
 

@@ -5336,5 +5336,40 @@ except Exception as ex:
     check('㋷c 命中→标签页→可见性端到端（甲 sent hidden）',
           False, str(ex)[:60])
 
+# ㋸ 目标1 深化：P 线工具/元编程（切片操作/矩阵运算/类装饰器 经正式管线）
+p17_qs = {
+    "切片操作": "写一个切片操作单元（区间截取）",
+    "矩阵运算": "写一个矩阵运算单元（矩阵乘）",
+    "类装饰器": "写一个类装饰器单元（类增强）",
+}
+p17_ok = 0
+for label, q in p17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p17_ok += 1
+    check(f'㋸ {label} P线工具/元编程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋸b P线工具/元编程三单元全部生成', p17_ok == 3, f'{p17_ok}/3')
+
+# ㋸c 工具端到端：切片→矩阵→类装饰（[1,2,3] [[6,8],[10,12]] 宠物）
+r_sl = domain_route("写一个切片操作单元（区间截取）")
+r_mx = domain_route("写一个矩阵运算单元（矩阵乘）")
+r_cd = domain_route("写一个类装饰器单元（类增强）")
+try:
+    ns_sl, ns_mx, ns_cd = {}, {}, {}
+    exec(r_sl["code"], ns_sl)
+    exec(r_mx["code"], ns_mx)
+    exec(r_cd["code"], ns_cd)
+    sl = ns_sl["slice_ops"]([0, 1, 2, 3, 4], 1, 4)
+    mx = ns_mx["matrix_ops"]([[1, 2], [3, 4]], [[5, 6], [7, 8]], 'add')
+    cd = ns_cd["class_decorator"](type('狗', (), {}), '宠物')
+    check('㋸c 切片→矩阵→类装饰端到端（[1,2,3] [[6,8],[10,12]] 宠物）',
+          sl == [1, 2, 3] and mx == [[6, 8], [10, 12]] and cd == '宠物',
+          f'slice={sl} mat={mx} decor={cd}')
+except Exception as ex:
+    check('㋸c 切片→矩阵→类装饰端到端（[1,2,3] [[6,8],[10,12]] 宠物）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

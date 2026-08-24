@@ -4328,5 +4328,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:pylang|工具-切片操作": {
+  "task": "切片操作",
+  "unit": "工具-切片操作",
+  "code": "def slice_ops(seq, start, stop, step=1):\n    # 切片操作：start:stop:step 区间截取（序列切片语义）\n    return list(seq[start:stop:step])\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-矩阵运算": {
+  "task": "矩阵运算",
+  "unit": "工具-矩阵运算",
+  "code": "def matrix_ops(a, b=None, op=None):\n    # 矩阵运算：add 逐元素加 / mul 矩阵乘（内积和）\n    if op == 'add':\n        return [[a[i][j] + b[i][j] for j in range(len(a[0]))]\n                for i in range(len(a))]\n    if op == 'mul':\n        n, m, p = len(a), len(a[0]), len(b[0])\n        return [[sum(a[i][k] * b[k][j] for k in range(m))\n                for j in range(p)] for i in range(n)]\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|元编程-类装饰器": {
+  "task": "类装饰器",
+  "unit": "元编程-类装饰器",
+  "code": "def class_decorator(cls, marker):\n    # 类装饰器：给类附加标记属性并返回标记（类增强语义）\n    cls.__marker__ = marker\n    return cls.__marker__\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }
