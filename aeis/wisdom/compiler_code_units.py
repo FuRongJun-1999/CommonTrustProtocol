@@ -400,6 +400,17 @@ COMPILER_UNITS = {
             "                code.append(('JUMP_IF_FALSE', 0))\n"
             "                code.append(then_instr)\n"
             "            continue\n"
+            "        m = _re.match(r'^(.+?)\\s*[=＝]\\s*(.+?)\\s*[。；;]?$', line)\n"
+            "        if m:\n"
+            "            # 赋值：名 = 值 → PUSH/LOAD 值 + STORE_NAME（以名举实：名实动态绑定）\n"
+            "            left = m.group(1).strip()\n"
+            "            right = m.group(2).strip()\n"
+            "            if right.replace('.', '', 1).isdigit():\n"
+            "                code.append(('PUSH', float(right) if '.' in right else int(right)))\n"
+            "            else:\n"
+            "                code.append(('LOAD', right))\n"
+            "            code.append(('STORE', left))\n"
+            "            continue\n"
             "        for kw in ('道', '德', '止', '知足', '自然', '无为'):\n"
             "            if line.startswith(kw):\n"
             "                rest = line[len(kw):].strip().rstrip('。；;')\n"
@@ -420,6 +431,12 @@ COMPILER_UNITS = {
                   (("若 信任值 大于 0.3，则 德 0.5\n止。\n", {"伴侣"}),
                    ([("LOAD", "信任值"), ("PUSH", 0.3), ("CMP_GT", None),
                      ("JUMP_IF_FALSE", 5), ("DE", 0.5), ("ZHI", None)], {"ok": True})),
+                  (("甲 = 3\n止。\n", set()),
+                   ([("PUSH", 3), ("STORE", "甲"), ("ZHI", None)], {"ok": True})),
+                  (("甲 = 3\n若 甲 大于 2，则 德 0.5\n止。\n", {"伴侣"}),
+                   ([("PUSH", 3), ("STORE", "甲"), ("LOAD", "甲"), ("PUSH", 2.0),
+                     ("CMP_GT", None), ("JUMP_IF_FALSE", 7), ("DE", 0.5),
+                     ("ZHI", None)], {"ok": True})),
                   (("随便文本\n", set()), (None, {"ok": False,
                    "errors": ["无法识别：随便文本"]}))],
         "params": [],

@@ -216,5 +216,24 @@ if r8["ok"]:
     check('校准⑧d 假条件跳过then(信任0)',
           state8b["trust"] == 0.0, f'trust={state8b["trust"]}')
 
+# 校准⑨：赋值/变量（名实动态绑定）
+src9 = "甲 = 3\n若 甲 大于 2，则 德 0.5\n止。\n"
+code9, r9 = compile_full(src9, {"伴侣"})
+check('校准⑨a 赋值编译(STORE)', r9["ok"]
+      and any(op == "STORE" and arg == "甲" for op, arg in code9), str(code9))
+if r9["ok"]:
+    state9 = vm_run(code9)
+    check('校准⑨b 赋值+条件执行(符号甲=3, 3>2真→德0.5)',
+          state9["symbols"].get("甲") == 3 and state9["trust"] == 0.5
+          and state9["halt"] == "halt",
+          f'symbols={state9["symbols"]} trust={state9["trust"]} halt={state9["halt"]}')
+# 变量复制：乙 = 甲
+code9b, r9b = compile_full("甲 = 3\n乙 = 甲\n止。\n", set())
+if r9b["ok"]:
+    state9b = vm_run(code9b)
+    check('校准⑨c 变量复制(乙=甲)', state9b["symbols"].get("甲") == 3
+          and state9b["symbols"].get("乙") == 3,
+          f'symbols={state9b["symbols"]}')
+
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
