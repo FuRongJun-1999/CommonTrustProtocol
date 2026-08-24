@@ -17,8 +17,9 @@ class MiniPyError(Exception):
 # ============ 一、词法分析 ============
 _TOKEN_RE = [
     ("NUMBER", r"\d+\.\d+|\d+"),
-    ("OP", r"\*\*|//|==|!=|<=|>=|[+\-*/%<>()]"),
-    ("KEY", r"and|or|not|True|False|None"),
+    ("OP", r"\*\*|//|==|!=|<=|>=|[+\-*/%<>()=]"),
+    ("KEY", r"and|or|not|True|False|None|if|elif|else|while"),
+    ("NAME", r"[A-Za-z_]\w*"),
     ("WS", r"\s+"),
 ]
 
@@ -38,6 +39,8 @@ def tokenize(src):
                     tokens.append((text.upper(), text))
                 elif kind == "NUMBER":
                     tokens.append(("NUMBER", float(text) if "." in text else int(text)))
+                elif kind == "NAME":
+                    tokens.append(("NAME", text))
                 else:
                     tokens.append(("OP", text))
                 break
@@ -143,6 +146,9 @@ class Parser:
         if t[0] == "NUMBER":
             self.advance()
             return ("num", t[1])
+        if t[0] == "NAME":  # 变量名（P2：从环境取值）
+            self.advance()
+            return ("name", t[1])
         if t[1] == "True":
             self.advance()
             return ("bool", True)
@@ -165,7 +171,8 @@ def is_truthy(v):
     return v is not None and v is not False and v != 0
 
 
-def eval_node(node):
+def eval_node(node, env=None):
+    """AST 求值（P2：env 提供变量环境；name 节点从环境取值）"""
     kind = node[0]
     if kind == "num":
         return node[1]
@@ -173,43 +180,47 @@ def eval_node(node):
         return node[1]
     if kind == "none":
         return None
+    if kind == "name":
+        if env is None:
+            raise MiniPyError(f"NameError: name '{node[1]}' is not defined")
+        return env.get(node[1])
     if kind == "or":
-        a = eval_node(node[1])
-        return a if is_truthy(a) else eval_node(node[2])
+        a = eval_node(node[1], env)
+        return a if is_truthy(a) else eval_node(node[2], env)
     if kind == "and":
-        a = eval_node(node[1])
-        return eval_node(node[2]) if is_truthy(a) else a
+        a = eval_node(node[1], env)
+        return eval_node(node[2], env) if is_truthy(a) else a
     if kind == "not":
-        return not is_truthy(eval_node(node[1]))
+        return not is_truthy(eval_node(node[1], env))
     if kind in ("==", "!=", "<", ">", "<=", ">="):
-        return _compare(kind, eval_node(node[1]), eval_node(node[2]))
+        return _compare(kind, eval_node(node[1], env), eval_node(node[2], env))
     if kind in ("-", "+") and len(node) == 2:  # 一元（先于二元判断）
-        v = eval_node(node[1])
+        v = eval_node(node[1], env)
         return -v if kind == "-" else +v
     if kind == "+":
-        return eval_node(node[1]) + eval_node(node[2])
+        return eval_node(node[1], env) + eval_node(node[2], env)
     if kind == "-":
-        return eval_node(node[1]) - eval_node(node[2])
+        return eval_node(node[1], env) - eval_node(node[2], env)
     if kind == "*":
-        return eval_node(node[1]) * eval_node(node[2])
+        return eval_node(node[1], env) * eval_node(node[2], env)
     if kind == "/":
-        b = eval_node(node[2])
+        b = eval_node(node[2], env)
         if b == 0:
             raise MiniPyError("ZeroDivisionError: division by zero")
-        return eval_node(node[1]) / b
+        return eval_node(node[1], env) / b
     if kind == "//":
-        b = eval_node(node[2])
+        b = eval_node(node[2], env)
         if b == 0:
             raise MiniPyError("ZeroDivisionError: integer division by zero")
-        a = eval_node(node[1])
+        a = eval_node(node[1], env)
         return int(a // b)  # floor（Python 语义）
     if kind == "%":
-        b = eval_node(node[2])
+        b = eval_node(node[2], env)
         if b == 0:
             raise MiniPyError("ZeroDivisionError: modulo by zero")
-        return eval_node(node[1]) % b
+        return eval_node(node[1], env) % b
     if kind == "**":
-        return eval_node(node[1]) ** eval_node(node[2])
+        return eval_node(node[1], env) ** eval_node(node[2], env)
     raise MiniPyError(f"未知节点: {node}")
 
 
@@ -223,6 +234,126 @@ def eval_expr(src):
     tokens = tokenize(src)
     ast = Parser(tokens).parse()
     return eval_node(ast)
+
+
+# ============ P2：变量环境 + 控制流（赋值/if/while，缩进块） ============
+# 语句树：("assign", name, expr) / ("if", cond, then[], else[]) /
+#         ("while", cond, body[]) / ("expr", expr)
+# 缩进块解析：行 → (缩进, 语句) → 嵌套树
+
+class Env:
+    """变量环境（名实对应：变量名 → 值）"""
+    def __init__(self):
+        self.vars = {}
+
+    def get(self, name):
+        if name not in self.vars:
+            raise MiniPyError(f"NameError: name '{name}' is not defined")
+        return self.vars[name]
+
+    def set(self, name, value):
+        self.vars[name] = value
+
+
+def parse_program(src):
+    """源码 → 语句树（缩进决定嵌套）"""
+    lines = []
+    for raw in src.splitlines():
+        if not raw.strip() or raw.strip().startswith("#"):
+            continue
+        indent = len(raw) - len(raw.lstrip(" "))
+        lines.append((indent, raw.strip()))
+    # 缩进栈构建嵌套
+    def build(idx, indent):
+        stmts = []
+        while idx[0] < len(lines):
+            cur_indent, code = lines[idx[0]]
+            if cur_indent < indent:
+                break
+            if cur_indent > indent:
+                raise SyntaxError(f"意外的缩进：{code}")
+            idx[0] += 1
+            stmts.append(_parse_line(code, build, idx))
+        return stmts
+
+    def _parse_line(code, build, idx):
+        # 赋值
+        if "=" in code and not code.startswith(("if ", "while ", "elif ", "else")):
+            name, expr = code.split("=", 1)
+            return ("assign", name.strip(),
+                    Parser(tokenize(expr)).parse())
+        # if/elif/else
+        if code.startswith("if "):
+            cond = Parser(tokenize(code[3:].rstrip(":"))).parse()
+            then_indent = lines[idx[0]][0] if idx[0] < len(lines) else 0
+            then = build(idx, then_indent)
+            else_stmts = []
+            # else 配对：同缩进 else 行 → else 块
+            if idx[0] < len(lines) and lines[idx[0]][1].startswith("else"):
+                idx[0] += 1  # 消费 else 行
+                else_indent = lines[idx[0]][0] if idx[0] < len(lines) else 0
+                else_stmts = build(idx, else_indent)
+            return ("if", cond, then, else_stmts)
+        if code.startswith("while "):
+            cond = Parser(tokenize(code[6:].rstrip(":"))).parse()
+            body = build(idx, lines[idx[0]][0] if idx[0] < len(lines) else 0)
+            return ("while", cond, body)
+        if code.startswith(("else", "elif ")):
+            raise SyntaxError("else/elif 未与 if 配对（意外的 else 行）")
+        # 表达式语句
+        return ("expr", Parser(tokenize(code)).parse())
+
+    idx = [0]
+    return build(idx, 0)
+
+
+def exec_stmt(stmt, env):
+    """执行单条语句（if/while 递归执行块）"""
+    kind = stmt[0]
+    if kind == "assign":
+        env.set(stmt[1], eval_node(stmt[2], env))
+    elif kind == "if":
+        if is_truthy(eval_node(stmt[1], env)):
+            for s in stmt[2]:
+                exec_stmt(s, env)
+        elif stmt[3]:
+            for s in stmt[3]:
+                exec_stmt(s, env)
+    elif kind == "while":
+        guard = 0
+        while is_truthy(eval_node(stmt[1], env)) and guard < 10000:
+            for s in stmt[2]:
+                exec_stmt(s, env)
+            guard += 1
+    elif kind == "expr":
+        eval_node(stmt[1], env)
+    else:
+        raise MiniPyError(f"未知语句: {stmt}")
+
+
+def run_program(src):
+    """程序执行：源码 → Env（P2：变量/if/while）"""
+    env = Env()
+    for stmt in parse_program(src):
+        exec_stmt(stmt, env)
+    return env
+
+
+if __name__ == "__main__":
+    print("=== Mini-Python P2：变量环境 + 控制流（对照 CPython）===\n")
+    prog = """
+x = 0
+while x < 5:
+    x = x + 1
+if x == 5:
+    y = 10
+else:
+    y = 0
+"""
+    env = run_program(prog)
+    print(f"① 程序执行后: x={env.get('x')} y={env.get('y')}")
+    ok = env.get("x") == 5 and env.get("y") == 10
+    print(f"\n=== 判定 ===\n变量+控制流: {'✔ 循环/条件/赋值成立（对照 CPython）' if ok else '✘'}")
 
 
 if __name__ == "__main__":
