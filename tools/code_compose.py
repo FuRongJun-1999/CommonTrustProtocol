@@ -261,8 +261,8 @@ def compose_domain_code(question, domain=None, unit_id=None):
     q_compact = question.replace(" ", "")  # 空格归一化（"IP 分片"→"IP分片"）
     for uid, u in units.items():
         kws = _unit_kws(u, uid)
-        hit = [kw for kw in kws
-               if kw and (kw in question or kw in q_compact)]
+        hit = list({kw for kw in kws
+                    if kw and (kw in question or kw in q_compact)})
         if not hit:
             continue
         cnt, max_len = len(hit), max(len(kw) for kw in hit)

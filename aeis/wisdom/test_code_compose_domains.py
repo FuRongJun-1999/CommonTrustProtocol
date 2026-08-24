@@ -245,5 +245,44 @@ try:
 except Exception as ex:
     check('⑭c 分帧→会话端到端（SYN/ACK/FIN 三帧建立到关闭）', False, str(ex)[:60])
 
+# ⑮ 目标6 深化：条件图数据库最短路径（最短路径/加权最短 经正式管线）
+g2_qs = {
+    "最短路径": "写一个图最短路径单元（BFS 最少跳数）",
+    "加权最短": "写一个加权最短路径单元（Dijkstra 代价最小）",
+}
+g2_ok = 0
+for label, q in g2_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g2_ok += 1
+    check(f'⑮ {label} 图数据库深化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑮b 图数据库深化二单元全部生成', g2_ok == 2, f'{g2_ok}/2')
+
+# ⑮c 端到端：两链图 BFS 最短（2 跳） vs Dijkstra 加权（缺氧链代价 3 < 沸点降链 4）
+r_sp = domain_route("写一个图最短路径单元（BFS 最少跳数）")
+r_dj = domain_route("写一个加权最短路径单元（Dijkstra 代价最小）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+try:
+    ns_sp, ns_dj, ns_g = {}, {}, {}
+    exec(r_sp["code"], ns_sp)
+    exec(r_dj["code"], ns_dj)
+    exec(r_g["code"], ns_g)
+    g = ns_g["Graph"]()
+    g.add_edge("气压低", "沸点降")
+    g.add_edge("沸点降", "煮不熟")
+    g.add_edge("气压低", "缺氧")
+    g.add_edge("缺氧", "煮不熟")
+    sp = ns_sp["shortest_path"](g, "气压低", "煮不熟")
+    weights = {("气压低", "沸点降"): 2, ("沸点降", "煮不熟"): 2,
+               ("气压低", "缺氧"): 1, ("缺氧", "煮不熟"): 2}
+    dj = ns_dj["dijkstra"](g, weights, "气压低", "煮不熟")
+    check('⑮c BFS最短2跳 vs Dijkstra加权选缺氧链(代价3<4)',
+          sp == ["气压低", "沸点降", "煮不熟"] and dj == (["气压低", "缺氧", "煮不熟"], 3),
+          f'BFS={sp} Dijkstra={dj}')
+except Exception as ex:
+    check('⑮c BFS最短2跳 vs Dijkstra加权选缺氧链(代价3<4)', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -180,6 +180,71 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：多条件链组合（高压锅在高原=气压低→沸点降 + 气压高→沸点升 两条链的可解释路径）",
     },
+    "图遍历-最短路径": {
+        "task": "最短路径",
+        "pattern": (
+            "def shortest_path(graph, start, end):\n"
+            "    # 无权图最短路径：BFS 逐层扩散 + 前驱还原（最少条件链跳数）\n"
+            "    if start == end:\n"
+            "        return [start]\n"
+            "    from collections import deque\n"
+            "    prev = {start: None}\n"
+            "    queue = deque([start])\n"
+            "    while queue:\n"
+            "        cur = queue.popleft()\n"
+            "        for nxt in graph.neighbors(cur):\n"
+            "            if nxt not in prev:\n"
+            "                prev[nxt] = cur\n"
+            "                if nxt == end:\n"
+            "                    path = []\n"
+            "                    node = nxt\n"
+            "                    while node is not None:\n"
+            "                        path.append(node)\n"
+            "                        node = prev[node]\n"
+            "                    return path[::-1]\n"
+            "                queue.append(nxt)\n"
+            "    return None\n"),
+        "cases": [("call", ["气压低", "沸点降", "煮不熟"]),
+                  ("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：条件链最短路径——BFS 最少跳数（两链中取最短；反向无路返回 None）",
+    },
+    "图遍历-加权最短": {
+        "task": "加权最短路径",
+        "pattern": (
+            "def dijkstra(graph, weights, start, end):\n"
+            "    # 加权最短路径：Dijkstra 贪心（权重=条件链代价/信任度倒数，小=优）\n"
+            "    import heapq\n"
+            "    dist = {start: 0}\n"
+            "    prev = {start: None}\n"
+            "    pq = [(0, start)]\n"
+            "    while pq:\n"
+            "        d, cur = heapq.heappop(pq)\n"
+            "        if d > dist.get(cur, float('inf')):\n"
+            "            continue\n"
+            "        if cur == end:\n"
+            "            break\n"
+            "        for nxt in graph.neighbors(cur):\n"
+            "            w = weights.get((cur, nxt), 1)\n"
+            "            nd = d + w\n"
+            "            if nd < dist.get(nxt, float('inf')):\n"
+            "                dist[nxt] = nd\n"
+            "                prev[nxt] = cur\n"
+            "                heapq.heappush(pq, (nd, nxt))\n"
+            "    if end not in dist:\n"
+            "        return None\n"
+            "    path = []\n"
+            "    node = end\n"
+            "    while node is not None:\n"
+            "        path.append(node)\n"
+            "        node = prev[node]\n"
+            "    return path[::-1], dist[end]\n"),
+        "cases": [("call", (["气压低", "缺氧", "煮不熟"], 3))],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：条件链加权最短——Dijkstra 选代价最小链（缺氧路径代价 1+2=3 < 沸点降路径 2+2=4）",
+    },
     "条件路由图-查询": {
         "task": "路由查询",
         "pattern": (

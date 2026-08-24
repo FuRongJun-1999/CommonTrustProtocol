@@ -158,5 +158,25 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:graph|图遍历-最短路径": {
+  "task": "最短路径",
+  "unit": "图遍历-最短路径",
+  "code": "def shortest_path(graph, start, end):\n    # 无权图最短路径：BFS 逐层扩散 + 前驱还原（最少条件链跳数）\n    if start == end:\n        return [start]\n    from collections import deque\n    prev = {start: None}\n    queue = deque([start])\n    while queue:\n        cur = queue.popleft()\n        for nxt in graph.neighbors(cur):\n            if nxt not in prev:\n                prev[nxt] = cur\n                if nxt == end:\n                    path = []\n                    node = nxt\n                    while node is not None:\n                        path.append(node)\n                        node = prev[node]\n                    return path[::-1]\n                queue.append(nxt)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（2 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图遍历-加权最短": {
+  "task": "加权最短路径",
+  "unit": "图遍历-加权最短",
+  "code": "def dijkstra(graph, weights, start, end):\n    # 加权最短路径：Dijkstra 贪心（权重=条件链代价/信任度倒数，小=优）\n    import heapq\n    dist = {start: 0}\n    prev = {start: None}\n    pq = [(0, start)]\n    while pq:\n        d, cur = heapq.heappop(pq)\n        if d > dist.get(cur, float('inf')):\n            continue\n        if cur == end:\n            break\n        for nxt in graph.neighbors(cur):\n            w = weights.get((cur, nxt), 1)\n            nd = d + w\n            if nd < dist.get(nxt, float('inf')):\n                dist[nxt] = nd\n                prev[nxt] = cur\n                heapq.heappush(pq, (nd, nxt))\n    if end not in dist:\n        return None\n    path = []\n    node = end\n    while node is not None:\n        path.append(node)\n        node = prev[node]\n    return path[::-1], dist[end]\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }
