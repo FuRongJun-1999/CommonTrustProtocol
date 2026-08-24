@@ -892,5 +892,40 @@ try:
 except Exception as ex:
     check('㉛c DNS→状态码→负载均衡端到端（8.8.8.8查询/404客户端错/s3轮询）', False, str(ex)[:60])
 
+# ㉜ 目标4 深化：VFS/权限/进程树（系统挂载/文件权限/进程树 经正式管线）
+o6_qs = {
+    "系统挂载": "写一个文件系统挂载单元（mount 注册卸载）",
+    "文件权限": "写一个文件权限单元（rwx 位检查）",
+    "进程树": "写一个进程树单元（父子后代）",
+}
+o6_ok = 0
+for label, q in o6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o6_ok += 1
+    check(f'㉜ {label} VFS/权限单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉜b VFS/权限三单元全部生成', o6_ok == 3, f'{o6_ok}/3')
+
+# ㉜c 端到端：挂载文件系统→权限检查→进程树后代（VFS+安全+进程层级）
+r_mt = domain_route("写一个文件系统挂载单元（mount 注册卸载）")
+r_pm = domain_route("写一个文件权限单元（rwx 位检查）")
+r_pt = domain_route("写一个进程树单元（父子后代）")
+try:
+    ns_mt, ns_pm, ns_pt = {}, {}, {}
+    exec(r_mt["code"], ns_mt)
+    exec(r_pm["code"], ns_pm)
+    exec(r_pt["code"], ns_pt)
+    m = ns_mt["mount_op"]({}, '/data', 'ext4')
+    w = ns_pm["check_perm"](5, 'w')
+    r = ns_pm["check_perm"](5, 'r')
+    tree = ns_pt["process_tree"]({'a': 'root', 'b': 'a', 'c': 'a'}, 'root')
+    check('㉜c 挂载→权限→进程树端到端（ext4挂载 写拒读允 后代a,b,c）',
+          m is True and w is False and r is True and tree == ['a', 'b', 'c'],
+          f'mount={m} w={w} r={r} tree={tree}')
+except Exception as ex:
+    check('㉜c 挂载→权限→进程树端到端（ext4挂载 写拒读允 后代a,b,c）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

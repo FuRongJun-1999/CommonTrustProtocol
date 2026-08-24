@@ -658,5 +658,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:os|文件-系统挂载": {
+  "task": "文件系统挂载",
+  "unit": "文件-系统挂载",
+  "code": "def mount_op(mounts, path, fs_type=None):\n    # VFS 挂载：挂载点→文件系统（mount 注册/unmount 卸载/查询）\n    if fs_type is not None:\n        mounts[path] = fs_type\n        return True\n    if fs_type is None and path in mounts:\n        return mounts.pop(path)  # unmount\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|文件-文件权限": {
+  "task": "文件权限",
+  "unit": "文件-文件权限",
+  "code": "def check_perm(mode, access):\n    # 文件权限：模式位 rwx 检查（读4/写2/执行1 位运算）\n    bit = {'r': 4, 'w': 2, 'x': 1}[access]\n    return bool(mode & bit)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|进程-进程树": {
+  "task": "进程树",
+  "unit": "进程-进程树",
+  "code": "def process_tree(parents, root):\n    # 进程树：父进程关系 → 后代集合（递归收集子树）\n    children = {}\n    for pid, ppid in parents.items():\n        children.setdefault(ppid, []).append(pid)\n    desc = []\n    def walk(pid):\n        for c in children.get(pid, []):\n            desc.append(c)\n            walk(c)\n    walk(root)\n    return sorted(desc)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }

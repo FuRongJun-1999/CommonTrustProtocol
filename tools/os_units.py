@@ -421,6 +421,56 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 中断——嵌套优先级（高优先级中断可抢占低优先级，同级不嵌套）",
     },
+    "文件-系统挂载": {
+        "task": "文件系统挂载",
+        "pattern": (
+            "def mount_op(mounts, path, fs_type=None):\n"
+            "    # VFS 挂载：挂载点→文件系统（mount 注册/unmount 卸载/查询）\n"
+            "    if fs_type is not None:\n"
+            "        mounts[path] = fs_type\n"
+            "        return True\n"
+            "    if fs_type is None and path in mounts:\n"
+            "        return mounts.pop(path)  # unmount\n"
+            "    return None\n"),
+        "cases": [(({}, '/data', 'ext4'), True),
+                  (({'/data': 'ext4'}, '/data'), 'ext4'),
+                  (({'/data': 'ext4'}, '/other'), None)],
+        "params": [],
+        "calibration": "对照：OS VFS——文件系统挂载（mount 注册/unmount 卸载/未挂载 None）",
+    },
+    "文件-文件权限": {
+        "task": "文件权限",
+        "pattern": (
+            "def check_perm(mode, access):\n"
+            "    # 文件权限：模式位 rwx 检查（读4/写2/执行1 位运算）\n"
+            "    bit = {'r': 4, 'w': 2, 'x': 1}[access]\n"
+            "    return bool(mode & bit)\n"),
+        "cases": [((7, 'r'), True), ((7, 'w'), True), ((5, 'w'), False),
+                  ((1, 'x'), True), ((0, 'r'), False)],
+        "params": [],
+        "calibration": "对照：OS 文件权限——模式位检查（r=4/w=2/x=1 位与运算）",
+    },
+    "进程-进程树": {
+        "task": "进程树",
+        "pattern": (
+            "def process_tree(parents, root):\n"
+            "    # 进程树：父进程关系 → 后代集合（递归收集子树）\n"
+            "    children = {}\n"
+            "    for pid, ppid in parents.items():\n"
+            "        children.setdefault(ppid, []).append(pid)\n"
+            "    desc = []\n"
+            "    def walk(pid):\n"
+            "        for c in children.get(pid, []):\n"
+            "            desc.append(c)\n"
+            "            walk(c)\n"
+            "    walk(root)\n"
+            "    return sorted(desc)\n"),
+        "cases": [(({'a': 'root', 'b': 'a', 'c': 'a'}, 'root'), ['a', 'b', 'c']),
+                  (({'b': 'a'}, 'a'), ['b']),
+                  (({}, 'a'), [])],
+        "params": [],
+        "calibration": "对照：OS 进程树——父子关系后代收集（fork 产生的进程层级）",
+    },
 }
 
 
