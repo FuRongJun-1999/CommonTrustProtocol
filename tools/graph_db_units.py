@@ -1919,6 +1919,84 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：最大流=最小割（Ford-Fulkerson BFS 增广路）",
     },
+    "图算法-聚类系数": {
+        "task": "聚类系数",
+        "pattern": (
+            "def clustering_coef(adj, u):\n"
+            "    # 聚类系数：邻居间实际边数 / 可能边数（局部聚类）\n"
+            "    nb = set(adj.get(u, []))\n"
+            "    k = len(nb)\n"
+            "    if k < 2:\n"
+            "        return 0.0\n"
+            "    links = sum(1 for a in nb for b in nb if a < b and b in adj.get(a, []))\n"
+            "    return round(2 * links / (k * (k - 1)), 2)\n"),
+        "cases": [
+            (({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 0), 1.0),
+            (({0: [1, 2], 1: [0], 2: [0]}, 0), 0.0),
+            (({0: [1]}, 0), 0.0)],
+        "params": [],
+        "calibration": "对照：局部聚类系数——邻居间实际边/可能边（闭合度）",
+    },
+    "图算法-介数中心性": {
+        "task": "介数中心性",
+        "pattern": (
+            "def betweenness(adj):\n"
+            "    # 介数中心性：节点出现在最短路径中的次数（桥梁重要性）\n"
+            "    nodes = list(adj)\n"
+            "    score = {n: 0.0 for n in nodes}\n"
+            "    for s in nodes:\n"
+            "        for t in nodes:\n"
+            "            if s >= t:\n"
+            "                continue\n"
+            "            paths = []\n"
+            "            q = [(s, [s])]\n"
+            "            best = None\n"
+            "            while q:\n"
+            "                u, p = q.pop(0)\n"
+            "                if u == t:\n"
+            "                    if best is None or len(p) == best:\n"
+            "                        best = len(p)\n"
+            "                        paths.append(p)\n"
+            "                    elif len(p) > best:\n"
+            "                        continue\n"
+            "                for v in adj.get(u, []):\n"
+            "                    if v not in p:\n"
+            "                        q.append((v, p + [v]))\n"
+            "            n_paths = len(paths)\n"
+            "            if not n_paths:\n"
+            "                continue\n"
+            "            for p in paths:\n"
+            "                for m in p[1:-1]:\n"
+            "                    score[m] += 1.0 / n_paths\n"
+            "    return {n: round(v, 2) for n, v in score.items()}\n"),
+        "cases": [
+            (({0: [1], 1: [0, 2], 2: [1]},), {0: 0.0, 1: 1.0, 2: 0.0}),
+            (({0: [1, 2], 1: [0, 2], 2: [0, 1]},), {0: 0.0, 1: 0.0, 2: 0.0}),
+            (({},), {})],
+        "params": [],
+        "calibration": "对照：介数中心性——最短路径经过次数（桥梁节点）",
+    },
+    "图存储-边索引": {
+        "task": "边索引",
+        "pattern": (
+            "def edge_index(idx, op, key=None, edge=None):\n"
+            "    # 边索引：put 按键存边 / get 按键查边 / drop 删除（边属性索引）\n"
+            "    if op == 'put':\n"
+            "        idx[key] = edge\n"
+            "        return key\n"
+            "    if op == 'get':\n"
+            "        return idx.get(key)\n"
+            "    if op == 'drop':\n"
+            "        return idx.pop(key, None)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'put', 'friend', ('a', 'b')), 'friend'),
+            (({'friend': ('a', 'b')}, 'get', 'friend'), ('a', 'b')),
+            (({}, 'get', 'x'), None),
+            (({'friend': ('a', 'b')}, 'drop', 'friend'), ('a', 'b'))],
+        "params": [],
+        "calibration": "对照：边索引——按属性键存/查/删边（图存储索引）",
+    },
 }
 
 

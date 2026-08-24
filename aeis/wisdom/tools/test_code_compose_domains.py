@@ -5476,5 +5476,40 @@ except Exception as ex:
     check('㋻c 关键字→常量池→语句分隔端到端（(\'KW\',\'若\') 0 [甲=1,乙=2]）',
           False, str(ex)[:60])
 
+# ㋼ 目标6 深化：图算法/存储（聚类系数/介数中心性/边索引 经正式管线）
+g29_qs = {
+    "聚类系数": "写一个聚类系数单元（局部闭合度）",
+    "介数中心性": "写一个介数中心性单元（桥梁节点）",
+    "边索引": "写一个边索引单元（属性查边）",
+}
+g29_ok = 0
+for label, q in g29_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g29_ok += 1
+    check(f'㋼ {label} 图算法/存储单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋼b 图算法/存储三单元全部生成', g29_ok == 3, f'{g29_ok}/3')
+
+# ㋼c 端到端：聚类→介数→边索引（1.0 {1:1.0} friend）
+r_cc = domain_route("写一个聚类系数单元（局部闭合度）")
+r_bw = domain_route("写一个介数中心性单元（桥梁节点）")
+r_ei = domain_route("写一个边索引单元（属性查边）")
+try:
+    ns_cc, ns_bw, ns_ei = {}, {}, {}
+    exec(r_cc["code"], ns_cc)
+    exec(r_bw["code"], ns_bw)
+    exec(r_ei["code"], ns_ei)
+    cc = ns_cc["clustering_coef"]({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 0)
+    bw = ns_bw["betweenness"]({0: [1], 1: [0, 2], 2: [1]})
+    ei = ns_ei["edge_index"]({}, 'put', 'friend', ('a', 'b'))
+    check('㋼c 聚类→介数→边索引端到端（1.0 {0:0.0,1:1.0,2:0.0} friend）',
+          cc == 1.0 and bw == {0: 0.0, 1: 1.0, 2: 0.0} and ei == 'friend',
+          f'cc={cc} bw={bw} edge={ei}')
+except Exception as ex:
+    check('㋼c 聚类→介数→边索引端到端（1.0 {0:0.0,1:1.0,2:0.0} friend）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
