@@ -3773,5 +3773,42 @@ try:
 except Exception as ex:
     check('㋋c 合并→信任→信息差端到端（叠加 c信任0.25 收敛0.25 arrived）', False, str(ex)[:60])
 
+# ㋌ 目标4 深化：OS 安全族（强制访问控制/系统调用过滤/加密文件系统 经正式管线）
+o9_qs = {
+    "强制访问控制": "写一个强制访问控制单元（MAC 标签）",
+    "系统调用过滤": "写一个系统调用过滤单元（seccomp）",
+    "加密文件系统": "写一个加密文件系统单元（透明加解密）",
+}
+o9_ok = 0
+for label, q in o9_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o9_ok += 1
+    check(f'㋌ {label} OS安全单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋌b OS安全三单元全部生成', o9_ok == 3, f'{o9_ok}/3')
+
+# ㋌c 安全端到端：MAC→seccomp→加密文件系统（allowed ok 秘密往返）
+r_ma = domain_route("写一个强制访问控制单元（MAC 标签）")
+r_sc = domain_route("写一个系统调用过滤单元（seccomp）")
+r_cf = domain_route("写一个加密文件系统单元（透明加解密）")
+try:
+    ns_ma, ns_sc, ns_cf = {}, {}, {}
+    exec(r_ma["code"], ns_ma)
+    exec(r_sc["code"], ns_sc)
+    exec(r_cf["code"], ns_cf)
+    ma = ns_ma["mac_check"]({'rules': {('内部', '秘密', '读'): 'allowed'}},
+                            '内部', '秘密', '读')
+    sc = ns_sc["seccomp_filter"]({'read'}, 'check', 'read')
+    fs = {}
+    ns_cf["crypt_fs"](fs, 'write', 'a.txt', '秘密', 7)
+    rd = ns_cf["crypt_fs"](fs, 'read', 'a.txt', None, 7)
+    check('㋌c MAC→seccomp→加密文件系统端到端（allowed ok 秘密）',
+          ma == 'allowed' and sc == 'ok' and rd == '秘密',
+          f'mac={ma} seccomp={sc} fs={rd}')
+except Exception as ex:
+    check('㋌c MAC→seccomp→加密文件系统端到端（allowed ok 秘密）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -1446,6 +1446,58 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 存储——磨损均衡（写入次数记录，选最少磨损块）",
     },
+    "安全-强制访问控制": {
+        "task": "强制访问控制",
+        "pattern": (
+            "def mac_check(policy, subject_label, object_label, action):\n"
+            "    # MAC 强制访问控制：标签对操作授权（安全标签规则表——强制策略）\n"
+            "    rules = policy.get('rules', {})\n"
+            "    return rules.get((subject_label, object_label, action), 'denied')\n"),
+        "cases": [(({'rules': {('内部', '秘密', '读'): 'allowed'}},
+                    '内部', '秘密', '读'), 'allowed'),
+                  (({'rules': {}}, '内部', '秘密', '读'), 'denied'),
+                  (({'rules': {('外部', '公开', '读'): 'allowed'}},
+                    '外部', '公开', '读'), 'allowed')],
+        "params": [],
+        "calibration": "对照：OS 安全——MAC 强制访问控制（安全标签规则，未授权默认拒绝）",
+    },
+    "安全-系统调用过滤": {
+        "task": "系统调用过滤",
+        "pattern": (
+            "def seccomp_filter(syscalls, op, name=None):\n"
+            "    # 系统调用过滤：seccomp——白名单拦截（沙箱限制进程能力）\n"
+            "    if op == 'allow':\n"
+            "        syscalls.add(name)\n"
+            "        return 'allowed'\n"
+            "    if op == 'check':\n"
+            "        return 'ok' if name in syscalls else 'blocked'\n"
+            "    return None\n"),
+        "cases": [((set(), 'allow', 'read'), 'allowed'),
+                  (({'read'}, 'check', 'read'), 'ok'),
+                  (({'read'}, 'check', 'write'), 'blocked')],
+        "params": [],
+        "calibration": "对照：OS 安全——seccomp 系统调用过滤（白名单，沙箱）",
+    },
+    "安全-加密文件系统": {
+        "task": "加密文件系统",
+        "pattern": (
+            "def crypt_fs(fs, op, path=None, data=None, key=7):\n"
+            "    # 加密文件系统：write 加密存储 / read 解密读取（透明加解密）\n"
+            "    if op == 'write':\n"
+            "        fs[path] = ''.join(chr(ord(c) ^ key) for c in data)\n"
+            "        return 'stored'\n"
+            "    if op == 'read':\n"
+            "        raw = fs.get(path)\n"
+            "        if raw is None:\n"
+            "            return None\n"
+            "        return ''.join(chr(ord(c) ^ key) for c in raw)\n"
+            "    return None\n"),
+        "cases": [(({}, 'write', 'a.txt', '秘密', 7), 'stored'),
+                  (({'a.txt': '租寁'}, 'read', 'a.txt', None, 7), '秘密'),
+                  (({}, 'read', 'a.txt', None, 7), None)],
+        "params": [],
+        "calibration": "对照：OS 安全——加密文件系统（透明加解密存储）",
+    },
 }
 
 
