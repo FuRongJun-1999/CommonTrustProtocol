@@ -4649,5 +4649,41 @@ try:
 except Exception as ex:
     check('㋤c 压缩→存储池→文件版本端到端（aaabb allocated [v1,v2]）', False, str(ex)[:60])
 
+# ㋥ 目标6 深化：查询/可视化（模式路径/节点标签/模糊匹配 经正式管线）
+g25_qs = {
+    "模式路径": "写一个模式路径单元（度数模式）",
+    "节点标签": "写一个节点标签单元（标注放置）",
+    "模糊匹配": "写一个模糊匹配单元（近似名称）",
+}
+g25_ok = 0
+for label, q in g25_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g25_ok += 1
+    check(f'㋥ {label} 查询/可视化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋥b 查询/可视化三单元全部生成', g25_ok == 3, f'{g25_ok}/3')
+
+# ㋥c 查询端到端：模式路径→节点标签→模糊匹配（matched 甲? [(n1,1)]）
+r_pp = domain_route("写一个模式路径单元（度数模式）")
+r_nl = domain_route("写一个节点标签单元（标注放置）")
+r_fm = domain_route("写一个模糊匹配单元（近似名称）")
+try:
+    ns_pp, ns_nl, ns_fm = {}, {}, {}
+    exec(r_pp["code"], ns_pp)
+    exec(r_nl["code"], ns_nl)
+    exec(r_fm["code"], ns_fm)
+    pp = ns_pp["pattern_path"]({0: [1, 2], 1: [2, 3], 2: [3]}, 0, 2, 1)
+    nl = ns_nl["node_labels"](['a', 'b'], {'a': '甲'})
+    fm = ns_fm["fuzzy_match"]('水', ['n1', 'n2'],
+                              {'n1': '水壶', 'n2': '电灯'}, 1)
+    check('㋥c 模式→标签→模糊端到端（([0,1],matched) {甲,?} [(n1,1)]）',
+          pp == ([0, 1], 'matched') and nl == {'a': '甲', 'b': '?'}
+          and fm == [('n1', 1)],
+          f'pattern={pp} label={nl} fuzzy={fm}')
+except Exception as ex:
+    check('㋥c 模式→标签→模糊端到端（([0,1],matched) {甲,?} [(n1,1)]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

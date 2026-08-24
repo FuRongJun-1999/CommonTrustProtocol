@@ -1632,6 +1632,58 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：动态图——边活跃度（时间窗内活跃判定）",
     },
+    "图查询-模式路径": {
+        "task": "模式路径",
+        "pattern": (
+            "def pattern_path(adj, start, min_deg, steps):\n"
+            "    # 模式路径：按节点度数模式匹配（每步需出度 ≥ min_deg）\n"
+            "    path = [start]\n"
+            "    cur = start\n"
+            "    for _ in range(steps):\n"
+            "        nbrs = adj.get(cur, [])\n"
+            "        if len(nbrs) < min_deg:\n"
+            "            return path, 'stuck'\n"
+            "        nxt = nbrs[0]\n"
+            "        path.append(nxt)\n"
+            "        cur = nxt\n"
+            "    return path, 'matched'\n"),
+        "cases": [(({0: [1, 2], 1: [2, 3], 2: [3]}, 0, 2, 1), ([0, 1], 'matched')),
+                  (({0: [1], 1: []}, 0, 2, 1), ([0], 'stuck')),
+                  (({0: [1, 2], 1: [3, 4], 2: [5]}, 0, 2, 2),
+                   ([0, 1, 3], 'matched'))],
+        "params": [],
+        "calibration": "对照：图查询——模式路径（节点度数模式匹配）",
+    },
+    "图可视化-节点标签": {
+        "task": "节点标签",
+        "pattern": (
+            "def node_labels(positions, labels):\n"
+            "    # 节点标签：为节点附标签（可视化标注，缺省 ?）\n"
+            "    return {node: labels.get(node, '?') for node in positions}\n"),
+        "cases": [((['a', 'b'], {'a': '甲'}), {'a': '甲', 'b': '?'}),
+                  (([], {}), {}),
+                  ((['a'], {'a': 'x'}), {'a': 'x'})],
+        "params": [],
+        "calibration": "对照：图可视化——节点标签标注（缺省占位）",
+    },
+    "图查询-模糊匹配": {
+        "task": "模糊匹配",
+        "pattern": (
+            "def fuzzy_match(query, nodes, names, threshold=0):\n"
+            "    # 模糊匹配：查询与节点名公共字符数 ≥ 阈值（近似名称匹配）\n"
+            "    out = []\n"
+            "    for n in nodes:\n"
+            "        common = len(set(query) & set(names.get(n, '')))\n"
+            "        if common >= threshold:\n"
+            "            out.append((n, common))\n"
+            "    return out\n"),
+        "cases": [(('水', ['n1', 'n2'], {'n1': '水壶', 'n2': '电灯'}, 1),
+                   [('n1', 1)]),
+                  (('火', ['n1'], {'n1': '水壶'}, 1), []),
+                  (('水', [], {}, 1), [])],
+        "params": [],
+        "calibration": "对照：图查询——模糊匹配（公共字符数近似名称）",
+    },
 }
 
 

@@ -3748,5 +3748,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:graph|图查询-模式路径": {
+  "task": "模式路径",
+  "unit": "图查询-模式路径",
+  "code": "def pattern_path(adj, start, min_deg, steps):\n    # 模式路径：按节点度数模式匹配（每步需出度 ≥ min_deg）\n    path = [start]\n    cur = start\n    for _ in range(steps):\n        nbrs = adj.get(cur, [])\n        if len(nbrs) < min_deg:\n            return path, 'stuck'\n        nxt = nbrs[0]\n        path.append(nxt)\n        cur = nxt\n    return path, 'matched'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图可视化-节点标签": {
+  "task": "节点标签",
+  "unit": "图可视化-节点标签",
+  "code": "def node_labels(positions, labels):\n    # 节点标签：为节点附标签（可视化标注，缺省 ?）\n    return {node: labels.get(node, '?') for node in positions}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-模糊匹配": {
+  "task": "模糊匹配",
+  "unit": "图查询-模糊匹配",
+  "code": "def fuzzy_match(query, nodes, names, threshold=0):\n    # 模糊匹配：查询与节点名公共字符数 ≥ 阈值（近似名称匹配）\n    out = []\n    for n in nodes:\n        common = len(set(query) & set(names.get(n, '')))\n        if common >= threshold:\n            out.append((n, common))\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }
