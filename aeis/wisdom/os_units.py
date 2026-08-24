@@ -963,6 +963,47 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS ulimit——进程资源限制（软限制设置/查询）",
     },
+    "可信-安全启动": {
+        "task": "安全启动",
+        "pattern": (
+            "def secure_boot(chain, keyring):\n"
+            "    # 安全启动：启动组件签名验证链（未签名/密钥不符拒绝）\n"
+            "    for comp in chain:\n"
+            "        if comp not in keyring:\n"
+            "            return ('denied', comp)\n"
+            "    return ('booted', True)\n"),
+        "cases": [((['kernel', 'initrd'], {'kernel', 'initrd'}), ('booted', True)),
+                  ((['kernel', 'evil'], {'kernel'}), ('denied', 'evil'))],
+        "params": [],
+        "calibration": "对照：安全启动——签名验证链（组件须在可信密钥库）",
+    },
+    "可信-TPM度量": {
+        "task": "TPM度量",
+        "pattern": (
+            "def tpm_measure(pcr, component):\n"
+            "    # TPM 度量：PCR 扩展（哈希累加——信任链度量）\n"
+            "    h = sum(ord(c) for c in component) % 256\n"
+            "    pcr = (pcr + h) % 256\n"
+            "    return pcr\n"),
+        "cases": [((0, 'BIOS'), 45),
+                  ((45, 'loader'), 164),
+                  ((0, ''), 0)],
+        "params": [],
+        "calibration": "对照：TPM——PCR 扩展度量（组件哈希累加到平台寄存器）",
+    },
+    "可信-哈希校验": {
+        "task": "哈希校验",
+        "pattern": (
+            "def hash_verify(file_hash, expected):\n"
+            "    # 文件完整性：哈希比对（不匹配 → 篡改告警）\n"
+            "    if file_hash == expected:\n"
+            "        return 'integrity_ok'\n"
+            "    return 'tampered'\n"),
+        "cases": [(('abc123', 'abc123'), 'integrity_ok'),
+                  (('abc', 'xyz'), 'tampered')],
+        "params": [],
+        "calibration": "对照：可信计算——文件哈希校验（完整性验证，篡改检测）",
+    },
 }
 
 

@@ -2119,5 +2119,41 @@ try:
 except Exception as ex:
     check('㊞c 流量→延迟→异常端到端（a→b 150B/3包 RTT均20 告警200）', False, str(ex)[:60])
 
+# ㊟ 目标4 深化：可信计算（安全启动/TPM度量/哈希校验 经正式管线）
+o16_qs = {
+    "安全启动": "写一个安全启动单元（签名验证链）",
+    "TPM度量": "写一个 TPM 度量单元（PCR 扩展）",
+    "哈希校验": "写一个哈希校验单元（完整性验证）",
+}
+o16_ok = 0
+for label, q in o16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o16_ok += 1
+    check(f'㊟ {label} 可信计算单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊟b 可信计算三单元全部生成', o16_ok == 3, f'{o16_ok}/3')
+
+# ㊟c 端到端：安全启动→TPM 度量→哈希校验（信任链）
+r_sb = domain_route("写一个安全启动单元（签名验证链）")
+r_tm = domain_route("写一个 TPM 度量单元（PCR 扩展）")
+r_hv = domain_route("写一个哈希校验单元（完整性验证）")
+try:
+    ns_sb, ns_tm, ns_hv = {}, {}, {}
+    exec(r_sb["code"], ns_sb)
+    exec(r_tm["code"], ns_tm)
+    exec(r_hv["code"], ns_hv)
+    b = ns_sb["secure_boot"](['kernel', 'initrd'], {'kernel', 'initrd'})
+    pcr = ns_tm["tpm_measure"](0, 'BIOS')
+    iv = ns_hv["hash_verify"]('abc123', 'abc123')
+    tv = ns_hv["hash_verify"]('abc', 'xyz')
+    check('㊟c 安全启动→TPM→哈希端到端（启动ok PCR45 完整/篡改）',
+          b == ('booted', True) and pcr == 45
+          and iv == 'integrity_ok' and tv == 'tampered',
+          f'boot={b} pcr={pcr} verify={iv},{tv}')
+except Exception as ex:
+    check('㊟c 安全启动→TPM→哈希端到端（启动ok PCR45 完整/篡改）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

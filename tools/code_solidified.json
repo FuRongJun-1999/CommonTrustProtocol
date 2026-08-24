@@ -1648,5 +1648,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:os|可信-安全启动": {
+  "task": "安全启动",
+  "unit": "可信-安全启动",
+  "code": "def secure_boot(chain, keyring):\n    # 安全启动：启动组件签名验证链（未签名/密钥不符拒绝）\n    for comp in chain:\n        if comp not in keyring:\n            return ('denied', comp)\n    return ('booted', True)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|可信-TPM度量": {
+  "task": "TPM度量",
+  "unit": "可信-TPM度量",
+  "code": "def tpm_measure(pcr, component):\n    # TPM 度量：PCR 扩展（哈希累加——信任链度量）\n    h = sum(ord(c) for c in component) % 256\n    pcr = (pcr + h) % 256\n    return pcr\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|可信-哈希校验": {
+  "task": "哈希校验",
+  "unit": "可信-哈希校验",
+  "code": "def hash_verify(file_hash, expected):\n    # 文件完整性：哈希比对（不匹配 → 篡改告警）\n    if file_hash == expected:\n        return 'integrity_ok'\n    return 'tampered'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
