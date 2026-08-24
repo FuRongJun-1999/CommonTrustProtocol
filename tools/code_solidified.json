@@ -138,5 +138,25 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:net|蜂群-消息分帧": {
+  "task": "消息分帧",
+  "unit": "蜂群-消息分帧",
+  "code": "def frame_decode(buf, delim=b'\\r\\n'):\n    # 蜂群会话层：字节流按分隔符分帧（粘包/半包处理）\n    frames = []\n    while True:\n        idx = buf.find(delim)\n        if idx < 0:\n            break\n        frames.append(buf[:idx])\n        buf = buf[idx + len(delim):]\n    return frames, buf\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|蜂群-会话状态": {
+  "task": "会话状态",
+  "unit": "蜂群-会话状态",
+  "code": "def session_step(session, event):\n    # 蜂群会话状态机：LISTEN→SYN_SENT→ESTABLISHED（确认）→CLOSED（结束）\n    s = session.get('state', 'LISTEN')\n    if s == 'LISTEN' and event == 'SYN':\n        return 'SYN_SENT'\n    if s == 'SYN_SENT' and event == 'ACK':\n        return 'ESTABLISHED'\n    if s == 'ESTABLISHED' and event == 'FIN':\n        return 'CLOSED'\n    return s\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

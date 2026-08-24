@@ -212,5 +212,38 @@ try:
 except Exception as ex:
     check('⑬c 循环编译→VM 执行端到端（1+2=3）', False, str(ex)[:60])
 
+# ⑭ 目标7 深化：蜂群会话层（消息分帧/会话状态 经正式管线）
+n3_qs = {
+    "消息分帧": "写一个蜂群消息分帧单元（字节流分隔）",
+    "会话状态": "写一个蜂群会话状态单元（连接建立关闭）",
+}
+n3_ok = 0
+for label, q in n3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n3_ok += 1
+    check(f'⑭ {label} 蜂群会话层单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑭b 蜂群会话层二单元全部生成', n3_ok == 2, f'{n3_ok}/2')
+
+# ⑭c 分帧+会话端到端（粘包拆帧→喂会话状态机）
+r_frame = domain_route("写一个蜂群消息分帧单元（字节流分隔）")
+r_sess = domain_route("写一个蜂群会话状态单元（连接建立关闭）")
+try:
+    ns1, ns2 = {}, {}
+    exec(r_frame["code"], ns1)
+    exec(r_sess["code"], ns2)
+    frames, rest = ns1["frame_decode"](b'SYN\r\nACK\r\nFIN\r\n')
+    state = 'LISTEN'
+    for f in frames:
+        ev = f.decode()
+        state = ns2["session_step"]({'state': state}, ev)
+    check('⑭c 分帧→会话端到端（SYN/ACK/FIN 三帧建立到关闭）',
+          state == 'CLOSED' and rest == b'',
+          f'frames={frames} state={state}')
+except Exception as ex:
+    check('⑭c 分帧→会话端到端（SYN/ACK/FIN 三帧建立到关闭）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -164,6 +164,45 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：网络可靠传输——停等协议（逐包确认后再发下一包）",
     },
+    "蜂群-消息分帧": {
+        "task": "消息分帧",
+        "pattern": (
+            "def frame_decode(buf, delim=b'\\r\\n'):\n"
+            "    # 蜂群会话层：字节流按分隔符分帧（粘包/半包处理）\n"
+            "    frames = []\n"
+            "    while True:\n"
+            "        idx = buf.find(delim)\n"
+            "        if idx < 0:\n"
+            "            break\n"
+            "        frames.append(buf[:idx])\n"
+            "        buf = buf[idx + len(delim):]\n"
+            "    return frames, buf\n"),
+        "cases": [((b'hi\r\nhello\r\n',), ([b'hi', b'hello'], b'')),
+                  ((b'partial',), ([], b'partial')),
+                  ((b'a\r\nb\r\nc',), ([b'a', b'b'], b'c'))],
+        "params": [],
+        "calibration": "对照：会话层——字节流分帧（粘包拆帧、半包留待下段）",
+    },
+    "蜂群-会话状态": {
+        "task": "会话状态",
+        "pattern": (
+            "def session_step(session, event):\n"
+            "    # 蜂群会话状态机：LISTEN→SYN_SENT→ESTABLISHED（确认）→CLOSED（结束）\n"
+            "    s = session.get('state', 'LISTEN')\n"
+            "    if s == 'LISTEN' and event == 'SYN':\n"
+            "        return 'SYN_SENT'\n"
+            "    if s == 'SYN_SENT' and event == 'ACK':\n"
+            "        return 'ESTABLISHED'\n"
+            "    if s == 'ESTABLISHED' and event == 'FIN':\n"
+            "        return 'CLOSED'\n"
+            "    return s\n"),
+        "cases": [(({'state': 'LISTEN'}, 'SYN'), 'SYN_SENT'),
+                  (({'state': 'SYN_SENT'}, 'ACK'), 'ESTABLISHED'),
+                  (({'state': 'ESTABLISHED'}, 'FIN'), 'CLOSED'),
+                  (({'state': 'LISTEN'}, 'ACK'), 'LISTEN')],
+        "params": [],
+        "calibration": "对照：会话层——连接状态机（同步→确认→建立→关闭；非法事件不迁移）",
+    },
 }
 
 
