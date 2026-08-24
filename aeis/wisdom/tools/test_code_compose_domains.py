@@ -5015,5 +5015,40 @@ except Exception as ex:
     check('㋮c CORS→文本→剪贴板端到端（same-origin [ab,cd] 你好）',
           False, str(ex)[:60])
 
+# ㋯ 目标7 深化：网络层机制（DHCP租约/ARP解析/ICMP探测 经正式管线）
+n15_qs = {
+    "DHCP租约": "写一个 DHCP 租约单元（地址分配）",
+    "ARP解析": "写一个 ARP 解析单元（地址解析）",
+    "ICMP探测": "写一个 ICMP 探测单元（Ping 往返）",
+}
+n15_ok = 0
+for label, q in n15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n15_ok += 1
+    check(f'㋯ {label} 网络层机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋯b 网络层机制三单元全部生成', n15_ok == 3, f'{n15_ok}/3')
+
+# ㋯c 机制端到端：DHCP→ARP→ICMP（10.0.0.1 aa:bb 可达）
+r_dl = domain_route("写一个 DHCP 租约单元（地址分配）")
+r_ar = domain_route("写一个 ARP 解析单元（地址解析）")
+r_ip = domain_route("写一个 ICMP 探测单元（Ping 往返）")
+try:
+    ns_dl, ns_ar, ns_ip = {}, {}, {}
+    exec(r_dl["code"], ns_dl)
+    exec(r_ar["code"], ns_ar)
+    exec(r_ip["code"], ns_ip)
+    dl = ns_dl["dhcp_lease"]({'10.0.0.1': 'free', '10.0.0.2': 'free'}, 'offer', 'aa:bb')
+    ar = ns_ar["arp_resolve"]({'10.0.0.1': 'aa:bb'}, 'lookup', '10.0.0.1')
+    ip = ns_ip["icmp_probe"]([], 'reply', '10.0.0.1', 50)
+    check('㋯c DHCP→ARP→ICMP端到端（10.0.0.1 aa:bb 可达）',
+          dl == '10.0.0.1' and ar == 'aa:bb' and ip == '10.0.0.1',
+          f'lease={dl} arp={ar} ping={ip}')
+except Exception as ex:
+    check('㋯c DHCP→ARP→ICMP端到端（10.0.0.1 aa:bb 可达）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

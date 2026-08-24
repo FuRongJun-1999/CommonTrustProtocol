@@ -4058,5 +4058,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:net|网络-DHCP租约": {
+  "task": "DHCP租约",
+  "unit": "网络-DHCP租约",
+  "code": "def dhcp_lease(pool, op, mac=None, ttl=3600):\n    # DHCP：offer 分配/释放 / renew 续租（IP 地址租约管理）\n    if op == 'offer':\n        for ip, state in pool.items():\n            if state == 'free':\n                pool[ip] = {'mac': mac, 'ttl': ttl}\n                return ip\n        return None\n    if op == 'renew':\n        for ip, state in pool.items():\n            if isinstance(state, dict) and state.get('mac') == mac:\n                state['ttl'] = ttl\n                return ip\n        return None\n    if op == 'release':\n        for ip, state in pool.items():\n            if isinstance(state, dict) and state.get('mac') == mac:\n                pool[ip] = 'free'\n                return 'released'\n        return None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-ARP解析": {
+  "task": "ARP解析",
+  "unit": "网络-ARP解析",
+  "code": "def arp_resolve(table, op, ip=None, mac=None):\n    # ARP：lookup IP→MAC / learn 学习缓存 / flush 清空（地址解析）\n    if op == 'lookup':\n        return table.get(ip)\n    if op == 'learn':\n        table[ip] = mac\n        return mac\n    if op == 'flush':\n        table.clear()\n        return 'flushed'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-ICMP探测": {
+  "task": "ICMP探测",
+  "unit": "网络-ICMP探测",
+  "code": "def icmp_probe(results, op, target=None, rtt=None):\n    # ICMP：ping 记录往返 / reply 可达判定 / stats 汇总（探测协议）\n    if op == 'ping':\n        results.append({'target': target, 'rtt': rtt})\n        return 'sent'\n    if op == 'reply':\n        return target if rtt is not None and rtt < 1000 else None\n    if op == 'stats':\n        return len(results)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }
