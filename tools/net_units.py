@@ -469,6 +469,60 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：QUIC——0-RTT 快速握手（缓存会话票据，二次连接免往返）",
     },
+    "网络-BGP路径选择": {
+        "task": "BGP路径选择",
+        "pattern": (
+            "def bgp_select(routes):\n"
+            "    # BGP 路径选择：AS 路径最短优先（选路决策属性）\n"
+            "    best = None\n"
+            "    for r in routes:\n"
+            "        if best is None or len(r['as_path']) < len(best['as_path']):\n"
+            "            best = r\n"
+            "    return best\n"),
+        "cases": [(([{'prefix': '10.0.0.0/8', 'as_path': ['AS1', 'AS2', 'AS3']},
+                     {'prefix': '10.0.0.0/8', 'as_path': ['AS1', 'AS4']},
+                     {'prefix': '10.0.0.0/8', 'as_path': ['AS5']}],),
+                   {'prefix': '10.0.0.0/8', 'as_path': ['AS5']}),
+                  (([{'as_path': ['A']}],), {'as_path': ['A']})],
+        "params": [],
+        "calibration": "对照：BGP 路由——路径选择（AS 路径最短优先，选路决策）",
+    },
+    "网络-Anycast": {
+        "task": "Anycast",
+        "pattern": (
+            "def anycast_select(servers, client_loc):\n"
+            "    # Anycast：同一 IP 多节点 → 选最近（就近接入语义）\n"
+            "    if not servers:\n"
+            "        return None\n"
+            "    return min(servers, key=lambda s: abs(s['loc'] - client_loc))\n"),
+        "cases": [(([{'id': 'a', 'loc': 10}, {'id': 'b', 'loc': 50}], 15),
+                   {'id': 'a', 'loc': 10}),
+                  (([{'id': 'a', 'loc': 10}, {'id': 'b', 'loc': 50}], 45),
+                   {'id': 'b', 'loc': 50}),
+                  (([], 0), None)],
+        "params": [],
+        "calibration": "对照：Anycast——同 IP 多节点就近接入（地理位置最近优先）",
+    },
+    "网络-CRC校验": {
+        "task": "CRC校验",
+        "pattern": (
+            "def crc16(data):\n"
+            "    # CRC-16 校验：多项式 0x8005（数据完整性——传输错误检测）\n"
+            "    crc = 0\n"
+            "    for b in data:\n"
+            "        crc ^= b << 8\n"
+            "        for _ in range(8):\n"
+            "            if crc & 0x8000:\n"
+            "                crc = ((crc << 1) ^ 0x8005) & 0xFFFF\n"
+            "            else:\n"
+            "                crc = (crc << 1) & 0xFFFF\n"
+            "    return crc\n"),
+        "cases": [((b'',), 0),
+                  ((b'AB',), 1929),
+                  ((b'\x00',), 0)],
+        "params": [],
+        "calibration": "对照：CRC-16 校验——多项式除法余数（传输完整性检测）",
+    },
 }
 
 

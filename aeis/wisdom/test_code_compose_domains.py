@@ -1447,5 +1447,42 @@ try:
 except Exception as ex:
     check('㊌c 快照→时序→增量端到端（v1回溯 删边无邻居）', False, str(ex)[:60])
 
+# ㊍ 目标7 深化：路由协议/完整性（BGP/Anycast/CRC 经正式管线）
+n9_qs = {
+    "BGP": "写一个 BGP 路径选择单元（AS 路径）",
+    "Anycast": "写一个 Anycast 单元（就近接入）",
+    "CRC": "写一个 CRC 校验单元（完整性检测）",
+}
+n9_ok = 0
+for label, q in n9_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n9_ok += 1
+    check(f'㊍ {label} 路由协议/完整性单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊍b 路由协议/完整性三单元全部生成', n9_ok == 3, f'{n9_ok}/3')
+
+# ㊍c 端到端：BGP 选路→Anycast 就近→CRC 校验（路由决策→接入选择→完整性）
+r_bgp = domain_route("写一个 BGP 路径选择单元（AS 路径）")
+r_any = domain_route("写一个 Anycast 单元（就近接入）")
+r_crc = domain_route("写一个 CRC 校验单元（完整性检测）")
+try:
+    ns_bgp, ns_any, ns_crc = {}, {}, {}
+    exec(r_bgp["code"], ns_bgp)
+    exec(r_any["code"], ns_any)
+    exec(r_crc["code"], ns_crc)
+    route = ns_bgp["bgp_select"]([
+        {'prefix': '10.0.0.0/8', 'as_path': ['AS1', 'AS2', 'AS3']},
+        {'prefix': '10.0.0.0/8', 'as_path': ['AS5']}])
+    node = ns_any["anycast_select"]([{'id': 'a', 'loc': 10},
+                                     {'id': 'b', 'loc': 50}], 15)
+    crc = ns_crc["crc16"](b'AB')
+    check('㊍c BGP→Anycast→CRC 端到端（AS5最短 就近a CRC1929）',
+          route['as_path'] == ['AS5'] and node['id'] == 'a' and crc == 1929,
+          f'bgp={route["as_path"]} any={node["id"]} crc={crc}')
+except Exception as ex:
+    check('㊍c BGP→Anycast→CRC 端到端（AS5最短 就近a CRC1929）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

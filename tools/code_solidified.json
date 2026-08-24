@@ -1108,5 +1108,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:net|网络-BGP路径选择": {
+  "task": "BGP路径选择",
+  "unit": "网络-BGP路径选择",
+  "code": "def bgp_select(routes):\n    # BGP 路径选择：AS 路径最短优先（选路决策属性）\n    best = None\n    for r in routes:\n        if best is None or len(r['as_path']) < len(best['as_path']):\n            best = r\n    return best\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-Anycast": {
+  "task": "Anycast",
+  "unit": "网络-Anycast",
+  "code": "def anycast_select(servers, client_loc):\n    # Anycast：同一 IP 多节点 → 选最近（就近接入语义）\n    if not servers:\n        return None\n    return min(servers, key=lambda s: abs(s['loc'] - client_loc))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-CRC校验": {
+  "task": "CRC校验",
+  "unit": "网络-CRC校验",
+  "code": "def crc16(data):\n    # CRC-16 校验：多项式 0x8005（数据完整性——传输错误检测）\n    crc = 0\n    for b in data:\n        crc ^= b << 8\n        for _ in range(8):\n            if crc & 0x8000:\n                crc = ((crc << 1) ^ 0x8005) & 0xFFFF\n            else:\n                crc = (crc << 1) & 0xFFFF\n    return crc\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }
