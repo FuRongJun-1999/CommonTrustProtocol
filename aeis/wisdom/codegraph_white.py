@@ -204,6 +204,52 @@ def repo_stats(repo):
             "cross_calls": sum(len(v) for v in cross_file_calls(repo).values())}
 
 
+# ============ 六、仓库级影响分析（跨文件调用面） ============
+def impact_analysis_repo(repo, target, max_depth=3):
+    """改 target 函数 → 跨文件调用面（BFS 逆向，含文件定位）
+    返回 {target, target_file, callers[{name, file, depth}], files_affected[]}
+    价值：改一个函数 → 算跨文件波及面（codegraph impact_analysis 仓库版）"""
+    # 函数名 → 定义文件（仓库全局索引）
+    def_of = {}
+    for fn in repo["functions"]:
+        base = fn["name"].split(".")[-1]
+        def_of.setdefault(base, []).append(fn["file"])
+    # 仓库调用图（合并所有文件；跨文件同名取全部定义文件）
+    graph = {}
+    for fn in repo["functions"]:
+        graph.setdefault(fn["name"], [])
+        for callee in fn["calls"]:
+            if callee in def_of:
+                graph[fn["name"]].append(callee)
+    # 逆向邻接：callee -> [caller]
+    reverse = {}
+    for f, callees in graph.items():
+        for c in callees:
+            reverse.setdefault(c, []).append(f)
+    # 目标定位
+    target_file = def_of.get(target, [None])[0]
+    visited, queue, callers = set(), [target], []
+    depth_map = {target: 0}
+    while queue:
+        cur = queue.pop(0)
+        for caller in reverse.get(cur, []):
+            if caller not in visited:
+                visited.add(caller)
+                depth_map[caller] = depth_map[cur] + 1
+                if depth_map[caller] <= max_depth:
+                    # caller 的 file：函数名 → 定义文件（同名多文件取全部）
+                    for f in repo["functions"]:
+                        if f["name"] == caller:
+                            callers.append({"name": caller, "file": f["file"],
+                                            "depth": depth_map[caller]})
+                    queue.append(caller)
+    files_affected = sorted({c["file"] for c in callers} |
+                            ({target_file} if target_file else set()))
+    return {"target": target, "target_file": target_file,
+            "callers": callers, "files_affected": files_affected,
+            "depth": depth_map}
+
+
 if __name__ == "__main__":
     print("=== 白箱代码理解能力（codegraph 模式落地 · 零 LLM）===\n")
     SAMPLE = '''
