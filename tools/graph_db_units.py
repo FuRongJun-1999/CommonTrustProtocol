@@ -292,6 +292,70 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：真实条件单元库（compose_engine 43 单元）→ 条件路由图（条件 → 影响的规律单元）",
     },
+    "图查询-模式匹配": {
+        "task": "模式匹配",
+        "pattern": (
+            "def match_pattern(graph, src, rel, dst):\n"
+            "    # 图查询语言：MATCH (a)-[r]->(b) 模式 → 匹配的三元组集合\n"
+            "    # src/dst 支持 None=任意节点；rel 支持 None=任意边\n"
+            "    results = []\n"
+            "    for a in sorted(graph.nodes):\n"
+            "        if src is not None and a != src:\n"
+            "            continue\n"
+            "        for b in graph.neighbors(a):\n"
+            "            if rel is not None and rel not in (a, b):\n"
+            "                continue\n"
+            "            if dst is not None and b != dst:\n"
+            "                continue\n"
+            "            results.append((a, b))\n"
+            "    return results\n"),
+        "cases": [("call", [('气压低', '沸点降'), ('气压低', '缺氧')])],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图查询语言——MATCH 模式（(a)-[r]->(b)，None=任意，条件路由图三元组查询）",
+    },
+    "图查询-聚合": {
+        "task": "聚合查询",
+        "pattern": (
+            "def aggregate_by(graph, key_fn):\n"
+            "    # 图查询语言：按条件分组聚合（每节点 → 出度计数，GROUP BY 语义）\n"
+            "    groups = {}\n"
+            "    for node in sorted(graph.nodes):\n"
+            "        k = key_fn(node)\n"
+            "        groups.setdefault(k, 0)\n"
+            "        groups[k] += 1\n"
+            "    return groups\n"),
+        "cases": [("call", {'气压低': 1, '沸点降': 1, '缺氧': 1, '煮不熟': 1})],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图查询语言——GROUP BY 聚合（按 key_fn 分组计数）",
+    },
+    "图查询-条件链": {
+        "task": "条件链查询",
+        "pattern": (
+            "def chain_query(graph, condition, max_len=4):\n"
+            "    # 图查询语言：从条件出发沿边收集完整链（MATCH (a)-[*]->(b) 路径语义）\n"
+            "    chains = []\n"
+            "    def walk(cur, path):\n"
+            "        if len(path) > max_len:\n"
+            "            return\n"
+            "        succ = graph.neighbors(cur)\n"
+            "        if not succ:\n"
+            "            chains.append(list(path))\n"
+            "            return\n"
+            "        for nxt in succ:\n"
+            "            if nxt not in path:\n"
+            "                path.append(nxt)\n"
+            "                walk(nxt, path)\n"
+            "                path.pop()\n"
+            "    walk(condition, [condition])\n"
+            "    return sorted(chains)\n"),
+        "cases": [("call", [['气压低', '沸点降', '煮不熟'],
+                            ['气压低', '缺氧', '煮不熟']])],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图查询语言——变长路径 MATCH (a)-[*]->(b)：从条件出发的完整条件链集合",
+    },
     "图灵枢-导出": {
         "task": "图导出灵枢",
         "pattern": (

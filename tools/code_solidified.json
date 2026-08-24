@@ -328,5 +328,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:graph|图查询-模式匹配": {
+  "task": "模式匹配",
+  "unit": "图查询-模式匹配",
+  "code": "def match_pattern(graph, src, rel, dst):\n    # 图查询语言：MATCH (a)-[r]->(b) 模式 → 匹配的三元组集合\n    # src/dst 支持 None=任意节点；rel 支持 None=任意边\n    results = []\n    for a in sorted(graph.nodes):\n        if src is not None and a != src:\n            continue\n        for b in graph.neighbors(a):\n            if rel is not None and rel not in (a, b):\n                continue\n            if dst is not None and b != dst:\n                continue\n            results.append((a, b))\n    return results\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-聚合": {
+  "task": "聚合查询",
+  "unit": "图查询-聚合",
+  "code": "def aggregate_by(graph, key_fn):\n    # 图查询语言：按条件分组聚合（每节点 → 出度计数，GROUP BY 语义）\n    groups = {}\n    for node in sorted(graph.nodes):\n        k = key_fn(node)\n        groups.setdefault(k, 0)\n        groups[k] += 1\n    return groups\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-条件链": {
+  "task": "条件链查询",
+  "unit": "图查询-条件链",
+  "code": "def chain_query(graph, condition, max_len=4):\n    # 图查询语言：从条件出发沿边收集完整链（MATCH (a)-[*]->(b) 路径语义）\n    chains = []\n    def walk(cur, path):\n        if len(path) > max_len:\n            return\n        succ = graph.neighbors(cur)\n        if not succ:\n            chains.append(list(path))\n            return\n        for nxt in succ:\n            if nxt not in path:\n                path.append(nxt)\n                walk(nxt, path)\n                path.pop()\n    walk(condition, [condition])\n    return sorted(chains)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

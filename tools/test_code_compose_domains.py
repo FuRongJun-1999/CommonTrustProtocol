@@ -480,5 +480,49 @@ try:
 except Exception as ex:
     check('⑳c 目录→打开→设备读写端到端（路径展开 fd=3 读回内容）', False, str(ex)[:60])
 
+# ㉑ 目标6 深化：图查询语言（模式匹配/聚合/条件链 经正式管线）
+g3_qs = {
+    "模式匹配": "写一个图模式匹配单元（MATCH 三元组）",
+    "聚合": "写一个图聚合查询单元（GROUP BY 计数）",
+    "条件链": "写一个图条件链查询单元（变长路径）",
+}
+g3_ok = 0
+for label, q in g3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g3_ok += 1
+    check(f'㉑ {label} 图查询语言单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉑b 图查询语言三单元全部生成', g3_ok == 3, f'{g3_ok}/3')
+
+# ㉑c 端到端：建图→模式匹配→聚合→条件链（两链图）
+r_mp = domain_route("写一个图模式匹配单元（MATCH 三元组）")
+r_ag = domain_route("写一个图聚合查询单元（GROUP BY 计数）")
+r_cc = domain_route("写一个图条件链查询单元（变长路径）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+try:
+    ns_mp, ns_ag, ns_cc, ns_g = {}, {}, {}, {}
+    exec(r_mp["code"], ns_mp)
+    exec(r_ag["code"], ns_ag)
+    exec(r_cc["code"], ns_cc)
+    exec(r_g["code"], ns_g)
+    g = ns_g["Graph"]()
+    g.add_edge("气压低", "沸点降")
+    g.add_edge("沸点降", "煮不熟")
+    g.add_edge("气压低", "缺氧")
+    g.add_edge("缺氧", "煮不熟")
+    m = ns_mp["match_pattern"](g, "气压低", None, None)
+    ag = ns_ag["aggregate_by"](g, lambda n: n)
+    chains = ns_cc["chain_query"](g, "气压低")
+    check('㉑c 模式匹配+聚合+条件链端到端（三元组/分组/两链）',
+          m == [('气压低', '沸点降'), ('气压低', '缺氧')]
+          and ag == {'气压低': 1, '沸点降': 1, '缺氧': 1, '煮不熟': 1}
+          and chains == [['气压低', '沸点降', '煮不熟'],
+                         ['气压低', '缺氧', '煮不熟']],
+          f'match={m} agg={ag} chains={chains}')
+except Exception as ex:
+    check('㉑c 模式匹配+聚合+条件链端到端（三元组/分组/两链）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

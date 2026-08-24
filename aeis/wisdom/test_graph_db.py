@@ -69,6 +69,19 @@ for uid, u in GRAPH_UNITS.items():
                         weights = {("气压低", "沸点降"): 2, ("沸点降", "煮不熟"): 2,
                                    ("气压低", "缺氧"): 1, ("缺氧", "煮不熟"): 2}
                         got = fn(g, weights, "气压低", "煮不熟")
+                    elif uid in ("图查询-模式匹配", "图查询-聚合", "图查询-条件链"):
+                        # 注入两链图：气压低→沸点降→煮不熟 / 气压低→缺氧→煮不熟
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压低", "沸点降")
+                        g.add_edge("沸点降", "煮不熟")
+                        g.add_edge("气压低", "缺氧")
+                        g.add_edge("缺氧", "煮不熟")
+                        if uid == "图查询-模式匹配":
+                            got = fn(g, "气压低", None, None)
+                        elif uid == "图查询-聚合":
+                            got = fn(g, lambda n: n)   # 每节点一组
+                        else:
+                            got = fn(g, "气压低")
                     else:
                         got = ns["graph_ops"]()
                 elif uid == "图遍历-BFS" or uid == "图遍历-路径":
