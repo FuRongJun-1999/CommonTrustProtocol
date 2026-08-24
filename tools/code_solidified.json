@@ -388,5 +388,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:browser|事件-事件冒泡": {
+  "task": "事件冒泡",
+  "unit": "事件-事件冒泡",
+  "code": "def event_path(dom_tree, target, ancestors=None):\n    # 事件传播路径：目标 → 祖先链（冒泡顺序：目标→父→…→根）\n    path = []\n    node = target\n    while node is not None:\n        path.append(node)\n        node = dom_tree.get(node)  # 父节点\n    return path\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|事件-事件监听": {
+  "task": "事件监听",
+  "unit": "事件-事件监听",
+  "code": "def listener_ops(listeners, event, target):\n    # 事件监听器：add/trigger（事件→匹配监听器列表）\n    if event == 'add':\n        listeners.setdefault(target, []).append(1)\n        return len(listeners[target])\n    if event == 'trigger':\n        return len(listeners.get(target, []))  # 匹配的监听器数\n    return 0\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-动画帧": {
+  "task": "动画帧",
+  "unit": "渲染-动画帧",
+  "code": "def animation_frame(state, step_fn, frames):\n    # 动画帧循环：逐帧应用 step_fn（requestAnimationFrame 语义）\n    out = []\n    for _ in range(frames):\n        state = step_fn(state)\n        out.append(state)\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

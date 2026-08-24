@@ -232,6 +232,57 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器渲染管线——绘制（布局坐标→字符画布，像素填充）",
     },
+    "事件-事件冒泡": {
+        "task": "事件冒泡",
+        "pattern": (
+            "def event_path(dom_tree, target, ancestors=None):\n"
+            "    # 事件传播路径：目标 → 祖先链（冒泡顺序：目标→父→…→根）\n"
+            "    path = []\n"
+            "    node = target\n"
+            "    while node is not None:\n"
+            "        path.append(node)\n"
+            "        node = dom_tree.get(node)  # 父节点\n"
+            "    return path\n"),
+        "cases": [(({'button': 'form', 'form': 'body', 'body': None}, 'button'),
+                   ['button', 'form', 'body']),
+                  (({'a': 'div', 'div': None}, 'a'), ['a', 'div']),
+                  (({'x': None}, 'x'), ['x'])],
+        "params": [],
+        "calibration": "对照：浏览器事件——冒泡传播路径（目标→祖先链，DOM 事件冒泡语义）",
+    },
+    "事件-事件监听": {
+        "task": "事件监听",
+        "pattern": (
+            "def listener_ops(listeners, event, target):\n"
+            "    # 事件监听器：add/trigger（事件→匹配监听器列表）\n"
+            "    if event == 'add':\n"
+            "        listeners.setdefault(target, []).append(1)\n"
+            "        return len(listeners[target])\n"
+            "    if event == 'trigger':\n"
+            "        return len(listeners.get(target, []))  # 匹配的监听器数\n"
+            "    return 0\n"),
+        "cases": [(({}, 'add', 'btn'), 1),
+                  (({'btn': [1]}, 'trigger', 'btn'), 1),
+                  (({}, 'trigger', 'btn'), 0)],
+        "params": [],
+        "calibration": "对照：浏览器事件——监听器注册/触发（addEventListener/dispatchEvent 语义）",
+    },
+    "渲染-动画帧": {
+        "task": "动画帧",
+        "pattern": (
+            "def animation_frame(state, step_fn, frames):\n"
+            "    # 动画帧循环：逐帧应用 step_fn（requestAnimationFrame 语义）\n"
+            "    out = []\n"
+            "    for _ in range(frames):\n"
+            "        state = step_fn(state)\n"
+            "        out.append(state)\n"
+            "    return out\n"),
+        "cases": [((0, lambda x: x + 1, 3), [1, 2, 3]),
+                  ((10, lambda x: x * 2, 2), [20, 40]),
+                  ((5, lambda x: x, 1), [5])],
+        "params": [],
+        "calibration": "对照：浏览器渲染——动画帧循环（rAF 逐帧更新状态）",
+    },
 }
 
 

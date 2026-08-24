@@ -558,5 +558,40 @@ try:
 except Exception as ex:
     check('㉒c 函数定义→调用端到端（入口=10 帧保存 参数绑定x=5）', False, str(ex)[:60])
 
+# ㉓ 目标5 深化：浏览器交互（事件冒泡/事件监听/动画帧 经正式管线）
+b4_qs = {
+    "事件冒泡": "写一个事件冒泡单元（祖先传播路径）",
+    "事件监听": "写一个事件监听单元（注册触发）",
+    "动画帧": "写一个动画帧单元（逐帧更新）",
+}
+b4_ok = 0
+for label, q in b4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b4_ok += 1
+    check(f'㉓ {label} 浏览器交互单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉓b 浏览器交互三单元全部生成', b4_ok == 3, f'{b4_ok}/3')
+
+# ㉓c 端到端：事件冒泡路径→监听触发→动画帧（交互+渲染组合）
+r_ep = domain_route("写一个事件冒泡单元（祖先传播路径）")
+r_ls = domain_route("写一个事件监听单元（注册触发）")
+r_af = domain_route("写一个动画帧单元（逐帧更新）")
+try:
+    ns_ep, ns_ls, ns_af = {}, {}, {}
+    exec(r_ep["code"], ns_ep)
+    exec(r_ls["code"], ns_ls)
+    exec(r_af["code"], ns_af)
+    path = ns_ep["event_path"]({'btn': 'form', 'form': 'body', 'body': None}, 'btn')
+    ns_ls["listener_ops"]({}, 'add', 'btn')
+    n = ns_ls["listener_ops"]({}, 'trigger', 'btn')
+    frames = ns_af["animation_frame"](0, lambda x: x + 1, 3)
+    check('㉓c 冒泡路径→监听→动画帧端到端（btn→form→body / 0 监听 / 帧1,2,3）',
+          path == ['btn', 'form', 'body'] and n == 0 and frames == [1, 2, 3],
+          f'path={path} listeners={n} frames={frames}')
+except Exception as ex:
+    check('㉓c 冒泡路径→监听→动画帧端到端（btn→form→body / 0 监听 / 帧1,2,3）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
