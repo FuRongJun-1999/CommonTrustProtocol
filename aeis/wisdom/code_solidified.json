@@ -2728,5 +2728,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:compiler|编译-作用域分析": {
+  "task": "作用域分析",
+  "unit": "编译-作用域分析",
+  "code": "def scope_lookup(scopes, name):\n    # 作用域分析：嵌套作用域由内向外查找（变量遮蔽语义）\n    for scope in reversed(scopes):\n        if name in scope:\n            return scope[name]\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-常量传播": {
+  "task": "常量传播",
+  "unit": "编译-常量传播",
+  "code": "def const_propagate(instrs, consts):\n    # 常量传播：常量变量替换为字面量（编译期代入）\n    out = []\n    for op, arg in instrs:\n        if op == 'LOAD' and arg in consts:\n            out.append(('PUSH', consts[arg]))\n        else:\n            out.append((op, arg))\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-指令重排": {
+  "task": "指令重排",
+  "unit": "编译-指令重排",
+  "code": "def reorder_instrs(instrs):\n    # 指令重排：PUSH 常量提前（无关指令乱序——减少停顿）\n    pushes = [i for i in instrs if i[0] == 'PUSH']\n    rest = [i for i in instrs if i[0] != 'PUSH']\n    return pushes + rest\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

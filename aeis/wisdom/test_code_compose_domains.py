@@ -3453,5 +3453,40 @@ try:
 except Exception as ex:
     check('㋂c Reno→RTO→吞吐量端到端（2 8 4.0 1.0）', False, str(ex)[:60])
 
+# ㋃ 目标2 深化：分析/优化（作用域分析/常量传播/指令重排 经正式管线）
+c9_qs = {
+    "作用域分析": "写一个作用域分析单元（变量遮蔽）",
+    "常量传播": "写一个常量传播单元（变量代入）",
+    "指令重排": "写一个指令重排单元（乱序优化）",
+}
+c9_ok = 0
+for label, q in c9_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c9_ok += 1
+    check(f'㋃ {label} 分析/优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋃b 分析/优化三单元全部生成', c9_ok == 3, f'{c9_ok}/3')
+
+# ㋃c 分析端到端：作用域→常量传播→指令重排（内层甲2 代入PUSH3 重排PUSH前）
+r_sc = domain_route("写一个作用域分析单元（变量遮蔽）")
+r_cp = domain_route("写一个常量传播单元（变量代入）")
+r_ri = domain_route("写一个指令重排单元（乱序优化）")
+try:
+    ns_sc, ns_cp, ns_ri = {}, {}, {}
+    exec(r_sc["code"], ns_sc)
+    exec(r_cp["code"], ns_cp)
+    exec(r_ri["code"], ns_ri)
+    sc = ns_sc["scope_lookup"]([{'甲': 1}, {'甲': 2}], '甲')
+    cp = ns_cp["const_propagate"]([("LOAD", "甲"), ("DE", None)], {'甲': 3})
+    ri = ns_ri["reorder_instrs"]([("DE", 0.1), ("PUSH", 3)])
+    check('㋃c 作用域→常量传播→重排端到端（2 [PUSH3,DE] [PUSH3,DE0.1]）',
+          sc == 2 and cp == [("PUSH", 3), ("DE", None)]
+          and ri == [("PUSH", 3), ("DE", 0.1)],
+          f'scope={sc} cp={cp} reorder={ri}')
+except Exception as ex:
+    check('㋃c 作用域→常量传播→重排端到端（2 [PUSH3,DE] [PUSH3,DE0.1]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

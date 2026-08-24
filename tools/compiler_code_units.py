@@ -1278,6 +1278,56 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：语法——数组字面量（中括号元素列表，逗号分隔）",
     },
+    "编译-作用域分析": {
+        "task": "作用域分析",
+        "pattern": (
+            "def scope_lookup(scopes, name):\n"
+            "    # 作用域分析：嵌套作用域由内向外查找（变量遮蔽语义）\n"
+            "    for scope in reversed(scopes):\n"
+            "        if name in scope:\n"
+            "            return scope[name]\n"
+            "    return None\n"),
+        "cases": [(([{'甲': 1}, {'乙': 2}], '甲'), 1),
+                  (([{'甲': 1}, {'甲': 2}], '甲'), 2),
+                  (([{'甲': 1}], '乙'), None),
+                  (([], '甲'), None)],
+        "params": [],
+        "calibration": "对照：编译作用域——嵌套由内向外查找（内层遮蔽外层）",
+    },
+    "编译-常量传播": {
+        "task": "常量传播",
+        "pattern": (
+            "def const_propagate(instrs, consts):\n"
+            "    # 常量传播：常量变量替换为字面量（编译期代入）\n"
+            "    out = []\n"
+            "    for op, arg in instrs:\n"
+            "        if op == 'LOAD' and arg in consts:\n"
+            "            out.append(('PUSH', consts[arg]))\n"
+            "        else:\n"
+            "            out.append((op, arg))\n"
+            "    return out\n"),
+        "cases": [(([("LOAD", "甲"), ("DE", None)], {'甲': 3}),
+                   [("PUSH", 3), ("DE", None)]),
+                  (([("LOAD", "乙")], {'甲': 3}), [("LOAD", "乙")]),
+                  (([], {'甲': 3}), [])],
+        "params": [],
+        "calibration": "对照：编译优化——常量传播（常量变量→字面量代入）",
+    },
+    "编译-指令重排": {
+        "task": "指令重排",
+        "pattern": (
+            "def reorder_instrs(instrs):\n"
+            "    # 指令重排：PUSH 常量提前（无关指令乱序——减少停顿）\n"
+            "    pushes = [i for i in instrs if i[0] == 'PUSH']\n"
+            "    rest = [i for i in instrs if i[0] != 'PUSH']\n"
+            "    return pushes + rest\n"),
+        "cases": [(([("DE", 0.1), ("PUSH", 3)],),
+                   [("PUSH", 3), ("DE", 0.1)]),
+                  (([("DE", 0.1)],), [("DE", 0.1)]),
+                  (([],), [])],
+        "params": [],
+        "calibration": "对照：编译优化——指令重排（无关指令乱序减少停顿）",
+    },
 }
 
 
