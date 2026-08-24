@@ -680,6 +680,52 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：CPython 描述符协议（__get__/__set__，property 与 @property 底层）",
     },
+    "面向对象-运算符重载": {
+        "task": "运算符重载",
+        "pattern": (
+            "def binop_dispatch(obj, other, op):\n"
+            "    # 运算符重载：对象方法分派（__add__/__mul__——重定义运算符行为）\n"
+            "    method = obj.get(op) if isinstance(obj, dict) else getattr(obj, op, None)\n"
+            "    if method is None:\n"
+            "        return 'unsupported'\n"
+            "    return method(other)\n"),
+        "cases": [(({'__add__': lambda o: o + 1}, 5, '__add__'), 6),
+                  (({'__mul__': lambda o: o * 2}, 3, '__mul__'), 6),
+                  (({}, 5, '__add__'), 'unsupported')],
+        "params": [],
+        "calibration": "对照：CPython 运算符重载（__add__/__mul__ dunder 分派，未定义→TypeError 语义）",
+    },
+    "数据结构-枚举": {
+        "task": "枚举",
+        "pattern": (
+            "def enum_resolve(members, key):\n"
+            "    # 枚举：名称↔值双向解析（成员表——Enum 类型语义）\n"
+            "    if key in members:\n"
+            "        return ('value', members[key])\n"
+            "    for name, val in members.items():\n"
+            "        if val == key:\n"
+            "            return ('name', name)\n"
+            "    return None\n"),
+        "cases": [(({'红': 1, '绿': 2}, '红'), ('value', 1)),
+                  (({'红': 1, '绿': 2}, 2), ('name', '绿')),
+                  (({'红': 1}, '蓝'), None)],
+        "params": [],
+        "calibration": "对照：CPython Enum（成员名称↔值双向访问，未知→AttributeError 语义）",
+    },
+    "工具-数据类": {
+        "task": "数据类",
+        "pattern": (
+            "def dataclass_init(fields, args):\n"
+            "    # 数据类：字段表 + 位置参数 → 自动 __init__ 绑定（数据类自动构造）\n"
+            "    if len(args) != len(fields):\n"
+            "        return 'arity_error'\n"
+            "    return dict(zip(fields, args))\n"),
+        "cases": [((('名', '年龄'), ('甲', 3)), {'名': '甲', '年龄': 3}),
+                  ((('名',), ('甲', 3)), 'arity_error'),
+                  ((('名', '年龄'), ()), 'arity_error')],
+        "params": [],
+        "calibration": "对照：CPython dataclass（字段表自动生成 __init__，参数个数不匹配报错）",
+    },
 }
 
 

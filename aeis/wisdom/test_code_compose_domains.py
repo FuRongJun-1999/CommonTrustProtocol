@@ -2617,5 +2617,39 @@ try:
 except Exception as ex:
     check('㊫c 令牌桶→服务发现→加密握手端到端（6 发现[svc1] 密钥10安全通道）', False, str(ex)[:60])
 
+# ㊬ 目标1 深化：P 线机制族（运算符重载/枚举/数据类 经正式管线）
+p4_qs = {
+    "运算符重载": "写一个运算符重载单元（dunder 分派）",
+    "枚举": "写一个枚举单元（名称值映射）",
+    "数据类": "写一个数据类单元（自动构造）",
+}
+p4_ok = 0
+for label, q in p4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p4_ok += 1
+    check(f'㊬ {label} P线机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊬b P线机制三单元全部生成', p4_ok == 3, f'{p4_ok}/3')
+
+# ㊬c 机制端到端：运算符重载→枚举→数据类（__add__ 6 / 红=1 / 名甲年龄3）
+r_oo = domain_route("写一个运算符重载单元（dunder 分派）")
+r_en = domain_route("写一个枚举单元（名称值映射）")
+r_dc = domain_route("写一个数据类单元（自动构造）")
+try:
+    ns_oo, ns_en, ns_dc = {}, {}, {}
+    exec(r_oo["code"], ns_oo)
+    exec(r_en["code"], ns_en)
+    exec(r_dc["code"], ns_dc)
+    add = ns_oo["binop_dispatch"]({'__add__': lambda o: o + 1}, 5, '__add__')
+    val = ns_en["enum_resolve"]({'红': 1, '绿': 2}, '红')
+    obj = ns_dc["dataclass_init"](('名', '年龄'), ('甲', 3))
+    check('㊬c 重载→枚举→数据类端到端（__add__=6 红→1 名甲年龄3）',
+          add == 6 and val == ('value', 1) and obj == {'名': '甲', '年龄': 3},
+          f'add={add} enum={val} dc={obj}')
+except Exception as ex:
+    check('㊬c 重载→枚举→数据类端到端（__add__=6 红→1 名甲年龄3）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
