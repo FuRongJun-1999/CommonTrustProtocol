@@ -704,5 +704,42 @@ try:
 except Exception as ex:
     check('㉖c 索引→事务→子图端到端（条件[a] 事务active/回滚 子图True）', False, str(ex)[:60])
 
+# ㉗ 目标4 深化：中断子系统（向量表/上下文切换/嵌套优先级 经正式管线）
+o5_qs = {
+    "中断向量": "写一个中断向量表单元（IRQ 查表）",
+    "上下文切换": "写一个中断上下文切换单元（现场保存恢复）",
+    "嵌套优先级": "写一个中断嵌套优先级单元（高优先抢占）",
+}
+o5_ok = 0
+for label, q in o5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o5_ok += 1
+    check(f'㉗ {label} 中断子系统单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉗b 中断子系统三单元全部生成', o5_ok == 3, f'{o5_ok}/3')
+
+# ㉗c 端到端：向量查表→上下文保存恢复→嵌套抢占（中断处理全流程）
+r_vt = domain_route("写一个中断向量表单元（IRQ 查表）")
+r_cs = domain_route("写一个中断上下文切换单元（现场保存恢复）")
+r_np = domain_route("写一个中断嵌套优先级单元（高优先抢占）")
+try:
+    ns_vt, ns_cs, ns_np = {}, {}, {}
+    exec(r_vt["code"], ns_vt)
+    exec(r_cs["code"], ns_cs)
+    exec(r_np["code"], ns_np)
+    h = ns_vt["vector_lookup"]({14: 'disk_handler'}, 14)
+    st = ns_cs["ctx_switch"]({'regs': {'a': 1}}, True)
+    rt = ns_cs["ctx_switch"]({'regs': {'a': 1}, 'saved': {'a': 9}}, False)
+    pre = ns_np["nested_irq"](3, 5)
+    no_pre = ns_np["nested_irq"](5, 3)
+    check('㉗c 向量→上下文→嵌套端到端（disk_handler 保存/恢复 抢占5>3 不抢3<5）',
+          h == 'disk_handler' and st == 'saved' and rt == 'restored'
+          and pre is True and no_pre is False,
+          f'handler={h} ctx={st},{rt} preempt={pre},{no_pre}')
+except Exception as ex:
+    check('㉗c 向量→上下文→嵌套端到端（disk_handler 保存/恢复 抢占5>3 不抢3<5）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

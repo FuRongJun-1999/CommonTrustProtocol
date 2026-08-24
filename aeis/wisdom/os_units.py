@@ -381,6 +381,46 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 设备驱动——字符设备接口（open/read/write/close，设备即文件）",
     },
+    "中断-向量表": {
+        "task": "中断向量",
+        "pattern": (
+            "def vector_lookup(table, irq):\n"
+            "    # 中断向量表：IRQ 号 → 处理函数（未注册 → None）\n"
+            "    return table.get(irq)\n"),
+        "cases": [(({3: 'timer_handler', 14: 'disk_handler'}, 3), 'timer_handler'),
+                  (({3: 'timer_handler'}, 14), None),
+                  (({}, 0), None)],
+        "params": [],
+        "calibration": "对照：OS 中断——向量表（IRQ→handler 查表分派，未注册返回 None）",
+    },
+    "中断-上下文切换": {
+        "task": "上下文切换",
+        "pattern": (
+            "def ctx_switch(ctx, save):\n"
+            "    # 中断上下文切换：保存当前寄存器 → 恢复目标（现场保护/恢复）\n"
+            "    if save:\n"
+            "        ctx['saved'] = dict(ctx.get('regs', {}))\n"
+            "        return 'saved'\n"
+            "    regs = ctx.pop('saved', {})\n"
+            "    ctx['regs'] = dict(regs)\n"
+            "    return 'restored'\n"),
+        "cases": [(({'regs': {'a': 1, 'b': 2}}, True), 'saved'),
+                  (({'regs': {'a': 1}, 'saved': {'a': 9}}, False), 'restored')],
+        "params": [],
+        "calibration": "对照：OS 中断——上下文切换（现场保存/恢复，中断处理不破坏用户态）",
+    },
+    "中断-嵌套优先级": {
+        "task": "中断优先级",
+        "pattern": (
+            "def nested_irq(current_prio, new_prio):\n"
+            "    # 中断嵌套：新中断优先级更高 → 可抢占当前（NMI/高优先抢占）\n"
+            "    return new_prio > current_prio\n"),
+        "cases": [((3, 5), True),
+                  ((5, 3), False),
+                  ((3, 3), False)],
+        "params": [],
+        "calibration": "对照：OS 中断——嵌套优先级（高优先级中断可抢占低优先级，同级不嵌套）",
+    },
 }
 
 
