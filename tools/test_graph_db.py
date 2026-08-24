@@ -31,9 +31,18 @@ for uid, u in GRAPH_UNITS.items():
             try:
                 if args == "call":
                     if uid == "图持久化-序列化":
-                        # 用真实图（新建空图）序列化
                         g = generated["图存储-节点边"][0]["Graph"]()
                         got = ns["graph_to_json"](g)
+                    elif uid == "图持久化-文件":
+                        got = ns["graph_file_ops"]()
+                    elif uid in ("图遍历-路径枚举", "条件路由图-查询"):
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压低", "沸点降")
+                        g.add_edge("沸点降", "煮不熟")
+                        g.add_edge("气压低", "缺氧")
+                        g.add_edge("缺氧", "煮不熟")
+                        got = fn(g, "气压低", "煮不熟") if uid == "图遍历-路径枚举" \
+                            else fn(g, "气压低")
                     else:
                         got = ns["graph_ops"]()
                 elif uid == "图遍历-BFS" or uid == "图遍历-路径":

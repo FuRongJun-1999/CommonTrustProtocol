@@ -117,6 +117,84 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：条件单元库（{条件→规律}）→ 条件路由图（第4阶段知识图同构）",
     },
+    "图持久化-文件": {
+        "task": "图文件",
+        "pattern": (
+            "def save_graph(graph, path):\n"
+            "    # 图 → .cgdb 文件（条件图数据库文件）\n"
+            "    import json\n"
+            "    with open(path, 'w', encoding='utf-8') as f:\n"
+            "        json.dump({'nodes': sorted(graph.nodes),\n"
+            "                   'edges': {k: v for k, v in sorted(graph.edges.items())}},\n"
+            "                  f, ensure_ascii=False)\n"
+            "    return path\n"
+            "def load_graph(path):\n"
+            "    # .cgdb 文件 → 图（条件图数据库加载）\n"
+            "    import json\n"
+            "    with open(path, 'r', encoding='utf-8') as f:\n"
+            "        data = json.load(f)\n"
+            "    g = Graph()\n"
+            "    for n in data['nodes']:\n"
+            "        g.add_node(n)\n"
+            "    for src, dsts in data['edges'].items():\n"
+            "        for d in dsts:\n"
+            "            g.add_edge(src, d)\n"
+            "    return g\n"
+            "def graph_file_ops():\n"
+            "    # 组装：Graph + save + load 往返（条件图数据库持久化）\n"
+            "    g = Graph()\n"
+            "    g.add_edge('气压低', '沸点降')\n"
+            "    path = save_graph(g, 'test.cgdb')\n"
+            "    g2 = load_graph(path)\n"
+            "    import os\n"
+            "    os.remove(path)\n"
+            "    return g2.neighbors('气压低')\n"),
+        "cases": [("call", ["沸点降"])],
+        "params": [],
+        "calibration": "对照：条件图数据库——.cgdb 文件持久化（存储层升级：JSON→文件）",
+    },
+    "图遍历-路径枚举": {
+        "task": "路径枚举",
+        "pattern": (
+            "def all_paths(graph, start, end, max_len=5):\n"
+            "    # 枚举 start→end 所有路径（条件链组合——可解释路径）\n"
+            "    paths = []\n"
+            "    def dfs(cur, path):\n"
+            "        if len(path) > max_len:\n"
+            "            return\n"
+            "        if cur == end:\n"
+            "            paths.append(list(path))\n"
+            "            return\n"
+            "        for nxt in graph.neighbors(cur):\n"
+            "            if nxt not in path:\n"
+            "                path.append(nxt)\n"
+            "                dfs(nxt, path)\n"
+            "                path.pop()\n"
+            "    dfs(start, [start])\n"
+            "    return sorted(paths)\n"),
+        "cases": [("call", [["气压低", "沸点降", "煮不熟"],
+                            ["气压低", "缺氧", "煮不熟"]])],
+        "params": [],
+        "calibration": "对照：多条件链组合（高压锅在高原=气压低→沸点降 + 气压高→沸点升 两条链的可解释路径）",
+    },
+    "条件路由图-查询": {
+        "task": "路由查询",
+        "pattern": (
+            "def route_query(graph, condition):\n"
+            "    # 条件路由查询：从条件出发影响传播 → 可达规律（影响面，不含起点）\n"
+            "    from collections import deque\n"
+            "    visited, queue = set(), deque([condition])\n"
+            "    while queue:\n"
+            "        cur = queue.popleft()\n"
+            "        for nxt in graph.neighbors(cur):\n"
+            "            if nxt not in visited:\n"
+            "                visited.add(nxt)\n"
+            "                queue.append(nxt)\n"
+            "    return sorted(visited)\n"),
+        "cases": [("call", ["沸点降", "煮不熟", "缺氧"])],
+        "params": [],
+        "calibration": "对照：条件路由查询——条件 → 影响面（规律集合，compose 条件链组合的图查询形态）",
+    },
 }
 
 
