@@ -4614,5 +4614,40 @@ try:
 except Exception as ex:
     check('㋣c 默认→关键字→多行字符串端到端（{甲:x,乙:2} {甲:x,乙:y} 跨行）', False, str(ex)[:60])
 
+# ㋤ 目标4 深化：文件/存储（文件压缩/存储池/文件版本 经正式管线）
+o13_qs = {
+    "文件压缩": "写一个文件压缩单元（RLE 编码）",
+    "存储池": "写一个存储池单元（容量分配）",
+    "文件版本": "写一个文件版本单元（版本历史）",
+}
+o13_ok = 0
+for label, q in o13_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o13_ok += 1
+    check(f'㋤ {label} 文件/存储单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋤b 文件/存储三单元全部生成', o13_ok == 3, f'{o13_ok}/3')
+
+# ㋤c 存储端到端：压缩→存储池→文件版本（aaabb allocated [v1,v2]）
+r_fc = domain_route("写一个文件压缩单元（RLE 编码）")
+r_sp = domain_route("写一个存储池单元（容量分配）")
+r_fv = domain_route("写一个文件版本单元（版本历史）")
+try:
+    ns_fc, ns_sp, ns_fv = {}, {}, {}
+    exec(r_fc["code"], ns_fc)
+    exec(r_sp["code"], ns_sp)
+    exec(r_fv["code"], ns_fv)
+    fc = ns_fc["file_compress"]([('a', 3), ('b', 2)], 'decompress')
+    sp = ns_sp["storage_pool"](
+        {'data': {'total': 100, 'used': 0}}, 'alloc', 'data', 60)
+    fv = ns_fv["file_version"]({'f1': ['v1', 'v2']}, 'list', 'f1')
+    check('㋤c 压缩→存储池→文件版本端到端（aaabb allocated [v1,v2]）',
+          fc == 'aaabb' and sp == 'allocated' and fv == ['v1', 'v2'],
+          f'comp={fc} pool={sp} ver={fv}')
+except Exception as ex:
+    check('㋤c 压缩→存储池→文件版本端到端（aaabb allocated [v1,v2]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

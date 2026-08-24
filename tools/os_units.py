@@ -1688,6 +1688,90 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：ACPI 电源管理——休眠/唤醒/状态",
     },
+    "文件-文件压缩": {
+        "task": "文件压缩",
+        "pattern": (
+            "def file_compress(data, mode):\n"
+            "    # 文件压缩：compress RLE 行程编码 / decompress 还原（体积优化）\n"
+            "    if mode == 'compress':\n"
+            "        out = []\n"
+            "        i = 0\n"
+            "        while i < len(data):\n"
+            "            j = i\n"
+            "            while j < len(data) and data[j] == data[i]:\n"
+            "                j += 1\n"
+            "            out.append((data[i], j - i))\n"
+            "            i = j\n"
+            "        return out\n"
+            "    if mode == 'decompress':\n"
+            "        return ''.join(c * n for c, n in data)\n"
+            "    return None\n"),
+        "cases": [(('aaabbc', 'compress'), [('a', 3), ('b', 2), ('c', 1)]),
+                  (([('a', 3), ('b', 2)], 'decompress'), 'aaabb'),
+                  (('', 'compress'), [])],
+        "params": [],
+        "calibration": "对照：文件压缩——RLE 行程编码（重复段压缩/还原）",
+    },
+    "存储-存储池": {
+        "task": "存储池",
+        "pattern": (
+            "def storage_pool(pool, op, name=None, size=0):\n"
+            "    # 存储池：create 建池 / alloc 分配（容量扣减）/ free 释放 / status 状态\n"
+            "    if op == 'create':\n"
+            "        pool[name] = {'total': size, 'used': 0}\n"
+            "        return name\n"
+            "    if op == 'alloc':\n"
+            "        p = pool.get(name)\n"
+            "        if p is None:\n"
+            "            return 'missing'\n"
+            "        if p['used'] + size > p['total']:\n"
+            "            return 'insufficient'\n"
+            "        p['used'] += size\n"
+            "        return 'allocated'\n"
+            "    if op == 'free':\n"
+            "        p = pool.get(name)\n"
+            "        if p is None:\n"
+            "            return 'missing'\n"
+            "        p['used'] = max(p['used'] - size, 0)\n"
+            "        return 'freed'\n"
+            "    if op == 'status':\n"
+            "        p = pool.get(name)\n"
+            "        return dict(p) if p else None\n"
+            "    return None\n"),
+        "cases": [(({}, 'create', 'data', 100), 'data'),
+                  (({'data': {'total': 100, 'used': 0}}, 'alloc', 'data', 60),
+                   'allocated'),
+                  (({'data': {'total': 100, 'used': 80}}, 'alloc', 'data', 30),
+                   'insufficient'),
+                  (({'data': {'total': 100, 'used': 50}}, 'free', 'data', 20),
+                   'freed'),
+                  (({'data': {'total': 100, 'used': 0}}, 'status', 'data'),
+                   {'total': 100, 'used': 0})],
+        "params": [],
+        "calibration": "对照：存储池——容量池分配/回收（超限拒绝）",
+    },
+    "文件-文件版本": {
+        "task": "文件版本",
+        "pattern": (
+            "def file_version(versions, op, name=None, content=None):\n"
+            "    # 文件版本：save 存版本 / list 版本列表 / get 取最新（版本历史）\n"
+            "    if op == 'save':\n"
+            "        versions.setdefault(name, []).append(content)\n"
+            "        return len(versions[name])\n"
+            "    if op == 'list':\n"
+            "        return list(versions.get(name, []))\n"
+            "    if op == 'get':\n"
+            "        vs = versions.get(name, [])\n"
+            "        return vs[-1] if vs else None\n"
+            "    return None\n"),
+        "cases": [(({}, 'save', 'f1', 'v1'), 1),
+                  (({'f1': ['v1']}, 'save', 'f1', 'v2'), 2),
+                  (({'f1': ['v1', 'v2']}, 'list', 'f1'), ['v1', 'v2']),
+                  (({'f1': ['v1']}, 'get', 'f1'), 'v1'),
+                  (({}, 'get', 'f1'), None)],
+        "params": [],
+        "calibration": "对照：文件版本——版本历史保存/列表/取最新",
+    },
 }
 
 
