@@ -115,6 +115,23 @@ for label, q in nt_qs.items():
           f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
 check('⑨b 网络五单元全部生成', nt_ok == 5, f'{nt_ok}/5')
 
+# ⑩ 目标7 深化：蜂群协议（去重/路由表/超时重传/停等 经正式管线）
+n2_qs = {
+    "去重": "写一个蜂群消息去重单元（ID防重复）",
+    "路由表": "写一个路由表更新单元（节点下一跳）",
+    "超时重传": "写一个超时重传单元（未确认重传）",
+    "停等": "写一个停等协议单元（逐包确认）",
+}
+n2_ok = 0
+for label, q in n2_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n2_ok += 1
+    check(f'⑩ {label} 蜂群协议单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑩b 蜂群四单元全部生成', n2_ok == 4, f'{n2_ok}/4')
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
 

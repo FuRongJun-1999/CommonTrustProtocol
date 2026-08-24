@@ -96,6 +96,74 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：蜂群网络——消息经邻居递归中继，seen 防回环（去中心化传播）",
     },
+    "蜂群-消息去重": {
+        "task": "消息去重",
+        "pattern": (
+            "def dedup(messages, seen_ids):\n"
+            "    # 蜂群消息去重：已见 ID 跳过，新 ID 投递（防重复传播）\n"
+            "    new = []\n"
+            "    for msg in messages:\n"
+            "        if msg['id'] not in seen_ids:\n"
+            "            seen_ids.add(msg['id'])\n"
+            "            new.append(msg)\n"
+            "    return new\n"),
+        "cases": [(([{'id': 1}, {'id': 1}, {'id': 2}], set()),
+                   [{'id': 1}, {'id': 2}]),
+                  (([{'id': 1}], {1}), [])],
+        "params": [],
+        "calibration": "对照：蜂群协议——消息 ID 去重（多路径重复投递只处理一次）",
+    },
+    "蜂群-路由表": {
+        "task": "路由表",
+        "pattern": (
+            "def route_table_update(table, node, next_hop):\n"
+            "    # 路由表：节点 → 下一跳 维护（更新/查询）\n"
+            "    if next_hop is not None:\n"
+            "        table[node] = next_hop\n"
+            "    return table.get(node)\n"),
+        "cases": [(({}, 'A', 'B'), 'B'),
+                  (({'A': 'B'}, 'A', None), 'B'),
+                  (({'A': 'B'}, 'C', 'D'), 'D')],
+        "params": [],
+        "calibration": "对照：网络路由表——节点→下一跳（更新与查询）",
+    },
+    "蜂群-超时重传": {
+        "task": "超时重传",
+        "pattern": (
+            "def retransmit(packets, ack_ids, max_tries=3):\n"
+            "    # 蜂群可靠传输：未确认包超时重传（超过重试上限放弃）\n"
+            "    need = []\n"
+            "    for p in packets:\n"
+            "        if p['id'] in ack_ids:\n"
+            "            continue\n"
+            "        if p.get('tries', 0) >= max_tries:\n"
+            "            continue\n"
+            "        p['tries'] = p.get('tries', 0) + 1\n"
+            "        need.append(p['id'])\n"
+            "    return need\n"),
+        "cases": [(([{'id': 1, 'tries': 0}, {'id': 2, 'tries': 3}], {2}), [1]),
+                  (([{'id': 1, 'tries': 0}], set()), [1]),
+                  (([{'id': 1, 'tries': 0}], {1}), [])],
+        "params": [],
+        "calibration": "对照：可靠传输——未确认包重传，超重试上限放弃（TCP 重传语义）",
+    },
+    "网络-停等协议": {
+        "task": "停等协议",
+        "pattern": (
+            "def stop_and_wait(send_packets, ack_all=True):\n"
+            "    # 停等协议：发送→等确认→再发下一个（ack_all=False 首包后停止）\n"
+            "    sent = []\n"
+            "    for p in send_packets:\n"
+            "        sent.append(p)\n"
+            "        if not ack_all:\n"
+            "            break\n"
+            "    return sent\n"),
+        "cases": [(([1, 2, 3], True), [1, 2, 3]),
+                  (([1, 2], False), [1]),
+                  (( [], True), [])],
+        "params": [],
+        "calibration": "对照：网络可靠传输——停等协议（逐包确认后再发下一包）",
+    },
 }
 
 
