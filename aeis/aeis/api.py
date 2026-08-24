@@ -16,6 +16,7 @@ from typing import Dict, List, Optional, Tuple
 
 from .core import (
     SpacetimeMemoryEngine, ConditionSpace, EdgeType, MemoryLayer,
+    STNode, STEdge,
 )
 
 
@@ -141,6 +142,52 @@ class Agent:
         return self.engine.add_edge(source_id, target_id, relation_type=et,
                                     confidence=confidence,
                                     source_evidence=source_evidence)
+
+    # ---- 条件节点化（GPT 审查·第二优先级 v1.16）----
+    # 条件从「节点属性」提升为「可学习的认知对象」：条件节点 → applies_to → 知识节点
+
+    def declare_condition(self, content: str, existence_constraint: str = "",
+                          importance: float = 0.8) -> STNode:
+        """声明条件节点：条件成为独立认知对象（可发现/组合/验证/继承）。
+        content 例：「气压低」「海拔高」「温度>100°C」；存在约束写入条件空间。"""
+        from aeis.core import ConditionSpace
+        cs = ConditionSpace(
+            observation_position="条件空间",
+            observation_tool="条件声明",
+            time_window=(0.0, 0.0),
+            existence_constraint=existence_constraint or content)
+        return self.engine.add_perception(
+            f"[条件] {content}", importance=importance,
+            tags=["condition", "condition_verified"],
+            condition_space=cs)
+
+    def promote_condition(self, candidate_id: str) -> Optional[STNode]:
+        """条件候选提升：预测误差自动条件化产出的 condition_candidate
+        → 验证通过 → 正式条件节点（condition_verified）。"""
+        n = self.engine.store.get_node(candidate_id)
+        if not n:
+            return None
+        try:
+            self.engine.store.tag_node(candidate_id, "condition")
+            self.engine.store.tag_node(candidate_id, "condition_verified")
+        except Exception:
+            pass
+        return self.engine.store.get_node(candidate_id)
+
+    def apply_condition(self, condition_id: str, knowledge_id: str,
+                        confidence: float = 0.8) -> STEdge:
+        """条件→知识 适用关系（applies_to 边）：条件节点路由到适用知识"""
+        return self.engine.add_edge(condition_id, knowledge_id,
+                                    relation_type=EdgeType.APPLIES_TO,
+                                    confidence=confidence,
+                                    source_evidence="inferred")
+
+    def conditions(self) -> List:
+        """列出全部条件节点（可检索条件空间）"""
+        try:
+            return self.engine.store.get_nodes_by_tag("condition", limit=100)
+        except Exception:
+            return []
 
     def reason(self, start_id: str, end_id: str = None,
                max_depth: int = 5) -> List:

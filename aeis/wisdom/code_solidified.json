@@ -1,0 +1,11 @@
+{
+ "排序|排序-冒泡": {
+  "task": "排序",
+  "unit": "排序-冒泡",
+  "code": "def solve(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(n - 1 - i):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "code_solidified"
+ }
+}

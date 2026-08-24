@@ -66,6 +66,29 @@ r = ce.route_compose("为什么真空瓶里煮饭也煮不熟？")
 ok_analogy = r.get("ok") and "气压低" in r.get("answer", "") and "沸点" in r.get("answer", "")
 check('③c 类比: 真空瓶煮饭 → 同高原规律域（气压×沸点）', ok_analogy, r.get("answer", "?")[:50])
 
+# ③d 人体常识域
+HUMAN = {
+    "为什么饿了要吃饭？": ("消化", "能量"),
+    "为什么跑步会喘气？": ("氧气", "二氧化碳"),
+    "为什么烫到手会立刻缩回？": ("反射", "缩手"),
+    "为什么人需要睡觉？": ("睡眠", "恢复"),
+}
+for q, (kw1, kw2) in HUMAN.items():
+    r = ce.route_compose(q)
+    ok = r.get("ok") and kw1 in r.get("answer", "") and kw2 in r.get("answer", "")
+    check(f'人体常识: {q[:14]}…', ok, r.get("answer", "?")[:44])
+
+# ③e 规划生成（目标+阻碍→步骤链）
+PLAN = {
+    "在高原上怎么煮饭才能熟？": ("气压低", "高压锅"),
+    "鱼离开水了怎么才能活？": ("缺氧", "有氧"),
+    "我饿了没力气怎么办？": ("缺营养", "进食"),
+}
+for q, (kw1, kw2) in PLAN.items():
+    p = ce.plan_compose(q)
+    ok = p.get("ok") and kw1 in p.get("plan", "") and kw2 in p.get("plan", "")
+    check(f'规划生成: {q[:14]}…', ok, p.get("plan", "?")[:40])
+
 # ④ 回归（原 4 域）
 REGRESS = [
     "为什么高原上煮饭不容易熟？", "为什么铁块会沉入水底？",

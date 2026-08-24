@@ -99,6 +99,7 @@ class EdgeType(Enum):
     SPATIAL_CONNECTED = "spatial_connected"
     SIMILAR = "similar"
     OPPOSITE = "opposite"
+    APPLIES_TO = "applies_to"   # v1.16（条件节点化）：条件 → 知识 的适用关系
 
 class MemoryLayer(Enum):
     ANCHOR = "anchor"       # 不可遗忘
