@@ -1000,43 +1000,69 @@ def plan_compose(query):
 
 
 # ============ 六d、条件代数集成（第五阶段：雅可比独立性→并行组合 + 覆盖率判定） ============
-def compose_parallel(queries):
-    """条件代数并行组合：雅可比条件独立性 → 独立条件域查询可并行。
+def compose_parallel(queries, max_workers=4):
+    """条件代数并行组合：雅可比条件独立性 → 独立条件域查询**并行执行**。
     共享条件域的查询（混合偏导 ∂²f/∂x∂y≠0）需串行——避免组合冲突。
-    返回 {results, groups, note}：groups 为可并行分组（同组独立可并行）"""
+    返回 {results, groups, note, parallel_ms, serial_ms}：并行耗时 vs 串行耗时"""
+    import time
     try:
         from condition_algebra import build_influence_jacobian
     except Exception:
         build_influence_jacobian = None
-    results = [{"query": q, "result": route_compose(q)} for q in queries]
-    if build_influence_jacobian is None:
-        return {"results": results, "groups": [list(range(len(queries)))],
-                "note": "condition_algebra 不可用（全串行）"}
-    build_influence_jacobian(CONDITION_UNITS)  # 复用模块（独立性函数）
-    groups = []
-    used = [False] * len(queries)
+    groups = None
+    if build_influence_jacobian is not None:
+        build_influence_jacobian(CONDITION_UNITS)
+        groups = []
+        used = [False] * len(queries)
+        for i in range(len(queries)):
+            if used[i]:
+                continue
+            group = [i]
+            used[i] = True
+            for j in range(i + 1, len(queries)):
+                if used[j]:
+                    continue
+                d1 = identify_direction(queries[i])
+                d2 = identify_direction(queries[j])
+                if d1 is None or d2 is None:
+                    continue
+                u1 = match_units_by_direction(d1, identify_condition_dims(queries[i]))
+                u2 = match_units_by_direction(d2, identify_condition_dims(queries[j]))
+                conds1 = {c for _, u in u1 for c in u.get("conditions", [])}
+                conds2 = {c for _, u in u2 for c in u.get("conditions", [])}
+                if not (conds1 & conds2):  # 无共享条件 → 独立 → 同组并行
+                    group.append(j)
+                    used[j] = True
+            groups.append(group)
+    if groups is None:
+        groups = [list(range(len(queries)))]
+
+    # 并行执行：同组内线程池并行（独立条件域），组间串行
+    from concurrent.futures import ThreadPoolExecutor
+    results = [None] * len(queries)
+    t0 = time.time()
+    for group in groups:
+        if len(group) == 1:
+            results[group[0]] = route_compose(queries[group[0]])
+        else:
+            with ThreadPoolExecutor(max_workers=min(max_workers, len(group))) as ex:
+                futs = {ex.submit(route_compose, queries[i]): i for i in group}
+                for f in futs:
+                    results[futs[f]] = f.result()
+    parallel_ms = (time.time() - t0) * 1000
+
+    # 串行对照：真正串行执行（测加速比）
+    t1 = time.time()
     for i in range(len(queries)):
-        if used[i]:
-            continue
-        group = [i]
-        used[i] = True
-        for j in range(i + 1, len(queries)):
-            if used[j]:
-                continue
-            d1 = identify_direction(queries[i])
-            d2 = identify_direction(queries[j])
-            if d1 is None or d2 is None:
-                continue
-            u1 = match_units_by_direction(d1, identify_condition_dims(queries[i]))
-            u2 = match_units_by_direction(d2, identify_condition_dims(queries[j]))
-            conds1 = {c for _, u in u1 for c in u.get("conditions", [])}
-            conds2 = {c for _, u in u2 for c in u.get("conditions", [])}
-            if not (conds1 & conds2):  # 无共享条件 → 独立 → 同组并行
-                group.append(j)
-                used[j] = True
-        groups.append(group)
-    return {"results": results, "groups": groups,
-            "note": "并行分组：独立条件域同组（可并行），共享条件域串行"}
+        route_compose(queries[i])
+    serial_ms = (time.time() - t1) * 1000
+
+    out = [{"query": q, "result": results[i]} for i, q in enumerate(queries)]
+    return {"results": out, "groups": groups,
+            "note": "并行分组：独立条件域线程池并行，共享条件域串行",
+            "parallel_ms": round(parallel_ms, 1),
+            "serial_ms": round(serial_ms, 1),
+            "speedup": round(serial_ms / max(parallel_ms, 0.1), 2)}
 
 
 # 核心常识域清单（覆盖率判定④：≥80%）
