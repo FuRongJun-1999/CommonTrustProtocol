@@ -1558,5 +1558,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:pylang|异步-async await": {
+  "task": "异步协程",
+  "unit": "异步-async await",
+  "code": "import asyncio\nasync def fetch(name):\n    # async/await 协程：挂起等待（异步 I/O 语义）\n    await asyncio.sleep(0)\n    return name + '_done'\ndef async_test():\n    return asyncio.run(fetch('任务'))\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异步-事件循环": {
+  "task": "事件循环",
+  "unit": "异步-事件循环",
+  "code": "def event_loop(tasks):\n    # 事件循环：任务队列调度（依次执行——单线程并发）\n    done = []\n    for t in tasks:\n        done.append(t())\n    return done\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异步-并发任务": {
+  "task": "并发任务",
+  "unit": "异步-并发任务",
+  "code": "def gather(tasks):\n    # 并发任务：asyncio.gather 语义（并行执行汇总结果）\n    return [t() for t in tasks]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

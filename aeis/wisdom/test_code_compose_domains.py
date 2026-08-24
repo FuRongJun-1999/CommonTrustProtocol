@@ -2014,5 +2014,39 @@ try:
 except Exception as ex:
     check('㊛c 指标→健康→度分布端到端（3节点2边 健康ok 度分布）', False, str(ex)[:60])
 
+# ㊜ 目标1 深化：异步（async await/事件循环/并发任务 经正式管线）
+p8_qs = {
+    "异步协程": "写一个异步协程单元（async await）",
+    "事件循环": "写一个事件循环单元（任务调度）",
+    "并发任务": "写一个并发任务单元（gather 汇总）",
+}
+p8_ok = 0
+for label, q in p8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p8_ok += 1
+    check(f'㊜ {label} 异步单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊜b 异步三单元全部生成', p8_ok == 3, f'{p8_ok}/3')
+
+# ㊜c 端到端：协程→事件循环→并发任务（异步执行链）
+r_ac = domain_route("写一个异步协程单元（async await）")
+r_el = domain_route("写一个事件循环单元（任务调度）")
+r_ct = domain_route("写一个并发任务单元（gather 汇总）")
+try:
+    ns_ac, ns_el, ns_ct = {}, {}, {}
+    exec(r_ac["code"], ns_ac)
+    exec(r_el["code"], ns_el)
+    exec(r_ct["code"], ns_ct)
+    a = ns_ac["async_test"]()
+    el = ns_el["event_loop"]([lambda: 1, lambda: 2])
+    g = ns_ct["gather"]([lambda: 'a', lambda: 'b'])
+    check('㊜c 协程→事件循环→并发端到端（任务_done [1,2] [a,b]）',
+          a == '任务_done' and el == [1, 2] and g == ['a', 'b'],
+          f'async={a} loop={el} gather={g}')
+except Exception as ex:
+    check('㊜c 协程→事件循环→并发端到端（任务_done [1,2] [a,b]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -591,6 +591,46 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python 协议——结构约定（具 __len__ 即序列协议，鸭子类型）",
     },
+    "异步-async await": {
+        "task": "异步协程",
+        "pattern": (
+            "import asyncio\n"
+            "async def fetch(name):\n"
+            "    # async/await 协程：挂起等待（异步 I/O 语义）\n"
+            "    await asyncio.sleep(0)\n"
+            "    return name + '_done'\n"
+            "def async_test():\n"
+            "    return asyncio.run(fetch('任务'))\n"),
+        "cases": [("call", '任务_done')],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python async/await（协程挂起等待，异步 I/O）",
+    },
+    "异步-事件循环": {
+        "task": "事件循环",
+        "pattern": (
+            "def event_loop(tasks):\n"
+            "    # 事件循环：任务队列调度（依次执行——单线程并发）\n"
+            "    done = []\n"
+            "    for t in tasks:\n"
+            "        done.append(t())\n"
+            "    return done\n"),
+        "cases": [(([lambda: 1, lambda: 2],), [1, 2]),
+                  (([],), [])],
+        "params": [],
+        "calibration": "对照：Python 事件循环——任务队列依次调度（单线程并发）",
+    },
+    "异步-并发任务": {
+        "task": "并发任务",
+        "pattern": (
+            "def gather(tasks):\n"
+            "    # 并发任务：asyncio.gather 语义（并行执行汇总结果）\n"
+            "    return [t() for t in tasks]\n"),
+        "cases": [(([lambda: 'a', lambda: 'b'],), ['a', 'b']),
+                  (([],), [])],
+        "params": [],
+        "calibration": "对照：Python asyncio.gather（并发任务汇总结果）",
+    },
 }
 
 

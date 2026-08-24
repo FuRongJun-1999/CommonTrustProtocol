@@ -66,6 +66,9 @@ for uid, u in PYTHON_UNITS.items():
                     elif uid == "类型-类型注解":
                         # 注入验证：类型注解
                         got = ns["annotate_test"]()
+                    elif uid == "异步-async await":
+                        # 注入验证：async/await 协程
+                        got = ns["async_test"]()
                     else:
                         entry = ns.get("closure_test") or ns.get("env_scope")
                         got = entry()
