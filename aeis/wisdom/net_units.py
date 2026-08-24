@@ -1150,6 +1150,78 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：MPTCP 多径传输——多子流并行，选最少发送",
     },
+    "网络-访问令牌": {
+        "task": "访问令牌",
+        "pattern": (
+            "def token_ops(tokens, op, token=None, user=None, ttl=0, now=0):\n"
+            "    # 访问令牌：issue 签发 / verify 校验（未过期且有效）/ revoke 吊销\n"
+            "    if op == 'issue':\n"
+            "        tokens[token] = {'user': user, 'expire': now + ttl,\n"
+            "                         'revoked': False}\n"
+            "        return 'issued'\n"
+            "    if op == 'verify':\n"
+            "        t = tokens.get(token)\n"
+            "        if t is None or t.get('revoked'):\n"
+            "            return 'invalid'\n"
+            "        return 'valid' if t['expire'] >= now else 'expired'\n"
+            "    if op == 'revoke':\n"
+            "        if token in tokens:\n"
+            "            tokens[token]['revoked'] = True\n"
+            "            return 'revoked'\n"
+            "        return 'missing'\n"
+            "    return None\n"),
+        "cases": [(({}, 'issue', 'tk1', 'u1', 60, 100), 'issued'),
+                  (({'tk1': {'user': 'u1', 'expire': 160, 'revoked': False}},
+                    'verify', 'tk1', None, 0, 100), 'valid'),
+                  (({'tk1': {'user': 'u1', 'expire': 150, 'revoked': False}},
+                    'verify', 'tk1', None, 0, 160), 'expired'),
+                  (({'tk1': {'user': 'u1', 'expire': 160, 'revoked': False}},
+                    'revoke', 'tk1'), 'revoked'),
+                  (({}, 'verify', 'tk1', None, 0, 100), 'invalid')],
+        "params": [],
+        "calibration": "对照：OAuth 访问令牌——签发/校验（过期与吊销）/吊销",
+    },
+    "网络-压缩传输": {
+        "task": "压缩传输",
+        "pattern": (
+            "def compress_transfer(data, mode):\n"
+            "    # 压缩传输：compress 行程编码（RLE 重复段）/ decompress 还原\n"
+            "    if mode == 'compress':\n"
+            "        out = []\n"
+            "        i = 0\n"
+            "        while i < len(data):\n"
+            "            j = i\n"
+            "            while j < len(data) and data[j] == data[i]:\n"
+            "                j += 1\n"
+            "            out.append((data[i], j - i))\n"
+            "            i = j\n"
+            "        return out\n"
+            "    if mode == 'decompress':\n"
+            "        return ''.join(c * n for c, n in data)\n"
+            "    return None\n"),
+        "cases": [(('aaabbc', 'compress'), [('a', 3), ('b', 2), ('c', 1)]),
+                  (([('a', 3), ('b', 2)], 'decompress'), 'aaabb'),
+                  (('', 'compress'), [])],
+        "params": [],
+        "calibration": "对照：压缩传输——RLE 行程编码（重复段压缩/还原）",
+    },
+    "网络-会话亲和": {
+        "task": "会话亲和",
+        "pattern": (
+            "def sticky_session(backends, op, session=None, backend_id=None):\n"
+            "    # 会话亲和：bind 绑定会话到后端 / route 同会话同后端（sticky session）\n"
+            "    if op == 'bind':\n"
+            "        backends[session] = backend_id\n"
+            "        return backend_id\n"
+            "    if op == 'route':\n"
+            "        return backends.get(session)\n"
+            "    return None\n"),
+        "cases": [(({}, 'bind', 's1', 0), 0),
+                  (({'s1': 0}, 'route', 's1'), 0),
+                  (({}, 'route', 's1'), None)],
+        "params": [],
+        "calibration": "对照：负载均衡——会话亲和（sticky session 同会话同后端）",
+    },
 }
 
 

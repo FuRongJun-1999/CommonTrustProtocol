@@ -3058,5 +3058,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:net|网络-访问令牌": {
+  "task": "访问令牌",
+  "unit": "网络-访问令牌",
+  "code": "def token_ops(tokens, op, token=None, user=None, ttl=0, now=0):\n    # 访问令牌：issue 签发 / verify 校验（未过期且有效）/ revoke 吊销\n    if op == 'issue':\n        tokens[token] = {'user': user, 'expire': now + ttl,\n                         'revoked': False}\n        return 'issued'\n    if op == 'verify':\n        t = tokens.get(token)\n        if t is None or t.get('revoked'):\n            return 'invalid'\n        return 'valid' if t['expire'] >= now else 'expired'\n    if op == 'revoke':\n        if token in tokens:\n            tokens[token]['revoked'] = True\n            return 'revoked'\n        return 'missing'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-压缩传输": {
+  "task": "压缩传输",
+  "unit": "网络-压缩传输",
+  "code": "def compress_transfer(data, mode):\n    # 压缩传输：compress 行程编码（RLE 重复段）/ decompress 还原\n    if mode == 'compress':\n        out = []\n        i = 0\n        while i < len(data):\n            j = i\n            while j < len(data) and data[j] == data[i]:\n                j += 1\n            out.append((data[i], j - i))\n            i = j\n        return out\n    if mode == 'decompress':\n        return ''.join(c * n for c, n in data)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-会话亲和": {
+  "task": "会话亲和",
+  "unit": "网络-会话亲和",
+  "code": "def sticky_session(backends, op, session=None, backend_id=None):\n    # 会话亲和：bind 绑定会话到后端 / route 同会话同后端（sticky session）\n    if op == 'bind':\n        backends[session] = backend_id\n        return backend_id\n    if op == 'route':\n        return backends.get(session)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

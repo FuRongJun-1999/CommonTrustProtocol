@@ -3844,5 +3844,41 @@ try:
 except Exception as ex:
     check('㋍c 名实→类型转换→数据流端到端（[] "5" [("a",1,3)]）', False, str(ex)[:60])
 
+# ㋎ 目标7 深化：应用/安全（访问令牌/压缩传输/会话亲和 经正式管线）
+n10_qs = {
+    "访问令牌": "写一个访问令牌单元（OAuth 校验）",
+    "压缩传输": "写一个压缩传输单元（RLE 编码）",
+    "会话亲和": "写一个会话亲和单元（sticky）",
+}
+n10_ok = 0
+for label, q in n10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n10_ok += 1
+    check(f'㋎ {label} 网络应用/安全单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋎b 网络应用/安全三单元全部生成', n10_ok == 3, f'{n10_ok}/3')
+
+# ㋎c 应用端到端：令牌→压缩→会话亲和（valid aaabb 绑定0）
+r_tk = domain_route("写一个访问令牌单元（OAuth 校验）")
+r_ct = domain_route("写一个压缩传输单元（RLE 编码）")
+r_ss = domain_route("写一个会话亲和单元（sticky）")
+try:
+    ns_tk, ns_ct, ns_ss = {}, {}, {}
+    exec(r_tk["code"], ns_tk)
+    exec(r_ct["code"], ns_ct)
+    exec(r_ss["code"], ns_ss)
+    tk = ns_tk["token_ops"](
+        {'tk1': {'user': 'u1', 'expire': 160, 'revoked': False}},
+        'verify', 'tk1', None, 0, 100)
+    ct = ns_ct["compress_transfer"]([('a', 3), ('b', 2)], 'decompress')
+    ss = ns_ss["sticky_session"]({}, 'bind', 's1', 0)
+    check('㋎c 令牌→压缩→会话亲和端到端（valid aaabb 0）',
+          tk == 'valid' and ct == 'aaabb' and ss == 0,
+          f'token={tk} comp={ct} sticky={ss}')
+except Exception as ex:
+    check('㋎c 令牌→压缩→会话亲和端到端（valid aaabb 0）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
