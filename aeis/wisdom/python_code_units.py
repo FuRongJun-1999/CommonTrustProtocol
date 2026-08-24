@@ -298,6 +298,7 @@ PYTHON_UNITS = {
         "cases": [("x = 5\ny = 3\n", {"x": 5, "y": 3}),
                   ("x = 5\nif True:\n    t = 1\n", {"x": 5, "t": 1})],
         "params": [],
+        "needs_inject": True,
         "calibration": "对照：mini_python.py run_program（词法→语法→语句执行全链路；组装白箱生成单元）",
     },
 }

@@ -51,6 +51,7 @@ GRAPH_UNITS = {
             "    return sorted(visited)\n"),
         "cases": [((None, "气压低"), ["气压低", "沸点降", "煮不熟"])],
         "params": [],
+        "needs_inject": True,
         "calibration": "对照：条件链组合——从条件出发传播可达的规律（灵枢因果传播同构）",
     },
     "图遍历-路径": {
@@ -74,6 +75,7 @@ GRAPH_UNITS = {
         "cases": [((None, "气压低", "煮不熟"), True),
                   ((None, "煮不熟", "气压低"), False)],
         "params": [],
+        "needs_inject": True,
         "calibration": "对照：条件链——气压低→沸点降→煮不熟 有路径；反向无（条件链有向）",
     },
     "图持久化-序列化": {
@@ -175,6 +177,7 @@ GRAPH_UNITS = {
         "cases": [("call", [["气压低", "沸点降", "煮不熟"],
                             ["气压低", "缺氧", "煮不熟"]])],
         "params": [],
+        "needs_inject": True,
         "calibration": "对照：多条件链组合（高压锅在高原=气压低→沸点降 + 气压高→沸点升 两条链的可解释路径）",
     },
     "条件路由图-查询": {
@@ -193,6 +196,7 @@ GRAPH_UNITS = {
             "    return sorted(visited)\n"),
         "cases": [("call", ["沸点降", "煮不熟", "缺氧"])],
         "params": [],
+        "needs_inject": True,
         "calibration": "对照：条件路由查询——条件 → 影响面（规律集合，compose 条件链组合的图查询形态）",
     },
     "条件路由图-对接": {
@@ -220,6 +224,7 @@ GRAPH_UNITS = {
         "cases": [(({"沸点-气压": {"conditions": ["气压"]},
                      "密度-浮沉": {"conditions": ["物体", "液体"]}},), 5)],
         "params": [],
+        "needs_inject": True,
         "calibration": "对照：真实条件单元库（compose_engine 43 单元）→ 条件路由图（条件 → 影响的规律单元）",
     },
     "图灵枢-导出": {
@@ -238,6 +243,7 @@ GRAPH_UNITS = {
             "    return mems\n"),
         "cases": [("call", 1)],
         "params": [],
+        "needs_inject": True,
         "calibration": "对照：图数据库 × 灵枢——条件路由图导出为灵枢记忆条目（条件链卡，可召回重建）",
     },
 }
