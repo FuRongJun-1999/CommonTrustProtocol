@@ -298,5 +298,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:os|文件-目录树": {
+  "task": "目录树",
+  "unit": "文件-目录树",
+  "code": "def dir_ls(root, name, children=None, prefix='/'):\n    # 目录树 + 列目录：根/子目录/文件 → 路径列表（mkdir/ls 语义）\n    out = [prefix.rstrip('/') + '/' + root]\n    if name is None:\n        return out\n    base = prefix.rstrip('/') + '/' + root + '/' + name\n    out.append(base)\n    for c in (children or []):\n        out.append(base + '/' + c)\n    return sorted(out)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|文件-文件描述符": {
+  "task": "文件描述符",
+  "unit": "文件-文件描述符",
+  "code": "def fd_alloc(table, path):\n    # 打开文件表：分配最小可用 fd（0/1/2 留给标准流，从 3 起）\n    fd = 3\n    while fd in table:\n        fd += 1\n    table[fd] = path\n    return fd\ndef fd_close(table, fd):\n    # 关闭：释放 fd（返回被关闭的路径）\n    return table.pop(fd, None)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|设备-字符设备": {
+  "task": "字符设备",
+  "unit": "设备-字符设备",
+  "code": "def char_device(device, op, data=None):\n    # 字符设备抽象：open/read/write/close（驱动接口——设备=文件 语义）\n    if op == 'open':\n        device['opened'] = True\n        return True\n    if op == 'read':\n        if not device.get('opened'):\n            return None\n        buf = device.get('buf', '')\n        device['buf'] = ''\n        return buf\n    if op == 'write':\n        if not device.get('opened'):\n            return False\n        device['buf'] = device.get('buf', '') + (data or '')\n        return True\n    if op == 'close':\n        device['opened'] = False\n        return True\n    return False\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }

@@ -313,6 +313,74 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 虚拟内存——页面错误分类（MMU：未映射段错误/软缺页/写保护违例）",
     },
+    "文件-目录树": {
+        "task": "目录树",
+        "pattern": (
+            "def dir_ls(root, name, children=None, prefix='/'):\n"
+            "    # 目录树 + 列目录：根/子目录/文件 → 路径列表（mkdir/ls 语义）\n"
+            "    out = [prefix.rstrip('/') + '/' + root]\n"
+            "    if name is None:\n"
+            "        return out\n"
+            "    base = prefix.rstrip('/') + '/' + root + '/' + name\n"
+            "    out.append(base)\n"
+            "    for c in (children or []):\n"
+            "        out.append(base + '/' + c)\n"
+            "    return sorted(out)\n"),
+        "cases": [(('home', 'user', ['a.txt']),
+                   ['/home', '/home/user', '/home/user/a.txt']),
+                  (('etc', None, None), ['/etc'])],
+        "params": [],
+        "calibration": "对照：OS 文件系统——目录树（mkdir 层级 + ls 路径展开）",
+    },
+    "文件-文件描述符": {
+        "task": "文件描述符",
+        "pattern": (
+            "def fd_alloc(table, path):\n"
+            "    # 打开文件表：分配最小可用 fd（0/1/2 留给标准流，从 3 起）\n"
+            "    fd = 3\n"
+            "    while fd in table:\n"
+            "        fd += 1\n"
+            "    table[fd] = path\n"
+            "    return fd\n"
+            "def fd_close(table, fd):\n"
+            "    # 关闭：释放 fd（返回被关闭的路径）\n"
+            "    return table.pop(fd, None)\n"),
+        "cases": [(({}, '/etc/passwd'), 3),
+                  (({3: '/a', 4: '/b'}, '/c'), 5),
+                  (({3: '/a'}, '/b'), 4)],
+        "params": [],
+        "calibration": "对照：OS 文件系统——打开文件表（fd 最小分配，0/1/2 标准流保留）",
+    },
+    "设备-字符设备": {
+        "task": "字符设备",
+        "pattern": (
+            "def char_device(device, op, data=None):\n"
+            "    # 字符设备抽象：open/read/write/close（驱动接口——设备=文件 语义）\n"
+            "    if op == 'open':\n"
+            "        device['opened'] = True\n"
+            "        return True\n"
+            "    if op == 'read':\n"
+            "        if not device.get('opened'):\n"
+            "            return None\n"
+            "        buf = device.get('buf', '')\n"
+            "        device['buf'] = ''\n"
+            "        return buf\n"
+            "    if op == 'write':\n"
+            "        if not device.get('opened'):\n"
+            "            return False\n"
+            "        device['buf'] = device.get('buf', '') + (data or '')\n"
+            "        return True\n"
+            "    if op == 'close':\n"
+            "        device['opened'] = False\n"
+            "        return True\n"
+            "    return False\n"),
+        "cases": [(({'opened': False}, 'open'), True),
+                  (({'opened': True, 'buf': ''}, 'write', '数据'), True),
+                  (({'opened': True, 'buf': '数据'}, 'read'), '数据'),
+                  (({'opened': False}, 'read'), None)],
+        "params": [],
+        "calibration": "对照：OS 设备驱动——字符设备接口（open/read/write/close，设备即文件）",
+    },
 }
 
 

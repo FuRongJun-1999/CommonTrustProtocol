@@ -440,5 +440,45 @@ try:
 except Exception as ex:
     check('⑲c 窗口→确认→拥塞端到端（ack3窗口[3,4,5] 慢启动2→3 丢包重置1）', False, str(ex)[:60])
 
+# ⑳ 目标4 深化：文件系统/设备（目录树/文件描述符/字符设备 经正式管线）
+o4_qs = {
+    "目录树": "写一个目录树单元（mkdir ls 路径展开）",
+    "文件描述符": "写一个文件描述符单元（fd 分配关闭）",
+    "字符设备": "写一个字符设备单元（open read write）",
+}
+o4_ok = 0
+for label, q in o4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o4_ok += 1
+    check(f'⑳ {label} 文件系统/设备单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑳b 文件系统/设备三单元全部生成', o4_ok == 3, f'{o4_ok}/3')
+
+# ⑳c 端到端：目录树→ls→打开文件（fd）→设备读写（字符设备）
+r_dt = domain_route("写一个目录树单元（mkdir ls 路径展开）")
+r_fd = domain_route("写一个文件描述符单元（fd 分配关闭）")
+r_cd = domain_route("写一个字符设备单元（open read write）")
+try:
+    ns_dt, ns_fd, ns_cd = {}, {}, {}
+    exec(r_dt["code"], ns_dt)
+    exec(r_fd["code"], ns_fd)
+    exec(r_cd["code"], ns_cd)
+    tree = ns_dt["dir_ls"]('home', 'user', ['a.txt'])
+    paths = tree
+    table = {}
+    fd = ns_fd["fd_alloc"](table, '/home/user/a.txt')
+    dev = {'opened': False}
+    ns_cd["char_device"](dev, 'open')
+    ns_cd["char_device"](dev, 'write', '内容')
+    data = ns_cd["char_device"](dev, 'read')
+    check('⑳c 目录→打开→设备读写端到端（路径展开 fd=3 读回内容）',
+          paths == ['/home', '/home/user', '/home/user/a.txt']
+          and fd == 3 and data == '内容',
+          f'paths={paths} fd={fd} data={data}')
+except Exception as ex:
+    check('⑳c 目录→打开→设备读写端到端（路径展开 fd=3 读回内容）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
