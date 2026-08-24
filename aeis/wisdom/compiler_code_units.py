@@ -343,6 +343,64 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：C2 语义——名实=静态检查、条件空间=类型系统（编译期拦截类型错误/未声明空间）",
     },
+    "编译-完整管线": {
+        "task": "完整编译",
+        "pattern": (
+            "def compile_full(source, declared_spaces=None):\n"
+            "    # 白箱版 pc compile 单入口：中文源码 → 字节码\n"
+            "    # 流程：逐行词法 → 静态检查（条件空间存在性/类型）→ 编译指令\n"
+            "    import re as _re\n"
+            "    spaces = set(declared_spaces or [])\n"
+            "    instr_map = {'道': 'DAO', '德': 'DE', '止': 'ZHI', '知足': 'ZHIZU',\n"
+            "                 '自然': 'ZIRAN', '无为': 'WUWEI'}\n"
+            "    code, errors = [], []\n"
+            "    for line in source.splitlines():\n"
+            "        line = line.strip()\n"
+            "        if not line or line.startswith('#'):\n"
+            "            continue\n"
+            "        m = _re.match(r'^(\\d+)。\\s*(.+?)[；;]?$', line)\n"
+            "        if m:\n"
+            "            line = m.group(2)\n"
+            "        m = _re.match(r'^若\\s*(.+?)\\s*[,，]?\\s*则\\s*(.+?)\\s*[。;；]?$', line)\n"
+            "        if m:\n"
+            "            cond, then = m.group(1), m.group(2)\n"
+            "            sm = _re.search(r'条件空间为(.+?)(?:[，,。\\s]|$)', cond)\n"
+            "            if sm and sm.group(1).strip() not in spaces:\n"
+            "                errors.append('条件空间未声明：' + sm.group(1).strip())\n"
+            "                continue\n"
+            "            t = then.split()\n"
+            "            code.append(('PUSH', True))\n"
+            "            code.append(('JUMP_IF_FALSE', 0))\n"
+            "            arg = None\n"
+            "            if len(t) > 1:\n"
+            "                arg = float(t[1]) if t[1].replace('.', '', 1).isdigit() else t[1]\n"
+            "            code.append((instr_map.get(t[0], t[0]), arg))\n"
+            "            continue\n"
+            "        for kw in ('道', '德', '止', '知足', '自然', '无为'):\n"
+            "            if line.startswith(kw):\n"
+            "                rest = line[len(kw):].strip().rstrip('。；;')\n"
+            "                arg = None\n"
+            "                if rest:\n"
+            "                    arg = float(rest) if rest.replace('.', '', 1).isdigit() else rest\n"
+            "                code.append((instr_map[kw], arg))\n"
+            "                break\n"
+            "        else:\n"
+            "            errors.append('无法识别：' + line)\n"
+            "    if errors:\n"
+            "        return None, {'ok': False, 'errors': errors}\n"
+            "    return code, {'ok': True}\n"),
+        "cases": [(("道 新信任路径\n德 0.3\n止。\n", {"伴侣"}),
+                   ([("DAO", "新信任路径"), ("DE", 0.3), ("ZHI", None)], {"ok": True})),
+                  (("若 条件空间为未知 则 德 0.5\n止。\n", {"伴侣"}),
+                   (None, {"ok": False, "errors": ["条件空间未声明：未知"]})),
+                  (("若 条件空间为伴侣 则 德 0.5\n止。\n", {"伴侣"}),
+                   ([("PUSH", True), ("JUMP_IF_FALSE", 0), ("DE", 0.5),
+                     ("ZHI", None)], {"ok": True})),
+                  (("随便文本\n", set()), (None, {"ok": False,
+                   "errors": ["无法识别：随便文本"]}))],
+        "params": [],
+        "calibration": "对照：白箱版 pc compile 单入口（词法→静态检查→编译）；若则真值计算由编译-若则单元深化",
+    },
 }
 
 

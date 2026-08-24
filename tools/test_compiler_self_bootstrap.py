@@ -171,5 +171,31 @@ code_ok, r_ok = compile_pipeline([("INSTR", "DE", "0.5"), ("止", None)],
                                  {"信任值": "数值"}, {"伴侣"})
 check('校准⑥d 正确源码通过', r_ok["ok"] and code_ok == [("COMPILED", 2)], str(r_ok))
 
+# 校准⑦：单入口完整编译（白箱版 pc compile：词法→静态检查→编译）
+compile_full = _fn("编译-完整管线")
+src_ok = "道 新信任路径\n德 0.3\n止。\n"
+code7, r7 = compile_full(src_ok, {"伴侣"})
+check('校准⑦a 单入口编译(道/德/止)',
+      r7["ok"] and code7 == [("DAO", "新信任路径"), ("DE", 0.3), ("ZHI", None)],
+      str(code7))
+if r7["ok"]:
+    state7 = vm_run(code7)
+    check('校准⑦b 单入口执行(信任0.3+条件空间+halt)',
+          state7["trust"] == 0.3 and state7["cond"] == [{"name": "新信任路径"}]
+          and state7["halt"] == "halt",
+          f'trust={state7["trust"]} cond={state7["cond"]} halt={state7["halt"]}')
+# 未声明条件空间 → 单入口拦截
+_, r7_bad = compile_full("若 条件空间为未知 则 德 0.5\n止。\n", {"伴侣"})
+check('校准⑦c 单入口拦截未声明空间', r7_bad["ok"] is False
+      and any("条件空间未声明" in e for e in r7_bad["errors"]), str(r7_bad["errors"]))
+# 未知行 → 拦截
+_, r7_bad2 = compile_full("随便文本\n", set())
+check('校准⑦d 单入口拦截未知行', r7_bad2["ok"] is False
+      and any("无法识别" in e for e in r7_bad2["errors"]), str(r7_bad2["errors"]))
+# 声明空间后通过（若则）
+code7b, r7b = compile_full("若 条件空间为伴侣 则 德 0.5\n止。\n", {"伴侣"})
+check('校准⑦e 声明空间后通过', r7b["ok"] and len(code7b) >= 2,
+      f'{len(code7b)} 条指令')
+
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
