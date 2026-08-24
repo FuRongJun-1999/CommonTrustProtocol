@@ -1668,5 +1668,42 @@ try:
 except Exception as ex:
     check('㊒c 分片→复制→分布式查询端到端（2片 写2读v 合并[2,4,6,8]）', False, str(ex)[:60])
 
+# ㊓ 目标7 深化：物联网（MQTT/遥测/消息队列 经正式管线）
+n11_qs = {
+    "MQTT": "写一个 MQTT 发布订阅单元（主题路由）",
+    "遥测": "写一个物联网遥测单元（传感器上报）",
+    "消息队列": "写一个消息队列单元（FIFO 队列）",
+}
+n11_ok = 0
+for label, q in n11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n11_ok += 1
+    check(f'㊓ {label} 物联网单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊓b 物联网三单元全部生成', n11_ok == 3, f'{n11_ok}/3')
+
+# ㊓c 端到端：MQTT 订阅→遥测上报→消息队列（设备→平台→解耦）
+r_mq = domain_route("写一个 MQTT 发布订阅单元（主题路由）")
+r_io = domain_route("写一个物联网遥测单元（传感器上报）")
+r_q = domain_route("写一个消息队列单元（FIFO 队列）")
+try:
+    ns_mq, ns_io, ns_q = {}, {}, {}
+    exec(r_mq["code"], ns_mq)
+    exec(r_io["code"], ns_io)
+    exec(r_q["code"], ns_q)
+    n = ns_mq["mqtt_broker"]({}, 'subscribe', 'temp', None, 'dev1')
+    subs = ns_mq["mqtt_broker"]({'temp': {'dev1'}}, 'publish', 'temp', 25.5)
+    cnt = ns_io["iot_telemetry"]({}, 'sensor1', 22.5)
+    qlen = ns_q["msg_queue"]([], 'enqueue', 'a')
+    item = ns_q["msg_queue"](['a'], 'dequeue')
+    check('㊓c MQTT→遥测→队列端到端（订阅1 发布[dev1] 遥测1 入队出队a）',
+          n == 1 and subs == ['dev1'] and cnt == 1
+          and qlen == 1 and item == 'a',
+          f'mqtt={n},{subs} iot={cnt} q={qlen},{item}')
+except Exception as ex:
+    check('㊓c MQTT→遥测→队列端到端（订阅1 发布[dev1] 遥测1 入队出队a）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

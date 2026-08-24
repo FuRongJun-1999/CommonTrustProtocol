@@ -1288,5 +1288,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:net|网络-MQTT发布订阅": {
+  "task": "MQTT发布订阅",
+  "unit": "网络-MQTT发布订阅",
+  "code": "def mqtt_broker(broker, op, topic=None, payload=None, client=None):\n    # MQTT：发布/订阅（主题路由——客户端订阅主题收消息）\n    if op == 'subscribe':\n        broker.setdefault(topic, set()).add(client)\n        return len(broker[topic])\n    if op == 'publish':\n        subs = broker.get(topic, set())\n        return sorted(subs)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-物联网遥测": {
+  "task": "物联网遥测",
+  "unit": "网络-物联网遥测",
+  "code": "def iot_telemetry(devices, device, reading):\n    # IoT 遥测：传感器读数上报（设备 → 平台数据流）\n    devices.setdefault(device, []).append(reading)\n    return len(devices[device])\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-消息队列": {
+  "task": "消息队列",
+  "unit": "网络-消息队列",
+  "code": "def msg_queue(q, op, item=None):\n    # 消息队列：入队/出队（FIFO 生产消费解耦）\n    if op == 'enqueue':\n        q.append(item)\n        return len(q)\n    if op == 'dequeue':\n        if not q:\n            return None\n        return q.pop(0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

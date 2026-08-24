@@ -570,6 +570,56 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：VLAN——802.1Q 标签（TPID 0x8100 + VID 12bit）",
     },
+    "网络-MQTT发布订阅": {
+        "task": "MQTT发布订阅",
+        "pattern": (
+            "def mqtt_broker(broker, op, topic=None, payload=None, client=None):\n"
+            "    # MQTT：发布/订阅（主题路由——客户端订阅主题收消息）\n"
+            "    if op == 'subscribe':\n"
+            "        broker.setdefault(topic, set()).add(client)\n"
+            "        return len(broker[topic])\n"
+            "    if op == 'publish':\n"
+            "        subs = broker.get(topic, set())\n"
+            "        return sorted(subs)\n"
+            "    return None\n"),
+        "cases": [(({}, 'subscribe', 'temp', None, 'dev1'), 1),
+                  (({'temp': {'dev1'}}, 'publish', 'temp', 25.5), ['dev1']),
+                  (({}, 'publish', 'temp', 1), [])],
+        "params": [],
+        "calibration": "对照：MQTT——发布/订阅（主题路由，订阅者接收主题消息）",
+    },
+    "网络-物联网遥测": {
+        "task": "物联网遥测",
+        "pattern": (
+            "def iot_telemetry(devices, device, reading):\n"
+            "    # IoT 遥测：传感器读数上报（设备 → 平台数据流）\n"
+            "    devices.setdefault(device, []).append(reading)\n"
+            "    return len(devices[device])\n"),
+        "cases": [(({}, 'sensor1', 22.5), 1),
+                  (({'sensor1': [22.5]}, 'sensor1', 23.0), 2),
+                  (({}, 'sensor2', 1), 1)],
+        "params": [],
+        "calibration": "对照：物联网——传感器遥测上报（设备读数持续流）",
+    },
+    "网络-消息队列": {
+        "task": "消息队列",
+        "pattern": (
+            "def msg_queue(q, op, item=None):\n"
+            "    # 消息队列：入队/出队（FIFO 生产消费解耦）\n"
+            "    if op == 'enqueue':\n"
+            "        q.append(item)\n"
+            "        return len(q)\n"
+            "    if op == 'dequeue':\n"
+            "        if not q:\n"
+            "            return None\n"
+            "        return q.pop(0)\n"
+            "    return None\n"),
+        "cases": [(([], 'enqueue', 'a'), 1),
+                  ((['a'], 'dequeue'), 'a'),
+                  (([], 'dequeue'), None)],
+        "params": [],
+        "calibration": "对照：消息队列——FIFO 入队出队（生产消费解耦）",
+    },
 }
 
 
