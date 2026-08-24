@@ -135,6 +135,23 @@ RUST_UNITS = {
         "cases": [([3, 1, 2], 3), ([7], 7), ([], None)],
         "py_ref": "def solve(arr): return max(arr) if arr else None\n",
     },
+    "去重-保序": {
+        "task": "去重", "lang": "rust",
+        "pattern": ("fn {fn}(arr: &[i32]) -> Vec<i32> {\n"
+                    "    let mut seen = std::collections::HashSet::new();\n"
+                    "    arr.iter().copied().filter(|x| seen.insert(*x)).collect()\n}\n"),
+        "cases": [([1, 2, 2, 3, 1], [1, 2, 3]), ([], []), ([1, 1, 1], [1])],
+        "py_ref": "def solve(arr):\n    seen = set(); out = []\n"
+                  "    for x in arr:\n        if x not in seen: seen.add(x); out.append(x)\n"
+                  "    return out\n",
+    },
+    "反转": {
+        "task": "反转", "lang": "rust",
+        "pattern": ("fn {fn}(arr: &[i32]) -> Vec<i32> {\n"
+                    "    arr.iter().rev().copied().collect()\n}\n"),
+        "cases": [([1, 2, 3], [3, 2, 1]), ([], []), ([7], [7])],
+        "py_ref": "def solve(arr): return arr[::-1]\n",
+    },
 }
 
 JS_UNITS = {
@@ -156,6 +173,20 @@ JS_UNITS = {
         "pattern": "function {fn}(arr) {\n    return arr.slice().reverse();\n}\n",
         "cases": [([1, 2, 3], [3, 2, 1]), ([], []), (["a", "b"], ["b", "a"])],
         "py_ref": "def solve(arr): return arr[::-1]\n",
+    },
+    "去重": {
+        "task": "去重", "lang": "javascript",
+        "pattern": "function {fn}(arr) {\n    return [...new Set(arr)];\n}\n",
+        "cases": [([1, 2, 2, 3, 1], [1, 2, 3]), ([], []), ([1, 1, 1], [1])],
+        "py_ref": "def solve(arr):\n    seen = set(); out = []\n"
+                  "    for x in arr:\n        if x not in seen: seen.add(x); out.append(x)\n"
+                  "    return out\n",
+    },
+    "最大": {
+        "task": "最大", "lang": "javascript",
+        "pattern": "function {fn}(arr) {\n    return arr.length ? Math.max(...arr) : null;\n}\n",
+        "cases": [([3, 1, 2], 3), ([7], 7), ([], None)],
+        "py_ref": "def solve(arr): return max(arr) if arr else None\n",
     },
 }
 
