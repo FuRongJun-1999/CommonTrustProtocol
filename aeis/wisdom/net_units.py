@@ -720,6 +720,51 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：网络监控——异常检测（流量突增告警）",
     },
+    "网络-报文解析": {
+        "task": "报文解析",
+        "pattern": (
+            "def parse_ip(packet):\n"
+            "    # IP 报文解析：头部字段（版本/协议/源/目的）\n"
+            "    ver = packet[0] >> 4\n"
+            "    proto = packet[9]\n"
+            "    src = '.'.join(str(b) for b in packet[12:16])\n"
+            "    dst = '.'.join(str(b) for b in packet[16:20])\n"
+            "    return {'version': ver, 'proto': proto, 'src': src, 'dst': dst}\n"),
+        "cases": [((bytes([0x45, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0,
+                           192, 168, 1, 1, 8, 8, 8, 8]),),
+                   {'version': 4, 'proto': 6, 'src': '192.168.1.1',
+                    'dst': '8.8.8.8'})],
+        "params": [],
+        "calibration": "对照：网络分析——IP 报文解析（版本/协议/源/目的）",
+    },
+    "网络-抓包分析": {
+        "task": "抓包分析",
+        "pattern": (
+            "def capture_stats(captures):\n"
+            "    # 抓包分析：包计数/协议分布（pcap 统计语义）\n"
+            "    total = len(captures)\n"
+            "    by_proto = {}\n"
+            "    for c in captures:\n"
+            "        by_proto[c['proto']] = by_proto.get(c['proto'], 0) + 1\n"
+            "    return {'total': total, 'by_proto': by_proto}\n"),
+        "cases": [(([{'proto': 'TCP'}, {'proto': 'TCP'}, {'proto': 'UDP'}],),
+                   {'total': 3, 'by_proto': {'TCP': 2, 'UDP': 1}}),
+                  (([],), {'total': 0, 'by_proto': {}})],
+        "params": [],
+        "calibration": "对照：抓包分析——包计数/协议分布（pcap 统计）",
+    },
+    "网络-协议解码": {
+        "task": "协议解码",
+        "pattern": (
+            "def hex_decode(hex_str):\n"
+            "    # 协议解码：十六进制 → 字节串（抓包数据解码）\n"
+            "    return bytes.fromhex(hex_str)\n"),
+        "cases": [(('48656c6c6f',), b'Hello'),
+                  (('00',), b'\x00'),
+                  (('',), b'')],
+        "params": [],
+        "calibration": "对照：协议解码——十六进制转字节（抓包数据）",
+    },
 }
 
 

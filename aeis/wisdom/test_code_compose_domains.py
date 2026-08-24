@@ -2233,5 +2233,42 @@ try:
 except Exception as ex:
     check('㊡c 批量→懒加载→节流端到端（合并a=y 加载a 限频[0,10,20]）', False, str(ex)[:60])
 
+# ㊢ 目标7 深化：协议分析（报文解析/抓包分析/协议解码 经正式管线）
+n14_qs = {
+    "报文解析": "写一个 IP 报文解析单元（头部字段）",
+    "抓包分析": "写一个抓包分析单元（协议分布）",
+    "协议解码": "写一个协议解码单元（十六进制转字节）",
+}
+n14_ok = 0
+for label, q in n14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n14_ok += 1
+    check(f'㊢ {label} 协议分析单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊢b 协议分析三单元全部生成', n14_ok == 3, f'{n14_ok}/3')
+
+# ㊢c 端到端：报文解析→抓包统计→协议解码（分析链）
+r_pi = domain_route("写一个 IP 报文解析单元（头部字段）")
+r_cs = domain_route("写一个抓包分析单元（协议分布）")
+r_hd = domain_route("写一个协议解码单元（十六进制转字节）")
+try:
+    ns_pi, ns_cs, ns_hd = {}, {}, {}
+    exec(r_pi["code"], ns_pi)
+    exec(r_cs["code"], ns_cs)
+    exec(r_hd["code"], ns_hd)
+    ip = ns_pi["parse_ip"](bytes([0x45, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0,
+                                  192, 168, 1, 1, 8, 8, 8, 8]))
+    st = ns_cs["capture_stats"]([{'proto': 'TCP'}, {'proto': 'UDP'}])
+    dec = ns_hd["hex_decode"]('48656c6c6f')
+    check('㊢c 报文→抓包→解码端到端（IPv4 TCP 2包 TCP/UDP Hello）',
+          ip['version'] == 4 and ip['proto'] == 6 and ip['src'] == '192.168.1.1'
+          and st['total'] == 2 and st['by_proto'] == {'TCP': 1, 'UDP': 1}
+          and dec == b'Hello',
+          f'ip={ip} stats={st} dec={dec}')
+except Exception as ex:
+    check('㊢c 报文→抓包→解码端到端（IPv4 TCP 2包 TCP/UDP Hello）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

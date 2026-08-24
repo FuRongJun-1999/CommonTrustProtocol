@@ -1738,5 +1738,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:net|网络-报文解析": {
+  "task": "报文解析",
+  "unit": "网络-报文解析",
+  "code": "def parse_ip(packet):\n    # IP 报文解析：头部字段（版本/协议/源/目的）\n    ver = packet[0] >> 4\n    proto = packet[9]\n    src = '.'.join(str(b) for b in packet[12:16])\n    dst = '.'.join(str(b) for b in packet[16:20])\n    return {'version': ver, 'proto': proto, 'src': src, 'dst': dst}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-抓包分析": {
+  "task": "抓包分析",
+  "unit": "网络-抓包分析",
+  "code": "def capture_stats(captures):\n    # 抓包分析：包计数/协议分布（pcap 统计语义）\n    total = len(captures)\n    by_proto = {}\n    for c in captures:\n        by_proto[c['proto']] = by_proto.get(c['proto'], 0) + 1\n    return {'total': total, 'by_proto': by_proto}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-协议解码": {
+  "task": "协议解码",
+  "unit": "网络-协议解码",
+  "code": "def hex_decode(hex_str):\n    # 协议解码：十六进制 → 字节串（抓包数据解码）\n    return bytes.fromhex(hex_str)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }
