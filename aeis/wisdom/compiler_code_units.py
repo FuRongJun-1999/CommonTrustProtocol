@@ -70,6 +70,91 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：若则=条件语句（v0.2 codegen if/else 的字节码形态）",
     },
+    "编译-循环": {
+        "task": "循环编译",
+        "pattern": (
+            "def compile_loop(cond_instrs, body_instrs):\n"
+            "    # 当…执行 → 条件 + JUMP_IF_FALSE 跳出 + 循环体 + JUMP 回条件\n"
+            "    # （while 语义：条件为假即退出，回跳形成循环）\n"
+            "    code = []\n"
+            "    code.extend(cond_instrs)\n"
+            "    end_lbl = len(code) + 1 + len(body_instrs) + 1\n"
+            "    code.append(('JUMP_IF_FALSE', end_lbl))\n"
+            "    code.extend(body_instrs)\n"
+            "    code.append(('JUMP', 0))\n"
+            "    return code\n"),
+        "cases": [(([("LOAD", "i"), ("PUSH", 3), ("CMP_LT", None)],
+                    [("DE", 0.1)]),
+                   [("LOAD", "i"), ("PUSH", 3), ("CMP_LT", None),
+                    ("JUMP_IF_FALSE", 6), ("DE", 0.1), ("JUMP", 0)]),
+                  (([("PUSH", False)], [("DE", 0.5), ("DE", 0.2)]),
+                   [("PUSH", False), ("JUMP_IF_FALSE", 5),
+                    ("DE", 0.5), ("DE", 0.2), ("JUMP", 0)])],
+        "params": [],
+        "calibration": "对照：当…执行=while 语句（条件先判→体→回跳；假则跳出到循环后）",
+    },
+    "VM-循环执行": {
+        "task": "循环执行",
+        "pattern": (
+            "def vm_run_loop(code, symbols=None, max_steps=1000):\n"
+            "    # 智能论 VM 循环执行：算术(ADD/SUB)+比较+回跳；步数上限防死循环\n"
+            "    ip, stack = 0, []\n"
+            "    symbols = dict(symbols or {})\n"
+            "    steps = 0\n"
+            "    while ip < len(code):\n"
+            "        steps += 1\n"
+            "        if steps > max_steps:\n"
+            "            return {'error': '循环未终止（超出步数上限）',\n"
+            "                    'symbols': symbols, 'stack': stack}\n"
+            "        op, arg = code[ip]\n"
+            "        ip += 1\n"
+            "        if op == 'PUSH':\n"
+            "            stack.append(arg)\n"
+            "        elif op == 'STORE':\n"
+            "            symbols[arg] = stack.pop()\n"
+            "        elif op == 'LOAD':\n"
+            "            if arg not in symbols:\n"
+            "                return {'error': '名实不符：' + arg,\n"
+            "                        'symbols': symbols, 'stack': stack}\n"
+            "            stack.append(symbols[arg])\n"
+            "        elif op == 'JUMP_IF_FALSE':\n"
+            "            v = stack.pop() if stack else False\n"
+            "            if v is False or v is None or v == 0:\n"
+            "                ip = arg\n"
+            "        elif op == 'JUMP':\n"
+            "            ip = arg\n"
+            "        elif op == 'CMP_LT':\n"
+            "            b, a = stack.pop(), stack.pop()\n"
+            "            stack.append(a < b)\n"
+            "        elif op == 'ADD':\n"
+            "            b, a = stack.pop(), stack.pop()\n"
+            "            stack.append(a + b)\n"
+            "        elif op == 'SUB':\n"
+            "            b, a = stack.pop(), stack.pop()\n"
+            "            stack.append(a - b)\n"
+            "    return {'error': None, 'symbols': symbols, 'stack': stack}\n"),
+        "cases": [(([("LOAD", "i"), ("PUSH", 3), ("CMP_LT", None),
+                     ("JUMP_IF_FALSE", 13),
+                     ("LOAD", "s"), ("LOAD", "i"), ("ADD", None), ("STORE", "s"),
+                     ("LOAD", "i"), ("PUSH", 1), ("ADD", None), ("STORE", "i"),
+                     ("JUMP", 0)],
+                    {"i": 1, "s": 0}),
+                   {'error': None, 'symbols': {'i': 3, 's': 3},
+                    'stack': []}),
+                  (([("LOAD", "i"), ("PUSH", 3), ("CMP_LT", None),
+                     ("JUMP_IF_FALSE", 13),
+                     ("LOAD", "s"), ("LOAD", "i"), ("ADD", None), ("STORE", "s"),
+                     ("LOAD", "i"), ("PUSH", 1), ("ADD", None), ("STORE", "i"),
+                     ("JUMP", 0)],
+                    {"i": 5, "s": 0}),
+                   {'error': None, 'symbols': {'i': 5, 's': 0},
+                    'stack': []}),
+                  (([("JUMP", 0)], {}),
+                   {'error': '循环未终止（超出步数上限）',
+                    'symbols': {}, 'stack': []})],
+        "params": [],
+        "calibration": "对照：while 循环 VM 运行（i=1→3 累积 1+2=3 于 s；死循环被步数上限拦截）",
+    },
     "编译-赋值": {
         "task": "编译赋值",
         "pattern": (

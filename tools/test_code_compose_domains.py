@@ -177,5 +177,40 @@ try:
 except Exception as ex:
     check('⑫c 盒模型行为复核', False, str(ex)[:60])
 
+# ⑬ 目标2 深化：中文编译器循环语法（编译-循环/VM-循环执行 经正式管线）
+c2_qs = {
+    "循环编译": "写一个循环编译单元（当条件执行 while）",
+    "循环执行": "写一个 VM 循环执行单元（while 循环运行）",
+}
+c2_ok = 0
+for label, q in c2_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c2_ok += 1
+    check(f'⑬ {label} 编译器循环单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑬b 编译器循环二单元全部生成', c2_ok == 2, f'{c2_ok}/2')
+
+# ⑬c 循环编译+VM 执行端到端（compile_loop 产物喂 vm_run_loop 求 1+2）
+r_cl = domain_route("写一个循环编译单元（当条件执行 while）")
+r_vm = domain_route("写一个 VM 循环执行单元（while 循环运行）")
+try:
+    ns1, ns2 = {}, {}
+    exec(r_cl["code"], ns1)
+    exec(r_vm["code"], ns2)
+    code = ns1["compile_loop"]([("LOAD", "i"), ("PUSH", 3), ("CMP_LT", None)],
+                               [("LOAD", "s"), ("LOAD", "i"), ("ADD", None),
+                                ("STORE", "s"),
+                                ("LOAD", "i"), ("PUSH", 1), ("ADD", None),
+                                ("STORE", "i")])
+    res = ns2["vm_run_loop"](code, {"i": 1, "s": 0})
+    got = res["symbols"]
+    check('⑬c 循环编译→VM 执行端到端（1+2=3）',
+          got == {"i": 3, "s": 3},
+          f'symbols={got}（i 1→3 累积 s=1+2=3）')
+except Exception as ex:
+    check('⑬c 循环编译→VM 执行端到端（1+2=3）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
