@@ -4231,5 +4231,39 @@ try:
 except Exception as ex:
     check('㋘c 配置→提权→环境变量端到端（30 allowed /bin）', False, str(ex)[:60])
 
+# ㋙ 目标6 深化：查询/算法（邻居查询/路径过滤/三角形计数 经正式管线）
+g23_qs = {
+    "邻居查询": "写一个邻居查询单元（多跳扩展）",
+    "路径过滤": "写一个路径过滤单元（条件筛选）",
+    "三角形计数": "写一个三角形计数单元（闭合三元组）",
+}
+g23_ok = 0
+for label, q in g23_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g23_ok += 1
+    check(f'㋙ {label} 查询/算法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋙b 查询/算法三单元全部生成', g23_ok == 3, f'{g23_ok}/3')
+
+# ㋙c 查询端到端：邻居→路径过滤→三角形（[1,2] [[0,1]] 1）
+r_nq = domain_route("写一个邻居查询单元（多跳扩展）")
+r_pf = domain_route("写一个路径过滤单元（条件筛选）")
+r_tc = domain_route("写一个三角形计数单元（闭合三元组）")
+try:
+    ns_nq, ns_pf, ns_tc = {}, {}, {}
+    exec(r_nq["code"], ns_nq)
+    exec(r_pf["code"], ns_pf)
+    exec(r_tc["code"], ns_tc)
+    nq = ns_nq["neighbor_query"]({0: [1, 2]}, 'direct', 0)
+    pf = ns_pf["path_filter"]([[0, 1]], lambda p: p[-1] == 1)
+    tc = ns_tc["triangle_count"]({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 3)
+    check('㋙c 邻居→路径→三角形端到端（[1,2] [[0,1]] 1）',
+          nq == [1, 2] and pf == [[0, 1]] and tc == 1,
+          f'neighbor={nq} filter={pf} tri={tc}')
+except Exception as ex:
+    check('㋙c 邻居→路径→三角形端到端（[1,2] [[0,1]] 1）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

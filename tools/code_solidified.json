@@ -3388,5 +3388,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:graph|图查询-邻居查询": {
+  "task": "邻居查询",
+  "unit": "图查询-邻居查询",
+  "code": "def neighbor_query(adj, op, node=None, hops=1):\n    # 邻居查询：direct 一跳邻居 / multi 多跳邻居（BFS 扩展）\n    if op == 'direct':\n        return sorted(adj.get(node, []))\n    if op == 'multi':\n        seen = {node}\n        frontier = [node]\n        for _ in range(hops):\n            nxt = []\n            for u in frontier:\n                for v in adj.get(u, []):\n                    if v not in seen:\n                        seen.add(v)\n                        nxt.append(v)\n            frontier = nxt\n        seen.discard(node)\n        return sorted(seen)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-路径过滤": {
+  "task": "路径过滤",
+  "unit": "图查询-路径过滤",
+  "code": "def path_filter(paths, pred):\n    # 路径过滤：按条件保留路径（长度/终点——路径筛选）\n    return [p for p in paths if pred(p)]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-三角形计数": {
+  "task": "三角形计数",
+  "unit": "图算法-三角形计数",
+  "code": "def triangle_count(adj, n):\n    # 三角形计数：闭合三元组（聚类检测——社交网络三角）\n    triangles = 0\n    for u in range(n):\n        for v in adj.get(u, []):\n            if v > u:\n                for w in adj.get(v, []):\n                    if w > v and w in adj.get(u, []):\n                        triangles += 1\n    return triangles\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

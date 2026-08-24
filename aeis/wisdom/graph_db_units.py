@@ -1523,6 +1523,65 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：分布式哈希环——一致性哈希（键定位，最小迁移）",
     },
+    "图查询-邻居查询": {
+        "task": "邻居查询",
+        "pattern": (
+            "def neighbor_query(adj, op, node=None, hops=1):\n"
+            "    # 邻居查询：direct 一跳邻居 / multi 多跳邻居（BFS 扩展）\n"
+            "    if op == 'direct':\n"
+            "        return sorted(adj.get(node, []))\n"
+            "    if op == 'multi':\n"
+            "        seen = {node}\n"
+            "        frontier = [node]\n"
+            "        for _ in range(hops):\n"
+            "            nxt = []\n"
+            "            for u in frontier:\n"
+            "                for v in adj.get(u, []):\n"
+            "                    if v not in seen:\n"
+            "                        seen.add(v)\n"
+            "                        nxt.append(v)\n"
+            "            frontier = nxt\n"
+            "        seen.discard(node)\n"
+            "        return sorted(seen)\n"
+            "    return None\n"),
+        "cases": [(({0: [1, 2]}, 'direct', 0), [1, 2]),
+                  (({0: [1], 1: [2]}, 'multi', 0, 2), [1, 2]),
+                  (({0: [1]}, 'multi', 0, 1), [1])],
+        "params": [],
+        "calibration": "对照：图查询——一跳/多跳邻居（BFS 扩展）",
+    },
+    "图查询-路径过滤": {
+        "task": "路径过滤",
+        "pattern": (
+            "def path_filter(paths, pred):\n"
+            "    # 路径过滤：按条件保留路径（长度/终点——路径筛选）\n"
+            "    return [p for p in paths if pred(p)]\n"),
+        "cases": [(([[0, 1], [0, 2, 1], [0]], lambda p: len(p) >= 2),
+                   [[0, 1], [0, 2, 1]]),
+                  (([[0, 1]], lambda p: p[-1] == 1), [[0, 1]]),
+                  (([], lambda p: True), [])],
+        "params": [],
+        "calibration": "对照：图查询——路径过滤（按长度/终点条件）",
+    },
+    "图算法-三角形计数": {
+        "task": "三角形计数",
+        "pattern": (
+            "def triangle_count(adj, n):\n"
+            "    # 三角形计数：闭合三元组（聚类检测——社交网络三角）\n"
+            "    triangles = 0\n"
+            "    for u in range(n):\n"
+            "        for v in adj.get(u, []):\n"
+            "            if v > u:\n"
+            "                for w in adj.get(v, []):\n"
+            "                    if w > v and w in adj.get(u, []):\n"
+            "                        triangles += 1\n"
+            "    return triangles\n"),
+        "cases": [(({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 3), 1),
+                  (({0: [1], 1: [0, 2], 2: [1]}, 3), 0),
+                  (({}, 1), 0)],
+        "params": [],
+        "calibration": "对照：图算法——三角形计数（闭合三元组，聚类检测）",
+    },
 }
 
 
