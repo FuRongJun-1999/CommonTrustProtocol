@@ -1075,6 +1075,81 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：网络吞吐量——字节数/时间（KB/s）",
     },
+    "网络-链路状态路由": {
+        "task": "链路状态路由",
+        "pattern": (
+            "def link_state_routing(graph, source):\n"
+            "    # 链路状态路由：Dijkstra 最短路径树（OSPF 全拓扑计算）\n"
+            "    dist = {source: 0}\n"
+            "    prev = {}\n"
+            "    unvisited = set(graph)\n"
+            "    while unvisited:\n"
+            "        u = min(unvisited, key=lambda n: dist.get(n, float('inf')))\n"
+            "        unvisited.discard(u)\n"
+            "        for v, w in graph.get(u, {}).items():\n"
+            "            nd = dist.get(u, float('inf')) + w\n"
+            "            if nd < dist.get(v, float('inf')):\n"
+            "                dist[v] = nd\n"
+            "                prev[v] = u\n"
+            "    return dist, prev\n"),
+        "cases": [(({'a': {'b': 1, 'c': 4}, 'b': {'c': 2, 'd': 5},
+                     'c': {'d': 1}, 'd': {}}, 'a'),
+                   ({'a': 0, 'b': 1, 'c': 3, 'd': 4},
+                    {'b': 'a', 'c': 'b', 'd': 'c'})),
+                  (({'a': {'b': 1}, 'b': {}}, 'a'),
+                   ({'a': 0, 'b': 1}, {'b': 'a'})),
+                  (({'a': {}}, 'a'), ({'a': 0}, {}))],
+        "params": [],
+        "calibration": "对照：OSPF 链路状态路由——Dijkstra 全拓扑最短路径树",
+    },
+    "网络-策略路由": {
+        "task": "策略路由",
+        "pattern": (
+            "def policy_routing(policies, op, flow=None, policy_name=None):\n"
+            "    # 策略路由：add 注册策略 / match 按流量特征匹配（源地址/类型）\n"
+            "    if op == 'add':\n"
+            "        policies[policy_name] = flow\n"
+            "        return policy_name\n"
+            "    if op == 'match':\n"
+            "        for name, cond in policies.items():\n"
+            "            if all(k in flow and flow[k] == v for k, v in cond.items()):\n"
+            "                return name\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [(({}, 'add', {'类型': '视频'}, '视频走专线'), '视频走专线'),
+                  (({'视频走专线': {'类型': '视频'}}, 'match',
+                    {'类型': '视频', '大小': 100}), '视频走专线'),
+                  (({'视频走专线': {'类型': '视频'}}, 'match',
+                    {'类型': '文本'}), None)],
+        "params": [],
+        "calibration": "对照：策略路由——按流量特征匹配策略（条件路由）",
+    },
+    "网络-多径传输": {
+        "task": "多径传输",
+        "pattern": (
+            "def multipath_send(paths, op, subflow=None, data=None):\n"
+            "    # 多径传输：MPTCP 多子流并行（add 加子流 / send 选最少 / stats 汇总）\n"
+            "    if op == 'add':\n"
+            "        paths[subflow] = {'sent': 0}\n"
+            "        return subflow\n"
+            "    if op == 'send':\n"
+            "        if not paths:\n"
+            "            return 'no_path'\n"
+            "        best = min(paths, key=lambda p: paths[p]['sent'])\n"
+            "        paths[best]['sent'] += len(data)\n"
+            "        return best\n"
+            "    if op == 'stats':\n"
+            "        return {p: paths[p]['sent'] for p in paths}\n"
+            "    return None\n"),
+        "cases": [(({}, 'add', 'wifi'), 'wifi'),
+                  (({'wifi': {'sent': 0}}, 'send', None, 'hello'), 'wifi'),
+                  (({'wifi': {'sent': 5}, '5g': {'sent': 0}},
+                    'send', None, 'ab'), '5g'),
+                  (({}, 'send', None, 'x'), 'no_path'),
+                  (({'wifi': {'sent': 3}}, 'stats'), {'wifi': 3})],
+        "params": [],
+        "calibration": "对照：MPTCP 多径传输——多子流并行，选最少发送",
+    },
 }
 
 

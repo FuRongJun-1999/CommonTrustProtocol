@@ -2848,5 +2848,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:net|网络-链路状态路由": {
+  "task": "链路状态路由",
+  "unit": "网络-链路状态路由",
+  "code": "def link_state_routing(graph, source):\n    # 链路状态路由：Dijkstra 最短路径树（OSPF 全拓扑计算）\n    dist = {source: 0}\n    prev = {}\n    unvisited = set(graph)\n    while unvisited:\n        u = min(unvisited, key=lambda n: dist.get(n, float('inf')))\n        unvisited.discard(u)\n        for v, w in graph.get(u, {}).items():\n            nd = dist.get(u, float('inf')) + w\n            if nd < dist.get(v, float('inf')):\n                dist[v] = nd\n                prev[v] = u\n    return dist, prev\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-策略路由": {
+  "task": "策略路由",
+  "unit": "网络-策略路由",
+  "code": "def policy_routing(policies, op, flow=None, policy_name=None):\n    # 策略路由：add 注册策略 / match 按流量特征匹配（源地址/类型）\n    if op == 'add':\n        policies[policy_name] = flow\n        return policy_name\n    if op == 'match':\n        for name, cond in policies.items():\n            if all(k in flow and flow[k] == v for k, v in cond.items()):\n                return name\n        return None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-多径传输": {
+  "task": "多径传输",
+  "unit": "网络-多径传输",
+  "code": "def multipath_send(paths, op, subflow=None, data=None):\n    # 多径传输：MPTCP 多子流并行（add 加子流 / send 选最少 / stats 汇总）\n    if op == 'add':\n        paths[subflow] = {'sent': 0}\n        return subflow\n    if op == 'send':\n        if not paths:\n            return 'no_path'\n        best = min(paths, key=lambda p: paths[p]['sent'])\n        paths[best]['sent'] += len(data)\n        return best\n    if op == 'stats':\n        return {p: paths[p]['sent'] for p in paths}\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

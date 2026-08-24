@@ -3595,5 +3595,44 @@ try:
 except Exception as ex:
     check('㋆c 异常→组合→深拷贝端到端（True vroom 嵌套一致）', False, str(ex)[:60])
 
+# ㋇ 目标7 深化：路由/传输（链路状态/策略路由/多径传输 经正式管线）
+n9_qs = {
+    "链路状态": "写一个链路状态路由单元（Dijkstra）",
+    "策略路由": "写一个策略路由单元（按流量选路）",
+    "多径传输": "写一个多径传输单元（MPTCP 子流）",
+}
+n9_ok = 0
+for label, q in n9_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n9_ok += 1
+    check(f'㋇ {label} 路由/传输单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋇b 路由/传输三单元全部生成', n9_ok == 3, f'{n9_ok}/3')
+
+# ㋇c 路由端到端：链路状态→策略→多径（dist{d:4} 视频专线 选5g）
+r_ls = domain_route("写一个链路状态路由单元（Dijkstra）")
+r_pr = domain_route("写一个策略路由单元（按流量选路）")
+r_mp = domain_route("写一个多径传输单元（MPTCP 子流）")
+try:
+    ns_ls, ns_pr, ns_mp = {}, {}, {}
+    exec(r_ls["code"], ns_ls)
+    exec(r_pr["code"], ns_pr)
+    exec(r_mp["code"], ns_mp)
+    dist, prev = ns_ls["link_state_routing"](
+        {'a': {'b': 1, 'c': 4}, 'b': {'c': 2, 'd': 5},
+         'c': {'d': 1}, 'd': {}}, 'a')
+    pol = ns_pr["policy_routing"](
+        {'视频走专线': {'类型': '视频'}}, 'match', {'类型': '视频', '大小': 100})
+    mp = ns_mp["multipath_send"](
+        {'wifi': {'sent': 5}, '5g': {'sent': 0}}, 'send', None, 'ab')
+    check('㋇c 链路状态→策略→多径端到端（d=4 视频专线 5g）',
+          dist.get('d') == 4 and prev.get('d') == 'c'
+          and pol == '视频走专线' and mp == '5g',
+          f'dist={dist.get("d")} prev={prev.get("d")} pol={pol} mp={mp}')
+except Exception as ex:
+    check('㋇c 链路状态→策略→多径端到端（d=4 视频专线 5g）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
