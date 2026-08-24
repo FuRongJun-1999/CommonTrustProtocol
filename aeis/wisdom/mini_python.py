@@ -16,8 +16,9 @@ class MiniPyError(Exception):
 
 # ============ 一、词法分析 ============
 _TOKEN_RE = [
+    ("STR", r"'[^']*'|\"[^\"]*\""),
     ("NUMBER", r"\d+\.\d+|\d+"),
-    ("OP", r"\*\*|//|==|!=|<=|>=|[+\-*/%<>()=,]"),
+    ("OP", r"\*\*|//|==|!=|<=|>=|[+\-*/%<>()=,\[\]{}:]"),
     ("KEY", r"and|or|not|True|False|None|if|elif|else|while|def|return"),
     ("NAME", r"[A-Za-z_]\w*"),
     ("WS", r"\s+"),
@@ -35,7 +36,9 @@ def tokenize(src):
                 i += len(text)
                 if kind == "WS":
                     break
-                if kind == "KEY":
+                if kind == "STR":
+                    tokens.append(("STRING", text[1:-1]))
+                elif kind == "KEY":
                     tokens.append((text.upper(), text))
                 elif kind == "NUMBER":
                     tokens.append(("NUMBER", float(text) if "." in text else int(text)))
@@ -69,6 +72,15 @@ class Parser:
         if t[1] in texts:
             return self.advance()
         return None
+
+    def _maybe_index(self, node):
+        """索引后缀：obj[key] → ("index", obj, key)（P5 数据结构）"""
+        while self.peek()[1] == "[":
+            self.advance()
+            key = self.or_expr()
+            self.expect("]")
+            node = ("index", node, key)
+        return node
 
     def expect(self, text):
         t = self.peek()
@@ -146,6 +158,9 @@ class Parser:
         if t[0] == "NUMBER":
             self.advance()
             return ("num", t[1])
+        if t[0] == "STRING":  # P5：字符串字面量
+            self.advance()
+            return ("str", t[1])
         if t[0] == "NAME":  # 变量/函数调用（P3）
             self.advance()
             if self.peek()[1] == "(":
@@ -156,8 +171,34 @@ class Parser:
                     while self.match(","):
                         args.append(self.or_expr())
                 self.expect(")")
-                return ("call", t[1], args)
-            return ("name", t[1])
+                node = ("call", t[1], args)
+            else:
+                node = ("name", t[1])
+            return self._maybe_index(node)
+        if t[1] == "[":
+            self.advance()
+            items = []
+            if self.peek()[1] != "]":
+                items.append(self.or_expr())
+                while self.match(","):
+                    items.append(self.or_expr())
+            self.expect("]")
+            return self._maybe_index(("list", items))
+        if t[1] == "{":
+            self.advance()
+            pairs = []
+            if self.peek()[1] != "}":
+                k = self.or_expr()
+                self.expect(":")
+                v = self.or_expr()
+                pairs.append((k, v))
+                while self.match(","):
+                    k = self.or_expr()
+                    self.expect(":")
+                    v = self.or_expr()
+                    pairs.append((k, v))
+            self.expect("}")
+            return self._maybe_index(("dict", pairs))
         if t[1] == "True":
             self.advance()
             return ("bool", True)
@@ -184,6 +225,8 @@ def eval_node(node, env=None):
     """AST 求值（P2：env 提供变量环境；name 节点从环境取值）"""
     kind = node[0]
     if kind == "num":
+        return node[1]
+    if kind == "str":
         return node[1]
     if kind == "bool":
         return node[1]
@@ -247,6 +290,17 @@ def eval_node(node, env=None):
         except ReturnSignal as rs:
             return rs.value
         return None
+    if kind == "list":  # P5：list 字面量
+        return [eval_node(e, env) for e in node[1]]
+    if kind == "dict":  # P5：dict 字面量
+        return {eval_node(k, env): eval_node(v, env) for k, v in node[1]}
+    if kind == "index":  # P5：obj[key]
+        obj = eval_node(node[1], env)
+        key = eval_node(node[2], env)
+        try:
+            return obj[key]
+        except (TypeError, IndexError, KeyError):
+            raise MiniPyError(f"索引错误：{obj!r}[{key!r}]")
     raise MiniPyError(f"未知节点: {node}")
 
 
@@ -386,6 +440,181 @@ def run_program(src):
     for stmt in parse_program(src):
         exec_stmt(stmt, env)
     return env
+
+
+# ============ P5：字节码 VM 雏形（栈机——机制供 C 线原生后端复用） ============
+# 表达式 → 字节码指令 → 栈机执行（对照 eval_node 结果）
+# 指令：PUSH_CONST/PUSH_LIST/PUSH_DICT/LOAD_NAME/ADD/SUB/MUL/DIV/FLOOR/MOD/POW/
+#       NEG/AND_OR/CMP_*/JUMP_IF_FALSE/JUMP（逻辑短路用跳转）
+
+def compile_expr(node):
+    """AST 表达式 → 字节码指令列表（栈机）"""
+    kind = node[0]
+    if kind == "num":
+        return [("PUSH_CONST", node[1])]
+    if kind == "str":
+        return [("PUSH_CONST", node[1])]
+    if kind == "bool":
+        return [("PUSH_CONST", node[1])]
+    if kind == "none":
+        return [("PUSH_CONST", None)]
+    if kind == "name":
+        return [("LOAD_NAME", node[1])]
+    if kind == "list":
+        code = []
+        for e in node[1]:
+            code.extend(compile_expr(e))
+        code.append(("PUSH_LIST", len(node[1])))
+        return code
+    if kind == "dict":
+        code = []
+        for k, v in node[1]:
+            code.extend(compile_expr(k))
+            code.extend(compile_expr(v))
+        code.append(("PUSH_DICT", len(node[1])))
+        return code
+    if kind == "index":
+        code = compile_expr(node[1]) + compile_expr(node[2])
+        code.append(("INDEX", None))
+        return code
+    if kind in ("-", "+") and len(node) == 2:  # 一元
+        code = compile_expr(node[1])
+        if kind == "-":
+            code.append(("NEG", None))
+        return code
+    if kind in ("+", "-", "*", "/", "//", "%", "**"):
+        code = compile_expr(node[1]) + compile_expr(node[2])
+        code.append((_ARITH_VM[kind], None))
+        return code
+    if kind in ("==", "!=", "<", ">", "<=", ">="):
+        code = compile_expr(node[1]) + compile_expr(node[2])
+        code.append((_CMP_VM[kind], None))
+        return code
+    if kind == "not":
+        return compile_expr(node[1]) + [("NOT", None)]
+    if kind == "or" or kind == "and":
+        # 短路：左值 → 真保留左值（or）/假保留左值（and）→ 否则求右值
+        right = compile_expr(node[2])
+        code = compile_expr(node[1])
+        jmp = "JUMP_IF_TRUE" if kind == "or" else "JUMP_IF_FALSE"
+        jmp_idx = len(code)
+        code.append((jmp, 0))       # 回填
+        code.append(("POP", None))  # 丢弃左值（不短路时）
+        code.extend(right)
+        code[jmp_idx] = (jmp, len(code))  # 短路目标 = 程序末尾（栈顶左值保留）
+        return code
+    if kind == "call":
+        code = [("LOAD_NAME", node[1])]
+        for a in node[2]:
+            code.extend(compile_expr(a))
+        code.append(("CALL", len(node[2])))
+        return code
+    raise MiniPyError(f"无法编译节点: {node}")
+
+
+_ARITH_VM = {"+": "ADD", "-": "SUB", "*": "MUL", "/": "DIV",
+             "//": "FLOOR", "%": "MOD", "**": "POW"}
+_CMP_VM = {"==": "CMP_EQ", "!=": "CMP_NE", "<": "CMP_LT", ">": "CMP_GT",
+           "<=": "CMP_LE", ">=": "CMP_GE"}
+
+
+class VM:
+    """栈机执行（P5 雏形：算术/比较/逻辑短路/数据结构/调用）"""
+    def __init__(self, env):
+        self.env = env
+        self.stack = []
+        self.frames = []  # 调用帧（P5 简化：函数调用直接执行 body）
+
+    def run(self, code, max_steps=100000):
+        ip = 0
+        while ip < len(code) and max_steps > 0:
+            op, arg = code[ip]
+            ip += 1
+            max_steps -= 1
+            if op == "PUSH_CONST":
+                self.stack.append(arg)
+            elif op == "LOAD_NAME":
+                self.stack.append(self.env.get(arg))
+            elif op == "PUSH_LIST":
+                items = self.stack[-arg:]
+                self.stack = self.stack[:-arg]
+                self.stack.append(items)
+            elif op == "PUSH_DICT":
+                pairs = self.stack[-arg * 2:]
+                self.stack = self.stack[:-arg * 2]
+                self.stack.append({pairs[i]: pairs[i + 1] for i in range(0, len(pairs), 2)})
+            elif op == "INDEX":
+                key, obj = self.stack.pop(), self.stack.pop()
+                self.stack.append(obj[key])
+            elif op == "ADD":
+                b, a = self.stack.pop(), self.stack.pop()
+                self.stack.append(a + b)
+            elif op == "SUB":
+                b, a = self.stack.pop(), self.stack.pop()
+                self.stack.append(a - b)
+            elif op == "MUL":
+                b, a = self.stack.pop(), self.stack.pop()
+                self.stack.append(a * b)
+            elif op == "DIV":
+                b, a = self.stack.pop(), self.stack.pop()
+                if b == 0:
+                    raise MiniPyError("ZeroDivisionError")
+                self.stack.append(a / b)
+            elif op == "FLOOR":
+                b, a = self.stack.pop(), self.stack.pop()
+                if b == 0:
+                    raise MiniPyError("ZeroDivisionError")
+                self.stack.append(int(a // b))
+            elif op == "MOD":
+                b, a = self.stack.pop(), self.stack.pop()
+                if b == 0:
+                    raise MiniPyError("ZeroDivisionError")
+                self.stack.append(a % b)
+            elif op == "POW":
+                b, a = self.stack.pop(), self.stack.pop()
+                self.stack.append(a ** b)
+            elif op == "NOT":
+                self.stack.append(not is_truthy(self.stack.pop()))
+            elif op == "NEG":
+                self.stack.append(-self.stack.pop())
+            elif op.startswith("CMP_"):
+                b, a = self.stack.pop(), self.stack.pop()
+                _cmp_map = {"EQ": "==", "NE": "!=", "LT": "<", "GT": ">",
+                            "LE": "<=", "GE": ">="}
+                self.stack.append(_compare(_cmp_map[op[4:]], a, b))
+            elif op == "JUMP_IF_TRUE":
+                if is_truthy(self.stack[-1]):
+                    ip = arg
+            elif op == "JUMP_IF_FALSE":
+                if not is_truthy(self.stack[-1]):
+                    ip = arg
+            elif op == "POP":
+                self.stack.pop()
+            elif op == "CALL":
+                args = self.stack[-arg:]
+                self.stack = self.stack[:-arg]
+                f = self.stack.pop()  # 函数在参数之下（先压函数后压参数）
+                _, params, body, def_env = f
+                local = Env(def_env)
+                for p, a in zip(params, args):
+                    local.set(p, a)
+                try:
+                    for s in body:
+                        exec_stmt(s, local)
+                    self.stack.append(None)
+                except ReturnSignal as rs:
+                    self.stack.append(rs.value)
+            else:
+                raise MiniPyError(f"未知指令: {op}")
+        return self.stack[-1] if self.stack else None
+
+
+def eval_expr_vm(src, env=None):
+    """字节码 VM 求值入口（P5：对照 eval_expr/eval_node）"""
+    env = env or Env()
+    ast = Parser(tokenize(src)).parse()
+    code = compile_expr(ast)
+    return VM(env).run(code)
 
 
 if __name__ == "__main__":

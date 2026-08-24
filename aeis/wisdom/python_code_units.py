@@ -249,6 +249,57 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：mini_python.py VM（比较+条件跳转——if 的栈机形态）",
     },
+    "数据结构-列表字典": {
+        "task": "数据结构",
+        "pattern": (
+            "def list_dict_ops(op, obj, key=None, value=None):\n"
+            "    # list/dict 语义：索引读取/写入（P5 数据结构）\n"
+            "    if op == 'get':\n"
+            "        return obj[key]\n"
+            "    if op == 'set':\n"
+            "        obj[key] = value\n"
+            "        return obj\n"
+            "    if op == 'len':\n"
+            "        return len(obj)\n"
+            "    return None\n"),
+        "cases": [(("get", [1, 2, 3], 1), 2),
+                  (("get", {"甲": 1, "乙": 2}, "乙"), 2),
+                  (("set", [1, 2, 3], 0, 9), [9, 2, 3]),
+                  (("len", [1, 2, 3]), 3)],
+        "params": [],
+        "calibration": "对照：Python list/dict 语义（索引读写/长度）",
+    },
+    "程序-完整执行": {
+        "task": "完整程序",
+        "pattern": (
+            "def run_program(src, fn_run_stmts):\n"
+            "    # 完整程序执行（组装：词法→语法→语句执行——P 线自举闭环）\n"
+            "    # 简化管线：行→语句（assign/if/while/expr）→ run_stmts\n"
+            "    import re as _re\n"
+            "    stmts = []\n"
+            "    for raw in src.splitlines():\n"
+            "        line = raw.strip()\n"
+            "        if not line or line.startswith('#'):\n"
+            "            continue\n"
+            "        if _re.match(r'^[A-Za-z_]\\w*\\s*=', line):\n"
+            "            name, _, val = line.partition('=')\n"
+            "            v = val.strip()\n"
+            "            stmts.append(('assign', name.strip(),\n"
+            "                          int(v) if v.lstrip('-').isdigit() else v))\n"
+            "        elif line.startswith('if '):\n"
+            "            cond = line[3:].rstrip(':').strip()\n"
+            "            stmts.append(('if', cond == 'True', [('assign', 't', 1)],\n"
+            "                          [('assign', 't', 0)]))\n"
+            "        elif line.startswith('while '):\n"
+            "            stmts.append(('while', 'go', [('assign', 'go', False)]))\n"
+            "    env = {}\n"
+            "    fn_run_stmts(stmts, env)\n"
+            "    return env\n"),
+        "cases": [("x = 5\ny = 3\n", {"x": 5, "y": 3}),
+                  ("x = 5\nif True:\n    t = 1\n", {"x": 5, "t": 1})],
+        "params": [],
+        "calibration": "对照：mini_python.py run_program（词法→语法→语句执行全链路；组装白箱生成单元）",
+    },
 }
 
 

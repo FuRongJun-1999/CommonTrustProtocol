@@ -32,6 +32,10 @@ for uid, u in PYTHON_UNITS.items():
                 if args == "call":  # 特殊：调用单元入口（闭包→closure_test，环境→env_scope）
                     entry = ns.get("closure_test") or ns.get("env_scope")
                     got = entry()
+                elif uid == "程序-完整执行":
+                    # 组装：注入「求值-控制流」白箱生成的 run_stmts（自举闭环）
+                    run_stmts = generated.get("求值-控制流", ({}, []))[0]["run_stmts"]
+                    got = fn(args, run_stmts)
                 else:
                     got = fn(*args) if isinstance(args, tuple) else fn(args)
                 if isinstance(expect, dict) and isinstance(got, dict):
