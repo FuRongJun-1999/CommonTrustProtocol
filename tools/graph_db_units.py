@@ -1379,6 +1379,70 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图算法——图直径（最长最短路径）",
     },
+    "条件路由图-条件合并": {
+        "task": "条件合并",
+        "pattern": (
+            "def merge_conditions(cond1, cond2):\n"
+            "    # 条件合并：两条条件链合并（AND 语义——路由条件叠加，冲突拒绝）\n"
+            "    merged = {}\n"
+            "    for k in set(cond1) | set(cond2):\n"
+            "        if k in cond1 and k in cond2 and cond1[k] != cond2[k]:\n"
+            "            return 'conflict'\n"
+            "        merged[k] = cond1.get(k, cond2.get(k))\n"
+            "    return merged\n"),
+        "cases": [(({'温度': '高'}, {'湿度': '大'}), {'温度': '高', '湿度': '大'}),
+                  (({'温度': '高'}, {'温度': '高'}), {'温度': '高'}),
+                  (({'温度': '高'}, {'温度': '低'}), 'conflict')],
+        "params": [],
+        "calibration": "对照：条件路由图——条件链合并（AND 叠加，同键异值冲突）",
+    },
+    "条件路由图-信任传播": {
+        "task": "信任传播",
+        "pattern": (
+            "def trust_propagate(graph, node, trust, decay=0.5):\n"
+            "    # 信任传播：信任沿边衰减传播（信任引擎——多跳信任累积）\n"
+            "    out = {node: trust}\n"
+            "    queue = [(node, trust)]\n"
+            "    while queue:\n"
+            "        u, t = queue.pop(0)\n"
+            "        for v in graph.get(u, []):\n"
+            "            nt = round(t * decay, 3)\n"
+            "            if v not in out or nt > out[v]:\n"
+            "                out[v] = nt\n"
+            "                queue.append((v, nt))\n"
+            "    return out\n"),
+        "cases": [(({'a': ['b'], 'b': ['c']}, 'a', 1.0),
+                   {'a': 1.0, 'b': 0.5, 'c': 0.25}),
+                  (({'a': []}, 'a', 0.8), {'a': 0.8}),
+                  (({}, 'a', 1.0), {'a': 1.0})],
+        "params": [],
+        "calibration": "对照：条件路由图——信任传播（沿边衰减，多跳信任累积）",
+    },
+    "条件路由图-信息差收敛": {
+        "task": "信息差收敛",
+        "pattern": (
+            "def info_gap_path(graph, start, end, gap):\n"
+            "    # 信息差收敛：沿路径逐节点缩小信息差（路由决策——信息差递减）\n"
+            "    path = [start]\n"
+            "    cur = start\n"
+            "    while cur != end:\n"
+            "        nxt = graph.get(cur, [])\n"
+            "        if not nxt:\n"
+            "            return path, gap, 'stuck'\n"
+            "        best = nxt[0]\n"
+            "        path.append(best)\n"
+            "        cur = best\n"
+            "        gap = round(gap * 0.5, 3)\n"
+            "        if len(path) > 10:\n"
+            "            return path, gap, 'loop'\n"
+            "    return path, gap, 'arrived'\n"),
+        "cases": [(({'a': ['b'], 'b': ['c']}, 'a', 'c', 1.0),
+                   (['a', 'b', 'c'], 0.25, 'arrived')),
+                  (({'a': []}, 'a', 'c', 1.0), (['a'], 1.0, 'stuck')),
+                  (({'a': ['b']}, 'a', 'a', 1.0), (['a'], 1.0, 'arrived'))],
+        "params": [],
+        "calibration": "对照：条件路由图——信息差收敛（逐节点减半，路由推进决策）",
+    },
 }
 
 

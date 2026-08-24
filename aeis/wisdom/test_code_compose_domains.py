@@ -3738,5 +3738,40 @@ try:
 except Exception as ex:
     check('㋊c 超时→取消→信号量端到端（done cancelled handoff）', False, str(ex)[:60])
 
+# ㋋ 目标6 深化：条件路由图·智能论语义（条件合并/信任传播/信息差收敛 经正式管线）
+g21_qs = {
+    "条件合并": "写一个条件合并单元（AND 叠加）",
+    "信任传播": "写一个信任传播单元（沿边衰减）",
+    "信息差收敛": "写一个信息差收敛单元（逐节点减半）",
+}
+g21_ok = 0
+for label, q in g21_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g21_ok += 1
+    check(f'㋋ {label} 条件路由图单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋋b 条件路由图三单元全部生成', g21_ok == 3, f'{g21_ok}/3')
+
+# ㋋c 条件路由端到端：合并→信任→信息差（叠加 0.25 收敛arrived）
+r_mc = domain_route("写一个条件合并单元（AND 叠加）")
+r_tp = domain_route("写一个信任传播单元（沿边衰减）")
+r_ig = domain_route("写一个信息差收敛单元（逐节点减半）")
+try:
+    ns_mc, ns_tp, ns_ig = {}, {}, {}
+    exec(r_mc["code"], ns_mc)
+    exec(r_tp["code"], ns_tp)
+    exec(r_ig["code"], ns_ig)
+    mc = ns_mc["merge_conditions"]({'温度': '高'}, {'湿度': '大'})
+    tp = ns_tp["trust_propagate"]({'a': ['b'], 'b': ['c']}, 'a', 1.0)
+    path, gap, st = ns_ig["info_gap_path"]({'a': ['b'], 'b': ['c']}, 'a', 'c', 1.0)
+    check('㋋c 合并→信任→信息差端到端（叠加 c信任0.25 收敛0.25 arrived）',
+          mc == {'温度': '高', '湿度': '大'} and tp.get('c') == 0.25
+          and path == ['a', 'b', 'c'] and gap == 0.25 and st == 'arrived',
+          f'merge={mc} trust={tp.get("c")} gap=({path},{gap},{st})')
+except Exception as ex:
+    check('㋋c 合并→信任→信息差端到端（叠加 c信任0.25 收敛0.25 arrived）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
