@@ -3915,5 +3915,39 @@ try:
 except Exception as ex:
     check('㋏c 播放→地理→全屏端到端（playing {39.9,116.4} video）', False, str(ex)[:60])
 
+# ㋐ 目标1 深化：P 线函数式（映射/过滤/归约 经正式管线）
+p10_qs = {
+    "映射": "写一个映射单元（元素变换）",
+    "过滤": "写一个过滤单元（条件筛选）",
+    "归约": "写一个归约单元（累积聚合）",
+}
+p10_ok = 0
+for label, q in p10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p10_ok += 1
+    check(f'㋐ {label} P线函数式单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋐b P线函数式三单元全部生成', p10_ok == 3, f'{p10_ok}/3')
+
+# ㋐c 函数式端到端：映射→过滤→归约（[2,4,6] [2,4] 6）
+r_mp = domain_route("写一个映射单元（元素变换）")
+r_fl = domain_route("写一个过滤单元（条件筛选）")
+r_rd = domain_route("写一个归约单元（累积聚合）")
+try:
+    ns_mp, ns_fl, ns_rd = {}, {}, {}
+    exec(r_mp["code"], ns_mp)
+    exec(r_fl["code"], ns_fl)
+    exec(r_rd["code"], ns_rd)
+    mp = ns_mp["map_apply"]([1, 2, 3], lambda x: x * 2)
+    fl = ns_fl["filter_items"]([1, 2, 3, 4], lambda x: x % 2 == 0)
+    rd = ns_rd["reduce_accum"]([1, 2, 3], lambda a, b: a + b, 0)
+    check('㋐c 映射→过滤→归约端到端（[2,4,6] [2,4] 6）',
+          mp == [2, 4, 6] and fl == [2, 4] and rd == 6,
+          f'map={mp} filter={fl} reduce={rd}')
+except Exception as ex:
+    check('㋐c 映射→过滤→归约端到端（[2,4,6] [2,4] 6）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -1000,6 +1000,45 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：asyncio.Semaphore（并发上限，满则等待/释放交接）",
     },
+    "工具-映射": {
+        "task": "映射",
+        "pattern": (
+            "def map_apply(items, fn):\n"
+            "    # 映射：函数应用到每个元素（map 语义——变换）\n"
+            "    return [fn(x) for x in items]\n"),
+        "cases": [(([1, 2, 3], lambda x: x * 2), [2, 4, 6]),
+                  (([], lambda x: x), []),
+                  (([1, 2], lambda x: str(x)), ['1', '2'])],
+        "params": [],
+        "calibration": "对照：Python map（函数应用到每个元素）",
+    },
+    "工具-过滤": {
+        "task": "过滤",
+        "pattern": (
+            "def filter_items(items, pred):\n"
+            "    # 过滤：条件保留元素（filter 语义——筛选）\n"
+            "    return [x for x in items if pred(x)]\n"),
+        "cases": [(([1, 2, 3, 4], lambda x: x % 2 == 0), [2, 4]),
+                  (([], lambda x: True), []),
+                  (([1, 2], lambda x: x > 1), [2])],
+        "params": [],
+        "calibration": "对照：Python filter（条件筛选元素）",
+    },
+    "工具-归约": {
+        "task": "归约",
+        "pattern": (
+            "def reduce_accum(items, fn, initial):\n"
+            "    # 归约：累积聚合（reduce 语义——从左到右折叠）\n"
+            "    acc = initial\n"
+            "    for x in items:\n"
+            "        acc = fn(acc, x)\n"
+            "    return acc\n"),
+        "cases": [(([1, 2, 3], lambda a, b: a + b, 0), 6),
+                  (([1, 2, 3], lambda a, b: a * b, 1), 6),
+                  (([], lambda a, b: a + b, 10), 10)],
+        "params": [],
+        "calibration": "对照：functools.reduce（累积聚合折叠）",
+    },
 }
 
 
