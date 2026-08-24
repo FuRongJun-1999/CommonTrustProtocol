@@ -1192,6 +1192,55 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图查询——物化视图（预计算复用，refresh 重算）",
     },
+    "图可视化-环形布局": {
+        "task": "环形布局",
+        "pattern": (
+            "def circular_layout(nodes, cx=0, cy=0, radius=100):\n"
+            "    # 环形布局：节点均匀分布圆周（可视化坐标生成）\n"
+            "    import math\n"
+            "    out = {}\n"
+            "    n = len(nodes)\n"
+            "    for i, nd in enumerate(nodes):\n"
+            "        ang = 2 * math.pi * i / n if n else 0\n"
+            "        out[nd] = (round(cx + radius * math.cos(ang), 3),\n"
+            "                   round(cy + radius * math.sin(ang), 3))\n"
+            "    return out\n"),
+        "cases": [((['a'], 0, 0, 10), {'a': (10.0, 0.0)}),
+                  (([], 0, 0, 10), {}),
+                  ((['a', 'b'], 0, 0, 1), {'a': (1.0, 0.0), 'b': (-1.0, 0.0)})],
+        "params": [],
+        "calibration": "对照：图可视化——环形布局（圆周均匀分布坐标）",
+    },
+    "图可视化-视口变换": {
+        "task": "视口变换",
+        "pattern": (
+            "def viewport_transform(x, y, scale, tx, ty):\n"
+            "    # 视口变换：缩放平移（zoom/pan——画布坐标映射）\n"
+            "    return round(x * scale + tx, 3), round(y * scale + ty, 3)\n"),
+        "cases": [((0, 0, 2, 10, 10), (10.0, 10.0)),
+                  ((5, 5, 2, 0, 0), (10.0, 10.0)),
+                  ((1, 2, 0.5, 1, 1), (1.5, 2.0))],
+        "params": [],
+        "calibration": "对照：图可视化——视口变换（缩放+平移坐标映射）",
+    },
+    "图可视化-社区着色": {
+        "task": "社区着色",
+        "pattern": (
+            "def community_color(communities):\n"
+            "    # 社区着色：社区分组 → 颜色映射（可视化区分社群）\n"
+            "    palette = ['red', 'blue', 'green', 'orange', 'purple']\n"
+            "    out = {}\n"
+            "    for i, comm in enumerate(communities):\n"
+            "        color = palette[i % len(palette)]\n"
+            "        for node in comm:\n"
+            "            out[node] = color\n"
+            "    return out\n"),
+        "cases": [(([['a', 'b'], ['c']],), {'a': 'red', 'b': 'red', 'c': 'blue'}),
+                  (([],), {}),
+                  (([['x']],), {'x': 'red'})],
+        "params": [],
+        "calibration": "对照：图可视化——社区着色（分组颜色映射）",
+    },
 }
 
 

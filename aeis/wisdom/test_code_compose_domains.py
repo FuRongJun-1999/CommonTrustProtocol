@@ -3091,5 +3091,40 @@ try:
 except Exception as ex:
     check('㊸c 链接→元数据→mmap端到端（linked size10 读bc写2）', False, str(ex)[:60])
 
+# ㊹ 目标6 深化：图可视化（环形布局/视口变换/社区着色 经正式管线）
+g18_qs = {
+    "环形布局": "写一个环形布局单元（圆周分布）",
+    "视口变换": "写一个视口变换单元（缩放平移）",
+    "社区着色": "写一个社区着色单元（分组颜色）",
+}
+g18_ok = 0
+for label, q in g18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g18_ok += 1
+    check(f'㊹ {label} 图可视化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊹b 图可视化三单元全部生成', g18_ok == 3, f'{g18_ok}/3')
+
+# ㊹c 可视化端到端：环形→视口→着色（a(10,0) 缩放(10,10) 红蓝分组）
+r_cl = domain_route("写一个环形布局单元（圆周分布）")
+r_vp = domain_route("写一个视口变换单元（缩放平移）")
+r_cc = domain_route("写一个社区着色单元（分组颜色）")
+try:
+    ns_cl, ns_vp, ns_cc = {}, {}, {}
+    exec(r_cl["code"], ns_cl)
+    exec(r_vp["code"], ns_vp)
+    exec(r_cc["code"], ns_cc)
+    lay = ns_cl["circular_layout"](['a'], 0, 0, 10)
+    vp = ns_vp["viewport_transform"](5, 5, 2, 0, 0)
+    col = ns_cc["community_color"]([['a', 'b'], ['c']])
+    check('㊹c 环形→视口→着色端到端（(10,0) (10,10) 红红蓝）',
+          lay == {'a': (10.0, 0.0)} and vp == (10.0, 10.0)
+          and col == {'a': 'red', 'b': 'red', 'c': 'blue'},
+          f'lay={lay} vp={vp} col={col}')
+except Exception as ex:
+    check('㊹c 环形→视口→着色端到端（(10,0) (10,10) 红红蓝）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
