@@ -1858,5 +1858,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:pylang|元编程-动态建类": {
+  "task": "动态建类",
+  "unit": "元编程-动态建类",
+  "code": "def make_class(name, bases, attrs):\n    # 动态建类：type(name, bases, dict) 运行时创建类\n    # （元编程——类型即工厂，运行期定义新类型）\n    cls = type(name, tuple(bases), dict(attrs))\n    return cls.__name__, [b.__name__ for b in cls.__bases__], \\\n        {k: v for k, v in vars(cls).items() if not k.startswith('__')}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|元编程-元类定制": {
+  "task": "元类定制",
+  "unit": "元编程-元类定制",
+  "code": "def meta_create(name, attrs, hook):\n    # 元类定制：hook 在类创建时回调（校验/注入）——元类 = 类创建钩子\n    final = dict(attrs)\n    if hook is not None:\n        final.update(hook(name, dict(attrs)) or {})\n    cls = type(name, (), final)\n    return cls.__name__, {k: v for k, v in vars(cls).items()\n                           if not k.startswith('__')}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|元编程-描述符协议": {
+  "task": "描述符协议",
+  "unit": "元编程-描述符协议",
+  "code": "def descriptor_route(storage, desc, name, value=None):\n    # 描述符协议：读走 __get__ 写走 __set__（property 底层机制，属性访问托管）\n    if value is None:\n        return desc['__get__'](storage, name)\n    desc['__set__'](storage, name, value)\n    return storage\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

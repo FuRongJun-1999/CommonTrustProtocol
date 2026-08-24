@@ -631,6 +631,55 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python asyncio.gather（并发任务汇总结果）",
     },
+    "元编程-动态建类": {
+        "task": "动态建类",
+        "pattern": (
+            "def make_class(name, bases, attrs):\n"
+            "    # 动态建类：type(name, bases, dict) 运行时创建类\n"
+            "    # （元编程——类型即工厂，运行期定义新类型）\n"
+            "    cls = type(name, tuple(bases), dict(attrs))\n"
+            "    return cls.__name__, [b.__name__ for b in cls.__bases__], \\\n"
+            "        {k: v for k, v in vars(cls).items() if not k.startswith('__')}\n"),
+        "cases": [(("动物", [], {"属性": "犬科"}), ("动物", ["object"], {"属性": "犬科"})),
+                  (("狗", [object], {"叫声": "汪"}), ("狗", ["object"], {"叫声": "汪"}))],
+        "params": [],
+        "calibration": "对照：CPython type(name, bases, dict)（动态创建类；无显式基类→隐式 object 基类）",
+    },
+    "元编程-元类定制": {
+        "task": "元类定制",
+        "pattern": (
+            "def meta_create(name, attrs, hook):\n"
+            "    # 元类定制：hook 在类创建时回调（校验/注入）——元类 = 类创建钩子\n"
+            "    final = dict(attrs)\n"
+            "    if hook is not None:\n"
+            "        final.update(hook(name, dict(attrs)) or {})\n"
+            "    cls = type(name, (), final)\n"
+            "    return cls.__name__, {k: v for k, v in vars(cls).items()\n"
+            "                           if not k.startswith('__')}\n"),
+        "cases": [(("狗", {"叫声": "汪"}, lambda n, a: {"科": "犬科"}),
+                   ("狗", {"叫声": "汪", "科": "犬科"})),
+                  (("猫", {"叫声": "喵"}, None), ("猫", {"叫声": "喵"}))],
+        "params": [],
+        "calibration": "对照：CPython metaclass __new__ 拦截类创建（校验/注入类属性）",
+    },
+    "元编程-描述符协议": {
+        "task": "描述符协议",
+        "pattern": (
+            "def descriptor_route(storage, desc, name, value=None):\n"
+            "    # 描述符协议：读走 __get__ 写走 __set__（property 底层机制，属性访问托管）\n"
+            "    if value is None:\n"
+            "        return desc['__get__'](storage, name)\n"
+            "    desc['__set__'](storage, name, value)\n"
+            "    return storage\n"),
+        "cases": [(({}, {"__get__": lambda st, n: st.get('_' + n, 25),
+                 "__set__": lambda st, n, v: st.update({'_' + n: v})},
+                    "温度", None), 25),
+                  (({}, {"__get__": lambda st, n: st.get('_' + n, 25),
+                 "__set__": lambda st, n, v: st.update({'_' + n: v})},
+                    "温度", 30), {"_温度": 30})],
+        "params": [],
+        "calibration": "对照：CPython 描述符协议（__get__/__set__，property 与 @property 底层）",
+    },
 }
 
 

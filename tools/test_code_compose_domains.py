@@ -2384,5 +2384,46 @@ try:
 except Exception as ex:
     check('㊥c 闭包端到端（捕获甲=3 参数乙=9 遮蔽捕获7）', False, str(ex)[:60])
 
+# ㊦ 目标1 深化：P 线元编程（动态建类/元类定制/描述符协议 经正式管线）
+p3_qs = {
+    "动态建类": "写一个动态建类单元（type 运行时建类）",
+    "元类定制": "写一个元类定制单元（类创建钩子）",
+    "描述符": "写一个描述符协议单元（属性访问托管）",
+}
+p3_ok = 0
+for label, q in p3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p3_ok += 1
+    check(f'㊦ {label} P线元编程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊦b P线元编程三单元全部生成', p3_ok == 3, f'{p3_ok}/3')
+
+# ㊦c 元编程端到端：动态建类→元类定制→描述符（建狗类→钩子注入科→属性托管读写）
+r_mc = domain_route("写一个动态建类单元（type 运行时建类）")
+r_me = domain_route("写一个元类定制单元（类创建钩子）")
+r_ds = domain_route("写一个描述符协议单元（属性访问托管）")
+try:
+    ns_mc, ns_me, ns_ds = {}, {}, {}
+    exec(r_mc["code"], ns_mc)
+    exec(r_me["code"], ns_me)
+    exec(r_ds["code"], ns_ds)
+    cls = ns_mc["make_class"]("狗", [], {"叫声": "汪"})
+    met = ns_me["meta_create"]("狗", {"叫声": "汪"}, lambda n, a: {"科": "犬科"})
+    st = {}
+    got = ns_ds["descriptor_route"](st, {"__get__": lambda s, n: s.get('_' + n, 25),
+                                         "__set__": lambda s, n, v: s.update({'_' + n: v})},
+                                    "温度", 30)
+    read = ns_ds["descriptor_route"](st, {"__get__": lambda s, n: s.get('_' + n, 25),
+                                          "__set__": lambda s, n, v: s.update({'_' + n: v})},
+                                     "温度", None)
+    check('㊦c 元编程端到端（类名狗 钩子注入科 描述符写30读30）',
+          cls[0] == "狗" and met[1] == {"叫声": "汪", "科": "犬科"}
+          and got == {"_温度": 30} and read == 30,
+          f'cls={cls} meta={met} write={got} read={read}')
+except Exception as ex:
+    check('㊦c 元编程端到端（类名狗 钩子注入科 描述符写30读30）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
