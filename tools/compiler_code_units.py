@@ -1611,6 +1611,54 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：VM 比较指令——LT/GT/EQ（栈机比较→布尔）",
     },
+    "校验-信任检查": {
+        "task": "信任检查",
+        "pattern": (
+            "def trust_check(trust, threshold):\n"
+            "    # 信任检查：信任值 ≥ 门槛 放行（智能论信任作为运行时语义）\n"
+            "    return 'pass' if trust >= threshold else 'fail'\n"),
+        "cases": [((0.8, 0.7), 'pass'),
+                  ((0.6, 0.7), 'fail'),
+                  ((0.7, 0.7), 'pass')],
+        "params": [],
+        "calibration": "对照：智能论——信任门槛（运行时信任检查放行/拒绝）",
+    },
+    "分析-信息差追踪": {
+        "task": "信息差追踪",
+        "pattern": (
+            "def info_gap_track(events, op, gap=None, node=None):\n"
+            "    # 信息差追踪：record 记录节点信息差 / max 最大 / latest 最新\n"
+            "    if op == 'record':\n"
+            "        events.append({'node': node, 'gap': gap})\n"
+            "        return len(events)\n"
+            "    if op == 'max':\n"
+            "        if not events:\n"
+            "            return None\n"
+            "        return max(e['gap'] for e in events)\n"
+            "    if op == 'latest':\n"
+            "        return events[-1]['gap'] if events else None\n"
+            "    return None\n"),
+        "cases": [(([], 'record', 0.8, 'a'), 1),
+                  (([{'node': 'a', 'gap': 0.8},
+                     {'node': 'b', 'gap': 0.3}], 'max'), 0.8),
+                  (([], 'max'), None),
+                  (([{'node': 'a', 'gap': 0.8}], 'latest'), 0.8)],
+        "params": [],
+        "calibration": "对照：智能论——信息差追踪（编译期信息差分析记录）",
+    },
+    "校验-条件空间类型": {
+        "task": "条件空间类型",
+        "pattern": (
+            "def space_type_check(declared, used):\n"
+            "    # 条件空间类型：使用须在已声明空间内（条件空间=类型系统语义）\n"
+            "    return ([] if set(used) <= set(declared)\n"
+            "            else sorted(set(used) - set(declared)))\n"),
+        "cases": [((['伴侣', '工作'], ['伴侣']), []),
+                  ((['伴侣'], ['伴侣', '未知']), ['未知']),
+                  ((['伴侣'], ['未知']), ['未知'])],
+        "params": [],
+        "calibration": "对照：智能论——条件空间=类型系统（未声明空间拦截）",
+    },
 }
 
 

@@ -3538,5 +3538,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:compiler|校验-信任检查": {
+  "task": "信任检查",
+  "unit": "校验-信任检查",
+  "code": "def trust_check(trust, threshold):\n    # 信任检查：信任值 ≥ 门槛 放行（智能论信任作为运行时语义）\n    return 'pass' if trust >= threshold else 'fail'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|分析-信息差追踪": {
+  "task": "信息差追踪",
+  "unit": "分析-信息差追踪",
+  "code": "def info_gap_track(events, op, gap=None, node=None):\n    # 信息差追踪：record 记录节点信息差 / max 最大 / latest 最新\n    if op == 'record':\n        events.append({'node': node, 'gap': gap})\n        return len(events)\n    if op == 'max':\n        if not events:\n            return None\n        return max(e['gap'] for e in events)\n    if op == 'latest':\n        return events[-1]['gap'] if events else None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|校验-条件空间类型": {
+  "task": "条件空间类型",
+  "unit": "校验-条件空间类型",
+  "code": "def space_type_check(declared, used):\n    # 条件空间类型：使用须在已声明空间内（条件空间=类型系统语义）\n    return ([] if set(used) <= set(declared)\n            else sorted(set(used) - set(declared)))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

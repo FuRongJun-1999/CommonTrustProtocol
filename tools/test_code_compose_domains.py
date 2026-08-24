@@ -4403,5 +4403,40 @@ try:
 except Exception as ex:
     check('㋝c 权限→CSP→支付端到端（granted 1 paid）', False, str(ex)[:60])
 
+# ㋞ 目标2/3 深化：智能论语义（信任检查/信息差追踪/条件空间类型 经正式管线）
+c15_qs = {
+    "信任检查": "写一个信任检查单元（门槛放行）",
+    "信息差追踪": "写一个信息差追踪单元（记录分析）",
+    "条件空间类型": "写一个条件空间类型单元（空间校验）",
+}
+c15_ok = 0
+for label, q in c15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c15_ok += 1
+    check(f'㋞ {label} 智能论语义单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋞b 智能论语义三单元全部生成', c15_ok == 3, f'{c15_ok}/3')
+
+# ㋞c 语义端到端：信任→信息差→条件空间（pass 0.8 [未知]）
+r_tc = domain_route("写一个信任检查单元（门槛放行）")
+r_ig = domain_route("写一个信息差追踪单元（记录分析）")
+r_st = domain_route("写一个条件空间类型单元（空间校验）")
+try:
+    ns_tc, ns_ig, ns_st = {}, {}, {}
+    exec(r_tc["code"], ns_tc)
+    exec(r_ig["code"], ns_ig)
+    exec(r_st["code"], ns_st)
+    tc = ns_tc["trust_check"](0.8, 0.7)
+    ig = ns_ig["info_gap_track"](
+        [{'node': 'a', 'gap': 0.8}, {'node': 'b', 'gap': 0.3}], 'max')
+    st = ns_st["space_type_check"](['伴侣'], ['伴侣', '未知'])
+    check('㋞c 信任→信息差→条件空间端到端（pass 0.8 [未知]）',
+          tc == 'pass' and ig == 0.8 and st == ['未知'],
+          f'trust={tc} gap={ig} space={st}')
+except Exception as ex:
+    check('㋞c 信任→信息差→条件空间端到端（pass 0.8 [未知]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
