@@ -189,6 +189,74 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 调度 SJF——最短作业优先（平均等待最小化）",
     },
+    "文件-块管理": {
+        "task": "块管理",
+        "pattern": (
+            "def block_alloc(bitmap, size):\n"
+            "    # 块位图分配：连续 size 块 → 起始块（首次适配）或 -1\n"
+            "    n = len(bitmap)\n"
+            "    for start in range(n - size + 1):\n"
+            "        if all(b == 0 for b in bitmap[start:start + size]):\n"
+            "            for i in range(start, start + size):\n"
+            "                bitmap[i] = 1\n"
+            "            return start\n"
+            "    return -1\n"),
+        "cases": [(([0, 0, 1, 0, 0], 2), 0),
+                  (([1, 1, 1], 1), -1),
+                  (([0, 1, 0], 2), -1)],
+        "params": [],
+        "calibration": "对照：OS 文件系统——块位图分配（连续块首次适配）",
+    },
+    "调度-优先级": {
+        "task": "优先级调度",
+        "pattern": (
+            "def priority_schedule(processes):\n"
+            "    # 优先级调度（非抢占）：[(时长, 优先级)] → 完成时间（高优先先跑）\n"
+            "    procs = sorted(processes, key=lambda p: p[1], reverse=True)\n"
+            "    time, done = 0, []\n"
+            "    for dur, pri in procs:\n"
+            "        time += dur\n"
+            "        done.append(time)\n"
+            "    return done\n"),
+        "cases": [(([(2, 1), (3, 3)],), [3, 5]),
+                  (([(1, 5), (2, 1)],), [1, 3]),
+                  (( [],), [])],
+        "params": [],
+        "calibration": "对照：OS 调度——优先级调度（高优先级先执行）",
+    },
+    "进程-互斥锁": {
+        "task": "互斥锁",
+        "pattern": (
+            "def mutex_op(state, op, owner=None):\n"
+            "    # 互斥锁操作：lock/unlock（忙等语义：占用时 lock 失败）\n"
+            "    if op == 'lock':\n"
+            "        if state == 'free':\n"
+            "            return 'locked', True\n"
+            "        return 'locked', False\n"
+            "    if op == 'unlock':\n"
+            "        return 'free', True\n"
+            "    return state, False\n"),
+        "cases": [(('free', 'lock'), ('locked', True)),
+                  (('locked', 'lock'), ('locked', False)),
+                  (('locked', 'unlock'), ('free', True))],
+        "params": [],
+        "calibration": "对照：OS 并发——互斥锁（占用时加锁失败，释放后可用）",
+    },
+    "内存-首次适配": {
+        "task": "首次适配",
+        "pattern": (
+            "def first_fit(blocks, size):\n"
+            "    # 内存首次适配：空闲块大小列表 → 分配的块索引（首个足够大）\n"
+            "    for i, b in enumerate(blocks):\n"
+            "        if b >= size:\n"
+            "            return i\n"
+            "    return -1\n"),
+        "cases": [(([5, 2, 8], 6), 2),
+                  (([5, 2], 6), -1),
+                  (([10], 3), 0)],
+        "params": [],
+        "calibration": "对照：OS 内存分配——首次适配（首个足够大的空闲块）",
+    },
 }
 
 

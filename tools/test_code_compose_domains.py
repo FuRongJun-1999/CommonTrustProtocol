@@ -132,6 +132,23 @@ for label, q in n2_qs.items():
           f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
 check('⑩b 蜂群四单元全部生成', n2_ok == 4, f'{n2_ok}/4')
 
+# ⑪ 目标4 深化：文件系统/调度/并发/内存（os 域 9→13 经正式管线）
+o2_qs = {
+    "块管理": "写一个文件块管理单元（位图分配）",
+    "优先级": "写一个优先级调度单元（高优先先跑）",
+    "互斥锁": "写一个进程互斥锁单元（lock/unlock）",
+    "首次适配": "写一个内存首次适配单元（空闲块分配）",
+}
+o2_ok = 0
+for label, q in o2_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o2_ok += 1
+    check(f'⑪ {label} OS深化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑪b OS深化四单元全部生成', o2_ok == 4, f'{o2_ok}/4')
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
 

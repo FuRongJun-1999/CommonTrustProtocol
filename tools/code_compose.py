@@ -216,9 +216,11 @@ DOMAIN_KEYWORDS = {
                  "类型推断", "类型检查", "名实", "道德经", "中文编译器"],
     "pylang": ["Python", "表达式", "闭包", "控制流", "作用域", "栈机",
                "优先级", "逻辑短路"],
-    "graph": ["图", "遍历", "路径", "路由", "持久化", "条件链", "建图"],
+    "graph": ["图数据库", "图遍历", "图查询", "条件路由图", "遍历", "路径",
+              "路由", "持久化", "条件链", "建图", "图存储"],
     "os": ["进程", "调度", "内存", "文件系统", "路径解析", "管道", "IPC",
-           "inode", "页置换", "缺页", "状态机", "最短作业", "SJF"],
+           "inode", "页置换", "缺页", "状态机", "最短作业", "SJF",
+           "块管理", "位图", "优先级调度", "互斥", "首次适配", "文件块"],
     "browser": ["浏览器", "HTTP", "响应解析", "DOM", "HTML", "CSS", "选择器",
                 "渲染", "布局", "网页", "标签解析"],
     "net": ["网络", "TCP", "UDP", "IP分片", "握手", "校验和", "广播",
@@ -290,16 +292,22 @@ def domain_route(question, uid=None):
     if domain is None:
         return {"question": question, "ok": False,
                 "reason": "域未识别（诚实边界）", "domain": None, "code": None}
-    # 固化层直出（unit 拆词匹配：词法-道德经 → [词法,道德经] 命中「写个词法分析」）
+    # 固化层直出（unit 拆词匹配，最长命中优先——「互斥锁」优于「进程」泛匹配）
     q_compact = question.replace(" ", "")
+    best = None
     for k, entry in CODE_SOLIDIFIED.items():
         if entry.get("source") == "domain_solidified" and entry.get("domain") == domain:
             unit = entry.get("unit", "")
             kws = [unit] + [p for p in unit.split("-") if p]
-            if any(kw in question or kw in q_compact for kw in kws if kw):
-                return {"question": question, "ok": True, "solidified": True,
-                        "code": entry["code"], "task": entry.get("task"),
-                        "unit": entry.get("unit"), "domain": domain, "checks": []}
+            hit_len = max((len(kw) for kw in kws
+                           if kw and (kw in question or kw in q_compact)), default=0)
+            if hit_len > 0 and (best is None or hit_len > best[0]):
+                best = (hit_len, entry)
+    if best:
+        entry = best[1]
+        return {"question": question, "ok": True, "solidified": True,
+                "code": entry["code"], "task": entry.get("task"),
+                "unit": entry.get("unit"), "domain": domain, "checks": []}
     t, u, code, unit, domain = compose_domain_code(question, domain, uid)
     if code is None:
         return {"question": question, "ok": False, "reason": u,
