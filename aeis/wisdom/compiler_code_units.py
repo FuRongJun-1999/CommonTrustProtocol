@@ -1483,6 +1483,57 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：位运算——与/或/异或/取反（bitwise 语义）",
     },
+    "词法-标识符解析": {
+        "task": "标识符解析",
+        "pattern": (
+            "def lex_ident(src, i):\n"
+            "    # 标识符解析：CJK/字母/下划线开头，后接字母数字下划线\n"
+            "    if not (src[i].isalpha() or src[i] == '_'):\n"
+            "        return None, i\n"
+            "    j = i\n"
+            "    while j < len(src) and (src[j].isalpha() or src[j].isdigit()\n"
+            "                             or src[j] == '_'):\n"
+            "        j += 1\n"
+            "    return ('IDENT', src[i:j]), j\n"),
+        "cases": [(('甲变量', 0), (('IDENT', '甲变量'), 3)),
+                  (('abc_1', 0), (('IDENT', 'abc_1'), 5)),
+                  (('1x', 0), (None, 0))],
+        "params": [],
+        "calibration": "对照：词法——标识符（CJK/字母数字下划线连续串）",
+    },
+    "词法-操作符解析": {
+        "task": "操作符解析",
+        "pattern": (
+            "def lex_op(src, i):\n"
+            "    # 操作符解析：多字符操作符优先（>= <= == != 先匹配双字符）\n"
+            "    two = src[i:i + 2]\n"
+            "    if two in ('>=', '<=', '==', '!='):\n"
+            "        return ('OP', two), i + 2\n"
+            "    if src[i] in '+-*/<>=':\n"
+            "        return ('OP', src[i]), i + 1\n"
+            "    return None, i\n"),
+        "cases": [(('>=', 0), (('OP', '>='), 2)),
+                  (('!=', 0), (('OP', '!='), 2)),
+                  (('+', 0), (('OP', '+'), 1)),
+                  (('ab', 0), (None, 0))],
+        "params": [],
+        "calibration": "对照：词法——操作符（最长匹配：双字符优先）",
+    },
+    "语法-函数签名": {
+        "task": "函数签名",
+        "pattern": (
+            "def parse_signature(params_str):\n"
+            "    # 函数签名解析：参数列表（逗号分隔，默认值剥离）→ 参数名列表\n"
+            "    params_str = params_str.strip()\n"
+            "    if not params_str:\n"
+            "        return []\n"
+            "    return [p.split('=')[0].strip() for p in params_str.split(',')]\n"),
+        "cases": [(('甲, 乙',), ['甲', '乙']),
+                  (('甲=1, 乙',), ['甲', '乙']),
+                  (('',), [])],
+        "params": [],
+        "calibration": "对照：语法——函数签名参数列表（默认值剥离）",
+    },
 }
 
 

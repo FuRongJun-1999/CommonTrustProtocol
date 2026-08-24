@@ -3298,5 +3298,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:compiler|词法-标识符解析": {
+  "task": "标识符解析",
+  "unit": "词法-标识符解析",
+  "code": "def lex_ident(src, i):\n    # 标识符解析：CJK/字母/下划线开头，后接字母数字下划线\n    if not (src[i].isalpha() or src[i] == '_'):\n        return None, i\n    j = i\n    while j < len(src) and (src[j].isalpha() or src[j].isdigit()\n                             or src[j] == '_'):\n        j += 1\n    return ('IDENT', src[i:j]), j\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|词法-操作符解析": {
+  "task": "操作符解析",
+  "unit": "词法-操作符解析",
+  "code": "def lex_op(src, i):\n    # 操作符解析：多字符操作符优先（>= <= == != 先匹配双字符）\n    two = src[i:i + 2]\n    if two in ('>=', '<=', '==', '!='):\n        return ('OP', two), i + 2\n    if src[i] in '+-*/<>=':\n        return ('OP', src[i]), i + 1\n    return None, i\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|语法-函数签名": {
+  "task": "函数签名",
+  "unit": "语法-函数签名",
+  "code": "def parse_signature(params_str):\n    # 函数签名解析：参数列表（逗号分隔，默认值剥离）→ 参数名列表\n    params_str = params_str.strip()\n    if not params_str:\n        return []\n    return [p.split('=')[0].strip() for p in params_str.split(',')]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }
