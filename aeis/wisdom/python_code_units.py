@@ -490,6 +490,67 @@ PYTHON_UNITS = {
         "needs_inject": True,
         "calibration": "对照：Python 多态——同一接口不同实现（运行时方法分发）",
     },
+    "装饰器-定义使用": {
+        "task": "装饰器",
+        "pattern": (
+            "def timer(fn):\n"
+            "    # 装饰器：包装函数（@timer 语义——增强不改原逻辑）\n"
+            "    def wrapper(*args):\n"
+            "        return ('timed', fn(*args))\n"
+            "    return wrapper\n"
+            "def decorator_test():\n"
+            "    @timer\n"
+            "    def add(a, b):\n"
+            "        return a + b\n"
+            "    return add(2, 3)\n"),
+        "cases": [("call", ('timed', 5))],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 装饰器（@timer 包装增强，不改原函数逻辑）",
+    },
+    "上下文-管理器": {
+        "task": "上下文管理器",
+        "pattern": (
+            "class Open:\n"
+            "    # 上下文管理器：with 语义（__enter__ 获取/__exit__ 释放）\n"
+            "    def __enter__(self):\n"
+            "        self.opened = True\n"
+            "        return self\n"
+            "    def __exit__(self, *exc):\n"
+            "        self.opened = False\n"
+            "        return False\n"
+            "def with_test():\n"
+            "    with Open() as f:\n"
+            "        inside = f.opened\n"
+            "    return (inside, f.opened)\n"),
+        "cases": [("call", (True, False))],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python with 语句（__enter__/__exit__ 资源获取释放）",
+    },
+    "工具-属性访问": {
+        "task": "属性访问",
+        "pattern": (
+            "class User:\n"
+            "    # 属性访问：getattr/setattr（动态读写属性）\n"
+            "    def __init__(self):\n"
+            "        self._d = {}\n"
+            "    def __getattr__(self, name):\n"
+            "        return self._d.get(name)\n"
+            "    def __setattr__(self, name, value):\n"
+            "        if name == '_d':\n"
+            "            object.__setattr__(self, name, value)\n"
+            "        else:\n"
+            "            self._d[name] = value\n"
+            "def attr_test():\n"
+            "    u = User()\n"
+            "    u.名字 = '灵枢'\n"
+            "    return (u.名字, u.不存在)\n"),
+        "cases": [("call", ('灵枢', None))],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 动态属性（__getattr__/__setattr__ 拦截读写）",
+    },
 }
 
 

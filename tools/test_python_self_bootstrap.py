@@ -58,6 +58,11 @@ for uid, u in PYTHON_UNITS.items():
                         entry = ns.get("oop_class_test") or \
                             ns.get("oop_inherit_test") or ns.get("oop_poly_test")
                         got = entry()
+                    elif uid in ("装饰器-定义使用", "上下文-管理器", "工具-属性访问"):
+                        # 注入验证：高级语法族入口（装饰器/上下文/属性）
+                        entry = ns.get("decorator_test") or \
+                            ns.get("with_test") or ns.get("attr_test")
+                        got = entry()
                     else:
                         entry = ns.get("closure_test") or ns.get("env_scope")
                         got = entry()

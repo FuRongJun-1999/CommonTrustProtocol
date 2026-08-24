@@ -1370,5 +1370,39 @@ try:
 except Exception as ex:
     check('㊉c 命名空间→cgroup→容器端到端（PID101 限内允超限拒 创建运行）', False, str(ex)[:60])
 
+# ㊋ 目标1 深化：高级语法（装饰器/上下文管理器/属性访问 经正式管线）
+p6_qs = {
+    "装饰器": "写一个装饰器单元（@timer 包装）",
+    "上下文管理器": "写一个上下文管理器单元（with 语义）",
+    "属性访问": "写一个属性访问单元（动态读写）",
+}
+p6_ok = 0
+for label, q in p6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p6_ok += 1
+    check(f'㊋ {label} 高级语法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊋b 高级语法三单元全部生成', p6_ok == 3, f'{p6_ok}/3')
+
+# ㊋c 端到端：装饰器→上下文→属性（增强→资源管理→动态读写）
+r_dc = domain_route("写一个装饰器单元（@timer 包装）")
+r_wt = domain_route("写一个上下文管理器单元（with 语义）")
+r_at = domain_route("写一个属性访问单元（动态读写）")
+try:
+    ns_dc, ns_wt, ns_at = {}, {}, {}
+    exec(r_dc["code"], ns_dc)
+    exec(r_wt["code"], ns_wt)
+    exec(r_at["code"], ns_at)
+    d = ns_dc["decorator_test"]()
+    w = ns_wt["with_test"]()
+    a = ns_at["attr_test"]()
+    check('㊋c 装饰→上下文→属性端到端（timed5 进入退出 灵枢/None）',
+          d == ('timed', 5) and w == (True, False) and a == ('灵枢', None),
+          f'dec={d} with={w} attr={a}')
+except Exception as ex:
+    check('㊋c 装饰→上下文→属性端到端（timed5 进入退出 灵枢/None）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
