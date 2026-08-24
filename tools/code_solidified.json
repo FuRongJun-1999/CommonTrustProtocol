@@ -1198,5 +1198,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:net|网络-IPv6地址": {
+  "task": "IPv6地址",
+  "unit": "网络-IPv6地址",
+  "code": "def ipv6_parse(addr):\n    # IPv6 解析：压缩形式展开 + 分组（:: 零压缩还原）\n    if '::' in addr:\n        left, right = addr.split('::')\n        l = left.split(':') if left else []\n        r = right.split(':') if right else []\n        missing = 8 - len(l) - len(r)\n        groups = l + ['0'] * missing + r\n    else:\n        groups = addr.split(':')\n    return groups\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-隧道封装": {
+  "task": "隧道封装",
+  "unit": "网络-隧道封装",
+  "code": "def tunnel_encap(inner, outer_src, outer_dst):\n    # 隧道：内层包 + 外层头（IP-in-IP 封装——跨网络传输）\n    return {'outer': (outer_src, outer_dst), 'inner': inner}\ndef tunnel_decap(pkt):\n    # 解封装：剥离外层头 → 内层包\n    return pkt['inner']\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-VLAN划分": {
+  "task": "VLAN划分",
+  "unit": "网络-VLAN划分",
+  "code": "def vlan_tag(frame, vlan_id):\n    # VLAN：802.1Q 标签（4 字节——TPID+TCI 含 VID 12bit）\n    tci = vlan_id & 0xFFF\n    return ('0x8100', tci)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

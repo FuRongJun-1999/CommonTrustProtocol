@@ -1561,5 +1561,41 @@ try:
 except Exception as ex:
     check('㊏c SW→推送→IndexedDB 端到端（active 订阅发送 存取v）', False, str(ex)[:60])
 
+# ㊐ 目标7 深化：地址/隔离（IPv6/隧道/VLAN 经正式管线）
+n10_qs = {
+    "IPv6": "写一个 IPv6 地址单元（零压缩展开）",
+    "隧道": "写一个隧道封装单元（外层头包裹）",
+    "VLAN": "写一个 VLAN 划分单元（802.1Q 标签）",
+}
+n10_ok = 0
+for label, q in n10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n10_ok += 1
+    check(f'㊐ {label} 地址/隔离单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊐b 地址/隔离三单元全部生成', n10_ok == 3, f'{n10_ok}/3')
+
+# ㊐c 端到端：IPv6 展开→隧道封装→VLAN 标签（地址→跨网→隔离）
+r_v6 = domain_route("写一个 IPv6 地址单元（零压缩展开）")
+r_tn = domain_route("写一个隧道封装单元（外层头包裹）")
+r_vl = domain_route("写一个 VLAN 划分单元（802.1Q 标签）")
+try:
+    ns_v6, ns_tn, ns_vl = {}, {}, {}
+    exec(r_v6["code"], ns_v6)
+    exec(r_tn["code"], ns_tn)
+    exec(r_vl["code"], ns_vl)
+    g = ns_v6["ipv6_parse"]('fe80::1')
+    pkt = ns_tn["tunnel_encap"]('payload', '10.0.0.1', '10.0.0.2')
+    inner = ns_tn["tunnel_decap"](pkt)
+    tag = ns_vl["vlan_tag"]('frame', 100)
+    check('㊐c IPv6→隧道→VLAN 端到端（8组 封装解封 VLAN100）',
+          g == ['fe80', '0', '0', '0', '0', '0', '0', '1']
+          and inner == 'payload' and tag == ('0x8100', 100),
+          f'v6={g} tunnel={inner} vlan={tag}')
+except Exception as ex:
+    check('㊐c IPv6→隧道→VLAN 端到端（8组 封装解封 VLAN100）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

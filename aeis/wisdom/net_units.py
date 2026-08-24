@@ -523,6 +523,53 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：CRC-16 校验——多项式除法余数（传输完整性检测）",
     },
+    "网络-IPv6地址": {
+        "task": "IPv6地址",
+        "pattern": (
+            "def ipv6_parse(addr):\n"
+            "    # IPv6 解析：压缩形式展开 + 分组（:: 零压缩还原）\n"
+            "    if '::' in addr:\n"
+            "        left, right = addr.split('::')\n"
+            "        l = left.split(':') if left else []\n"
+            "        r = right.split(':') if right else []\n"
+            "        missing = 8 - len(l) - len(r)\n"
+            "        groups = l + ['0'] * missing + r\n"
+            "    else:\n"
+            "        groups = addr.split(':')\n"
+            "    return groups\n"),
+        "cases": [(('fe80::1',), ['fe80', '0', '0', '0', '0', '0', '0', '1']),
+                  (('2001:db8::ff:1',), ['2001', 'db8', '0', '0', '0', '0', 'ff', '1']),
+                  (('::1',), ['0', '0', '0', '0', '0', '0', '0', '1'])],
+        "params": [],
+        "calibration": "对照：IPv6 地址——:: 零压缩展开为 8 组（RFC 4291）",
+    },
+    "网络-隧道封装": {
+        "task": "隧道封装",
+        "pattern": (
+            "def tunnel_encap(inner, outer_src, outer_dst):\n"
+            "    # 隧道：内层包 + 外层头（IP-in-IP 封装——跨网络传输）\n"
+            "    return {'outer': (outer_src, outer_dst), 'inner': inner}\n"
+            "def tunnel_decap(pkt):\n"
+            "    # 解封装：剥离外层头 → 内层包\n"
+            "    return pkt['inner']\n"),
+        "cases": [(('inner_data', '10.0.0.1', '10.0.0.2'),
+                   {'outer': ('10.0.0.1', '10.0.0.2'), 'inner': 'inner_data'})],
+        "params": [],
+        "calibration": "对照：隧道——IP-in-IP 封装/解封装（外层头包裹内层包）",
+    },
+    "网络-VLAN划分": {
+        "task": "VLAN划分",
+        "pattern": (
+            "def vlan_tag(frame, vlan_id):\n"
+            "    # VLAN：802.1Q 标签（4 字节——TPID+TCI 含 VID 12bit）\n"
+            "    tci = vlan_id & 0xFFF\n"
+            "    return ('0x8100', tci)\n"),
+        "cases": [(('data', 100), ('0x8100', 100)),
+                  (('data', 4095), ('0x8100', 4095)),
+                  (('data', 0), ('0x8100', 0))],
+        "params": [],
+        "calibration": "对照：VLAN——802.1Q 标签（TPID 0x8100 + VID 12bit）",
+    },
 }
 
 
