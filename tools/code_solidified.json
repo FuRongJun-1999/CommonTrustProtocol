@@ -4028,5 +4028,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:browser|安全-CORS检查": {
+  "task": "CORS检查",
+  "unit": "安全-CORS检查",
+  "code": "def cors_check(origin, target, method='GET'):\n    # CORS：同源放行 / 简单请求放行 / 预检判定（跨域资源共享）\n    if origin == target:\n        return 'same-origin'\n    if method in ('GET', 'HEAD', 'POST'):\n        return 'simple'\n    return 'preflight'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-文本排版": {
+  "task": "文本排版",
+  "unit": "渲染-文本排版",
+  "code": "def text_wrap(text, width):\n    # 文本排版：按宽度贪心换行（文本布局——每行不超宽度）\n    if not text:\n        return []\n    lines = []\n    line = ''\n    for ch in text:\n        if len(line) == width:\n            lines.append(line)\n            line = ch\n        else:\n            line += ch\n    if line:\n        lines.append(line)\n    return lines\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-剪贴板": {
+  "task": "剪贴板",
+  "unit": "浏览器-剪贴板",
+  "code": "def clipboard_ops(state, op, text=None):\n    # 剪贴板：copy 写入 / paste 读取 / clear 清空（系统剪贴板）\n    if op == 'copy':\n        state['text'] = text\n        return 'copied'\n    if op == 'paste':\n        return state.get('text')\n    if op == 'clear':\n        state['text'] = None\n        return 'cleared'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

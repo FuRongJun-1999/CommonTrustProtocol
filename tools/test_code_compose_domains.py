@@ -4978,5 +4978,42 @@ except Exception as ex:
     check('㋭c 链表→进制→异常链端到端（[1,2] 含2 ff 255 外层←内层）',
           False, str(ex)[:60])
 
+# ㋮ 目标5 深化：浏览器机制（CORS检查/文本排版/剪贴板 经正式管线）
+b10_qs = {
+    "CORS检查": "写一个 CORS 检查单元（跨域资源共享）",
+    "文本排版": "写一个文本排版单元（宽度换行）",
+    "剪贴板": "写一个剪贴板单元（复制粘贴）",
+}
+b10_ok = 0
+for label, q in b10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b10_ok += 1
+    check(f'㋮ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋮b 浏览器机制三单元全部生成', b10_ok == 3, f'{b10_ok}/3')
+
+# ㋮c 机制端到端：CORS→文本→剪贴板（same-origin [ab,cd] 你好）
+r_cr = domain_route("写一个 CORS 检查单元（跨域资源共享）")
+r_tw = domain_route("写一个文本排版单元（宽度换行）")
+r_cp = domain_route("写一个剪贴板单元（复制粘贴）")
+try:
+    ns_cr, ns_tw, ns_cp = {}, {}, {}
+    exec(r_cr["code"], ns_cr)
+    exec(r_tw["code"], ns_tw)
+    exec(r_cp["code"], ns_cp)
+    cr = ns_cr["cors_check"]('https://a.com', 'https://a.com')
+    tw = ns_tw["text_wrap"]('abcd', 2)
+    cp = ns_cp["clipboard_ops"]({}, 'copy', '你好')
+    cpr = ns_cp["clipboard_ops"]({'text': '你好'}, 'paste')
+    check('㋮c CORS→文本→剪贴板端到端（same-origin [ab,cd] 你好）',
+          cr == 'same-origin' and tw == ['ab', 'cd'] and cp == 'copied'
+          and cpr == '你好',
+          f'cors={cr} wrap={tw} copy={cp} paste={cpr}')
+except Exception as ex:
+    check('㋮c CORS→文本→剪贴板端到端（same-origin [ab,cd] 你好）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
