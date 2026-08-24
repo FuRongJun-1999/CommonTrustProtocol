@@ -664,5 +664,45 @@ try:
 except Exception as ex:
     check('㉕c CIDR→路由→NAT 端到端（网192.168.1.0 路由D=2 NAT=8.8.8.8:1024）', False, str(ex)[:60])
 
+# ㉖ 目标6 深化：图数据库工程（事务/属性索引/子图匹配 经正式管线）
+g4_qs = {
+    "事务": "写一个图事务单元（begin commit rollback）",
+    "属性索引": "写一个属性索引单元（按属性查找）",
+    "子图匹配": "写一个子图匹配单元（模式边存在性）",
+}
+g4_ok = 0
+for label, q in g4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g4_ok += 1
+    check(f'㉖ {label} 图数据库工程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉖b 图数据库工程三单元全部生成', g4_ok == 3, f'{g4_ok}/3')
+
+# ㉖c 端到端：建图→索引→事务→子图匹配（属性索引查找→事务回滚→子图存在性）
+r_idx = domain_route("写一个属性索引单元（按属性查找）")
+r_txn = domain_route("写一个图事务单元（begin commit rollback）")
+r_sg = domain_route("写一个子图匹配单元（模式边存在性）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+try:
+    ns_idx, ns_txn, ns_sg, ns_g = {}, {}, {}, {}
+    exec(r_idx["code"], ns_idx)
+    exec(r_txn["code"], ns_txn)
+    exec(r_sg["code"], ns_sg)
+    exec(r_g["code"], ns_g)
+    idx = ns_idx["index_by_attr"]({'a': {'type': '条件'}, 'b': {'type': '规律'}}, 'type')
+    t = ns_txn["txn_op"]({'data': {'a': [1]}, 'snapshot': None}, 'begin')
+    rb = ns_txn["txn_op"]({'data': {'a': [2]}, 'snapshot': {'a': [1]}}, 'rollback')
+    g = ns_g["Graph"]()
+    g.add_edge("气压低", "沸点降")
+    sg = ns_sg["subgraph_match"](g, [("气压低", "沸点降")])
+    check('㉖c 索引→事务→子图端到端（条件[a]规律[b] 事务active/回滚 子图True）',
+          idx == {'条件': ['a'], '规律': ['b']} and t == 'active'
+          and rb == 'rolled_back' and sg is True,
+          f'idx={idx} txn={t},{rb} subgraph={sg}')
+except Exception as ex:
+    check('㉖c 索引→事务→子图端到端（条件[a] 事务active/回滚 子图True）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

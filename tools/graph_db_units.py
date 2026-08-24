@@ -356,6 +356,66 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：图查询语言——变长路径 MATCH (a)-[*]->(b)：从条件出发的完整条件链集合",
     },
+    "图存储-事务": {
+        "task": "图事务",
+        "pattern": (
+            "def txn_op(state, op, payload=None):\n"
+            "    # 图数据库事务：begin 快照 / commit 生效 / rollback 回滚（ACID 原子性）\n"
+            "    if op == 'begin':\n"
+            "        state['snapshot'] = {k: list(v) if isinstance(v, list) else v\n"
+            "                              for k, v in state.get('data', {}).items()}\n"
+            "        return 'active'\n"
+            "    if op == 'commit':\n"
+            "        state['snapshot'] = None\n"
+            "        return 'committed'\n"
+            "    if op == 'rollback':\n"
+            "        if 'snapshot' in state and state['snapshot'] is not None:\n"
+            "            state['data'] = state['snapshot']\n"
+            "            state['snapshot'] = None\n"
+            "        return 'rolled_back'\n"
+            "    return 'idle'\n"),
+        "cases": [(({'data': {'a': [1]}, 'snapshot': None}, 'begin'), 'active'),
+                  (({'data': {'a': [1]}, 'snapshot': {'a': [1]}}, 'commit'),
+                   'committed'),
+                  (({'data': {'a': [2]}, 'snapshot': {'a': [1]}}, 'rollback'),
+                   'rolled_back')],
+        "params": [],
+        "calibration": "对照：图数据库事务——begin 快照/commit 生效/rollback 回滚（ACID 原子性语义）",
+    },
+    "图索引-属性索引": {
+        "task": "属性索引",
+        "pattern": (
+            "def index_by_attr(nodes, attr):\n"
+            "    # 图数据库索引：按属性值分组 → 快速查找（索引加速语义）\n"
+            "    idx = {}\n"
+            "    for nid, props in nodes.items():\n"
+            "        val = props.get(attr)\n"
+            "        if val is not None:\n"
+            "            idx.setdefault(val, []).append(nid)\n"
+            "    return {k: sorted(v) for k, v in idx.items()}\n"),
+        "cases": [(({'a': {'type': '条件'}, 'b': {'type': '规律'}, 'c': {'type': '条件'}},
+                    'type'),
+                   {'条件': ['a', 'c'], '规律': ['b']}),
+                  (({'x': {'t': 1}}, 'none'), {})],
+        "params": [],
+        "calibration": "对照：图数据库索引——按属性值分组（type 索引：条件→[a,c] 规律→[b]）",
+    },
+    "图查询-子图匹配": {
+        "task": "子图匹配",
+        "pattern": (
+            "def subgraph_match(graph, pattern):\n"
+            "    # 图查询：模式子图匹配（pattern=[(src, dst), ...] 边列表 → 存在性）\n"
+            "    # 所有边都在图中存在 → 匹配成功（子图同构简化版）\n"
+            "    for s, d in pattern:\n"
+            "        if d not in graph.neighbors(s):\n"
+            "            return False\n"
+            "    return True\n"),
+        "cases": [("call", True),
+                  ("call", False)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图查询——子图模式匹配（模式边全部存在=匹配；缺边=不匹配）",
+    },
     "图灵枢-导出": {
         "task": "图导出灵枢",
         "pattern": (

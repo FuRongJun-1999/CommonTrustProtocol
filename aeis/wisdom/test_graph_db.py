@@ -82,6 +82,17 @@ for uid, u in GRAPH_UNITS.items():
                             got = fn(g, lambda n: n)   # 每节点一组
                         else:
                             got = fn(g, "气压低")
+                    elif uid == "图查询-子图匹配":
+                        # 注入两链图；cases=("call", True/False) 两个模式
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压低", "沸点降")
+                        g.add_edge("沸点降", "煮不熟")
+                        g.add_edge("气压低", "缺氧")
+                        g.add_edge("缺氧", "煮不熟")
+                        if expect is True:
+                            got = fn(g, [("气压低", "沸点降"), ("沸点降", "煮不熟")])
+                        else:
+                            got = fn(g, [("气压低", "煮不熟")])  # 无边 → False
                     else:
                         got = ns["graph_ops"]()
                 elif uid == "图遍历-BFS" or uid == "图遍历-路径":
