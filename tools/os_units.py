@@ -1622,6 +1622,72 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：环境变量——设置/读取（默认值）/删除",
     },
+    "系统-网络接口": {
+        "task": "网络接口",
+        "pattern": (
+            "def netif_ops(interfaces, op, name=None, addr=None, up=None):\n"
+            "    # 网络接口：configure 配置 / status 查询 / set_state 启停（网卡抽象）\n"
+            "    if op == 'configure':\n"
+            "        interfaces[name] = {'addr': addr, 'up': up}\n"
+            "        return name\n"
+            "    if op == 'status':\n"
+            "        return interfaces.get(name)\n"
+            "    if op == 'set_state':\n"
+            "        if name in interfaces:\n"
+            "            interfaces[name]['up'] = up\n"
+            "            return 'ok'\n"
+            "        return 'missing'\n"
+            "    return None\n"),
+        "cases": [(({}, 'configure', 'eth0', '192.168.1.1', True), 'eth0'),
+                  (({'eth0': {'addr': '192.168.1.1', 'up': True}},
+                    'status', 'eth0'), {'addr': '192.168.1.1', 'up': True}),
+                  (({}, 'status', 'eth0'), None),
+                  (({'eth0': {'addr': 'x', 'up': True}},
+                    'set_state', 'eth0', None, False), 'ok')],
+        "params": [],
+        "calibration": "对照：OS 网络栈——网卡接口配置/状态/启停",
+    },
+    "系统-设备驱动": {
+        "task": "设备驱动",
+        "pattern": (
+            "def driver_register(drivers, op, device=None, driver=None):\n"
+            "    # 设备驱动：register 注册 / match 匹配（设备 ID→驱动）\n"
+            "    if op == 'register':\n"
+            "        drivers[driver] = device\n"
+            "        return driver\n"
+            "    if op == 'match':\n"
+            "        for d, dev in drivers.items():\n"
+            "            if dev == device:\n"
+            "                return d\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [(({}, 'register', 'VID_1234', 'drv_usb'), 'drv_usb'),
+                  (({'drv_usb': 'VID_1234'}, 'match', 'VID_1234'), 'drv_usb'),
+                  (({}, 'match', 'VID_1234'), None)],
+        "params": [],
+        "calibration": "对照：Linux 设备驱动——设备 ID 注册/匹配",
+    },
+    "系统-电源管理": {
+        "task": "电源管理",
+        "pattern": (
+            "def power_ops(state, op):\n"
+            "    # 电源管理：suspend 休眠 / resume 唤醒 / status 状态（ACPI）\n"
+            "    if op == 'suspend':\n"
+            "        state['power'] = 'suspended'\n"
+            "        return 'suspended'\n"
+            "    if op == 'resume':\n"
+            "        state['power'] = 'active'\n"
+            "        return 'active'\n"
+            "    if op == 'status':\n"
+            "        return state.get('power', 'active')\n"
+            "    return None\n"),
+        "cases": [(({}, 'suspend'), 'suspended'),
+                  (({'power': 'suspended'}, 'resume'), 'active'),
+                  (({}, 'status'), 'active'),
+                  (({'power': 'suspended'}, 'status'), 'suspended')],
+        "params": [],
+        "calibration": "对照：ACPI 电源管理——休眠/唤醒/状态",
+    },
 }
 
 

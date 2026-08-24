@@ -4438,5 +4438,40 @@ try:
 except Exception as ex:
     check('㋞c 信任→信息差→条件空间端到端（pass 0.8 [未知]）', False, str(ex)[:60])
 
+# ㋟ 目标4 深化：内核/系统（网络接口/设备驱动/电源管理 经正式管线）
+o12_qs = {
+    "网络接口": "写一个网络接口单元（网卡配置）",
+    "设备驱动": "写一个设备驱动单元（ID 匹配）",
+    "电源管理": "写一个电源管理单元（休眠唤醒）",
+}
+o12_ok = 0
+for label, q in o12_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o12_ok += 1
+    check(f'㋟ {label} 内核/系统单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋟b 内核/系统三单元全部生成', o12_ok == 3, f'{o12_ok}/3')
+
+# ㋟c 内核端到端：网络接口→设备驱动→电源（eth0 drv_usb suspended）
+r_ni = domain_route("写一个网络接口单元（网卡配置）")
+r_dd = domain_route("写一个设备驱动单元（ID 匹配）")
+r_pw = domain_route("写一个电源管理单元（休眠唤醒）")
+try:
+    ns_ni, ns_dd, ns_pw = {}, {}, {}
+    exec(r_ni["code"], ns_ni)
+    exec(r_dd["code"], ns_dd)
+    exec(r_pw["code"], ns_pw)
+    ni = ns_ni["netif_ops"]({}, 'configure', 'eth0', '192.168.1.1', True)
+    dd = ns_dd["driver_register"](
+        {'drv_usb': 'VID_1234'}, 'match', 'VID_1234')
+    pw = ns_pw["power_ops"]({}, 'suspend')
+    check('㋟c 网络接口→设备驱动→电源端到端（eth0 drv_usb suspended）',
+          ni == 'eth0' and dd == 'drv_usb' and pw == 'suspended',
+          f'netif={ni} driver={dd} power={pw}')
+except Exception as ex:
+    check('㋟c 网络接口→设备驱动→电源端到端（eth0 drv_usb suspended）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

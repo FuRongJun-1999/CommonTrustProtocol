@@ -3568,5 +3568,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:os|系统-网络接口": {
+  "task": "网络接口",
+  "unit": "系统-网络接口",
+  "code": "def netif_ops(interfaces, op, name=None, addr=None, up=None):\n    # 网络接口：configure 配置 / status 查询 / set_state 启停（网卡抽象）\n    if op == 'configure':\n        interfaces[name] = {'addr': addr, 'up': up}\n        return name\n    if op == 'status':\n        return interfaces.get(name)\n    if op == 'set_state':\n        if name in interfaces:\n            interfaces[name]['up'] = up\n            return 'ok'\n        return 'missing'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-设备驱动": {
+  "task": "设备驱动",
+  "unit": "系统-设备驱动",
+  "code": "def driver_register(drivers, op, device=None, driver=None):\n    # 设备驱动：register 注册 / match 匹配（设备 ID→驱动）\n    if op == 'register':\n        drivers[driver] = device\n        return driver\n    if op == 'match':\n        for d, dev in drivers.items():\n            if dev == device:\n                return d\n        return None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-电源管理": {
+  "task": "电源管理",
+  "unit": "系统-电源管理",
+  "code": "def power_ops(state, op):\n    # 电源管理：suspend 休眠 / resume 唤醒 / status 状态（ACPI）\n    if op == 'suspend':\n        state['power'] = 'suspended'\n        return 'suspended'\n    if op == 'resume':\n        state['power'] = 'active'\n        return 'active'\n    if op == 'status':\n        return state.get('power', 'active')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
