@@ -891,6 +891,75 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：编译链式比较——a<b<c = (a<b) 且 (b<c)（短路组合，Python 链式语义）",
     },
+    "编译-常量折叠": {
+        "task": "常量折叠",
+        "pattern": (
+            "def fold_constants(instrs):\n"
+            "    # 常量折叠：PUSH 常量 + 算术 → 立即结果（编译期求值优化）\n"
+            "    out, i = [], 0\n"
+            "    while i < len(instrs):\n"
+            "        if (i + 2 < len(instrs) and instrs[i][0] == 'PUSH'\n"
+            "                and instrs[i + 1][0] == 'PUSH'\n"
+            "                and instrs[i + 2][0] in ('ADD', 'SUB', 'MUL', 'DIV')):\n"
+            "            a, b = instrs[i][1], instrs[i + 1][1]\n"
+            "            op = instrs[i + 2][0]\n"
+            "            val = {'ADD': a + b, 'SUB': a - b, 'MUL': a * b,\n"
+            "                   'DIV': a / b}[op]\n"
+            "            out.append(('PUSH', val))\n"
+            "            i += 3\n"
+            "        else:\n"
+            "            out.append(instrs[i])\n"
+            "            i += 1\n"
+            "    return out\n"),
+        "cases": [(([("PUSH", 1), ("PUSH", 2), ("ADD", None), ("LOAD", "x")],),
+                   [("PUSH", 3), ("LOAD", "x")]),
+                  (([("PUSH", 10), ("PUSH", 4), ("MUL", None)],),
+                   [("PUSH", 40)])],
+        "params": [],
+        "calibration": "对照：编译优化——常量折叠（PUSH+PUSH+算术 → PUSH 结果，编译期求值）",
+    },
+    "编译-死代码消除": {
+        "task": "死代码消除",
+        "pattern": (
+            "def dead_code_elim(code):\n"
+            "    # 死代码消除：不可达指令（无条件 JUMP 之后）删除\n"
+            "    live = []\n"
+            "    reachable = True\n"
+            "    for op, arg in code:\n"
+            "        if op == 'JUMP':\n"
+            "            live.append((op, arg))\n"
+            "            reachable = False\n"
+            "        elif reachable:\n"
+            "            live.append((op, arg))\n"
+            "    return live\n"),
+        "cases": [(([("DE", 0.5), ("JUMP", 5), ("DE", 0.9), ("ZHI", None)],),
+                   [("DE", 0.5), ("JUMP", 5)]),
+                  (([("DE", 0.1)],), [("DE", 0.1)])],
+        "params": [],
+        "calibration": "对照：编译优化——死代码消除（JUMP 后不可达指令删除）",
+    },
+    "编译-寄存器分配": {
+        "task": "寄存器分配",
+        "pattern": (
+            "def reg_alloc(vars_used):\n"
+            "    # 寄存器分配：变量 → 寄存器（无冲突复用，溢出计数）\n"
+            "    regs = {}\n"
+            "    spills = 0\n"
+            "    for v in vars_used:\n"
+            "        if v not in regs:\n"
+            "            if len(regs) < 4:\n"
+            "                regs[v] = 'R' + str(len(regs))\n"
+            "            else:\n"
+            "                spills += 1\n"
+            "                regs[v] = 'mem'\n"
+            "    return regs, spills\n"),
+        "cases": [((['a', 'b', 'c', 'd', 'e'],), ({'a': 'R0', 'b': 'R1',
+                                                  'c': 'R2', 'd': 'R3',
+                                                  'e': 'mem'}, 1)),
+                  (([],), ({}, 0))],
+        "params": [],
+        "calibration": "对照：编译优化——寄存器分配（4 寄存器，溢出到内存）",
+    },
 }
 
 

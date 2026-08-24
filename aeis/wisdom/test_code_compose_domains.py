@@ -1705,5 +1705,42 @@ try:
 except Exception as ex:
     check('㊓c MQTT→遥测→队列端到端（订阅1 发布[dev1] 遥测1 入队出队a）', False, str(ex)[:60])
 
+# ㊔ 目标2 深化：编译优化（常量折叠/死代码消除/寄存器分配 经正式管线）
+c5_qs = {
+    "常量折叠": "写一个常量折叠优化单元（编译期求值）",
+    "死代码消除": "写一个死代码消除优化单元（不可达指令）",
+    "寄存器分配": "写一个寄存器分配优化单元（溢出计数）",
+}
+c5_ok = 0
+for label, q in c5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c5_ok += 1
+    check(f'㊔ {label} 编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊔b 编译优化三单元全部生成', c5_ok == 3, f'{c5_ok}/3')
+
+# ㊔c 端到端：常量折叠→死代码消除→寄存器分配（优化管线）
+r_cf = domain_route("写一个常量折叠优化单元（编译期求值）")
+r_dc = domain_route("写一个死代码消除优化单元（不可达指令）")
+r_ra = domain_route("写一个寄存器分配优化单元（溢出计数）")
+try:
+    ns_cf, ns_dc, ns_ra = {}, {}, {}
+    exec(r_cf["code"], ns_cf)
+    exec(r_dc["code"], ns_dc)
+    exec(r_ra["code"], ns_ra)
+    folded = ns_cf["fold_constants"]([("PUSH", 1), ("PUSH", 2), ("ADD", None),
+                                      ("LOAD", "x")])
+    cleaned = ns_dc["dead_code_elim"]([("DE", 0.5), ("JUMP", 5), ("DE", 0.9)])
+    regs, spills = ns_ra["reg_alloc"](['a', 'b', 'c', 'd', 'e'])
+    check('㊔c 折叠→死代码→寄存器端到端（PUSH3 删死码 4寄存器1溢出）',
+          folded == [("PUSH", 3), ("LOAD", "x")]
+          and cleaned == [("DE", 0.5), ("JUMP", 5)]
+          and spills == 1 and regs['e'] == 'mem',
+          f'fold={folded} dead={cleaned} regs={spills},{regs.get("e")}')
+except Exception as ex:
+    check('㊔c 折叠→死代码→寄存器端到端（PUSH3 删死码 4寄存器1溢出）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

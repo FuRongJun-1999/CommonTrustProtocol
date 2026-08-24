@@ -1318,5 +1318,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:compiler|编译-常量折叠": {
+  "task": "常量折叠",
+  "unit": "编译-常量折叠",
+  "code": "def fold_constants(instrs):\n    # 常量折叠：PUSH 常量 + 算术 → 立即结果（编译期求值优化）\n    out, i = [], 0\n    while i < len(instrs):\n        if (i + 2 < len(instrs) and instrs[i][0] == 'PUSH'\n                and instrs[i + 1][0] == 'PUSH'\n                and instrs[i + 2][0] in ('ADD', 'SUB', 'MUL', 'DIV')):\n            a, b = instrs[i][1], instrs[i + 1][1]\n            op = instrs[i + 2][0]\n            val = {'ADD': a + b, 'SUB': a - b, 'MUL': a * b,\n                   'DIV': a / b}[op]\n            out.append(('PUSH', val))\n            i += 3\n        else:\n            out.append(instrs[i])\n            i += 1\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-死代码消除": {
+  "task": "死代码消除",
+  "unit": "编译-死代码消除",
+  "code": "def dead_code_elim(code):\n    # 死代码消除：不可达指令（无条件 JUMP 之后）删除\n    live = []\n    reachable = True\n    for op, arg in code:\n        if op == 'JUMP':\n            live.append((op, arg))\n            reachable = False\n        elif reachable:\n            live.append((op, arg))\n    return live\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-寄存器分配": {
+  "task": "寄存器分配",
+  "unit": "编译-寄存器分配",
+  "code": "def reg_alloc(vars_used):\n    # 寄存器分配：变量 → 寄存器（无冲突复用，溢出计数）\n    regs = {}\n    spills = 0\n    for v in vars_used:\n        if v not in regs:\n            if len(regs) < 4:\n                regs[v] = 'R' + str(len(regs))\n            else:\n                spills += 1\n                regs[v] = 'mem'\n    return regs, spills\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }
