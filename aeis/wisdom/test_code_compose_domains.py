@@ -3161,5 +3161,39 @@ try:
 except Exception as ex:
     check('㊺c 圈复杂度→活跃→调用图端到端（2 [a] main→[f1,f2]）', False, str(ex)[:60])
 
+# ㊻ 目标1 深化：P 线数据结构/工具（队列栈/格式化/排序键控 经正式管线）
+p6_qs = {
+    "队列栈": "写一个队列栈单元（队首队尾）",
+    "格式化": "写一个格式化单元（模板填充）",
+    "排序键控": "写一个排序键控单元（key 排序）",
+}
+p6_ok = 0
+for label, q in p6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p6_ok += 1
+    check(f'㊻ {label} P线数据结构/工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊻b P线数据结构/工具三单元全部生成', p6_ok == 3, f'{p6_ok}/3')
+
+# ㊻c 数据结构端到端：队列栈→格式化→排序（出队1 填甲 按值排序）
+r_dq = domain_route("写一个队列栈单元（队首队尾）")
+r_fm = domain_route("写一个格式化单元（模板填充）")
+r_sk = domain_route("写一个排序键控单元（key 排序）")
+try:
+    ns_dq, ns_fm, ns_sk = {}, {}, {}
+    exec(r_dq["code"], ns_dq)
+    exec(r_fm["code"], ns_fm)
+    exec(r_sk["code"], ns_sk)
+    dq = ns_dq["deque_ops"]([1, 2], 'dequeue')
+    fm = ns_fm["format_template"]('你好 {名}', {'名': '甲'})
+    sk = ns_sk["sort_by_key"]([('b', 2), ('a', 1)], lambda x: x[1])
+    check('㊻c 队列→格式化→排序端到端（1 你好甲 [a,1][b,2]）',
+          dq == 1 and fm == '你好 甲' and sk == [('a', 1), ('b', 2)],
+          f'dq={dq} fmt={fm} sort={sk}')
+except Exception as ex:
+    check('㊻c 队列→格式化→排序端到端（1 你好甲 [a,1][b,2]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

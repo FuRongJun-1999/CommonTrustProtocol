@@ -2488,5 +2488,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:pylang|数据结构-队列栈": {
+  "task": "队列栈",
+  "unit": "数据结构-队列栈",
+  "code": "def deque_ops(dq, op, item=None):\n    # 队列栈：dequeue 队首出（FIFO）/ pop 栈顶出（LIFO）——双端数据结构\n    if op == 'push':\n        dq.append(item)\n        return len(dq)\n    if op == 'dequeue':\n        return dq.pop(0) if dq else None\n    if op == 'pop':\n        return dq.pop() if dq else None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-格式化": {
+  "task": "格式化",
+  "unit": "工具-格式化",
+  "code": "def format_template(template, values):\n    # 格式化：模板 {名} 占位符填充（f-string 风格）\n    out = template\n    for k, v in values.items():\n        out = out.replace('{' + k + '}', str(v))\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-排序键控": {
+  "task": "排序键控",
+  "unit": "工具-排序键控",
+  "code": "def sort_by_key(items, key_fn):\n    # 排序键控：按 key 函数排序（sorted(key=) 语义——稳定排序）\n    return sorted(items, key=key_fn)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

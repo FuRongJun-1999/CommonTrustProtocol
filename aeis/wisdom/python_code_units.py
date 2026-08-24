@@ -777,6 +777,53 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：CPython json.dumps/loads（结构化数据序列化往返）",
     },
+    "数据结构-队列栈": {
+        "task": "队列栈",
+        "pattern": (
+            "def deque_ops(dq, op, item=None):\n"
+            "    # 队列栈：dequeue 队首出（FIFO）/ pop 栈顶出（LIFO）——双端数据结构\n"
+            "    if op == 'push':\n"
+            "        dq.append(item)\n"
+            "        return len(dq)\n"
+            "    if op == 'dequeue':\n"
+            "        return dq.pop(0) if dq else None\n"
+            "    if op == 'pop':\n"
+            "        return dq.pop() if dq else None\n"
+            "    return None\n"),
+        "cases": [(([], 'push', 'a'), 1),
+                  (([1, 2], 'dequeue'), 1),
+                  (([1, 2], 'pop'), 2),
+                  (([], 'pop'), None)],
+        "params": [],
+        "calibration": "对照：collections.deque——队首 FIFO/栈顶 LIFO（双端操作）",
+    },
+    "工具-格式化": {
+        "task": "格式化",
+        "pattern": (
+            "def format_template(template, values):\n"
+            "    # 格式化：模板 {名} 占位符填充（f-string 风格）\n"
+            "    out = template\n"
+            "    for k, v in values.items():\n"
+            "        out = out.replace('{' + k + '}', str(v))\n"
+            "    return out\n"),
+        "cases": [(('你好 {名}', {'名': '甲'}), '你好 甲'),
+                  (('{a}-{b}', {'a': 1, 'b': 2}), '1-2'),
+                  (('没有占位', {}), '没有占位')],
+        "params": [],
+        "calibration": "对照：Python f-string（{名} 占位符模板填充）",
+    },
+    "工具-排序键控": {
+        "task": "排序键控",
+        "pattern": (
+            "def sort_by_key(items, key_fn):\n"
+            "    # 排序键控：按 key 函数排序（sorted(key=) 语义——稳定排序）\n"
+            "    return sorted(items, key=key_fn)\n"),
+        "cases": [(([('b', 2), ('a', 1)], lambda x: x[1]), [('a', 1), ('b', 2)]),
+                  (([3, 1, 2], lambda x: -x), [3, 2, 1]),
+                  (([], lambda x: x), [])],
+        "params": [],
+        "calibration": "对照：Python sorted(key=)（按键函数稳定排序）",
+    },
 }
 
 
