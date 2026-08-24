@@ -2686,5 +2686,43 @@ try:
 except Exception as ex:
     check('㊭c 内联→循环展开→尾调用端到端（[DE0.1] ×3 JUMP）', False, str(ex)[:60])
 
+# ㊮ 目标4 深化：OS 调度/系统调用（多级反馈/实时EDF/文件系统调用 经正式管线）
+o4_qs = {
+    "多级反馈": "写一个多级反馈队列单元（等级调度）",
+    "实时EDF": "写一个实时调度单元（EDF 截止优先）",
+    "文件系统调用": "写一个文件系统调用单元（open分派）",
+}
+o4_ok = 0
+for label, q in o4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o4_ok += 1
+    check(f'㊮ {label} OS调度/系统调用单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊮b OS调度/系统调用三单元全部生成', o4_ok == 3, f'{o4_ok}/3')
+
+# ㊮c 端到端：MLFQ→EDF→文件系统调用（等级0取x / EDF取b / open→write→read）
+r_mq = domain_route("写一个多级反馈队列单元（等级调度）")
+r_ed = domain_route("写一个实时调度单元（EDF 截止优先）")
+r_fs = domain_route("写一个文件系统调用单元（open分派）")
+try:
+    ns_mq, ns_ed, ns_fs = {}, {}, {}
+    exec(r_mq["code"], ns_mq)
+    exec(r_ed["code"], ns_ed)
+    exec(r_fs["code"], ns_fs)
+    qs = [['x'], ['a'], []]
+    picked = ns_mq["mlfq_ops"](qs, 'pick')
+    ed = ns_ed["edf_pick"]([('a', 10), ('b', 5)], 0)
+    fds = []
+    fd = ns_fs["syscall_file"]('open', fds, None, 'a.txt', '', 'w')
+    ns_fs["syscall_file"]('write', fds, fd, None, 'hi', 'w')
+    rd = ns_fs["syscall_file"]('read', fds, fd)
+    check('㊮c MLFQ→EDF→文件系统调用端到端（x b fd0 写入hi读出hi）',
+          picked == 'x' and ed == 'b' and fd == 0 and rd == 'hi',
+          f'mlfq={picked} edf={ed} fd={fd} read={rd}')
+except Exception as ex:
+    check('㊮c MLFQ→EDF→文件系统调用端到端（x b fd0 写入hi读出hi）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

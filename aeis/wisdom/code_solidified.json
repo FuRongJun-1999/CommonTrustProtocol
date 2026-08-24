@@ -2098,5 +2098,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:os|调度-多级反馈队列": {
+  "task": "多级反馈队列",
+  "unit": "调度-多级反馈队列",
+  "code": "def mlfq_ops(queues, op, pid=None, level=None, boost_to=0):\n    # 多级反馈队列：enqueue 按等级入队 / pick 取最高级队首\n    # / boost 低优先级提升（防饿死）\n    if op == 'enqueue':\n        queues[level].append(pid)\n        return queues[level]\n    if op == 'pick':\n        for q in queues:\n            if q:\n                return q.pop(0)\n        return None\n    if op == 'boost':\n        if boost_to < len(queues):\n            merged = []\n            for i in range(boost_to + 1, len(queues)):\n                merged.extend(queues[i])\n                queues[i] = []\n            queues[boost_to].extend(merged)\n        return queues[boost_to]\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|调度-实时EDF": {
+  "task": "实时调度",
+  "unit": "调度-实时EDF",
+  "code": "def edf_pick(ready, now):\n    # 实时调度：最早截止时间优先（EDF——deadline 最近者先执行）\n    if not ready:\n        return None\n    return min(ready, key=lambda t: t[1])[0]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统调用-文件分派": {
+  "task": "文件系统调用",
+  "unit": "系统调用-文件分派",
+  "code": "def syscall_file(op, fd_table, fd=None, path=None, data=None, mode='r'):\n    # 系统调用：open/read/write/close 分派（fd 表管理文件操作）\n    if op == 'open':\n        fd_table.append({'path': path, 'mode': mode, 'data': data or ''})\n        return len(fd_table) - 1\n    if op == 'read':\n        return fd_table[fd]['data']\n    if op == 'write':\n        fd_table[fd]['data'] += data\n        return len(data)\n    if op == 'close':\n        fd_table[fd] = None\n        return 'closed'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }

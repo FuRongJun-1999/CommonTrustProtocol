@@ -1126,6 +1126,76 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS IPC 邮箱——异步消息槽（put 投递/get FIFO 取，进程解耦）",
     },
+    "调度-多级反馈队列": {
+        "task": "多级反馈队列",
+        "pattern": (
+            "def mlfq_ops(queues, op, pid=None, level=None, boost_to=0):\n"
+            "    # 多级反馈队列：enqueue 按等级入队 / pick 取最高级队首\n"
+            "    # / boost 低优先级提升（防饿死）\n"
+            "    if op == 'enqueue':\n"
+            "        queues[level].append(pid)\n"
+            "        return queues[level]\n"
+            "    if op == 'pick':\n"
+            "        for q in queues:\n"
+            "            if q:\n"
+            "                return q.pop(0)\n"
+            "        return None\n"
+            "    if op == 'boost':\n"
+            "        if boost_to < len(queues):\n"
+            "            merged = []\n"
+            "            for i in range(boost_to + 1, len(queues)):\n"
+            "                merged.extend(queues[i])\n"
+            "                queues[i] = []\n"
+            "            queues[boost_to].extend(merged)\n"
+            "        return queues[boost_to]\n"
+            "    return None\n"),
+        "cases": [(([[], [], []], 'enqueue', 'a', 2, 0), ['a']),
+                  (([['x'], ['a'], []], 'pick', None, None, 0), 'x'),
+                  (([[], [], ['c', 'd']], 'pick', None, None, 0), 'c'),
+                  (([[], [], [], ['e']], 'boost', None, None, 0), ['e']),
+                  (([[],[],[]], 'pick', None, None, 0), None)],
+        "params": [],
+        "calibration": "对照：OS 多级反馈队列 MLFQ——高等级优先调度，低等级定期提升（防饿死）",
+    },
+    "调度-实时EDF": {
+        "task": "实时调度",
+        "pattern": (
+            "def edf_pick(ready, now):\n"
+            "    # 实时调度：最早截止时间优先（EDF——deadline 最近者先执行）\n"
+            "    if not ready:\n"
+            "        return None\n"
+            "    return min(ready, key=lambda t: t[1])[0]\n"),
+        "cases": [(([('a', 10), ('b', 5)], 0), 'b'),
+                  (([], 0), None),
+                  (([('a', 10)], 0), 'a')],
+        "params": [],
+        "calibration": "对照：OS 实时调度 EDF——最早截止时间优先（deadline 最近先执行）",
+    },
+    "系统调用-文件分派": {
+        "task": "文件系统调用",
+        "pattern": (
+            "def syscall_file(op, fd_table, fd=None, path=None, data=None, mode='r'):\n"
+            "    # 系统调用：open/read/write/close 分派（fd 表管理文件操作）\n"
+            "    if op == 'open':\n"
+            "        fd_table.append({'path': path, 'mode': mode, 'data': data or ''})\n"
+            "        return len(fd_table) - 1\n"
+            "    if op == 'read':\n"
+            "        return fd_table[fd]['data']\n"
+            "    if op == 'write':\n"
+            "        fd_table[fd]['data'] += data\n"
+            "        return len(data)\n"
+            "    if op == 'close':\n"
+            "        fd_table[fd] = None\n"
+            "        return 'closed'\n"
+            "    return None\n"),
+        "cases": [(('open', [], 'a.txt', None, '', 'r'), 0),
+                  (('read', [{'path': 'a', 'data': '你好'}], 0,
+                    None, None, 'r'), '你好'),
+                  (('write', [{'path': 'a', 'data': ''}], 0, None, 'x', 'w'), 1),
+                  (('close', [{'path': 'a'}], 0, None, None, 'r'), 'closed')],
+        "params": [],
+        "calibration": "对照：OS 系统调用——open/read/write/close 文件操作（fd 表分派）",
+    },
 }
 
 
