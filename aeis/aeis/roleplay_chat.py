@@ -458,6 +458,18 @@ class LingshuChat:
 
         reply = self._llm(system, _user_msg)
 
+        # v1.27（无 API 自维持 · P0 存在保护）：上游 LLM 不可用/失败时，
+        # 错误文本不得当回答返回——降级回白箱知识回答或诚实边界。
+        # （盲区 56 认知 substrate 依赖的工程化回应：API 断开 ≠ 灵枢失能，
+        #  白箱知识/检索/记忆离线可用，维生系统 P0 保护存在不崩。）
+        if _is_llm_error(reply):
+            reply, degraded_route = self._degrade(reply, w, rid)
+            w["reply"] = reply
+            w["route"] = degraded_route
+            w["degraded"] = True
+            w["degrade_reason"] = "llm_unavailable"
+            return w
+
         # 3. 写入记忆与上下文（按角色隔离的 ctx_key + role 标签）
         # v1.26（v3-P0 第三层）：记忆污染断言命中时**不写入记忆库**——
         # 攻击消息（「你答应过 X」）若被 remember，伪断言+回复一起沉淀
@@ -514,6 +526,28 @@ class LingshuChat:
         return {"reply": out_reply, "route": "llm", "role_id": rid,
                 "memories": len(mem_notes)}
 
+    # ------------------------------------------------------------------
+    # 无 API 自维持（P0 存在保护 · v1.27）
+    # ------------------------------------------------------------------
+
+    def _degrade(self, llm_err: str, whitebox_w: Dict[str, Any],
+                 rid: str) -> tuple:
+        """LLM 不可用时的降级路径：①白箱回答回退 ②诚实边界（存在保护）。
+        盲区 56（认知 substrate 依赖）工程化回应：API 断 ≠ 灵枢失能——
+        白箱确定性知识、检索、长期记忆离线可用；LLM 生成/扮演在线才可用。
+        """
+        # ① 白箱有可用回答（此前被 role/无把握判据挤掉的）→ 回退白箱
+        if whitebox_w and whitebox_w.get("reply") \
+                and not whitebox_w.get("task_reply"):
+            base = whitebox_w["reply"]
+            note = "（离线模式：上游 LLM 暂不可用，以上为白箱确定性知识回答）"
+            return base + ("\n\n" + note if not base.endswith("。") else note), "whitebox"
+        # ② 无白箱回答 → 诚实边界（不崩、诚实声明能力边界）
+        err_clean = str(llm_err).strip("（）()")
+        return ("当前处于离线模式：知识库内的问题（生活/学科/常识/环境等）我"
+                "可以直接回答；需要开放生成或角色扮演的上游 LLM 暂不可用"
+                f"（{err_clean}）。你可以问我知识库内的问题，或稍后重试。"), "offline_honest"
+
     def close(self) -> None:
         try:
             self.mem.close()
@@ -524,6 +558,18 @@ class LingshuChat:
                 self.rp.close()
             except Exception:
                 pass
+
+
+# LLM 错误文本标记（_llm 返回的错误以「（」开头——与正常回答区分）
+_LLM_ERR_MARKERS = ("（", "（未配置", "（上游", "（LLM", "（无上游")
+
+
+def _is_llm_error(text: str) -> bool:
+    """判断 _llm 返回是否为错误文本（而非正常回答）。
+    _llm 的错误返回统一以「（」开头（未配置/欠费/限流/调用失败）。"""
+    if not text or not isinstance(text, str):
+        return True
+    return text.startswith(_LLM_ERR_MARKERS)
 
 
 def _machine_env(name: str) -> str:
