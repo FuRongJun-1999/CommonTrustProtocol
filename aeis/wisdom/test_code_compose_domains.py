@@ -1819,5 +1819,43 @@ try:
 except Exception as ex:
     check('㊖c 注解→检查→协议端到端（int标注 浮点ok字符串拒 序列协议真）', False, str(ex)[:60])
 
+# ㊗ 目标4 深化：安全模块（ACL/审计/能力 经正式管线）
+o13_qs = {
+    "访问控制": "写一个访问控制单元（ACL 判定）",
+    "审计日志": "写一个审计日志单元（事件记录）",
+    "能力系统": "写一个能力系统单元（特权令牌）",
+}
+o13_ok = 0
+for label, q in o13_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o13_ok += 1
+    check(f'㊗ {label} 安全模块单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊗b 安全模块三单元全部生成', o13_ok == 3, f'{o13_ok}/3')
+
+# ㊗c 端到端：ACL 判定→审计记录→能力检查（授权→追溯→特权）
+r_acl = domain_route("写一个访问控制单元（ACL 判定）")
+r_aud = domain_route("写一个审计日志单元（事件记录）")
+r_cap = domain_route("写一个能力系统单元（特权令牌）")
+try:
+    ns_acl, ns_aud, ns_cap = {}, {}, {}
+    exec(r_acl["code"], ns_acl)
+    exec(r_aud["code"], ns_aud)
+    exec(r_cap["code"], ns_cap)
+    ok_r = ns_acl["acl_check"](
+        {'file': [{'subject': 'u1', 'action': 'read', 'allow': True}]},
+        'u1', 'file', 'read')
+    deny_w = ns_acl["acl_check"]({'file': []}, 'u1', 'file', 'write')
+    n = ns_aud["audit_log"]([], 'login', 'u1')
+    ns_cap["capability"](set(), 'grant', 'net_raw')
+    has = ns_cap["capability"]({'net_raw'}, 'check', 'net_raw')
+    check('㊗c ACL→审计→能力端到端（读允写拒 日志1 有能力）',
+          ok_r is True and deny_w is False and n == 1 and has is True,
+          f'acl={ok_r},{deny_w} audit={n} cap={has}')
+except Exception as ex:
+    check('㊗c ACL→审计→能力端到端（读允写拒 日志1 有能力）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

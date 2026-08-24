@@ -814,6 +814,57 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：固件接口——UEFI 服务（时间/重启/启动设备）",
     },
+    "安全-访问控制": {
+        "task": "访问控制",
+        "pattern": (
+            "def acl_check(acl, subject, resource, action):\n"
+            "    # ACL：访问控制列表（主体→资源→动作 权限判定）\n"
+            "    rules = acl.get(resource, [])\n"
+            "    for r in rules:\n"
+            "        if r['subject'] == subject and r['action'] == action:\n"
+            "            return r['allow']\n"
+            "    return False  # 默认拒绝\n"),
+        "cases": [(({'file': [{'subject': 'u1', 'action': 'read', 'allow': True}]},
+                    'u1', 'file', 'read'), True),
+                  (({'file': []}, 'u1', 'file', 'read'), False),
+                  (({'file': [{'subject': 'u1', 'action': 'write', 'allow': False}]},
+                    'u1', 'file', 'write'), False)],
+        "params": [],
+        "calibration": "对照：OS 安全——ACL 访问控制（主体/资源/动作 规则判定，默认拒绝）",
+    },
+    "安全-审计日志": {
+        "task": "审计日志",
+        "pattern": (
+            "def audit_log(log, event, subject):\n"
+            "    # 审计：安全事件记录（操作 → 日志条目）\n"
+            "    log.append({'event': event, 'subject': subject})\n"
+            "    return len(log)\n"),
+        "cases": [(([], 'login', 'u1'), 1),
+                  (([{'event': 'login', 'subject': 'u1'}], 'logout', 'u1'), 2)],
+        "params": [],
+        "calibration": "对照：OS 安全——审计日志（安全事件记录，可追溯）",
+    },
+    "安全-能力系统": {
+        "task": "能力系统",
+        "pattern": (
+            "def capability(caps, op, cap=None):\n"
+            "    # 能力：特权令牌（持能力才可操作——最小权限语义）\n"
+            "    if op == 'grant':\n"
+            "        caps.add(cap)\n"
+            "        return True\n"
+            "    if op == 'check':\n"
+            "        return cap in caps\n"
+            "    if op == 'revoke':\n"
+            "        caps.discard(cap)\n"
+            "        return cap not in caps\n"
+            "    return False\n"),
+        "cases": [((set(), 'grant', 'net_raw'), True),
+                  (({'net_raw'}, 'check', 'net_raw'), True),
+                  ((set(), 'check', 'net_raw'), False),
+                  (({'net_raw'}, 'revoke', 'net_raw'), True)],
+        "params": [],
+        "calibration": "对照：OS 安全——能力系统（特权令牌授予/检查/撤销，最小权限）",
+    },
 }
 
 

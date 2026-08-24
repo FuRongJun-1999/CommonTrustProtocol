@@ -1408,5 +1408,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:os|安全-访问控制": {
+  "task": "访问控制",
+  "unit": "安全-访问控制",
+  "code": "def acl_check(acl, subject, resource, action):\n    # ACL：访问控制列表（主体→资源→动作 权限判定）\n    rules = acl.get(resource, [])\n    for r in rules:\n        if r['subject'] == subject and r['action'] == action:\n            return r['allow']\n    return False  # 默认拒绝\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|安全-审计日志": {
+  "task": "审计日志",
+  "unit": "安全-审计日志",
+  "code": "def audit_log(log, event, subject):\n    # 审计：安全事件记录（操作 → 日志条目）\n    log.append({'event': event, 'subject': subject})\n    return len(log)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|安全-能力系统": {
+  "task": "能力系统",
+  "unit": "安全-能力系统",
+  "code": "def capability(caps, op, cap=None):\n    # 能力：特权令牌（持能力才可操作——最小权限语义）\n    if op == 'grant':\n        caps.add(cap)\n        return True\n    if op == 'check':\n        return cap in caps\n    if op == 'revoke':\n        caps.discard(cap)\n        return cap not in caps\n    return False\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
