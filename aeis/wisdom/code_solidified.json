@@ -3028,5 +3028,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:compiler|校验-名实一致": {
+  "task": "名实一致",
+  "unit": "校验-名实一致",
+  "code": "def ming_shi_check(refs, bindings):\n    # 名实校验：名称引用须有绑定实体（以名举实——墨辩语义）\n    return [r for r in refs if r not in bindings]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-类型转换": {
+  "task": "类型转换",
+  "unit": "编译-类型转换",
+  "code": "def type_convert(value, from_type, to_type, rules):\n    # 类型转换：按规则隐式/显式转换（数值↔文本——转换规则表）\n    if (from_type, to_type) in rules:\n        return rules[(from_type, to_type)](value)\n    return 'unsupported'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|分析-数据流分析": {
+  "task": "数据流分析",
+  "unit": "分析-数据流分析",
+  "code": "def def_use_chain(defs, uses):\n    # 数据流分析：def-use 链（定义→使用点连接——数据流路径）\n    chain = []\n    for var, def_line in defs:\n        for u, u_line in uses:\n            if u == var and u_line > def_line:\n                chain.append((var, def_line, u_line))\n    return chain\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

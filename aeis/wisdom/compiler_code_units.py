@@ -1382,6 +1382,50 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：VM 运行时——栈深度限制（防递归栈溢出）",
     },
+    "校验-名实一致": {
+        "task": "名实一致",
+        "pattern": (
+            "def ming_shi_check(refs, bindings):\n"
+            "    # 名实校验：名称引用须有绑定实体（以名举实——墨辩语义）\n"
+            "    return [r for r in refs if r not in bindings]\n"),
+        "cases": [((['甲', '乙'], {'甲': 1, '乙': 2}), []),
+                  ((['甲', '丙'], {'甲': 1}), ['丙']),
+                  ((['甲'], {}), ['甲'])],
+        "params": [],
+        "calibration": "对照：名实校验——引用须绑定实体（以名举实，未绑定拦截）",
+    },
+    "编译-类型转换": {
+        "task": "类型转换",
+        "pattern": (
+            "def type_convert(value, from_type, to_type, rules):\n"
+            "    # 类型转换：按规则隐式/显式转换（数值↔文本——转换规则表）\n"
+            "    if (from_type, to_type) in rules:\n"
+            "        return rules[(from_type, to_type)](value)\n"
+            "    return 'unsupported'\n"),
+        "cases": [((5, '数值', '文本', {('数值', '文本'): str}), '5'),
+                  (('3', '文本', '数值', {('文本', '数值'): int}), 3),
+                  ((5, '数值', '布尔', {}), 'unsupported')],
+        "params": [],
+        "calibration": "对照：类型系统——转换规则表（隐式/显式，无规则拒绝）",
+    },
+    "分析-数据流分析": {
+        "task": "数据流分析",
+        "pattern": (
+            "def def_use_chain(defs, uses):\n"
+            "    # 数据流分析：def-use 链（定义→使用点连接——数据流路径）\n"
+            "    chain = []\n"
+            "    for var, def_line in defs:\n"
+            "        for u, u_line in uses:\n"
+            "            if u == var and u_line > def_line:\n"
+            "                chain.append((var, def_line, u_line))\n"
+            "    return chain\n"),
+        "cases": [(([('a', 1), ('b', 2)], [('a', 3), ('b', 4), ('a', 5)]),
+                   [('a', 1, 3), ('a', 1, 5), ('b', 2, 4)]),
+                  (([('a', 1)], []), []),
+                  (([], [('a', 3)]), [])],
+        "params": [],
+        "calibration": "对照：数据流分析——def-use 链（定义到使用的数据流）",
+    },
 }
 
 

@@ -3810,5 +3810,39 @@ try:
 except Exception as ex:
     check('㋌c MAC→seccomp→加密文件系统端到端（allowed ok 秘密）', False, str(ex)[:60])
 
+# ㋍ 目标2/3 深化：智能论语义（名实一致/类型转换/数据流分析 经正式管线）
+c11_qs = {
+    "名实一致": "写一个名实一致单元（以名举实）",
+    "类型转换": "写一个类型转换单元（转换规则）",
+    "数据流分析": "写一个数据流分析单元（def-use）",
+}
+c11_ok = 0
+for label, q in c11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c11_ok += 1
+    check(f'㋍ {label} 智能论语义单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋍b 智能论语义三单元全部生成', c11_ok == 3, f'{c11_ok}/3')
+
+# ㋍c 语义端到端：名实→类型转换→数据流（[] '5' def-use链）
+r_ms = domain_route("写一个名实一致单元（以名举实）")
+r_tc = domain_route("写一个类型转换单元（转换规则）")
+r_df = domain_route("写一个数据流分析单元（def-use）")
+try:
+    ns_ms, ns_tc, ns_df = {}, {}, {}
+    exec(r_ms["code"], ns_ms)
+    exec(r_tc["code"], ns_tc)
+    exec(r_df["code"], ns_df)
+    ms = ns_ms["ming_shi_check"](['甲', '乙'], {'甲': 1, '乙': 2})
+    tc = ns_tc["type_convert"](5, '数值', '文本', {('数值', '文本'): str})
+    df = ns_df["def_use_chain"]([('a', 1)], [('a', 3)])
+    check('㋍c 名实→类型转换→数据流端到端（[] "5" [("a",1,3)]）',
+          ms == [] and tc == '5' and df == [('a', 1, 3)],
+          f'ming={ms} conv={tc} defuse={df}')
+except Exception as ex:
+    check('㋍c 名实→类型转换→数据流端到端（[] "5" [("a",1,3)]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
