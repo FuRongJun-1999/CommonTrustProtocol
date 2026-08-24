@@ -353,6 +353,45 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：C2 语义——名实=静态检查、条件空间=类型系统（编译期拦截类型错误/未声明空间）",
     },
+    "分析-类型推断": {
+        "task": "类型推断",
+        "pattern": (
+            "def infer_types(statements):\n"
+            "    # 编译期类型推断：从赋值推断符号类型，条件空间声明登记空间类型\n"
+            "    # 冲突赋值 → 类型标记'混合'（编译期拦截候选）\n"
+            "    import re as _re\n"
+            "    types, spaces = {}, {}\n"
+            "    for st in statements:\n"
+            "        kind = st[0]\n"
+            "        if kind == 'assign':\n"
+            "            val = st[2]\n"
+            "            if isinstance(val, bool):\n"
+            "                t = '布尔'\n"
+            "            elif isinstance(val, (int, float)):\n"
+            "                t = '数值'\n"
+            "            elif isinstance(val, str):\n"
+            "                t = '文本'\n"
+            "            else:\n"
+            "                t = '未知'\n"
+            "            if st[1] in types and types[st[1]] != t:\n"
+            "                types[st[1]] = '混合'\n"
+            "            else:\n"
+            "                types.setdefault(st[1], t)\n"
+            "        elif kind == 'COND':\n"
+            "            m = _re.search(r'条件空间为(.+?)(?:[，,。\\s]|$)', st[1])\n"
+            "            if m:\n"
+            "                spaces[m.group(1).strip()] = '已声明'\n"
+            "    return {'types': types, 'spaces': spaces}\n"),
+        "cases": [(([("assign", "甲", 3), ("assign", "乙", "x")],),
+                   {"types": {"甲": "数值", "乙": "文本"}, "spaces": {}}),
+                  (([("COND", "条件空间为伴侣 则 德 0.5", [], [])],),
+                   {"types": {}, "spaces": {"伴侣": "已声明"}}),
+                  (([("assign", "甲", 3), ("assign", "甲", "x")],),
+                   {"types": {"甲": "混合"}, "spaces": {}}),
+                  (([],), {"types": {}, "spaces": {}})],
+        "params": [],
+        "calibration": "对照：C2 语义深化——类型推断（赋值→数值/文本/布尔，冲突→混合）+ 条件空间声明登记（目标3 分析器完整化）",
+    },
     "编译-完整管线": {
         "task": "完整编译",
         "pattern": (

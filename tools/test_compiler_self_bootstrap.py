@@ -317,5 +317,15 @@ if r_pbc["ok"]:
           state_pbc["trust"] == state_direct["trust"] == 0.8,
           f'trust={state_pbc["trust"]}')
 
+# 校准⑬：类型推断（目标3 分析器完整化——编译期类型流）
+infer_types = _fn("分析-类型推断")
+r_t = infer_types([("assign", "甲", 3), ("assign", "乙", "x"), ("assign", "丙", True)])
+check('校准⑬a 类型推断(数值/文本/布尔)',
+      r_t["types"] == {"甲": "数值", "乙": "文本", "丙": "布尔"}, str(r_t["types"]))
+r_t2 = infer_types([("assign", "甲", 3), ("assign", "甲", "x")])
+check('校准⑬b 类型冲突→混合', r_t2["types"]["甲"] == "混合", str(r_t2["types"]))
+r_t3 = infer_types([("COND", "条件空间为伴侣 则 德 0.5", [], [])])
+check('校准⑬c 条件空间声明登记', r_t3["spaces"] == {"伴侣": "已声明"}, str(r_t3["spaces"]))
+
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
