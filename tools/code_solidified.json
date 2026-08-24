@@ -3838,5 +3838,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:pylang|工具-文件读取": {
+  "task": "文件读取",
+  "unit": "工具-文件读取",
+  "code": "def file_read_lines(content, op):\n    # 文件读取：read 读全部 / lines 读行（文件 IO 简化）\n    if op == 'read':\n        return content\n    if op == 'lines':\n        return content.splitlines()\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-性能计时": {
+  "task": "性能计时",
+  "unit": "工具-性能计时",
+  "code": "def perf_time(start, end, unit='ms'):\n    # 性能计时：耗时计算（start/end 时间戳——性能测量）\n    diff = end - start\n    return diff * 1000 if unit == 'ms' else diff\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-环境查询": {
+  "task": "环境查询",
+  "unit": "工具-环境查询",
+  "code": "def platform_check(env, op, key=None):\n    # 环境查询：platform 平台 / version 版本 / get 键查询（环境信息）\n    if op == 'platform':\n        return env.get('platform')\n    if op == 'version':\n        return env.get('version')\n    if op == 'get':\n        return env.get(key)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

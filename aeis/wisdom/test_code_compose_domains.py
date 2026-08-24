@@ -4756,5 +4756,39 @@ try:
 except Exception as ex:
     check('㋧c 路由→限流→序列化端到端（[q1] ok [(0,str,甲),(1,int,3)]）', False, str(ex)[:60])
 
+# ㋨ 目标1 深化：P 线 IO/系统（文件读取/性能计时/环境查询 经正式管线）
+p14_qs = {
+    "文件读取": "写一个文件读取单元（按行读取）",
+    "性能计时": "写一个性能计时单元（耗时测量）",
+    "环境查询": "写一个环境查询单元（平台版本）",
+}
+p14_ok = 0
+for label, q in p14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p14_ok += 1
+    check(f'㋨ {label} P线IO/系统单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋨b P线IO/系统三单元全部生成', p14_ok == 3, f'{p14_ok}/3')
+
+# ㋨c IO 端到端：文件→计时→环境（两行 5.0 win32）
+r_fr = domain_route("写一个文件读取单元（按行读取）")
+r_pt = domain_route("写一个性能计时单元（耗时测量）")
+r_pc = domain_route("写一个环境查询单元（平台版本）")
+try:
+    ns_fr, ns_pt, ns_pc = {}, {}, {}
+    exec(r_fr["code"], ns_fr)
+    exec(r_pt["code"], ns_pt)
+    exec(r_pc["code"], ns_pc)
+    fr = ns_fr["file_read_lines"]('第一行\n第二行', 'lines')
+    pt = ns_pt["perf_time"](0.0, 0.005, 'ms')
+    pc = ns_pc["platform_check"]({'platform': 'win32'}, 'platform')
+    check('㋨c 文件→计时→环境端到端（两行 5.0 win32）',
+          fr == ['第一行', '第二行'] and pt == 5.0 and pc == 'win32',
+          f'file={fr} time={pt} env={pc}')
+except Exception as ex:
+    check('㋨c 文件→计时→环境端到端（两行 5.0 win32）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

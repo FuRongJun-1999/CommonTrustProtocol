@@ -1198,6 +1198,54 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python 三引号字符串（跨行字面量）",
     },
+    "工具-文件读取": {
+        "task": "文件读取",
+        "pattern": (
+            "def file_read_lines(content, op):\n"
+            "    # 文件读取：read 读全部 / lines 读行（文件 IO 简化）\n"
+            "    if op == 'read':\n"
+            "        return content\n"
+            "    if op == 'lines':\n"
+            "        return content.splitlines()\n"
+            "    return None\n"),
+        "cases": [(('第一行\n第二行', 'lines'), ['第一行', '第二行']),
+                  (('内容', 'read'), '内容'),
+                  (('', 'lines'), [])],
+        "params": [],
+        "calibration": "对照：Python 文件读取——读全部/按行（splitlines）",
+    },
+    "工具-性能计时": {
+        "task": "性能计时",
+        "pattern": (
+            "def perf_time(start, end, unit='ms'):\n"
+            "    # 性能计时：耗时计算（start/end 时间戳——性能测量）\n"
+            "    diff = end - start\n"
+            "    return diff * 1000 if unit == 'ms' else diff\n"),
+        "cases": [((0.0, 0.005, 'ms'), 5.0),
+                  ((1.0, 3.0, 's'), 2.0),
+                  ((0.0, 0.0, 'ms'), 0.0)],
+        "params": [],
+        "calibration": "对照：time.perf_counter——耗时计算（毫秒/秒）",
+    },
+    "工具-环境查询": {
+        "task": "环境查询",
+        "pattern": (
+            "def platform_check(env, op, key=None):\n"
+            "    # 环境查询：platform 平台 / version 版本 / get 键查询（环境信息）\n"
+            "    if op == 'platform':\n"
+            "        return env.get('platform')\n"
+            "    if op == 'version':\n"
+            "        return env.get('version')\n"
+            "    if op == 'get':\n"
+            "        return env.get(key)\n"
+            "    return None\n"),
+        "cases": [(({'platform': 'win32'}, 'platform'), 'win32'),
+                  (({'version': '3.12'}, 'version'), '3.12'),
+                  (({'py': '3'}, 'get', 'py'), '3'),
+                  (({}, 'get', 'x'), None)],
+        "params": [],
+        "calibration": "对照：sys/platform——平台与版本环境查询",
+    },
 }
 
 
