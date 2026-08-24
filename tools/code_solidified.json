@@ -6,6 +6,7 @@
   "checks": [
    "✔ 语法通过 | 样例 4 组全过"
   ],
-  "source": "code_solidified"
+  "source": "code_solidified",
+  "lang": "python"
  }
 }
