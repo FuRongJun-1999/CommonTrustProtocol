@@ -4197,5 +4197,39 @@ try:
 except Exception as ex:
     check('㋗c 预加载→合并→优先级端到端（hit 2 3）', False, str(ex)[:60])
 
+# ㋘ 目标4 深化：系统管理（配置管理/权限提升/环境变量 经正式管线）
+o11_qs = {
+    "配置管理": "写一个配置管理单元（键值配置）",
+    "权限提升": "写一个权限提升单元（sudo 白名单）",
+    "环境变量": "写一个环境变量单元（进程环境）",
+}
+o11_ok = 0
+for label, q in o11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o11_ok += 1
+    check(f'㋘ {label} 系统管理单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋘b 系统管理三单元全部生成', o11_ok == 3, f'{o11_ok}/3')
+
+# ㋘c 管理端到端：配置→提权→环境变量（30 allowed /bin）
+r_cf = domain_route("写一个配置管理单元（键值配置）")
+r_sc = domain_route("写一个权限提升单元（sudo 白名单）")
+r_ev = domain_route("写一个环境变量单元（进程环境）")
+try:
+    ns_cf, ns_sc, ns_ev = {}, {}, {}
+    exec(r_cf["code"], ns_cf)
+    exec(r_sc["code"], ns_sc)
+    exec(r_ev["code"], ns_ev)
+    cf = ns_cf["config_ops"]({}, 'set', 'timeout', 30)
+    sc = ns_sc["sudo_check"]({'root': ['reboot']}, 'check', 'root', 'reboot')
+    ev = ns_ev["env_ops"]({}, 'set', 'PATH', '/bin')
+    check('㋘c 配置→提权→环境变量端到端（30 allowed /bin）',
+          cf == 30 and sc == 'allowed' and ev == '/bin',
+          f'config={cf} sudo={sc} env={ev}')
+except Exception as ex:
+    check('㋘c 配置→提权→环境变量端到端（30 allowed /bin）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

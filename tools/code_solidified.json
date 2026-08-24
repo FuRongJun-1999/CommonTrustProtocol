@@ -3358,5 +3358,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:os|系统-配置管理": {
+  "task": "配置管理",
+  "unit": "系统-配置管理",
+  "code": "def config_ops(config, op, key=None, value=None, default=None):\n    # 配置管理：set 设置 / get 读取（默认值）/ list 列出（键值配置）\n    if op == 'set':\n        config[key] = value\n        return value\n    if op == 'get':\n        return config.get(key, default)\n    if op == 'list':\n        return sorted(config)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-权限提升": {
+  "task": "权限提升",
+  "unit": "系统-权限提升",
+  "code": "def sudo_check(auth, op, user=None, command=None):\n    # 权限提升：check 校验授权 / run 提权执行（sudo——命令白名单）\n    if op == 'check':\n        if user in auth and command in auth[user]:\n            return 'allowed'\n        return 'denied'\n    if op == 'run':\n        if user in auth and command in auth[user]:\n            return 'executed'\n        return 'denied'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-环境变量": {
+  "task": "环境变量",
+  "unit": "系统-环境变量",
+  "code": "def env_ops(env, op, name=None, value=None, default=None):\n    # 环境变量：set 设置 / get 读取（默认值）/ unset 删除（进程环境）\n    if op == 'set':\n        env[name] = value\n        return value\n    if op == 'get':\n        return env.get(name, default)\n    if op == 'unset':\n        return env.pop(name, None)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }

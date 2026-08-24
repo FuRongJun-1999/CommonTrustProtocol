@@ -1561,6 +1561,67 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：cron——分钟/小时规则匹配（* 任意）",
     },
+    "系统-配置管理": {
+        "task": "配置管理",
+        "pattern": (
+            "def config_ops(config, op, key=None, value=None, default=None):\n"
+            "    # 配置管理：set 设置 / get 读取（默认值）/ list 列出（键值配置）\n"
+            "    if op == 'set':\n"
+            "        config[key] = value\n"
+            "        return value\n"
+            "    if op == 'get':\n"
+            "        return config.get(key, default)\n"
+            "    if op == 'list':\n"
+            "        return sorted(config)\n"
+            "    return None\n"),
+        "cases": [(({}, 'set', 'timeout', 30), 30),
+                  (({'timeout': 30}, 'get', 'timeout', None, 0), 30),
+                  (({}, 'get', 'timeout', None, 0), 0),
+                  (({'b': 1, 'a': 2}, 'list'), ['a', 'b'])],
+        "params": [],
+        "calibration": "对照：系统配置——键值设置/读取（默认值兜底）",
+    },
+    "系统-权限提升": {
+        "task": "权限提升",
+        "pattern": (
+            "def sudo_check(auth, op, user=None, command=None):\n"
+            "    # 权限提升：check 校验授权 / run 提权执行（sudo——命令白名单）\n"
+            "    if op == 'check':\n"
+            "        if user in auth and command in auth[user]:\n"
+            "            return 'allowed'\n"
+            "        return 'denied'\n"
+            "    if op == 'run':\n"
+            "        if user in auth and command in auth[user]:\n"
+            "            return 'executed'\n"
+            "        return 'denied'\n"
+            "    return None\n"),
+        "cases": [(({'root': ['reboot']}, 'check', 'root', 'reboot'), 'allowed'),
+                  (({'root': ['reboot']}, 'check', 'root', 'rm'), 'denied'),
+                  (({}, 'check', 'root', 'reboot'), 'denied'),
+                  (({'root': ['reboot']}, 'run', 'root', 'reboot'), 'executed')],
+        "params": [],
+        "calibration": "对照：sudo——命令白名单授权（提权执行）",
+    },
+    "系统-环境变量": {
+        "task": "环境变量",
+        "pattern": (
+            "def env_ops(env, op, name=None, value=None, default=None):\n"
+            "    # 环境变量：set 设置 / get 读取（默认值）/ unset 删除（进程环境）\n"
+            "    if op == 'set':\n"
+            "        env[name] = value\n"
+            "        return value\n"
+            "    if op == 'get':\n"
+            "        return env.get(name, default)\n"
+            "    if op == 'unset':\n"
+            "        return env.pop(name, None)\n"
+            "    return None\n"),
+        "cases": [(({}, 'set', 'PATH', '/bin'), '/bin'),
+                  (({'PATH': '/bin'}, 'get', 'PATH', None, '/usr/bin'), '/bin'),
+                  (({}, 'get', 'PATH', None, '/usr/bin'), '/usr/bin'),
+                  (({'PATH': '/bin'}, 'unset', 'PATH'), '/bin')],
+        "params": [],
+        "calibration": "对照：环境变量——设置/读取（默认值）/删除",
+    },
 }
 
 
