@@ -3088,5 +3088,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:browser|浏览器-媒体播放": {
+  "task": "媒体播放",
+  "unit": "浏览器-媒体播放",
+  "code": "def media_ops(media, op, position=None, volume=None):\n    # 媒体播放：play 播放 / pause 暂停 / seek 跳转 / volume 音量（夹紧 0-1）\n    if op == 'play':\n        media['playing'] = True\n        return 'playing'\n    if op == 'pause':\n        media['playing'] = False\n        return 'paused'\n    if op == 'seek':\n        if position is not None:\n            media['position'] = position\n        return media.get('position', 0)\n    if op == 'volume':\n        if volume is not None:\n            media['volume'] = max(0.0, min(1.0, volume))\n        return media.get('volume', 1.0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-地理位置": {
+  "task": "地理位置",
+  "unit": "浏览器-地理位置",
+  "code": "def geolocation(state, op, permission=None, lat=None, lng=None):\n    # 地理位置：request 请求权限 / get 获取坐标（权限门控）\n    if op == 'request':\n        state['granted'] = permission\n        return 'granted' if permission else 'denied'\n    if op == 'get':\n        if state.get('granted'):\n            return {'lat': lat, 'lng': lng}\n        return 'permission_denied'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-全屏模式": {
+  "task": "全屏模式",
+  "unit": "浏览器-全屏模式",
+  "code": "def fullscreen_ops(state, op, element=None):\n    # 全屏模式：enter 元素全屏 / exit 退出（全屏 API 状态）\n    if op == 'enter':\n        state['fullscreen'] = element\n        return element\n    if op == 'exit':\n        state['fullscreen'] = None\n        return 'windowed'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

@@ -896,6 +896,72 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：SRI 子资源完整性——脚本哈希校验（防篡改）",
     },
+    "浏览器-媒体播放": {
+        "task": "媒体播放",
+        "pattern": (
+            "def media_ops(media, op, position=None, volume=None):\n"
+            "    # 媒体播放：play 播放 / pause 暂停 / seek 跳转 / volume 音量（夹紧 0-1）\n"
+            "    if op == 'play':\n"
+            "        media['playing'] = True\n"
+            "        return 'playing'\n"
+            "    if op == 'pause':\n"
+            "        media['playing'] = False\n"
+            "        return 'paused'\n"
+            "    if op == 'seek':\n"
+            "        if position is not None:\n"
+            "            media['position'] = position\n"
+            "        return media.get('position', 0)\n"
+            "    if op == 'volume':\n"
+            "        if volume is not None:\n"
+            "            media['volume'] = max(0.0, min(1.0, volume))\n"
+            "        return media.get('volume', 1.0)\n"
+            "    return None\n"),
+        "cases": [(({'playing': False}, 'play'), 'playing'),
+                  (({'playing': True}, 'pause'), 'paused'),
+                  (({'position': 0}, 'seek', 30), 30),
+                  (({'volume': 1.0}, 'volume', None, 0.5), 0.5),
+                  (({'volume': 1.0}, 'volume', None, 1.5), 1.0)],
+        "params": [],
+        "calibration": "对照：HTML5 媒体——play/pause/seek/volume（音量夹紧）",
+    },
+    "浏览器-地理位置": {
+        "task": "地理位置",
+        "pattern": (
+            "def geolocation(state, op, permission=None, lat=None, lng=None):\n"
+            "    # 地理位置：request 请求权限 / get 获取坐标（权限门控）\n"
+            "    if op == 'request':\n"
+            "        state['granted'] = permission\n"
+            "        return 'granted' if permission else 'denied'\n"
+            "    if op == 'get':\n"
+            "        if state.get('granted'):\n"
+            "            return {'lat': lat, 'lng': lng}\n"
+            "        return 'permission_denied'\n"
+            "    return None\n"),
+        "cases": [(({}, 'request', True), 'granted'),
+                  (({'granted': True}, 'get', None, 39.9, 116.4),
+                   {'lat': 39.9, 'lng': 116.4}),
+                  (({}, 'get'), 'permission_denied')],
+        "params": [],
+        "calibration": "对照：Geolocation API——权限请求/坐标获取（权限门控）",
+    },
+    "浏览器-全屏模式": {
+        "task": "全屏模式",
+        "pattern": (
+            "def fullscreen_ops(state, op, element=None):\n"
+            "    # 全屏模式：enter 元素全屏 / exit 退出（全屏 API 状态）\n"
+            "    if op == 'enter':\n"
+            "        state['fullscreen'] = element\n"
+            "        return element\n"
+            "    if op == 'exit':\n"
+            "        state['fullscreen'] = None\n"
+            "        return 'windowed'\n"
+            "    return None\n"),
+        "cases": [(({}, 'enter', 'video'), 'video'),
+                  (({'fullscreen': 'video'}, 'exit'), 'windowed'),
+                  (({}, 'enter', 'div'), 'div')],
+        "params": [],
+        "calibration": "对照：Fullscreen API——元素全屏进入/退出",
+    },
 }
 
 

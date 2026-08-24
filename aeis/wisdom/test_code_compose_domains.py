@@ -3880,5 +3880,40 @@ try:
 except Exception as ex:
     check('㋎c 令牌→压缩→会话亲和端到端（valid aaabb 0）', False, str(ex)[:60])
 
+# ㋏ 目标5 深化：浏览器媒体/能力（媒体播放/地理位置/全屏模式 经正式管线）
+b8_qs = {
+    "媒体播放": "写一个媒体播放单元（音量夹紧）",
+    "地理位置": "写一个地理位置单元（权限门控）",
+    "全屏模式": "写一个全屏模式单元（元素全屏）",
+}
+b8_ok = 0
+for label, q in b8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b8_ok += 1
+    check(f'㋏ {label} 浏览器媒体/能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋏b 浏览器媒体/能力三单元全部生成', b8_ok == 3, f'{b8_ok}/3')
+
+# ㋏c 媒体端到端：播放→地理→全屏（playing 坐标 video）
+r_mp = domain_route("写一个媒体播放单元（音量夹紧）")
+r_gl = domain_route("写一个地理位置单元（权限门控）")
+r_fs = domain_route("写一个全屏模式单元（元素全屏）")
+try:
+    ns_mp, ns_gl, ns_fs = {}, {}, {}
+    exec(r_mp["code"], ns_mp)
+    exec(r_gl["code"], ns_gl)
+    exec(r_fs["code"], ns_fs)
+    mp = ns_mp["media_ops"]({'playing': False}, 'play')
+    st = {'granted': True}
+    gl = ns_gl["geolocation"](st, 'get', None, 39.9, 116.4)
+    fs = ns_fs["fullscreen_ops"]({}, 'enter', 'video')
+    check('㋏c 播放→地理→全屏端到端（playing {39.9,116.4} video）',
+          mp == 'playing' and gl == {'lat': 39.9, 'lng': 116.4} and fs == 'video',
+          f'media={mp} geo={gl} fs={fs}')
+except Exception as ex:
+    check('㋏c 播放→地理→全屏端到端（playing {39.9,116.4} video）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
