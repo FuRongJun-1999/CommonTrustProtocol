@@ -4579,5 +4579,40 @@ try:
 except Exception as ex:
     check('㋢c 条件断点→调用计数→覆盖率端到端（True 3 0.5）', False, str(ex)[:60])
 
+# ㋣ 目标1 深化：P 线高级语法（默认参数/关键字参数/多行字符串 经正式管线）
+p13_qs = {
+    "默认参数": "写一个默认参数单元（缺省绑定）",
+    "关键字参数": "写一个关键字参数单元（kw 绑定）",
+    "多行字符串": "写一个多行字符串单元（三引号）",
+}
+p13_ok = 0
+for label, q in p13_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p13_ok += 1
+    check(f'㋣ {label} P线高级语法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋣b P线高级语法三单元全部生成', p13_ok == 3, f'{p13_ok}/3')
+
+# ㋣c 语法端到端：默认参数→关键字参数→多行字符串（缺省2 kw绑定 跨行串）
+r_da = domain_route("写一个默认参数单元（缺省绑定）")
+r_kw = domain_route("写一个关键字参数单元（kw 绑定）")
+r_ms = domain_route("写一个多行字符串单元（三引号）")
+try:
+    ns_da, ns_kw, ns_ms = {}, {}, {}
+    exec(r_da["code"], ns_da)
+    exec(r_kw["code"], ns_kw)
+    exec(r_ms["code"], ns_ms)
+    da = ns_da["default_args"](['甲', '乙'], {'乙': 2}, ['x'])
+    kw = ns_kw["kwargs_bind"](['甲', '乙'], ['x'], {'乙': 'y'})
+    ms = ns_ms["multiline_str"]('"""你好\n世界"""', 0)
+    check('㋣c 默认→关键字→多行字符串端到端（{甲:x,乙:2} {甲:x,乙:y} 跨行）',
+          da == {'甲': 'x', '乙': 2} and kw == {'甲': 'x', '乙': 'y'}
+          and ms == ('你好\n世界', 11),
+          f'default={da} kw={kw} multi={ms}')
+except Exception as ex:
+    check('㋣c 默认→关键字→多行字符串端到端（{甲:x,乙:2} {甲:x,乙:y} 跨行）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

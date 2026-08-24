@@ -1144,6 +1144,60 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python statistics——mean/min/max（统计族）",
     },
+    "语法-默认参数": {
+        "task": "默认参数",
+        "pattern": (
+            "def default_args(params, defaults, call_args):\n"
+            "    # 默认参数：参数绑定（缺省用默认值——函数调用语义）\n"
+            "    bound = {}\n"
+            "    for i, p in enumerate(params):\n"
+            "        bound[p] = call_args[i] if i < len(call_args) else defaults.get(p)\n"
+            "    return bound\n"),
+        "cases": [((['甲', '乙'], {'乙': 2}, ['x']), {'甲': 'x', '乙': 2}),
+                  ((['甲'], {}, ['x']), {'甲': 'x'}),
+                  ((['甲', '乙'], {'乙': 2}, ['x', 'y']),
+                   {'甲': 'x', '乙': 'y'})],
+        "params": [],
+        "calibration": "对照：Python 默认参数（缺省用默认值绑定）",
+    },
+    "语法-关键字参数": {
+        "task": "关键字参数",
+        "pattern": (
+            "def kwargs_bind(params, args, kwargs):\n"
+            "    # 关键字参数：位置+关键字绑定（**kwargs 语义）\n"
+            "    bound = {}\n"
+            "    for i, p in enumerate(params):\n"
+            "        if p in kwargs:\n"
+            "            bound[p] = kwargs[p]\n"
+            "        elif i < len(args):\n"
+            "            bound[p] = args[i]\n"
+            "        else:\n"
+            "            bound[p] = None\n"
+            "    return bound\n"),
+        "cases": [((['甲', '乙'], ['x'], {'乙': 'y'}), {'甲': 'x', '乙': 'y'}),
+                  ((['甲', '乙'], [], {'甲': 'x'}), {'甲': 'x', '乙': None}),
+                  ((['甲'], ['x'], {}), {'甲': 'x'})],
+        "params": [],
+        "calibration": "对照：Python 关键字参数（关键字优先于位置绑定）",
+    },
+    "语法-多行字符串": {
+        "task": "多行字符串",
+        "pattern": (
+            "def multiline_str(src, i):\n"
+            "    # 多行字符串：三引号解析（chr 构造——跨行字符串）\n"
+            "    q = chr(34) * 3\n"
+            "    if src[i:i + 3] != q:\n"
+            "        return None, i\n"
+            "    j = src.find(q, i + 3)\n"
+            "    if j == -1:\n"
+            "        return (src[i + 3:], 'unterminated'), len(src)\n"
+            "    return (src[i + 3:j]), j + 3\n"),
+        "cases": [
+            ((chr(34) * 3 + '你好' + chr(10) + '世界' + chr(34) * 3, 0), ('你好' + chr(10) + '世界', 11)),
+            ((chr(34) * 3 + '未闭合', 0), (('未闭合', 'unterminated'), 6))],
+        "params": [],
+        "calibration": "对照：Python 三引号字符串（跨行字面量）",
+    },
 }
 
 
