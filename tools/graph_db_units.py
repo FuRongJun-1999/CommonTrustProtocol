@@ -791,6 +791,67 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：图可视化——邻接矩阵（0/1 结构矩阵表示）",
     },
+    "图存储-备份恢复": {
+        "task": "备份恢复",
+        "pattern": (
+            "def backup_ops(repo, op, data=None):\n"
+            "    # 图备份：全量备份/增量合并/恢复（数据安全语义）\n"
+            "    if op == 'full':\n"
+            "        repo['full'] = dict(data or {})\n"
+            "        repo['incr'] = {}\n"
+            "        return 'full_backed'\n"
+            "    if op == 'incr':\n"
+            "        repo['incr'].update(data or {})\n"
+            "        return 'incr_backed'\n"
+            "    if op == 'restore':\n"
+            "        merged = dict(repo.get('full', {}))\n"
+            "        merged.update(repo.get('incr', {}))\n"
+            "        return merged\n"
+            "    return None\n"),
+        "cases": [(({'full': None, 'incr': None}, 'full', {'a': 1}), 'full_backed'),
+                  (({'full': {'a': 1}, 'incr': {}}, 'incr', {'b': 2}), 'incr_backed'),
+                  (({'full': {'a': 1}, 'incr': {'b': 2}}, 'restore'),
+                   {'a': 1, 'b': 2})],
+        "params": [],
+        "calibration": "对照：图备份——全量+增量合并恢复（数据安全）",
+    },
+    "图存储-一致性检查": {
+        "task": "一致性检查",
+        "pattern": (
+            "def integrity_check(graph):\n"
+            "    # 一致性：边两端节点存在 + 无重复边（数据完整性）\n"
+            "    errors = []\n"
+            "    seen = set()\n"
+            "    for src in graph.nodes:\n"
+            "        for dst in graph.neighbors(src):\n"
+            "            if dst not in graph.nodes:\n"
+            "                errors.append(f'悬空边: {src}→{dst}')\n"
+            "            if (src, dst) in seen:\n"
+            "                errors.append(f'重复边: {src}→{dst}')\n"
+            "            seen.add((src, dst))\n"
+            "    return errors\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图完整性——一致性检查（悬空边/重复边检测）",
+    },
+    "图存储-压缩编码": {
+        "task": "图压缩",
+        "pattern": (
+            "def compress_adjacency(graph):\n"
+            "    # 图压缩：邻接表 CSR 表示（顶点偏移+邻接数组——紧凑存储）\n"
+            "    nodes = sorted(graph.nodes)\n"
+            "    offsets, adj = [], []\n"
+            "    for n in nodes:\n"
+            "        offsets.append(len(adj))\n"
+            "        adj.extend(sorted(graph.neighbors(n)))\n"
+            "    offsets.append(len(adj))\n"
+            "    return {'nodes': nodes, 'offsets': offsets, 'adj': adj}\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图压缩——CSR 邻接表（顶点偏移+邻接数组，紧凑存储）",
+    },
 }
 
 

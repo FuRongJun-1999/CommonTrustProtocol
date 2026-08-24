@@ -1893,5 +1893,49 @@ try:
 except Exception as ex:
     check('㊘c CDN→内容路由→边缘端到端（命中DATA logo-srv e1计算10）', False, str(ex)[:60])
 
+# ㊙ 目标6 深化：运维（备份恢复/一致性检查/压缩编码 经正式管线）
+g11_qs = {
+    "备份恢复": "写一个图备份恢复单元（全量增量）",
+    "一致性检查": "写一个图一致性检查单元（悬空边）",
+    "压缩编码": "写一个图压缩编码单元（CSR 表示）",
+}
+g11_ok = 0
+for label, q in g11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g11_ok += 1
+    check(f'㊙ {label} 图运维单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊙b 图运维三单元全部生成', g11_ok == 3, f'{g11_ok}/3')
+
+# ㊙c 端到端：备份→一致性→压缩（数据安全→完整性→紧凑存储）
+r_bk = domain_route("写一个图备份恢复单元（全量增量）")
+r_ic = domain_route("写一个图一致性检查单元（悬空边）")
+r_cp = domain_route("写一个图压缩编码单元（CSR 表示）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+ns_g11 = {}
+exec(r_g["code"], ns_g11)
+Graph11 = ns_g11["Graph"]
+try:
+    ns_bk, ns_ic, ns_cp = {}, {}, {}
+    exec(r_bk["code"], ns_bk)
+    exec(r_ic["code"], ns_ic)
+    exec(r_cp["code"], ns_cp)
+    repo = {'full': None, 'incr': None}
+    ns_bk["backup_ops"](repo, 'full', {'a': 1})
+    ns_bk["backup_ops"](repo, 'incr', {'b': 2})
+    merged = ns_bk["backup_ops"](repo, 'restore')
+    g = Graph11()
+    g.add_edge("a", "b")
+    errs = ns_ic["integrity_check"](g)
+    csr = ns_cp["compress_adjacency"](g)
+    check('㊙c 备份→一致性→压缩端到端（恢复{a,b} 无错误 CSR偏移[0,1,1]）',
+          merged == {'a': 1, 'b': 2} and errs == []
+          and csr['offsets'] == [0, 1, 1],
+          f'backup={merged} integ={errs} csr={csr["offsets"]}')
+except Exception as ex:
+    check('㊙c 备份→一致性→压缩端到端（恢复{a,b} 无错误 CSR偏移[0,1,1]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -1468,5 +1468,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:graph|图存储-备份恢复": {
+  "task": "备份恢复",
+  "unit": "图存储-备份恢复",
+  "code": "def backup_ops(repo, op, data=None):\n    # 图备份：全量备份/增量合并/恢复（数据安全语义）\n    if op == 'full':\n        repo['full'] = dict(data or {})\n        repo['incr'] = {}\n        return 'full_backed'\n    if op == 'incr':\n        repo['incr'].update(data or {})\n        return 'incr_backed'\n    if op == 'restore':\n        merged = dict(repo.get('full', {}))\n        merged.update(repo.get('incr', {}))\n        return merged\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图存储-一致性检查": {
+  "task": "一致性检查",
+  "unit": "图存储-一致性检查",
+  "code": "def integrity_check(graph):\n    # 一致性：边两端节点存在 + 无重复边（数据完整性）\n    errors = []\n    seen = set()\n    for src in graph.nodes:\n        for dst in graph.neighbors(src):\n            if dst not in graph.nodes:\n                errors.append(f'悬空边: {src}→{dst}')\n            if (src, dst) in seen:\n                errors.append(f'重复边: {src}→{dst}')\n            seen.add((src, dst))\n    return errors\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图存储-压缩编码": {
+  "task": "图压缩",
+  "unit": "图存储-压缩编码",
+  "code": "def compress_adjacency(graph):\n    # 图压缩：邻接表 CSR 表示（顶点偏移+邻接数组——紧凑存储）\n    nodes = sorted(graph.nodes)\n    offsets, adj = [], []\n    for n in nodes:\n        offsets.append(len(adj))\n        adj.extend(sorted(graph.neighbors(n)))\n    offsets.append(len(adj))\n    return {'nodes': nodes, 'offsets': offsets, 'adj': adj}\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

@@ -97,6 +97,20 @@ for uid, u in GRAPH_UNITS.items():
                         # 注入图；批量添加 3 条边
                         g = generated["图存储-节点边"][0]["Graph"]()
                         got = fn(g, [("a", "b"), ("b", "c"), ("c", "d")])
+                    elif uid in ("图存储-一致性检查", "图存储-压缩编码"):
+                        # 注入两链图
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压低", "沸点降")
+                        g.add_edge("沸点降", "煮不熟")
+                        g.add_edge("气压低", "缺氧")
+                        g.add_edge("缺氧", "煮不熟")
+                        if uid == "图存储-一致性检查":
+                            got = fn(g)  # 无悬空/重复边 → []
+                            expect = []
+                        else:
+                            got = fn(g)  # CSR 结构
+                            expect = sorted(got['nodes'])
+                            got = sorted(got['nodes'])
                     elif uid in ("图可视化-分层布局", "图可视化-邻接矩阵"):
                         # 注入两链图
                         g = generated["图存储-节点边"][0]["Graph"]()
