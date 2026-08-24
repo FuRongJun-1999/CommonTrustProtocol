@@ -4720,5 +4720,41 @@ try:
 except Exception as ex:
     check('㋦c 窥孔→融合→不变式端到端（[DE] [MOV] 外提PUSH）', False, str(ex)[:60])
 
+# ㋧ 目标7 深化：应用层收官（消息路由/API限流/数据序列化 经正式管线）
+n14_qs = {
+    "消息路由": "写一个消息路由单元（主题绑定）",
+    "API限流": "写一个 API 限流单元（配额消耗）",
+    "数据序列化": "写一个数据序列化单元（字段编码）",
+}
+n14_ok = 0
+for label, q in n14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n14_ok += 1
+    check(f'㋧ {label} 应用层单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋧b 应用层三单元全部生成', n14_ok == 3, f'{n14_ok}/3')
+
+# ㋧c 应用端到端：消息路由→API限流→序列化（[q1] ok [(0,str,甲)]）
+r_mr = domain_route("写一个消息路由单元（主题绑定）")
+r_ar = domain_route("写一个 API 限流单元（配额消耗）")
+r_pe = domain_route("写一个数据序列化单元（字段编码）")
+try:
+    ns_mr, ns_ar, ns_pe = {}, {}, {}
+    exec(r_mr["code"], ns_mr)
+    exec(r_ar["code"], ns_ar)
+    exec(r_pe["code"], ns_pe)
+    mr = ns_mr["msg_routing"]({'设备': ['q1']}, 'route', '设备')
+    ar = ns_ar["api_rate_limit"]({}, 'use', 'u1', 3)
+    pe = ns_pe["proto_encode"]([('名', 'str'), ('值', 'int')],
+                               {'名': '甲', '值': 3})
+    check('㋧c 路由→限流→序列化端到端（[q1] ok [(0,str,甲),(1,int,3)]）',
+          mr == ['q1'] and ar == 'ok'
+          and pe == [(0, 'str', '甲'), (1, 'int', 3)],
+          f'route={mr} limit={ar} proto={pe}')
+except Exception as ex:
+    check('㋧c 路由→限流→序列化端到端（[q1] ok [(0,str,甲),(1,int,3)]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

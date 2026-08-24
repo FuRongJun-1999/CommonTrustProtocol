@@ -3808,5 +3808,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:net|网络-消息路由": {
+  "task": "消息路由",
+  "unit": "网络-消息路由",
+  "code": "def msg_routing(routes, op, topic=None, queue=None):\n    # 消息路由：bind 绑定主题到队列 / route 路由（主题→队列）\n    if op == 'bind':\n        routes.setdefault(topic, []).append(queue)\n        return routes[topic]\n    if op == 'route':\n        return list(routes.get(topic, []))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-API限流": {
+  "task": "API限流",
+  "unit": "网络-API限流",
+  "code": "def api_rate_limit(state, op, user=None, quota=0):\n    # API 限流：use 消耗配额 / check 检查（每用户配额）\n    if op == 'use':\n        state[user] = state.get(user, quota) - 1\n        return 'ok' if state[user] >= 0 else 'exceeded'\n    if op == 'check':\n        return state.get(user, quota)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-数据序列化": {
+  "task": "数据序列化",
+  "unit": "网络-数据序列化",
+  "code": "def proto_encode(fields, values):\n    # 数据序列化：字段表+值 → 紧凑编码（protobuf 简化——字段序号+类型+值）\n    out = []\n    for i, (name, typ) in enumerate(fields):\n        v = values.get(name)\n        if v is not None:\n            out.append((i, typ, v))\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

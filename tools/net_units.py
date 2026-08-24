@@ -1424,6 +1424,61 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：会话管理——空闲超时断开（保活续期）",
     },
+    "网络-消息路由": {
+        "task": "消息路由",
+        "pattern": (
+            "def msg_routing(routes, op, topic=None, queue=None):\n"
+            "    # 消息路由：bind 绑定主题到队列 / route 路由（主题→队列）\n"
+            "    if op == 'bind':\n"
+            "        routes.setdefault(topic, []).append(queue)\n"
+            "        return routes[topic]\n"
+            "    if op == 'route':\n"
+            "        return list(routes.get(topic, []))\n"
+            "    return None\n"),
+        "cases": [(({}, 'bind', '设备', 'q1'), ['q1']),
+                  (({'设备': ['q1']}, 'bind', '设备', 'q2'), ['q1', 'q2']),
+                  (({'设备': ['q1']}, 'route', '设备'), ['q1']),
+                  (({}, 'route', '未知'), [])],
+        "params": [],
+        "calibration": "对照：消息中间件——主题绑定队列路由（发布订阅）",
+    },
+    "网络-API限流": {
+        "task": "API限流",
+        "pattern": (
+            "def api_rate_limit(state, op, user=None, quota=0):\n"
+            "    # API 限流：use 消耗配额 / check 检查（每用户配额）\n"
+            "    if op == 'use':\n"
+            "        state[user] = state.get(user, quota) - 1\n"
+            "        return 'ok' if state[user] >= 0 else 'exceeded'\n"
+            "    if op == 'check':\n"
+            "        return state.get(user, quota)\n"
+            "    return None\n"),
+        "cases": [(({}, 'use', 'u1', 3), 'ok'),
+                  (({'u1': 0}, 'use', 'u1', 3), 'exceeded'),
+                  (({}, 'check', 'u1', 3), 3),
+                  (({'u1': 2}, 'check', 'u1', 3), 2)],
+        "params": [],
+        "calibration": "对照：API 网关——每用户配额限流（超额拒绝）",
+    },
+    "网络-数据序列化": {
+        "task": "数据序列化",
+        "pattern": (
+            "def proto_encode(fields, values):\n"
+            "    # 数据序列化：字段表+值 → 紧凑编码（protobuf 简化——字段序号+类型+值）\n"
+            "    out = []\n"
+            "    for i, (name, typ) in enumerate(fields):\n"
+            "        v = values.get(name)\n"
+            "        if v is not None:\n"
+            "            out.append((i, typ, v))\n"
+            "    return out\n"),
+        "cases": [(([('名', 'str'), ('值', 'int')], {'名': '甲', '值': 3}),
+                   [(0, 'str', '甲'), (1, 'int', 3)]),
+                  (([('名', 'str')], {}), []),
+                  (([('名', 'str'), ('值', 'int')], {'值': 5}),
+                   [(1, 'int', 5)])],
+        "params": [],
+        "calibration": "对照：protobuf 序列化——字段序号+类型+值紧凑编码",
+    },
 }
 
 
