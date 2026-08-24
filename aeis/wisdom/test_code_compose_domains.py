@@ -4369,5 +4369,39 @@ try:
 except Exception as ex:
     check('㋜c 数学→舍入→统计端到端（8 3 2.0）', False, str(ex)[:60])
 
+# ㋝ 目标5 深化：权限/安全/支付（权限API/CSP报告/支付请求 经正式管线）
+b10_qs = {
+    "权限API": "写一个权限 API 单元（状态管理）",
+    "CSP报告": "写一个 CSP 报告单元（违规上报）",
+    "支付请求": "写一个支付请求单元（支付流程）",
+}
+b10_ok = 0
+for label, q in b10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b10_ok += 1
+    check(f'㋝ {label} 权限/安全/支付单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋝b 权限/安全/支付三单元全部生成', b10_ok == 3, f'{b10_ok}/3')
+
+# ㋝c 端到端：权限→CSP→支付（granted 1 paid）
+r_pa = domain_route("写一个权限 API 单元（状态管理）")
+r_cr = domain_route("写一个 CSP 报告单元（违规上报）")
+r_py = domain_route("写一个支付请求单元（支付流程）")
+try:
+    ns_pa, ns_cr, ns_py = {}, {}, {}
+    exec(r_pa["code"], ns_pa)
+    exec(r_cr["code"], ns_cr)
+    exec(r_py["code"], ns_py)
+    pa = ns_pa["permission_api"]({}, 'request', 'camera', True)
+    cr = ns_cr["csp_report"]([], 'record', 'script-src', 'default-src')
+    py = ns_py["payment_ops"]({'methods': ['alipay']}, 'pay', 'alipay', 100)
+    check('㋝c 权限→CSP→支付端到端（granted 1 paid）',
+          pa == 'granted' and cr == 1 and py == 'paid',
+          f'perm={pa} csp={cr} pay={py}')
+except Exception as ex:
+    check('㋝c 权限→CSP→支付端到端（granted 1 paid）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

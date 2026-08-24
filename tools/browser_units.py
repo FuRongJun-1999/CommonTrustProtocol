@@ -1029,6 +1029,71 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：资源优先级——关键脚本/样式优先加载",
     },
+    "浏览器-权限API": {
+        "task": "权限API",
+        "pattern": (
+            "def permission_api(state, op, perm=None, granted=None):\n"
+            "    # 权限 API：query 查询 / request 请求（权限状态管理）\n"
+            "    if op == 'query':\n"
+            "        return state.get(perm, 'prompt')\n"
+            "    if op == 'request':\n"
+            "        state[perm] = 'granted' if granted else 'denied'\n"
+            "        return state[perm]\n"
+            "    return None\n"),
+        "cases": [(({}, 'query', 'camera'), 'prompt'),
+                  (({'camera': 'granted'}, 'query', 'camera'), 'granted'),
+                  (({}, 'request', 'camera', True), 'granted'),
+                  (({}, 'request', 'camera', False), 'denied')],
+        "params": [],
+        "calibration": "对照：Permissions API——权限查询/请求（prompt/granted/denied）",
+    },
+    "浏览器-CSP报告": {
+        "task": "CSP报告",
+        "pattern": (
+            "def csp_report(reports, op, violation=None, policy=None):\n"
+            "    # CSP 报告：record 记录违规 / count 统计 / filter 按策略过滤（上报）\n"
+            "    if op == 'record':\n"
+            "        reports.append({'violation': violation, 'policy': policy})\n"
+            "        return len(reports)\n"
+            "    if op == 'count':\n"
+            "        return len(reports)\n"
+            "    if op == 'filter':\n"
+            "        return [r for r in reports if r['policy'] == policy]\n"
+            "    return None\n"),
+        "cases": [(([], 'record', 'script-src', 'default-src'), 1),
+                  (([{'violation': 'script-src', 'policy': 'default-src'}],
+                    'count'), 1),
+                  (([{'violation': 'a', 'policy': 'p1'},
+                     {'violation': 'b', 'policy': 'p2'}],
+                    'filter', None, 'p1'),
+                   [{'violation': 'a', 'policy': 'p1'}])],
+        "params": [],
+        "calibration": "对照：CSP report-uri——内容安全策略违规上报",
+    },
+    "浏览器-支付请求": {
+        "task": "支付请求",
+        "pattern": (
+            "def payment_ops(payment, op, method=None, amount=None):\n"
+            "    # 支付请求：can_pay 检查方法 / pay 支付 / status 状态（支付流程）\n"
+            "    if op == 'can_pay':\n"
+            "        return method in payment.get('methods', [])\n"
+            "    if op == 'pay':\n"
+            "        if method not in payment.get('methods', []):\n"
+            "            return 'unsupported'\n"
+            "        payment['paid'] = (method, amount)\n"
+            "        return 'paid'\n"
+            "    if op == 'status':\n"
+            "        return payment.get('paid')\n"
+            "    return None\n"),
+        "cases": [(({'methods': ['alipay']}, 'can_pay', 'alipay'), True),
+                  (({'methods': ['alipay']}, 'pay', 'alipay', 100), 'paid'),
+                  (({'methods': ['alipay']}, 'pay', 'wechat', 100),
+                   'unsupported'),
+                  (({'methods': ['alipay'], 'paid': ('alipay', 100)},
+                    'status'), ('alipay', 100))],
+        "params": [],
+        "calibration": "对照：Payment Request API——方法检查/支付/状态",
+    },
 }
 
 

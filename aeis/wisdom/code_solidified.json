@@ -3508,5 +3508,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:browser|浏览器-权限API": {
+  "task": "权限API",
+  "unit": "浏览器-权限API",
+  "code": "def permission_api(state, op, perm=None, granted=None):\n    # 权限 API：query 查询 / request 请求（权限状态管理）\n    if op == 'query':\n        return state.get(perm, 'prompt')\n    if op == 'request':\n        state[perm] = 'granted' if granted else 'denied'\n        return state[perm]\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-CSP报告": {
+  "task": "CSP报告",
+  "unit": "浏览器-CSP报告",
+  "code": "def csp_report(reports, op, violation=None, policy=None):\n    # CSP 报告：record 记录违规 / count 统计 / filter 按策略过滤（上报）\n    if op == 'record':\n        reports.append({'violation': violation, 'policy': policy})\n        return len(reports)\n    if op == 'count':\n        return len(reports)\n    if op == 'filter':\n        return [r for r in reports if r['policy'] == policy]\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-支付请求": {
+  "task": "支付请求",
+  "unit": "浏览器-支付请求",
+  "code": "def payment_ops(payment, op, method=None, amount=None):\n    # 支付请求：can_pay 检查方法 / pay 支付 / status 状态（支付流程）\n    if op == 'can_pay':\n        return method in payment.get('methods', [])\n    if op == 'pay':\n        if method not in payment.get('methods', []):\n            return 'unsupported'\n        payment['paid'] = (method, amount)\n        return 'paid'\n    if op == 'status':\n        return payment.get('paid')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }
