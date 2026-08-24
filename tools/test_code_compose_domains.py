@@ -2909,5 +2909,39 @@ try:
 except Exception as ex:
     check('㊳c 正则路径→缓存→物化端到端（[1] r1 [b,5][a,3]）', False, str(ex)[:60])
 
+# ㊴ 目标1 深化：P 线标准库族（正则匹配/日期时间/JSON序列化 经正式管线）
+p5_qs = {
+    "正则匹配": "写一个正则匹配单元（re 搜索）",
+    "日期时间": "写一个日期时间单元（加减进位）",
+    "JSON序列化": "写一个 JSON 序列化单元（往返）",
+}
+p5_ok = 0
+for label, q in p5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p5_ok += 1
+    check(f'㊴ {label} P线标准库单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊴b P线标准库三单元全部生成', p5_ok == 3, f'{p5_ok}/3')
+
+# ㊴c 标准库端到端：正则→日期→JSON（\d+ True / +60→3月1日 / 往返一致）
+r_re = domain_route("写一个正则匹配单元（re 搜索）")
+r_dt = domain_route("写一个日期时间单元（加减进位）")
+r_js = domain_route("写一个 JSON 序列化单元（往返）")
+try:
+    ns_re, ns_dt, ns_js = {}, {}, {}
+    exec(r_re["code"], ns_re)
+    exec(r_dt["code"], ns_dt)
+    exec(r_js["code"], ns_js)
+    m = ns_re["regex_match"]('\\d+', 'a1b')
+    d = ns_dt["date_add"](2026, 1, 1, 60)
+    j = ns_js["json_roundtrip"]({'a': 1, 'b': [1, 2]})
+    check('㊴c 正则→日期→JSON端到端（True 3月1日 往返一致）',
+          m is True and d == (2026, 3, 1) and j == {'a': 1, 'b': [1, 2]},
+          f're={m} date={d} json={j}')
+except Exception as ex:
+    check('㊴c 正则→日期→JSON端到端（True 3月1日 往返一致）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

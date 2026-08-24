@@ -726,6 +726,57 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：CPython dataclass（字段表自动生成 __init__，参数个数不匹配报错）",
     },
+    "工具-正则匹配": {
+        "task": "正则匹配",
+        "pattern": (
+            "def regex_match(pattern, text):\n"
+            "    # 正则匹配：re.search 简化（模式在文本中是否存在）\n"
+            "    import re\n"
+            "    return bool(re.search(pattern, text))\n"),
+        "cases": [(('^ab', 'abc'), True),
+                  (('\\d+', 'a1b'), True),
+                  (('^xy', 'abc'), False)],
+        "params": [],
+        "calibration": "对照：CPython re.search（正则匹配，^ 锚定/\\d 数字类）",
+    },
+    "工具-日期时间": {
+        "task": "日期时间",
+        "pattern": (
+            "def date_add(year, month, day, days):\n"
+            "    # 日期时间：日期加减天数（简化月 30 天进位——日期运算）\n"
+            "    d = day + days\n"
+            "    while d > 30:\n"
+            "        d -= 30\n"
+            "        month += 1\n"
+            "        if month > 12:\n"
+            "            month = 1\n"
+            "            year += 1\n"
+            "    while d < 1:\n"
+            "        d += 30\n"
+            "        month -= 1\n"
+            "        if month < 1:\n"
+            "            month = 12\n"
+            "            year -= 1\n"
+            "    return year, month, d\n"),
+        "cases": [((2026, 1, 1, 30), (2026, 2, 1)),
+                  ((2026, 1, 1, 60), (2026, 3, 1)),
+                  ((2026, 3, 1, -1), (2026, 2, 30))],
+        "params": [],
+        "calibration": "对照：CPython datetime（日期加减进位；简化 30 天月模型——1/1+30=2/1 按模型校准）",
+    },
+    "工具-JSON序列化": {
+        "task": "JSON序列化",
+        "pattern": (
+            "def json_roundtrip(data):\n"
+            "    # JSON 序列化：dict ↔ 字符串往返（数据交换标准）\n"
+            "    import json\n"
+            "    return json.loads(json.dumps(data))\n"),
+        "cases": [(({'a': 1, 'b': [1, 2]},), {'a': 1, 'b': [1, 2]}),
+                  (({'名': '甲'},), {'名': '甲'}),
+                  (([1, 2, 3],), [1, 2, 3])],
+        "params": [],
+        "calibration": "对照：CPython json.dumps/loads（结构化数据序列化往返）",
+    },
 }
 
 

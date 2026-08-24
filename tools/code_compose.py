@@ -224,7 +224,8 @@ DOMAIN_KEYWORDS = {
                "推导", "继承", "多态", "类定义", "装饰器", "上下文",
                "with", "属性", "类型注解", "运行时检查", "协议", "类型",
                "异步", "协程", "事件循环", "并发", "元编程", "动态建类",
-               "元类", "描述符", "运算符重载", "枚举", "数据类"],
+               "元类", "描述符", "运算符重载", "枚举", "数据类", "正则匹配",
+               "日期时间", "JSON序列化"],
     "graph": ["图数据库", "图遍历", "图查询", "条件路由图", "遍历", "路径",
               "路由", "持久化", "条件链", "建图", "图存储", "模式匹配",
               "聚合", "匹配", "事务", "索引", "子图", "PageRank", "连通",
@@ -275,10 +276,12 @@ DOMAIN_KEYWORDS = {
 def detect_domain(question):
     """域识别：问题 → 域（compiler/pylang/graph/os/browser/net/None）
     命中计数优先（「CSS级联+样式优先级」= browser 3 词 > pylang 1 词），
-    平局取最长关键词（「路由表」len3 > 「路由」len2）"""
+    平局取最长关键词（「路由表」len3 > 「路由」len2）；
+    空格归一化（「JSON 序列化」→「JSON序列化」——与关键词连写对齐）"""
     best, best_cnt, best_len = None, 0, 0
+    q_compact = question.replace(" ", "")
     for domain, kws in DOMAIN_KEYWORDS.items():
-        hit = [k for k in kws if k in question]
+        hit = [k for k in kws if k in question or k in q_compact]
         if not hit:
             continue
         cnt, max_len = len(hit), max(len(k) for k in hit)

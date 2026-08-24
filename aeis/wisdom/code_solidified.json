@@ -2278,5 +2278,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:pylang|工具-正则匹配": {
+  "task": "正则匹配",
+  "unit": "工具-正则匹配",
+  "code": "def regex_match(pattern, text):\n    # 正则匹配：re.search 简化（模式在文本中是否存在）\n    import re\n    return bool(re.search(pattern, text))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-日期时间": {
+  "task": "日期时间",
+  "unit": "工具-日期时间",
+  "code": "def date_add(year, month, day, days):\n    # 日期时间：日期加减天数（简化月 30 天进位——日期运算）\n    d = day + days\n    while d > 30:\n        d -= 30\n        month += 1\n        if month > 12:\n            month = 1\n            year += 1\n    while d < 1:\n        d += 30\n        month -= 1\n        if month < 1:\n            month = 12\n            year -= 1\n    return year, month, d\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-JSON序列化": {
+  "task": "JSON序列化",
+  "unit": "工具-JSON序列化",
+  "code": "def json_roundtrip(data):\n    # JSON 序列化：dict ↔ 字符串往返（数据交换标准）\n    import json\n    return json.loads(json.dumps(data))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }
