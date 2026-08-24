@@ -4858,5 +4858,43 @@ try:
 except Exception as ex:
     check('㋪c 条件→自旋→时间片端到端（notified acquired 2）', False, str(ex)[:60])
 
+# ㋫ 目标6 深化：条件路由图收官（条件回溯/信任聚合/审计日志 经正式管线）
+g26_qs = {
+    "条件回溯": "写一个条件回溯单元（反向推导）",
+    "信任聚合": "写一个信任聚合单元（多路径合并）",
+    "审计日志": "写一个审计记录单元（操作留痕）",
+}
+g26_ok = 0
+for label, q in g26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g26_ok += 1
+    check(f'㋫ {label} 条件路由图单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋫b 条件路由图三单元全部生成', g26_ok == 3, f'{g26_ok}/3')
+
+# ㋫c 路由端到端：回溯→聚合→审计（[缺氧,高温] 0.8 过滤u2）
+r_cb = domain_route("写一个条件回溯单元（反向推导）")
+r_ta = domain_route("写一个信任聚合单元（多路径合并）")
+r_al = domain_route("写一个审计记录单元（操作留痕）")
+try:
+    ns_cb, ns_ta, ns_al = {}, {}, {}
+    exec(r_cb["code"], ns_cb)
+    exec(r_ta["code"], ns_ta)
+    exec(r_al["code"], ns_al)
+    cb = ns_cb["condition_backtrack"](
+        {'c': 'b', 'b': 'a'}, 'c', {'a': '高温', 'c': '缺氧'})
+    ta = ns_ta["trust_aggregate"]({('a', 'c'): [0.5, 0.8]}, 'max', 'a', 'c')
+    al = ns_al["audit_log"](
+        [{'user': 'u1', 'action': '读', 'obj': 'a'},
+         {'user': 'u2', 'action': '写', 'obj': 'b'}], 'filter', 'u2')
+    check('㋫c 回溯→聚合→审计端到端（[缺氧,高温] 0.8 [u2写]）',
+          cb == ['缺氧', '高温'] and ta == 0.8
+          and al == [{'user': 'u2', 'action': '写', 'obj': 'b'}],
+          f'back={cb} trust={ta} audit={al}')
+except Exception as ex:
+    check('㋫c 回溯→聚合→审计端到端（[缺氧,高温] 0.8 [u2写]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

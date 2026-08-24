@@ -3928,5 +3928,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:graph|条件路由图-条件回溯": {
+  "task": "条件回溯",
+  "unit": "条件路由图-条件回溯",
+  "code": "def condition_backtrack(prev, end, conditions):\n    # 条件回溯：沿前驱链收集条件（反向推导路径条件）\n    conds = []\n    cur = end\n    seen = set()\n    while cur is not None and cur not in seen:\n        seen.add(cur)\n        if cur in conditions:\n            conds.append(conditions[cur])\n        cur = prev.get(cur)\n    return conds\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|条件路由图-信任聚合": {
+  "task": "信任聚合",
+  "unit": "条件路由图-信任聚合",
+  "code": "def trust_aggregate(paths, op, source=None, target=None, val=None):\n    # 信任聚合：多路径信任合并（max 最大 / avg 平均——信任路由决策）\n    if op == 'record':\n        paths.setdefault((source, target), []).append(val)\n        return paths[(source, target)]\n    if op == 'max':\n        return max(paths.get((source, target), [0]))\n    if op == 'avg':\n        vals = paths.get((source, target), [0])\n        return sum(vals) / len(vals)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图安全-审计日志": {
+  "task": "审计记录",
+  "unit": "图安全-审计日志",
+  "code": "def audit_log(log, op, user=None, action=None, obj=None):\n    # 审计日志：record 记录操作 / filter 按用户过滤 / count 计数（安全审计）\n    if op == 'record':\n        log.append({'user': user, 'action': action, 'obj': obj})\n        return len(log)\n    if op == 'filter':\n        return [e for e in log if e['user'] == user]\n    if op == 'count':\n        return len(log)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

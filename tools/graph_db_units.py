@@ -1684,6 +1684,71 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图查询——模糊匹配（公共字符数近似名称）",
     },
+    "条件路由图-条件回溯": {
+        "task": "条件回溯",
+        "pattern": (
+            "def condition_backtrack(prev, end, conditions):\n"
+            "    # 条件回溯：沿前驱链收集条件（反向推导路径条件）\n"
+            "    conds = []\n"
+            "    cur = end\n"
+            "    seen = set()\n"
+            "    while cur is not None and cur not in seen:\n"
+            "        seen.add(cur)\n"
+            "        if cur in conditions:\n"
+            "            conds.append(conditions[cur])\n"
+            "        cur = prev.get(cur)\n"
+            "    return conds\n"),
+        "cases": [(({'c': 'b', 'b': 'a'}, 'c', {'a': '高温', 'c': '缺氧'}),
+                   ['缺氧', '高温']),
+                  (({}, 'a', {'a': 'x'}), ['x']),
+                  (({'b': 'a'}, 'b', {}), [])],
+        "params": [],
+        "calibration": "对照：条件路由图——条件回溯（反向推导路径条件）",
+    },
+    "条件路由图-信任聚合": {
+        "task": "信任聚合",
+        "pattern": (
+            "def trust_aggregate(paths, op, source=None, target=None, val=None):\n"
+            "    # 信任聚合：多路径信任合并（max 最大 / avg 平均——信任路由决策）\n"
+            "    if op == 'record':\n"
+            "        paths.setdefault((source, target), []).append(val)\n"
+            "        return paths[(source, target)]\n"
+            "    if op == 'max':\n"
+            "        return max(paths.get((source, target), [0]))\n"
+            "    if op == 'avg':\n"
+            "        vals = paths.get((source, target), [0])\n"
+            "        return sum(vals) / len(vals)\n"
+            "    return None\n"),
+        "cases": [(({}, 'record', 'a', 'c', 0.8), [0.8]),
+                  (({('a', 'c'): [0.5, 0.8]}, 'max', 'a', 'c'), 0.8),
+                  (({('a', 'c'): [0.5, 0.8]}, 'avg', 'a', 'c'), 0.65),
+                  (({}, 'max', 'a', 'c'), 0)],
+        "params": [],
+        "calibration": "对照：条件路由图——信任聚合（多路径合并取最大/平均）",
+    },
+    "图安全-审计日志": {
+        "task": "审计记录",
+        "pattern": (
+            "def audit_log(log, op, user=None, action=None, obj=None):\n"
+            "    # 审计日志：record 记录操作 / filter 按用户过滤 / count 计数（安全审计）\n"
+            "    if op == 'record':\n"
+            "        log.append({'user': user, 'action': action, 'obj': obj})\n"
+            "        return len(log)\n"
+            "    if op == 'filter':\n"
+            "        return [e for e in log if e['user'] == user]\n"
+            "    if op == 'count':\n"
+            "        return len(log)\n"
+            "    return None\n"),
+        "cases": [(([], 'record', 'u1', '读', '节点a'), 1),
+                  (([{'user': 'u1', 'action': '读', 'obj': '节点a'}],
+                    'count'), 1),
+                  (([{'user': 'u1', 'action': '读', 'obj': 'a'},
+                     {'user': 'u2', 'action': '写', 'obj': 'b'}],
+                    'filter', 'u2'),
+                   [{'user': 'u2', 'action': '写', 'obj': 'b'}])],
+        "params": [],
+        "calibration": "对照：图安全——审计日志（操作记录/用户过滤）",
+    },
 }
 
 
