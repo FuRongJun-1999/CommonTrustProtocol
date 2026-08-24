@@ -565,6 +565,65 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：C3 原生编译——.pbc 加载（与序列化对称，往返一致性由校准⑫验证）",
     },
+    "调试-单步": {
+        "task": "VM单步",
+        "pattern": (
+            "def step_exec(code, ip, stack=None, symbols=None, trust=0.0, cond=None):\n"
+            "    # VM 单步：执行一条指令 → (next_ip, 新状态)；止/无为返回 halt；越界返回 None\n"
+            "    if ip >= len(code):\n"
+            "        return None\n"
+            "    op, arg = code[ip]\n"
+            "    stack = list(stack or [])\n"
+            "    symbols = dict(symbols or {})\n"
+            "    cond = list(cond or [])\n"
+            "    ip += 1\n"
+            "    if op == 'PUSH':\n"
+            "        stack.append(arg)\n"
+            "    elif op == 'STORE':\n"
+            "        symbols[arg] = stack.pop()\n"
+            "    elif op == 'LOAD':\n"
+            "        if arg not in symbols:\n"
+            "            return None\n"
+            "        stack.append(symbols[arg])\n"
+            "    elif op == 'DE':\n"
+            "        trust = round(trust + arg, 3)\n"
+            "    elif op == 'DAO':\n"
+            "        cond.append({'name': arg})\n"
+            "    elif op == 'ZIRAN':\n"
+            "        while len(cond) > 1:\n"
+            "            cond.pop()\n"
+            "    elif op == 'ZHIZU':\n"
+            "        if trust >= arg[0]:\n"
+            "            ip = arg[1]\n"
+            "    elif op == 'ZHI':\n"
+            "        return ('halt', {'trust': trust, 'symbols': symbols, 'cond': cond,\n"
+            "                        'stack': stack})\n"
+            "    elif op == 'WUWEI':\n"
+            "        return ('yield', {'trust': trust, 'symbols': symbols, 'cond': cond,\n"
+            "                         'stack': stack})\n"
+            "    return (ip, {'trust': trust, 'symbols': symbols, 'cond': cond,\n"
+            "                'stack': stack})\n"),
+        "cases": [(([("DE", 0.3), ("DE", 0.5)], 0),
+                   (1, {"trust": 0.3, "symbols": {}, "cond": [], "stack": []})),
+                  (([("DAO", "路径甲")], 0),
+                   (1, {"trust": 0.0, "symbols": {}, "cond": [{"name": "路径甲"}],
+                        "stack": []})),
+                  (([("ZHI", None)], 0),
+                   ("halt", {"trust": 0.0, "symbols": {}, "cond": [], "stack": []}))],
+        "params": [],
+        "calibration": "对照：C4 调试器单步（一条指令 → 新状态；止/无为=控制流信号）",
+    },
+    "分析-字节码转储": {
+        "task": "字节码转储",
+        "pattern": (
+            "def dump_bytecode(code):\n"
+            "    # 字节码 → 可读指令列表（地址+指令+参数——分析器输出）\n"
+            "    return [f'{i:4d}  {op:14s} {arg}' for i, (op, arg) in enumerate(code)]\n"),
+        "cases": [(([("DE", 0.3), ("ZHI", None)],),
+                  ['   0  DE             0.3', '   1  ZHI            None'])],
+        "params": [],
+        "calibration": "对照：C4 分析器字节码转储（可读调试输出）",
+    },
 }
 
 
