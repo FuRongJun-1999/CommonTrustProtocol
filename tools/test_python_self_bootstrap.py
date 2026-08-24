@@ -29,8 +29,9 @@ for uid, u in PYTHON_UNITS.items():
     if fn:
         for args, expect in u["cases"]:
             try:
-                if args == "call":  # 特殊：环境单元调用 env_scope()
-                    got = ns["env_scope"]()
+                if args == "call":  # 特殊：调用单元入口（闭包→closure_test，环境→env_scope）
+                    entry = ns.get("closure_test") or ns.get("env_scope")
+                    got = entry()
                 else:
                     got = fn(*args) if isinstance(args, tuple) else fn(args)
                 if isinstance(expect, dict) and isinstance(got, dict):
@@ -72,6 +73,25 @@ if ns_vm:
 # 校准④：任务识别
 check('校准④ 任务识别', route_python_unit("词法分析怎么做") == "词法-记号化"
       and route_python_unit("栈机执行") == "栈机-字节码执行", '')
+
+# 校准⑤：外部校准对照（控制流/函数/闭包/完整栈机 vs 校准参考 mini_python.py）
+ns_cf, _ = generated.get("求值-控制流", ({}, []))
+if ns_cf:
+    fn = ns_cf["run_stmts"]
+    env = fn([("assign", "x", 5), ("if", True, [("assign", "y", 1)], [("assign", "y", 0)])], {})
+    check('校准⑤a 控制流(if真)', env == {"x": 5, "y": 1}, str(env))
+ns_fn, _ = generated.get("函数-定义调用", ({}, []))
+if ns_fn:
+    f = ns_fn["make_function"]("a", [("return", 7)], {})
+    check('校准⑤b 函数对象', ns_fn["call_function"](f, [2, 3], {}) == 7, '')
+ns_cl, _ = generated.get("求值-闭包", ({}, []))
+if ns_cl:
+    check('校准⑤c 闭包独立捕获', ns_cl["closure_test"]() == (4, 11), '')
+ns_full, _ = generated.get("栈机-完整执行", ({}, []))
+if ns_full:
+    fn = ns_full["vm_exec_full"]
+    r = fn([("PUSH", 5), ("PUSH", 3), ("CMP_GT", None), ("JUMP_IF_FALSE", 6), ("PUSH", 1)])
+    check('校准⑤d 完整栈机(if跳转)', r == [1], str(r))
 
 print(f'\n=== P 线白箱自举（Mini-Python 机制）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

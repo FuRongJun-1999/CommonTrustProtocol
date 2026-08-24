@@ -145,6 +145,110 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：mini_python.py VM 栈机（指令→栈操作）",
     },
+    "求值-控制流": {
+        "task": "控制流",
+        "pattern": (
+            "def run_stmts(stmts, env):\n"
+            "    # 语句执行器：assign/if/while（简化 AST——Mini-Python 控制流语义）\n"
+            "    i = 0\n"
+            "    while i < len(stmts):\n"
+            "        s = stmts[i]\n"
+            "        k = s[0]\n"
+            "        if k == 'assign':\n"
+            "            env[s[1]] = s[2]\n"
+            "            i += 1\n"
+            "        elif k == 'if':\n"
+            "            cond = s[1] if isinstance(s[1], bool) else env.get(s[1], False)\n"
+            "            branch = s[2] if cond else s[3]\n"
+            "            run_stmts(branch, env)\n"
+            "            i += 1\n"
+            "        elif k == 'while':\n"
+            "            guard = 0\n"
+            "            cond = s[1] if isinstance(s[1], bool) else env.get(s[1], False)\n"
+            "            while cond and guard < 1000:\n"
+            "                run_stmts(s[2], env)\n"
+            "                cond = s[1] if isinstance(s[1], bool) else env.get(s[1], False)\n"
+            "                guard += 1\n"
+            "            i += 1\n"
+            "    return env\n"),
+        "cases": [(([("assign", "x", 5), ("if", True, [("assign", "y", 1)], [("assign", "y", 0)])], {}),
+                   {"x": 5, "y": 1}),
+                  (([("assign", "x", 5), ("if", False, [("assign", "y", 1)], [("assign", "y", 0)])], {}),
+                   {"x": 5, "y": 0}),
+                  (([("assign", "go", True), ("while", "go", [("assign", "go", False)])], {}),
+                   {"go": False})],
+        "params": [],
+        "calibration": "对照：mini_python.py exec_stmt（assign/if/while 语义）",
+    },
+    "函数-定义调用": {
+        "task": "函数机制",
+        "pattern": (
+            "def make_function(params, body, def_env):\n"
+            "    # 函数对象：参数 + body + 定义环境（闭包基础）\n"
+            "    return ('func', params, body, def_env)\n"
+            "def call_function(f, args, env):\n"
+            "    # 调用：局部环境（父=定义环境）+ 参数绑定 + 执行 body（return 值）\n"
+            "    _, params, body, def_env = f\n"
+            "    local = dict(def_env)\n"
+            "    for p, a in zip(params, args):\n"
+            "        local[p] = a\n"
+            "    result = None\n"
+            "    for s in body:\n"
+            "        if s[0] == 'return':\n"
+            "            result = s[1]\n"
+            "            break\n"
+            "    return result\n"),
+        "cases": [((["a", "b"], [("return", 7)], {}), ("func", ["a", "b"], [("return", 7)], {}))],
+        "params": [],
+        "calibration": "对照：mini_python.py 函数对象（参数+body+定义环境）与 call 调用（局部环境+参数绑定）",
+    },
+    "求值-闭包": {
+        "task": "闭包机制",
+        "pattern": (
+            "def closure_adder(n):\n"
+            "    # 闭包：内部函数捕获自由变量 n（定义环境）\n"
+            "    def add(x):\n"
+            "        return x + n\n"
+            "    return add\n"
+            "def closure_test():\n"
+            "    a = closure_adder(3)\n"
+            "    b = closure_adder(10)\n"
+            "    return (a(1), b(1))\n"),
+        "cases": [("call", (4, 11))],
+        "params": [],
+        "calibration": "对照：Python 闭包语义——独立捕获（a(1)=4、b(1)=11 互不干扰）",
+    },
+    "栈机-完整执行": {
+        "task": "完整栈机",
+        "pattern": (
+            "def vm_exec_full(code):\n"
+            "    # 栈机扩展：比较 CMP_GT + 条件跳转 JUMP_IF_FALSE（if 语义）\n"
+            "    stack, ip = [], 0\n"
+            "    while ip < len(code):\n"
+            "        op, arg = code[ip]\n"
+            "        ip += 1\n"
+            "        if op == 'PUSH':\n"
+            "            stack.append(arg)\n"
+            "        elif op == 'ADD':\n"
+            "            b, a = stack.pop(), stack.pop()\n"
+            "            stack.append(a + b)\n"
+            "        elif op == 'MUL':\n"
+            "            b, a = stack.pop(), stack.pop()\n"
+            "            stack.append(a * b)\n"
+            "        elif op == 'CMP_GT':\n"
+            "            b, a = stack.pop(), stack.pop()\n"
+            "            stack.append(a > b)\n"
+            "        elif op == 'JUMP_IF_FALSE':\n"
+            "            if not stack.pop():\n"
+            "                ip = arg\n"
+            "    return stack\n"),
+        "cases": [(([("PUSH", 5), ("PUSH", 3), ("CMP_GT", None), ("JUMP_IF_FALSE", 6),
+                     ("PUSH", 1)],), [1]),
+                  (([("PUSH", 3), ("PUSH", 5), ("CMP_GT", None), ("JUMP_IF_FALSE", 5),
+                     ("PUSH", 1)],), [])],
+        "params": [],
+        "calibration": "对照：mini_python.py VM（比较+条件跳转——if 的栈机形态）",
+    },
 }
 
 
