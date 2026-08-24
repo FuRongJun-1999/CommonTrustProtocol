@@ -1241,6 +1241,66 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图可视化——社区着色（分组颜色映射）",
     },
+    "图存储-邻接表CSR": {
+        "task": "邻接表压缩",
+        "pattern": (
+            "def csr_build(edges, n):\n"
+            "    # CSR 邻接表：边列表 → 压缩稀疏行（偏移+邻接数组——紧凑存储）\n"
+            "    offsets = [0] * (n + 1)\n"
+            "    deg = [0] * n\n"
+            "    for u, v in edges:\n"
+            "        deg[u] += 1\n"
+            "    for i in range(n):\n"
+            "        offsets[i + 1] = offsets[i] + deg[i]\n"
+            "    adj = [0] * offsets[n]\n"
+            "    pos = offsets[:n]\n"
+            "    for u, v in edges:\n"
+            "        adj[pos[u]] = v\n"
+            "        pos[u] += 1\n"
+            "    return offsets, adj\n"),
+        "cases": [(([(0, 1), (0, 2), (1, 2)], 3), ([0, 2, 3, 3], [1, 2, 2])),
+                  (([], 2), ([0, 0, 0], [])),
+                  (([(0, 0)], 1), ([0, 1], [0]))],
+        "params": [],
+        "calibration": "对照：CSR 邻接表——压缩稀疏行（偏移数组+邻接数组，紧凑边存储）",
+    },
+    "图存储-图合并": {
+        "task": "图合并",
+        "pattern": (
+            "def merge_graphs(g1, g2):\n"
+            "    # 图合并：两图邻接合并（节点并集，边并集去重）\n"
+            "    merged = {}\n"
+            "    for g in (g1, g2):\n"
+            "        for u, nbrs in g.items():\n"
+            "            merged.setdefault(u, set()).update(nbrs)\n"
+            "    return {k: sorted(v) for k, v in merged.items()}\n"),
+        "cases": [(({'a': {'b'}}, {'b': {'c'}}), {'a': ['b'], 'b': ['c']}),
+                  (({'a': {'b'}}, {'a': {'c'}}), {'a': ['b', 'c']}),
+                  (({}, {}), {})],
+        "params": [],
+        "calibration": "对照：图存储——图合并（节点/边并集，多图整合）",
+    },
+    "图存储-属性边": {
+        "task": "属性边",
+        "pattern": (
+            "def edge_attr_query(edges, op, u=None, v=None, attr=None):\n"
+            "    # 属性边：put 存边属性 / get 查属性 / by_attr 按属性找边\n"
+            "    if op == 'put':\n"
+            "        edges[(u, v)] = attr\n"
+            "        return 'stored'\n"
+            "    if op == 'get':\n"
+            "        return edges.get((u, v))\n"
+            "    if op == 'by_attr':\n"
+            "        return sorted(k for k, a in edges.items() if a == attr)\n"
+            "    return None\n"),
+        "cases": [(({}, 'put', 'a', 'b', '朋友'), 'stored'),
+                  (({('a', 'b'): '朋友'}, 'get', 'a', 'b'), '朋友'),
+                  (({}, 'get', 'a', 'b'), None),
+                  (({('a', 'b'): '朋友', ('c', 'd'): '同事'}, 'by_attr',
+                    None, None, '朋友'), [('a', 'b')])],
+        "params": [],
+        "calibration": "对照：属性图边——带标签/属性边存储与查询",
+    },
 }
 
 

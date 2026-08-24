@@ -3231,5 +3231,41 @@ try:
 except Exception as ex:
     check('㊼c 限流→代理→组播端到端（[allow,deny] 1 [(a,hi),(b,hi)]）', False, str(ex)[:60])
 
+# ㊽ 目标6 深化：图存储（邻接表CSR/图合并/属性边 经正式管线）
+g19_qs = {
+    "邻接表压缩": "写一个邻接表压缩单元（CSR）",
+    "图合并": "写一个图合并单元（边并集）",
+    "属性边": "写一个属性边单元（带标签边）",
+}
+g19_ok = 0
+for label, q in g19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g19_ok += 1
+    check(f'㊽ {label} 图存储单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊽b 图存储三单元全部生成', g19_ok == 3, f'{g19_ok}/3')
+
+# ㊽c 存储端到端：CSR→图合并→属性边（[0,2,3,3] 并集 按属性找边）
+r_csr = domain_route("写一个邻接表压缩单元（CSR）")
+r_mg = domain_route("写一个图合并单元（边并集）")
+r_ea = domain_route("写一个属性边单元（带标签边）")
+try:
+    ns_csr, ns_mg, ns_ea = {}, {}, {}
+    exec(r_csr["code"], ns_csr)
+    exec(r_mg["code"], ns_mg)
+    exec(r_ea["code"], ns_ea)
+    off, adj = ns_csr["csr_build"]([(0, 1), (0, 2), (1, 2)], 3)
+    mg = ns_mg["merge_graphs"]({'a': {'b'}}, {'a': {'c'}})
+    ea = ns_ea["edge_attr_query"](
+        {('a', 'b'): '朋友', ('c', 'd'): '同事'}, 'by_attr', None, None, '朋友')
+    check('㊽c CSR→合并→属性边端到端（[0,2,3,3] {a:[b,c]} [(a,b)]）',
+          off == [0, 2, 3, 3] and adj == [1, 2, 2]
+          and mg == {'a': ['b', 'c']} and ea == [('a', 'b')],
+          f'csr=({off},{adj}) merge={mg} edge={ea}')
+except Exception as ex:
+    check('㊽c CSR→合并→属性边端到端（[0,2,3,3] {a:[b,c]} [(a,b)]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
