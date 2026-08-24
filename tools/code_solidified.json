@@ -2458,5 +2458,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:compiler|分析-圈复杂度": {
+  "task": "圈复杂度",
+  "unit": "分析-圈复杂度",
+  "code": "def cyclomatic_complexity(code):\n    # 圈复杂度：判定节点数 + 1（if/while 分支——代码复杂度度量）\n    decisions = 0\n    for op, _ in code:\n        if op in ('JUMP_IF_FALSE', 'JUMP_IF_TRUE', 'CMP_LT', 'CMP_GT'):\n            decisions += 1\n    return decisions + 1\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|分析-活跃变量": {
+  "task": "活跃变量",
+  "unit": "分析-活跃变量",
+  "code": "def dead_var_detect(defs, uses):\n    # 活跃变量：定义后未被使用 → 死变量（死代码消除依据）\n    dead = []\n    for var, def_line in defs:\n        if not any(u == var and u_line > def_line for u, u_line in uses):\n            dead.append(var)\n    return dead\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|分析-调用图": {
+  "task": "调用图",
+  "unit": "分析-调用图",
+  "code": "def call_graph(funcs):\n    # 调用图：函数 → 被调函数集合（调用关系图构建）\n    graph = {}\n    for fn, calls in funcs:\n        graph[fn] = sorted(set(calls))\n    return graph\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

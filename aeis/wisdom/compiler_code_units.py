@@ -1160,6 +1160,56 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：C3 .pbc 体积优化——varint 变长整数（小整数 1 字节）",
     },
+    "分析-圈复杂度": {
+        "task": "圈复杂度",
+        "pattern": (
+            "def cyclomatic_complexity(code):\n"
+            "    # 圈复杂度：判定节点数 + 1（if/while 分支——代码复杂度度量）\n"
+            "    decisions = 0\n"
+            "    for op, _ in code:\n"
+            "        if op in ('JUMP_IF_FALSE', 'JUMP_IF_TRUE', 'CMP_LT', 'CMP_GT'):\n"
+            "            decisions += 1\n"
+            "    return decisions + 1\n"),
+        "cases": [(([("DE", 0.1)],), 1),
+                  (([("JUMP_IF_FALSE", 3), ("DE", 0.1)],), 2),
+                  (([],), 1),
+                  (([("JUMP_IF_FALSE", 1), ("JUMP_IF_FALSE", 2),
+                      ("DE", 0.1)],), 3)],
+        "params": [],
+        "calibration": "对照：圈复杂度——判定节点+1（代码复杂度度量，McCabe）",
+    },
+    "分析-活跃变量": {
+        "task": "活跃变量",
+        "pattern": (
+            "def dead_var_detect(defs, uses):\n"
+            "    # 活跃变量：定义后未被使用 → 死变量（死代码消除依据）\n"
+            "    dead = []\n"
+            "    for var, def_line in defs:\n"
+            "        if not any(u == var and u_line > def_line for u, u_line in uses):\n"
+            "            dead.append(var)\n"
+            "    return dead\n"),
+        "cases": [(([('a', 1), ('b', 2)], [('b', 5)]), ['a']),
+                  (([('a', 1)], [('a', 3)]), []),
+                  (([], []), [])],
+        "params": [],
+        "calibration": "对照：活跃变量分析——定义后无使用=死变量（liveness）",
+    },
+    "分析-调用图": {
+        "task": "调用图",
+        "pattern": (
+            "def call_graph(funcs):\n"
+            "    # 调用图：函数 → 被调函数集合（调用关系图构建）\n"
+            "    graph = {}\n"
+            "    for fn, calls in funcs:\n"
+            "        graph[fn] = sorted(set(calls))\n"
+            "    return graph\n"),
+        "cases": [(([('main', ['f1', 'f2']), ('f1', ['f2'])],),
+                   {'main': ['f1', 'f2'], 'f1': ['f2']}),
+                  (([],), {}),
+                  (([('a', ['b', 'b'])],), {'a': ['b']})],
+        "params": [],
+        "calibration": "对照：调用图——函数调用关系（节点=函数，边=调用）",
+    },
 }
 
 

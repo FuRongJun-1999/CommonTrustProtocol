@@ -3126,5 +3126,40 @@ try:
 except Exception as ex:
     check('㊹c 环形→视口→着色端到端（(10,0) (10,10) 红红蓝）', False, str(ex)[:60])
 
+# ㊺ 目标3 深化：分析器（圈复杂度/活跃变量/调用图 经正式管线）
+c7_qs = {
+    "圈复杂度": "写一个圈复杂度单元（判定计数）",
+    "活跃变量": "写一个活跃变量单元（死变量）",
+    "调用图": "写一个调用图单元（调用关系）",
+}
+c7_ok = 0
+for label, q in c7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c7_ok += 1
+    check(f'㊺ {label} 分析器单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊺b 分析器三单元全部生成', c7_ok == 3, f'{c7_ok}/3')
+
+# ㊺c 分析端到端：圈复杂度→活跃变量→调用图（2 / a死 / main→[f1,f2]）
+r_cc = domain_route("写一个圈复杂度单元（判定计数）")
+r_lv = domain_route("写一个活跃变量单元（死变量）")
+r_cg = domain_route("写一个调用图单元（调用关系）")
+try:
+    ns_cc, ns_lv, ns_cg = {}, {}, {}
+    exec(r_cc["code"], ns_cc)
+    exec(r_lv["code"], ns_lv)
+    exec(r_cg["code"], ns_cg)
+    cc = ns_cc["cyclomatic_complexity"]([("JUMP_IF_FALSE", 3), ("DE", 0.1)])
+    dead = ns_lv["dead_var_detect"]([('a', 1), ('b', 2)], [('b', 5)])
+    cg = ns_cg["call_graph"]([('main', ['f1', 'f2']), ('f1', ['f2'])])
+    check('㊺c 圈复杂度→活跃→调用图端到端（2 [a] main→[f1,f2]）',
+          cc == 2 and dead == ['a'] and cg == {'main': ['f1', 'f2'],
+                                               'f1': ['f2']},
+          f'cc={cc} dead={dead} cg={cg}')
+except Exception as ex:
+    check('㊺c 圈复杂度→活跃→调用图端到端（2 [a] main→[f1,f2]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
