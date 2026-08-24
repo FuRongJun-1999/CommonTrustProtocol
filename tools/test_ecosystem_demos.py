@@ -43,6 +43,28 @@ try:
 except Exception as e:
     check('目标2 中文编译器: 当循环 0+1+2+3=6', False, str(e)[:50])
 
+# 目标2b 中文编译器：递归函数（真实 protocol-compiler 编译执行）
+try:
+    sys.path.insert(0, r'D:\Program Files\2_ai\protocol-compiler')
+    from core.compiler import compile_source
+    from core.condition_vm import ConditionVM
+    src_fac = '''
+定义 阶乘（n）：若 n 小于 2，则 返回 1，否则 返回 n 乘 阶乘（n 减 1）；
+结果 = 阶乘（5）；
+止。
+'''
+    code_fac, r_fac = compile_source(src_fac, strict=False)
+    if r_fac["ok"]:
+        st_fac = ConditionVM().run(code_fac)
+        fac = st_fac["symbols"].get("结果")
+        check('目标2b 中文递归函数: 阶乘(5)=120（真实编译器）',
+              fac == 120.0, f'阶乘(5)={fac}')
+    else:
+        check('目标2b 中文递归函数: 阶乘(5)=120（真实编译器）', False,
+              str(r_fac["errors"])[:40])
+except Exception as e:
+    check('目标2b 中文递归函数: 阶乘(5)=120（真实编译器）', False, str(e)[:50])
+
 # ============ 目标3 中文分析器（compiler：类型推断） ============
 try:
     infer = get('写一个类型推断单元（编译期类型流）', 'infer_types')
