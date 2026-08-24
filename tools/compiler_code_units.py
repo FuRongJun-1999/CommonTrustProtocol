@@ -151,6 +151,11 @@ COMPILER_UNITS = {
             "                ip = arg\n"
             "        elif op == 'JUMP':\n"
             "            ip = arg\n"
+            "        elif op in ('CMP_GT', 'CMP_LT', 'CMP_EQ', 'CMP_NE', 'CMP_LE', 'CMP_GE'):\n"
+            "            b, a = stack.pop(), stack.pop()\n"
+            "            stack.append({'CMP_GT': a > b, 'CMP_LT': a < b, 'CMP_EQ': a == b,\n"
+            "                         'CMP_NE': a != b, 'CMP_LE': a <= b,\n"
+            "                         'CMP_GE': a >= b}[op])\n"
             "        elif op == 'DE':\n"
             "            trust = round(trust + arg, 3)\n"
             "        elif op == 'DAO':\n"
@@ -176,7 +181,12 @@ COMPILER_UNITS = {
                   (([("DAO", "路径甲"), ("ZIRAN", None)],), {"cond": [{"name": "路径甲"}]}),
                   (([("ZHI", None)],), {"halt": "halt"}),
                   (([("WUWEI", None)],), {"halt": "yield"}),
-                  (([("LOAD", "未声明")],), {"error": "名实不符：未声明"})],
+                  (([("LOAD", "未声明")],), {"error": "名实不符：未声明"}),
+                  (([("PUSH", 0.5), ("PUSH", 0.3), ("CMP_GT", None),
+                     ("DE", 0.2), ("ZHI", None)],), {"trust": 0.2}),
+                  (([("PUSH", 0.1), ("PUSH", 0.3), ("CMP_GT", None),
+                     ("JUMP_IF_FALSE", 5), ("DE", 0.2), ("ZHI", None)],),
+                   {"trust": 0.0})],
         "params": [],
         "calibration": "对照：condition_vm 执行循环（止=halt/无为=yield/名实不符=错误）",
     },
@@ -369,12 +379,26 @@ COMPILER_UNITS = {
             "                errors.append('条件空间未声明：' + sm.group(1).strip())\n"
             "                continue\n"
             "            t = then.split()\n"
-            "            code.append(('PUSH', True))\n"
-            "            code.append(('JUMP_IF_FALSE', 0))\n"
-            "            arg = None\n"
-            "            if len(t) > 1:\n"
-            "                arg = float(t[1]) if t[1].replace('.', '', 1).isdigit() else t[1]\n"
-            "            code.append((instr_map.get(t[0], t[0]), arg))\n"
+            "            then_instr = (instr_map.get(t[0], t[0]),\n"
+            "                          float(t[1]) if len(t) > 1 and t[1].replace('.', '', 1).isdigit()\n"
+            "                          else (t[1] if len(t) > 1 else None))\n"
+            "            # 条件真值编译：LOAD 左值 + PUSH 右值 + CMP + 假则跳过 then\n"
+            "            cmp_map = {'大于': 'CMP_GT', '小于': 'CMP_LT', '等于': 'CMP_EQ',\n"
+            "                       '不等于': 'CMP_NE', '不小于': 'CMP_GE', '不大于': 'CMP_LE'}\n"
+            "            cm = _re.search(r'(.+?)\\s*(大于|小于|等于|不等于|不小于|不大于)\\s*(.+?)\\s*$', cond)\n"
+            "            if cm:\n"
+            "                left, op, right = cm.group(1).strip(), cm.group(2), cm.group(3).strip()\n"
+            "                code.append(('LOAD', left))\n"
+            "                code.append(('PUSH', float(right) if right.replace('.', '', 1).isdigit() else right))\n"
+            "                code.append((cmp_map[op], None))\n"
+            "                jif = len(code)\n"
+            "                code.append(('JUMP_IF_FALSE', 0))\n"
+            "                code.append(then_instr)\n"
+            "                code[jif] = ('JUMP_IF_FALSE', len(code))\n"
+            "            else:\n"
+            "                code.append(('PUSH', True))\n"
+            "                code.append(('JUMP_IF_FALSE', 0))\n"
+            "                code.append(then_instr)\n"
             "            continue\n"
             "        for kw in ('道', '德', '止', '知足', '自然', '无为'):\n"
             "            if line.startswith(kw):\n"
@@ -393,13 +417,41 @@ COMPILER_UNITS = {
                    ([("DAO", "新信任路径"), ("DE", 0.3), ("ZHI", None)], {"ok": True})),
                   (("若 条件空间为未知 则 德 0.5\n止。\n", {"伴侣"}),
                    (None, {"ok": False, "errors": ["条件空间未声明：未知"]})),
-                  (("若 条件空间为伴侣 则 德 0.5\n止。\n", {"伴侣"}),
-                   ([("PUSH", True), ("JUMP_IF_FALSE", 0), ("DE", 0.5),
-                     ("ZHI", None)], {"ok": True})),
+                  (("若 信任值 大于 0.3，则 德 0.5\n止。\n", {"伴侣"}),
+                   ([("LOAD", "信任值"), ("PUSH", 0.3), ("CMP_GT", None),
+                     ("JUMP_IF_FALSE", 5), ("DE", 0.5), ("ZHI", None)], {"ok": True})),
                   (("随便文本\n", set()), (None, {"ok": False,
                    "errors": ["无法识别：随便文本"]}))],
         "params": [],
         "calibration": "对照：白箱版 pc compile 单入口（词法→静态检查→编译）；若则真值计算由编译-若则单元深化",
+    },
+    "求值-条件表达式": {
+        "task": "条件求值",
+        "pattern": (
+            "def eval_condition(cond_text, symbols):\n"
+            "    # 中文条件表达式求值：左值 比较词 右值（比较词：大于/小于/等于/不等于/不小于/不大于）\n"
+            "    ops = {'不小于': '>=', '不大于': '<=', '大于': '>', '小于': '<',\n"
+            "           '等于': '==', '不等于': '!='}\n"
+            "    for kw, op in ops.items():\n"
+            "        if kw in cond_text:\n"
+            "            left_s, right_s = cond_text.split(kw)\n"
+            "            left = symbols.get(left_s.strip())\n"
+            "            right_s = right_s.strip()\n"
+            "            right = (float(right_s) if right_s.replace('.', '', 1).isdigit()\n"
+            "                     else symbols.get(right_s))\n"
+            "            if left is None or right is None:\n"
+            "                return None  # 诚实：符号未定义\n"
+            "            return {'>': left > right, '<': left < right, '==': left == right,\n"
+            "                    '!=': left != right, '>=': left >= right,\n"
+            "                    '<=': left <= right}[op]\n"
+            "    return None\n"),
+        "cases": [(("信任值 大于 0.3", {"信任值": 0.5}), True),
+                  (("信任值 大于 0.3", {"信任值": 0.2}), False),
+                  (("信任值 不小于 0.7", {"信任值": 0.7}), True),
+                  (("信任值 等于 0.5", {"信任值": 0.5}), True),
+                  (("未知量 大于 0.3", {"信任值": 0.5}), None)],
+        "params": [],
+        "calibration": "对照：中文比较词（CHINESE_COMP_MAP：等于/大于/小于/不等于/不小于/不大于）；未定义符号诚实返回 None",
     },
 }
 

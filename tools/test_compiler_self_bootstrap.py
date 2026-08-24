@@ -197,5 +197,24 @@ code7b, r7b = compile_full("若 条件空间为伴侣 则 德 0.5\n止。\n", {"
 check('校准⑦e 声明空间后通过', r7b["ok"] and len(code7b) >= 2,
       f'{len(code7b)} 条指令')
 
+# 校准⑧：条件真值计算（若则真实判定）
+eval_condition = _fn("求值-条件表达式")
+check('校准⑧a 条件表达式求值',
+      eval_condition("信任值 大于 0.3", {"信任值": 0.5}) is True
+      and eval_condition("信任值 大于 0.3", {"信任值": 0.2}) is False
+      and eval_condition("未知量 大于 0.3", {"信任值": 0.5}) is None, '')
+# 单入口：信任值 0.5 → 真 → 执行 then
+src_t = "若 信任值 大于 0.3，则 德 0.5\n止。\n"
+code8, r8 = compile_full(src_t, {"伴侣"})
+check('校准⑧b 条件真值编译(LOAD+PUSH+CMP)',
+      r8["ok"] and any(op == "CMP_GT" for op, _ in code8), str(code8))
+if r8["ok"]:
+    state8 = vm_run(code8, symbols={"信任值": 0.5})
+    check('校准⑧c 真条件执行then(信任0.5)',
+          state8["trust"] == 0.5, f'trust={state8["trust"]}')
+    state8b = vm_run(code8, symbols={"信任值": 0.2})
+    check('校准⑧d 假条件跳过then(信任0)',
+          state8b["trust"] == 0.0, f'trust={state8b["trust"]}')
+
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
