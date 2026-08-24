@@ -65,6 +65,25 @@ try:
 except Exception as e:
     check('目标2b 中文递归函数: 阶乘(5)=120（真实编译器）', False, str(e)[:50])
 
+# 目标2c 中文编译器：双递归函数（斐波那契——CALL 帧深度嵌套）
+try:
+    src_fib = '''
+定义 斐波那契（n）：若 n 小于 2，则 返回 n，否则 返回 斐波那契（n 减 1）加 斐波那契（n 减 2）；
+结果 = 斐波那契（6）；
+止。
+'''
+    code_fib, r_fib = compile_source(src_fib, strict=False)
+    if r_fib["ok"]:
+        st_fib = ConditionVM().run(code_fib)
+        fib = st_fib["symbols"].get("结果")
+        check('目标2c 中文双递归: 斐波那契(6)=8（真实编译器）',
+              fib == 8.0, f'斐波那契(6)={fib}')
+    else:
+        check('目标2c 中文双递归: 斐波那契(6)=8（真实编译器）', False,
+              str(r_fib["errors"])[:40])
+except Exception as e:
+    check('目标2c 中文双递归: 斐波那契(6)=8（真实编译器）', False, str(e)[:50])
+
 # ============ 目标3 中文分析器（compiler：类型推断） ============
 try:
     infer = get('写一个类型推断单元（编译期类型流）', 'infer_types')
