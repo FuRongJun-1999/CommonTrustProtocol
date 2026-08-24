@@ -1582,6 +1582,56 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图算法——三角形计数（闭合三元组，聚类检测）",
     },
+    "图查询-导出子图": {
+        "task": "导出子图",
+        "pattern": (
+            "def induced_subgraph(adj, nodes):\n"
+            "    # 导出子图：按节点集诱导（节点集 + 内部边）\n"
+            "    node_set = set(nodes)\n"
+            "    return {u: [v for v in adj.get(u, []) if v in node_set]\n"
+            "            for u in node_set}\n"),
+        "cases": [(({0: [1, 2], 1: [0], 2: [0]}, [0, 1]), {0: [1], 1: [0]}),
+                  (({0: [1], 1: [0]}, [0]), {0: []}),
+                  (({}, [0]), {0: []})],
+        "params": [],
+        "calibration": "对照：图查询——导出子图（节点集诱导，仅内部边）",
+    },
+    "图时序-时间窗口": {
+        "task": "时间窗口",
+        "pattern": (
+            "def time_window(events, op, start=None, end=None):\n"
+            "    # 时间窗口：window 窗口内事件 / count 计数（时序图查询）\n"
+            "    if op == 'window':\n"
+            "        return [e for e in events if start <= e['t'] <= end]\n"
+            "    if op == 'count':\n"
+            "        return sum(1 for e in events if start <= e['t'] <= end)\n"
+            "    return None\n"),
+        "cases": [(([{'t': 1, 'e': 'a'}, {'t': 3, 'e': 'b'}, {'t': 5, 'e': 'c'}],
+                    'window', 2, 4), [{'t': 3, 'e': 'b'}]),
+                  (([{'t': 1}, {'t': 3}], 'count', 1, 3), 2),
+                  (([], 'window', 0, 10), [])],
+        "params": [],
+        "calibration": "对照：时序图查询——时间窗口内事件（滑窗过滤）",
+    },
+    "图动态-边活跃度": {
+        "task": "边活跃度",
+        "pattern": (
+            "def edge_activity(edges, op, edge=None, now=None):\n"
+            "    # 边活跃度：touch 更新活跃时间 / active 活跃判定（时间窗内）\n"
+            "    if op == 'touch':\n"
+            "        edges[edge] = now\n"
+            "        return now\n"
+            "    if op == 'active':\n"
+            "        last = edges.get(edge)\n"
+            "        return last is not None and (now - last) <= 10\n"
+            "    return None\n"),
+        "cases": [(({}, 'touch', ('a', 'b'), 5), 5),
+                  (({('a', 'b'): 5}, 'active', ('a', 'b'), 12), True),
+                  (({('a', 'b'): 5}, 'active', ('a', 'b'), 20), False),
+                  (({}, 'active', ('a', 'b'), 10), False)],
+        "params": [],
+        "calibration": "对照：动态图——边活跃度（时间窗内活跃判定）",
+    },
 }
 
 

@@ -3598,5 +3598,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:graph|图查询-导出子图": {
+  "task": "导出子图",
+  "unit": "图查询-导出子图",
+  "code": "def induced_subgraph(adj, nodes):\n    # 导出子图：按节点集诱导（节点集 + 内部边）\n    node_set = set(nodes)\n    return {u: [v for v in adj.get(u, []) if v in node_set]\n            for u in node_set}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图时序-时间窗口": {
+  "task": "时间窗口",
+  "unit": "图时序-时间窗口",
+  "code": "def time_window(events, op, start=None, end=None):\n    # 时间窗口：window 窗口内事件 / count 计数（时序图查询）\n    if op == 'window':\n        return [e for e in events if start <= e['t'] <= end]\n    if op == 'count':\n        return sum(1 for e in events if start <= e['t'] <= end)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图动态-边活跃度": {
+  "task": "边活跃度",
+  "unit": "图动态-边活跃度",
+  "code": "def edge_activity(edges, op, edge=None, now=None):\n    # 边活跃度：touch 更新活跃时间 / active 活跃判定（时间窗内）\n    if op == 'touch':\n        edges[edge] = now\n        return now\n    if op == 'active':\n        last = edges.get(edge)\n        return last is not None and (now - last) <= 10\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

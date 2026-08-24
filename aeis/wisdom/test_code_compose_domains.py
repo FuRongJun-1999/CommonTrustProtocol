@@ -4473,5 +4473,41 @@ try:
 except Exception as ex:
     check('㋟c 网络接口→设备驱动→电源端到端（eth0 drv_usb suspended）', False, str(ex)[:60])
 
+# ㋠ 目标6 深化：时序/动态图（导出子图/时间窗口/边活跃度 经正式管线）
+g24_qs = {
+    "导出子图": "写一个导出子图单元（节点诱导）",
+    "时间窗口": "写一个时间窗口单元（滑窗过滤）",
+    "边活跃度": "写一个边活跃度单元（活跃判定）",
+}
+g24_ok = 0
+for label, q in g24_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g24_ok += 1
+    check(f'㋠ {label} 时序/动态图单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋠b 时序/动态图三单元全部生成', g24_ok == 3, f'{g24_ok}/3')
+
+# ㋠c 时序端到端：导出子图→时间窗口→边活跃度（内部边 窗口[b] 活跃True）
+r_is = domain_route("写一个导出子图单元（节点诱导）")
+r_tw = domain_route("写一个时间窗口单元（滑窗过滤）")
+r_ea = domain_route("写一个边活跃度单元（活跃判定）")
+try:
+    ns_is, ns_tw, ns_ea = {}, {}, {}
+    exec(r_is["code"], ns_is)
+    exec(r_tw["code"], ns_tw)
+    exec(r_ea["code"], ns_ea)
+    isg = ns_is["induced_subgraph"]({0: [1, 2], 1: [0], 2: [0]}, [0, 1])
+    tw = ns_tw["time_window"](
+        [{'t': 1, 'e': 'a'}, {'t': 3, 'e': 'b'}, {'t': 5, 'e': 'c'}],
+        'window', 2, 4)
+    ea = ns_ea["edge_activity"]({('a', 'b'): 5}, 'active', ('a', 'b'), 12)
+    check('㋠c 导出→窗口→活跃端到端（{0:[1],1:[0]} [b] True）',
+          isg == {0: [1], 1: [0]} and tw == [{'t': 3, 'e': 'b'}] and ea is True,
+          f'sub={isg} win={tw} act={ea}')
+except Exception as ex:
+    check('㋠c 导出→窗口→活跃端到端（{0:[1],1:[0]} [b] True）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
