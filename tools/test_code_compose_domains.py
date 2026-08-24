@@ -1144,5 +1144,42 @@ try:
 except Exception as ex:
     check('㊂c 实例化→继承→多态端到端（阿黄汪汪 动物/喵 汪/喵）', False, str(ex)[:60])
 
+# ㊃ 目标4 深化：进程同步（信号量/读写锁/生产者消费者 经正式管线）
+o9_qs = {
+    "信号量": "写一个信号量单元（P V 操作）",
+    "读写锁": "写一个读写锁单元（多读写独占）",
+    "生产者消费者": "写一个生产者消费者单元（有界缓冲）",
+}
+o9_ok = 0
+for label, q in o9_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o9_ok += 1
+    check(f'㊃ {label} 进程同步单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊃b 进程同步三单元全部生成', o9_ok == 3, f'{o9_ok}/3')
+
+# ㊃c 端到端：信号量→读写锁→生产者消费者（同步原语→锁→缓冲队列）
+r_sm = domain_route("写一个信号量单元（P V 操作）")
+r_rw = domain_route("写一个读写锁单元（多读写独占）")
+r_pc = domain_route("写一个生产者消费者单元（有界缓冲）")
+try:
+    ns_sm, ns_rw, ns_pc = {}, {}, {}
+    exec(r_sm["code"], ns_sm)
+    exec(r_rw["code"], ns_rw)
+    exec(r_pc["code"], ns_pc)
+    p = ns_sm["semaphore_op"]({'count': 1}, 'P')
+    rl = ns_rw["rwlock_op"]({'readers': 0}, 'r_lock')
+    wl = ns_rw["rwlock_op"]({'readers': 1, 'writer': False}, 'w_lock')
+    n = ns_pc["producer_consumer"]([], 'produce', 'a')
+    item = ns_pc["producer_consumer"](['a'], 'consume')
+    check('㊃c 信号量→读写锁→生产消费端到端（P获取 读允写阻 生产1消费a）',
+          p == 'acquired' and rl == 'r_acquired' and wl == 'blocked'
+          and n == 1 and item == 'a',
+          f'sem={p} rw={rl},{wl} buf={n},{item}')
+except Exception as ex:
+    check('㊃c 信号量→读写锁→生产消费端到端（P获取 读允写阻 生产1消费a）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

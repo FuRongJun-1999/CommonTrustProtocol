@@ -578,6 +578,76 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 守护进程——生命周期（start/stop/status 状态机）",
     },
+    "并发-信号量": {
+        "task": "信号量",
+        "pattern": (
+            "def semaphore_op(sem, op):\n"
+            "    # 信号量：P 减（资源不足阻塞）/ V 加（释放资源）——计数同步\n"
+            "    if op == 'P':\n"
+            "        if sem['count'] <= 0:\n"
+            "            return 'blocked'\n"
+            "        sem['count'] -= 1\n"
+            "        return 'acquired'\n"
+            "    if op == 'V':\n"
+            "        sem['count'] += 1\n"
+            "        return 'released'\n"
+            "    return None\n"),
+        "cases": [(({'count': 1}, 'P'), 'acquired'),
+                  (({'count': 0}, 'P'), 'blocked'),
+                  (({'count': 0}, 'V'), 'released')],
+        "params": [],
+        "calibration": "对照：OS 并发——信号量 P/V（计数同步，资源耗尽 P 阻塞）",
+    },
+    "并发-读写锁": {
+        "task": "读写锁",
+        "pattern": (
+            "def rwlock_op(lock, op):\n"
+            "    # 读写锁：多读并发/写独占（读者计数 + 写者标志）\n"
+            "    if op == 'r_lock':\n"
+            "        if lock.get('writer'):\n"
+            "            return 'blocked'\n"
+            "        lock['readers'] = lock.get('readers', 0) + 1\n"
+            "        return 'r_acquired'\n"
+            "    if op == 'w_lock':\n"
+            "        if lock.get('writer') or lock.get('readers', 0) > 0:\n"
+            "            return 'blocked'\n"
+            "        lock['writer'] = True\n"
+            "        return 'w_acquired'\n"
+            "    if op == 'r_unlock':\n"
+            "        lock['readers'] = max(0, lock.get('readers', 0) - 1)\n"
+            "        return 'r_released'\n"
+            "    if op == 'w_unlock':\n"
+            "        lock['writer'] = False\n"
+            "        return 'w_released'\n"
+            "    return None\n"),
+        "cases": [(({'readers': 0}, 'r_lock'), 'r_acquired'),
+                  (({'readers': 1, 'writer': False}, 'w_lock'), 'blocked'),
+                  (({'readers': 0, 'writer': False}, 'w_lock'), 'w_acquired')],
+        "params": [],
+        "calibration": "对照：OS 并发——读写锁（多读并发/写独占，读者在场写阻塞）",
+    },
+    "并发-生产者消费者": {
+        "task": "生产者消费者",
+        "pattern": (
+            "def producer_consumer(buf, op, item=None):\n"
+            "    # 生产者-消费者：有界缓冲（生产入队/消费出队）\n"
+            "    if op == 'produce':\n"
+            "        if len(buf) >= 4:\n"
+            "            return 'buffer_full'\n"
+            "        buf.append(item)\n"
+            "        return len(buf)\n"
+            "    if op == 'consume':\n"
+            "        if not buf:\n"
+            "            return 'buffer_empty'\n"
+            "        return buf.pop(0)\n"
+            "    return None\n"),
+        "cases": [(([], 'produce', 'a'), 1),
+                  ((['a'], 'consume'), 'a'),
+                  (([], 'consume'), 'buffer_empty'),
+                  ((['a', 'b', 'c', 'd'], 'produce', 'e'), 'buffer_full')],
+        "params": [],
+        "calibration": "对照：OS 并发——生产者-消费者（有界缓冲，满/空边界）",
+    },
 }
 
 
