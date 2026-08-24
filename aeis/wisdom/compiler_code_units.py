@@ -470,6 +470,23 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：中文比较词（CHINESE_COMP_MAP：等于/大于/小于/不等于/不小于/不大于）；未定义符号诚实返回 None",
     },
+    "对接-协议词法": {
+        "task": "协议词法对接",
+        "pattern": (
+            "def bridge_token(token_name):\n"
+            "    # protocol-compiler TokenType → 白箱指令名（真实词法对接校准基准）\n"
+            "    m = {'DAO': 'DAO', 'DE': 'DE', 'ZIRAN': 'ZIRAN', 'WUWEI': 'WUWEI',\n"
+            "         'ZHI': 'ZHI', 'ZHIZU': 'ZHIZU', 'RUO': 'COND_START',\n"
+            "         'ZE': 'COND_THEN', 'FOUZE': 'COND_ELSE',\n"
+            "         'WENYUE': 'STRUCT_问曰', 'DAYUE': 'STRUCT_答曰',\n"
+            "         'SHUYUE': 'STRUCT_术曰'}\n"
+            "    return m.get(token_name)\n"),
+        "cases": [("DAO", "DAO"), ("DE", "DE"), ("ZHI", "ZHI"),
+                  ("RUO", "COND_START"), ("SHUYUE", "STRUCT_术曰"),
+                  ("UNKNOWN", None)],
+        "params": [],
+        "calibration": "对照：protocol-compiler TokenType 枚举（道德经助记符/若则/九章算术）",
+    },
 }
 
 

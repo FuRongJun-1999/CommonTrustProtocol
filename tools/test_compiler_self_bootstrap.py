@@ -235,5 +235,51 @@ if r9b["ok"]:
           and state9b["symbols"].get("乙") == 3,
           f'symbols={state9b["symbols"]}')
 
+# 校准⑩：对接 protocol-compiler 真实 lexer/parser（同一源码 → 白箱编译 → VM 执行）
+import sys as _sys
+import os as _os
+_pc = r'D:\Program Files\2_ai\protocol-compiler'
+if _os.path.isdir(_pc) and _pc not in _sys.path:
+    _sys.path.insert(0, _pc)
+bridge_token = _fn("对接-协议词法")
+try:
+    from core.lexer import tokenize, TokenType
+    from core.parser import parse_tokens, NodeType
+    src_pc = """问曰：如何验证信任？
+答曰：信任值大于0.7。
+术曰：
+1。道 新信任路径；
+2。德 0.3；
+3。止。"""
+    tokens_pc, lex_err = tokenize(src_pc)
+    ast_pc = parse_tokens(tokens_pc, [])
+    instrs_pc = []
+    for stmt in ast_pc.statements:
+        if getattr(stmt, "type", None) == NodeType.SHUYUE:
+            for step in stmt.steps:
+                s = step.statement
+                if getattr(s, "type", None) == NodeType.INSTRUCTION_STMT:
+                    kind = bridge_token(s.instruction.name)
+                    operand = None
+                    if s.operands:
+                        op0 = s.operands[0]
+                        operand = getattr(op0, "name", None) or getattr(
+                            op0, "literal_value", None)
+                    ci = compile_instr(kind, operand)
+                    if ci:
+                        instrs_pc.append(ci)
+    check('校准⑩a 真实解析→白箱编译', len(instrs_pc) >= 2
+          and ("DAO", "新信任路径") in instrs_pc
+          and ("DE", 0.3) in instrs_pc, str(instrs_pc))
+    if instrs_pc:
+        state_pc = vm_run(instrs_pc)
+        check('校准⑩b VM执行(真实AST→信任0.3+条件空间+halt)',
+              state_pc["trust"] == 0.3
+              and state_pc["cond"] == [{"name": "新信任路径"}]
+              and state_pc["halt"] == "halt",
+              f'trust={state_pc["trust"]} cond={state_pc["cond"]} halt={state_pc["halt"]}')
+except ImportError as e:
+    check('校准⑩ protocol-compiler 对接', False, f'导入失败: {e}')
+
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
