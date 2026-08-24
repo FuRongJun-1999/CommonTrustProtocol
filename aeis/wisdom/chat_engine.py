@@ -719,7 +719,8 @@ def _cond_analysis(message):
 
 
 def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
-         memory_recall_fn=None, role_ctx=None, perceiver_fn=None):
+         memory_recall_fn=None, role_ctx=None, perceiver_fn=None,
+         code_qa_fn=None):
     """普通人对话编排。返回 {reply, hits, emotion, matched, honest}
     prefeed_fn: 可选注入的海马体前馈（灵枢 prefeed_input），
     真问题（非闲聊/非情感）先过新奇检测 → 高新奇当场强化编码。
@@ -730,7 +731,10 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
     角色知识域未覆盖的问法落回通用域（角色不污染通用、通用不泄漏角色）。
     perceiver_fn: v2.0（第四阶段·感知进主路由）——可选注入的白箱感知通道
     （3D 时空 CNN × 时空记忆图）。时空问题（怎么动/方向/周期/发生了什么/
-    运动/移动/轨迹/静止）自动走感知通道回答，零 LLM。"""
+    运动/移动/轨迹/静止）自动走感知通道回答，零 LLM。
+    code_qa_fn: v5.0（第五阶段·代码问答进主路由）——可选注入的白箱代码理解
+    （代码条件单元库：改X影响谁/依赖/并行测试/仓库统计）。代码问题自动走
+    代码理解通道，零 LLM；未命中（ok=False）自然回落主流程。"""
     message = (message or "").strip()
     if not message:
         return {"reply": "我在呢，想说点什么？", "hits": [], "emotion": None}
@@ -820,6 +824,23 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
                         "honest": False, "perception": True,
                         "perception_type": _pr.get("type"),
                         "perception_source": _pr.get("source")}
+        except Exception:
+            pass
+
+    # 0. 代码问答分支（v5.0·第五阶段代码问答进主路由）：
+    # 代码问题（改X影响谁/依赖/并行测试/仓库多少函数）自动走白箱代码理解通道
+    # （代码条件单元库：影响分析/依赖/雅可比独立性/统计），零 LLM。
+    # 未命中（ok=False）自然回落主流程——「影响/依赖」等泛词不误伤普通问题。
+    _CODE_QA_WORDS = ["能并行", "并行测试", "同时测", "一起测", "影响哪些",
+                      "影响什么", "波及", "连累", "依赖什么", "调用什么",
+                      "用到什么", "有多少函数", "几个函数", "仓库"]
+    if code_qa_fn is not None and any(w in message for w in _CODE_QA_WORDS):
+        try:
+            _cq = code_qa_fn(message)
+            if _cq and _cq.get("ok") and _cq.get("reply"):
+                return {"reply": _cq["reply"], "hits": [], "emotion": None,
+                        "honest": False, "code_qa": True,
+                        "code_qa_type": _cq.get("type")}
         except Exception:
             pass
 
