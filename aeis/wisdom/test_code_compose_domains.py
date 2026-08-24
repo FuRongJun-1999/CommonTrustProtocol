@@ -1742,5 +1742,46 @@ try:
 except Exception as ex:
     check('㊔c 折叠→死代码→寄存器端到端（PUSH3 删死码 4寄存器1溢出）', False, str(ex)[:60])
 
+# ㊕ 目标6 深化：图可视化（力导向/分层布局/邻接矩阵 经正式管线）
+g10_qs = {
+    "力导向布局": "写一个力导向布局单元（斥力引力）",
+    "分层布局": "写一个分层布局单元（BFS 层级）",
+    "邻接矩阵": "写一个邻接矩阵单元（结构矩阵）",
+}
+g10_ok = 0
+for label, q in g10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g10_ok += 1
+    check(f'㊕ {label} 图可视化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊕b 图可视化三单元全部生成', g10_ok == 3, f'{g10_ok}/3')
+
+# ㊕c 端到端：力导向→分层→邻接矩阵（布局→层级→结构矩阵）
+r_fl = domain_route("写一个力导向布局单元（斥力引力）")
+r_ll = domain_route("写一个分层布局单元（BFS 层级）")
+r_am = domain_route("写一个邻接矩阵单元（结构矩阵）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+ns_g10 = {}
+exec(r_g["code"], ns_g10)
+Graph10 = ns_g10["Graph"]
+try:
+    ns_fl, ns_ll, ns_am = {}, {}, {}
+    exec(r_fl["code"], ns_fl)
+    exec(r_ll["code"], ns_ll)
+    exec(r_am["code"], ns_am)
+    pos = ns_fl["force_layout"](['a', 'b'], [('a', 'b')], 1)
+    g = Graph10()
+    g.add_edge("气压低", "沸点降")
+    layers = ns_ll["layer_layout"](g)
+    mat = ns_am["adjacency_matrix"](g)
+    check('㊕c 力导向→分层→矩阵端到端（a0.1b0.5 气压低层0 矩阵2x2）',
+          pos == {'a': 0.1, 'b': 0.5} and layers.get('气压低') == 0
+          and len(mat) == 2,
+          f'pos={pos} layers={layers} mat={len(mat)}x{len(mat)}')
+except Exception as ex:
+    check('㊕c 力导向→分层→矩阵端到端（a0.1b0.5 气压低层0 矩阵2x2）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

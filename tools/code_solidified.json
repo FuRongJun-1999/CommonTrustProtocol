@@ -1348,5 +1348,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:graph|图可视化-力导向布局": {
+  "task": "力导向布局",
+  "unit": "图可视化-力导向布局",
+  "code": "def force_layout(nodes, edges, iterations=2):\n    # 力导向布局：斥力+引力迭代（节点坐标稳定——图可视化）\n    pos = {n: i * 1.0 for i, n in enumerate(nodes)}  # 初始线性\n    for _ in range(iterations):\n        for a in nodes:\n            for b in nodes:\n                if a != b and pos[a] < pos[b]:\n                    pos[a] += 0.1  # 斥力推远\n                    pos[b] -= 0.1\n        for a, b in edges:\n            pos[b] = (pos[a] + pos[b]) / 2  # 引力拉近\n    return {n: round(pos[n], 2) for n in nodes}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图可视化-分层布局": {
+  "task": "分层布局",
+  "unit": "图可视化-分层布局",
+  "code": "def layer_layout(graph):\n    # 分层布局：按 BFS 深度分层（层次坐标——层级图可视化）\n    from collections import deque\n    starts = [n for n in graph.nodes if not any(\n        n in graph.neighbors(m) for m in graph.nodes)]\n    if not starts:\n        starts = [min(graph.nodes)]\n    layers = {}\n    for s in starts:\n        q = deque([(s, 0)])\n        while q:\n            n, d = q.popleft()\n            if n not in layers or d < layers[n]:\n                layers[n] = d\n            for nxt in graph.neighbors(n):\n                if nxt not in layers or d + 1 < layers[nxt]:\n                    q.append((nxt, d + 1))\n    return layers\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图可视化-邻接矩阵": {
+  "task": "邻接矩阵",
+  "unit": "图可视化-邻接矩阵",
+  "code": "def adjacency_matrix(graph):\n    # 邻接矩阵：节点 × 节点 0/1（图的结构矩阵表示）\n    nodes = sorted(graph.nodes)\n    idx = {n: i for i, n in enumerate(nodes)}\n    mat = [[0] * len(nodes) for _ in nodes]\n    for n in nodes:\n        for nxt in graph.neighbors(n):\n            mat[idx[n]][idx[nxt]] = 1\n    return mat\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

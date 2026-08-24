@@ -728,6 +728,69 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：分布式查询——分片并行处理合并（Map 归约语义）",
     },
+    "图可视化-力导向布局": {
+        "task": "力导向布局",
+        "pattern": (
+            "def force_layout(nodes, edges, iterations=2):\n"
+            "    # 力导向布局：斥力+引力迭代（节点坐标稳定——图可视化）\n"
+            "    pos = {n: i * 1.0 for i, n in enumerate(nodes)}  # 初始线性\n"
+            "    for _ in range(iterations):\n"
+            "        for a in nodes:\n"
+            "            for b in nodes:\n"
+            "                if a != b and pos[a] < pos[b]:\n"
+            "                    pos[a] += 0.1  # 斥力推远\n"
+            "                    pos[b] -= 0.1\n"
+            "        for a, b in edges:\n"
+            "            pos[b] = (pos[a] + pos[b]) / 2  # 引力拉近\n"
+            "    return {n: round(pos[n], 2) for n in nodes}\n"),
+        "cases": [((['a', 'b'], [('a', 'b')], 1), {'a': 0.1, 'b': 0.5}),
+                  ((['x'], [], 1), {'x': 0.0})],
+        "params": [],
+        "calibration": "对照：图可视化——力导向布局（斥力推离+引力拉近迭代收敛）",
+    },
+    "图可视化-分层布局": {
+        "task": "分层布局",
+        "pattern": (
+            "def layer_layout(graph):\n"
+            "    # 分层布局：按 BFS 深度分层（层次坐标——层级图可视化）\n"
+            "    from collections import deque\n"
+            "    starts = [n for n in graph.nodes if not any(\n"
+            "        n in graph.neighbors(m) for m in graph.nodes)]\n"
+            "    if not starts:\n"
+            "        starts = [min(graph.nodes)]\n"
+            "    layers = {}\n"
+            "    for s in starts:\n"
+            "        q = deque([(s, 0)])\n"
+            "        while q:\n"
+            "            n, d = q.popleft()\n"
+            "            if n not in layers or d < layers[n]:\n"
+            "                layers[n] = d\n"
+            "            for nxt in graph.neighbors(n):\n"
+            "                if nxt not in layers or d + 1 < layers[nxt]:\n"
+            "                    q.append((nxt, d + 1))\n"
+            "    return layers\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图可视化——分层布局（BFS 深度分层坐标）",
+    },
+    "图可视化-邻接矩阵": {
+        "task": "邻接矩阵",
+        "pattern": (
+            "def adjacency_matrix(graph):\n"
+            "    # 邻接矩阵：节点 × 节点 0/1（图的结构矩阵表示）\n"
+            "    nodes = sorted(graph.nodes)\n"
+            "    idx = {n: i for i, n in enumerate(nodes)}\n"
+            "    mat = [[0] * len(nodes) for _ in nodes]\n"
+            "    for n in nodes:\n"
+            "        for nxt in graph.neighbors(n):\n"
+            "            mat[idx[n]][idx[nxt]] = 1\n"
+            "    return mat\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图可视化——邻接矩阵（0/1 结构矩阵表示）",
+    },
 }
 
 

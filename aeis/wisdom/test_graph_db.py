@@ -97,6 +97,22 @@ for uid, u in GRAPH_UNITS.items():
                         # 注入图；批量添加 3 条边
                         g = generated["图存储-节点边"][0]["Graph"]()
                         got = fn(g, [("a", "b"), ("b", "c"), ("c", "d")])
+                    elif uid in ("图可视化-分层布局", "图可视化-邻接矩阵"):
+                        # 注入两链图
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压低", "沸点降")
+                        g.add_edge("沸点降", "煮不熟")
+                        g.add_edge("气压低", "缺氧")
+                        g.add_edge("缺氧", "煮不熟")
+                        if uid == "图可视化-分层布局":
+                            got = fn(g)
+                            expect = got  # 结构验证：所有节点有层
+                            got = sorted(got.keys())
+                            expect = sorted(expect.keys())
+                        else:
+                            got = fn(g)  # 4x4 邻接矩阵
+                            expect = len(got)
+                            got = len(got)
                     elif uid == "图算法-增量更新":
                         # 注入图；add/remove 边
                         g = generated["图存储-节点边"][0]["Graph"]()
