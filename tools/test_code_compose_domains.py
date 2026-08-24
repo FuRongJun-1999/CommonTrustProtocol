@@ -814,5 +814,48 @@ try:
 except Exception as ex:
     check('㉙c 生成→迭代→推导端到端（[0,1,2] 遍历 [0,20,30] 映射×10）', False, str(ex)[:60])
 
+# ㉚ 目标6 深化：图算法（PageRank/连通分量/拓扑排序 经正式管线）
+g5_qs = {
+    "PageRank": "写一个 PageRank 单元（权重传播）",
+    "连通分量": "写一个连通分量单元（无向分组）",
+    "拓扑排序": "写一个拓扑排序单元（DAG 依赖序）",
+}
+g5_ok = 0
+for label, q in g5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g5_ok += 1
+    check(f'㉚ {label} 图算法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉚b 图算法三单元全部生成', g5_ok == 3, f'{g5_ok}/3')
+
+# ㉚c 端到端：建图→拓扑排序→连通分量→PageRank（算法层组装）
+r_ts = domain_route("写一个拓扑排序单元（DAG 依赖序）")
+r_cc = domain_route("写一个连通分量单元（无向分组）")
+r_pr = domain_route("写一个 PageRank 单元（权重传播）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+try:
+    ns_ts, ns_cc, ns_pr, ns_g = {}, {}, {}, {}
+    exec(r_ts["code"], ns_ts)
+    exec(r_cc["code"], ns_cc)
+    exec(r_pr["code"], ns_pr)
+    exec(r_g["code"], ns_g)
+    g = ns_g["Graph"]()
+    g.add_edge("气压低", "沸点降")
+    g.add_edge("沸点降", "煮不熟")
+    g.add_edge("气压低", "缺氧")
+    g.add_edge("缺氧", "煮不熟")
+    order = ns_ts["topological_sort"](g)
+    comps = ns_cc["connected_components"](g)
+    pr = ns_pr["pagerank"](g)
+    check('㉚c 拓扑→连通→PageRank 端到端（4 节点序/1 分量/4 排名）',
+          order is not None and len(order) == 4
+          and comps == [["气压低", "沸点降", "煮不熟", "缺氧"]]
+          and sorted(pr.keys()) == ["气压低", "沸点降", "煮不熟", "缺氧"],
+          f'order={order} comps={comps} pr={sorted(pr)}')
+except Exception as ex:
+    check('㉚c 拓扑→连通→PageRank 端到端（4 节点序/1 分量/4 排名）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

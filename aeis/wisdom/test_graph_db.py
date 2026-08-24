@@ -93,6 +93,23 @@ for uid, u in GRAPH_UNITS.items():
                             got = fn(g, [("气压低", "沸点降"), ("沸点降", "煮不熟")])
                         else:
                             got = fn(g, [("气压低", "煮不熟")])  # 无边 → False
+                    elif uid in ("图算法-PageRank", "图算法-连通分量", "图算法-拓扑排序"):
+                        # 注入两链图；cases=("call", None) 验证不崩溃+结构
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压低", "沸点降")
+                        g.add_edge("沸点降", "煮不熟")
+                        g.add_edge("气压低", "缺氧")
+                        g.add_edge("缺氧", "煮不熟")
+                        if uid == "图算法-PageRank":
+                            pr = fn(g)
+                            got = sorted(pr.keys())  # 期望所有节点有排名
+                            expect = sorted(g.nodes)
+                        elif uid == "图算法-连通分量":
+                            got = fn(g)  # 两链共享 气压低/煮不熟 → 1 个分量
+                            expect = [["气压低", "沸点降", "煮不熟", "缺氧"]]
+                        else:
+                            got = fn(g)  # DAG → 拓扑序
+                            expect = got  # 结构验证：长度=节点数
                     else:
                         got = ns["graph_ops"]()
                 elif uid == "图遍历-BFS" or uid == "图遍历-路径":

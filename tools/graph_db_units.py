@@ -416,6 +416,88 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：图查询——子图模式匹配（模式边全部存在=匹配；缺边=不匹配）",
     },
+    "图算法-PageRank": {
+        "task": "PageRank",
+        "pattern": (
+            "def pagerank(graph, iterations=5, damping=0.85):\n"
+            "    # PageRank：权重迭代传播（出链均分，阻尼因子防死端）\n"
+            "    nodes = sorted(graph.nodes)\n"
+            "    n = len(nodes)\n"
+            "    pr = {node: 1.0 / n for node in nodes}\n"
+            "    for _ in range(iterations):\n"
+            "        new_pr = {node: (1 - damping) / n for node in nodes}\n"
+            "        for node in nodes:\n"
+            "            out = graph.neighbors(node)\n"
+            "            if not out:\n"
+            "                continue\n"
+            "            share = damping * pr[node] / len(out)\n"
+            "            for nxt in out:\n"
+            "                new_pr[nxt] += share\n"
+            "        pr = new_pr\n"
+            "    return pr\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图算法——PageRank（权重迭代传播，入链多者排名高）",
+    },
+    "图算法-连通分量": {
+        "task": "连通分量",
+        "pattern": (
+            "def connected_components(graph):\n"
+            "    # 无向连通分量：BFS 分组（边双向视为连通，互达节点同组）\n"
+            "    from collections import deque\n"
+            "    # 构建无向邻接（edges 双向化）\n"
+            "    adj = {n: set(graph.neighbors(n)) for n in graph.nodes}\n"
+            "    for n in list(graph.nodes):\n"
+            "        for nxt in graph.neighbors(n):\n"
+            "            adj.setdefault(nxt, set()).add(n)\n"
+            "    seen = set()\n"
+            "    comps = []\n"
+            "    for start in sorted(graph.nodes):\n"
+            "        if start in seen:\n"
+            "            continue\n"
+            "        group = set()\n"
+            "        queue = deque([start])\n"
+            "        seen.add(start)\n"
+            "        while queue:\n"
+            "            cur = queue.popleft()\n"
+            "            group.add(cur)\n"
+            "            for nxt in adj.get(cur, set()):\n"
+            "                if nxt not in seen:\n"
+            "                    seen.add(nxt)\n"
+            "                    queue.append(nxt)\n"
+            "        comps.append(sorted(group))\n"
+            "    return sorted(comps)\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图算法——连通分量（无向互达分组）",
+    },
+    "图算法-拓扑排序": {
+        "task": "拓扑排序",
+        "pattern": (
+            "def topological_sort(graph):\n"
+            "    # 拓扑排序：DAG 依赖顺序（Kahn 算法——入度归零先出）\n"
+            "    from collections import deque\n"
+            "    indeg = {node: 0 for node in graph.nodes}\n"
+            "    for node in graph.nodes:\n"
+            "        for nxt in graph.neighbors(node):\n"
+            "            indeg[nxt] = indeg.get(nxt, 0) + 1\n"
+            "    queue = deque(sorted(n for n, d in indeg.items() if d == 0))\n"
+            "    order = []\n"
+            "    while queue:\n"
+            "        cur = queue.popleft()\n"
+            "        order.append(cur)\n"
+            "        for nxt in graph.neighbors(cur):\n"
+            "            indeg[nxt] -= 1\n"
+            "            if indeg[nxt] == 0:\n"
+            "                queue.append(nxt)\n"
+            "    return order if len(order) == len(graph.nodes) else None\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图算法——拓扑排序（Kahn 入度归零，DAG 依赖顺序；有环返回 None）",
+    },
     "图灵枢-导出": {
         "task": "图导出灵枢",
         "pattern": (
