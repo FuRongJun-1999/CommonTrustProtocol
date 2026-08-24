@@ -1120,6 +1120,78 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图算法——度中心性（度数/(n-1) 归一化重要度）",
     },
+    "图查询-正则路径": {
+        "task": "正则路径",
+        "pattern": (
+            "def regex_path_find(adj, start, labels):\n"
+            "    # 正则路径查询：按标签序列沿边匹配（存在路径→终点列表）\n"
+            "    frontier = [start]\n"
+            "    for lab in labels:\n"
+            "        nxt = []\n"
+            "        for u in frontier:\n"
+            "            for v, l in adj.get(u, []):\n"
+            "                if l == lab:\n"
+            "                    nxt.append(v)\n"
+            "        frontier = nxt\n"
+            "        if not frontier:\n"
+            "            return []\n"
+            "    return sorted(set(frontier))\n"),
+        "cases": [(({0: [(1, '朋友'), (2, '同事')], 1: [(3, '朋友')]}, 0,
+                    ['朋友']), [1]),
+                  (({0: [(1, '朋友')], 1: [(2, '朋友')]}, 0,
+                    ['朋友', '朋友']), [2]),
+                  (({0: [(1, '同事')]}, 0, ['朋友']), [])],
+        "params": [],
+        "calibration": "对照：图查询——正则路径（标签序列沿边匹配，属性图路径语义）",
+    },
+    "图查询-查询缓存": {
+        "task": "查询缓存",
+        "pattern": (
+            "def query_cache(cache, op, key=None, result=None, capacity=3):\n"
+            "    # 查询缓存：get 命中返回并移末尾 / put 存结果（LRU 淘汰超容量）\n"
+            "    if op == 'get':\n"
+            "        if key in cache:\n"
+            "            val = cache.pop(key)\n"
+            "            cache[key] = val\n"
+            "            return val\n"
+            "        return None\n"
+            "    if op == 'put':\n"
+            "        if key in cache:\n"
+            "            cache.pop(key)\n"
+            "        cache[key] = result\n"
+            "        while len(cache) > capacity:\n"
+            "            cache.pop(next(iter(cache)))\n"
+            "        return len(cache)\n"
+            "    return None\n"),
+        "cases": [(({}, 'put', 'q1', 'r1', 3), 1),
+                  (({'q1': 'r1'}, 'get', 'q1', None, 3), 'r1'),
+                  (({}, 'get', 'q1', None, 3), None),
+                  (({'a': 1, 'b': 2, 'c': 3}, 'put', 'd', 4, 3), 3)],
+        "params": [],
+        "calibration": "对照：图查询——查询缓存（LRU 淘汰，命中加速重复查询）",
+    },
+    "图查询-物化视图": {
+        "task": "物化视图",
+        "pattern": (
+            "def materialize_view(base, view_name, view_fn, op, params=None):\n"
+            "    # 物化视图：预计算子查询结果（复用加速），refresh 重算\n"
+            "    if op == 'query':\n"
+            "        v = base.get(view_name)\n"
+            "        return v if v is not None else 'missing'\n"
+            "    if op == 'refresh':\n"
+            "        base[view_name] = view_fn(*(params or []))\n"
+            "        return base[view_name]\n"
+            "    return None\n"),
+        "cases": [(({'热度': [('a', 3)]}, '热度', None, 'query'),
+                   [('a', 3)]),
+                  (({}, '热度',
+                    lambda g: sorted(g, key=lambda x: -x[1]),
+                    'refresh', ([('a', 3), ('b', 5)],)),
+                   [('b', 5), ('a', 3)]),
+                  (({}, '热度', None, 'query'), 'missing')],
+        "params": [],
+        "calibration": "对照：图查询——物化视图（预计算复用，refresh 重算）",
+    },
 }
 
 

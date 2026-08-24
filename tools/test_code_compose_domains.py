@@ -2869,5 +2869,45 @@ try:
 except Exception as ex:
     check('㊲c 伙伴→COW→压缩端到端（allocated copied 省2）', False, str(ex)[:60])
 
+# ㊳ 目标6 深化：图查询（正则路径/查询缓存/物化视图 经正式管线）
+g17_qs = {
+    "正则路径": "写一个正则路径查询单元（标签序列）",
+    "查询缓存": "写一个查询缓存单元（LRU 淘汰）",
+    "物化视图": "写一个物化视图单元（预计算复用）",
+}
+g17_ok = 0
+for label, q in g17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g17_ok += 1
+    check(f'㊳ {label} 图查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊳b 图查询三单元全部生成', g17_ok == 3, f'{g17_ok}/3')
+
+# ㊳c 查询端到端：正则路径→查询缓存→物化视图（朋友[1] 缓存r1 视图[b,5][a,3]）
+r_rp = domain_route("写一个正则路径查询单元（标签序列）")
+r_qc = domain_route("写一个查询缓存单元（LRU 淘汰）")
+r_mv = domain_route("写一个物化视图单元（预计算复用）")
+try:
+    ns_rp, ns_qc, ns_mv = {}, {}, {}
+    exec(r_rp["code"], ns_rp)
+    exec(r_qc["code"], ns_qc)
+    exec(r_mv["code"], ns_mv)
+    rp = ns_rp["regex_path_find"]({0: [(1, '朋友'), (2, '同事')],
+                                   1: [(3, '朋友')]}, 0, ['朋友'])
+    cache = {}
+    ns_qc["query_cache"](cache, 'put', 'q1', 'r1', 3)
+    got = ns_qc["query_cache"](cache, 'get', 'q1')
+    base = {}
+    view = ns_mv["materialize_view"](
+        base, '热度', lambda g: sorted(g, key=lambda x: -x[1]),
+        'refresh', ([('a', 3), ('b', 5)],))
+    check('㊳c 正则路径→缓存→物化端到端（[1] r1 [b,5][a,3]）',
+          rp == [1] and got == 'r1' and view == [('b', 5), ('a', 3)],
+          f'rp={rp} cache={got} view={view}')
+except Exception as ex:
+    check('㊳c 正则路径→缓存→物化端到端（[1] r1 [b,5][a,3]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
