@@ -9,7 +9,7 @@ import numpy as np
 sys.stdout.reconfigure(encoding='utf-8')
 
 
-def cluster_pointcloud(pts, depth_gap=40.0):
+def cluster_pointcloud(pts, depth_gap=20.0):
     """点云按深度聚类：近景组/远景组（白箱无监督：深度差分组）
     pts: [(x, y, z), ...]（vision_3d pointcloud 输出）
     返回: [{"cx","cy","cz","size","count","category"}, ...]"""
