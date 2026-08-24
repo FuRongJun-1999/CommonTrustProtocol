@@ -3488,5 +3488,40 @@ try:
 except Exception as ex:
     check('㋃c 作用域→常量传播→重排端到端（2 [PUSH3,DE] [PUSH3,DE0.1]）', False, str(ex)[:60])
 
+# ㋄ 目标6 深化：图算法（最大流/欧拉路径/图直径 经正式管线）
+g20_qs = {
+    "最大流": "写一个最大流单元（增广路径）",
+    "欧拉路径": "写一个欧拉路径单元（一笔画）",
+    "图直径": "写一个图直径单元（最长最短）",
+}
+g20_ok = 0
+for label, q in g20_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g20_ok += 1
+    check(f'㋄ {label} 图算法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋄b 图算法三单元全部生成', g20_ok == 3, f'{g20_ok}/3')
+
+# ㋄c 算法端到端：最大流→欧拉→直径（4 True 2）
+r_mf = domain_route("写一个最大流单元（增广路径）")
+r_ep = domain_route("写一个欧拉路径单元（一笔画）")
+r_gd = domain_route("写一个图直径单元（最长最短）")
+try:
+    ns_mf, ns_ep, ns_gd = {}, {}, {}
+    exec(r_mf["code"], ns_mf)
+    exec(r_ep["code"], ns_ep)
+    exec(r_gd["code"], ns_gd)
+    mf = ns_mf["max_flow"]({'s': {'a': 3, 'b': 2}, 'a': {'t': 2},
+                            'b': {'t': 2}}, 's', 't')
+    ep = ns_ep["euler_path"]({0: [1], 1: [0, 2], 2: [1]}, 3)
+    gd = ns_gd["graph_diameter"]({0: [1], 1: [0, 2], 2: [1]}, 3)
+    check('㋄c 最大流→欧拉→直径端到端（4 True 2）',
+          mf == 4 and ep is True and gd == 2,
+          f'flow={mf} euler={ep} diam={gd}')
+except Exception as ex:
+    check('㋄c 最大流→欧拉→直径端到端（4 True 2）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

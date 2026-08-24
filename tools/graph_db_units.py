@@ -1301,6 +1301,84 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：属性图边——带标签/属性边存储与查询",
     },
+    "图算法-最大流": {
+        "task": "最大流",
+        "pattern": (
+            "def max_flow(graph, source, sink):\n"
+            "    # 最大流：Ford-Fulkerson——BFS 增广路径推送（残留网络）\n"
+            "    flow = 0\n"
+            "    while True:\n"
+            "        parent = {source: None}\n"
+            "        queue = [source]\n"
+            "        found = False\n"
+            "        while queue and not found:\n"
+            "            u = queue.pop(0)\n"
+            "            for v, cap in graph.get(u, {}).items():\n"
+            "                if v not in parent and cap > 0:\n"
+            "                    parent[v] = u\n"
+            "                    if v == sink:\n"
+            "                        found = True\n"
+            "                        break\n"
+            "                    queue.append(v)\n"
+            "        if not found:\n"
+            "            break\n"
+            "        v = sink\n"
+            "        path_flow = float('inf')\n"
+            "        while parent[v] is not None:\n"
+            "            u = parent[v]\n"
+            "            path_flow = min(path_flow, graph[u][v])\n"
+            "            v = u\n"
+            "        v = sink\n"
+            "        while parent[v] is not None:\n"
+            "            u = parent[v]\n"
+            "            graph[u][v] -= path_flow\n"
+            "            graph.setdefault(v, {})[u] = graph.get(v, {}).get(u, 0) + path_flow\n"
+            "            v = u\n"
+            "        flow += path_flow\n"
+            "    return flow\n"),
+        "cases": [(({'s': {'a': 3, 'b': 2}, 'a': {'t': 2}, 'b': {'t': 2}},
+                    's', 't'), 4),
+                  (({'s': {'a': 5}, 'a': {'t': 5}}, 's', 't'), 5),
+                  (({'s': {'a': 1}, 'a': {'t': 1}}, 's', 't'), 1)],
+        "params": [],
+        "calibration": "对照：图算法——最大流（Ford-Fulkerson 增广路径推送）",
+    },
+    "图算法-欧拉路径": {
+        "task": "欧拉路径",
+        "pattern": (
+            "def euler_path(adj, n):\n"
+            "    # 欧拉路径：一笔画判定（0 或 2 个奇度节点——连通图）\n"
+            "    deg = {i: len(adj.get(i, [])) for i in range(n)}\n"
+            "    odd = sum(1 for d in deg.values() if d % 2)\n"
+            "    return odd == 0 or odd == 2\n"),
+        "cases": [(({0: [1], 1: [0, 2], 2: [1]}, 3), True),
+                  (({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 3), True),
+                  (({0: [1, 2], 1: [0], 2: [0]}, 3), True)],
+        "params": [],
+        "calibration": "对照：图算法——欧拉路径（0/2 个奇度节点一笔画）",
+    },
+    "图算法-图直径": {
+        "task": "图直径",
+        "pattern": (
+            "def graph_diameter(adj, n):\n"
+            "    # 图直径：最长最短路径（全源 BFS 最大距离）\n"
+            "    def bfs(s):\n"
+            "        dist = {s: 0}\n"
+            "        queue = [s]\n"
+            "        while queue:\n"
+            "            u = queue.pop(0)\n"
+            "            for v in adj.get(u, []):\n"
+            "                if v not in dist:\n"
+            "                    dist[v] = dist[u] + 1\n"
+            "                    queue.append(v)\n"
+            "        return max(dist.values()) if dist else 0\n"
+            "    return max(bfs(i) for i in range(n))\n"),
+        "cases": [(({0: [1], 1: [0, 2], 2: [1]}, 3), 2),
+                  (({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 3), 1),
+                  (({}, 1), 0)],
+        "params": [],
+        "calibration": "对照：图算法——图直径（最长最短路径）",
+    },
 }
 
 
