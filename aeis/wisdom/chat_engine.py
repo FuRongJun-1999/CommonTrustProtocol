@@ -720,7 +720,7 @@ def _cond_analysis(message):
 
 def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
          memory_recall_fn=None, role_ctx=None, perceiver_fn=None,
-         code_qa_fn=None):
+         code_qa_fn=None, graph_qa_fn=None):
     """普通人对话编排。返回 {reply, hits, emotion, matched, honest}
     prefeed_fn: 可选注入的海马体前馈（灵枢 prefeed_input），
     真问题（非闲聊/非情感）先过新奇检测 → 高新奇当场强化编码。
@@ -734,7 +734,10 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
     运动/移动/轨迹/静止）自动走感知通道回答，零 LLM。
     code_qa_fn: v5.0（第五阶段·代码问答进主路由）——可选注入的白箱代码理解
     （代码条件单元库：改X影响谁/依赖/并行测试/仓库统计）。代码问题自动走
-    代码理解通道，零 LLM；未命中（ok=False）自然回落主流程。"""
+    代码理解通道，零 LLM；未命中（ok=False）自然回落主流程。
+    graph_qa_fn: v6.0（第六阶段·条件图数据库问答进主路由）——可选注入的白箱
+    条件图查询（影响面/关系/路径：气压会影响哪些规律？）。图问题自动走
+    条件图数据库通道，零 LLM；未命中自然回落主流程。"""
     message = (message or "").strip()
     if not message:
         return {"reply": "我在呢，想说点什么？", "hits": [], "emotion": None}
@@ -841,6 +844,21 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
                 return {"reply": _cq["reply"], "hits": [], "emotion": None,
                         "honest": False, "code_qa": True,
                         "code_qa_type": _cq.get("type")}
+        except Exception:
+            pass
+
+    # 0. 条件图数据库问答分支（v6.0·第六阶段图查询进主路由）：
+    # 图问题（X会影响哪些规律/有关系吗/怎么走）自动走条件图数据库通道
+    # （影响面/路径查询，零 LLM）。未命中（ok=False）自然回落主流程。
+    _GRAPH_QA_WORDS = ["影响哪些规律", "涉及哪些", "有关系吗", "有关吗",
+                       "怎么走", "怎么到", "经过", "关联"]
+    if graph_qa_fn is not None and any(w in message for w in _GRAPH_QA_WORDS):
+        try:
+            _gq = graph_qa_fn(message)
+            if _gq and _gq.get("ok") and _gq.get("reply"):
+                return {"reply": _gq["reply"], "hits": [], "emotion": None,
+                        "honest": False, "graph_qa": True,
+                        "graph_qa_type": _gq.get("type")}
         except Exception:
             pass
 
