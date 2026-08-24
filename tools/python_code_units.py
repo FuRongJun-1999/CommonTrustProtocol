@@ -441,6 +441,55 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python 列表推导式（[f(x) for x in seq] 映射）",
     },
+    "面向对象-类定义": {
+        "task": "类定义",
+        "pattern": (
+            "class Dog:\n"
+            "    # 类定义：__init__ 构造 + 方法（实例属性）\n"
+            "    def __init__(self, name):\n"
+            "        self.name = name\n"
+            "    def speak(self):\n"
+            "        return self.name + ' 汪汪'\n"
+            "def oop_class_test():\n"
+            "    d = Dog('阿黄')\n"
+            "    return (d.name, d.speak())\n"),
+        "cases": [("call", ('阿黄', '阿黄 汪汪'))],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 类定义——__init__ 构造 + 实例方法（实例属性语义）",
+    },
+    "面向对象-继承": {
+        "task": "类继承",
+        "pattern": (
+            "class Animal:\n"
+            "    def speak(self):\n"
+            "        return '动物'\n"
+            "class Cat(Animal):\n"
+            "    # 继承：子类覆盖父类方法（方法重写）\n"
+            "    def speak(self):\n"
+            "        return '喵'\n"
+            "def oop_inherit_test():\n"
+            "    return (Animal().speak(), Cat().speak())\n"),
+        "cases": [("call", ('动物', '喵'))],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 继承——子类覆盖父类方法（方法重写语义）",
+    },
+    "面向对象-多态": {
+        "task": "多态分发",
+        "pattern": (
+            "def poly_speak(obj):\n"
+            "    # 多态：同一接口不同实现（运行时方法分发）\n"
+            "    return obj.speak()\n"
+            "def oop_poly_test():\n"
+            "    return [poly_speak(o) for o in\n"
+            "            (type('D', (), {'speak': lambda s: '汪'})(),\n"
+            "             type('C', (), {'speak': lambda s: '喵'})())]\n"),
+        "cases": [("call", ['汪', '喵'])],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 多态——同一接口不同实现（运行时方法分发）",
+    },
 }
 
 

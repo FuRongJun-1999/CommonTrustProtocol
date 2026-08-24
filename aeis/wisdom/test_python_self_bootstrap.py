@@ -53,6 +53,11 @@ for uid, u in PYTHON_UNITS.items():
                     elif uid == "生成器-yield":
                         # 注入验证：生成器 yield 逐个产出
                         got = ns["gen_test"]()
+                    elif uid in ("面向对象-类定义", "面向对象-继承", "面向对象-多态"):
+                        # 注入验证：OOP 族入口（类定义/继承/多态）
+                        entry = ns.get("oop_class_test") or \
+                            ns.get("oop_inherit_test") or ns.get("oop_poly_test")
+                        got = entry()
                     else:
                         entry = ns.get("closure_test") or ns.get("env_scope")
                         got = entry()

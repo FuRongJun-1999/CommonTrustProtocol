@@ -1109,5 +1109,40 @@ try:
 except Exception as ex:
     check('㊁c 日志→守护→监控端到端（恢复空盘 服务运行 平均50峰70）', False, str(ex)[:60])
 
+# ㊂ 目标1 深化：面向对象（类定义/继承/多态 经正式管线）
+p5_qs = {
+    "类定义": "写一个类定义单元（构造和方法）",
+    "类继承": "写一个类继承单元（方法覆盖）",
+    "多态": "写一个多态单元（接口分发）",
+}
+p5_ok = 0
+for label, q in p5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p5_ok += 1
+    check(f'㊂ {label} 面向对象单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊂b 面向对象三单元全部生成', p5_ok == 3, f'{p5_ok}/3')
+
+# ㊂c 端到端：类实例化→继承覆盖→多态分发（OOP 全链）
+r_cd = domain_route("写一个类定义单元（构造和方法）")
+r_ih = domain_route("写一个类继承单元（方法覆盖）")
+r_pl = domain_route("写一个多态单元（接口分发）")
+try:
+    ns_cd, ns_ih, ns_pl = {}, {}, {}
+    exec(r_cd["code"], ns_cd)
+    exec(r_ih["code"], ns_ih)
+    exec(r_pl["code"], ns_pl)
+    d = ns_cd["oop_class_test"]()
+    ih = ns_ih["oop_inherit_test"]()
+    pl = ns_pl["oop_poly_test"]()
+    check('㊂c 实例化→继承→多态端到端（阿黄汪汪 动物/喵 汪/喵）',
+          d == ('阿黄', '阿黄 汪汪') and ih == ('动物', '喵')
+          and pl == ['汪', '喵'],
+          f'cls={d} inherit={ih} poly={pl}')
+except Exception as ex:
+    check('㊂c 实例化→继承→多态端到端（阿黄汪汪 动物/喵 汪/喵）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
