@@ -38,16 +38,16 @@ check('②a 域识别(编译器)', detect_domain("写个类型推断单元") == 
 check('②b 域识别(操作系统)', detect_domain("写个内存分页分配") == "os", '')
 check('②c 域识别(图)', detect_domain("写个条件路由图查询") == "graph", '')
 
-# ③ 固化（自举纪律：验证通过才固化；用未固化单元——HTTP 响应解析）
+# ③ 固化（自举纪律：验证通过才固化；用未固化单元——IP 分片）
 before = {k for k in CODE_SOLIDIFIED if k.startswith("domain:")}
-e = domain_solidify("写一个 HTML DOM 解析单元（标签树）")
+e = domain_solidify("写一个 TCP 握手单元（三次握手状态）")
 check('③ 域固化', e is not None and e.get("source") == "domain_solidified",
       str(e.get("unit") if e else None))
 after = {k for k in CODE_SOLIDIFIED if k.startswith("domain:")}
 check('③b 固化写入JSON', len(after) > len(before), f'{len(after)} 域固化条目')
 
 # ④ 固化直出
-r2 = domain_route("写一个 HTML DOM 解析单元（标签树）")
+r2 = domain_route("写一个 TCP 握手单元（三次握手状态）")
 check('④ 固化直出', r2.get("solidified") is True
       and r2.get("unit") == e.get("unit"), f'unit={r2.get("unit")}')
 
@@ -94,6 +94,27 @@ for label, q in bw_qs.items():
           r.get("ok") and "def " in r.get("code", ""),
           f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
 check('⑧b 浏览器四单元全部生成', bw_ok == 4, f'{bw_ok}/4')
+
+# ⑨ 目标7 蓝牙和互联网（net 域 5 单元经正式管线）
+nt_qs = {
+    "IP分片": "写一个 TCP 握手单元（三次握手状态）",
+    "TCP握手": "写一个 TCP 握手单元（三次握手状态）",
+    "校验和": "写一个 UDP 校验和单元（16位取反）",
+    "局域网发现": "写一个局域网发现单元（心跳在线判定）",
+    "蜂群中继": "写一个蜂群中继单元（邻居递归传播）",
+}
+nt_ok = 0
+for label, q in nt_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        nt_ok += 1
+    check(f'⑨ {label} 网络单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑨b 网络五单元全部生成', nt_ok == 5, f'{nt_ok}/5')
+
+print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
+sys.exit(0 if fail_n == 0 else 1)
 
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

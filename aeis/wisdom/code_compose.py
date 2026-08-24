@@ -203,11 +203,12 @@ try:
     from graph_db_units import GRAPH_UNITS as _GU
     from os_units import OS_UNITS as _OU
     from browser_units import BROWSER_UNITS as _BU
+    from net_units import NET_UNITS as _NU
 except Exception:
-    _CU = _PU = _GU = _OU = _BU = {}
+    _CU = _PU = _GU = _OU = _BU = _NU = {}
 
 DOMAIN_UNITS = {"compiler": _CU, "pylang": _PU,
-                "graph": _GU, "os": _OU, "browser": _BU}
+                "graph": _GU, "os": _OU, "browser": _BU, "net": _NU}
 
 # 域识别词表（问题 → 域）
 DOMAIN_KEYWORDS = {
@@ -220,6 +221,8 @@ DOMAIN_KEYWORDS = {
            "inode", "页置换", "缺页", "状态机", "最短作业", "SJF"],
     "browser": ["浏览器", "HTTP", "响应解析", "DOM", "HTML", "CSS", "选择器",
                 "渲染", "布局", "网页", "标签解析"],
+    "net": ["网络", "TCP", "UDP", "IP分片", "握手", "校验和", "广播",
+            "局域网", "蜂群", "socket", "中继", "分片"],
 }
 
 
@@ -246,9 +249,10 @@ def compose_domain_code(question, domain=None, unit_id=None):
             + [p for p in uid.split("-") if p]
 
     best_uid, best_score = None, 0
+    q_compact = question.replace(" ", "")  # 空格归一化（"IP 分片"→"IP分片"）
     for uid, u in units.items():
         for kw in _unit_kws(u, uid):
-            if kw in question and len(kw) > best_score:
+            if kw and (kw in question or kw in q_compact) and len(kw) > best_score:
                 best_uid, best_score = uid, len(kw)
     if unit_id is not None and unit_id in units:
         best_uid = unit_id
@@ -286,11 +290,12 @@ def domain_route(question, uid=None):
         return {"question": question, "ok": False,
                 "reason": "域未识别（诚实边界）", "domain": None, "code": None}
     # 固化层直出（unit 拆词匹配：词法-道德经 → [词法,道德经] 命中「写个词法分析」）
+    q_compact = question.replace(" ", "")
     for k, entry in CODE_SOLIDIFIED.items():
         if entry.get("source") == "domain_solidified" and entry.get("domain") == domain:
             unit = entry.get("unit", "")
             kws = [unit] + [p for p in unit.split("-") if p]
-            if any(kw in question for kw in kws if kw):
+            if any(kw in question or kw in q_compact for kw in kws if kw):
                 return {"question": question, "ok": True, "solidified": True,
                         "code": entry["code"], "task": entry.get("task"),
                         "unit": entry.get("unit"), "domain": domain, "checks": []}
