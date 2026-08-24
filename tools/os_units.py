@@ -911,6 +911,58 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 性能——调优建议（瓶颈 → 参数调整建议）",
     },
+    "文件-磁盘配额": {
+        "task": "磁盘配额",
+        "pattern": (
+            "def quota_check(quotas, user, usage, size):\n"
+            "    # 磁盘配额：用户使用量 + 新写入 ≤ 限额（超限拒绝）\n"
+            "    limit = quotas.get(user, float('inf'))\n"
+            "    return usage + size <= limit\n"),
+        "cases": [(({'u1': 100}, 'u1', 80, 10), True),
+                  (({'u1': 100}, 'u1', 95, 10), False),
+                  (({}, 'u2', 50, 10), True)],
+        "params": [],
+        "calibration": "对照：OS 磁盘配额——用户限额（使用量+写入 ≤ 限额，超限拒绝）",
+    },
+    "文件-文件锁": {
+        "task": "文件锁",
+        "pattern": (
+            "def file_lock(state, op):\n"
+            "    # 文件锁：flock 语义（独占/释放——并发写保护）\n"
+            "    if op == 'lock':\n"
+            "        if state.get('locked'):\n"
+            "            return 'blocked'\n"
+            "        state['locked'] = True\n"
+            "        return 'locked'\n"
+            "    if op == 'unlock':\n"
+            "        state['locked'] = False\n"
+            "        return 'unlocked'\n"
+            "    return None\n"),
+        "cases": [(({'locked': False}, 'lock'), 'locked'),
+                  (({'locked': True}, 'lock'), 'blocked'),
+                  (({'locked': True}, 'unlock'), 'unlocked')],
+        "params": [],
+        "calibration": "对照：OS 文件锁——flock（独占/释放，并发写保护）",
+    },
+    "系统-资源限额": {
+        "task": "资源限额",
+        "pattern": (
+            "def rlimit(res, op, soft=None):\n"
+            "    # ulimit：进程资源限制（设置/查询软限制）\n"
+            "    if op == 'set':\n"
+            "        res['soft'] = soft\n"
+            "        return soft\n"
+            "    if op == 'get':\n"
+            "        return res.get('soft')\n"
+            "    if op == 'check':\n"
+            "        return res.get('soft', float('inf'))\n"
+            "    return None\n"),
+        "cases": [(({}, 'set', 1024), 1024),
+                  (({'soft': 1024}, 'get', None), 1024),
+                  (({}, 'check', None), float('inf'))],
+        "params": [],
+        "calibration": "对照：OS ulimit——进程资源限制（软限制设置/查询）",
+    },
 }
 
 

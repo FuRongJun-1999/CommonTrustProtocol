@@ -2048,5 +2048,40 @@ try:
 except Exception as ex:
     check('㊜c 协程→事件循环→并发端到端（任务_done [1,2] [a,b]）', False, str(ex)[:60])
 
+# ㊝ 目标4 深化：配额/限额（磁盘配额/文件锁/资源限额 经正式管线）
+o15_qs = {
+    "磁盘配额": "写一个磁盘配额单元（用户限额）",
+    "文件锁": "写一个文件锁单元（flock 独占）",
+    "资源限额": "写一个资源限额单元（ulimit 软限）",
+}
+o15_ok = 0
+for label, q in o15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o15_ok += 1
+    check(f'㊝ {label} 配额/限额单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊝b 配额/限额三单元全部生成', o15_ok == 3, f'{o15_ok}/3')
+
+# ㊝c 端到端：配额→文件锁→资源限额（存储限制→并发保护→资源约束）
+r_q = domain_route("写一个磁盘配额单元（用户限额）")
+r_fl = domain_route("写一个文件锁单元（flock 独占）")
+r_rl = domain_route("写一个资源限额单元（ulimit 软限）")
+try:
+    ns_q, ns_fl, ns_rl = {}, {}, {}
+    exec(r_q["code"], ns_q)
+    exec(r_fl["code"], ns_fl)
+    exec(r_rl["code"], ns_rl)
+    ok_q = ns_q["quota_check"]({'u1': 100}, 'u1', 95, 10)
+    fl = ns_fl["file_lock"]({'locked': True}, 'lock')
+    rl = ns_rl["rlimit"]({}, 'set', 1024)
+    got = ns_rl["rlimit"]({'soft': 1024}, 'get')
+    check('㊝c 配额→锁→限额端到端（超限拒 锁阻塞 软限1024）',
+          ok_q is False and fl == 'blocked' and rl == 1024 and got == 1024,
+          f'quota={ok_q} lock={fl} rlimit={rl},{got}')
+except Exception as ex:
+    check('㊝c 配额→锁→限额端到端（超限拒 锁阻塞 软限1024）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
