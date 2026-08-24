@@ -392,6 +392,41 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：C2 语义深化——类型推断（赋值→数值/文本/布尔，冲突→混合）+ 条件空间声明登记（目标3 分析器完整化）",
     },
+    "编译-类型检查": {
+        "task": "类型检查",
+        "pattern": (
+            "def compile_typed(statements, infer_fn=None):\n"
+            "    # 类型检查编译：先类型推断 → 未推断/混合类型符号使用 → 编译期拦截\n"
+            "    # infer_fn 注入（组装白箱单元：分析-类型推断）\n"
+            "    import re as _re\n"
+            "    inf = infer_fn(statements) if infer_fn else {}\n"
+            "    types = (inf or {}).get('types', {})\n"
+            "    errors = []\n"
+            "    skip = ('条件空间', '为', '则', '大于', '小于', '等于', '不等于',\n"
+            "            '不小于', '不大于', '信任值', '德', '道', '止')\n"
+            "    for st in statements:\n"
+            "        if st[0] == 'COND':\n"
+            "            for name in _re.findall(r'([\\u4e00-\\u9fffA-Za-z_]\\w*)', st[1]):\n"
+            "                if name in skip:\n"
+            "                    continue\n"
+            "                t = types.get(name)\n"
+            "                if t is None:\n"
+            "                    errors.append('未推断类型：' + name)\n"
+            "                elif t == '混合':\n"
+            "                    errors.append('类型冲突：' + name + '（混合类型）')\n"
+            "    if errors:\n"
+            "        return None, {'ok': False, 'errors': errors}\n"
+            "    return [('TYPED_OK', len(statements))], {'ok': True}\n"),
+        "cases": [(([("assign", "甲", 3), ("COND", "甲 大于 2 则 德 0.5", [], [])],),
+                   ([("TYPED_OK", 2)], {"ok": True})),
+                  (([("COND", "未知量 大于 2 则 德 0.5", [], [])],),
+                   (None, {"ok": False, "errors": ["未推断类型：未知量"]})),
+                  (([("assign", "甲", 3), ("assign", "甲", "x"),
+                     ("COND", "甲 大于 2 则 德 0.5", [], [])],),
+                   (None, {"ok": False, "errors": ["类型冲突：甲（混合类型）"]}))],
+        "params": [],
+        "calibration": "对照：C2 语义深化——类型推断接入编译管线（未推断/混合类型符号使用→编译期拦截，目标3 分析器完整化）",
+    },
     "编译-完整管线": {
         "task": "完整编译",
         "pattern": (

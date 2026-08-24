@@ -38,7 +38,12 @@ for uid, u in COMPILER_UNITS.items():
     if fn:
         for args, expect in u["cases"]:
             try:
-                got = fn(*args) if isinstance(args, tuple) else fn(args)
+                if uid == "编译-类型检查":
+                    # 组装：注入「分析-类型推断」白箱生成的 infer_types（类型检查编译）
+                    infer_fn = generated["分析-类型推断"][1]
+                    got = fn(*args, infer_fn)
+                else:
+                    got = fn(*args) if isinstance(args, tuple) else fn(args)
                 if isinstance(expect, dict) and isinstance(got, dict):
                     # dict 期望：子集匹配（VM 执行循环返回状态 dict）
                     if not all(got.get(k) == v for k, v in expect.items()):
@@ -326,6 +331,20 @@ r_t2 = infer_types([("assign", "甲", 3), ("assign", "甲", "x")])
 check('校准⑬b 类型冲突→混合', r_t2["types"]["甲"] == "混合", str(r_t2["types"]))
 r_t3 = infer_types([("COND", "条件空间为伴侣 则 德 0.5", [], [])])
 check('校准⑬c 条件空间声明登记', r_t3["spaces"] == {"伴侣": "已声明"}, str(r_t3["spaces"]))
+
+# 校准⑭：类型检查接入编译管线（未推断/混合类型编译期拦截）
+compile_typed = _fn("编译-类型检查")
+code_t, r_t4 = compile_typed([("assign", "甲", 3), ("COND", "甲 大于 2 则 德 0.5", [], [])],
+                             infer_types)
+check('校准⑭a 类型一致通过', r_t4["ok"] and code_t == [("TYPED_OK", 2)],
+      str(r_t4.get("errors", []))[:30])
+_, r_t5 = compile_typed([("COND", "未知量 大于 2 则 德 0.5", [], [])], infer_types)
+check('校准⑭b 未推断类型拦截', r_t5["ok"] is False
+      and any("未推断类型" in e for e in r_t5["errors"]), str(r_t5["errors"]))
+_, r_t6 = compile_typed([("assign", "甲", 3), ("assign", "甲", "x"),
+                         ("COND", "甲 大于 2 则 德 0.5", [], [])], infer_types)
+check('校准⑭c 混合类型拦截', r_t6["ok"] is False
+      and any("类型冲突" in e for e in r_t6["errors"]), str(r_t6["errors"]))
 
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
