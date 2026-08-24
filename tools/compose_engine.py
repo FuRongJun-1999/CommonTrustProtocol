@@ -155,6 +155,104 @@ CONDITION_UNITS = {
         "domain": "力与运动",
         "source": "摩擦簇蒸馏（条件化重构）",
     },
+    # ---- 生活常识域（第三阶段·覆盖扩展 ①） ----
+    "洗涤-乳化": {
+        "conditions": ["油污", "洗涤剂"],
+        "direction": "洗涤",
+        "rule": {"乳化": "洗涤剂乳化油脂 → 油污随水冲走"},
+        "default": "洗涤剂把油污乳化成小油滴，水一冲就走",
+        "conclusion": {
+            "乳化": "{油污}被{洗涤剂}乳化 → 变成小油滴 → 水一冲就走（油不溶于水，洗涤剂让油分散）",
+        },
+        "examples": ["洗洁精去碗油污", "洗衣粉去衣服油渍"],
+        "domain": "生活常识",
+        "source": "洗涤簇蒸馏（条件化重构）",
+    },
+    "保温-隔热": {
+        "conditions": ["容器", "隔热"],
+        "direction": "保温",
+        "rule": {"隔热": "真空/空气/隔热层 → 减少热传导 → 保温"},
+        "default": "隔热层（真空/空气/棉）阻隔热传导，热量不易流失",
+        "conclusion": {
+            "隔热": "{容器}用{隔热层}隔开内外 → 热量难传导 → {内容物}长时间保温",
+        },
+        "examples": ["保温杯保温", "棉被保暖", "暖水瓶"],
+        "domain": "生活常识",
+        "source": "保温簇蒸馏（条件化重构）",
+    },
+    "盐-化雪": {
+        "conditions": ["冰", "盐"],
+        "direction": "化雪",
+        "rule": {"化冰": "盐降低冰点 → 冰在0°C以下也能融化"},
+        "default": "盐溶于水降低冰点，冰在更低温度才冻结",
+        "conclusion": {
+            "化冰": "往{冰面}撒盐 → 盐降低冰点 → {冰面}在0°C以下开始融化（化雪快）",
+        },
+        "examples": ["冬天路面撒盐化雪", "盐腌冰棍不冻"],
+        "domain": "生活常识",
+        "source": "盐化雪簇蒸馏（条件化重构）",
+    },
+    "低温-保鲜": {
+        "conditions": ["食物", "低温"],
+        "direction": "保鲜",
+        "rule": {"低温": "低温抑制微生物繁殖 → 食物保鲜"},
+        "default": "微生物在低温下繁殖慢，食物不易坏",
+        "conclusion": {
+            "低温": "{食物}放{低温环境} → 微生物繁殖被抑制 → {食物}不易变质（保鲜）",
+        },
+        "examples": ["冰箱保鲜", "冰鲜鱼", "冷库储存"],
+        "domain": "生活常识",
+        "source": "保鲜簇蒸馏（条件化重构）",
+    },
+    # ---- 生物常识域（第三阶段·覆盖扩展 ②） ----
+    "光合-光照": {
+        "conditions": ["植物", "光照"],
+        "direction": "光合",
+        "rule": {"光照": "光照 → 光合作用 → 制造养分+氧气"},
+        "default": "植物在光照下进行光合作用，制造养分并释放氧气",
+        "conclusion": {
+            "光照": "{植物}需要{光照} → 进行光合作用 → 制造养分并释放氧气（没光长不好）",
+        },
+        "examples": ["植物向光生长", "树释放氧气", "室内植物要放窗边"],
+        "domain": "生物常识",
+        "source": "光合簇蒸馏（条件化重构）",
+    },
+    "呼吸-氧气": {
+        "conditions": ["生物", "氧气"],
+        "direction": "呼吸",
+        "rule": {"缺氧": "需氧生物缺氧 → 窒息"},
+        "default": "绝大多数生物需要氧气呼吸，缺氧无法生存",
+        "conclusion": {
+            "缺氧": "{生物}离开{氧气} → 无法呼吸 → 窒息（鱼离开水/人闷住都会缺氧）",
+        },
+        "examples": ["鱼离开水会死", "人憋气难受", "密封环境缺氧"],
+        "domain": "生物常识",
+        "source": "呼吸簇蒸馏（条件化重构）",
+    },
+    "生长-条件": {
+        "conditions": ["植物", "条件"],
+        "direction": "生长",
+        "rule": {"条件": "阳光+水+温度 → 植物生长"},
+        "default": "植物生长需要阳光、水和适宜温度",
+        "conclusion": {
+            "条件": "{植物}需要阳光+水+适宜温度 → 才能正常生长（缺一长不好）",
+        },
+        "examples": ["种子发芽", "豆芽生长", "植物浇水"],
+        "domain": "生物常识",
+        "source": "生长簇蒸馏（条件化重构）",
+    },
+    "迁徙-季节": {
+        "conditions": ["候鸟", "季节"],
+        "direction": "迁徙",
+        "rule": {"季节": "季节变冷/食物减少 → 候鸟迁徙"},
+        "default": "候鸟随季节变化迁徙（秋天南飞避寒，春天北归）",
+        "conclusion": {
+            "季节": "{候鸟}在{季节}变化时 → 飞向温暖/食物充足的地方 → 迁徙（秋天南飞春天北归）",
+        },
+        "examples": ["大雁南飞", "燕子迁徙", "候鸟冬季南迁"],
+        "domain": "生物常识",
+        "source": "迁徙簇蒸馏（条件化重构）",
+    },
 }
 
 # 方向 → 候选单元（期望方向优先匹配）
@@ -179,7 +277,8 @@ SCENE_FACTS = {
     "晾衣":   {"液体": "衣服上的水", "表面积": "大", "通风": "好", "温度": "环境温度"},
     "夏天":   {"温度": "高",   "液体": "衣服上的水"},
     "有风":   {"通风": "好",   "液体": "衣服上的水"},
-    "冰箱":   {"温度": "低",   "环境": "湿", "气体": "水蒸气"},
+    "冰箱":   {"温度": "低", "环境": "湿", "气体": "水蒸气",
+               "食物": "食物", "低温环境": "冰箱冷藏", "低温": "低温"},
     "冷天":   {"温度": "低",   "液体": "湖水", "固体": "冰"},
     "热天":   {"温度": "高"},
     "镜片":   {"气体": "水蒸气", "降温": "冷镜片"},
@@ -195,6 +294,17 @@ SCENE_FACTS = {
     "刹车":   {"物体": "刹车片", "表面": "车轮", "摩擦": "大", "效果": "车很快停下"},
     "滑冰":   {"物体": "冰刀", "表面": "冰面", "摩擦": "小", "效果": "滑行很流畅"},
     "鞋底":   {"物体": "鞋底", "表面": "地面", "摩擦": "大", "效果": "不打滑"},
+    # 第三阶段·生活常识场景
+    "碗盘":   {"油污": "碗盘上的油污", "洗涤剂": "洗洁精", "乳化": "乳化"},
+    "衣服":   {"油污": "衣服上的油渍", "洗涤剂": "洗衣粉", "乳化": "乳化"},
+    "保温杯": {"容器": "保温杯", "隔热层": "真空夹层", "内容物": "热水", "隔热": "隔热"},
+    "棉被":   {"容器": "棉被", "隔热层": "空气/棉纤维", "内容物": "体温", "隔热": "隔热"},
+    "路面":   {"冰面": "结冰的路面", "盐": "融雪盐", "化冰": "化冰"},
+    # 第三阶段·生物常识场景
+    "植物":   {"植物": "植物", "光照": "光照", "光照需求": "光照", "光合": "光照"},
+    "鱼出水": {"生物": "鱼", "氧气": "水中的氧气", "缺氧": "缺氧"},
+    "种子":   {"植物": "种子", "条件": "阳光+水+温度", "条件需求": "条件"},
+    "候鸟":   {"候鸟": "大雁/燕子", "季节": "秋天变冷", "季节变化": "季节"},
 }
 
 SCENE_ALIAS = {
@@ -207,7 +317,7 @@ SCENE_ALIAS = {
     "有风": ["有风", "刮风", "通风", "风"],
     "冰箱": ["冰箱", "冷冻", "冷藏", "结霜", "除霜"],
     "冷天": ["冬天", "寒冷", "低温", "结冰", "冻", "湖面"],
-    "热天": ["高温", "热"],
+    "热天": ["高温", "热天", "大热天"],
     "镜片": ["镜片", "眼镜", "起雾"],
     "樟脑": ["樟脑", "樟脑丸"],
     "铁块": ["铁块", "铁钉", "铁", "石头"],
@@ -220,6 +330,17 @@ SCENE_ALIAS = {
     "刹车": ["刹车", "制动", "急刹"],
     "滑冰": ["滑冰", "冰面", "溜冰"],
     "鞋底": ["鞋底", "鞋子", "防滑", "花纹"],
+    # 第三阶段·生活/生物场景别名
+    "碗盘": ["碗", "盘子", "油污", "油渍", "洗洁精", "油腻"],
+    "衣服": ["洗衣服", "洗衣", "油渍", "洗衣粉"],
+    "保温杯": ["保温杯", "暖水瓶", "保温瓶"],
+    "棉被": ["棉被", "被子", "棉衣", "保暖"],
+    "路面": ["路面", "马路", "撒盐", "化雪", "融雪", "除冰"],
+    "冰箱": ["冰箱", "冷藏", "冷冻", "保鲜", "冰鲜"],
+    "植物": ["植物", "花", "树", "菜", "向光", "光合"],
+    "鱼出水": ["鱼离开水", "鱼出水", "鱼上岸", "缺氧", "憋气"],
+    "种子": ["种子", "发芽", "豆芽", "生根", "生长"],
+    "候鸟": ["候鸟", "大雁", "燕子", "南飞", "迁徙", "北归"],
 }
 
 DIM_KEYWORDS = {
@@ -236,6 +357,16 @@ DIM_KEYWORDS = {
     "表面": ["表面", "地面", "冰面", "车轮", "花纹"],
     "热源": ["热汤", "热水", "火", "热菜"],
     "浮沉": ["浮", "沉", "漂", "沉底", "浮起"],
+    # 第三阶段·生活/生物维度
+    "油污": ["油污", "油渍", "油腻", "油"],
+    "洗涤剂": ["洗洁精", "洗衣粉", "肥皂", "洗涤剂"],
+    "隔热": ["隔热", "保温", "真空", "保暖", "隔开"],
+    "盐": ["盐", "撒盐", "融雪盐"],
+    "低温": ["低温", "冷藏", "冷冻", "冰箱", "冷库"],
+    "光照": ["光照", "阳光", "光", "光合", "向光", "晒"],
+    "氧气": ["氧气", "空气", "缺氧", "呼吸", "憋气", "离开水"],
+    "条件": ["生长", "发芽", "种子", "阳光+水", "浇水"],
+    "季节": ["季节", "秋天", "冬天", "南飞", "迁徙", "候鸟"],
 }
 
 # ============ 三、方向识别（v2 核心：问题动词 → 期望物态变化方向） ============
@@ -254,19 +385,31 @@ DIRECTION_KEYWORDS = {
     "浮沉": ["为什么浮", "为什么沉", "浮起来", "沉下去", "浮着", "沉底", "漂着", "不沉", "沉入", "浮起", "沉在", "能浮", "浮在", "会浮", "会沉"],
     "热传递": ["导热", "烫手", "烫嘴", "烧手", "散热", "保温", "烫"],
     "摩擦": ["摩擦", "刹车", "刹", "防滑", "滑", "花纹", "抓地"],
+    # 第三阶段·生活/生物方向
+    "洗涤": ["去油", "洗洁精", "去污", "油污", "油腻", "洗干净", "洗涤"],
+    "保温": ["保温", "保暖", "隔热", "散热慢", "保温杯", "暖"],
+    "化雪": ["化雪", "融雪", "除冰", "撒盐", "化冰", "不冻"],
+    "保鲜": ["保鲜", "不易坏", "不容易坏", "不容易变质", "保质", "变质", "冷藏", "冰鲜"],
+    "光合": ["光合", "向光", "长得好", "释放氧气", "光照", "阳光"],
+    "呼吸": ["呼吸", "窒息", "缺氧", "离开水", "憋气", "活不了"],
+    "生长": ["生长", "发芽", "长出来", "生根", "结果"],
+    "迁徙": ["迁徙", "南飞", "北归", "候鸟", "飞走"],
 }
 
 # 方向推理：动词比维度更具体 → 优先用方向匹配单元
 def identify_direction(query):
     """识别问题的期望物态变化方向
-    场景优先：高原/珠峰问题即使含「开/沸腾」，方向是气压效应（气压低→沸点低）"""
+    场景优先：高原/珠峰问题即使含「开/沸腾」，方向是气压效应（气压低→沸点低）
+    第三阶段：最长关键词优先——「离开水」len3 > 「开」len1 → 呼吸（非沸腾）"""
     scene = identify_scene(query)
     if scene in ("高原", "珠峰") and any(k in query for k in ("开", "烧", "沸")):
         return "气压效应"
+    best_dir, best_len = None, 0
     for direction, kws in DIRECTION_KEYWORDS.items():
-        if any(k in query for k in kws):
-            return direction
-    return None
+        for k in kws:
+            if k in query and len(k) > best_len:
+                best_dir, best_len = direction, len(k)
+    return best_dir
 
 
 # ============ 四、已验证事实库（自校验对照基准） ============
@@ -294,17 +437,27 @@ VERIFIED_FACTS = [
     {"content": "刹车靠增大摩擦力", "domain": "力与运动"},
     {"content": "冰面光滑摩擦力小所以滑冰滑得快", "domain": "力与运动"},
     {"content": "鞋底花纹增大摩擦力防滑", "domain": "力与运动"},
+    # 第三阶段·生活/生物已验证事实
+    {"content": "洗洁精把油污乳化后水一冲就走", "domain": "生活常识"},
+    {"content": "保温杯用真空夹层隔热所以保温", "domain": "生活常识"},
+    {"content": "冬天路面撒盐降低冰点所以化雪快", "domain": "生活常识"},
+    {"content": "冰箱低温抑制微生物繁殖所以保鲜", "domain": "生活常识"},
+    {"content": "植物需要光照进行光合作用制造养分释放氧气", "domain": "生物常识"},
+    {"content": "鱼离开水会缺氧窒息", "domain": "生物常识"},
+    {"content": "种子发芽需要阳光水和适宜温度", "domain": "生物常识"},
+    {"content": "候鸟秋天南飞春天北归（季节迁徙）", "domain": "生物常识"},
 ]
 
 
 # ============ 五、组合引擎 v2（方向优先 → 单元匹配 → 结论生成 → 自校验） ============
 
 def identify_scene(query):
-    """识别问题场景：最长别名匹配优先（「金属勺放进热汤」的「热」不该命中热天）"""
+    """识别问题场景：最长别名匹配优先；同长平局取最后命中
+    （第三阶段：撒盐问题「冬天路面」同长时路面更具体——化雪场景）"""
     best_scene, best_len = None, 0
     for scene, aliases in SCENE_ALIAS.items():
         for a in aliases:
-            if a in query and len(a) > best_len:
+            if a in query and len(a) >= best_len:
                 best_scene, best_len = scene, len(a)
     return best_scene
 
@@ -368,6 +521,15 @@ def generate_conclusion(unit, scene, facts, direction, query=""):
         key = facts["导热"]
     elif unit["direction"] == "摩擦" and facts.get("摩擦") in conclusion:
         key = facts["摩擦"]
+    elif unit["direction"] in ("洗涤", "保温", "化雪", "保鲜", "光合", "呼吸", "生长", "迁徙"):
+        # 第三阶段·新域 key 选择：facts 字段名即 conclusion key
+        # （乳化/隔热/化冰/低温/光照/缺氧/条件/季节）
+        for field in ("乳化", "隔热", "化冰", "低温", "光照", "缺氧", "条件", "季节"):
+            if field in facts and field in conclusion:
+                key = field
+                break
+        if key is None and "default" in conclusion:
+            key = "default"
     elif "不降温" in conclusion and facts.get("温度") == "不低":
         key = "不降温"
     elif "通风差" in conclusion and facts.get("通风") == "通风差":
@@ -381,7 +543,7 @@ def generate_conclusion(unit, scene, facts, direction, query=""):
     if key is None:
         return unit["default"]
     tpl = conclusion[key]
-    # 占位代入：{液体}{固体}{气体}{物体}{热源}{感觉}{表面}{效果} 来自场景事实或问题本身
+    # 占位代入（第三阶段·动态）：模板 {xxx} 占位优先从场景事实取，其次默认映射
     fill = {
         "液体": facts.get("液体", "水"),
         "固体": facts.get("固体", "冰"),
@@ -392,14 +554,21 @@ def generate_conclusion(unit, scene, facts, direction, query=""):
         "表面": facts.get("表面", "表面"),
         "效果": facts.get("效果", "效果"),
     }
-    for k, v in fill.items():
-        tpl = tpl.replace("{" + k + "}", v)
+    import re as _re
+    for p in set(_re.findall(r"\{(\w+)\}", tpl)):
+        if p in facts:
+            tpl = tpl.replace("{" + p + "}", str(facts[p]))
+        elif p in fill:
+            tpl = tpl.replace("{" + p + "}", str(fill[p]))
+        else:
+            tpl = tpl.replace("{" + p + "}", p)  # 未知占位保留词本身
     return tpl
 
 
-def compose_answer(query):
-    """组合生成：方向识别 → 单元匹配 → 结论生成"""
-    scene = identify_scene(query)
+def compose_answer(query, scene_override=None):
+    """组合生成：方向识别 → 单元匹配 → 结论生成
+    scene_override（第三阶段·递归组合）：显式指定场景（多条件链逐层生成用）"""
+    scene = scene_override or identify_scene(query)
     direction = identify_direction(query)
     dims = identify_condition_dims(query)
     if not dims and not direction:
@@ -539,6 +708,49 @@ def route_compose(query):
     }
 
 
+# ============ 六b、递归组合（第三阶段·组合引擎深度：递归下降多条件链） ============
+def identify_all_scenes(query):
+    """识别问题中的所有场景（多条件链：高压锅在高原 → [高原, 高压锅]）"""
+    scenes = []
+    for scene, aliases in SCENE_ALIAS.items():
+        if any(a in query for a in aliases):
+            scenes.append(scene)
+    return scenes
+
+
+def compose_recursive(query):
+    """递归组合（递归下降·循环条件空间）：多场景多条件链逐层组合——
+    每层：场景 × 方向 → 结论片段；层间拼接（中间结果喂下一步）。
+    例「高压锅在高原上煮饭」→ 高原层(气压低→沸点降→煮不熟)
+    × 高压锅层(气压高→沸点升→能煮熟)——单一查表无法生成的双层结论。"""
+    scenes = identify_all_scenes(query)
+    if len(scenes) <= 1:
+        r = route_compose(query)
+        r["recursive"] = False
+        return r
+    direction = identify_direction(query)
+    pieces, units = [], []
+    for scene in scenes:
+        # 每层：指定场景 × 问题方向 → 结论片段（逐层生成）
+        sc, ans, chain, facts, dr = compose_answer(query, scene)
+        if chain and ans and "→" in ans:
+            pieces.append(ans)
+            units.append(chain[0][0])
+    combined = "；".join(dict.fromkeys(pieces)) if pieces else ""
+    # 组合级校验：因果链完整（每片段含 →）+ 片段数≥2（多条件链成立）
+    ok = len(pieces) >= 2 and all("→" in p for p in pieces)
+    checks = [] if ok else ["✗ 递归组合失败：条件链片段不足（需要 ≥2 个场景层）"]
+    if not ok:
+        # 第三阶段：多场景但单层有贡献 → 降级普通组合（不因背景场景误判失败）
+        r = route_compose(query)
+        r["recursive"] = False
+        r["fallback"] = True
+        return r
+    return {"query": query, "scene": scenes, "direction": direction,
+            "units": units, "answer": combined, "ok": ok, "checks": checks,
+            "chain_evidence": [], "recursive": True}
+
+
 # ============ 七、固化层（生成自举闭环：生成→自校验→固化→直答） ============
 # 白箱组合生成+自校验通过的知识，固化为直答——下次同类问法直接命中，
 # 不再重新组合。持久化到 JSON（启动加载），跨进程生效。
@@ -641,19 +853,30 @@ if __name__ == "__main__":
         # 自校验演示：白箱应自己发现这些矛盾问题
         "高原上水为什么烧得特别热？",
         "冬天湖面为什么会沸腾？",
+        # 第三阶段·生活/生物常识域
+        "为什么碗上的油污用洗洁精一洗就掉？",
+        "为什么保温杯里的热水放很久还是热的？",
+        "为什么冬天路面要撒盐？",
+        "为什么冰箱里的食物不容易坏？",
+        "为什么植物要放在有阳光的地方？",
+        "为什么鱼离开水会死？",
+        "为什么种子发芽需要浇水？",
+        "为什么大雁秋天往南飞？",
     ]
     error_queries = {"高原上水为什么烧得特别热？", "冬天湖面为什么会沸腾？"}
     results = []
     for q in demos:
-        r = route_compose(q)
+        # 第三阶段·递归组合优先（多条件链）；单场景走普通组合
+        r = compose_recursive(q)
         results.append(r)
         mark = "✔" if r["ok"] else "✘"
+        rec = "递归" if r.get("recursive") else "组合"
         print(f"\nQ: {q}")
-        print(f"  [方向={r.get('direction')} 场景={r.get('scene')} 单元={r.get('units')}]")
-        print(f"  {mark} 组合生成: {r['answer']}")
-        if r["ok"] and r.get("chain_evidence"):
+        print(f"  [{rec} 场景={r.get('scene')} 方向={r.get('direction')} 单元={r.get('units')}]")
+        print(f"  {mark} 生成: {r.get('answer', r.get('reason'))}")
+        if r.get("chain_evidence"):
             print(f"    证据源: {r['chain_evidence']}")
-        for c in r["checks"]:
+        for c in r.get("checks", []):
             print(f"    {c}")
     print()
     print("=== 逆转操作演示（反事实生成 · 7 操作工程化） ===")
