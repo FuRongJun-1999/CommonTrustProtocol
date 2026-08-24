@@ -665,6 +665,86 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器性能——关键渲染路径（CRP 依赖序推进，缺前置阻塞）",
     },
+    "浏览器-历史记录": {
+        "task": "历史记录",
+        "pattern": (
+            "def history_ops(hist, op, url=None):\n"
+            "    # 历史记录：visit 记录 / back 后退 / forward 前进（栈+指针语义）\n"
+            "    if op == 'visit':\n"
+            "        hist['stack'] = hist.get('stack', [])[:hist.get('pos', -1) + 1]\n"
+            "        hist['stack'].append(url)\n"
+            "        hist['pos'] = len(hist['stack']) - 1\n"
+            "        return hist['pos']\n"
+            "    if op == 'back':\n"
+            "        if hist.get('pos', 0) > 0:\n"
+            "            hist['pos'] -= 1\n"
+            "            return hist['stack'][hist['pos']]\n"
+            "        return None\n"
+            "    if op == 'forward':\n"
+            "        stack = hist.get('stack', [])\n"
+            "        pos = hist.get('pos', -1)\n"
+            "        if pos + 1 < len(stack):\n"
+            "            hist['pos'] = pos + 1\n"
+            "            return stack[hist['pos']]\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [(({'stack': [], 'pos': -1}, 'visit', 'a'), 0),
+                  (({'stack': ['a', 'b'], 'pos': 1}, 'back', None), 'a'),
+                  (({'stack': ['a'], 'pos': 0}, 'back', None), None),
+                  (({'stack': ['a'], 'pos': 0}, 'forward', None), None),
+                  (({'stack': ['a', 'b'], 'pos': 0}, 'forward', None), 'b')],
+        "params": [],
+        "calibration": "对照：浏览器历史——后退/前进（访问栈+位置指针）",
+    },
+    "浏览器-书签管理": {
+        "task": "书签管理",
+        "pattern": (
+            "def bookmark_ops(marks, op, name=None, url=None):\n"
+            "    # 书签：add 添加 / get 查询 / remove 删除 / list 列出（名称排序）\n"
+            "    if op == 'add':\n"
+            "        marks[name] = url\n"
+            "        return name\n"
+            "    if op == 'get':\n"
+            "        return marks.get(name)\n"
+            "    if op == 'remove':\n"
+            "        return marks.pop(name, None)\n"
+            "    if op == 'list':\n"
+            "        return sorted(marks)\n"
+            "    return None\n"),
+        "cases": [(({}, 'add', '首页', 'h.com'), '首页'),
+                  (({'首页': 'h.com'}, 'get', '首页'), 'h.com'),
+                  (({}, 'get', 'x'), None),
+                  (({'b': '1', 'a': '2'}, 'list'), ['a', 'b']),
+                  (({'首页': 'h.com'}, 'remove', '首页'), 'h.com')],
+        "params": [],
+        "calibration": "对照：浏览器书签——增删查列（名称排序管理）",
+    },
+    "浏览器-标签页管理": {
+        "task": "标签页管理",
+        "pattern": (
+            "def tab_ops(tabs, op, tab_id=None, url=None):\n"
+            "    # 标签页：open 新建 / switch 切换 / close 关闭（活动标签维护）\n"
+            "    if op == 'open':\n"
+            "        tabs.append({'id': tab_id, 'url': url})\n"
+            "        return len(tabs) - 1\n"
+            "    if op == 'switch':\n"
+            "        if 0 <= tab_id < len(tabs):\n"
+            "            return tab_id\n"
+            "        return None\n"
+            "    if op == 'close':\n"
+            "        if 0 <= tab_id < len(tabs):\n"
+            "            tabs.pop(tab_id)\n"
+            "            return len(tabs)\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [(([], 'open', 1, 'a.com'), 0),
+                  (({'id': 1, 'url': 'a'}, 'switch', 0), 0),
+                  (([{'id': 1, 'url': 'a'}, {'id': 2, 'url': 'b'}],
+                    'close', 0), 1),
+                  (([], 'switch', 5), None)],
+        "params": [],
+        "calibration": "对照：浏览器标签页——新建/切换/关闭（活动标签维护）",
+    },
 }
 
 

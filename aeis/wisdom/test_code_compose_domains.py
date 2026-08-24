@@ -2978,5 +2978,41 @@ try:
 except Exception as ex:
     check('㊵c 头→完整性→紧凑端到端（ok ok 300↔ac02）', False, str(ex)[:60])
 
+# ㊶ 目标5 深化：浏览器功能（历史记录/书签管理/标签页管理 经正式管线）
+b5_qs = {
+    "历史记录": "写一个历史记录单元（后退前进）",
+    "书签": "写一个书签管理单元（增删查列）",
+    "标签页": "写一个标签页管理单元（新建切换）",
+}
+b5_ok = 0
+for label, q in b5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b5_ok += 1
+    check(f'㊶ {label} 浏览器功能单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊶b 浏览器功能三单元全部生成', b5_ok == 3, f'{b5_ok}/3')
+
+# ㊶c 功能端到端：历史→书签→标签页（后退a 书签首页 切换0）
+r_hs = domain_route("写一个历史记录单元（后退前进）")
+r_bk = domain_route("写一个书签管理单元（增删查列）")
+r_tb = domain_route("写一个标签页管理单元（新建切换）")
+try:
+    ns_hs, ns_bk, ns_tb = {}, {}, {}
+    exec(r_hs["code"], ns_hs)
+    exec(r_bk["code"], ns_bk)
+    exec(r_tb["code"], ns_tb)
+    back = ns_hs["history_ops"]({'stack': ['a', 'b'], 'pos': 1}, 'back')
+    mk = ns_bk["bookmark_ops"]({}, 'add', '首页', 'h.com')
+    got = ns_bk["bookmark_ops"]({'首页': 'h.com'}, 'get', '首页')
+    tabs = [{'id': 1, 'url': 'a'}]
+    sw = ns_tb["tab_ops"](tabs, 'switch', 0)
+    check('㊶c 历史→书签→标签页端到端（后退a 书签h.com 切换0）',
+          back == 'a' and mk == '首页' and got == 'h.com' and sw == 0,
+          f'back={back} mark={mk}/{got} switch={sw}')
+except Exception as ex:
+    check('㊶c 历史→书签→标签页端到端（后退a 书签h.com 切换0）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
