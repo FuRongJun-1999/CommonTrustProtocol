@@ -1328,6 +1328,60 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：编译优化——指令重排（无关指令乱序减少停顿）",
     },
+    "VM-引用计数": {
+        "task": "引用计数",
+        "pattern": (
+            "def refcount_ops(refs, op, obj=None):\n"
+            "    # 引用计数：inc/dec 增减引用，归零回收（GC 语义）\n"
+            "    if op == 'inc':\n"
+            "        refs[obj] = refs.get(obj, 0) + 1\n"
+            "        return refs[obj]\n"
+            "    if op == 'dec':\n"
+            "        refs[obj] = refs.get(obj, 0) - 1\n"
+            "        if refs[obj] <= 0:\n"
+            "            del refs[obj]\n"
+            "            return 'collected'\n"
+            "        return refs[obj]\n"
+            "    return None\n"),
+        "cases": [(({}, 'inc', 'a'), 1),
+                  (({'a': 1}, 'inc', 'a'), 2),
+                  (({'a': 1}, 'dec', 'a'), 'collected'),
+                  (({'a': 2}, 'dec', 'a'), 1)],
+        "params": [],
+        "calibration": "对照：VM 垃圾回收——引用计数（归零回收）",
+    },
+    "VM-指令剖析": {
+        "task": "指令剖析",
+        "pattern": (
+            "def instr_profile(code):\n"
+            "    # 指令剖析：指令类型频次统计（profiling——热点定位）\n"
+            "    freq = {}\n"
+            "    for op, _ in code:\n"
+            "        freq[op] = freq.get(op, 0) + 1\n"
+            "    return freq\n"),
+        "cases": [(([("DE", 0.1), ("DE", 0.2), ("LOAD", "甲")],),
+                   {'DE': 2, 'LOAD': 1}),
+                  (([],), {}),
+                  (([("PUSH", 1), ("PUSH", 2)],), {'PUSH': 2})],
+        "params": [],
+        "calibration": "对照：VM profiling——指令类型频次（热点定位）",
+    },
+    "VM-栈保护": {
+        "task": "栈保护",
+        "pattern": (
+            "def stack_push_guard(stack, limit, value):\n"
+            "    # 栈保护：压栈前检查深度（防栈溢出——递归深度控制）\n"
+            "    if len(stack) >= limit:\n"
+            "        return 'overflow'\n"
+            "    stack.append(value)\n"
+            "    return 'pushed'\n"),
+        "cases": [(([], 2, 1), 'pushed'),
+                  (([1], 2, 2), 'pushed'),
+                  (([1, 2], 2, 3), 'overflow'),
+                  (([1, 2, 3], 2, 4), 'overflow')],
+        "params": [],
+        "calibration": "对照：VM 运行时——栈深度限制（防递归栈溢出）",
+    },
 }
 
 

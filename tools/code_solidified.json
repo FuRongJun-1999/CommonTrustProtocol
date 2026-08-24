@@ -2908,5 +2908,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:compiler|VM-引用计数": {
+  "task": "引用计数",
+  "unit": "VM-引用计数",
+  "code": "def refcount_ops(refs, op, obj=None):\n    # 引用计数：inc/dec 增减引用，归零回收（GC 语义）\n    if op == 'inc':\n        refs[obj] = refs.get(obj, 0) + 1\n        return refs[obj]\n    if op == 'dec':\n        refs[obj] = refs.get(obj, 0) - 1\n        if refs[obj] <= 0:\n            del refs[obj]\n            return 'collected'\n        return refs[obj]\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-指令剖析": {
+  "task": "指令剖析",
+  "unit": "VM-指令剖析",
+  "code": "def instr_profile(code):\n    # 指令剖析：指令类型频次统计（profiling——热点定位）\n    freq = {}\n    for op, _ in code:\n        freq[op] = freq.get(op, 0) + 1\n    return freq\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-栈保护": {
+  "task": "栈保护",
+  "unit": "VM-栈保护",
+  "code": "def stack_push_guard(stack, limit, value):\n    # 栈保护：压栈前检查深度（防栈溢出——递归深度控制）\n    if len(stack) >= limit:\n        return 'overflow'\n    stack.append(value)\n    return 'pushed'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

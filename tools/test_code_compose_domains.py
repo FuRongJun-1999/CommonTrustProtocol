@@ -3669,5 +3669,39 @@ try:
 except Exception as ex:
     check('㋈c 表单→拖放→SRI端到端（[] dropped ok）', False, str(ex)[:60])
 
+# ㋉ 目标2 深化：VM 运行时（引用计数/指令剖析/栈保护 经正式管线）
+c10_qs = {
+    "引用计数": "写一个引用计数单元（GC 回收）",
+    "指令剖析": "写一个指令剖析单元（频次统计）",
+    "栈保护": "写一个栈保护单元（深度限制）",
+}
+c10_ok = 0
+for label, q in c10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c10_ok += 1
+    check(f'㋉ {label} VM运行时单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋉b VM运行时三单元全部生成', c10_ok == 3, f'{c10_ok}/3')
+
+# ㋉c VM 端到端：引用计数→指令剖析→栈保护（collected {DE:2} overflow）
+r_rc = domain_route("写一个引用计数单元（GC 回收）")
+r_ip = domain_route("写一个指令剖析单元（频次统计）")
+r_sg = domain_route("写一个栈保护单元（深度限制）")
+try:
+    ns_rc, ns_ip, ns_sg = {}, {}, {}
+    exec(r_rc["code"], ns_rc)
+    exec(r_ip["code"], ns_ip)
+    exec(r_sg["code"], ns_sg)
+    gc = ns_rc["refcount_ops"]({'a': 1}, 'dec', 'a')
+    prof = ns_ip["instr_profile"]([("DE", 0.1), ("DE", 0.2)])
+    sg = ns_sg["stack_push_guard"]([1, 2], 2, 3)
+    check('㋉c 引用计数→剖析→栈保护端到端（collected {DE:2} overflow）',
+          gc == 'collected' and prof == {'DE': 2} and sg == 'overflow',
+          f'gc={gc} prof={prof} guard={sg}')
+except Exception as ex:
+    check('㋉c 引用计数→剖析→栈保护端到端（collected {DE:2} overflow）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
