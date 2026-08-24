@@ -899,7 +899,8 @@ def self_check(scene, answer, chain, facts, direction, query):
 
 def route_compose(query):
     """组合引擎统一入口（Route 递归，输出含证据链，可解释）
-    固化层优先：已固化的问法（生成→自校验→固化）直接直答，不再重新组合"""
+    固化层优先：已固化的问法（生成→自校验→固化）直接直答，不再重新组合
+    v2.0（第四阶段·知识库条件化兜底）：组合未覆盖 → 蒸馏骨架规律查询"""
     _sol = solidified_lookup(query)
     if _sol:
         return {"query": query, "ok": True, "solidified": True,
@@ -907,9 +908,34 @@ def route_compose(query):
                 "units": [], "checks": [], "chain_evidence": []}
     scene, answer, chain, facts, direction = compose_answer(query)
     if chain is None:
+        # 知识库条件化兜底：条件词命中蒸馏骨架 → 规律片段
+        try:
+            from condition_kb import ConditionKB
+            _kb = ConditionKB()
+            _r = _kb.lookup(query)
+            if _r.get("ok"):
+                return {"query": query, "ok": True, "condition_kb": True,
+                        "answer": _r["rule"], "scene": _r["key"],
+                        "units": [], "checks": [], "chain_evidence": [],
+                        "kb_overlap": _r.get("overlap")}
+        except Exception:
+            pass
         return {"query": query, "ok": False, "reason": answer,
                 "scene": scene, "chain": None, "checks": []}
     ok, checks = self_check(scene, answer, chain, facts, direction, query)
+    if not ok:
+        # 自校验失败 → 知识库条件化兜底（规律查询）
+        try:
+            from condition_kb import ConditionKB
+            _kb = ConditionKB()
+            _r = _kb.lookup(query)
+            if _r.get("ok"):
+                return {"query": query, "ok": True, "condition_kb": True,
+                        "answer": _r["rule"], "scene": _r["key"],
+                        "units": [], "checks": [], "chain_evidence": [],
+                        "kb_overlap": _r.get("overlap")}
+        except Exception:
+            pass
     return {
         "query": query, "scene": scene, "direction": direction,
         "units": [c[0] for c in chain],

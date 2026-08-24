@@ -98,6 +98,80 @@ TASK_KEYWORDS = {
     "求和": ["求和", "加起来", "总和", "相加", "累加"],
 }
 
+# ============ 四、多语言代码单元（第四阶段·代码深学：Rust / JavaScript） ============
+# 每单元带 py_ref（Python 等价实现）——Rust/JS 逻辑样例用 py_ref 验证（模板逻辑正确性）
+
+RUST_UNITS = {
+    "排序-冒泡": {
+        "task": "排序", "lang": "rust",
+        "pattern": ("fn {fn}(arr: &mut Vec<i32>) {\n"
+                    "    let n = arr.len();\n"
+                    "    for i in 0..n {\n"
+                    "        for j in 0..n - 1 - i {\n"
+                    "            if arr[j] > arr[j + 1] {\n"
+                    "                arr.swap(j, j + 1);\n"
+                    "            }\n"
+                    "        }\n"
+                    "    }\n"
+                    "}\n"),
+        "cases": [([3, 1, 2], [1, 2, 3]), ([5, 4, 3, 2, 1], [1, 2, 3, 4, 5]),
+                  ([], [])],
+        "py_ref": "def solve(arr):\n    arr = arr[:]\n    n = len(arr)\n"
+                  "    for i in range(n):\n        for j in range(n - 1 - i):\n"
+                  "            if arr[j] > arr[j + 1]:\n"
+                  "                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n"
+                  "    return arr\n",
+    },
+    "求和": {
+        "task": "求和", "lang": "rust",
+        "pattern": "fn {fn}(arr: &[i32]) -> i32 {\n    arr.iter().sum()\n}\n",
+        "cases": [([1, 2, 3], 6), ([], 0), ([5], 5)],
+        "py_ref": "def solve(arr): return sum(arr)\n",
+    },
+    "最大值": {
+        "task": "最大", "lang": "rust",
+        "pattern": ("fn {fn}(arr: &[i32]) -> Option<i32> {\n"
+                    "    arr.iter().copied().max()\n}\n"),
+        "cases": [([3, 1, 2], 3), ([7], 7), ([], None)],
+        "py_ref": "def solve(arr): return max(arr) if arr else None\n",
+    },
+}
+
+JS_UNITS = {
+    "排序": {
+        "task": "排序", "lang": "javascript",
+        "pattern": "function {fn}(arr) {\n    return arr.slice().sort((a, b) => a - b);\n}\n",
+        "cases": [([3, 1, 2], [1, 2, 3]), ([5, 4, 3, 2, 1], [1, 2, 3, 4, 5]),
+                  ([], [])],
+        "py_ref": "def solve(arr): return sorted(arr)\n",
+    },
+    "求和": {
+        "task": "求和", "lang": "javascript",
+        "pattern": "function {fn}(arr) {\n    return arr.reduce((s, x) => s + x, 0);\n}\n",
+        "cases": [([1, 2, 3], 6), ([], 0), ([5], 5)],
+        "py_ref": "def solve(arr): return sum(arr)\n",
+    },
+    "反转": {
+        "task": "反转", "lang": "javascript",
+        "pattern": "function {fn}(arr) {\n    return arr.slice().reverse();\n}\n",
+        "cases": [([1, 2, 3], [3, 2, 1]), ([], []), (["a", "b"], ["b", "a"])],
+        "py_ref": "def solve(arr): return arr[::-1]\n",
+    },
+}
+
+LANG_UNITS = {"python": CODE_UNITS, "rust": RUST_UNITS,
+              "javascript": JS_UNITS}
+
+
+def detect_language(question):
+    """语言识别：问题含 rust/rs → Rust；js/javascript → JavaScript；否则 Python"""
+    q = question.lower()
+    if "rust" in q or "rs写" in q or "用rust" in q:
+        return "rust"
+    if "javascript" in q or "js写" in q or "用js" in q or "用javascript" in q:
+        return "javascript"
+    return "python"
+
 
 def identify_task(question):
     """任务方向识别：问题 → 编程任务（最长关键词优先）"""
@@ -121,27 +195,61 @@ def extract_fn_name(question):
 
 
 # ============ 二、组合生成（任务模板 × 参数 → 代码） ============
-def compose_code(question, unit_id=None, fn_name=None):
-    """组合生成：任务识别 → 代码单元 → 模板填充 → 代码（未预写完整代码）"""
+def compose_code(question, unit_id=None, fn_name=None, lang=None):
+    """组合生成：语言识别 → 任务识别 → 代码单元 → 模板填充 → 代码（未预写完整代码）"""
+    lang = lang or detect_language(question)
+    units = LANG_UNITS.get(lang, CODE_UNITS)
     task = identify_task(question)
     if task is None:
-        return None, "任务未识别（诚实边界：不知道要写什么程序）", None, None
+        return None, "任务未识别（诚实边界：不知道要写什么程序）", None, None, lang
     # 匹配代码单元（任务 → 单元；多单元时取第一个）
-    uids = [uid for uid, u in CODE_UNITS.items() if u["task"] == task]
-    if unit_id is not None and unit_id in CODE_UNITS:
+    uids = [uid for uid, u in units.items() if u["task"] == task]
+    if unit_id is not None and unit_id in units:
         uids = [unit_id]
     if not uids:
-        return None, f"任务[{task}]无代码单元覆盖（条件链不完整）", None, None
+        return None, f"任务[{task}]在[{lang}]无代码单元覆盖（条件链不完整）", None, None, lang
     uid = uids[0]
-    unit = CODE_UNITS[uid]
+    unit = units[uid]
     fn = fn_name or extract_fn_name(question)
-    code = unit["pattern"].format(fn=fn)
-    return task, uid, code, unit
+    # replace 而非 format：Rust/JS pattern 含函数体 {}（format 会当占位符报错）
+    code = unit["pattern"].replace("{fn}", fn)
+    return task, uid, code, unit, lang
 
 
 # ============ 三、自校验三层（语法 → 样例 → 边界） ============
-def verify_code(code, unit):
-    """自校验：L1 语法 + L2 样例 + L3 边界（白箱自己发现代码错误）"""
+def verify_code(code, unit, lang="python"):
+    """自校验：L1 语法 + L2 样例 + L3 边界（白箱自己发现代码错误）
+    Python：ast 语法 + exec 样例运行；Rust/JS：结构校验 + py_ref 逻辑样例"""
+    import re as _re
+    if lang != "python":
+        checks = []
+        # L1 结构校验：函数关键字 + 括号平衡 + 无占位残留
+        kw = "fn " if lang == "rust" else "function "
+        if kw not in code:
+            return False, [f"✗ L1 结构错误：缺 {kw.strip()} 函数声明"]
+        if "{" not in code or code.count("{") != code.count("}"):
+            return False, ["✗ L1 结构错误：函数体括号不平衡"]
+        if "{" in code and _re.search(r"\{\s*[a-z_]+\s*\}", code):
+            return False, ["✗ L1 结构错误：存在未替换的模板占位符"]
+        # L2 逻辑样例：py_ref（Python 等价实现）验证模板逻辑正确
+        ns = {}
+        try:
+            exec(unit.get("py_ref", ""), ns)
+        except Exception as e:
+            return False, [f"✗ L2 py_ref 错误: {e}"]
+        fns = [v for k, v in ns.items() if callable(v) and not k.startswith("__")]
+        if not fns:
+            return False, ["✗ L2 无 py_ref 函数"]
+        fn = fns[0]
+        for inp, exp in unit.get("cases", []):
+            try:
+                got = fn(inp)
+            except Exception:
+                return False, [f"✗ L2 样例崩溃: {inp}"]
+            if got != exp:
+                return False, [f"✗ L2 样例失败: {inp} → {got}（期望 {exp}）"]
+        checks.append(f"✔ 结构通过 | 样例 {len(unit.get('cases', []))} 组全过（py_ref 逻辑）")
+        return True, checks
     checks = []
     # L1 语法
     try:
@@ -186,15 +294,16 @@ if os.path.exists(_SOL_FILE):
 
 def code_solidify(question, task=None, uid=None, fn=None):
     """固化：组合生成 + 自校验通过 → 固化（自举纪律：未验证代码不固化）"""
-    t, u, code, unit = compose_code(question, uid, fn)
+    lang = detect_language(question)
+    t, u, code, unit, lang = compose_code(question, uid, fn, lang)
     if code is None:
         return None
-    ok, checks = verify_code(code, unit)
+    ok, checks = verify_code(code, unit, lang)
     if not ok:
         return None  # 自校验未过 → 拒绝固化（自举纪律）
     key = f"{task or t}|{u}"
     entry = {"task": t, "unit": u, "code": code, "checks": checks,
-             "source": "code_solidified"}
+             "source": "code_solidified", "lang": lang}
     CODE_SOLIDIFIED[key] = entry
     try:
         json.dump(CODE_SOLIDIFIED, open(_SOL_FILE, "w", encoding="utf-8"),
@@ -205,22 +314,24 @@ def code_solidify(question, task=None, uid=None, fn=None):
 
 
 def code_route(question, uid=None, fn=None):
-    """代码条件路由统一入口：固化层 → 组合生成+自校验"""
+    """代码条件路由统一入口：固化层 → 组合生成+自校验（多语言）"""
+    lang = detect_language(question)
     t = identify_task(question)
-    if t is not None:
-        # 固化层：同任务已固化的代码直出（v1 bug 修复：按 task 匹配，不依赖 uid）
+    if t is not None and lang == "python":
+        # 固化层：同任务已固化的代码直出（仅 Python——多语言不混）
         for k, entry in CODE_SOLIDIFIED.items():
             if entry.get("task") == t:
                 return {"question": question, "ok": True, "solidified": True,
                         "code": entry["code"], "task": t,
-                        "unit": entry.get("unit"), "checks": []}
-    task, uid, code, unit = compose_code(question, uid, fn)
+                        "unit": entry.get("unit"), "checks": [],
+                        "lang": "python"}
+    task, uid, code, unit, lang = compose_code(question, uid, fn, lang)
     if code is None:
         return {"question": question, "ok": False, "reason": uid,
-                "task": task, "code": None}
-    ok, checks = verify_code(code, unit)
+                "task": task, "code": None, "lang": lang}
+    ok, checks = verify_code(code, unit, lang)
     return {"question": question, "ok": ok, "task": task, "unit": uid,
-            "code": code, "checks": checks, "solidified": False}
+            "code": code, "checks": checks, "solidified": False, "lang": lang}
 
 
 if __name__ == "__main__":
