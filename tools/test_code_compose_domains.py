@@ -4299,5 +4299,41 @@ try:
 except Exception as ex:
     check('㋚c 栈→算术→比较端到端（2 3 True）', False, str(ex)[:60])
 
+# ㋛ 目标7 深化：传输/应用（分块传输/HTTP重定向/内容协商 经正式管线）
+n12_qs = {
+    "分块传输": "写一个分块传输单元（chunked）",
+    "HTTP重定向": "写一个 HTTP 重定向单元（3xx 跟随）",
+    "内容协商": "写一个内容协商单元（Accept 匹配）",
+}
+n12_ok = 0
+for label, q in n12_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n12_ok += 1
+    check(f'㋛ {label} 传输/应用单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋛b 传输/应用三单元全部生成', n12_ok == 3, f'{n12_ok}/3')
+
+# ㋛c 传输端到端：分块→重定向→协商（encode/decode 往返 200 json）
+r_ct = domain_route("写一个分块传输单元（chunked）")
+r_rd = domain_route("写一个 HTTP 重定向单元（3xx 跟随）")
+r_cn = domain_route("写一个内容协商单元（Accept 匹配）")
+try:
+    ns_ct, ns_rd, ns_cn = {}, {}, {}
+    exec(r_ct["code"], ns_ct)
+    exec(r_rd["code"], ns_rd)
+    exec(r_cn["code"], ns_cn)
+    enc = ns_ct["chunked_transfer"]('encode', 'hello', 3)
+    dec = ns_ct["chunked_transfer"]('decode', enc)
+    rd = ns_rd["http_redirect"]('follow', 301, [200])
+    cn = ns_cn["content_negotiation"]('text/html, application/json',
+                                       ['application/json'])
+    check('㋛c 分块→重定向→协商端到端（hello 200 json）',
+          dec == 'hello' and rd == 200 and cn == 'application/json',
+          f'chunk={dec} redir={rd} neg={cn}')
+except Exception as ex:
+    check('㋛c 分块→重定向→协商端到端（hello 200 json）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

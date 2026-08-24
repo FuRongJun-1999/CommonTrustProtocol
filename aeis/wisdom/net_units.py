@@ -1289,6 +1289,75 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：5G 网络切片——按服务隔离带宽资源（准入控制）",
     },
+    "网络-分块传输": {
+        "task": "分块传输",
+        "pattern": (
+            "def chunked_transfer(op, data=None, chunk_size=0):\n"
+            "    # 分块传输：encode 分块编码（每块十六进制长度）/ decode 还原\n"
+            "    if op == 'encode':\n"
+            "        chunks = [data[i:i + chunk_size]\n"
+            "                  for i in range(0, len(data), chunk_size)]\n"
+            "        return ''.join(f'{len(c):x}\\\\r\\\\n{c}\\\\r\\\\n' for c in chunks) \\\n"
+            "            + '0\\\\r\\\\n\\\\r\\\\n'\n"
+            "    if op == 'decode':\n"
+            "        out = []\n"
+            "        i = 0\n"
+            "        while i < len(data):\n"
+            "            j = data.index('\\\\r\\\\n', i)\n"
+            "            size = int(data[i:j], 16)\n"
+            "            if size == 0:\n"
+            "                break\n"
+            "            out.append(data[j + 4:j + 4 + size])\n"
+            "            i = j + 4 + size + 4\n"
+            "        return ''.join(out)\n"
+            "    return None\n"),
+        "cases": [
+            (('encode', 'hello', 3), '3\\r\\nhel\\r\\n2\\r\\nlo\\r\\n0\\r\\n\\r\\n'),
+            (('decode', '3\\r\\nhel\\r\\n2\\r\\nlo\\r\\n0\\r\\n\\r\\n'), 'hello'),
+            (('encode', '', 4), '0\\r\\n\\r\\n')],
+        "params": [],
+        "calibration": "对照：HTTP 分块传输——每块十六进制长度（chunked 编码）",
+    },
+    "网络-HTTP重定向": {
+        "task": "HTTP重定向",
+        "pattern": (
+            "def http_redirect(op, status=None, location=None, max_hops=5):\n"
+            "    # HTTP 重定向：follow 跟随 3xx（location 链，超跳数返回 None）\n"
+            "    if op == 'follow':\n"
+            "        hops = 0\n"
+            "        while (status >= 300 and status < 400 and hops < max_hops\n"
+            "               and location):\n"
+            "            status = location.pop(0)\n"
+            "            hops += 1\n"
+            "        return status if status < 300 or status >= 400 else None\n"
+            "    return None\n"),
+        "cases": [(('follow', 200, []), 200),
+                  (('follow', 301, [200]), 200),
+                  (('follow', 301, [302, 200]), 200),
+                  (('follow', 301, []), None)],
+        "params": [],
+        "calibration": "对照：HTTP 重定向——3xx 跟随 location（跳数限制）",
+    },
+    "网络-内容协商": {
+        "task": "内容协商",
+        "pattern": (
+            "def content_negotiation(accept, available, op='match'):\n"
+            "    # 内容协商：Accept 头匹配可用类型（按序——最佳匹配）\n"
+            "    if op == 'match':\n"
+            "        for a in accept.split(','):\n"
+            "            a = a.strip().split(';')[0].strip()\n"
+            "            if a in available:\n"
+            "                return a\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [(('application/json', ['text/html', 'application/json']),
+                   'application/json'),
+                  (('text/html, application/json', ['application/json']),
+                   'application/json'),
+                  (('application/xml', ['application/json']), None)],
+        "params": [],
+        "calibration": "对照：HTTP 内容协商——Accept 头匹配可用类型（q 剥离）",
+    },
 }
 
 
