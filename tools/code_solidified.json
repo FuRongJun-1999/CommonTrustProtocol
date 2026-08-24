@@ -958,5 +958,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:graph|图算法-节点相似度": {
+  "task": "节点相似度",
+  "unit": "图算法-节点相似度",
+  "code": "def jaccard_similarity(graph, a, b):\n    # 节点相似度：Jaccard（共同邻居 / 邻居并集）——推荐语义\n    na = set(graph.neighbors(a))\n    nb = set(graph.neighbors(b))\n    if not na and not nb:\n        return 0.0\n    return len(na & nb) / len(na | nb)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-图同构": {
+  "task": "图同构判定",
+  "unit": "图算法-图同构",
+  "code": "def graph_isomorphic(edges_a, edges_b):\n    # 图同构（简化）：边数+节点度序列 相同 → 可能同构（必要条件）\n    def deg_seq(edges):\n        nodes = set()\n        for s, d in edges:\n            nodes.add(s)\n            nodes.add(d)\n        deg = {n: 0 for n in nodes}\n        for s, d in edges:\n            deg[s] += 1\n            deg[d] += 1\n        return len(nodes), sorted(deg.values())\n    return deg_seq(edges_a) == deg_seq(edges_b)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-社区发现": {
+  "task": "社区发现",
+  "unit": "图算法-社区发现",
+  "code": "def label_propagation(graph, iterations=3):\n    # 社区发现：标签传播（LPA——节点取邻居多数标签收敛）\n    labels = {n: n for n in graph.nodes}\n    for _ in range(iterations):\n        for n in sorted(graph.nodes):\n            neigh = graph.neighbors(n)\n            if not neigh:\n                continue\n            from collections import Counter\n            cnt = Counter(labels[x] for x in neigh)\n            labels[n] = cnt.most_common(1)[0][0]\n    return labels\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

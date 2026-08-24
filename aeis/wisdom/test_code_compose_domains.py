@@ -1253,5 +1253,50 @@ try:
 except Exception as ex:
     check('㊅c 同源→CSP→XSS 端到端（同源真 外部脚本拒 脚本转义）', False, str(ex)[:60])
 
+# ㊆ 目标6 深化：相似度/社区（Jaccard/同构/标签传播 经正式管线）
+g7_qs = {
+    "节点相似度": "写一个节点相似度单元（Jaccard）",
+    "图同构": "写一个图同构判定单元（度序列）",
+    "社区发现": "写一个社区发现单元（标签传播）",
+}
+g7_ok = 0
+for label, q in g7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g7_ok += 1
+    check(f'㊆ {label} 相似度/社区单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊆b 相似度/社区三单元全部生成', g7_ok == 3, f'{g7_ok}/3')
+
+# ㊆c 端到端：相似度→同构判定→社区发现（分析链）
+r_js = domain_route("写一个节点相似度单元（Jaccard）")
+r_gi = domain_route("写一个图同构判定单元（度序列）")
+r_lp = domain_route("写一个社区发现单元（标签传播）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+ns_g7 = {}
+exec(r_g["code"], ns_g7)
+Graph7 = ns_g7["Graph"]
+try:
+    ns_js, ns_gi, ns_lp = {}, {}, {}
+    exec(r_js["code"], ns_js)
+    exec(r_gi["code"], ns_gi)
+    exec(r_lp["code"], ns_lp)
+    g = Graph7()
+    g.add_edge("气压低", "沸点降")
+    g.add_edge("沸点降", "煮不熟")
+    g.add_edge("气压低", "缺氧")
+    g.add_edge("缺氧", "煮不熟")
+    sim = ns_js["jaccard_similarity"](g, "气压低", "沸点降")
+    iso = ns_gi["graph_isomorphic"]([('a', 'b'), ('b', 'c')],
+                                    [('x', 'y'), ('y', 'z')])
+    labels = ns_lp["label_propagation"](g)
+    check('㊆c 相似→同构→社区端到端（0.0 同构真 4标签）',
+          sim == 0.0 and iso is True and sorted(labels.keys()) ==
+          sorted(["气压低", "沸点降", "煮不熟", "缺氧"]),
+          f'sim={sim} iso={iso} labels={sorted(labels)}')
+except Exception as ex:
+    check('㊆c 相似→同构→社区端到端（0.0 同构真 4标签）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

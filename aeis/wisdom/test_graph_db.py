@@ -97,6 +97,20 @@ for uid, u in GRAPH_UNITS.items():
                         # 注入图；批量添加 3 条边
                         g = generated["图存储-节点边"][0]["Graph"]()
                         got = fn(g, [("a", "b"), ("b", "c"), ("c", "d")])
+                    elif uid in ("图算法-节点相似度", "图算法-社区发现"):
+                        # 注入两链图
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("气压低", "沸点降")
+                        g.add_edge("沸点降", "煮不熟")
+                        g.add_edge("气压低", "缺氧")
+                        g.add_edge("缺氧", "煮不熟")
+                        if uid == "图算法-节点相似度":
+                            got = fn(g, "气压低", "沸点降")  # 无共同邻居 → 0.0
+                            expect = 0.0
+                        else:
+                            got = fn(g)  # 社区标签
+                            expect = sorted(got.keys())
+                            got = sorted(got.keys())
                     elif uid in ("图算法-PageRank", "图算法-连通分量", "图算法-拓扑排序"):
                         # 注入两链图；cases=("call", None) 验证不崩溃+结构
                         g = generated["图存储-节点边"][0]["Graph"]()

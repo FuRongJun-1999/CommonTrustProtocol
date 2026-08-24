@@ -544,6 +544,62 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图索引——布隆过滤器（多哈希位数组，快速成员判定，可误报）",
     },
+    "图算法-节点相似度": {
+        "task": "节点相似度",
+        "pattern": (
+            "def jaccard_similarity(graph, a, b):\n"
+            "    # 节点相似度：Jaccard（共同邻居 / 邻居并集）——推荐语义\n"
+            "    na = set(graph.neighbors(a))\n"
+            "    nb = set(graph.neighbors(b))\n"
+            "    if not na and not nb:\n"
+            "        return 0.0\n"
+            "    return len(na & nb) / len(na | nb)\n"),
+        "cases": [("call", 0.0)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图算法——Jaccard 相似度（共同邻居占比，推荐/相似节点语义）",
+    },
+    "图算法-图同构": {
+        "task": "图同构判定",
+        "pattern": (
+            "def graph_isomorphic(edges_a, edges_b):\n"
+            "    # 图同构（简化）：边数+节点度序列 相同 → 可能同构（必要条件）\n"
+            "    def deg_seq(edges):\n"
+            "        nodes = set()\n"
+            "        for s, d in edges:\n"
+            "            nodes.add(s)\n"
+            "            nodes.add(d)\n"
+            "        deg = {n: 0 for n in nodes}\n"
+            "        for s, d in edges:\n"
+            "            deg[s] += 1\n"
+            "            deg[d] += 1\n"
+            "        return len(nodes), sorted(deg.values())\n"
+            "    return deg_seq(edges_a) == deg_seq(edges_b)\n"),
+        "cases": [(([('a', 'b'), ('b', 'c')], [('x', 'y'), ('y', 'z')]), True),
+                  (([('a', 'b')], [('x', 'y'), ('y', 'z')]), False)],
+        "params": [],
+        "calibration": "对照：图算法——同构判定（节点数+度序列必要条件，结构等价检测）",
+    },
+    "图算法-社区发现": {
+        "task": "社区发现",
+        "pattern": (
+            "def label_propagation(graph, iterations=3):\n"
+            "    # 社区发现：标签传播（LPA——节点取邻居多数标签收敛）\n"
+            "    labels = {n: n for n in graph.nodes}\n"
+            "    for _ in range(iterations):\n"
+            "        for n in sorted(graph.nodes):\n"
+            "            neigh = graph.neighbors(n)\n"
+            "            if not neigh:\n"
+            "                continue\n"
+            "            from collections import Counter\n"
+            "            cnt = Counter(labels[x] for x in neigh)\n"
+            "            labels[n] = cnt.most_common(1)[0][0]\n"
+            "    return labels\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图算法——标签传播社区发现（LPA，邻居多数标签传播收敛）",
+    },
     "图灵枢-导出": {
         "task": "图导出灵枢",
         "pattern": (
