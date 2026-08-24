@@ -3418,5 +3418,40 @@ try:
 except Exception as ex:
     check('㋁c 并集→计数→分组端到端（[1,2,3] {a:2,b:1} 奇偶组）', False, str(ex)[:60])
 
+# ㋂ 目标7 深化：传输性能（Reno拥塞/RTO退避/吞吐量 经正式管线）
+n8_qs = {
+    "Reno拥塞": "写一个 Reno 拥塞控制单元（阈值减半）",
+    "RTO退避": "写一个 RTO 退避单元（指数退避）",
+    "吞吐量": "写一个吞吐量测量单元（KB/s）",
+}
+n8_ok = 0
+for label, q in n8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n8_ok += 1
+    check(f'㋂ {label} 传输性能单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋂b 传输性能三单元全部生成', n8_ok == 3, f'{n8_ok}/3')
+
+# ㋂c 性能端到端：Reno→RTO→吞吐量（慢启动2 阈值8 RTO4 1KB/s）
+r_rc = domain_route("写一个 Reno 拥塞控制单元（阈值减半）")
+r_rt = domain_route("写一个 RTO 退避单元（指数退避）")
+r_tp = domain_route("写一个吞吐量测量单元（KB/s）")
+try:
+    ns_rc, ns_rt, ns_tp = {}, {}, {}
+    exec(r_rc["code"], ns_rc)
+    exec(r_rt["code"], ns_rt)
+    exec(r_tp["code"], ns_tp)
+    ss = ns_rc["reno_phase"]({'cwnd': 1, 'ssthresh': 16}, 'ack')
+    fr = ns_rc["reno_phase"]({'cwnd': 16, 'ssthresh': 16}, 'loss', 16)
+    rto = ns_rt["rto_backoff"](1.0, 2)
+    tp = ns_tp["throughput"](10240, 10)
+    check('㋂c Reno→RTO→吞吐量端到端（2 8 4.0 1.0）',
+          ss == 2 and fr == 8 and rto == 4.0 and tp == 1.0,
+          f'ss={ss} fr={fr} rto={rto} tp={tp}')
+except Exception as ex:
+    check('㋂c Reno→RTO→吞吐量端到端（2 8 4.0 1.0）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

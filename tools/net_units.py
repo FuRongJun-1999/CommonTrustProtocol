@@ -1027,6 +1027,54 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：IP 组播——组成员加入/离开/组内广播（成员管理）",
     },
+    "网络-Reno拥塞控制": {
+        "task": "Reno拥塞控制",
+        "pattern": (
+            "def reno_phase(state, event, cwnd=None):\n"
+            "    # Reno 拥塞控制：ack 慢启动翻倍/拥塞避免线性，loss 快速恢复（阈值减半）\n"
+            "    if event == 'loss':\n"
+            "        state['ssthresh'] = max((cwnd or state.get('cwnd', 1)) // 2, 1)\n"
+            "        state['phase'] = 'fast_recovery'\n"
+            "        return state['ssthresh']\n"
+            "    if event == 'ack':\n"
+            "        if state.get('cwnd', 1) < state.get('ssthresh', 16):\n"
+            "            state['cwnd'] = state.get('cwnd', 1) * 2\n"
+            "            state['phase'] = 'slow_start'\n"
+            "        else:\n"
+            "            state['cwnd'] = state.get('cwnd', 1) + 1\n"
+            "            state['phase'] = 'congestion_avoidance'\n"
+            "        return state['cwnd']\n"
+            "    return None\n"),
+        "cases": [(({'cwnd': 1, 'ssthresh': 16}, 'ack'), 2),
+                  (({'cwnd': 16, 'ssthresh': 16}, 'ack'), 17),
+                  (({'cwnd': 16, 'ssthresh': 16}, 'loss', 16), 8)],
+        "params": [],
+        "calibration": "对照：TCP Reno——慢启动指数/拥塞避免线性/丢包阈值减半快速恢复",
+    },
+    "网络-RTO退避": {
+        "task": "RTO退避",
+        "pattern": (
+            "def rto_backoff(rto, losses):\n"
+            "    # RTO 重传超时：指数退避（每次超时翻倍——避免拥塞加剧）\n"
+            "    return rto * (2 ** losses)\n"),
+        "cases": [((1.0, 0), 1.0),
+                  ((1.0, 2), 4.0),
+                  ((2.0, 1), 4.0)],
+        "params": [],
+        "calibration": "对照：TCP RTO——指数退避（重传超时翻倍）",
+    },
+    "网络-吞吐量测量": {
+        "task": "吞吐量测量",
+        "pattern": (
+            "def throughput(data_bytes, seconds):\n"
+            "    # 吞吐量测量：字节数 / 时间（单位 KB/s）\n"
+            "    return round(data_bytes / 1024 / seconds, 3) if seconds else 0.0\n"),
+        "cases": [((10240, 10), 1.0),
+                  ((2048, 1), 2.0),
+                  ((1024, 0), 0.0)],
+        "params": [],
+        "calibration": "对照：网络吞吐量——字节数/时间（KB/s）",
+    },
 }
 
 

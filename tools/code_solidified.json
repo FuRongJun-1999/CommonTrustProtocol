@@ -2698,5 +2698,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:net|网络-Reno拥塞控制": {
+  "task": "Reno拥塞控制",
+  "unit": "网络-Reno拥塞控制",
+  "code": "def reno_phase(state, event, cwnd=None):\n    # Reno 拥塞控制：ack 慢启动翻倍/拥塞避免线性，loss 快速恢复（阈值减半）\n    if event == 'loss':\n        state['ssthresh'] = max((cwnd or state.get('cwnd', 1)) // 2, 1)\n        state['phase'] = 'fast_recovery'\n        return state['ssthresh']\n    if event == 'ack':\n        if state.get('cwnd', 1) < state.get('ssthresh', 16):\n            state['cwnd'] = state.get('cwnd', 1) * 2\n            state['phase'] = 'slow_start'\n        else:\n            state['cwnd'] = state.get('cwnd', 1) + 1\n            state['phase'] = 'congestion_avoidance'\n        return state['cwnd']\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-RTO退避": {
+  "task": "RTO退避",
+  "unit": "网络-RTO退避",
+  "code": "def rto_backoff(rto, losses):\n    # RTO 重传超时：指数退避（每次超时翻倍——避免拥塞加剧）\n    return rto * (2 ** losses)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-吞吐量测量": {
+  "task": "吞吐量测量",
+  "unit": "网络-吞吐量测量",
+  "code": "def throughput(data_bytes, seconds):\n    # 吞吐量测量：字节数 / 时间（单位 KB/s）\n    return round(data_bytes / 1024 / seconds, 3) if seconds else 0.0\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }
