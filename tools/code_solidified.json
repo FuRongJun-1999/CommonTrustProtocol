@@ -808,5 +808,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:os|文件-日志恢复": {
+  "task": "日志恢复",
+  "unit": "文件-日志恢复",
+  "code": "def journal_replay(entries, disk):\n    # 文件系统日志：崩溃后重放（journal 条目 → 磁盘状态恢复）\n    for e in entries:\n        if e.get('type') == 'write':\n            disk[e['inode']] = e['data']\n        elif e.get('type') == 'delete':\n            disk.pop(e['inode'], None)\n    return dict(disk)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-监控指标": {
+  "task": "系统监控",
+  "unit": "系统-监控指标",
+  "code": "def sys_metrics(usage_samples):\n    # 系统监控：CPU/内存采样 → 平均/峰值（负载统计）\n    if not usage_samples:\n        return {'avg': 0.0, 'peak': 0.0}\n    return {'avg': round(sum(usage_samples) / len(usage_samples), 2),\n            'peak': max(usage_samples)}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-守护进程": {
+  "task": "守护进程",
+  "unit": "系统-守护进程",
+  "code": "def daemon_lifecycle(state, op):\n    # 守护进程：启动→运行→停止（后台服务生命周期）\n    if op == 'start':\n        state['status'] = 'running'\n        return 'running'\n    if op == 'stop':\n        state['status'] = 'stopped'\n        return 'stopped'\n    if op == 'status':\n        return state.get('status', 'unknown')\n    return 'unknown'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }

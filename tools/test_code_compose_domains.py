@@ -1072,5 +1072,42 @@ try:
 except Exception as ex:
     check('㊀c 批量→布隆→计划端到端（3边 煮不熟命中 计划沸点优先）', False, str(ex)[:60])
 
+# ㊁ 目标4 深化：可靠性（日志恢复/系统监控/守护进程 经正式管线）
+o8_qs = {
+    "日志恢复": "写一个日志恢复单元（journal 重放）",
+    "系统监控": "写一个系统监控单元（采样统计）",
+    "守护进程": "写一个守护进程单元（生命周期）",
+}
+o8_ok = 0
+for label, q in o8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o8_ok += 1
+    check(f'㊁ {label} 可靠性单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊁b 可靠性三单元全部生成', o8_ok == 3, f'{o8_ok}/3')
+
+# ㊁c 端到端：日志重放→守护进程→监控（崩溃恢复→服务运行→负载统计）
+r_jr = domain_route("写一个日志恢复单元（journal 重放）")
+r_dm = domain_route("写一个守护进程单元（生命周期）")
+r_sm = domain_route("写一个系统监控单元（采样统计）")
+try:
+    ns_jr, ns_dm, ns_sm = {}, {}, {}
+    exec(r_jr["code"], ns_jr)
+    exec(r_dm["code"], ns_dm)
+    exec(r_sm["code"], ns_sm)
+    disk = ns_jr["journal_replay"](
+        [{'type': 'write', 'inode': 'a', 'data': 'X'},
+         {'type': 'delete', 'inode': 'a'}], {})
+    st = ns_dm["daemon_lifecycle"]({'status': 'idle'}, 'start')
+    m = ns_sm["sys_metrics"]([30, 50, 70])
+    check('㊁c 日志→守护→监控端到端（恢复空盘 服务运行 平均50峰70）',
+          disk == {} and st == 'running'
+          and m == {'avg': 50.0, 'peak': 70},
+          f'disk={disk} daemon={st} metrics={m}')
+except Exception as ex:
+    check('㊁c 日志→守护→监控端到端（恢复空盘 服务运行 平均50峰70）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -524,6 +524,60 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 系统调用——参数类型校验（copy_from_user 语义，非法拒绝）",
     },
+    "文件-日志恢复": {
+        "task": "日志恢复",
+        "pattern": (
+            "def journal_replay(entries, disk):\n"
+            "    # 文件系统日志：崩溃后重放（journal 条目 → 磁盘状态恢复）\n"
+            "    for e in entries:\n"
+            "        if e.get('type') == 'write':\n"
+            "            disk[e['inode']] = e['data']\n"
+            "        elif e.get('type') == 'delete':\n"
+            "            disk.pop(e['inode'], None)\n"
+            "    return dict(disk)\n"),
+        "cases": [(([{'type': 'write', 'inode': 'a', 'data': 'X'},
+                     {'type': 'write', 'inode': 'b', 'data': 'Y'},
+                     {'type': 'delete', 'inode': 'a'}], {}),
+                   {'b': 'Y'}),
+                  (([], {'a': 'keep'}), {'a': 'keep'})],
+        "params": [],
+        "calibration": "对照：OS 文件系统日志——journal 重放（崩溃恢复，write/delete 条目应用）",
+    },
+    "系统-监控指标": {
+        "task": "系统监控",
+        "pattern": (
+            "def sys_metrics(usage_samples):\n"
+            "    # 系统监控：CPU/内存采样 → 平均/峰值（负载统计）\n"
+            "    if not usage_samples:\n"
+            "        return {'avg': 0.0, 'peak': 0.0}\n"
+            "    return {'avg': round(sum(usage_samples) / len(usage_samples), 2),\n"
+            "            'peak': max(usage_samples)}\n"),
+        "cases": [(([30, 50, 70],), {'avg': 50.0, 'peak': 70}),
+                  (([],), {'avg': 0.0, 'peak': 0.0}),
+                  (([100],), {'avg': 100.0, 'peak': 100})],
+        "params": [],
+        "calibration": "对照：OS 系统监控——CPU 使用率采样统计（平均/峰值）",
+    },
+    "系统-守护进程": {
+        "task": "守护进程",
+        "pattern": (
+            "def daemon_lifecycle(state, op):\n"
+            "    # 守护进程：启动→运行→停止（后台服务生命周期）\n"
+            "    if op == 'start':\n"
+            "        state['status'] = 'running'\n"
+            "        return 'running'\n"
+            "    if op == 'stop':\n"
+            "        state['status'] = 'stopped'\n"
+            "        return 'stopped'\n"
+            "    if op == 'status':\n"
+            "        return state.get('status', 'unknown')\n"
+            "    return 'unknown'\n"),
+        "cases": [(({'status': 'idle'}, 'start'), 'running'),
+                  (({'status': 'running'}, 'stop'), 'stopped'),
+                  (({'status': 'running'}, 'status'), 'running')],
+        "params": [],
+        "calibration": "对照：OS 守护进程——生命周期（start/stop/status 状态机）",
+    },
 }
 
 
