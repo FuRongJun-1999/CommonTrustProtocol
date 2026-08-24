@@ -3268,5 +3268,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:pylang|工具-字符串拆分": {
+  "task": "字符串拆分",
+  "unit": "工具-字符串拆分",
+  "code": "def str_split(text, sep=None):\n    # 字符串拆分：按分隔符拆（split 语义——默认空白）\n    return text.split(sep) if sep is not None else text.split()\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-字符串替换": {
+  "task": "字符串替换",
+  "unit": "工具-字符串替换",
+  "code": "def str_replace(text, old, new, count=None):\n    # 字符串替换：全部/前 n 次替换（replace 语义）\n    return (text.replace(old, new) if count is None\n            else text.replace(old, new, count))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-字符串判断": {
+  "task": "字符串判断",
+  "unit": "工具-字符串判断",
+  "code": "def str_check(text, op):\n    # 字符串判断：isdigit/startswith/isupper（字符串方法族）\n    if op == 'isdigit':\n        return text.isdigit()\n    if op == 'startswith':\n        return text.startswith('0x')\n    if op == 'isupper':\n        return text.isupper()\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

@@ -4093,5 +4093,39 @@ try:
 except Exception as ex:
     check('㋔c 加密→镜像→切片端到端（obkkh 2 admitted）', False, str(ex)[:60])
 
+# ㋕ 目标1 深化：P 线字符串工具（拆分/替换/判断 经正式管线）
+p11_qs = {
+    "字符串拆分": "写一个字符串拆分单元（分隔符）",
+    "字符串替换": "写一个字符串替换单元（限次替换）",
+    "字符串判断": "写一个字符串判断单元（方法族）",
+}
+p11_ok = 0
+for label, q in p11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p11_ok += 1
+    check(f'㋕ {label} P线字符串单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋕b P线字符串三单元全部生成', p11_ok == 3, f'{p11_ok}/3')
+
+# ㋕c 字符串端到端：拆分→替换→判断（[a,b,c] bbb True）
+r_ss = domain_route("写一个字符串拆分单元（分隔符）")
+r_sr = domain_route("写一个字符串替换单元（限次替换）")
+r_sc = domain_route("写一个字符串判断单元（方法族）")
+try:
+    ns_ss, ns_sr, ns_sc = {}, {}, {}
+    exec(r_ss["code"], ns_ss)
+    exec(r_sr["code"], ns_sr)
+    exec(r_sc["code"], ns_sc)
+    sp = ns_ss["str_split"]('a,b,c', ',')
+    rp = ns_sr["str_replace"]('aaa', 'a', 'b')
+    chk = ns_sc["str_check"]('123', 'isdigit')
+    check('㋕c 拆分→替换→判断端到端（[a,b,c] bbb True）',
+          sp == ['a', 'b', 'c'] and rp == 'bbb' and chk is True,
+          f'split={sp} replace={rp} check={chk}')
+except Exception as ex:
+    check('㋕c 拆分→替换→判断端到端（[a,b,c] bbb True）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -1039,6 +1039,51 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：functools.reduce（累积聚合折叠）",
     },
+    "工具-字符串拆分": {
+        "task": "字符串拆分",
+        "pattern": (
+            "def str_split(text, sep=None):\n"
+            "    # 字符串拆分：按分隔符拆（split 语义——默认空白）\n"
+            "    return text.split(sep) if sep is not None else text.split()\n"),
+        "cases": [(('a,b,c', ','), ['a', 'b', 'c']),
+                  (('a b  c', None), ['a', 'b', 'c']),
+                  (('', ','), [''])],
+        "params": [],
+        "calibration": "对照：Python str.split（分隔符拆分，默认空白）",
+    },
+    "工具-字符串替换": {
+        "task": "字符串替换",
+        "pattern": (
+            "def str_replace(text, old, new, count=None):\n"
+            "    # 字符串替换：全部/前 n 次替换（replace 语义）\n"
+            "    return (text.replace(old, new) if count is None\n"
+            "            else text.replace(old, new, count))\n"),
+        "cases": [(('aaa', 'a', 'b'), 'bbb'),
+                  (('aaa', 'a', 'b', 2), 'bba'),
+                  (('abc', 'x', 'y'), 'abc')],
+        "params": [],
+        "calibration": "对照：Python str.replace（全部/限次替换）",
+    },
+    "工具-字符串判断": {
+        "task": "字符串判断",
+        "pattern": (
+            "def str_check(text, op):\n"
+            "    # 字符串判断：isdigit/startswith/isupper（字符串方法族）\n"
+            "    if op == 'isdigit':\n"
+            "        return text.isdigit()\n"
+            "    if op == 'startswith':\n"
+            "        return text.startswith('0x')\n"
+            "    if op == 'isupper':\n"
+            "        return text.isupper()\n"
+            "    return None\n"),
+        "cases": [(('123', 'isdigit'), True),
+                  (('0xFF', 'startswith'), True),
+                  (('ABC', 'isupper'), True),
+                  (('abc', 'isupper'), False),
+                  (('12a', 'isdigit'), False)],
+        "params": [],
+        "calibration": "对照：Python 字符串方法族（isdigit/startswith/isupper）",
+    },
 }
 
 
