@@ -909,6 +909,54 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：图监控——度分布直方图（出度 → 节点数）",
     },
+    "图嵌入-节点特征": {
+        "task": "节点特征",
+        "pattern": (
+            "def node_features(graph):\n"
+            "    # 节点特征：度/入度/出度（图学习特征向量）\n"
+            "    out_deg = {n: len(graph.neighbors(n)) for n in graph.nodes}\n"
+            "    in_deg = {n: 0 for n in graph.nodes}\n"
+            "    for n in graph.nodes:\n"
+            "        for nxt in graph.neighbors(n):\n"
+            "            in_deg[nxt] += 1\n"
+            "    return {n: {'out': out_deg[n], 'in': in_deg[n]}\n"
+            "            for n in sorted(graph.nodes)}\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图嵌入——节点特征（出度/入度向量，图学习输入）",
+    },
+    "图嵌入-图特征": {
+        "task": "图特征",
+        "pattern": (
+            "def graph_features(graph):\n"
+            "    # 图级特征：节点数/边数/连通分量数（图分类输入）\n"
+            "    n = len(graph.nodes)\n"
+            "    e = sum(len(graph.neighbors(x)) for x in graph.nodes)\n"
+            "    return {'nodes': n, 'edges': e, 'density': round(\n"
+            "        2 * e / (n * (n - 1)), 2) if n > 1 else 0.0}\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图嵌入——图级特征（节点/边/密度，图分类输入）",
+    },
+    "图学习-相似推荐": {
+        "task": "相似推荐",
+        "pattern": (
+            "def similar_recommend(graph, node, top=2):\n"
+            "    # 相似推荐：共同邻居最多的节点（协同过滤语义）\n"
+            "    def common(a, b):\n"
+            "        na = set(graph.neighbors(a))\n"
+            "        nb = set(graph.neighbors(b))\n"
+            "        return len(na & nb)\n"
+            "    cands = [x for x in graph.nodes if x != node]\n"
+            "    cands.sort(key=lambda x: common(node, x), reverse=True)\n"
+            "    return cands[:top]\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图学习——相似推荐（共同邻居最多，协同过滤）",
+    },
 }
 
 

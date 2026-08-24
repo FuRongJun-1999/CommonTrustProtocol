@@ -2155,5 +2155,48 @@ try:
 except Exception as ex:
     check('㊟c 安全启动→TPM→哈希端到端（启动ok PCR45 完整/篡改）', False, str(ex)[:60])
 
+# ㊠ 目标6 深化：图嵌入/学习（节点特征/图特征/相似推荐 经正式管线）
+g13_qs = {
+    "节点特征": "写一个节点特征单元（出入度向量）",
+    "图特征": "写一个图特征单元（图级向量）",
+    "相似推荐": "写一个相似推荐单元（共同邻居）",
+}
+g13_ok = 0
+for label, q in g13_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g13_ok += 1
+    check(f'㊠ {label} 图嵌入/学习单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊠b 图嵌入/学习三单元全部生成', g13_ok == 3, f'{g13_ok}/3')
+
+# ㊠c 端到端：节点特征→图特征→相似推荐（特征提取→图分类→推荐）
+r_nf = domain_route("写一个节点特征单元（出入度向量）")
+r_gf = domain_route("写一个图特征单元（图级向量）")
+r_sr = domain_route("写一个相似推荐单元（共同邻居）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+ns_g13 = {}
+exec(r_g["code"], ns_g13)
+Graph13 = ns_g13["Graph"]
+try:
+    ns_nf, ns_gf, ns_sr = {}, {}, {}
+    exec(r_nf["code"], ns_nf)
+    exec(r_gf["code"], ns_gf)
+    exec(r_sr["code"], ns_sr)
+    g = Graph13()
+    g.add_edge("a", "b")
+    g.add_edge("b", "c")
+    nf = ns_nf["node_features"](g)
+    gf = ns_gf["graph_features"](g)
+    rec = ns_sr["similar_recommend"](g, "a")
+    check('㊠c 节点特征→图特征→推荐端到端（a出1 3节点2边 推荐[b,c]）',
+          nf['a']['out'] == 1 and nf['c']['in'] == 1
+          and gf['nodes'] == 3 and gf['edges'] == 2
+          and set(rec) == {'b', 'c'},
+          f'nf={nf} gf={gf} rec={rec}')
+except Exception as ex:
+    check('㊠c 节点特征→图特征→推荐端到端（a出1 3节点2边 推荐[b,c]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
