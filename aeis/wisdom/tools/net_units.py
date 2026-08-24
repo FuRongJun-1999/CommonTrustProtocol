@@ -1620,6 +1620,81 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：TCP 乱序重排——按序号缓冲并按序递交（reordering）",
     },
+    "网络-CSMA退避": {
+        "task": "CSMA退避",
+        "pattern": (
+            "def csma_backoff(state, op, attempt=None):\n"
+            "    # CSMA 退避：collision 碰撞计数 / wait 指数退避等待 / reset 重传成功清零（以太网）\n"
+            "    if op == 'collision':\n"
+            "        state['n'] = state.get('n', 0) + 1\n"
+            "        return state['n']\n"
+            "    if op == 'wait':\n"
+            "        n = state.get('n', 0)\n"
+            "        return min(2 ** n, 1024)\n"
+            "    if op == 'reset':\n"
+            "        state['n'] = 0\n"
+            "        return 0\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'collision'), 1),
+            (({'n': 3}, 'wait'), 8),
+            (({'n': 12}, 'wait'), 1024),
+            (({'n': 5}, 'reset'), 0)],
+        "params": [],
+        "calibration": "对照：CSMA/CD——碰撞指数退避（2^n 上限 1024，重传清零）",
+    },
+    "网络-路由收敛": {
+        "task": "路由收敛",
+        "pattern": (
+            "def route_converge(routes, op, src=None, change=None):\n"
+            "    # 路由收敛：update 链路变化 / converge 传播收敛 / stable 是否稳定（路由协议收敛）\n"
+            "    if op == 'update':\n"
+            "        routes['dirty'] = True\n"
+            "        routes.setdefault('changes', []).append((src, change))\n"
+            "        return 'updated'\n"
+            "    if op == 'converge':\n"
+            "        routes['dirty'] = False\n"
+            "        return 'converged'\n"
+            "    if op == 'stable':\n"
+            "        return not routes.get('dirty', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'update', 'A', 'down'), 'updated'),
+            (({}, 'converge'), 'converged'),
+            (({'dirty': True}, 'stable'), False),
+            (({'dirty': False}, 'stable'), True)],
+        "params": [],
+        "calibration": "对照：路由协议收敛——链路变化传播至全网稳定（收敛判定）",
+    },
+    "网络-链路预算": {
+        "task": "链路预算",
+        "pattern": (
+            "def link_budget(state, op, rssi=None):\n"
+            "    # 链路预算：measure 记录 RSSI / quality 信号质量分级 / distance 距离估算（蓝牙）\n"
+            "    if op == 'measure':\n"
+            "        state['rssi'] = rssi\n"
+            "        return rssi\n"
+            "    if op == 'quality':\n"
+            "        r = state.get('rssi', -100)\n"
+            "        if r >= -50:\n"
+            "            return 'excellent'\n"
+            "        if r >= -70:\n"
+            "            return 'good'\n"
+            "        if r >= -85:\n"
+            "            return 'fair'\n"
+            "        return 'poor'\n"
+            "    if op == 'distance':\n"
+            "        r = state.get('rssi', -100)\n"
+            "        return round(10 ** ((r - -40) / -20), 1)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'measure', -55), -55),
+            (({'rssi': -45}, 'quality'), 'excellent'),
+            (({'rssi': -75}, 'quality'), 'fair'),
+            (({'rssi': -60}, 'distance'), 10.0)],
+        "params": [],
+        "calibration": "对照：蓝牙 RSSI——信号质量分级与距离估算（链路预算）",
+    },
 }
 
 

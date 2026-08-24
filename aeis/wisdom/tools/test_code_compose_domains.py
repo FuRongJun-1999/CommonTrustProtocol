@@ -5371,5 +5371,40 @@ except Exception as ex:
     check('㋸c 切片→矩阵→类装饰端到端（[1,2,3] [[6,8],[10,12]] 宠物）',
           False, str(ex)[:60])
 
+# ㋹ 目标7 深化：链路/路由（CSMA退避/路由收敛/链路预算 经正式管线）
+n17_qs = {
+    "CSMA退避": "写一个 CSMA 退避单元（碰撞退避）",
+    "路由收敛": "写一个路由收敛单元（收敛判定）",
+    "链路预算": "写一个链路预算单元（RSSI 分级）",
+}
+n17_ok = 0
+for label, q in n17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n17_ok += 1
+    check(f'㋹ {label} 链路/路由单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋹b 链路/路由三单元全部生成', n17_ok == 3, f'{n17_ok}/3')
+
+# ㋹c 端到端：CSMA→收敛→链路（8 converged good）
+r_cb = domain_route("写一个 CSMA 退避单元（碰撞退避）")
+r_rc = domain_route("写一个路由收敛单元（收敛判定）")
+r_lb = domain_route("写一个链路预算单元（RSSI 分级）")
+try:
+    ns_cb, ns_rc, ns_lb = {}, {}, {}
+    exec(r_cb["code"], ns_cb)
+    exec(r_rc["code"], ns_rc)
+    exec(r_lb["code"], ns_lb)
+    cb = ns_cb["csma_backoff"]({'n': 3}, 'wait')
+    rc = ns_rc["route_converge"]({}, 'converge')
+    lb = ns_lb["link_budget"]({'rssi': -65}, 'quality')
+    check('㋹c CSMA→收敛→链路端到端（8 converged good）',
+          cb == 8 and rc == 'converged' and lb == 'good',
+          f'backoff={cb} conv={rc} link={lb}')
+except Exception as ex:
+    check('㋹c CSMA→收敛→链路端到端（8 converged good）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -4358,5 +4358,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:net|网络-CSMA退避": {
+  "task": "CSMA退避",
+  "unit": "网络-CSMA退避",
+  "code": "def csma_backoff(state, op, attempt=None):\n    # CSMA 退避：collision 碰撞计数 / wait 指数退避等待 / reset 重传成功清零（以太网）\n    if op == 'collision':\n        state['n'] = state.get('n', 0) + 1\n        return state['n']\n    if op == 'wait':\n        n = state.get('n', 0)\n        return min(2 ** n, 1024)\n    if op == 'reset':\n        state['n'] = 0\n        return 0\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-路由收敛": {
+  "task": "路由收敛",
+  "unit": "网络-路由收敛",
+  "code": "def route_converge(routes, op, src=None, change=None):\n    # 路由收敛：update 链路变化 / converge 传播收敛 / stable 是否稳定（路由协议收敛）\n    if op == 'update':\n        routes['dirty'] = True\n        routes.setdefault('changes', []).append((src, change))\n        return 'updated'\n    if op == 'converge':\n        routes['dirty'] = False\n        return 'converged'\n    if op == 'stable':\n        return not routes.get('dirty', False)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-链路预算": {
+  "task": "链路预算",
+  "unit": "网络-链路预算",
+  "code": "def link_budget(state, op, rssi=None):\n    # 链路预算：measure 记录 RSSI / quality 信号质量分级 / distance 距离估算（蓝牙）\n    if op == 'measure':\n        state['rssi'] = rssi\n        return rssi\n    if op == 'quality':\n        r = state.get('rssi', -100)\n        if r >= -50:\n            return 'excellent'\n        if r >= -70:\n            return 'good'\n        if r >= -85:\n            return 'fair'\n        return 'poor'\n    if op == 'distance':\n        r = state.get('rssi', -100)\n        return round(10 ** ((r - -40) / -20), 1)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }
