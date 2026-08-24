@@ -27,6 +27,13 @@ class Opcode(IntEnum):
     CMP_LT = 13         # 小于
     ENTER_SHUYUE = 14   # 进入术曰块（作用域）
     RETURN_STEP = 15    # 步骤返回（出作用域）
+    ADD = 16            # 加
+    SUB = 17            # 减
+    MUL = 18            # 乘
+    DIV = 19            # 除
+    CMP_NE = 20         # 不等于
+    CMP_LE = 21         # 不大于（≤）
+    CMP_GE = 22         # 不小于（≥）
 
     @classmethod
     def names(cls):
@@ -47,20 +54,22 @@ class ConditionVM:
     def __init__(self):
         self.reset()
 
-    def reset(self):
+    def reset(self, symbols=None, trust=0.0, condition_stack=None):
         self.ip = 0
         self.stack = []
-        self.symbols = {}              # 名实对应（以名举实）
-        self.condition_stack = []      # 条件空间栈（DAO 压入）
-        self.trust_value = 0.0         # 信任值寄存器
-        self.scope_depth = 0           # 术曰作用域深度
-        self.trace = []                # 执行轨迹（可解释性）
+        self.symbols = dict(symbols or {})   # 名实对应（以名举实）
+        self.condition_stack = list(condition_stack or [])  # 条件空间栈
+        self.trust_value = trust             # 信任值寄存器
+        self.scope_depth = 0                 # 术曰作用域深度
+        self.trace = []                      # 执行轨迹（可解释性）
 
-    def run(self, code, trace=False, catch_halt=True):
+    def run(self, code, trace=False, catch_halt=True, symbols=None,
+            trust=0.0, condition_stack=None):
         """执行字节码；code = [(op, arg), ...]
+        symbols/trust/condition_stack：初始执行环境（C2 语义：符号表/信任/条件空间）
         catch_halt=True：止(ZHI)/无为(WUWEI) 作为正常控制流信号捕获，
         返回 {"halt": kind, ...}（VM 自足——停止/让出是语言语义非错误）"""
-        self.reset()
+        self.reset(symbols, trust, condition_stack)
         halt = None
         while self.ip < len(code):
             op, arg = code[self.ip]
@@ -126,6 +135,29 @@ class ConditionVM:
         elif op == Opcode.CMP_LT:
             b, a = self.stack.pop(), self.stack.pop()
             self.stack.append(a < b)
+        elif op == Opcode.CMP_NE:
+            b, a = self.stack.pop(), self.stack.pop()
+            self.stack.append(a != b)
+        elif op == Opcode.CMP_LE:
+            b, a = self.stack.pop(), self.stack.pop()
+            self.stack.append(a <= b)
+        elif op == Opcode.CMP_GE:
+            b, a = self.stack.pop(), self.stack.pop()
+            self.stack.append(a >= b)
+        elif op == Opcode.ADD:
+            b, a = self.stack.pop(), self.stack.pop()
+            self.stack.append(a + b)
+        elif op == Opcode.SUB:
+            b, a = self.stack.pop(), self.stack.pop()
+            self.stack.append(a - b)
+        elif op == Opcode.MUL:
+            b, a = self.stack.pop(), self.stack.pop()
+            self.stack.append(a * b)
+        elif op == Opcode.DIV:
+            b, a = self.stack.pop(), self.stack.pop()
+            if b == 0:
+                raise ZeroDivisionError("除零错误")
+            self.stack.append(a / b)
         elif op == Opcode.ENTER_SHUYUE:
             self.scope_depth += 1
         elif op == Opcode.RETURN_STEP:
