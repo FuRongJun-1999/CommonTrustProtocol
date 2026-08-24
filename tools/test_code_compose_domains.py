@@ -4058,5 +4058,40 @@ try:
 except Exception as ex:
     check('㋓c 备份→快照→哈希端到端（{a:1,b:2} 2 n1）', False, str(ex)[:60])
 
+# ㋔ 目标7 深化：链路/工程（链路加密/流量镜像/网络切片 经正式管线）
+n11_qs = {
+    "链路加密": "写一个链路加密单元（MACsec）",
+    "流量镜像": "写一个流量镜像单元（SPAN）",
+    "网络切片": "写一个网络切片单元（带宽准入）",
+}
+n11_ok = 0
+for label, q in n11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n11_ok += 1
+    check(f'㋔ {label} 链路/工程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋔b 链路/工程三单元全部生成', n11_ok == 3, f'{n11_ok}/3')
+
+# ㋔c 链路端到端：加密→镜像→切片（obcch 镜像2 准入admitted）
+r_le = domain_route("写一个链路加密单元（MACsec）")
+r_pm = domain_route("写一个流量镜像单元（SPAN）")
+r_ns = domain_route("写一个网络切片单元（带宽准入）")
+try:
+    ns_le, ns_pm, ns_ns = {}, {}, {}
+    exec(r_le["code"], ns_le)
+    exec(r_pm["code"], ns_pm)
+    exec(r_ns["code"], ns_ns)
+    enc = ns_le["link_encrypt"]({}, 'encrypt', 'hello', 7)
+    pm = ns_pm["port_mirror"]({}, 'mirror', 1, 2)
+    ns = ns_ns["network_slice"](
+        {'视频': {'bw': 100, 'used': 0}}, 'admit', '视频', None, 60)
+    check('㋔c 加密→镜像→切片端到端（obkkh 2 admitted）',
+          enc == 'obkkh' and pm == 2 and ns == 'admitted',
+          f'enc={enc} mirror={pm} slice={ns}')
+except Exception as ex:
+    check('㋔c 加密→镜像→切片端到端（obkkh 2 admitted）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

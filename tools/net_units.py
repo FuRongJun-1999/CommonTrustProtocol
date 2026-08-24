@@ -1222,6 +1222,73 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：负载均衡——会话亲和（sticky session 同会话同后端）",
     },
+    "网络-链路加密": {
+        "task": "链路加密",
+        "pattern": (
+            "def link_encrypt(frames, op, frame=None, key=7):\n"
+            "    # 链路加密：encrypt 帧加密（异或密钥）/ decrypt 解密（MACsec 链路层）\n"
+            "    if op == 'encrypt':\n"
+            "        frames[frame] = ''.join(chr(ord(c) ^ key) for c in frame)\n"
+            "        return frames[frame]\n"
+            "    if op == 'decrypt':\n"
+            "        raw = frames.get(frame)\n"
+            "        if raw is None:\n"
+            "            return None\n"
+            "        return ''.join(chr(ord(c) ^ key) for c in raw)\n"
+            "    return None\n"),
+        "cases": [(({}, 'encrypt', 'hello', 7), 'obkkh'),
+                  (({'hello': 'obkkh'}, 'decrypt', 'hello', 7), 'hello'),
+                  (({}, 'decrypt', 'x', 7), None)],
+        "params": [],
+        "calibration": "对照：MACsec 链路加密——帧级加密/解密（链路层保护）",
+    },
+    "网络-流量镜像": {
+        "task": "流量镜像",
+        "pattern": (
+            "def port_mirror(monitor, op, src_port=None, dst_port=None, packet=None):\n"
+            "    # 流量镜像：mirror 镜像源到目标 / capture 采集 / route 转发（SPAN）\n"
+            "    if op == 'mirror':\n"
+            "        monitor[src_port] = dst_port\n"
+            "        return dst_port\n"
+            "    if op == 'capture':\n"
+            "        return {'src': src_port, 'packet': packet}\n"
+            "    if op == 'route':\n"
+            "        dst = monitor.get(src_port)\n"
+            "        return dst if dst else 'no_mirror'\n"
+            "    return None\n"),
+        "cases": [(({}, 'mirror', 1, 2), 2),
+                  (({1: 2}, 'route', 1), 2),
+                  (({}, 'route', 1), 'no_mirror'),
+                  (({}, 'capture', 1, None, 'pkt'), {'src': 1, 'packet': 'pkt'})],
+        "params": [],
+        "calibration": "对照：SPAN 端口镜像——流量复制到监控口（抓包）",
+    },
+    "网络-网络切片": {
+        "task": "网络切片",
+        "pattern": (
+            "def network_slice(slices, op, name=None, bw=None, flow=None):\n"
+            "    # 网络切片：create 创建 / admit 带宽准入（按服务隔离网络资源）\n"
+            "    if op == 'create':\n"
+            "        slices[name] = {'bw': bw, 'used': 0}\n"
+            "        return name\n"
+            "    if op == 'admit':\n"
+            "        s = slices.get(name)\n"
+            "        if s is None:\n"
+            "            return 'missing'\n"
+            "        if s['used'] + flow > s['bw']:\n"
+            "            return 'rejected'\n"
+            "        s['used'] += flow\n"
+            "        return 'admitted'\n"
+            "    return None\n"),
+        "cases": [(({}, 'create', '视频', 100), '视频'),
+                  (({'视频': {'bw': 100, 'used': 0}}, 'admit', '视频', None, 60),
+                   'admitted'),
+                  (({'视频': {'bw': 100, 'used': 80}}, 'admit', '视频', None, 30),
+                   'rejected'),
+                  (({}, 'admit', 'x', None, 10), 'missing')],
+        "params": [],
+        "calibration": "对照：5G 网络切片——按服务隔离带宽资源（准入控制）",
+    },
 }
 
 
