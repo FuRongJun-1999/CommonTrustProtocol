@@ -671,6 +671,55 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：内容路由——URL 最长前缀匹配（按内容寻址到节点）",
     },
+    "网络-流量统计": {
+        "task": "流量统计",
+        "pattern": (
+            "def traffic_stats(flows):\n"
+            "    # 流量统计：每流字节/包汇总（流量分析）\n"
+            "    stats = {}\n"
+            "    for f in flows:\n"
+            "        key = f['src'] + '→' + f['dst']\n"
+            "        s = stats.setdefault(key, {'bytes': 0, 'pkts': 0})\n"
+            "        s['bytes'] += f['bytes']\n"
+            "        s['pkts'] += f['pkts']\n"
+            "    return stats\n"),
+        "cases": [(([{'src': 'a', 'dst': 'b', 'bytes': 100, 'pkts': 2},
+                     {'src': 'a', 'dst': 'b', 'bytes': 50, 'pkts': 1}],),
+                   {'a→b': {'bytes': 150, 'pkts': 3}}),
+                  (([],), {})],
+        "params": [],
+        "calibration": "对照：网络监控——流量统计（每流字节/包汇总）",
+    },
+    "网络-延迟测量": {
+        "task": "延迟测量",
+        "pattern": (
+            "def rtt_stats(samples):\n"
+            "    # RTT 测量：延迟样本 → 平均/最小/最大（链路质量）\n"
+            "    if not samples:\n"
+            "        return {'avg': 0.0, 'min': 0, 'max': 0}\n"
+            "    return {'avg': round(sum(samples) / len(samples), 2),\n"
+            "            'min': min(samples), 'max': max(samples)}\n"),
+        "cases": [(([10, 20, 30],), {'avg': 20.0, 'min': 10, 'max': 30}),
+                  (([],), {'avg': 0.0, 'min': 0, 'max': 0})],
+        "params": [],
+        "calibration": "对照：网络监控——RTT 延迟测量（平均/最小/最大）",
+    },
+    "网络-异常检测": {
+        "task": "异常检测",
+        "pattern": (
+            "def anomaly_detect(traffic, threshold):\n"
+            "    # 异常检测：流量突增（超过阈值 → 告警）\n"
+            "    alerts = []\n"
+            "    for t in traffic:\n"
+            "        if t > threshold:\n"
+            "            alerts.append(t)\n"
+            "    return alerts\n"),
+        "cases": [(([50, 200, 80], 100), [200]),
+                  (([10, 20], 100), []),
+                  (([], 100), [])],
+        "params": [],
+        "calibration": "对照：网络监控——异常检测（流量突增告警）",
+    },
 }
 
 

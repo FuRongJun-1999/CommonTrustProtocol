@@ -1618,5 +1618,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:net|网络-流量统计": {
+  "task": "流量统计",
+  "unit": "网络-流量统计",
+  "code": "def traffic_stats(flows):\n    # 流量统计：每流字节/包汇总（流量分析）\n    stats = {}\n    for f in flows:\n        key = f['src'] + '→' + f['dst']\n        s = stats.setdefault(key, {'bytes': 0, 'pkts': 0})\n        s['bytes'] += f['bytes']\n        s['pkts'] += f['pkts']\n    return stats\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-延迟测量": {
+  "task": "延迟测量",
+  "unit": "网络-延迟测量",
+  "code": "def rtt_stats(samples):\n    # RTT 测量：延迟样本 → 平均/最小/最大（链路质量）\n    if not samples:\n        return {'avg': 0.0, 'min': 0, 'max': 0}\n    return {'avg': round(sum(samples) / len(samples), 2),\n            'min': min(samples), 'max': max(samples)}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-异常检测": {
+  "task": "异常检测",
+  "unit": "网络-异常检测",
+  "code": "def anomaly_detect(traffic, threshold):\n    # 异常检测：流量突增（超过阈值 → 告警）\n    alerts = []\n    for t in traffic:\n        if t > threshold:\n            alerts.append(t)\n    return alerts\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

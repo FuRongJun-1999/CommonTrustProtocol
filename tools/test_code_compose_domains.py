@@ -2083,5 +2083,41 @@ try:
 except Exception as ex:
     check('㊝c 配额→锁→限额端到端（超限拒 锁阻塞 软限1024）', False, str(ex)[:60])
 
+# ㊞ 目标7 深化：网络监控（流量统计/延迟测量/异常检测 经正式管线）
+n13_qs = {
+    "流量统计": "写一个流量统计单元（每流汇总）",
+    "延迟测量": "写一个延迟测量单元（RTT 统计）",
+    "异常检测": "写一个异常检测单元（突增告警）",
+}
+n13_ok = 0
+for label, q in n13_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n13_ok += 1
+    check(f'㊞ {label} 网络监控单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊞b 网络监控三单元全部生成', n13_ok == 3, f'{n13_ok}/3')
+
+# ㊞c 端到端：流量统计→延迟测量→异常检测（监控分析链）
+r_ts = domain_route("写一个流量统计单元（每流汇总）")
+r_rt = domain_route("写一个延迟测量单元（RTT 统计）")
+r_ad = domain_route("写一个异常检测单元（突增告警）")
+try:
+    ns_ts, ns_rt, ns_ad = {}, {}, {}
+    exec(r_ts["code"], ns_ts)
+    exec(r_rt["code"], ns_rt)
+    exec(r_ad["code"], ns_ad)
+    st = ns_ts["traffic_stats"]([{'src': 'a', 'dst': 'b', 'bytes': 100, 'pkts': 2},
+                                 {'src': 'a', 'dst': 'b', 'bytes': 50, 'pkts': 1}])
+    rtt = ns_rt["rtt_stats"]([10, 20, 30])
+    alert = ns_ad["anomaly_detect"]([50, 200, 80], 100)
+    check('㊞c 流量→延迟→异常端到端（a→b 150B/3包 RTT均20 告警200）',
+          st == {'a→b': {'bytes': 150, 'pkts': 3}} and rtt == {'avg': 20.0,
+          'min': 10, 'max': 30} and alert == [200],
+          f'stats={st} rtt={rtt} alert={alert}')
+except Exception as ex:
+    check('㊞c 流量→延迟→异常端到端（a→b 150B/3包 RTT均20 告警200）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
