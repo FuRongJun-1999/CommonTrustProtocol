@@ -64,6 +64,32 @@ def ask_3d(agent, question):
             "source": content[:60], "score": round(score, 3)}
 
 
+def answer_3d_from_content(qtype, content):
+    """从 3D 记忆内容直接回答（真实库时间线模式：内容来自 lingshu_timeline
+    近因召回，而非 agent.recall 模糊召回——绕开学科卡淹没）"""
+    return _answer_3d(qtype, content)
+
+
+def timeline_3d_answer(question, timeline_events, limit=6):
+    """真实库模式 3D 问答：问题类型识别 → 时间线近因召回（倒序）→
+    按 spatial3d 标签过滤 → 取最近事件 → 内容解析回答
+    timeline_events: lingshu_timeline 输出（[{id, content, tags, ...}]）"""
+    qtype = _classify_3d(question)
+    if qtype is None:
+        return {"ok": False, "reply": "（非 3D 时空问题——不属感知通道）", "type": None}
+    for ev in timeline_events[:limit]:
+        tags = ev.get("tags") or []
+        if "spatial3d" not in tags:
+            continue
+        content = ev.get("content") or ""
+        if "3D时空事件" not in content:
+            continue
+        reply = _answer_3d(qtype, content)
+        return {"ok": True, "reply": reply, "type": qtype,
+                "source": content[:60], "node": ev.get("id")}
+    return {"ok": False, "reply": "（时间线近因召回中无 spatial3d 事件）", "type": qtype}
+
+
 def _classify_3d(q):
     """3D 问题类型识别（白箱确定性关键词）"""
     if any(w in q for w in ("方向", "往哪", "怎么动", "向哪")):
