@@ -1008,6 +1008,52 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：闭包调用——词法父环境 + 参数遮蔽（CPython 闭包调用语义）",
     },
+    "调试-断点": {
+        "task": "断点",
+        "pattern": (
+            "def breakpoint_hit(breaks, ip, enable=None):\n"
+            "    # 断点：enable=True 登记 / False 清除 / None 查询命中（调试器暂停点）\n"
+            "    if enable is True:\n"
+            "        breaks.add(ip)\n"
+            "        return 'set'\n"
+            "    if enable is False:\n"
+            "        breaks.discard(ip)\n"
+            "        return 'cleared'\n"
+            "    return ip in breaks\n"),
+        "cases": [((set(), 5, True), 'set'),
+                  (({5}, 5, None), True),
+                  (({5}, 6, None), False),
+                  (({5}, 5, False), 'cleared'),
+                  ((set(), 5, None), False)],
+        "params": [],
+        "calibration": "对照：C4 调试器断点（登记/清除/命中判定——调试器暂停点）",
+    },
+    "调试-调用栈回溯": {
+        "task": "调用栈回溯",
+        "pattern": (
+            "def traceback_chain(call_stack, error_frame):\n"
+            "    # 调用栈回溯：出错帧 + 调用链（最新→最旧）——调试器栈回溯语义\n"
+            "    chain = [error_frame]\n"
+            "    chain.extend(reversed(call_stack))\n"
+            "    return chain\n"),
+        "cases": [(([], "f3"), ["f3"]),
+                  ((["main", "f1", "f2"], "f3"), ["f3", "f2", "f1", "main"]),
+                  ((["main"], "f1"), ["f1", "main"])],
+        "params": [],
+        "calibration": "对照：CPython traceback（异常处最内层，逐层向外到入口）",
+    },
+    "调试-变量监视": {
+        "task": "变量监视",
+        "pattern": (
+            "def watch_eval(expr, symbols):\n"
+            "    # 变量监视：监视名在符号表求值（未知名 → None）——调试器监视窗\n"
+            "    return symbols.get(expr)\n"),
+        "cases": [((("甲", {"甲": 3}), 3)),
+                  ((("乙", {"甲": 3}), None)),
+                  ((("甲", {}), None))],
+        "params": [],
+        "calibration": "对照：C4 调试器变量监视（watch 名 → 当前值，未知为 None）",
+    },
 }
 
 

@@ -1888,5 +1888,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:compiler|调试-断点": {
+  "task": "断点",
+  "unit": "调试-断点",
+  "code": "def breakpoint_hit(breaks, ip, enable=None):\n    # 断点：enable=True 登记 / False 清除 / None 查询命中（调试器暂停点）\n    if enable is True:\n        breaks.add(ip)\n        return 'set'\n    if enable is False:\n        breaks.discard(ip)\n        return 'cleared'\n    return ip in breaks\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|调试-调用栈回溯": {
+  "task": "调用栈回溯",
+  "unit": "调试-调用栈回溯",
+  "code": "def traceback_chain(call_stack, error_frame):\n    # 调用栈回溯：出错帧 + 调用链（最新→最旧）——调试器栈回溯语义\n    chain = [error_frame]\n    chain.extend(reversed(call_stack))\n    return chain\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|调试-变量监视": {
+  "task": "变量监视",
+  "unit": "调试-变量监视",
+  "code": "def watch_eval(expr, symbols):\n    # 变量监视：监视名在符号表求值（未知名 → None）——调试器监视窗\n    return symbols.get(expr)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

@@ -2425,5 +2425,41 @@ try:
 except Exception as ex:
     check('㊦c 元编程端到端（类名狗 钩子注入科 描述符写30读30）', False, str(ex)[:60])
 
+# ㊧ 目标2 深化：C4 调试器工具链（断点/调用栈回溯/变量监视 经正式管线）
+c4_qs = {
+    "断点": "写一个断点单元（命中停止）",
+    "回溯": "写一个调用栈回溯单元（栈帧链）",
+    "监视": "写一个变量监视单元（watch 求值）",
+}
+c4_ok = 0
+for label, q in c4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c4_ok += 1
+    check(f'㊧ {label} C4调试器单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊧b C4调试器三单元全部生成', c4_ok == 3, f'{c4_ok}/3')
+
+# ㊧c 调试端到端：断点→回溯→监视（登记5命中 / 出错帧f2链[f2,f1,main] / watch甲=3）
+r_bp = domain_route("写一个断点单元（命中停止）")
+r_tb = domain_route("写一个调用栈回溯单元（栈帧链）")
+r_wt = domain_route("写一个变量监视单元（watch 求值）")
+try:
+    ns_bp, ns_tb, ns_wt = {}, {}, {}
+    exec(r_bp["code"], ns_bp)
+    exec(r_tb["code"], ns_tb)
+    exec(r_wt["code"], ns_wt)
+    breaks = set()
+    ns_bp["breakpoint_hit"](breaks, 5, True)
+    hit = ns_bp["breakpoint_hit"](breaks, 5, None)
+    chain = ns_tb["traceback_chain"](["main", "f1"], "f2")
+    val = ns_wt["watch_eval"]("甲", {"甲": 3})
+    check('㊧c 断点→回溯→监视端到端（命中True 链[f2,f1,main] watch甲=3）',
+          hit is True and chain == ["f2", "f1", "main"] and val == 3,
+          f'hit={hit} chain={chain} watch={val}')
+except Exception as ex:
+    check('㊧c 断点→回溯→监视端到端（命中True 链[f2,f1,main] watch甲=3）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
