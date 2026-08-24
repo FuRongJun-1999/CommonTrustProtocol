@@ -1094,6 +1094,63 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：Payment Request API——方法检查/支付/状态",
     },
+    "浏览器-响应式断点": {
+        "task": "响应式断点",
+        "pattern": (
+            "def responsive_breakpoint(width, breakpoints):\n"
+            "    # 响应式断点：按宽度匹配断点（媒体查询——响应式布局）\n"
+            "    matched = 'base'\n"
+            "    for bp, w in sorted(breakpoints.items(), key=lambda x: x[1]):\n"
+            "        if width >= w:\n"
+            "            matched = bp\n"
+            "    return matched\n"),
+        "cases": [((480, {'sm': 320, 'md': 768, 'lg': 1024}), 'sm'),
+                  ((800, {'sm': 320, 'md': 768, 'lg': 1024}), 'md'),
+                  ((1200, {'sm': 320, 'md': 768, 'lg': 1024}), 'lg'),
+                  ((100, {'sm': 320, 'md': 768, 'lg': 1024}), 'base')],
+        "params": [],
+        "calibration": "对照：CSS 媒体查询——响应式断点（宽度分级）",
+    },
+    "浏览器-离线队列": {
+        "task": "离线队列",
+        "pattern": (
+            "def offline_queue(queue, op, request=None):\n"
+            "    # 离线队列：enqueue 离线入队 / flush 上线重发 / count 计数\n"
+            "    if op == 'enqueue':\n"
+            "        queue.append(request)\n"
+            "        return len(queue)\n"
+            "    if op == 'flush':\n"
+            "        out = list(queue)\n"
+            "        queue.clear()\n"
+            "        return out\n"
+            "    if op == 'count':\n"
+            "        return len(queue)\n"
+            "    return None\n"),
+        "cases": [(([], 'enqueue', 'req1'), 1),
+                  ((['req1'], 'enqueue', 'req2'), 2),
+                  ((['req1', 'req2'], 'flush'), ['req1', 'req2']),
+                  ((['req1'], 'count'), 1)],
+        "params": [],
+        "calibration": "对照：离线优先——离线请求队列（上线重发）",
+    },
+    "浏览器-会话恢复": {
+        "task": "会话恢复",
+        "pattern": (
+            "def session_restore(snapshots, op, name=None, tabs=None):\n"
+            "    # 会话恢复：save 保存标签页 / restore 恢复（崩溃恢复）\n"
+            "    if op == 'save':\n"
+            "        snapshots[name] = list(tabs)\n"
+            "        return name\n"
+            "    if op == 'restore':\n"
+            "        return list(snapshots.get(name, []))\n"
+            "    return None\n"),
+        "cases": [(({}, 'save', 's1', ['a.com', 'b.com']), 's1'),
+                  (({'s1': ['a.com', 'b.com']}, 'restore', 's1'),
+                   ['a.com', 'b.com']),
+                  (({}, 'restore', 's1'), [])],
+        "params": [],
+        "calibration": "对照：浏览器会话恢复——标签页快照保存/恢复（崩溃恢复）",
+    },
 }
 
 

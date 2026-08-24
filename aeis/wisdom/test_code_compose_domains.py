@@ -4790,5 +4790,39 @@ try:
 except Exception as ex:
     check('㋨c 文件→计时→环境端到端（两行 5.0 win32）', False, str(ex)[:60])
 
+# ㋩ 目标5 深化：Web 平台收官（响应式断点/离线队列/会话恢复 经正式管线）
+b11_qs = {
+    "响应式断点": "写一个响应式断点单元（宽度分级）",
+    "离线队列": "写一个离线队列单元（上线重发）",
+    "会话恢复": "写一个会话恢复单元（崩溃恢复）",
+}
+b11_ok = 0
+for label, q in b11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b11_ok += 1
+    check(f'㋩ {label} Web平台单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋩b Web平台三单元全部生成', b11_ok == 3, f'{b11_ok}/3')
+
+# ㋩c Web 端到端：断点→离线队列→会话恢复（sm [req1,req2] 标签页）
+r_rb = domain_route("写一个响应式断点单元（宽度分级）")
+r_oq = domain_route("写一个离线队列单元（上线重发）")
+r_sr = domain_route("写一个会话恢复单元（崩溃恢复）")
+try:
+    ns_rb, ns_oq, ns_sr = {}, {}, {}
+    exec(r_rb["code"], ns_rb)
+    exec(r_oq["code"], ns_oq)
+    exec(r_sr["code"], ns_sr)
+    rb = ns_rb["responsive_breakpoint"](480, {'sm': 320, 'md': 768, 'lg': 1024})
+    oq = ns_oq["offline_queue"](['req1', 'req2'], 'flush')
+    sr = ns_sr["session_restore"]({'s1': ['a.com', 'b.com']}, 'restore', 's1')
+    check('㋩c 断点→离线→会话端到端（sm [req1,req2] [a.com,b.com]）',
+          rb == 'sm' and oq == ['req1', 'req2'] and sr == ['a.com', 'b.com'],
+          f'resp={rb} offline={oq} restore={sr}')
+except Exception as ex:
+    check('㋩c 断点→离线→会话端到端（sm [req1,req2] [a.com,b.com]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -3868,5 +3868,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:browser|浏览器-响应式断点": {
+  "task": "响应式断点",
+  "unit": "浏览器-响应式断点",
+  "code": "def responsive_breakpoint(width, breakpoints):\n    # 响应式断点：按宽度匹配断点（媒体查询——响应式布局）\n    matched = 'base'\n    for bp, w in sorted(breakpoints.items(), key=lambda x: x[1]):\n        if width >= w:\n            matched = bp\n    return matched\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-离线队列": {
+  "task": "离线队列",
+  "unit": "浏览器-离线队列",
+  "code": "def offline_queue(queue, op, request=None):\n    # 离线队列：enqueue 离线入队 / flush 上线重发 / count 计数\n    if op == 'enqueue':\n        queue.append(request)\n        return len(queue)\n    if op == 'flush':\n        out = list(queue)\n        queue.clear()\n        return out\n    if op == 'count':\n        return len(queue)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-会话恢复": {
+  "task": "会话恢复",
+  "unit": "浏览器-会话恢复",
+  "code": "def session_restore(snapshots, op, name=None, tabs=None):\n    # 会话恢复：save 保存标签页 / restore 恢复（崩溃恢复）\n    if op == 'save':\n        snapshots[name] = list(tabs)\n        return name\n    if op == 'restore':\n        return list(snapshots.get(name, []))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }
