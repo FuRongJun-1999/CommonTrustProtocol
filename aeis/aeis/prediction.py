@@ -110,7 +110,7 @@ class PredictionEngine:
                 continue
             if (self.has_causal_link(start_id, n.id)
                     or self.has_structural_pattern(start_id, n.id)
-                    or self._preference_weight(n.content) > 0.5):
+                    or self._preference_weight(n.content) > 0.8):
                 candidates.append((n.id, 0.4, "semantic_induced"))
         return candidates
 

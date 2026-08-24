@@ -79,8 +79,13 @@ class FlywheelEngine:
         patterns = self._cluster_to_patterns(records)
         created = []
         for pattern in patterns:
+            # ④ 推导 trace（GPT 审查·可回滚性）：模式节点内嵌证据链摘要——
+            # 「原始证据→聚类→模式」可沿证据追溯/回滚（防自激振荡：错误模式可定位来源）
+            member_srcs = [str(rec.get("content", ""))[:40]
+                           for rec in pattern["members"][:3] if rec.get("content")]
+            trace = f"｜证据: {'；'.join(member_srcs)}" if member_srcs else ""
             node = self.engine.add_perception(
-                content=f"[可复用模式] {pattern['summary']}",
+                content=f"[可复用模式] {pattern['summary']}{trace}",
                 importance=0.75,
                 tags=["reusable_pattern", "distilled",
                       f"dsv:{self.DISTILL_STANDARD_VERSION}"])
