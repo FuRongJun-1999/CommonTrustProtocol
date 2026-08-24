@@ -835,6 +835,49 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：TLS 握手——问候→密钥交换→完成（会话密钥协商）",
     },
+    "网络-慢启动": {
+        "task": "慢启动",
+        "pattern": (
+            "def slow_start(cwnd, ssthresh, rtts):\n"
+            "    # 慢启动：每 RTT 拥塞窗口翻倍（指数增长），达阈值转拥塞避免（线性）\n"
+            "    for _ in range(rtts):\n"
+            "        if cwnd < ssthresh:\n"
+            "            cwnd *= 2\n"
+            "        else:\n"
+            "            cwnd += 1\n"
+            "    return cwnd\n"),
+        "cases": [((1, 8, 3), 8),
+                  ((1, 8, 5), 10),
+                  ((4, 8, 1), 8),
+                  ((1, 2, 0), 1)],
+        "params": [],
+        "calibration": "对照：TCP 慢启动——每 RTT 窗口翻倍，达阈值转线性（拥塞避免）",
+    },
+    "网络-快速重传": {
+        "task": "快速重传",
+        "pattern": (
+            "def fast_retransmit(dup_acks, threshold=3):\n"
+            "    # 快速重传：重复 ACK 达阈值立即重传（不等超时——快速恢复）\n"
+            "    return dup_acks >= threshold\n"),
+        "cases": [((2, 3), False),
+                  ((3, 3), True),
+                  ((5, 3), True),
+                  ((3, 4), False)],
+        "params": [],
+        "calibration": "对照：TCP 快速重传——3 个重复 ACK 触发立即重传（不等超时）",
+    },
+    "网络-选择性确认": {
+        "task": "选择性确认",
+        "pattern": (
+            "def sack_missing(received, expected):\n"
+            "    # 选择性确认：已收段 vs 期望序列 → 缺失段（SACK——只重传缺失）\n"
+            "    return [i for i in range(1, expected + 1) if i not in received]\n"),
+        "cases": [(({1, 2, 4}, 5), [3, 5]),
+                  (({1, 2, 3}, 3), []),
+                  ((set(), 3), [1, 2, 3])],
+        "params": [],
+        "calibration": "对照：TCP SACK——块确认只重传缺失段（高效丢包恢复）",
+    },
 }
 
 

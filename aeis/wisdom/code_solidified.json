@@ -2188,5 +2188,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:net|网络-慢启动": {
+  "task": "慢启动",
+  "unit": "网络-慢启动",
+  "code": "def slow_start(cwnd, ssthresh, rtts):\n    # 慢启动：每 RTT 拥塞窗口翻倍（指数增长），达阈值转拥塞避免（线性）\n    for _ in range(rtts):\n        if cwnd < ssthresh:\n            cwnd *= 2\n        else:\n            cwnd += 1\n    return cwnd\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-快速重传": {
+  "task": "快速重传",
+  "unit": "网络-快速重传",
+  "code": "def fast_retransmit(dup_acks, threshold=3):\n    # 快速重传：重复 ACK 达阈值立即重传（不等超时——快速恢复）\n    return dup_acks >= threshold\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-选择性确认": {
+  "task": "选择性确认",
+  "unit": "网络-选择性确认",
+  "code": "def sack_missing(received, expected):\n    # 选择性确认：已收段 vs 期望序列 → 缺失段（SACK——只重传缺失）\n    return [i for i in range(1, expected + 1) if i not in received]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

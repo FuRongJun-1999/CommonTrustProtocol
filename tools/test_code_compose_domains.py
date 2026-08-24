@@ -2799,5 +2799,39 @@ try:
 except Exception as ex:
     check('㊰c 分层→重排→CRP端到端（z序[bg,txt] reflow repaint 缺CSSOM阻塞）', False, str(ex)[:60])
 
+# ㊱ 目标7 深化：TCP 可靠传输（慢启动/快速重传/选择性确认 经正式管线）
+n5_qs = {
+    "慢启动": "写一个慢启动单元（指数增长）",
+    "快速重传": "写一个快速重传单元（重复ACK触发）",
+    "选择性确认": "写一个选择性确认单元（SACK 缺段）",
+}
+n5_ok = 0
+for label, q in n5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n5_ok += 1
+    check(f'㊱ {label} TCP可靠传输单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊱b TCP可靠传输三单元全部生成', n5_ok == 3, f'{n5_ok}/3')
+
+# ㊱c 可靠传输端到端：慢启动→快速重传→SACK（3RTT→8 3ACK重传 缺[3,5]）
+r_ss = domain_route("写一个慢启动单元（指数增长）")
+r_fr = domain_route("写一个快速重传单元（重复ACK触发）")
+r_sk = domain_route("写一个选择性确认单元（SACK 缺段）")
+try:
+    ns_ss, ns_fr, ns_sk = {}, {}, {}
+    exec(r_ss["code"], ns_ss)
+    exec(r_fr["code"], ns_fr)
+    exec(r_sk["code"], ns_sk)
+    cw = ns_ss["slow_start"](1, 8, 3)
+    fr = ns_fr["fast_retransmit"](3)
+    miss = ns_sk["sack_missing"]({1, 2, 4}, 5)
+    check('㊱c 慢启动→快速重传→SACK端到端（cwnd8 重传True 缺[3,5]）',
+          cw == 8 and fr is True and miss == [3, 5],
+          f'cwnd={cw} fr={fr} miss={miss}')
+except Exception as ex:
+    check('㊱c 慢启动→快速重传→SACK端到端（cwnd8 重传True 缺[3,5]）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
