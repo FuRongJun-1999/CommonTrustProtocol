@@ -765,6 +765,76 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：协议解码——十六进制转字节（抓包数据）",
     },
+    "网络-令牌桶限速": {
+        "task": "令牌桶",
+        "pattern": (
+            "def token_bucket(tokens, capacity, rate, elapsed):\n"
+            "    # 令牌桶限速：按速率补令牌（上限 capacity）——流量整形\n"
+            "    return min(capacity, tokens + rate * elapsed)\n"),
+        "cases": [((0, 10, 2, 3), 6),
+                  ((8, 10, 2, 3), 10),
+                  ((5, 10, 0, 5), 5)],
+        "params": [],
+        "calibration": "对照：网络限速——令牌桶（速率补令牌，容量封顶）",
+    },
+    "网络-服务发现": {
+        "task": "服务发现",
+        "pattern": (
+            "def service_discover(registry, op, service=None, addr=None, ttl=0, now=0):\n"
+            "    # 服务发现：注册 / 心跳续期 / 发现（健康节点，过期剔除）\n"
+            "    if op == 'register':\n"
+            "        registry[service] = {'addr': addr, 'expire': now + ttl}\n"
+            "        return 'registered'\n"
+            "    if op == 'heartbeat':\n"
+            "        if service in registry:\n"
+            "            registry[service]['expire'] = now + ttl\n"
+            "            return 'renewed'\n"
+            "        return 'unknown'\n"
+            "    if op == 'discover':\n"
+            "        return [s for s, info in registry.items()\n"
+            "                if info['expire'] >= now]\n"
+            "    return None\n"),
+        "cases": [(({}, 'register', 'svc1', '10.0.0.1', 60, 100), 'registered'),
+                  (({'svc1': {'addr': '10.0.0.1', 'expire': 160}}, 'discover',
+                    None, None, 0, 100), ['svc1']),
+                  (({'svc1': {'addr': 'a', 'expire': 150}}, 'discover',
+                    None, None, 0, 160), []),
+                  (({}, 'heartbeat', 'svc1', None, 60, 100), 'unknown')],
+        "params": [],
+        "calibration": "对照：服务发现——注册/心跳续期/健康发现（过期剔除）",
+    },
+    "网络-加密握手": {
+        "task": "加密握手",
+        "pattern": (
+            "def tls_handshake(state, op):\n"
+            "    # 加密传输：TLS 简化握手状态机（问候→密钥交换→完成→安全通道）\n"
+            "    if op == 'hello':\n"
+            "        state['phase'] = 'hello'\n"
+            "        return 'server_hello'\n"
+            "    if op == 'exchange':\n"
+            "        state['phase'] = 'exchange'\n"
+            "        state['session_key'] = (state.get('client_rand', 0)\n"
+            "                                + state.get('server_rand', 0)) % 256\n"
+            "        return 'key_established'\n"
+            "    if op == 'finish':\n"
+            "        if 'session_key' not in state:\n"
+            "            if 'client_rand' not in state or 'server_rand' not in state:\n"
+            "                return 'not_ready'\n"
+            "            # 防御式：未显式 exchange 时自动协商（状态机容错）\n"
+            "            state['session_key'] = (state['client_rand']\n"
+            "                                    + state['server_rand']) % 256\n"
+            "        state['phase'] = 'secure'\n"
+            "        return 'secure_channel'\n"
+            "    return None\n"),
+        "cases": [(({'client_rand': 7}, 'hello'), 'server_hello'),
+                  (({'client_rand': 7, 'server_rand': 3}, 'exchange'),
+                   'key_established'),
+                  (({'client_rand': 7, 'server_rand': 3}, 'finish'),
+                   'secure_channel'),
+                  (({}, 'finish'), 'not_ready')],
+        "params": [],
+        "calibration": "对照：TLS 握手——问候→密钥交换→完成（会话密钥协商）",
+    },
 }
 
 

@@ -2577,5 +2577,45 @@ try:
 except Exception as ex:
     check('㊪c 读写分离→慢查询→扩容端到端（written 从库2 慢查询[全表2.5] 迁移2→3片）', False, str(ex)[:60])
 
+# ㊫ 目标7 深化：网络服务（令牌桶限速/服务发现/加密握手 经正式管线）
+n4_qs = {
+    "令牌桶": "写一个令牌桶限速单元（容量封顶）",
+    "服务发现": "写一个服务发现单元（注册心跳发现）",
+    "加密握手": "写一个加密握手单元（TLS 状态机）",
+}
+n4_ok = 0
+for label, q in n4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n4_ok += 1
+    check(f'㊫ {label} 网络服务单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊫b 网络服务三单元全部生成', n4_ok == 3, f'{n4_ok}/3')
+
+# ㊫c 网络服务端到端：令牌桶→服务发现→加密握手（补6封顶10 发现[svc1] 密钥建立→安全）
+r_tb = domain_route("写一个令牌桶限速单元（容量封顶）")
+r_sd = domain_route("写一个服务发现单元（注册心跳发现）")
+r_th = domain_route("写一个加密握手单元（TLS 状态机）")
+try:
+    ns_tb, ns_sd, ns_th = {}, {}, {}
+    exec(r_tb["code"], ns_tb)
+    exec(r_sd["code"], ns_sd)
+    exec(r_th["code"], ns_th)
+    tb = ns_tb["token_bucket"](0, 10, 2, 3)
+    reg = {}
+    ns_sd["service_discover"](reg, 'register', 'svc1', '10.0.0.1', 60, 100)
+    found = ns_sd["service_discover"](reg, 'discover', None, None, 0, 130)
+    st = {'client_rand': 7, 'server_rand': 3}
+    ns_th["tls_handshake"](st, 'hello')
+    ns_th["tls_handshake"](st, 'exchange')
+    secure = ns_th["tls_handshake"](st, 'finish')
+    check('㊫c 令牌桶→服务发现→加密握手端到端（6 发现[svc1] 密钥10安全通道）',
+          tb == 6 and found == ['svc1'] and st.get('session_key') == 10
+          and secure == 'secure_channel',
+          f'tb={tb} found={found} key={st.get("session_key")} secure={secure}')
+except Exception as ex:
+    check('㊫c 令牌桶→服务发现→加密握手端到端（6 发现[svc1] 密钥10安全通道）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
