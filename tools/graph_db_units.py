@@ -498,6 +498,52 @@ GRAPH_UNITS = {
         "needs_inject": True,
         "calibration": "对照：图算法——拓扑排序（Kahn 入度归零，DAG 依赖顺序；有环返回 None）",
     },
+    "图查询-执行计划": {
+        "task": "执行计划",
+        "pattern": (
+            "def query_plan(conditions, stats):\n"
+            "    # 查询执行计划：按选择性排序条件（低选择性先执行——查询优化语义）\n"
+            "    plan = sorted(conditions, key=lambda c: stats.get(c, 0))\n"
+            "    return plan\n"),
+        "cases": [((['a', 'b', 'c'], {'a': 10, 'b': 2, 'c': 50}), ['b', 'a', 'c']),
+                  ((['x'], {'x': 1}), ['x']),
+                  ((['a', 'b'], {}), ['a', 'b'])],
+        "params": [],
+        "calibration": "对照：图查询优化——执行计划（按选择性升序，低选择性条件先执行）",
+    },
+    "图存储-批量操作": {
+        "task": "批量建图",
+        "pattern": (
+            "def batch_edges(graph, edges):\n"
+            "    # 批量建图：一次添加多条边（批量导入语义）\n"
+            "    for src, dst in edges:\n"
+            "        graph.add_edge(src, dst)\n"
+            "    return len(edges)\n"),
+        "cases": [("call", 3)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：图数据库批量导入（多条边一次性建图）",
+    },
+    "图索引-布隆过滤": {
+        "task": "布隆过滤",
+        "pattern": (
+            "def bloom_filter(items, probe):\n"
+            "    # 布隆过滤器：多哈希位数组（成员可能判定，误报可接受）\n"
+            "    size = 64\n"
+            "    bits = [False] * size\n"
+            "    def h1(x):\n"
+            "        return sum(ord(c) for c in x) % size\n"
+            "    def h2(x):\n"
+            "        return (len(x) * 7 + sum(ord(c) for c in x)) % size\n"
+            "    for it in items:\n"
+            "        bits[h1(it)] = bits[h2(it)] = True\n"
+            "    return bits[h1(probe)] and bits[h2(probe)]\n"),
+        "cases": [((['a', 'b', 'c'], 'b'), True),
+                  ((['a', 'b', 'c'], 'z'), False),
+                  ((['ab'], 'ab'), True)],
+        "params": [],
+        "calibration": "对照：图索引——布隆过滤器（多哈希位数组，快速成员判定，可误报）",
+    },
     "图灵枢-导出": {
         "task": "图导出灵枢",
         "pattern": (

@@ -93,6 +93,10 @@ for uid, u in GRAPH_UNITS.items():
                             got = fn(g, [("气压低", "沸点降"), ("沸点降", "煮不熟")])
                         else:
                             got = fn(g, [("气压低", "煮不熟")])  # 无边 → False
+                    elif uid == "图存储-批量操作":
+                        # 注入图；批量添加 3 条边
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        got = fn(g, [("a", "b"), ("b", "c"), ("c", "d")])
                     elif uid in ("图算法-PageRank", "图算法-连通分量", "图算法-拓扑排序"):
                         # 注入两链图；cases=("call", None) 验证不崩溃+结构
                         g = generated["图存储-节点边"][0]["Graph"]()

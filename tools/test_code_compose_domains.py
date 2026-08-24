@@ -1035,5 +1035,42 @@ try:
 except Exception as ex:
     check('㉟c 握手→帧→流式端到端（101 帧\\x81\\x02hi chunked 4+2）', False, str(ex)[:60])
 
+# ㊀ 目标6 深化：查询优化（执行计划/批量建图/布隆过滤 经正式管线）
+g6_qs = {
+    "执行计划": "写一个查询执行计划单元（选择性排序）",
+    "批量建图": "写一个批量建图单元（多条边导入）",
+    "布隆过滤": "写一个布隆过滤器单元（快速判定）",
+}
+g6_ok = 0
+for label, q in g6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g6_ok += 1
+    check(f'㊀ {label} 查询优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊀b 查询优化三单元全部生成', g6_ok == 3, f'{g6_ok}/3')
+
+# ㊀c 端到端：批量建图→布隆过滤→执行计划（导入→快速判定→计划优化）
+r_be = domain_route("写一个批量建图单元（多条边导入）")
+r_bf = domain_route("写一个布隆过滤器单元（快速判定）")
+r_qp = domain_route("写一个查询执行计划单元（选择性排序）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+try:
+    ns_be, ns_bf, ns_qp, ns_g = {}, {}, {}, {}
+    exec(r_be["code"], ns_be)
+    exec(r_bf["code"], ns_bf)
+    exec(r_qp["code"], ns_qp)
+    exec(r_g["code"], ns_g)
+    g = ns_g["Graph"]()
+    n = ns_be["batch_edges"](g, [("a", "b"), ("b", "c"), ("c", "d")])
+    in_bloom = ns_bf["bloom_filter"](['气压低', '沸点降', '煮不熟'], '煮不熟')
+    plan = ns_qp["query_plan"](['气压', '沸点', '密度'], {'气压': 10, '沸点': 2})
+    check('㊀c 批量→布隆→计划端到端（3边 煮不熟命中 计划缺省密度优先）',
+          n == 3 and in_bloom is True and plan == ['密度', '沸点', '气压'],
+          f'edges={n} bloom={in_bloom} plan={plan}')
+except Exception as ex:
+    check('㊀c 批量→布隆→计划端到端（3边 煮不熟命中 计划沸点优先）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
