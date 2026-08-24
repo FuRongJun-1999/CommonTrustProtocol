@@ -1111,6 +1111,26 @@ def _assemble(message, hits, emotion):
         pass
 
     if not hits:
+        # v3（白箱自举）：组合引擎兜底——知识检索 miss 时，先试条件化单元
+        # 组合生成（方向推理+场景事实×规律单元 演绎），自校验通过 → 直答。
+        # 这是白箱生成自举的接入点：未覆盖问题由白箱自己生成，而非直接 LLM。
+        # 防护：仅知识疑问句触发（为什么/怎么/是什么）——「你会喷水吗？」等
+        # 能力疑问句不得被组合引擎硬凑（test_whale_whitebox 暴露）。
+        _know_q = any(w in message for w in
+                      ["为什么", "怎么", "是什么", "什么是", "怎么理解",
+                       "是什么意思", "什么原理", "怎么办"])
+        if _know_q:
+            try:
+                import compose_engine as _ce
+                _cr = _ce.route_compose(message)
+                if _cr.get("ok") and _cr.get("answer"):
+                    _parts = [_cr["answer"].rstrip("。！？!?") + "。"]
+                    if _cr.get("scene"):
+                        _parts.append(f"（这是按「{_cr['scene']}」场景的规律组合生成的）")
+                    parts.extend(_parts)
+                    return "".join(parts), False
+            except Exception:
+                pass
         # 诚实边界：接不住就说接不住（0.0.3）
         parts.append("这个问题我暂时没有把握，不想瞎编。"
                      "你可以换个问法（比如具体一点），或者我先记下来，"
