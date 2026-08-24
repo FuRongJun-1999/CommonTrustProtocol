@@ -35,6 +35,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -142,6 +143,10 @@ class LingshuChat:
                     tags = n.tags or []
                     if role_id and f"role:{role_id}" not in tags:
                         continue
+                    # v1.28（信噪比）：召回分数低于阈值的记忆不注入（低相关噪声
+                    # 浪费 LLM 上下文、干扰回答）
+                    if _s < RECALL_MIN_SCORE:
+                        continue
                     c = (n.content or "")[:100]
                     if c in seen:
                         continue
@@ -159,6 +164,8 @@ class LingshuChat:
                 if role_id:
                     if f"role:{role_id}" not in tags:
                         continue
+                if _s < RECALL_MIN_SCORE:
+                    continue
                 out.append((n.content or "")[:100])
                 if len(out) >= limit:
                     break
@@ -294,6 +301,10 @@ class LingshuChat:
         ctx = self._session_ctx.get(ctx_key, [])
         if ctx:
             mem_notes += [f"[本会话] {m}" for m in ctx[-3:]]
+        # v1.28（信噪比 · 控制 LLM 输入上下文）：注入前过滤低相关记忆 +
+        # 上下文预算裁剪（剧情 > 对话）——降噪 + 省 token，LLM 聚焦当前问题
+        mem_notes = self._filter_mem_noise(message, mem_notes)
+        mem_notes = self._trim_mem_budget(mem_notes)
 
         # 0.05 记忆污染防御（v1.26 · 外部测试 v3-P0 最高优先）：
         # 角色场景下攻击者编造「你答应过/你说过 X」伪记忆断言——LLM 上下
@@ -582,6 +593,56 @@ class LingshuChat:
                 "可以直接回答；需要开放生成或角色扮演的上游 LLM 暂不可用"
                 f"（{err_clean}）。你可以问我知识库内的问题，或稍后重试。"), "offline_honest"
 
+    # ------------------------------------------------------------------
+    # 信噪比（v1.28 · 控制 LLM 输入上下文）
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _token_overlap(a: str, b: str) -> int:
+        """中文二元组重叠（词级相关度近似：二元组比单字更稳）"""
+        def bigrams(s):
+            s = re.sub(r'[^\u4e00-\u9fff0-9a-zA-Z]', '', s or '')
+            return {s[i:i+2] for i in range(max(0, len(s) - 1))}
+        ga, gb = bigrams(a), bigrams(b)
+        return len(ga & gb)
+
+    def _filter_mem_noise(self, message: str, mem_notes) -> list:
+        """过滤低相关记忆：剧情记忆强制保留（连续性硬要求）；
+        本会话对话记忆按与当前消息的词重叠过滤（低相关丢弃，防噪声注入）。"""
+        if not mem_notes:
+            return mem_notes
+        out = []
+        for m in mem_notes:
+            if m.startswith("[剧情") or m.startswith("[本会话]"):
+                # 本会话记忆：与当前消息零重叠则丢弃（历史闲聊与当前无关）
+                if m.startswith("[本会话]") \
+                        and self._token_overlap(m, message) < SESS_MIN_OVERLAP:
+                    continue
+            out.append(m)
+        return out
+
+    def _trim_mem_budget(self, mem_notes) -> list:
+        """上下文预算：超 MEM_BUDGET_CHARS 按 剧情 > 对话 优先级裁剪。
+        剧情记忆全部保留（承接硬要求），普通对话记忆按序裁剪到预算内。"""
+        if not mem_notes:
+            return mem_notes
+        plots = [m for m in mem_notes if m.startswith("[剧情")]
+        ctxs = [m for m in mem_notes if not m.startswith("[剧情")]
+        total = sum(len(m) for m in mem_notes)
+        if total <= MEM_BUDGET_CHARS:
+            return mem_notes
+        # 剧情占预算的一半，对话占另一半；对话按序保留到预算
+        plot_budget = MEM_BUDGET_CHARS // 2
+        ctx_budget = MEM_BUDGET_CHARS - min(sum(len(p) for p in plots), plot_budget)
+        kept_ctx = []
+        used = 0
+        for c in ctxs:
+            if used + len(c) > ctx_budget:
+                break
+            kept_ctx.append(c)
+            used += len(c)
+        return plots + kept_ctx
+
     def close(self) -> None:
         try:
             self.mem.close()
@@ -596,6 +657,14 @@ class LingshuChat:
 
 # LLM 错误文本标记（_llm 返回的错误以「（」开头——与正常回答区分）
 _LLM_ERR_MARKERS = ("（", "（未配置", "（上游", "（LLM", "（无上游")
+
+# v1.28（信噪比 · 控制 LLM 输入上下文）：
+# 记忆召回最低相关分数（低于 = 噪声，不注入 LLM 上下文）
+RECALL_MIN_SCORE = 0.35
+# 记忆注入预算（字符）——超预算按优先级裁剪（剧情 > 对话），控制 token 成本
+MEM_BUDGET_CHARS = 600
+# 本会话记忆与当前消息的最小词重叠（低于 = 低相关，丢弃）
+SESS_MIN_OVERLAP = 1
 
 
 def _is_llm_error(text: str) -> bool:

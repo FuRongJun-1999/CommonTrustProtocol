@@ -20,12 +20,13 @@ print(f"  route={r.get('route')} degraded={r.get('degraded')} len={len(r['reply'
 print(f"  {r['reply'][:60]}...")
 assert '碳中和' in r['reply'] and 'LLM' not in r['reply'], '知识问答应白箱回答'
 
-print('\n=== 测试2: 角色场景（LLM 不可用→应降级诚实边界，不返回错误文本） ===')
+print('\n=== 测试2: 角色场景（LLM 不可用→降级；Ollama 在线→本地模型回答） ===')
 r2 = lc.respond('你好，给我讲个故事吧', session_id='offline-test-2', role_id='whale')
 print(f"  route={r2.get('route')} degraded={r2.get('degraded')} len={len(r2['reply'])}")
 print(f"  {r2['reply'][:80]}...")
+# 自维持：要么本地 Ollama 回答（Ollama 在线），要么降级白箱/诚实（Ollama 离线）——
+# 都不允许返回云端错误文本
 assert '（未配置' not in r2['reply'] and 'LLM 调用失败' not in r2['reply'], '不得返回错误文本'
-assert '离线模式' in r2['reply'] or '知识库' in r2['reply'], '应诚实声明离线'
 
 print('\n=== 测试3: 无角色开放问题（应降级，不崩） ===')
 r3 = lc.respond('帮我写一首诗', session_id='offline-test-3')
