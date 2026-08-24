@@ -81,6 +81,12 @@ class LingshuChat:
             "LINGSHU_UPSTREAM_BASE", "https://api.deepseek.com/v1")
         self.upstream_model = upstream_model or os.environ.get(
             "LINGSHU_UPSTREAM_MODEL", "deepseek-chat")
+        # v1.27（无 API 自维持 · 本地 Ollama 提供方）：
+        # 角色扮演尽量走本地 Ollama（离线可用、快、免费），失败回退云端 DeepSeek。
+        self.ollama_base = os.environ.get(
+            "OLLAMA_BASE", "http://localhost:11434/v1")
+        self.ollama_model = os.environ.get(
+            "OLLAMA_MODEL", "ornith-1.5-9b")
         key = os.environ.get(upstream_key_var, "")
         if not key:
             # 回退 Machine/User 环境
@@ -185,14 +191,18 @@ class LingshuChat:
     # LLM 输出
     # ------------------------------------------------------------------
 
-    def _llm(self, system: str, user: str) -> str:
-        """调用上游 LLM（OpenAI 兼容 chat.completions）。
-
-        v1.26（外部测试 v2/v3 反馈）：
-          - 加标准浏览器 UA（远程 OpenAI 兼容代理按 UA 拦 bot，无 UA→403）
-          - 错误分类：402/401/429 返回明确原因，不把原始异常拼进回复
-            （否则「（LLM 调用失败：HTTP 402…）」污染角色对话）。
+    def _llm(self, system: str, user: str, prefer_local: bool = False) -> str:
+        """调用 LLM（OpenAI 兼容 chat.completions）。
+        v1.27（无 API 自维持 · 本地 Ollama 提供方）：
+        prefer_local=True（角色扮演）→ 先本地 Ollama（离线可用），失败回退云端 DeepSeek；
+        prefer_local=False → 云端 DeepSeek（知识问答白箱为主，LLM 兜底用云端）。
+        云端失败返回错误文本（不以错误当回答——respond() 检测后降级白箱/诚实边界）。
         """
+        if prefer_local:
+            local = self._llm_local(system, user)
+            if local is not None and not _is_llm_error(local):
+                return local
+            # 本地失败 → 回退云端（角色扮演也接受云端，但本地优先）
         if not self.upstream_key:
             return "（未配置上游 LLM key）"
         url = self.upstream_base.rstrip("/") + "/chat/completions"
@@ -225,6 +235,30 @@ class LingshuChat:
             return f"（LLM 上游错误 {code}）"
         except Exception as e:
             return f"（LLM 调用失败：{e}）"
+
+    def _llm_local(self, system: str, user: str):
+        """调用本地 Ollama（OpenAI 兼容 /v1/chat/completions，无 key 需求）。
+        失败返回 None（让 _llm 回退云端）；返回 str 为回答或错误文本。"""
+        url = self.ollama_base.rstrip("/") + "/chat/completions"
+        body = {
+            "model": self.ollama_model,
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            "temperature": 0.7,
+            "max_tokens": 800,
+            "stream": False,
+        }
+        req = urllib.request.Request(
+            url, data=json.dumps(body).encode("utf-8"), method="POST",
+            headers={"Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                resp = json.loads(r.read().decode("utf-8"))
+            return resp["choices"][0]["message"]["content"].strip()
+        except Exception as e:
+            return f"（本地 Ollama 不可用：{e}）"
 
     # ------------------------------------------------------------------
     # 主入口
@@ -456,7 +490,7 @@ class LingshuChat:
                     f"【前情提要·你正在经历的剧情】\n{_recap}\n\n"
                     f"现在，{message}")
 
-        reply = self._llm(system, _user_msg)
+        reply = self._llm(system, _user_msg, prefer_local=bool(rid))
 
         # v1.27（无 API 自维持 · P0 存在保护）：上游 LLM 不可用/失败时，
         # 错误文本不得当回答返回——降级回白箱知识回答或诚实边界。

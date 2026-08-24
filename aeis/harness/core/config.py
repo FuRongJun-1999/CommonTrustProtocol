@@ -37,6 +37,18 @@ DEFAULTS = {
         "name": "deepseek-chat",
         "temperature": 0.7,
         "max_tokens": 500,
+        # v1.27（无 API 自维持 · 本地模型提供方）：providers 模型提供方列表。
+        # deepseek = 云端（需 DEEPSEEK_API_KEY）；ollama = 本地（离线可用，
+        # API 断开后仍可推理——角色扮演/兜底优先走本地）。
+        "providers": [
+            {"name": "deepseek", "base_url": "https://api.deepseek.com",
+             "model": "deepseek-chat", "key_env": "DEEPSEEK_API_KEY", "local": False},
+            {"name": "ollama", "base_url": "http://localhost:11434/v1",
+             "model": "ornith-1.5-9b", "key_env": "", "local": True},
+        ],
+        # 默认本地提供方（角色扮演/降级兜底优先）
+        "local": {"base_url": "http://localhost:11434/v1",
+                  "name": "ornith-1.5-9b", "prefer": True},
     },
     "voice": {"enabled": True, "max_seconds": 10},
     "scheduler": {"enabled": True, "tick_seconds": 15},
