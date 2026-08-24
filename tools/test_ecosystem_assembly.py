@@ -24,12 +24,22 @@ print('=' * 60)
 total = 0
 for name, fn in MODS:
     src = io.open(f'{TOOLS}\\{fn}', encoding='utf-8').read()
-    # 精确匹配单元 dict 键: 行首 4 空格 + "域-名": {
-    uids = re.findall(r'^    "([^"]+-\S+)":\s*\{', src, re.M)
+    # 精确匹配单元 dict 键: 行首 4 空格 + "域-名(可含空格)": {
+    uids = re.findall(r'^    "([^"]+)":\s*\{', src, re.M)
     total += len(uids)
     print(f'  {TARGET[name]:14s} {name:9s} {len(uids):3d} 单元')
 print('-' * 60)
 print(f'  六域合计: {total} 单元')
+
+# 核对：正则盘点 vs code_compose 正式注册表（防正则漏匹配——含空格 uid 如
+# "异步-async await" / "并行-Service Worker" 曾被 \S+ 漏掉）
+sys.path.insert(0, TOOLS)
+from code_compose import DOMAIN_UNITS
+reg_total = sum(len(DOMAIN_UNITS[n]) for n, _ in MODS)
+if total == reg_total:
+    print(f'  注册表核对: 正则 {total} == DOMAIN_UNITS {reg_total} ✔')
+else:
+    print(f'  注册表核对: 正则 {total} != DOMAIN_UNITS {reg_total} ✘（正则漏匹配）')
 
 # ============ 跨域组装验证 ============
 print()
@@ -37,7 +47,6 @@ print('=' * 60)
 print('跨域组装: 条件路由图(graph) → 图查询 → 网络可靠传输(net)')
 print('           → 操作系统内存(os) → 浏览器绘制(browser)')
 print('=' * 60)
-sys.path.insert(0, TOOLS)
 from code_compose import domain_route
 
 def get(uid, q):
