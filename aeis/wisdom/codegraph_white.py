@@ -134,22 +134,29 @@ def detect_cycles(ir):
 
 
 # ============ 五、仓库级分析（多文件：依赖树 + 跨文件调用） ============
-def analyze_repository(dirpath, suffix=".py"):
-    """目录 → 仓库 IR：逐文件 extract_code_ir + 文件归属 + 文件级导入
+def analyze_repository(dirpath, suffix=None):
+    """目录 → 仓库 IR：逐文件 extract IR + 文件归属 + 文件级导入
+    v2：按扩展名分流多语言（py→ast 完整，js/rs→轻量正则，multilang_ir）——
+    混合语言仓库统一理解。suffix=None 时接受 .py/.js/.rs/.mjs。
     返回 {"files": {path: ir}, "functions": [带 file], "classes": [带 file],
           "imports": [{from_file, module}], "file_count", "function_count"}"""
     repo = {"files": {}, "functions": [], "classes": [], "imports": [], "file_count": 0}
     if not os.path.isdir(dirpath):
         return repo
+    ok_ext = (suffix,) if suffix else (".py", ".js", ".mjs", ".rs")
+    # 延迟导入（multilang_ir 依赖本模块 extract_code_ir——防循环）
+    from multilang_ir import extract_ir
     for name in sorted(os.listdir(dirpath)):
         path = os.path.join(dirpath, name)
-        if not (os.path.isfile(path) and name.endswith(suffix)):
+        if not (os.path.isfile(path) and name.endswith(ok_ext)):
             continue
         with open(path, encoding="utf-8") as f:
-            ir = extract_code_ir(f.read(), name)
+            src = f.read()
+        ir = extract_ir(src, name)  # 多语言分流（py 完整 / js/rs 轻量）
         repo["files"][name] = ir
         for fn in ir["functions"]:
             fn["file"] = name
+            fn["lang"] = ir.get("lang", "")
             repo["functions"].append(fn)
         for cls in ir["classes"]:
             cls["file"] = name
@@ -164,13 +171,17 @@ def analyze_repository(dirpath, suffix=".py"):
 
 def build_dependency_tree(repo):
     """仓库 IR → 文件依赖树：文件 → [它导入的文件模块]
-    本地模块 = 仓库内存在的文件名（去 .py）；返回 {file: [dep_files]}"""
-    local = {name[:-3] for name in repo["files"] if name.endswith(".py")}
+    本地模块 = 仓库内存在的文件名（多扩展名 .py/.js/.rs 的 stem）；返回 {file: [dep_files]}"""
+    local = {os.path.splitext(name)[0] for name in repo["files"]}
     tree = {name: [] for name in repo["files"]}
     for imp in repo["imports"]:
         mod = imp["module"]
-        dep = mod + ".py" if mod in local else None
-        if dep and dep in tree and dep != imp["from_file"]:
+        dep = None
+        for f in repo["files"]:
+            if os.path.splitext(f)[0] == mod:
+                dep = f
+                break
+        if dep and dep != imp["from_file"]:
             tree[imp["from_file"]].append(dep)
     return {k: sorted(set(v)) for k, v in tree.items()}
 
