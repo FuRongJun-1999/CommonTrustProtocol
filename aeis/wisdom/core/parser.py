@@ -35,6 +35,8 @@ class NodeType(Enum):
     CONDITION_STMT = auto()    # 条件语句（若...则...）
     LOOP_STMT = auto()         # 循环语句（当...执行...）
     BLOCK = auto()             # 语句块（多条顺序语句）
+    FUNC_DEF = auto()          # 函数定义（定义 名（参数）：语句）
+    RETURN_STMT = auto()       # 返回语句（返回 表达式）
     ASSIGN_STMT = auto()       # 赋值语句
     INSTRUCTION_STMT = auto()  # 指令语句（道德经助记符）
     OPERATION_STMT = auto()    # 操作语句
@@ -159,6 +161,38 @@ class BlockNode(ASTNode):
         self.statements = statements
         for s in statements:
             self.add_child(s)
+
+
+@dataclass
+class FuncDefNode(ASTNode):
+    """函数定义：定义 名（参数）：语句（body 可为语句列表）"""
+    def __init__(self, name: str, params: List[str], body, line: int = 1, column: int = 1):
+        super().__init__(NodeType.FUNC_DEF, line, column)
+        self.name = name
+        self.params = params
+        self.body = body
+        self.add_child(body)
+
+
+@dataclass
+class ReturnStmtNode(ASTNode):
+    """返回语句：返回 [表达式]"""
+    def __init__(self, value: Optional[ASTNode], line: int = 1, column: int = 1):
+        super().__init__(NodeType.RETURN_STMT, line, column)
+        self.value = value
+        if value:
+            self.add_child(value)
+
+
+@dataclass
+class CallExprNode(ASTNode):
+    """函数调用：名（参数1，参数2）"""
+    def __init__(self, name: str, args: List[ASTNode], line: int = 1, column: int = 1):
+        super().__init__(NodeType.CALL_EXPR, line, column)
+        self.name = name
+        self.args = args
+        for a in args:
+            self.add_child(a)
 
 
 @dataclass
@@ -299,6 +333,17 @@ class Parser:
         if token.type == TokenType.DANG:
             return self._parse_loop()
         
+        # 定义 → 函数定义（定义 名（参数）：语句）
+        if token.type == TokenType.DINGYI:
+            return self._parse_func_def()
+        
+        # 返回 → 返回语句（返回 表达式）
+        if token.type == TokenType.FANHUI:
+            self._advance()
+            val = self._parse_expression() if self.current_token else None
+            return ReturnStmtNode(val,
+                                  line=token.line, column=token.column)
+        
         # 道德经助记符 → 指令语句
         if token.type in self.INSTRUCTION_TOKENS:
             return self._parse_instruction()
@@ -408,6 +453,12 @@ class Parser:
             return self._parse_condition()
         elif self.current_token and self.current_token.type == TokenType.DANG:
             return self._parse_loop()
+        elif self.current_token and self.current_token.type == TokenType.DINGYI:
+            return self._parse_func_def()
+        elif self.current_token and self.current_token.type == TokenType.FANHUI:
+            self._advance()
+            val = self._parse_expression() if self.current_token else None
+            return ReturnStmtNode(val, line=1, column=1)
         elif self.current_token and self.current_token.type in self.INSTRUCTION_TOKENS:
             return self._parse_instruction()
         elif self.current_token and self.current_token.type == TokenType.IDENTIFIER:
@@ -443,6 +494,8 @@ class Parser:
         then_body = self._parse_single_statement()
         
         else_body = None
+        # 跳过 then 与 否则 之间的分隔符（逗号/分号等）
+        self._skip_punctuation_before(TokenType.FOUZE)
         if self.current_token and self.current_token.type == TokenType.FOUZE:
             self._advance()
             else_body = self._parse_single_statement()
@@ -465,6 +518,42 @@ class Parser:
         body = self._parse_statement_or_block()
         
         return LoopStmtNode(condition, body, start_line, start_col)
+    
+    def _parse_func_def(self) -> Optional[ASTNode]:
+        """解析函数定义：定义 名（参数1，参数2）：语句
+        参数在（ ）内，逗号分隔；返回 FuncDefNode（body 可为块）"""
+        start_line = self.current_token.line if self.current_token else 1
+        start_col = self.current_token.column if self.current_token else 1
+        
+        self._consume(TokenType.DINGYI, "期望 '定义'")
+        
+        # 函数名（标识符）
+        if not (self.current_token and self.current_token.type == TokenType.IDENTIFIER):
+            self.errors.append("定义后期望函数名")
+            return None
+        name = self.current_token.value
+        self._advance()
+        
+        # 参数列表（ ）
+        params = []
+        if self.current_token and self.current_token.type == TokenType.LPAREN:
+            self._advance()
+            while (self.current_token and
+                   self.current_token.type != TokenType.RPAREN and
+                   not self._is_at_end()):
+                if self.current_token.type == TokenType.IDENTIFIER:
+                    params.append(self.current_token.value)
+                self._advance()  # 跳过标识符/逗号/空格
+            if self.current_token and self.current_token.type == TokenType.RPAREN:
+                self._advance()
+        
+        # 冒号（可选分隔）
+        if self.current_token and self.current_token.type == TokenType.COLON:
+            self._advance()
+        
+        body = self._parse_single_statement()
+        
+        return FuncDefNode(name, params, body, start_line, start_col)
     
     def _skip_punctuation_before(self, *target_types: TokenType):
         """跳过标点符号"""
@@ -504,6 +593,12 @@ class Parser:
             return self._parse_condition()
         elif self.current_token and self.current_token.type == TokenType.DANG:
             return self._parse_loop()
+        elif self.current_token and self.current_token.type == TokenType.DINGYI:
+            return self._parse_func_def()
+        elif self.current_token and self.current_token.type == TokenType.FANHUI:
+            self._advance()
+            val = self._parse_expression() if self.current_token else None
+            return ReturnStmtNode(val, line=1, column=1)
         elif self.current_token and self.current_token.type in self.INSTRUCTION_TOKENS:
             return self._parse_instruction()
         elif self.current_token and self.current_token.type == TokenType.IDENTIFIER:
@@ -665,6 +760,7 @@ class Parser:
         """解析赋值或调用
 
         若后面紧跟 = 或 ＝ → 赋值语句
+        若后面紧跟 （ → 函数调用表达式（名（参数））
         否则 → 标识符表达式
         """
         ident = self.current_token.value
@@ -682,6 +778,23 @@ class Parser:
                 line=line,
                 column=col
             )
+
+        # 函数调用：名（参数1，参数2）
+        if self.current_token and self.current_token.type == TokenType.LPAREN:
+            self._advance()
+            args = []
+            while (self.current_token and
+                   self.current_token.type != TokenType.RPAREN and
+                   not self._is_at_end()):
+                # 参数可为表达式（n 减 1）/标识符/数值
+                if self.current_token.type in (TokenType.IDENTIFIER,
+                                               TokenType.NUMBER):
+                    args.append(self._parse_expression())
+                else:
+                    self._advance()
+            if self.current_token and self.current_token.type == TokenType.RPAREN:
+                self._advance()
+            return CallExprNode(ident, args, line, col)
 
         return IdentifierNode(ident, line, col)
     
@@ -717,7 +830,27 @@ class Parser:
             return LiteralNode("", "string")
         
         if self.current_token.type == TokenType.IDENTIFIER:
-            # 合并多词短语
+            # 若后跟 （ → 函数调用；否则合并多词短语
+            if (self._peek_next() and
+                    self._peek_next().type == TokenType.LPAREN):
+                name = self.current_token.value
+                line = self.current_token.line
+                col = self.current_token.column
+                self._advance()  # 消费函数名
+                self._advance()  # 消费 （
+                args = []
+                while (self.current_token and
+                       self.current_token.type != TokenType.RPAREN and
+                       not self._is_at_end()):
+                    if self.current_token.type in (TokenType.IDENTIFIER,
+                                                   TokenType.NUMBER):
+                        args.append(self._parse_expression())
+                    else:
+                        self._advance()
+                if self.current_token and self.current_token.type == TokenType.RPAREN:
+                    self._advance()
+                return self._parse_binary_tail(
+                    CallExprNode(name, args, line, col))
             left = self._merge_identifiers()
             return self._parse_binary_tail(left)
         elif self.current_token.type == TokenType.NUMBER:
@@ -764,9 +897,7 @@ class Parser:
             }
             op = op_map[op_token.type]
             self._advance()
-            right = self._parse_numeric_value()
-            if right is None:
-                right = self._parse_expression()
+            right = self._parse_expression()
             return BinaryExprNode(left, op, right,
                                   line=op_token.line, column=op_token.column)
         return left
@@ -786,6 +917,12 @@ class Parser:
             self.pos += 1
             self.current_token = None
         return self.current_token
+
+    def _peek_next(self) -> Optional[Token]:
+        """查看下一个 token（不消费）"""
+        if self.pos < len(self.tokens) - 1:
+            return self.tokens[self.pos + 1]
+        return None
     
     def _match(self, *types: TokenType) -> bool:
         if self.current_token and self.current_token.type in types:

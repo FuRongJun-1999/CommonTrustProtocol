@@ -43,15 +43,45 @@ class Compiler:
         self.zhizu_labels = [] # 知足标签（达标跳程序末尾）
         self.label_count = 0
         self.warnings = []
+        self.funcs = {}        # 函数名 → (入口ip, 参数名列表)
 
     def compile(self, ast):
+        # 第一遍：收集函数定义（入口标签 + 参数）
         for stmt in ast.statements:
-            self._stmt(stmt)
+            if stmt.type == NodeType.FUNC_DEF:
+                self.funcs[stmt.name] = (self._new_label(), stmt.params)
+        # 第二遍：函数定义处 emit 跳过 JUMP（目标=主体开始，后置回填）
+        skip_lbls = []
+        for stmt in ast.statements:
+            if stmt.type == NodeType.FUNC_DEF:
+                lbl = self._new_label()
+                self._emit(Opcode.JUMP, lbl)
+                self.pending.append((len(self.code) - 1, lbl))
+                skip_lbls.append(lbl)
+        # 第三遍：所有函数体后置编译（入口标签 + body + RETURN）
+        for stmt in ast.statements:
+            if stmt.type == NodeType.FUNC_DEF:
+                self._compile_func(stmt)
+        # 第四遍：主体编译（跳过 JUMP 的目标 = 主体开始）
+        main_start = len(self.code)
+        for stmt in ast.statements:
+            if stmt.type != NodeType.FUNC_DEF:
+                self._stmt(stmt)
+        # 跳过标签 → 主体开始（函数体已全部前置）
+        for lbl in skip_lbls:
+            self.labels[lbl] = main_start
         # 知足标签 place 到程序末尾（信任达标=满足结束，对齐白箱单元语义）
         for lbl in self.zhizu_labels:
             self._place(lbl)
         self._resolve()
         return self.code
+
+    def _compile_func(self, stmt):
+        """编译函数定义：入口标签 → body 编译 → RETURN"""
+        entry_lbl, params = self.funcs[stmt.name]
+        self._place(entry_lbl)
+        self._stmt(stmt.body)
+        self._emit(Opcode.RETURN)
 
     # ---- 标签 ----
     def _new_label(self):
@@ -71,6 +101,9 @@ class Compiler:
             op, arg = self.code[idx]
             if op == Opcode.ZHIZU:
                 self.code[idx] = (op, (arg[0], self.labels[label]))
+            elif op == Opcode.CALL:
+                # CALL (entry_lbl, param_names) → 回填入口地址
+                self.code[idx] = (op, (self.labels[label], arg[1]))
             else:
                 self.code[idx] = (op, self.labels[label])
 
@@ -115,6 +148,15 @@ class Compiler:
         elif s.type == NodeType.ASSIGN_STMT:
             self._expr(s.value_node)
             self._emit(Opcode.STORE_NAME, s.target)
+        elif s.type == NodeType.RETURN_STMT:
+            if s.value is not None:
+                self._expr(s.value)
+            else:
+                self._emit(Opcode.PUSH_CONST, None)
+            self._emit(Opcode.RETURN)
+        elif s.type == NodeType.CALL_EXPR:
+            # 函数调用作为语句：编译调用（结果留在栈上，丢弃）
+            self._call_expr(s)
         elif s.type in (NodeType.WENYUE, NodeType.DAYUE):
             pass  # 注释性结构（问曰/答曰）
         else:
@@ -181,8 +223,21 @@ class Compiler:
                 self.warnings.append(f"L{e.line} 未知运算符 '{e.operator}'")
                 return
             self._emit(op)
+        elif e.type == NodeType.CALL_EXPR:
+            self._call_expr(e)
         else:
             self.warnings.append(f"L{e.line} 未编译表达式: {e.type.name}")
+
+    def _call_expr(self, e):
+        """函数调用编译：实参求值入栈 → CALL (入口, 参数名)"""
+        for a in e.args:
+            self._expr(a)
+        if e.name not in self.funcs:
+            self.warnings.append(f"L{e.line} 未定义函数 '{e.name}'（调用悬空）")
+            return
+        entry_lbl, params = self.funcs[e.name]
+        self._emit(Opcode.CALL, (entry_lbl, params))
+        self.pending.append((len(self.code) - 1, entry_lbl))
 
 
 def compile_source(source, strict=True):

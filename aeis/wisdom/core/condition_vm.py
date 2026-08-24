@@ -34,6 +34,8 @@ class Opcode(IntEnum):
     CMP_NE = 20         # 不等于
     CMP_LE = 21         # 不大于（≤）
     CMP_GE = 22         # 不小于（≥）
+    CALL = 23           # 调用函数（定义 名（参数）：语句；调用栈帧）
+    RETURN = 24         # 返回调用者（恢复符号表与返回地址）
 
     @classmethod
     def names(cls):
@@ -62,6 +64,7 @@ class ConditionVM:
         self.trust_value = trust             # 信任值寄存器
         self.scope_depth = 0                 # 术曰作用域深度
         self.trace = []                      # 执行轨迹（可解释性）
+        self.call_stack = []                 # 调用栈帧 [(返回ip, 保存的符号表)]
 
     def run(self, code, trace=False, catch_halt=True, symbols=None,
             trust=0.0, condition_stack=None, max_steps=100000):
@@ -167,6 +170,32 @@ class ConditionVM:
             self.scope_depth += 1
         elif op == Opcode.RETURN_STEP:
             self.scope_depth = max(0, self.scope_depth - 1)
+        elif op == Opcode.CALL:
+            # CALL (entry_ip, param_names)：栈顶 len(param_names) 个实参 → 参数绑定
+            entry_ip, param_names = arg
+            args = []
+            for _ in range(len(param_names)):
+                args.append(self.stack.pop())
+            args.reverse()
+            # 保存调用帧（返回地址 + 符号表 + 信任 + 条件空间）
+            self.call_stack.append((self.ip, dict(self.symbols),
+                                    self.trust_value, list(self.condition_stack)))
+            # 新作用域：继承全局 + 参数绑定（参数遮蔽同名全局）
+            self.symbols = dict(self.symbols)
+            for pname, pval in zip(param_names, args):
+                self.symbols[pname] = pval
+            self.ip = entry_ip
+        elif op == Opcode.RETURN:
+            # 返回值：栈顶保留；恢复调用帧（无帧则程序结束）
+            if self.call_stack:
+                ret_ip, saved_symbols, saved_trust, saved_cond = self.call_stack.pop()
+                self.symbols = saved_symbols
+                self.trust_value = saved_trust
+                self.condition_stack = saved_cond
+                self.ip = ret_ip
+            else:
+                # 顶层 RETURN：停止执行（无调用者）
+                raise VMHalt("halt", self._state())
         else:
             raise ValueError(f"未知指令 {op}")
 

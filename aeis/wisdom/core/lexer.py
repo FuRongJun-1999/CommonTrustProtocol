@@ -65,6 +65,10 @@ class TokenType(Enum):
     DANG = auto()         # 当
     ZHIXING = auto()      # 执行
     
+    # === 函数关键字（定义…返回：函数抽象）===
+    DINGYI = auto()       # 定义
+    FANHUI = auto()       # 返回
+    
     # === 标识符与常量 ===
     IDENTIFIER = auto()   # 标识符
     NUMBER = auto()        # 数值常量
@@ -129,6 +133,10 @@ KEYWORDS = {
     "等于", "大于", "小于",
     # 循环（当…执行：白箱循环语法）
     "当", "执行",
+    # 函数（定义…返回：函数抽象）
+    "定义", "返回",
+    # 中文算术词（加/减/乘/除 → 运算符）
+    "加", "减", "乘", "除",
 }
 
 # 关键字 → TokenType
@@ -160,6 +168,12 @@ KEYWORD_MAP = {
     "小于": TokenType.XIAOYU,
     "当": TokenType.DANG,
     "执行": TokenType.ZHIXING,
+    "定义": TokenType.DINGYI,
+    "返回": TokenType.FANHUI,
+    "加": TokenType.OP_ADD,
+    "减": TokenType.OP_SUB,
+    "乘": TokenType.OP_MUL,
+    "除": TokenType.OP_DIV,
 }
 
 # 按长度降序排列
@@ -325,6 +339,9 @@ class Lexer:
         每次从 i 开始找最长关键字。
         找到后 i 跳过该关键字长度。
         找不到时 i 前进 1（发出单个字符）。
+        
+        标识符规则：连续 CJK 串优先整体为标识符（如「阶乘」含关键词「乘」，
+        但整体不是关键词 → 保持为标识符，避免误切分）。
         """
         i = 0
         col = start_col
@@ -347,17 +364,23 @@ class Lexer:
                 col += matched_len
             else:
                 # 不是关键字 → 收集连续的非关键字字符作为标识符
+                # 中文规则：连续 CJK 串优先整体为标识符（如「阶乘」含关键词「乘」，
+                # 但整串「阶乘」非关键词 → 保持整体，避免误切分）
                 ident_start = i
                 ident_col = col
                 
-                while i < len(text):
-                    ch = text[i]
-                    # 检查从 i 开始是否有任何关键字
-                    has_kw_ahead = any(text.startswith(kw, i) for kw in SORTED_KW)
-                    if has_kw_ahead:
-                        break
-                    i += 1
-                    col += 1
+                if _is_cjk(text[i]):
+                    while i < len(text) and _is_cjk(text[i]):
+                        i += 1
+                        col += 1
+                else:
+                    while i < len(text):
+                        ch = text[i]
+                        has_kw_ahead = any(text.startswith(kw, i) for kw in SORTED_KW)
+                        if has_kw_ahead:
+                            break
+                        i += 1
+                        col += 1
                 
                 ident = text[ident_start:i]
                 if ident:
