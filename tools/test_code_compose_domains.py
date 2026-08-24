@@ -3634,5 +3634,40 @@ try:
 except Exception as ex:
     check('㋇c 链路状态→策略→多径端到端（d=4 视频专线 5g）', False, str(ex)[:60])
 
+# ㋈ 目标5 深化：浏览器交互/安全（表单验证/拖放交互/资源完整性 经正式管线）
+b7_qs = {
+    "表单验证": "写一个表单验证单元（必填格式）",
+    "拖放交互": "写一个拖放交互单元（数据携带）",
+    "资源完整性": "写一个资源完整性单元（SRI 校验）",
+}
+b7_ok = 0
+for label, q in b7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b7_ok += 1
+    check(f'㋈ {label} 浏览器交互/安全单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋈b 浏览器交互/安全三单元全部生成', b7_ok == 3, f'{b7_ok}/3')
+
+# ㋈c 交互端到端：表单→拖放→SRI（通过 拖到zone_a 一致ok）
+r_fv = domain_route("写一个表单验证单元（必填格式）")
+r_dd = domain_route("写一个拖放交互单元（数据携带）")
+r_sr = domain_route("写一个资源完整性单元（SRI 校验）")
+try:
+    ns_fv, ns_dd, ns_sr = {}, {}, {}
+    exec(r_fv["code"], ns_fv)
+    exec(r_dd["code"], ns_dd)
+    exec(r_sr["code"], ns_sr)
+    fv = ns_fv["form_validate"]({'名': {'required': True}}, {'名': '甲'})
+    st = {'drag_data': 'item1'}
+    dd = ns_dd["drag_drop"](st, 'drop', None, 'zone_a')
+    sri = ns_sr["sri_verify"]('abc', 'abc')
+    check('㋈c 表单→拖放→SRI端到端（[] dropped ok）',
+          fv == [] and dd == 'dropped' and sri == 'ok',
+          f'form={fv} drag={dd} sri={sri}')
+except Exception as ex:
+    check('㋈c 表单→拖放→SRI端到端（[] dropped ok）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

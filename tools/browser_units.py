@@ -838,6 +838,64 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：开发者工具网络面板——请求记录/过滤/汇总",
     },
+    "浏览器-表单验证": {
+        "task": "表单验证",
+        "pattern": (
+            "def form_validate(fields, values):\n"
+            "    # 表单验证：必填 + 格式（邮箱/数字——提交前校验）\n"
+            "    errors = []\n"
+            "    for name, rule in fields.items():\n"
+            "        val = values.get(name)\n"
+            "        if rule.get('required') and not val:\n"
+            "            errors.append(name + ':必填')\n"
+            "        elif 'email' in rule and val and '@' not in val:\n"
+            "            errors.append(name + ':格式错误')\n"
+            "        elif 'number' in rule and val and not str(val).isdigit():\n"
+            "            errors.append(name + ':非数字')\n"
+            "    return errors\n"),
+        "cases": [(({'名': {'required': True}}, {'名': '甲'}), []),
+                  (({'名': {'required': True}}, {}), ['名:必填']),
+                  (({'邮箱': {'email': True}}, {'邮箱': 'abc'}), ['邮箱:格式错误']),
+                  (({'数量': {'number': True}}, {'数量': 'x'}), ['数量:非数字'])],
+        "params": [],
+        "calibration": "对照：浏览器表单——必填/邮箱/数字验证（提交前校验）",
+    },
+    "浏览器-拖放交互": {
+        "task": "拖放交互",
+        "pattern": (
+            "def drag_drop(state, op, data=None, target=None):\n"
+            "    # 拖放：dragstart 开始携带数据 / drop 放到目标（数据传输）\n"
+            "    if op == 'dragstart':\n"
+            "        state['drag_data'] = data\n"
+            "        return 'dragging'\n"
+            "    if op == 'drop':\n"
+            "        if 'drag_data' not in state:\n"
+            "            return 'no_drag'\n"
+            "        state['dropped'] = (target, state['drag_data'])\n"
+            "        return 'dropped'\n"
+            "    if op == 'get':\n"
+            "        return state.get('dropped')\n"
+            "    return None\n"),
+        "cases": [(({}, 'dragstart', 'item1'), 'dragging'),
+                  (({'drag_data': 'item1'}, 'drop', None, 'zone_a'), 'dropped'),
+                  (({}, 'drop', None, 'zone_a'), 'no_drag'),
+                  (({'dropped': ('zone_a', 'item1')}, 'get'),
+                   ('zone_a', 'item1'))],
+        "params": [],
+        "calibration": "对照：拖放 API——dragstart 数据携带/drop 目标投放",
+    },
+    "浏览器-资源完整性": {
+        "task": "资源完整性",
+        "pattern": (
+            "def sri_verify(resource_hash, expected):\n"
+            "    # 子资源完整性：哈希比对（SRI——防篡改第三方脚本）\n"
+            "    return 'ok' if resource_hash == expected else 'mismatch'\n"),
+        "cases": [(('abc', 'abc'), 'ok'),
+                  (('abc', 'abd'), 'mismatch'),
+                  (('', ''), 'ok')],
+        "params": [],
+        "calibration": "对照：SRI 子资源完整性——脚本哈希校验（防篡改）",
+    },
 }
 
 

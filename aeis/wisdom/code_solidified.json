@@ -2878,5 +2878,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:browser|浏览器-表单验证": {
+  "task": "表单验证",
+  "unit": "浏览器-表单验证",
+  "code": "def form_validate(fields, values):\n    # 表单验证：必填 + 格式（邮箱/数字——提交前校验）\n    errors = []\n    for name, rule in fields.items():\n        val = values.get(name)\n        if rule.get('required') and not val:\n            errors.append(name + ':必填')\n        elif 'email' in rule and val and '@' not in val:\n            errors.append(name + ':格式错误')\n        elif 'number' in rule and val and not str(val).isdigit():\n            errors.append(name + ':非数字')\n    return errors\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-拖放交互": {
+  "task": "拖放交互",
+  "unit": "浏览器-拖放交互",
+  "code": "def drag_drop(state, op, data=None, target=None):\n    # 拖放：dragstart 开始携带数据 / drop 放到目标（数据传输）\n    if op == 'dragstart':\n        state['drag_data'] = data\n        return 'dragging'\n    if op == 'drop':\n        if 'drag_data' not in state:\n            return 'no_drag'\n        state['dropped'] = (target, state['drag_data'])\n        return 'dropped'\n    if op == 'get':\n        return state.get('dropped')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-资源完整性": {
+  "task": "资源完整性",
+  "unit": "浏览器-资源完整性",
+  "code": "def sri_verify(resource_hash, expected):\n    # 子资源完整性：哈希比对（SRI——防篡改第三方脚本）\n    return 'ok' if resource_hash == expected else 'mismatch'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }
