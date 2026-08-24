@@ -505,7 +505,7 @@ SCENE_ALIAS = {
     # 类比场景（真空=气压低）
     "真空": ["真空", "真空中", "真空瓶", "抽真空"],
     # 第三阶段·人体场景别名
-    "吃饭": ["饿了", "吃饭", "没力气", "补充能量", "食物"],
+    "吃饭": ["饿了", "吃饭", "没力气", "补充能量", "能量"],
     "跑步": ["跑步", "喘气", "运动", "呼吸急促"],
     "烫手": ["烫手", "缩手", "烫到", "碰热", "反射"],
     "熬夜": ["熬夜", "睡觉", "睡眠", "犯困", "没精神", "累"],
@@ -997,6 +997,78 @@ def plan_compose(query):
     plan = "；".join(steps) if steps else "（未识别阻碍条件：无法给出计划）"
     return {"query": query, "scene": scene, "obstacles": list(dict.fromkeys(obstacles)),
             "steps": steps, "plan": plan, "ok": ok}
+
+
+# ============ 六d、条件代数集成（第五阶段：雅可比独立性→并行组合 + 覆盖率判定） ============
+def compose_parallel(queries):
+    """条件代数并行组合：雅可比条件独立性 → 独立条件域查询可并行。
+    共享条件域的查询（混合偏导 ∂²f/∂x∂y≠0）需串行——避免组合冲突。
+    返回 {results, groups, note}：groups 为可并行分组（同组独立可并行）"""
+    try:
+        from condition_algebra import build_influence_jacobian
+    except Exception:
+        build_influence_jacobian = None
+    results = [{"query": q, "result": route_compose(q)} for q in queries]
+    if build_influence_jacobian is None:
+        return {"results": results, "groups": [list(range(len(queries)))],
+                "note": "condition_algebra 不可用（全串行）"}
+    build_influence_jacobian(CONDITION_UNITS)  # 复用模块（独立性函数）
+    groups = []
+    used = [False] * len(queries)
+    for i in range(len(queries)):
+        if used[i]:
+            continue
+        group = [i]
+        used[i] = True
+        for j in range(i + 1, len(queries)):
+            if used[j]:
+                continue
+            d1 = identify_direction(queries[i])
+            d2 = identify_direction(queries[j])
+            if d1 is None or d2 is None:
+                continue
+            u1 = match_units_by_direction(d1, identify_condition_dims(queries[i]))
+            u2 = match_units_by_direction(d2, identify_condition_dims(queries[j]))
+            conds1 = {c for _, u in u1 for c in u.get("conditions", [])}
+            conds2 = {c for _, u in u2 for c in u.get("conditions", [])}
+            if not (conds1 & conds2):  # 无共享条件 → 独立 → 同组并行
+                group.append(j)
+                used[j] = True
+        groups.append(group)
+    return {"results": results, "groups": groups,
+            "note": "并行分组：独立条件域同组（可并行），共享条件域串行"}
+
+
+# 核心常识域清单（覆盖率判定④：≥80%）
+CORE_PHENOMENA = [
+    "沸腾", "蒸发", "液化", "凝固", "熔化", "升华", "凝华", "沸点与气压",
+    "浮力", "导热", "摩擦", "洗涤", "保温", "化雪", "保鲜",
+    "光合", "呼吸", "生长", "迁徙", "昼夜", "四季", "潮汐",
+    "电路", "杠杆", "滑轮", "折射", "消化", "反射", "睡眠",
+]
+
+
+def coverage_report():
+    """核心常识域覆盖率（判定④：条件单元覆盖率 ≥80%）
+    统计：核心常识现象被条件单元覆盖（单元名/方向/域/条件 规范化匹配）"""
+    def _norm(s):
+        return str(s).replace("-", "").replace("与", "").replace(" ", "")
+    units = CONDITION_UNITS
+    covered = []
+    for name in CORE_PHENOMENA:
+        nn = _norm(name)
+        hit = any(
+            nn in _norm(uid) or nn in _norm(u.get("direction", ""))
+            or nn in _norm(u.get("domain", ""))
+            or any(nn in _norm(c) for c in u.get("conditions", []))
+            or (isinstance(u.get("rule"), dict) and any(nn in _norm(k) for k in u["rule"]))
+            for uid, u in units.items())
+        covered.append(hit)
+    rate = sum(covered) / len(CORE_PHENOMENA)
+    return {"rate": round(rate * 100, 1), "covered": sum(covered),
+            "total": len(CORE_PHENOMENA),
+            "missing": [n for n, c in zip(CORE_PHENOMENA, covered) if not c],
+            "units": len(units), "domains": len({u["domain"] for u in units.values()})}
 
 
 # ============ 七、固化层（生成自举闭环：生成→自校验→固化→直答） ============
