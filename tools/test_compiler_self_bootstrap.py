@@ -103,5 +103,52 @@ check('校准④c 端到端(若则假跳→else)',
       state2["trust"] == 0.1 and state2["halt"] is None,
       f'trust={state2["trust"]}（假→跳过 then 的 0.5 执行 else 的 0.1）')
 
+# 校准⑤：完整中文源码端到端（词法→编译→VM 执行）
+lex_line = _fn("词法-中文程序")
+compile_program = _fn("编译-程序")
+instr_token = _fn("词法-道德经")
+source = """问曰：如何验证信任？
+答曰：信任值大于0.7。
+术曰：
+1。道 新信任路径；
+2。若 信任值 大于 0.3，则 德 0.5；
+3。德 0.3；
+4。止。
+"""
+stmts = []
+for line in source.splitlines():
+    r = lex_line(line)
+    if r is None:
+        continue
+    kind, payload = r
+    if kind in ("问曰_STRUCT", "答曰_STRUCT", "术曰_STRUCT"):
+        stmts.append((kind, payload))
+    elif kind == "STEP":
+        words = payload[1].split()
+        en = instr_token(words[0])
+        if en:
+            stmts.append(("INSTR", en, words[1] if len(words) > 1 else None))
+    elif kind == "COND":
+        cond_txt, then_txt, else_txt = payload
+        then_parts = then_txt.split()
+        en = instr_token(then_parts[0])
+        stmts.append(("COND", cond_txt,
+                      [(en if en else then_parts[0],
+                        then_parts[1] if len(then_parts) > 1 else None)], []))
+    elif kind == "INSTR":
+        en = instr_token(payload[0])
+        if en:
+            stmts.append(("INSTR", en, payload[1]))
+check('校准⑤a 中文源码词法', any(s[0] == "术曰_STRUCT" for s in stmts)
+      and any(s[0] == "INSTR" and s[1] == "DAO" for s in stmts)
+      and any(s[0] == "INSTR" and s[1] == "DE" for s in stmts),
+      f'{len(stmts)} 条语句')
+code5 = compile_program(stmts, compile_instr, compile_condition)
+state5 = vm_run(code5)
+check('校准⑤b 端到端执行(信任≥0.8+条件空间+halt)',
+      state5["trust"] >= 0.8 and state5["cond"] == [{"name": "新信任路径"}]
+      and state5["halt"] == "halt",
+      f'trust={state5["trust"]} cond={state5["cond"]} halt={state5["halt"]}')
+
 print(f'\n=== 白箱自举写编译器（C2 白箱化）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
