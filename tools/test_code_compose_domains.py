@@ -5194,5 +5194,40 @@ except Exception as ex:
     check('㋳c 布尔→空值→行号端到端（(True,1) (None,1) [(甲,1),(乙,1),(丙,2)]）',
           False, str(ex)[:60])
 
+# ㋴ 目标1 深化：P 线机制族（最小堆/函数缓存/异步生成器 经正式管线）
+p16_qs = {
+    "最小堆": "写一个最小堆单元（堆机制）",
+    "函数缓存": "写一个函数缓存单元（缓存命中）",
+    "异步生成器": "写一个异步生成器单元（逐值产出）",
+}
+p16_ok = 0
+for label, q in p16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p16_ok += 1
+    check(f'㋴ {label} P线机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋴b P线机制三单元全部生成', p16_ok == 3, f'{p16_ok}/3')
+
+# ㋴c 机制端到端：堆→缓存→异步生成器（0 (42,False) 0）
+r_hp = domain_route("写一个最小堆单元（堆机制）")
+r_fc = domain_route("写一个函数缓存单元（缓存命中）")
+r_ag = domain_route("写一个异步生成器单元（逐值产出）")
+try:
+    ns_hp, ns_fc, ns_ag = {}, {}, {}
+    exec(r_hp["code"], ns_hp)
+    exec(r_fc["code"], ns_fc)
+    exec(r_ag["code"], ns_ag)
+    hp = ns_hp["heap_ops"]([3, 1, 2], 'push', 0)
+    fc = ns_fc["cached_value"]({}, 'k', lambda: 42)
+    ag = ns_ag["async_gen_ops"]({'n': 3}, 'next')
+    check('㋴c 堆→缓存→异步端到端（0 (42,False) 0）',
+          hp == 0 and fc == (42, False) and ag == 0,
+          f'heap={hp} cache={fc} agen={ag}')
+except Exception as ex:
+    check('㋴c 堆→缓存→异步端到端（0 (42,False) 0）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

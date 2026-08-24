@@ -1391,6 +1391,95 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python 3.9 dict | 运算符——顺序合并后者覆盖",
     },
+    "数据结构-最小堆": {
+        "task": "最小堆",
+        "pattern": (
+            "def heap_ops(heap, op, item=None):\n"
+            "    # 最小堆：push 上浮插入 / pop 根最小弹出 / peek 查看根（堆机制）\n"
+            "    def up(i):\n"
+            "        while i > 0:\n"
+            "            p = (i - 1) // 2\n"
+            "            if heap[p] <= heap[i]:\n"
+            "                break\n"
+            "            heap[p], heap[i] = heap[i], heap[p]\n"
+            "            i = p\n"
+            "    def down(i):\n"
+            "        n = len(heap)\n"
+            "        while True:\n"
+            "            l, r, m = 2 * i + 1, 2 * i + 2, i\n"
+            "            if l < n and heap[l] < heap[m]:\n"
+            "                m = l\n"
+            "            if r < n and heap[r] < heap[m]:\n"
+            "                m = r\n"
+            "            if m == i:\n"
+            "                break\n"
+            "            heap[i], heap[m] = heap[m], heap[i]\n"
+            "            i = m\n"
+            "    if op == 'push':\n"
+            "        heap.append(item)\n"
+            "        up(len(heap) - 1)\n"
+            "        return heap[0]\n"
+            "    if op == 'pop':\n"
+            "        if not heap:\n"
+            "            return None\n"
+            "        root = heap[0]\n"
+            "        last = heap.pop()\n"
+            "        if heap:\n"
+            "            heap[0] = last\n"
+            "            down(0)\n"
+            "        return root\n"
+            "    if op == 'peek':\n"
+            "        return heap[0] if heap else None\n"
+            "    return None\n"),
+        "cases": [(([3, 1, 2], 'push', 0), 0),
+                  (([1, 3, 2], 'pop'), 1),
+                  (([], 'pop'), None),
+                  (([1, 2], 'peek'), 1)],
+        "params": [],
+        "calibration": "对照：heapq——最小堆上浮/下沉（push/pop/peek）",
+    },
+    "工具-函数缓存": {
+        "task": "函数缓存",
+        "pattern": (
+            "def cached_value(store, key, compute):\n"
+            "    # 函数缓存：缓存命中直取 / 未命中计算并写入（lru_cache 语义）\n"
+            "    if key in store:\n"
+            "        return store[key], True\n"
+            "    val = compute()\n"
+            "    store[key] = val\n"
+            "    return val, False\n"),
+        "cases": [
+            (({}, 'k', lambda: 42), (42, False)),
+            (({'k': 42}, 'k', lambda: 99), (42, True)),
+            (({}, 'x', lambda: '甲'), ('甲', False))],
+        "params": [],
+        "calibration": "对照：functools.lru_cache——按 key 记忆化缓存（命中直取）",
+    },
+    "异步-异步生成器": {
+        "task": "异步生成器",
+        "pattern": (
+            "def async_gen_ops(state, op, value=None):\n"
+            "    # 异步生成器：next 产出一个值 / feed 喂值 / done 是否结束（async yield 语义）\n"
+            "    if op == 'next':\n"
+            "        i = state.get('i', 0)\n"
+            "        if i < state.get('n', 0):\n"
+            "            state['i'] = i + 1\n"
+            "            return i\n"
+            "        return None\n"
+            "    if op == 'feed':\n"
+            "        state['fed'] = value\n"
+            "        return value\n"
+            "    if op == 'done':\n"
+            "        return state.get('i', 0) >= state.get('n', 0)\n"
+            "    return None\n"),
+        "cases": [
+            (({'n': 3}, 'next'), 0),
+            (({'i': 3, 'n': 3}, 'next'), None),
+            (({}, 'feed', 7), 7),
+            (({'i': 2, 'n': 2}, 'done'), True)],
+        "params": [],
+        "calibration": "对照：async generator——异步逐值产出（yield 语义模拟）",
+    },
 }
 
 

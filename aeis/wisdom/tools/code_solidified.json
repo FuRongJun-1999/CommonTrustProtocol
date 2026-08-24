@@ -4208,5 +4208,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:pylang|数据结构-最小堆": {
+  "task": "最小堆",
+  "unit": "数据结构-最小堆",
+  "code": "def heap_ops(heap, op, item=None):\n    # 最小堆：push 上浮插入 / pop 根最小弹出 / peek 查看根（堆机制）\n    def up(i):\n        while i > 0:\n            p = (i - 1) // 2\n            if heap[p] <= heap[i]:\n                break\n            heap[p], heap[i] = heap[i], heap[p]\n            i = p\n    def down(i):\n        n = len(heap)\n        while True:\n            l, r, m = 2 * i + 1, 2 * i + 2, i\n            if l < n and heap[l] < heap[m]:\n                m = l\n            if r < n and heap[r] < heap[m]:\n                m = r\n            if m == i:\n                break\n            heap[i], heap[m] = heap[m], heap[i]\n            i = m\n    if op == 'push':\n        heap.append(item)\n        up(len(heap) - 1)\n        return heap[0]\n    if op == 'pop':\n        if not heap:\n            return None\n        root = heap[0]\n        last = heap.pop()\n        if heap:\n            heap[0] = last\n            down(0)\n        return root\n    if op == 'peek':\n        return heap[0] if heap else None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-函数缓存": {
+  "task": "函数缓存",
+  "unit": "工具-函数缓存",
+  "code": "def cached_value(store, key, compute):\n    # 函数缓存：缓存命中直取 / 未命中计算并写入（lru_cache 语义）\n    if key in store:\n        return store[key], True\n    val = compute()\n    store[key] = val\n    return val, False\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异步-异步生成器": {
+  "task": "异步生成器",
+  "unit": "异步-异步生成器",
+  "code": "def async_gen_ops(state, op, value=None):\n    # 异步生成器：next 产出一个值 / feed 喂值 / done 是否结束（async yield 语义）\n    if op == 'next':\n        i = state.get('i', 0)\n        if i < state.get('n', 0):\n            state['i'] = i + 1\n            return i\n        return None\n    if op == 'feed':\n        state['fed'] = value\n        return value\n    if op == 'done':\n        return state.get('i', 0) >= state.get('n', 0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }
