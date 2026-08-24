@@ -1213,6 +1213,67 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器 API——navigator.clipboard（copy/paste 读写剪贴板）",
     },
+    "安全-沙箱隔离": {
+        "task": "沙箱隔离",
+        "pattern": (
+            "def sandbox_perms(capabilities, op, cap=None):\n"
+            "    # 沙箱隔离：grant 授权 / check 校验 / revoke 撤销（iframe sandbox 权限裁剪）\n"
+            "    if op == 'grant':\n"
+            "        capabilities.add(cap)\n"
+            "        return 'granted'\n"
+            "    if op == 'check':\n"
+            "        return cap in capabilities\n"
+            "    if op == 'revoke':\n"
+            "        capabilities.discard(cap)\n"
+            "        return 'revoked'\n"
+            "    return None\n"),
+        "cases": [((set(), 'grant', 'allow-scripts'), 'granted'),
+                  (({'allow-scripts'}, 'check', 'allow-scripts'), True),
+                  ((set(), 'check', 'allow-forms'), False),
+                  (({'allow-forms'}, 'revoke', 'allow-forms'), 'revoked')],
+        "params": [],
+        "calibration": "对照：iframe sandbox——权限裁剪（allow-scripts 等逐项授权/校验）",
+    },
+    "渲染-滚动容器": {
+        "task": "滚动容器",
+        "pattern": (
+            "def scroll_container(state, op, delta=None):\n"
+            "    # 滚动容器：scroll 按增量滚动 / position 当前位置 / bottom 是否触底（视口滚动）\n"
+            "    if op == 'scroll':\n"
+            "        state['pos'] = state.get('pos', 0) + delta\n"
+            "        return state['pos']\n"
+            "    if op == 'position':\n"
+            "        return state.get('pos', 0)\n"
+            "    if op == 'bottom':\n"
+            "        return state.get('pos', 0) >= state.get('max', 0)\n"
+            "    return None\n"),
+        "cases": [(({}, 'scroll', 200), 200),
+                  (({}, 'position'), 0),
+                  (({'pos': 800, 'max': 800}, 'bottom'), True),
+                  (({'pos': 100, 'max': 800}, 'bottom'), False)],
+        "params": [],
+        "calibration": "对照：浏览器滚动——scrollTop 滚动位置/触底判定（视口滚动容器）",
+    },
+    "浏览器-在线状态": {
+        "task": "在线状态",
+        "pattern": (
+            "def online_state(events, op, online=None):\n"
+            "    # 在线状态：set 设置 online/offline / get 当前状态 / events 事件序列（navigator.onLine）\n"
+            "    if op == 'set':\n"
+            "        events.append('online' if online else 'offline')\n"
+            "        return events[-1]\n"
+            "    if op == 'get':\n"
+            "        return events[-1] if events else 'online'\n"
+            "    if op == 'events':\n"
+            "        return list(events)\n"
+            "    return None\n"),
+        "cases": [(([], 'set', True), 'online'),
+                  ((['online'], 'set', False), 'offline'),
+                  (([], 'get'), 'online'),
+                  ((['online', 'offline'], 'events'), ['online', 'offline'])],
+        "params": [],
+        "calibration": "对照：navigator.onLine + online/offline 事件（网络状态监测）",
+    },
 }
 
 

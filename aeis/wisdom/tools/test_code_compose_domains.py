@@ -5121,5 +5121,42 @@ except Exception as ex:
     check('㋱c 二叉树→迭代→合并端到端（[1,2,3] [1,2,3] {a:2}）',
           False, str(ex)[:60])
 
+# ㋲ 目标5 深化：浏览器机制（沙箱隔离/滚动容器/在线状态 经正式管线）
+b11_qs = {
+    "沙箱隔离": "写一个沙箱隔离单元（权限裁剪）",
+    "滚动容器": "写一个滚动容器单元（视口滚动）",
+    "在线状态": "写一个在线状态单元（网络监测）",
+}
+b11_ok = 0
+for label, q in b11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b11_ok += 1
+    check(f'㋲ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋲b 浏览器机制三单元全部生成', b11_ok == 3, f'{b11_ok}/3')
+
+# ㋲c 机制端到端：沙箱→滚动→在线（granted True 200 offline）
+r_sb = domain_route("写一个沙箱隔离单元（权限裁剪）")
+r_sc = domain_route("写一个滚动容器单元（视口滚动）")
+r_os = domain_route("写一个在线状态单元（网络监测）")
+try:
+    ns_sb, ns_sc, ns_os = {}, {}, {}
+    exec(r_sb["code"], ns_sb)
+    exec(r_sc["code"], ns_sc)
+    exec(r_os["code"], ns_os)
+    caps = set()
+    g = ns_sb["sandbox_perms"](caps, 'grant', 'allow-scripts')
+    ck = ns_sb["sandbox_perms"](caps, 'check', 'allow-scripts')
+    pos = ns_sc["scroll_container"]({}, 'scroll', 200)
+    os_ev = ns_os["online_state"]([], 'set', False)
+    check('㋲c 沙箱→滚动→在线端到端（granted True 200 offline）',
+          g == 'granted' and ck is True and pos == 200 and os_ev == 'offline',
+          f'sand={g}/{ck} pos={pos} online={os_ev}')
+except Exception as ex:
+    check('㋲c 沙箱→滚动→在线端到端（granted True 200 offline）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
