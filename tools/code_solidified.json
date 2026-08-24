@@ -1498,5 +1498,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:os|性能-性能分析": {
+  "task": "性能分析",
+  "unit": "性能-性能分析",
+  "code": "def profile_funcs(times):\n    # profiling：函数耗时统计（累计/平均——热点定位）\n    total = sum(times)\n    if not times:\n        return {'total': 0, 'avg': 0.0}\n    return {'total': total, 'avg': round(total / len(times), 2)}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|性能-瓶颈检测": {
+  "task": "瓶颈检测",
+  "unit": "性能-瓶颈检测",
+  "code": "def bottleneck(resources):\n    # 瓶颈检测：利用率最高的资源（系统瓶颈定位）\n    if not resources:\n        return None\n    return max(resources.items(), key=lambda kv: kv[1])\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|性能-调优建议": {
+  "task": "调优建议",
+  "unit": "性能-调优建议",
+  "code": "def tuning_advice(metrics):\n    # 调优：指标 → 建议（瓶颈 → 调整参数）\n    adv = []\n    if metrics.get('cpu', 0) > 80:\n        adv.append('升级 CPU 或减少进程')\n    if metrics.get('mem', 0) > 80:\n        adv.append('增加内存或优化缓存')\n    if not adv:\n        adv.append('当前配置合理')\n    return adv\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }

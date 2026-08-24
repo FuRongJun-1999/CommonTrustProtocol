@@ -1937,5 +1937,40 @@ try:
 except Exception as ex:
     check('㊙c 备份→一致性→压缩端到端（恢复{a,b} 无错误 CSR偏移[0,1,1]）', False, str(ex)[:60])
 
+# ㊚ 目标4 深化：性能分析（profiling/瓶颈/调优 经正式管线）
+o14_qs = {
+    "性能分析": "写一个性能分析单元（函数耗时）",
+    "瓶颈检测": "写一个瓶颈检测单元（最高利用率）",
+    "调优建议": "写一个调优建议单元（参数调整）",
+}
+o14_ok = 0
+for label, q in o14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o14_ok += 1
+    check(f'㊚ {label} 性能分析单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊚b 性能分析三单元全部生成', o14_ok == 3, f'{o14_ok}/3')
+
+# ㊚c 端到端：profiling→瓶颈→调优（耗时统计→热点定位→建议）
+r_pf = domain_route("写一个性能分析单元（函数耗时）")
+r_bn = domain_route("写一个瓶颈检测单元（最高利用率）")
+r_tu = domain_route("写一个调优建议单元（参数调整）")
+try:
+    ns_pf, ns_bn, ns_tu = {}, {}, {}
+    exec(r_pf["code"], ns_pf)
+    exec(r_bn["code"], ns_bn)
+    exec(r_tu["code"], ns_tu)
+    p = ns_pf["profile_funcs"]([10, 20, 30])
+    b = ns_bn["bottleneck"]({'cpu': 90, 'mem': 60})
+    a = ns_tu["tuning_advice"]({'cpu': 90, 'mem': 50})
+    check('㊚c profiling→瓶颈→调优端到端（总60均20 cpu瓶颈 升级建议）',
+          p == {'total': 60, 'avg': 20.0} and b == ('cpu', 90)
+          and a == ['升级 CPU 或减少进程'],
+          f'prof={p} bn={b} adv={a}')
+except Exception as ex:
+    check('㊚c profiling→瓶颈→调优端到端（总60均20 cpu瓶颈 升级建议）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

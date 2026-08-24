@@ -865,6 +865,52 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 安全——能力系统（特权令牌授予/检查/撤销，最小权限）",
     },
+    "性能-性能分析": {
+        "task": "性能分析",
+        "pattern": (
+            "def profile_funcs(times):\n"
+            "    # profiling：函数耗时统计（累计/平均——热点定位）\n"
+            "    total = sum(times)\n"
+            "    if not times:\n"
+            "        return {'total': 0, 'avg': 0.0}\n"
+            "    return {'total': total, 'avg': round(total / len(times), 2)}\n"),
+        "cases": [(([10, 20, 30],), {'total': 60, 'avg': 20.0}),
+                  (([],), {'total': 0, 'avg': 0.0})],
+        "params": [],
+        "calibration": "对照：OS 性能——profiling（函数耗时统计，热点定位）",
+    },
+    "性能-瓶颈检测": {
+        "task": "瓶颈检测",
+        "pattern": (
+            "def bottleneck(resources):\n"
+            "    # 瓶颈检测：利用率最高的资源（系统瓶颈定位）\n"
+            "    if not resources:\n"
+            "        return None\n"
+            "    return max(resources.items(), key=lambda kv: kv[1])\n"),
+        "cases": [(({'cpu': 90, 'mem': 60, 'io': 30},), ('cpu', 90)),
+                  (({},), None)],
+        "params": [],
+        "calibration": "对照：OS 性能——瓶颈检测（最高利用率资源）",
+    },
+    "性能-调优建议": {
+        "task": "调优建议",
+        "pattern": (
+            "def tuning_advice(metrics):\n"
+            "    # 调优：指标 → 建议（瓶颈 → 调整参数）\n"
+            "    adv = []\n"
+            "    if metrics.get('cpu', 0) > 80:\n"
+            "        adv.append('升级 CPU 或减少进程')\n"
+            "    if metrics.get('mem', 0) > 80:\n"
+            "        adv.append('增加内存或优化缓存')\n"
+            "    if not adv:\n"
+            "        adv.append('当前配置合理')\n"
+            "    return adv\n"),
+        "cases": [(({'cpu': 90, 'mem': 50},), ['升级 CPU 或减少进程']),
+                  (({'cpu': 50, 'mem': 90},), ['增加内存或优化缓存']),
+                  (({'cpu': 50, 'mem': 50},), ['当前配置合理'])],
+        "params": [],
+        "calibration": "对照：OS 性能——调优建议（瓶颈 → 参数调整建议）",
+    },
 }
 
 
