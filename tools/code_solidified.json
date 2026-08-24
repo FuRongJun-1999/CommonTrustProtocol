@@ -2668,5 +2668,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:pylang|数据结构-集合运算": {
+  "task": "集合运算",
+  "unit": "数据结构-集合运算",
+  "code": "def set_ops(a, b, op):\n    # 集合运算：union 并集 / intersect 交集 / diff 差集（集合代数）\n    if op == 'union':\n        return sorted(set(a) | set(b))\n    if op == 'intersect':\n        return sorted(set(a) & set(b))\n    if op == 'diff':\n        return sorted(set(a) - set(b))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-计数器": {
+  "task": "计数器",
+  "unit": "工具-计数器",
+  "code": "def counter(items):\n    # 计数器：元素频次统计（Counter 语义——频次字典）\n    freq = {}\n    for x in items:\n        freq[x] = freq.get(x, 0) + 1\n    return freq\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-分组": {
+  "task": "分组",
+  "unit": "工具-分组",
+  "code": "def group_by(items, key_fn):\n    # 分组：按 key 函数分组（groupby 语义——组字典）\n    groups = {}\n    for x in items:\n        groups.setdefault(key_fn(x), []).append(x)\n    return groups\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

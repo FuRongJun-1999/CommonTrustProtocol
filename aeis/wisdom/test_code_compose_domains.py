@@ -817,7 +817,7 @@ except Exception as ex:
 # ㉚ 目标6 深化：图算法（PageRank/连通分量/拓扑排序 经正式管线）
 g5_qs = {
     "PageRank": "写一个 PageRank 单元（权重传播）",
-    "连通分量": "写一个连通分量单元（无向分组）",
+    "连通分量": "写一个连通分量单元（无向子图）",
     "拓扑排序": "写一个拓扑排序单元（DAG 依赖序）",
 }
 g5_ok = 0
@@ -832,7 +832,7 @@ check('㉚b 图算法三单元全部生成', g5_ok == 3, f'{g5_ok}/3')
 
 # ㉚c 端到端：建图→拓扑排序→连通分量→PageRank（算法层组装）
 r_ts = domain_route("写一个拓扑排序单元（DAG 依赖序）")
-r_cc = domain_route("写一个连通分量单元（无向分组）")
+r_cc = domain_route("写一个连通分量单元（无向子图）")
 r_pr = domain_route("写一个 PageRank 单元（权重传播）")
 r_g = domain_route("写一个图存储单元（节点和边）")
 try:
@@ -3382,6 +3382,41 @@ try:
           f'dl={dl} ext={ex} log={nl}')
 except Exception as ex:
     check('㋀c 下载→扩展→网络记录端到端（downloading granted [404条目]）', False, str(ex)[:60])
+
+# ㋁ 目标1 深化：P 线集合/统计（集合运算/计数器/分组 经正式管线）
+p7_qs = {
+    "集合运算": "写一个集合运算单元（并交差）",
+    "计数器": "写一个计数器单元（频次统计）",
+    "分组": "写一个分组单元（按键分组）",
+}
+p7_ok = 0
+for label, q in p7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p7_ok += 1
+    check(f'㋁ {label} P线集合/统计单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋁b P线集合/统计三单元全部生成', p7_ok == 3, f'{p7_ok}/3')
+
+# ㋁c 集合端到端：并集→计数→分组（[1,2,3] {a:2} 奇偶分组）
+r_so = domain_route("写一个集合运算单元（并交差）")
+r_ct = domain_route("写一个计数器单元（频次统计）")
+r_gb = domain_route("写一个分组单元（按键分组）")
+try:
+    ns_so, ns_ct, ns_gb = {}, {}, {}
+    exec(r_so["code"], ns_so)
+    exec(r_ct["code"], ns_ct)
+    exec(r_gb["code"], ns_gb)
+    un = ns_so["set_ops"]([1, 2], [2, 3], 'union')
+    ct = ns_ct["counter"](['a', 'b', 'a'])
+    gb = ns_gb["group_by"]([1, 2, 3, 4], lambda x: x % 2)
+    check('㋁c 并集→计数→分组端到端（[1,2,3] {a:2,b:1} 奇偶组）',
+          un == [1, 2, 3] and ct == {'a': 2, 'b': 1}
+          and gb == {1: [1, 3], 0: [2, 4]},
+          f'union={un} count={ct} group={gb}')
+except Exception as ex:
+    check('㋁c 并集→计数→分组端到端（[1,2,3] {a:2,b:1} 奇偶组）', False, str(ex)[:60])
 
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

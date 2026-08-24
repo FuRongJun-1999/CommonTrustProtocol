@@ -824,6 +824,54 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python sorted(key=)（按键函数稳定排序）",
     },
+    "数据结构-集合运算": {
+        "task": "集合运算",
+        "pattern": (
+            "def set_ops(a, b, op):\n"
+            "    # 集合运算：union 并集 / intersect 交集 / diff 差集（集合代数）\n"
+            "    if op == 'union':\n"
+            "        return sorted(set(a) | set(b))\n"
+            "    if op == 'intersect':\n"
+            "        return sorted(set(a) & set(b))\n"
+            "    if op == 'diff':\n"
+            "        return sorted(set(a) - set(b))\n"
+            "    return None\n"),
+        "cases": [(([1, 2], [2, 3], 'union'), [1, 2, 3]),
+                  (([1, 2], [2, 3], 'intersect'), [2]),
+                  (([1, 2], [2, 3], 'diff'), [1])],
+        "params": [],
+        "calibration": "对照：Python set——并/交/差（集合代数运算）",
+    },
+    "工具-计数器": {
+        "task": "计数器",
+        "pattern": (
+            "def counter(items):\n"
+            "    # 计数器：元素频次统计（Counter 语义——频次字典）\n"
+            "    freq = {}\n"
+            "    for x in items:\n"
+            "        freq[x] = freq.get(x, 0) + 1\n"
+            "    return freq\n"),
+        "cases": [((['a', 'b', 'a'],), {'a': 2, 'b': 1}),
+                  (([],), {}),
+                  (([1, 1, 1],), {1: 3})],
+        "params": [],
+        "calibration": "对照：collections.Counter（元素频次统计）",
+    },
+    "工具-分组": {
+        "task": "分组",
+        "pattern": (
+            "def group_by(items, key_fn):\n"
+            "    # 分组：按 key 函数分组（groupby 语义——组字典）\n"
+            "    groups = {}\n"
+            "    for x in items:\n"
+            "        groups.setdefault(key_fn(x), []).append(x)\n"
+            "    return groups\n"),
+        "cases": [(([1, 2, 3, 4], lambda x: x % 2), {1: [1, 3], 0: [2, 4]}),
+                  (([], lambda x: x), {}),
+                  (([1, 1, 2], lambda x: x), {1: [1, 1], 2: [2]})],
+        "params": [],
+        "calibration": "对照：itertools.groupby（按键函数分组）",
+    },
 }
 
 
