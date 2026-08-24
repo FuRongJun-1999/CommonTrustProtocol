@@ -3478,5 +3478,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:pylang|工具-数学函数": {
+  "task": "数学函数",
+  "unit": "工具-数学函数",
+  "code": "def math_func(op, a, b=None):\n    # 数学函数：abs 绝对值 / pow 幂 / sqrt 平方根（math 语义）\n    if op == 'abs':\n        return abs(a)\n    if op == 'pow':\n        return a ** b\n    if op == 'sqrt':\n        import math\n        return math.sqrt(a)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-数值舍入": {
+  "task": "数值舍入",
+  "unit": "工具-数值舍入",
+  "code": "def round_num(value, op):\n    # 数值舍入：round 四舍五入 / floor 向下 / ceil 向上\n    import math\n    if op == 'round':\n        return round(value)\n    if op == 'floor':\n        return math.floor(value)\n    if op == 'ceil':\n        return math.ceil(value)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-数值统计": {
+  "task": "数值统计",
+  "unit": "工具-数值统计",
+  "code": "def stats_calc(nums, op):\n    # 数值统计：mean 平均 / min 最小 / max 最大（统计函数族）\n    if not nums:\n        return None\n    if op == 'mean':\n        return sum(nums) / len(nums)\n    if op == 'min':\n        return min(nums)\n    if op == 'max':\n        return max(nums)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

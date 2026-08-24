@@ -1084,6 +1084,66 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python 字符串方法族（isdigit/startswith/isupper）",
     },
+    "工具-数学函数": {
+        "task": "数学函数",
+        "pattern": (
+            "def math_func(op, a, b=None):\n"
+            "    # 数学函数：abs 绝对值 / pow 幂 / sqrt 平方根（math 语义）\n"
+            "    if op == 'abs':\n"
+            "        return abs(a)\n"
+            "    if op == 'pow':\n"
+            "        return a ** b\n"
+            "    if op == 'sqrt':\n"
+            "        import math\n"
+            "        return math.sqrt(a)\n"
+            "    return None\n"),
+        "cases": [(('abs', -5), 5),
+                  (('pow', 2, 3), 8),
+                  (('sqrt', 9), 3.0)],
+        "params": [],
+        "calibration": "对照：Python math——abs/pow/sqrt（数学函数族）",
+    },
+    "工具-数值舍入": {
+        "task": "数值舍入",
+        "pattern": (
+            "def round_num(value, op):\n"
+            "    # 数值舍入：round 四舍五入 / floor 向下 / ceil 向上\n"
+            "    import math\n"
+            "    if op == 'round':\n"
+            "        return round(value)\n"
+            "    if op == 'floor':\n"
+            "        return math.floor(value)\n"
+            "    if op == 'ceil':\n"
+            "        return math.ceil(value)\n"
+            "    return None\n"),
+        "cases": [((2.6, 'round'), 3),
+                  ((2.9, 'floor'), 2),
+                  ((2.1, 'ceil'), 3),
+                  ((2.0, 'floor'), 2)],
+        "params": [],
+        "calibration": "对照：Python round/floor/ceil（数值舍入）",
+    },
+    "工具-数值统计": {
+        "task": "数值统计",
+        "pattern": (
+            "def stats_calc(nums, op):\n"
+            "    # 数值统计：mean 平均 / min 最小 / max 最大（统计函数族）\n"
+            "    if not nums:\n"
+            "        return None\n"
+            "    if op == 'mean':\n"
+            "        return sum(nums) / len(nums)\n"
+            "    if op == 'min':\n"
+            "        return min(nums)\n"
+            "    if op == 'max':\n"
+            "        return max(nums)\n"
+            "    return None\n"),
+        "cases": [(([1, 2, 3], 'mean'), 2.0),
+                  (([3, 1, 2], 'min'), 1),
+                  (([3, 1, 2], 'max'), 3),
+                  (([], 'mean'), None)],
+        "params": [],
+        "calibration": "对照：Python statistics——mean/min/max（统计族）",
+    },
 }
 
 
