@@ -202,11 +202,12 @@ try:
     from python_code_units import PYTHON_UNITS as _PU
     from graph_db_units import GRAPH_UNITS as _GU
     from os_units import OS_UNITS as _OU
+    from browser_units import BROWSER_UNITS as _BU
 except Exception:
-    _CU = _PU = _GU = _OU = {}
+    _CU = _PU = _GU = _OU = _BU = {}
 
 DOMAIN_UNITS = {"compiler": _CU, "pylang": _PU,
-                "graph": _GU, "os": _OU}
+                "graph": _GU, "os": _OU, "browser": _BU}
 
 # 域识别词表（问题 → 域）
 DOMAIN_KEYWORDS = {
@@ -217,6 +218,8 @@ DOMAIN_KEYWORDS = {
     "graph": ["图", "遍历", "路径", "路由", "持久化", "条件链", "建图"],
     "os": ["进程", "调度", "内存", "文件系统", "路径解析", "管道", "IPC",
            "inode", "页置换", "缺页", "状态机", "最短作业", "SJF"],
+    "browser": ["浏览器", "HTTP", "响应解析", "DOM", "HTML", "CSS", "选择器",
+                "渲染", "布局", "网页", "标签解析"],
 }
 
 

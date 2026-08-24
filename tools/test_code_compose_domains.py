@@ -38,16 +38,16 @@ check('②a 域识别(编译器)', detect_domain("写个类型推断单元") == 
 check('②b 域识别(操作系统)', detect_domain("写个内存分页分配") == "os", '')
 check('②c 域识别(图)', detect_domain("写个条件路由图查询") == "graph", '')
 
-# ③ 固化（自举纪律：验证通过才固化；用未固化单元——进程状态机）
+# ③ 固化（自举纪律：验证通过才固化；用未固化单元——HTTP 响应解析）
 before = {k for k in CODE_SOLIDIFIED if k.startswith("domain:")}
-e = domain_solidify("写一个进程状态机单元（就绪运行阻塞）")
+e = domain_solidify("写一个 HTML DOM 解析单元（标签树）")
 check('③ 域固化', e is not None and e.get("source") == "domain_solidified",
       str(e.get("unit") if e else None))
 after = {k for k in CODE_SOLIDIFIED if k.startswith("domain:")}
 check('③b 固化写入JSON', len(after) > len(before), f'{len(after)} 域固化条目')
 
 # ④ 固化直出
-r2 = domain_route("写一个进程状态机单元（就绪运行阻塞）")
+r2 = domain_route("写一个 HTML DOM 解析单元（标签树）")
 check('④ 固化直出', r2.get("solidified") is True
       and r2.get("unit") == e.get("unit"), f'unit={r2.get("unit")}')
 
@@ -77,6 +77,23 @@ for label, q in os_qs.items():
           r.get("ok") and "def " in r.get("code", ""),
           f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
 check('⑦b OS 四新单元全部生成', os_ok == 4, f'{os_ok}/4')
+
+# ⑧ 目标5 迷你浏览器（browser 域 4 单元经正式管线）
+bw_qs = {
+    "HTTP": "写一个 HTML DOM 解析单元（标签树）",
+    "DOM": "写一个 HTML DOM 解析单元（标签树）",
+    "CSS": "写一个 CSS 选择器匹配单元（tag/class）",
+    "渲染": "写一个块布局渲染单元（换行堆叠）",
+}
+bw_ok = 0
+for label, q in bw_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        bw_ok += 1
+    check(f'⑧ {label} 浏览器单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑧b 浏览器四单元全部生成', bw_ok == 4, f'{bw_ok}/4')
 
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
