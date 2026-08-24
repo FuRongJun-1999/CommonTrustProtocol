@@ -95,11 +95,54 @@ ns_vm = get('VM-循环执行', '写一个 VM 循环执行单元（while 循环�
 res = ns_vm['vm_run_loop'](loop_code, {'i': 0, 's': 0})
 print(f'  ⑤ 中文循环语义: 链节点数 0..{len(sp)-1} 累积和 s={res["symbols"]["s"]}')
 
+# ⑦ 真实中文编译器输出贯穿全链：gcd(48,36)=12 → 网络传输 → 内存 → 图存储 → 可视化
+sys.path.insert(0, r'D:\Program Files\2_ai\protocol-compiler')
+from core.compiler import compile_source as pc_compile
+from core.condition_vm import ConditionVM
+src_gcd = '''
+定义 最大公约数（甲，乙）：若 甲 等于 乙，则 返回 甲，否则 若 甲 大于 乙，则 返回 最大公约数（甲 减 乙，乙），否则 返回 最大公约数（甲，乙 减 甲）；
+结果 = 最大公约数（48，36）；
+止。
+'''
+code_gcd, r_gcd = pc_compile(src_gcd, strict=False)
+st_gcd = ConditionVM().run(code_gcd)
+gcd_val = st_gcd['symbols'].get('结果', 0)
+print(f'  ⑥ 中文编译器计算 gcd(48,36)={gcd_val}')
+
+# ⑦a 结果作为消息帧经滑动窗口传输
+recv2, acks2 = set(), []
+for i in range(1, int(gcd_val) + 1):
+    ack = ns_ca['cum_ack'](recv2, i)
+    acks2.append(ack)
+win2 = ns_sw['sliding_window'](0, 0, 4, max(acks2))
+print(f'  ⑦ 结果经滑动窗口传输: ack={max(acks2)} 窗口={win2["window"]}')
+
+# ⑦b 结果驻留内存页
+pt2, frames2 = {}, list(range(20, 20 + int(gcd_val)))
+for vpn in range(int(gcd_val)):
+    ns_pf['page_fault_handler'](pt2, vpn, frames2, lambda v, f: None)
+print(f'  ⑧ 结果驻留内存: {len(pt2)} 页')
+
+# ⑦c 结果存入条件路由图（12 个节点链）
+g2 = Graph()
+for i in range(1, int(gcd_val)):
+    g2.add_edge(f'步{i}', f'步{i+1}')
+sp2 = ns_sp['shortest_path'](g2, '步1', f'步{int(gcd_val)}')
+print(f'  ⑨ 结果存入条件路由图: 12 步链 {"→".join(sp2[:3])}…')
+
+# ⑦d 结果可视化
+layout2 = [(i, 0, i, 1, 1) for i in range(min(len(sp2), 4))]
+canvas2 = ns_pn['paint'](layout2, 4, 4)
+print(f'  ⑩ 结果可视化画布: {canvas2}')
+
+ok2 = (gcd_val == 12.0 and win2['window'] == [12, 13, 14, 15]
+       and len(pt2) == 12 and len(sp2) == 12)
+
 ok = (sp == ['气压低', '沸点降', '煮不熟'] and win['window'] == [3, 4, 5]
       and len(pt) == len(sp) and res['symbols']['s'] == 3
-      and canvas == ['#..', '#..', '#..'])
+      and canvas == ['#..', '#..', '#..'] and ok2)
 print()
 print('=' * 60)
-print(f'跨域组装判定: {"✔ 六域单元互相配合形成完整演示生态" if ok else "✘ 存在偏差"}')
+print(f'跨域组装判定: {"✔ 六域单元互相配合形成完整演示生态（含真实中文编译器输出贯穿全链）" if ok else "✘ 存在偏差"}')
 print('=' * 60)
 sys.exit(0 if ok else 1)
