@@ -358,5 +358,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:compiler|编译-函数定义": {
+  "task": "函数定义",
+  "unit": "编译-函数定义",
+  "code": "def compile_func_def(name, params, body_instrs):\n    # 定义 名（参数）：语句 → 函数体后置 + RETURN（入口=函数体起点）\n    # 返回 (skip_jump, entry_ip, body)：调用方拼接 JUMP 跳过 + 函数体\n    body = list(body_instrs)\n    body.append(('RETURN', None))\n    return {'name': name, 'params': params,\n            'skip': ('JUMP', None),  # 占位，拼接后回填\n            'entry_ip': 0, 'body': body}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-函数调用": {
+  "task": "函数调用",
+  "unit": "VM-函数调用",
+  "code": "def call_func(call_stack, symbols, params, args, entry_ip, ret_ip):\n    # CALL 语义：保存调用帧(返回地址+符号表) → 参数绑定(遮蔽全局) → 跳入口\n    call_stack.append((ret_ip, dict(symbols)))\n    for pname, pval in zip(params, args):\n        symbols[pname] = pval\n    return entry_ip\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-递归": {
+  "task": "递归调用",
+  "unit": "编译-递归",
+  "code": "def compile_recursive(name, params, cond_instrs, then_ret, else_expr_instrs):\n    # 递归函数：若 基条件 则 返回 基值，否则 返回 表达式（含自身调用）\n    # 组装为函数体字节码（CALL 自身由调用方回填入口）\n    body = []\n    body.extend(cond_instrs)\n    body.append(('JUMP_IF_FALSE', 0))  # 占位\n    body.extend(then_ret)\n    body.append(('RETURN', None))\n    body.append(('JUMP', 0))  # 占位\n    body.extend(else_expr_instrs)\n    body.append(('RETURN', None))\n    return {'name': name, 'params': params, 'body': body}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

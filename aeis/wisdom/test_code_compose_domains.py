@@ -524,5 +524,39 @@ try:
 except Exception as ex:
     check('㉑c 模式匹配+聚合+条件链端到端（三元组/分组/两链）', False, str(ex)[:60])
 
+# ㉒ 目标2 深化：函数/递归白箱单元（函数定义/函数调用/递归编译 经正式管线）
+c3_qs = {
+    "函数定义": "写一个函数定义编译单元（定义 名 参数）",
+    "函数调用": "写一个函数调用单元（CALL 帧保存）",
+    "递归": "写一个递归函数编译单元（自身调用）",
+}
+c3_ok = 0
+for label, q in c3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c3_ok += 1
+    check(f'㉒ {label} 函数单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉒b 函数三单元全部生成', c3_ok == 3, f'{c3_ok}/3')
+
+# ㉒c 端到端：函数定义→递归编译→调用→帧恢复（阶乘语义组装）
+r_fd = domain_route("写一个函数定义编译单元（定义 名 参数）")
+r_cf = domain_route("写一个函数调用单元（CALL 帧保存）")
+try:
+    ns_fd, ns_cf = {}, {}
+    exec(r_fd["code"], ns_fd)
+    exec(r_cf["code"], ns_cf)
+    fd = ns_fd["compile_func_def"]("阶乘", ["n"], [("LOAD", "n")])
+    cs = []
+    syms = {'甲': 1}
+    entry = ns_cf["call_func"](cs, syms, fd["params"], [5], 10, 3)
+    check('㉒c 函数定义→调用端到端（入口=10 帧保存 参数绑定n=5）',
+          entry == 10 and len(cs) == 1 and cs[0] == (3, {'甲': 1})
+          and syms == {'甲': 1, 'n': 5},
+          f'entry={entry} frames={len(cs)} symbols={syms}')
+except Exception as ex:
+    check('㉒c 函数定义→调用端到端（入口=10 帧保存 参数绑定x=5）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

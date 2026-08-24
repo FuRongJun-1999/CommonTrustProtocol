@@ -155,6 +155,60 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：while 循环 VM 运行（i=1→3 累积 1+2=3 于 s；死循环被步数上限拦截）",
     },
+    "编译-函数定义": {
+        "task": "函数定义",
+        "pattern": (
+            "def compile_func_def(name, params, body_instrs):\n"
+            "    # 定义 名（参数）：语句 → 函数体后置 + RETURN（入口=函数体起点）\n"
+            "    # 返回 (skip_jump, entry_ip, body)：调用方拼接 JUMP 跳过 + 函数体\n"
+            "    body = list(body_instrs)\n"
+            "    body.append(('RETURN', None))\n"
+            "    return {'name': name, 'params': params,\n"
+            "            'skip': ('JUMP', None),  # 占位，拼接后回填\n"
+            "            'entry_ip': 0, 'body': body}\n"),
+        "cases": [(("阶乘", ["n"], [("LOAD", "n")]),
+                   {'name': '阶乘', 'params': ['n'],
+                    'skip': ('JUMP', None), 'entry_ip': 0,
+                    'body': [('LOAD', 'n'), ('RETURN', None)]})],        "params": [],
+        "calibration": "对照：protocol-compiler 函数定义（入口=函数体起点，体末 RETURN）",
+    },
+    "VM-函数调用": {
+        "task": "函数调用",
+        "pattern": (
+            "def call_func(call_stack, symbols, params, args, entry_ip, ret_ip):\n"
+            "    # CALL 语义：保存调用帧(返回地址+符号表) → 参数绑定(遮蔽全局) → 跳入口\n"
+            "    call_stack.append((ret_ip, dict(symbols)))\n"
+            "    for pname, pval in zip(params, args):\n"
+            "        symbols[pname] = pval\n"
+            "    return entry_ip\n"),
+        "cases": [(([], {'甲': 1}, ['x'], [5], 10, 3), 10)],
+        "params": [],
+        "calibration": "对照：protocol-compiler CALL（帧保存+参数绑定遮蔽全局，对齐 da997ef VM）",
+    },
+    "编译-递归": {
+        "task": "递归调用",
+        "pattern": (
+            "def compile_recursive(name, params, cond_instrs, then_ret, else_expr_instrs):\n"
+            "    # 递归函数：若 基条件 则 返回 基值，否则 返回 表达式（含自身调用）\n"
+            "    # 组装为函数体字节码（CALL 自身由调用方回填入口）\n"
+            "    body = []\n"
+            "    body.extend(cond_instrs)\n"
+            "    body.append(('JUMP_IF_FALSE', 0))  # 占位\n"
+            "    body.extend(then_ret)\n"
+            "    body.append(('RETURN', None))\n"
+            "    body.append(('JUMP', 0))  # 占位\n"
+            "    body.extend(else_expr_instrs)\n"
+            "    body.append(('RETURN', None))\n"
+            "    return {'name': name, 'params': params, 'body': body}\n"),
+        "cases": [((("阶乘", ["n"], [("LOAD", "n"), ("PUSH", 2), ("CMP_LT", None)],
+                     [("PUSH", 1)], [("LOAD", "n")])),
+                   {'name': '阶乘', 'params': ['n'],
+                    'body': [('LOAD', 'n'), ('PUSH', 2), ('CMP_LT', None),
+                             ('JUMP_IF_FALSE', 0), ('PUSH', 1), ('RETURN', None),
+                             ('JUMP', 0), ('LOAD', 'n'), ('RETURN', None)]})],
+        "params": [],
+        "calibration": "对照：protocol-compiler 递归函数（若则体内 RETURN，对齐阶乘 da997ef 语义）",
+    },
     "编译-赋值": {
         "task": "编译赋值",
         "pattern": (
