@@ -471,6 +471,59 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：OS 进程树——父子关系后代收集（fork 产生的进程层级）",
     },
+    "系统调用-接口": {
+        "task": "系统调用",
+        "pattern": (
+            "def syscall_dispatch(table, num, args):\n"
+            "    # 系统调用：编号 → 处理函数分派（未知编号 → None）\n"
+            "    fn = table.get(num)\n"
+            "    if fn is None:\n"
+            "        return None\n"
+            "    return fn(*args)\n"),
+        "cases": [(({1: lambda x: x + 1, 2: lambda a, b: a * b}, 1, [5]), 6),
+                  (({1: lambda x: x}, 2, [3]), None),
+                  (({}, 9, []), None)],
+        "params": [],
+        "calibration": "对照：OS 系统调用——编号分派（syscall 表，未知编号返回 None）",
+    },
+    "信号-信号处理": {
+        "task": "信号处理",
+        "pattern": (
+            "def signal_op(handlers, op, signum=None, handler=None):\n"
+            "    # 信号：注册 handler / 发送信号 / 默认处理（忽略/终止）\n"
+            "    if op == 'register':\n"
+            "        handlers[signum] = handler\n"
+            "        return True\n"
+            "    if op == 'send':\n"
+            "        fn = handlers.get(signum)\n"
+            "        if fn is not None:\n"
+            "            return ('handled', fn())\n"
+            "        return ('default', 'terminate' if signum == 2 else 'ignore')\n"
+            "    return None\n"),
+        "cases": [(({}, 'register', 2, lambda: 'cleanup'), True),
+                  (({2: lambda: 'cleanup'}, 'send', 2), ('handled', 'cleanup')),
+                  (({}, 'send', 2), ('default', 'terminate')),
+                  (({}, 'send', 10), ('default', 'ignore'))],
+        "params": [],
+        "calibration": "对照：OS 信号——注册/发送/默认（SIGINT=2 默认终止，SIGUSR=10 默认忽略）",
+    },
+    "系统调用-参数校验": {
+        "task": "参数校验",
+        "pattern": (
+            "def validate_args(args, types):\n"
+            "    # 系统调用参数校验：类型检查（copy_from_user 语义——非法参数拒绝）\n"
+            "    if len(args) != len(types):\n"
+            "            return False\n"
+            "    for a, t in zip(args, types):\n"
+            "        if not isinstance(a, t):\n"
+            "            return False\n"
+            "    return True\n"),
+        "cases": [(([1, 'x'], [int, str]), True),
+                  (([1, 2], [int, str]), False),
+                  (([1], [int, str]), False)],
+        "params": [],
+        "calibration": "对照：OS 系统调用——参数类型校验（copy_from_user 语义，非法拒绝）",
+    },
 }
 
 

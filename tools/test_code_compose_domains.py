@@ -964,5 +964,40 @@ try:
 except Exception as ex:
     check('㉝c Fetch→Cookie→缓存端到端（GET带Cookie sid=abc 缓存304命中）', False, str(ex)[:60])
 
+# ㉞ 目标4 深化：系统调用/信号（syscall 分派/信号处理/参数校验 经正式管线）
+o7_qs = {
+    "系统调用": "写一个系统调用分派单元（编号查表）",
+    "信号处理": "写一个信号处理单元（注册发送默认）",
+    "参数校验": "写一个系统调用参数校验单元（类型检查）",
+}
+o7_ok = 0
+for label, q in o7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o7_ok += 1
+    check(f'㉞ {label} 系统调用单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉞b 系统调用三单元全部生成', o7_ok == 3, f'{o7_ok}/3')
+
+# ㉞c 端到端：参数校验→syscall 分派→信号处理（校验通过→调用→信号清理）
+r_va = domain_route("写一个系统调用参数校验单元（类型检查）")
+r_sd = domain_route("写一个系统调用分派单元（编号查表）")
+r_sg = domain_route("写一个信号处理单元（注册发送默认）")
+try:
+    ns_va, ns_sd, ns_sg = {}, {}, {}
+    exec(r_va["code"], ns_va)
+    exec(r_sd["code"], ns_sd)
+    exec(r_sg["code"], ns_sg)
+    ok_v = ns_va["validate_args"]([3, 'x'], [int, str])
+    res = ns_sd["syscall_dispatch"]({1: lambda x: x * 2}, 1, [5])
+    ns_sg["signal_op"]({}, 'register', 2, lambda: 'cleanup')
+    sig = ns_sg["signal_op"]({2: lambda: 'cleanup'}, 'send', 2)
+    check('㉞c 校验→分派→信号端到端（类型通过 调用=10 SIGINT清理）',
+          ok_v is True and res == 10 and sig == ('handled', 'cleanup'),
+          f'validate={ok_v} syscall={res} signal={sig}')
+except Exception as ex:
+    check('㉞c 校验→分派→信号端到端（类型通过 调用=10 SIGINT清理）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
