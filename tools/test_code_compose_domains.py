@@ -999,5 +999,41 @@ try:
 except Exception as ex:
     check('㉞c 校验→分派→信号端到端（类型通过 调用=10 SIGINT清理）', False, str(ex)[:60])
 
+# ㉟ 目标7 深化：实时通信（WebSocket握手/帧封装/流式传输 经正式管线）
+n7_qs = {
+    "WebSocket": "写一个 WebSocket 握手单元（Upgrade 101）",
+    "帧封装": "写一个 WebSocket 帧封装单元（FIN opcode）",
+    "流式传输": "写一个流式传输单元（chunked 分块）",
+}
+n7_ok = 0
+for label, q in n7_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n7_ok += 1
+    check(f'㉟ {label} 实时通信单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉟b 实时通信三单元全部生成', n7_ok == 3, f'{n7_ok}/3')
+
+# ㉟c 端到端：WebSocket 握手→帧封装→流式传输（实时通道：握手→发帧→流式数据）
+r_wsh = domain_route("写一个 WebSocket 握手单元（Upgrade 101）")
+r_wf = domain_route("写一个 WebSocket 帧封装单元（FIN opcode）")
+r_ch = domain_route("写一个流式传输单元（chunked 分块）")
+try:
+    ns_wsh, ns_wf, ns_ch = {}, {}, {}
+    exec(r_wsh["code"], ns_wsh)
+    exec(r_wf["code"], ns_wf)
+    exec(r_ch["code"], ns_ch)
+    code, status = ns_wsh["ws_handshake"]({'Upgrade': 'websocket',
+                                           'Sec-WebSocket-Key': 'k'})
+    frame = ns_wf["ws_frame"](1, b'hi')
+    stream = ns_ch["chunked_encode"](b'abcdef', 4)
+    check('㉟c 握手→帧→流式端到端（101 帧\\x81\\x02hi chunked 4+2）',
+          code == 101 and frame == b'\x81\x02hi'
+          and stream == '4\r\nabcd\r\n2\r\nef\r\n0\r\n\r\n',
+          f'ws={code} frame={frame} stream={stream!r}')
+except Exception as ex:
+    check('㉟c 握手→帧→流式端到端（101 帧\\x81\\x02hi chunked 4+2）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

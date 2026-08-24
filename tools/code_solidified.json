@@ -748,5 +748,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:net|网络-WebSocket握手": {
+  "task": "WebSocket握手",
+  "unit": "网络-WebSocket握手",
+  "code": "def ws_handshake(headers):\n    # WebSocket 握手：HTTP Upgrade: websocket → 101 切换协议\n    upgrade = headers.get('Upgrade', '').lower()\n    key_ok = 'Sec-WebSocket-Key' in headers\n    if upgrade == 'websocket' and key_ok:\n        return 101, 'Switching Protocols'\n    return 400, 'Bad Request'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-帧封装": {
+  "task": "帧封装",
+  "unit": "网络-帧封装",
+  "code": "def ws_frame(opcode, payload):\n    # WebSocket 帧：首字节(FIN+opcode) + 长度 + 负载（RFC 6455 简化）\n    fin_opcode = 0x80 | opcode   # FIN=1 + 4bit opcode\n    n = len(payload)\n    if n < 126:\n        return bytes([fin_opcode, n]) + payload\n    return bytes([fin_opcode, 126, (n >> 8) & 0xFF, n & 0xFF]) + payload\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-流式传输": {
+  "task": "流式传输",
+  "unit": "网络-流式传输",
+  "code": "def chunked_encode(data, size=4):\n    # 流式分块传输：数据切块 + 长度前缀（HTTP chunked 语义）\n    out = []\n    for i in range(0, len(data), size):\n        chunk = data[i:i + size]\n        out.append(f'{len(chunk):X}\\r\\n' + chunk.decode('utf-8', 'ignore') + '\\r\\n')\n    out.append('0\\r\\n\\r\\n')\n    return ''.join(out)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

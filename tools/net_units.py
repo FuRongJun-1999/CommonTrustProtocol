@@ -372,6 +372,55 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：网络负载均衡——轮询调度（请求均匀分布到服务器）",
     },
+    "网络-WebSocket握手": {
+        "task": "WebSocket握手",
+        "pattern": (
+            "def ws_handshake(headers):\n"
+            "    # WebSocket 握手：HTTP Upgrade: websocket → 101 切换协议\n"
+            "    upgrade = headers.get('Upgrade', '').lower()\n"
+            "    key_ok = 'Sec-WebSocket-Key' in headers\n"
+            "    if upgrade == 'websocket' and key_ok:\n"
+            "        return 101, 'Switching Protocols'\n"
+            "    return 400, 'Bad Request'\n"),
+        "cases": [(({'Upgrade': 'websocket', 'Sec-WebSocket-Key': 'k'},),
+                   (101, 'Switching Protocols')),
+                  (({'Upgrade': 'http'},), (400, 'Bad Request')),
+                  (({},), (400, 'Bad Request'))],
+        "params": [],
+        "calibration": "对照：WebSocket——HTTP Upgrade 握手（RFC 6455：101 切换协议/400 拒绝）",
+    },
+    "网络-帧封装": {
+        "task": "帧封装",
+        "pattern": (
+            "def ws_frame(opcode, payload):\n"
+            "    # WebSocket 帧：首字节(FIN+opcode) + 长度 + 负载（RFC 6455 简化）\n"
+            "    fin_opcode = 0x80 | opcode   # FIN=1 + 4bit opcode\n"
+            "    n = len(payload)\n"
+            "    if n < 126:\n"
+            "        return bytes([fin_opcode, n]) + payload\n"
+            "    return bytes([fin_opcode, 126, (n >> 8) & 0xFF, n & 0xFF]) + payload\n"),
+        "cases": [((1, b'hi'), b'\x81\x02hi'),
+                  ((2, b'hello'), b'\x82\x05hello'),
+                  ((1, b'x' * 130), bytes([0x81, 126, 0, 130]) + b'x' * 130)],
+        "params": [],
+        "calibration": "对照：WebSocket 帧——FIN+opcode+长度+负载（RFC 6455 帧格式）",
+    },
+    "网络-流式传输": {
+        "task": "流式传输",
+        "pattern": (
+            "def chunked_encode(data, size=4):\n"
+            "    # 流式分块传输：数据切块 + 长度前缀（HTTP chunked 语义）\n"
+            "    out = []\n"
+            "    for i in range(0, len(data), size):\n"
+            "        chunk = data[i:i + size]\n"
+            "        out.append(f'{len(chunk):X}\\r\\n' + chunk.decode('utf-8', 'ignore') + '\\r\\n')\n"
+            "    out.append('0\\r\\n\\r\\n')\n"
+            "    return ''.join(out)\n"),
+        "cases": [((b'abcdef', 4), '4\r\nabcd\r\n2\r\nef\r\n0\r\n\r\n'),
+                  ((b'', 4), '0\r\n\r\n')],
+        "params": [],
+        "calibration": "对照：HTTP 流式传输——chunked 编码（分块+长度前缀+终止块）",
+    },
 }
 
 
