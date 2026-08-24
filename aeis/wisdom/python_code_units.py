@@ -934,6 +934,72 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：copy.deepcopy——嵌套结构递归复制（引用隔离）",
     },
+    "异步-超时控制": {
+        "task": "超时控制",
+        "pattern": (
+            "def wait_for(task_fn, timeout, time_used):\n"
+            "    # 超时控制：用时 ≤ 超时返回结果，超过超时取消（asyncio.wait_for）\n"
+            "    if time_used > timeout:\n"
+            "        return 'timeout'\n"
+            "    return task_fn()\n"),
+        "cases": [((lambda: 'done', 5, 3), 'done'),
+                  ((lambda: 'done', 5, 6), 'timeout'),
+                  ((lambda: None, 0, 0), None)],
+        "params": [],
+        "calibration": "对照：asyncio.wait_for（超时取消/按时完成）",
+    },
+    "异步-任务取消": {
+        "task": "任务取消",
+        "pattern": (
+            "def task_cancel(tasks, op, task_id=None):\n"
+            "    # 任务取消：start 启动 / cancel 请求取消 / check 检查状态（协作式）\n"
+            "    if op == 'start':\n"
+            "        tasks[task_id] = 'running'\n"
+            "        return 'running'\n"
+            "    if op == 'cancel':\n"
+            "        if task_id in tasks and tasks[task_id] == 'running':\n"
+            "            tasks[task_id] = 'cancelled'\n"
+            "            return 'cancelled'\n"
+            "        return 'not_running'\n"
+            "    if op == 'check':\n"
+            "        return tasks.get(task_id)\n"
+            "    return None\n"),
+        "cases": [(({}, 'start', 't1'), 'running'),
+                  (({'t1': 'running'}, 'cancel', 't1'), 'cancelled'),
+                  (({'t1': 'done'}, 'cancel', 't1'), 'not_running'),
+                  (({'t1': 'cancelled'}, 'check', 't1'), 'cancelled')],
+        "params": [],
+        "calibration": "对照：asyncio.Task.cancel（运行中可取消，已完成不可）",
+    },
+    "异步-信号量": {
+        "task": "异步信号量",
+        "pattern": (
+            "def async_semaphore(sem, op):\n"
+            "    # 异步信号量：acquire 获取（满则等待）/ release 释放（并发上限）\n"
+            "    if op == 'acquire':\n"
+            "        if sem.get('count', 0) >= sem.get('limit', 1):\n"
+            "            sem['waiting'] = sem.get('waiting', 0) + 1\n"
+            "            return 'waiting'\n"
+            "        sem['count'] = sem.get('count', 0) + 1\n"
+            "        return 'acquired'\n"
+            "    if op == 'release':\n"
+            "        if sem.get('waiting', 0) > 0:\n"
+            "            sem['waiting'] -= 1\n"
+            "            return 'handoff'\n"
+            "        sem['count'] = max(sem.get('count', 0) - 1, 0)\n"
+            "        return 'released'\n"
+            "    return None\n"),
+        "cases": [(({'limit': 2, 'count': 0, 'waiting': 0}, 'acquire'),
+                   'acquired'),
+                  (({'limit': 2, 'count': 2, 'waiting': 0}, 'acquire'),
+                   'waiting'),
+                  (({'limit': 2, 'count': 2, 'waiting': 0}, 'release'),
+                   'released'),
+                  (({'limit': 2, 'count': 2, 'waiting': 1}, 'release'),
+                   'handoff')],
+        "params": [],
+        "calibration": "对照：asyncio.Semaphore（并发上限，满则等待/释放交接）",
+    },
 }
 
 

@@ -2938,5 +2938,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:pylang|异步-超时控制": {
+  "task": "超时控制",
+  "unit": "异步-超时控制",
+  "code": "def wait_for(task_fn, timeout, time_used):\n    # 超时控制：用时 ≤ 超时返回结果，超过超时取消（asyncio.wait_for）\n    if time_used > timeout:\n        return 'timeout'\n    return task_fn()\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异步-任务取消": {
+  "task": "任务取消",
+  "unit": "异步-任务取消",
+  "code": "def task_cancel(tasks, op, task_id=None):\n    # 任务取消：start 启动 / cancel 请求取消 / check 检查状态（协作式）\n    if op == 'start':\n        tasks[task_id] = 'running'\n        return 'running'\n    if op == 'cancel':\n        if task_id in tasks and tasks[task_id] == 'running':\n            tasks[task_id] = 'cancelled'\n            return 'cancelled'\n        return 'not_running'\n    if op == 'check':\n        return tasks.get(task_id)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异步-信号量": {
+  "task": "异步信号量",
+  "unit": "异步-信号量",
+  "code": "def async_semaphore(sem, op):\n    # 异步信号量：acquire 获取（满则等待）/ release 释放（并发上限）\n    if op == 'acquire':\n        if sem.get('count', 0) >= sem.get('limit', 1):\n            sem['waiting'] = sem.get('waiting', 0) + 1\n            return 'waiting'\n        sem['count'] = sem.get('count', 0) + 1\n        return 'acquired'\n    if op == 'release':\n        if sem.get('waiting', 0) > 0:\n            sem['waiting'] -= 1\n            return 'handoff'\n        sem['count'] = max(sem.get('count', 0) - 1, 0)\n        return 'released'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

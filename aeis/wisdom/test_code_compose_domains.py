@@ -3703,5 +3703,40 @@ try:
 except Exception as ex:
     check('㋉c 引用计数→剖析→栈保护端到端（collected {DE:2} overflow）', False, str(ex)[:60])
 
+# ㋊ 目标1 深化：P 线异步族（超时控制/任务取消/异步信号量 经正式管线）
+p9_qs = {
+    "超时控制": "写一个超时控制单元（wait_for）",
+    "任务取消": "写一个任务取消单元（协作取消）",
+    "异步信号量": "写一个异步信号量单元（并发上限）",
+}
+p9_ok = 0
+for label, q in p9_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p9_ok += 1
+    check(f'㋊ {label} P线异步单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋊b P线异步三单元全部生成', p9_ok == 3, f'{p9_ok}/3')
+
+# ㋊c 异步端到端：超时→取消→信号量（done cancelled handoff）
+r_wf = domain_route("写一个超时控制单元（wait_for）")
+r_tc = domain_route("写一个任务取消单元（协作取消）")
+r_as = domain_route("写一个异步信号量单元（并发上限）")
+try:
+    ns_wf, ns_tc, ns_as = {}, {}, {}
+    exec(r_wf["code"], ns_wf)
+    exec(r_tc["code"], ns_tc)
+    exec(r_as["code"], ns_as)
+    wf = ns_wf["wait_for"](lambda: 'done', 5, 3)
+    tc = ns_tc["task_cancel"]({'t1': 'running'}, 'cancel', 't1')
+    sem = {'limit': 2, 'count': 2, 'waiting': 1}
+    asem = ns_as["async_semaphore"](sem, 'release')
+    check('㋊c 超时→取消→信号量端到端（done cancelled handoff）',
+          wf == 'done' and tc == 'cancelled' and asem == 'handoff',
+          f'wait={wf} cancel={tc} sem={asem}')
+except Exception as ex:
+    check('㋊c 超时→取消→信号量端到端（done cancelled handoff）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
