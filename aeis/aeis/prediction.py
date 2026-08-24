@@ -98,7 +98,12 @@ class PredictionEngine:
             return 0.0
 
     def _branch_candidates(self, start_id: str) -> List:
-        """分支候选：因果边（直通）+ 语义邻近（经过滤门 D-002）"""
+        """分支候选：因果边（直通）+ 语义邻近（经过滤门 D-002）
+        v1.16（GPT 审查·可信度分层）：不同来源具有不同认知地位——
+          causal（显式因果边）→ 高可信主路径（边置信度）
+          structural（共同父结构模式）→ 中可信探索路径（0.6）
+          preference（注意力偏好）→ 低可信假设路径（0.3）
+        不禁止低可信候选（CNN/探索是感知机构，禁止会掐死探索）——只分层。"""
         candidates = []
         seen = set()
         for e in self.engine.store.get_outgoing_edges(start_id):
@@ -108,10 +113,12 @@ class PredictionEngine:
         for n in self.semantic_neighbors(start_id, k=5):
             if n.id in seen:
                 continue
-            if (self.has_causal_link(start_id, n.id)
-                    or self.has_structural_pattern(start_id, n.id)
-                    or self._preference_weight(n.content) > 0.8):
-                candidates.append((n.id, 0.4, "semantic_induced"))
+            if self.has_causal_link(start_id, n.id):
+                candidates.append((n.id, 0.6, "structural_causal"))
+            elif self.has_structural_pattern(start_id, n.id):
+                candidates.append((n.id, 0.6, "structural_pattern"))
+            elif self._preference_weight(n.content) > 0.8:
+                candidates.append((n.id, 0.3, "semantic_induced"))
         return candidates
 
     # ==================== 生成式预测：因果路线图（D-001/D-004） ====================
@@ -293,7 +300,9 @@ class PredictionEngine:
                                    actual_node_id: str, hit: bool,
                                    note: str = "") -> Dict:
         """命中：路径强化（边置信度 +0.05）/ 未命中：衰减 + 被拒路径登记
-        v1.15：note 记录到验证条目（可审计）"""
+        v1.15：note 记录到验证条目（可审计）
+        v1.16（GPT 审查·自动条件化）：未命中 → 除登记被拒路径外，**自动发现
+        缺失条件并写入条件候选节点**（错误 → 新条件 → 新结构，不等待飞轮触发）"""
         self._hit_history.append(hit)
         if len(self._hit_history) > 200:
             self._hit_history = self._hit_history[-200:]
@@ -310,7 +319,57 @@ class PredictionEngine:
                     reason=f"实际节点：{actual_node_id}")
             except Exception:
                 pass
+            # 自动条件化：比较预测/实际节点条件空间 → 缺失条件 → 条件候选节点
+            try:
+                self._auto_conditionize(predicted_node_id, actual_node_id)
+            except Exception:
+                pass
         return self._dynamic_hit_threshold()
+
+    def _auto_conditionize(self, predicted_id: str, actual_id: str) -> List[str]:
+        """预测误差自动条件化（GPT 审查·第一优先级）：
+        错误 → 发现缺失条件 → 条件候选节点（条件成为可学习的认知对象）。
+        机制：比较预测节点 vs 实际节点的条件空间——实际有的存在约束/观测
+        位置预测没有 → 即「遗漏条件」，写入条件候选节点（可验证/可继承）。"""
+        try:
+            pn = self.engine.store.get_node(predicted_id)
+            an = self.engine.store.get_node(actual_id)
+        except Exception:
+            return []
+        if not pn or not an:
+            return []
+        missing = []
+        try:
+            import json as _json
+            p_cs = _json.loads(pn.condition_space.to_json()) if pn.condition_space else {}
+            a_cs = _json.loads(an.condition_space.to_json()) if an.condition_space else {}
+        except Exception:
+            return []
+        p_ec = str(p_cs.get("existence_constraint", "")).strip()
+        a_ec = str(a_cs.get("existence_constraint", "")).strip()
+        if a_ec and a_ec != p_ec:
+            missing.append(f"缺失条件：{a_ec}")
+        a_pos = str(a_cs.get("observation_position", "")).strip()
+        p_pos = str(p_cs.get("observation_position", "")).strip()
+        if a_pos and a_pos != p_pos and "外部" not in a_pos:
+            missing.append(f"缺失条件：观测位置[{a_pos}]")
+        created = []
+        for cond in missing:
+            try:
+                node = self.engine.add_perception(
+                    content=f"[条件候选] {cond}（预测误差自动条件化：{predicted_id}→{actual_id}）",
+                    importance=0.7,
+                    tags=["condition_candidate", "auto_conditionized", "prediction_error"])
+                created.append(node.id)
+            except Exception:
+                pass
+        if created:
+            self.prediction_log.append({"type": "auto_conditionize",
+                                        "predicted": predicted_id,
+                                        "actual": actual_id,
+                                        "conditions": missing,
+                                        "created": created, "ts": time.time()})
+        return created
 
     def _dynamic_hit_threshold(self) -> Dict:
         """D-006：动态阈值 max(BASE, mean-2σ)；样本 < MIN_SAMPLES 不触发反思"""

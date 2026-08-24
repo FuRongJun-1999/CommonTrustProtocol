@@ -80,5 +80,38 @@ try:
 except Exception as e:
     check("④ 误差→被拒路径", False, f"异常: {e}")
 
+# ============ ⑤ 预测误差自动条件化（GPT 审查·第一优先级） ============
+try:
+    from aeis.core import ConditionSpace
+    n_pred = agent.remember("高原水沸点预测为100°C", importance=0.8)
+    n_actual = agent.remember(
+        "高原水沸点实际约88°C（气压低）", importance=0.8,
+        condition_space=ConditionSpace(
+            observation_position="高原观测位", observation_tool="温度计",
+            time_window=(0.0, 0.0), existence_constraint="气压低（海拔高）时"))
+    agent.prediction_feedback(predicted_node_id=n_pred.id,
+                              actual_node_id=n_actual.id, hit=False)
+    candidates = agent.engine.store.get_nodes_by_tag(
+        "condition_candidate", limit=10)
+    ok = len(candidates) >= 1 and any(
+        "气压低" in (c.content or "") for c in candidates)
+    check("⑤ 预测误差自动条件化（错误→缺失条件→条件候选节点）", ok,
+          f"{len(candidates)} 个条件候选" if candidates else "无")
+    if candidates:
+        print(f'    条件候选: {candidates[0].content[:70]}')
+except Exception as e:
+    check("⑤ 预测误差自动条件化", False, f"异常: {e}")
+
+# ============ ⑥ 候选路径可信度分层（GPT 审查·第三优先级） ============
+try:
+    from aeis.prediction import PredictionEngine
+    pe = PredictionEngine(agent.engine)
+    cands = pe._branch_candidates(n_a.id)
+    tiers = [c[2] for c in cands]
+    check("⑥ 候选路径分层（causal 主路径保留）", "causal" in tiers,
+          f"来源: {tiers[:5]}")
+except Exception as e:
+    check("⑥ 候选路径分层", False, f"异常: {e}")
+
 print(f"\n=== 白箱纯度核查: {PASS}/{TOTAL} 通过 ===")
 sys.exit(0 if PASS == TOTAL else 1)
