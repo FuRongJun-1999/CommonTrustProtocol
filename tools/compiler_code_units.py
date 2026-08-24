@@ -1906,6 +1906,57 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：词法——行号跟踪（token 附行号，调试定位）",
     },
+    "词法-关键字识别": {
+        "task": "关键字识别",
+        "pattern": (
+            "def keyword_check(word, keywords):\n"
+            "    # 关键字识别：命中关键字表返回 (KW, 词) 否则 None（词法分类）\n"
+            "    if word in keywords:\n"
+            "        return ('KW', word)\n"
+            "    return None\n"),
+        "cases": [
+            (('若', ('若', '则', '否则')), ('KW', '若')),
+            (('x', ('若', '则')), None),
+            (('若', ()), None)],
+        "params": [],
+        "calibration": "对照：词法——关键字表命中分类（KW token）",
+    },
+    "编译-常量池": {
+        "task": "常量池",
+        "pattern": (
+            "def literal_pool(pool, op, value=None):\n"
+            "    # 常量池：add 去重登记 / get 取索引 / size 池大小（字面量去重）\n"
+            "    if op == 'add':\n"
+            "        if value not in pool:\n"
+            "            pool.append(value)\n"
+            "        return pool.index(value)\n"
+            "    if op == 'get':\n"
+            "        return pool[value] if 0 <= value < len(pool) else None\n"
+            "    if op == 'size':\n"
+            "        return len(pool)\n"
+            "    return None\n"),
+        "cases": [
+            (([], 'add', 42), 0),
+            (([42], 'add', 42), 0),
+            (([42, 7], 'get', 1), 7),
+            (([42], 'size'), 1)],
+        "params": [],
+        "calibration": "对照：编译——常量池字面量去重（LDC 索引引用）",
+    },
+    "语法-语句分隔": {
+        "task": "语句分隔",
+        "pattern": (
+            "def split_statements(src):\n"
+            "    # 语句分隔：按分号拆分多语句（语句序列解析）\n"
+            "    return [s.strip() for s in src.split(';') if s.strip()]\n"),
+        "cases": [
+            (('甲 = 1;乙 = 2',), ['甲 = 1', '乙 = 2']),
+            (('单语句',), ['单语句']),
+            (('',), []),
+            (('甲=1;;乙=2',), ['甲=1', '乙=2'])],
+        "params": [],
+        "calibration": "对照：语法——分号语句分隔（多语句序列）",
+    },
 }
 
 

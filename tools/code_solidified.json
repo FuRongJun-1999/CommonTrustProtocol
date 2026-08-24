@@ -4418,5 +4418,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:compiler|词法-关键字识别": {
+  "task": "关键字识别",
+  "unit": "词法-关键字识别",
+  "code": "def keyword_check(word, keywords):\n    # 关键字识别：命中关键字表返回 (KW, 词) 否则 None（词法分类）\n    if word in keywords:\n        return ('KW', word)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-常量池": {
+  "task": "常量池",
+  "unit": "编译-常量池",
+  "code": "def literal_pool(pool, op, value=None):\n    # 常量池：add 去重登记 / get 取索引 / size 池大小（字面量去重）\n    if op == 'add':\n        if value not in pool:\n            pool.append(value)\n        return pool.index(value)\n    if op == 'get':\n        return pool[value] if 0 <= value < len(pool) else None\n    if op == 'size':\n        return len(pool)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|语法-语句分隔": {
+  "task": "语句分隔",
+  "unit": "语法-语句分隔",
+  "code": "def split_statements(src):\n    # 语句分隔：按分号拆分多语句（语句序列解析）\n    return [s.strip() for s in src.split(';') if s.strip()]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

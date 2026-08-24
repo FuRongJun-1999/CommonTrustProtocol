@@ -5441,5 +5441,40 @@ except Exception as ex:
     check('㋺c 像素→触控→方向端到端（True (10,5) 竖屏）',
           False, str(ex)[:60])
 
+# ㋻ 目标2 深化：词法/编译/语法（关键字识别/常量池/语句分隔 经正式管线）
+c19_qs = {
+    "关键字识别": "写一个关键字识别单元（词法分类）",
+    "常量池": "写一个常量池单元（字面量去重）",
+    "语句分隔": "写一个语句分隔单元（分号拆分）",
+}
+c19_ok = 0
+for label, q in c19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c19_ok += 1
+    check(f'㋻ {label} 词法/编译/语法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋻b 词法/编译/语法三单元全部生成', c19_ok == 3, f'{c19_ok}/3')
+
+# ㋻c 端到端：关键字→常量池→语句分隔（('KW','若') 0 [甲=1,乙=2]）
+r_kw = domain_route("写一个关键字识别单元（词法分类）")
+r_lp = domain_route("写一个常量池单元（字面量去重）")
+r_ss = domain_route("写一个语句分隔单元（分号拆分）")
+try:
+    ns_kw, ns_lp, ns_ss = {}, {}, {}
+    exec(r_kw["code"], ns_kw)
+    exec(r_lp["code"], ns_lp)
+    exec(r_ss["code"], ns_ss)
+    kw = ns_kw["keyword_check"]('若', ('若', '则', '否则'))
+    lp = ns_lp["literal_pool"]([], 'add', 42)
+    ss = ns_ss["split_statements"]('甲 = 1;乙 = 2')
+    check('㋻c 关键字→常量池→语句分隔端到端（(\'KW\',\'若\') 0 [甲=1,乙=2]）',
+          kw == ('KW', '若') and lp == 0 and ss == ['甲 = 1', '乙 = 2'],
+          f'kw={kw} pool={lp} stmts={ss}')
+except Exception as ex:
+    check('㋻c 关键字→常量池→语句分隔端到端（(\'KW\',\'若\') 0 [甲=1,乙=2]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
