@@ -3148,5 +3148,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:compiler|语法-三元表达式": {
+  "task": "三元表达式",
+  "unit": "语法-三元表达式",
+  "code": "def ternary_compile(cond, then_expr, else_expr):\n    # 三元表达式：条件 ? 真值 : 假值 → 条件跳转字节码\n    code = list(cond)\n    else_lbl = len(code) + 1 + len(then_expr) + 1\n    code.append(('JUMP_IF_FALSE', else_lbl))\n    code.extend(then_expr)\n    end_lbl = len(code) + 1 + len(else_expr)\n    code.append(('JUMP', end_lbl))\n    code.extend(else_expr)\n    return code\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|语法-复合赋值": {
+  "task": "复合赋值",
+  "unit": "语法-复合赋值",
+  "code": "def compound_assign(op, name, expr):\n    # 复合赋值：甲 += 表达式 → LOAD 甲 + 表达式 + 运算 + STORE 甲\n    ops = {'+=': 'ADD', '-=': 'SUB', '*=': 'MUL'}\n    return [('LOAD', name)] + list(expr) + \\\n        [(ops[op], None), ('STORE', name)]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|语法-位运算": {
+  "task": "位运算",
+  "unit": "语法-位运算",
+  "code": "def bitwise_op(a, b, op):\n    # 位运算：按位与/或/异或/取反（bitwise 操作符）\n    if op == 'and':\n        return a & b\n    if op == 'or':\n        return a | b\n    if op == 'xor':\n        return a ^ b\n    if op == 'not':\n        return ~a\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

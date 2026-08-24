@@ -1426,6 +1426,63 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：数据流分析——def-use 链（定义到使用的数据流）",
     },
+    "语法-三元表达式": {
+        "task": "三元表达式",
+        "pattern": (
+            "def ternary_compile(cond, then_expr, else_expr):\n"
+            "    # 三元表达式：条件 ? 真值 : 假值 → 条件跳转字节码\n"
+            "    code = list(cond)\n"
+            "    else_lbl = len(code) + 1 + len(then_expr) + 1\n"
+            "    code.append(('JUMP_IF_FALSE', else_lbl))\n"
+            "    code.extend(then_expr)\n"
+            "    end_lbl = len(code) + 1 + len(else_expr)\n"
+            "    code.append(('JUMP', end_lbl))\n"
+            "    code.extend(else_expr)\n"
+            "    return code\n"),
+        "cases": [(([("LOAD", "x")], [("PUSH", 1)], [("PUSH", 0)]),
+                   [("LOAD", "x"), ("JUMP_IF_FALSE", 4), ("PUSH", 1),
+                    ("JUMP", 5), ("PUSH", 0)])],
+        "params": [],
+        "calibration": "对照：三元条件表达式——条件跳转选真/假分支",
+    },
+    "语法-复合赋值": {
+        "task": "复合赋值",
+        "pattern": (
+            "def compound_assign(op, name, expr):\n"
+            "    # 复合赋值：甲 += 表达式 → LOAD 甲 + 表达式 + 运算 + STORE 甲\n"
+            "    ops = {'+=': 'ADD', '-=': 'SUB', '*=': 'MUL'}\n"
+            "    return [('LOAD', name)] + list(expr) + \\\n"
+            "        [(ops[op], None), ('STORE', name)]\n"),
+        "cases": [(('+=', '甲', [("PUSH", 2)]),
+                   [("LOAD", "甲"), ("PUSH", 2), ("ADD", None),
+                    ("STORE", "甲")]),
+                  (('*=', '乙', [("PUSH", 3)]),
+                   [("LOAD", "乙"), ("PUSH", 3), ("MUL", None),
+                    ("STORE", "乙")])],
+        "params": [],
+        "calibration": "对照：复合赋值——+= 展开为 LOAD+运算+STORE",
+    },
+    "语法-位运算": {
+        "task": "位运算",
+        "pattern": (
+            "def bitwise_op(a, b, op):\n"
+            "    # 位运算：按位与/或/异或/取反（bitwise 操作符）\n"
+            "    if op == 'and':\n"
+            "        return a & b\n"
+            "    if op == 'or':\n"
+            "        return a | b\n"
+            "    if op == 'xor':\n"
+            "        return a ^ b\n"
+            "    if op == 'not':\n"
+            "        return ~a\n"
+            "    return None\n"),
+        "cases": [((5, 3, 'and'), 1),
+                  ((5, 3, 'or'), 7),
+                  ((5, 3, 'xor'), 6),
+                  ((5, 0, 'not'), -6)],
+        "params": [],
+        "calibration": "对照：位运算——与/或/异或/取反（bitwise 语义）",
+    },
 }
 
 

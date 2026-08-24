@@ -3949,5 +3949,43 @@ try:
 except Exception as ex:
     check('㋐c 映射→过滤→归约端到端（[2,4,6] [2,4] 6）', False, str(ex)[:60])
 
+# ㋑ 目标2 深化：语法表达式（三元/复合赋值/位运算 经正式管线）
+c12_qs = {
+    "三元表达式": "写一个三元表达式单元（条件选支）",
+    "复合赋值": "写一个复合赋值单元（+= 展开）",
+    "位运算": "写一个位运算单元（按位操作）",
+}
+c12_ok = 0
+for label, q in c12_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c12_ok += 1
+    check(f'㋑ {label} 语法表达式单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋑b 语法表达式三单元全部生成', c12_ok == 3, f'{c12_ok}/3')
+
+# ㋑c 语法端到端：三元→复合赋值→位运算（跳转码 展开 异或6）
+r_tt = domain_route("写一个三元表达式单元（条件选支）")
+r_ca = domain_route("写一个复合赋值单元（+= 展开）")
+r_bw = domain_route("写一个位运算单元（按位操作）")
+try:
+    ns_tt, ns_ca, ns_bw = {}, {}, {}
+    exec(r_tt["code"], ns_tt)
+    exec(r_ca["code"], ns_ca)
+    exec(r_bw["code"], ns_bw)
+    tt = ns_tt["ternary_compile"]([("LOAD", "x")], [("PUSH", 1)], [("PUSH", 0)])
+    ca = ns_ca["compound_assign"]('+=', '甲', [("PUSH", 2)])
+    bw = ns_bw["bitwise_op"](5, 3, 'xor')
+    check('㋑c 三元→复合赋值→位运算端到端（JIF4 展开 6）',
+          tt == [("LOAD", "x"), ("JUMP_IF_FALSE", 4), ("PUSH", 1),
+                 ("JUMP", 5), ("PUSH", 0)]
+          and ca == [("LOAD", "甲"), ("PUSH", 2), ("ADD", None),
+                     ("STORE", "甲")]
+          and bw == 6,
+          f'ternary={tt} assign={ca} bit={bw}')
+except Exception as ex:
+    check('㋑c 三元→复合赋值→位运算端到端（JIF4 展开 6）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
