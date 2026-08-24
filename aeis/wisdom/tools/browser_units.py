@@ -1274,6 +1274,67 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：navigator.onLine + online/offline 事件（网络状态监测）",
     },
+    "渲染-命中测试": {
+        "task": "命中测试",
+        "pattern": (
+            "def hit_test(layers, x, y):\n"
+            "    # 命中测试：从顶层向下找包含 (x,y) 的元素（点击命中）\n"
+            "    for layer in layers:\n"
+            "        x1, y1, x2, y2, name = layer\n"
+            "        if x1 <= x <= x2 and y1 <= y <= y2:\n"
+            "            return name\n"
+            "    return None\n"),
+        "cases": [
+            ((((0, 0, 10, 10, '甲'), (20, 20, 30, 30, '乙')), 5, 5), '甲'),
+            ((((0, 0, 10, 10, '甲'), (20, 20, 30, 30, '乙')), 25, 25), '乙'),
+            ((((0, 0, 10, 10, '甲'),), 50, 50), None)],
+        "params": [],
+        "calibration": "对照：渲染命中测试——从顶向下坐标包含判定（点击命中元素）",
+    },
+    "浏览器-标签页通信": {
+        "task": "标签页通信",
+        "pattern": (
+            "def tab_channel(state, op, msg=None):\n"
+            "    # 标签页通信：post 广播消息 / recv 收取 / listeners 统计（BroadcastChannel）\n"
+            "    if op == 'post':\n"
+            "        state.setdefault('msgs', []).append(msg)\n"
+            "        return 'sent'\n"
+            "    if op == 'recv':\n"
+            "        msgs = state.get('msgs', [])\n"
+            "        return msgs[-1] if msgs else None\n"
+            "    if op == 'listeners':\n"
+            "        return state.get('n', 0)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'post', 'hi'), 'sent'),
+            (({'msgs': ['a', 'b']}, 'recv'), 'b'),
+            (({}, 'recv'), None),
+            (({'n': 3}, 'listeners'), 3)],
+        "params": [],
+        "calibration": "对照：BroadcastChannel/postMessage——跨标签页广播通信",
+    },
+    "浏览器-页面可见性": {
+        "task": "页面可见性",
+        "pattern": (
+            "def visibility(state, op, v=None):\n"
+            "    # 页面可见性：set 切换 visible/hidden / get 当前 / events 记录（visibilitychange）\n"
+            "    if op == 'set':\n"
+            "        state['vis'] = v\n"
+            "        state.setdefault('events', []).append(v)\n"
+            "        return v\n"
+            "    if op == 'get':\n"
+            "        return state.get('vis', 'visible')\n"
+            "    if op == 'events':\n"
+            "        return list(state.get('events', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'set', 'hidden'), 'hidden'),
+            (({}, 'get'), 'visible'),
+            (({'vis': 'hidden'}, 'get'), 'hidden'),
+            (({'events': ['visible', 'hidden']}, 'events'), ['visible', 'hidden'])],
+        "params": [],
+        "calibration": "对照：document.visibilityState——页面可见性（visible/hidden 切换）",
+    },
 }
 
 

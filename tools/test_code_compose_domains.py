@@ -5301,5 +5301,40 @@ except Exception as ex:
     check('㋶c 闭包→着色→最小割端到端（对角True {0:0,1:1,2:0} 4）',
           False, str(ex)[:60])
 
+# ㋷ 目标5 深化：浏览器机制（命中测试/标签页通信/页面可见性 经正式管线）
+b12_qs = {
+    "命中测试": "写一个命中测试单元（点击命中）",
+    "标签页通信": "写一个标签页通信单元（跨标签广播）",
+    "页面可见性": "写一个页面可见性单元（隐藏切换）",
+}
+b12_ok = 0
+for label, q in b12_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b12_ok += 1
+    check(f'㋷ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋷b 浏览器机制三单元全部生成', b12_ok == 3, f'{b12_ok}/3')
+
+# ㋷c 机制端到端：命中→标签页→可见性（甲 sent hidden）
+r_ht = domain_route("写一个命中测试单元（点击命中）")
+r_tc = domain_route("写一个标签页通信单元（跨标签广播）")
+r_vi = domain_route("写一个页面可见性单元（隐藏切换）")
+try:
+    ns_ht, ns_tc, ns_vi = {}, {}, {}
+    exec(r_ht["code"], ns_ht)
+    exec(r_tc["code"], ns_tc)
+    exec(r_vi["code"], ns_vi)
+    ht = ns_ht["hit_test"](((0, 0, 10, 10, '甲'), (20, 20, 30, 30, '乙')), 5, 5)
+    tc = ns_tc["tab_channel"]({}, 'post', 'hi')
+    vi = ns_vi["visibility"]({}, 'set', 'hidden')
+    check('㋷c 命中→标签页→可见性端到端（甲 sent hidden）',
+          ht == '甲' and tc == 'sent' and vi == 'hidden',
+          f'hit={ht} chan={tc} vis={vi}')
+except Exception as ex:
+    check('㋷c 命中→标签页→可见性端到端（甲 sent hidden）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
