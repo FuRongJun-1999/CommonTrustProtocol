@@ -754,6 +754,8 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
 
     # 0. 角色条件路由（v1.29）：角色知识域优先——条件=当前角色。
     # 触发词命中角色簇 → 角色直答（身份/住处/食物/特征/闲聊，全部角色化）。
+    # v6（白箱自举·角色扮演主线）：角色簇未覆盖 → 组合引擎角色生成
+    # （场景方向识别×角色条件单元 → 角色化回答，零 LLM；OOC 检测先裁决）。
     # 角色知识域是条件路由表条目：角色条件 → 角色知识；未覆盖落回通用域。
     if role_ctx:
         try:
@@ -764,6 +766,17 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
                     return {"reply": _rans, "hits": [], "emotion": None,
                             "honest": False, "role_reply": True,
                             "role": role_ctx, "role_trigger": _trig}
+            # 角色簇未覆盖 → 组合引擎角色生成（场景×角色单元）
+            try:
+                import role_compose as _rc
+                _rr = _rc.role_route(message, role_ctx)
+                if _rr.get("ok") and _rr.get("answer"):
+                    return {"reply": _rr["answer"], "hits": [], "emotion": None,
+                            "honest": False, "role_reply": True,
+                            "role": role_ctx, "role_compose": True,
+                            "role_route": _rr.get("route")}
+            except Exception:
+                pass
         except Exception:
             pass
 
