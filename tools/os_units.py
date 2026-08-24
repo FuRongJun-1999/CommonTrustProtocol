@@ -758,6 +758,62 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：文件系统快照——写时复制（修改前复制原块，可回滚）",
     },
+    "启动-引导加载": {
+        "task": "引导加载",
+        "pattern": (
+            "def bootloader(disk, stage):\n"
+            "    # bootloader：MBR→内核加载（引导阶段推进）\n"
+            "    if stage == 'mbr':\n"
+            "        return ('loaded', disk.get('kernel', 'vmlinuz'))\n"
+            "    if stage == 'initrd':\n"
+            "        return ('mounted', 'initramfs')\n"
+            "    return 'unknown'\n"),
+        "cases": [(({'kernel': 'vmlinuz'}, 'mbr'), ('loaded', 'vmlinuz')),
+                  (({}, 'initrd'), ('mounted', 'initramfs')),
+                  (({}, 'x'), 'unknown')],
+        "params": [],
+        "calibration": "对照：OS 启动——bootloader（MBR→内核→initrd 加载）",
+    },
+    "启动-初始化流程": {
+        "task": "初始化流程",
+        "pattern": (
+            "def init_sequence(services):\n"
+            "    # init 进程：按依赖顺序启动服务（启动序列）\n"
+            "    order = []\n"
+            "    remaining = set(services)\n"
+            "    while remaining:\n"
+            "        for s in sorted(remaining):\n"
+            "            deps = services[s]\n"
+            "            if all(d in order for d in deps):\n"
+            "                order.append(s)\n"
+            "                remaining.remove(s)\n"
+            "                break\n"
+            "    return order\n"),
+        "cases": [(({'网络': [], '应用': ['网络'], '存储': []},),
+                   ['存储', '网络', '应用']),
+                  (({},), [])],
+        "params": [],
+        "calibration": "对照：OS init——依赖排序启动（先依赖后服务）",
+    },
+    "系统-固件接口": {
+        "task": "固件接口",
+        "pattern": (
+            "def firmware_call(fw, call):\n"
+            "    # 固件接口：UEFI/BIOS 调用（硬件抽象服务）\n"
+            "    if call == 'get_time':\n"
+            "        return fw.get('time', 0)\n"
+            "    if call == 'reboot':\n"
+            "        return 'rebooting'\n"
+            "    if call == 'set_boot':\n"
+            "        fw['boot_dev'] = 'disk0'\n"
+            "        return 'set'\n"
+            "    return None\n"),
+        "cases": [(({'time': 42}, 'get_time'), 42),
+                  (({}, 'reboot'), 'rebooting'),
+                  (({}, 'set_boot'), 'set')],
+        "params": [],
+        "calibration": "对照：固件接口——UEFI 服务（时间/重启/启动设备）",
+    },
 }
 
 

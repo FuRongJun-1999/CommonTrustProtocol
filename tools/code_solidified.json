@@ -1228,5 +1228,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:os|启动-引导加载": {
+  "task": "引导加载",
+  "unit": "启动-引导加载",
+  "code": "def bootloader(disk, stage):\n    # bootloader：MBR→内核加载（引导阶段推进）\n    if stage == 'mbr':\n        return ('loaded', disk.get('kernel', 'vmlinuz'))\n    if stage == 'initrd':\n        return ('mounted', 'initramfs')\n    return 'unknown'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|启动-初始化流程": {
+  "task": "初始化流程",
+  "unit": "启动-初始化流程",
+  "code": "def init_sequence(services):\n    # init 进程：按依赖顺序启动服务（启动序列）\n    order = []\n    remaining = set(services)\n    while remaining:\n        for s in sorted(remaining):\n            deps = services[s]\n            if all(d in order for d in deps):\n                order.append(s)\n                remaining.remove(s)\n                break\n    return order\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-固件接口": {
+  "task": "固件接口",
+  "unit": "系统-固件接口",
+  "code": "def firmware_call(fw, call):\n    # 固件接口：UEFI/BIOS 调用（硬件抽象服务）\n    if call == 'get_time':\n        return fw.get('time', 0)\n    if call == 'reboot':\n        return 'rebooting'\n    if call == 'set_boot':\n        fw['boot_dev'] = 'disk0'\n        return 'set'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }

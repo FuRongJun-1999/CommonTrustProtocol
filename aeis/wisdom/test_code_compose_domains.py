@@ -1597,5 +1597,40 @@ try:
 except Exception as ex:
     check('㊐c IPv6→隧道→VLAN 端到端（8组 封装解封 VLAN100）', False, str(ex)[:60])
 
+# ㊑ 目标4 深化：启动/固件（引导加载/初始化流程/固件接口 经正式管线）
+o12_qs = {
+    "引导加载": "写一个引导加载单元（MBR 内核）",
+    "初始化流程": "写一个初始化流程单元（依赖排序）",
+    "固件接口": "写一个固件接口单元（UEFI 调用）",
+}
+o12_ok = 0
+for label, q in o12_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o12_ok += 1
+    check(f'㊑ {label} 启动/固件单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊑b 启动/固件三单元全部生成', o12_ok == 3, f'{o12_ok}/3')
+
+# ㊑c 端到端：固件调用→引导加载→初始化流程（硬件→内核→服务）
+r_fw = domain_route("写一个固件接口单元（UEFI 调用）")
+r_bl = domain_route("写一个引导加载单元（MBR 内核）")
+r_is = domain_route("写一个初始化流程单元（依赖排序）")
+try:
+    ns_fw, ns_bl, ns_is = {}, {}, {}
+    exec(r_fw["code"], ns_fw)
+    exec(r_bl["code"], ns_bl)
+    exec(r_is["code"], ns_is)
+    t = ns_fw["firmware_call"]({'time': 42}, 'get_time')
+    k = ns_bl["bootloader"]({'kernel': 'vmlinuz'}, 'mbr')
+    order = ns_is["init_sequence"]({'网络': [], '应用': ['网络'], '存储': []})
+    check('㊑c 固件→引导→init 端到端（时间42 内核vmlinuz 存储网络应用）',
+          t == 42 and k == ('loaded', 'vmlinuz')
+          and order == ['存储', '网络', '应用'],
+          f'fw={t} boot={k} init={order}')
+except Exception as ex:
+    check('㊑c 固件→引导→init 端到端（时间42 内核vmlinuz 存储网络应用）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
