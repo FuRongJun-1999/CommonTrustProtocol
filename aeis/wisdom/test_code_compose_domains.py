@@ -1522,5 +1522,44 @@ try:
 except Exception as ex:
     check('㊎c 条带→奇偶→快照端到端（ace/bdf 奇偶0 回滚a）', False, str(ex)[:60])
 
+# ㊏ 目标5 深化：PWA（Service Worker/推送/IndexedDB 经正式管线）
+b8_qs = {
+    "Service Worker": "写一个 Service Worker 单元（生命周期拦截）",
+    "推送": "写一个推送通知单元（订阅发送）",
+    "IndexedDB": "写一个 IndexedDB 单元（对象事务）",
+}
+b8_ok = 0
+for label, q in b8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b8_ok += 1
+    check(f'㊏ {label} PWA单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊏b PWA三单元全部生成', b8_ok == 3, f'{b8_ok}/3')
+
+# ㊏c 端到端：SW 激活→推送订阅→IndexedDB 存储（PWA 能力链）
+r_sw = domain_route("写一个 Service Worker 单元（生命周期拦截）")
+r_pu = domain_route("写一个推送通知单元（订阅发送）")
+r_idb = domain_route("写一个 IndexedDB 单元（对象事务）")
+try:
+    ns_sw, ns_pu, ns_idb = {}, {}, {}
+    exec(r_sw["code"], ns_sw)
+    exec(r_pu["code"], ns_pu)
+    exec(r_idb["code"], ns_idb)
+    sw = {'status': 'idle'}
+    ns_sw["sw_lifecycle"](sw, 'install')
+    st = ns_sw["sw_lifecycle"](sw, 'activate')
+    ep = ns_pu["push_msg"]({'endpoint': None}, 'subscribe')
+    sent = ns_pu["push_msg"]({'endpoint': 'e'}, 'send', '新消息')
+    ns_idb["idb_txn"]({}, 'put', 'k', 'v')
+    got = ns_idb["idb_txn"]({'k': 'v'}, 'get', 'k')
+    check('㊏c SW→推送→IndexedDB 端到端（active 订阅发送 存取v）',
+          st == 'active' and ep == 'push.example.com'
+          and sent == ('sent', '新消息') and got == 'v',
+          f'sw={st} push={ep},{sent} idb={got}')
+except Exception as ex:
+    check('㊏c SW→推送→IndexedDB 端到端（active 订阅发送 存取v）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

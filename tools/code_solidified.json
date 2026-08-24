@@ -1168,5 +1168,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:browser|并行-Service Worker": {
+  "task": "Service Worker",
+  "unit": "并行-Service Worker",
+  "code": "def sw_lifecycle(sw, event, url=None):\n    # Service Worker：install→activate→fetch 拦截（离线能力核心）\n    if event == 'install':\n        sw['status'] = 'installed'\n        return 'installed'\n    if event == 'activate':\n        sw['status'] = 'active'\n        return 'active'\n    if event == 'fetch':\n        cache = sw.get('cache', {})\n        if url in cache:\n            return ('cached', cache[url])\n        return ('network', url)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|通知-推送消息": {
+  "task": "推送通知",
+  "unit": "通知-推送消息",
+  "code": "def push_msg(sub, op, payload=None):\n    # Push API：订阅/推送（服务器 → 用户设备通知）\n    if op == 'subscribe':\n        sub['endpoint'] = 'push.example.com'\n        return sub['endpoint']\n    if op == 'send':\n        if not sub.get('endpoint'):\n            return 'not_subscribed'\n        sub['last'] = payload\n        return ('sent', payload)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|存储-IndexedDB": {
+  "task": "IndexedDB",
+  "unit": "存储-IndexedDB",
+  "code": "def idb_txn(db, op, key=None, value=None):\n    # IndexedDB：对象存储事务（put/get/delete——事务原子性）\n    if op == 'put':\n        db[key] = value\n        return True\n    if op == 'get':\n        return db.get(key)\n    if op == 'delete':\n        return db.pop(key, None)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

@@ -434,6 +434,70 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器安全——XSS 防护（HTML 实体转义，防脚本注入）",
     },
+    "并行-Service Worker": {
+        "task": "Service Worker",
+        "pattern": (
+            "def sw_lifecycle(sw, event, url=None):\n"
+            "    # Service Worker：install→activate→fetch 拦截（离线能力核心）\n"
+            "    if event == 'install':\n"
+            "        sw['status'] = 'installed'\n"
+            "        return 'installed'\n"
+            "    if event == 'activate':\n"
+            "        sw['status'] = 'active'\n"
+            "        return 'active'\n"
+            "    if event == 'fetch':\n"
+            "        cache = sw.get('cache', {})\n"
+            "        if url in cache:\n"
+            "            return ('cached', cache[url])\n"
+            "        return ('network', url)\n"
+            "    return None\n"),
+        "cases": [(({'status': 'idle'}, 'install'), 'installed'),
+                  (({'status': 'installed'}, 'activate'), 'active'),
+                  (({'status': 'active', 'cache': {'/a': 'D'}}, 'fetch', '/a'),
+                   ('cached', 'D')),
+                  (({'status': 'active'}, 'fetch', '/b'), ('network', '/b'))],
+        "params": [],
+        "calibration": "对照：Service Worker——install/activate/fetch 拦截（缓存优先/网络回退）",
+    },
+    "通知-推送消息": {
+        "task": "推送通知",
+        "pattern": (
+            "def push_msg(sub, op, payload=None):\n"
+            "    # Push API：订阅/推送（服务器 → 用户设备通知）\n"
+            "    if op == 'subscribe':\n"
+            "        sub['endpoint'] = 'push.example.com'\n"
+            "        return sub['endpoint']\n"
+            "    if op == 'send':\n"
+            "        if not sub.get('endpoint'):\n"
+            "            return 'not_subscribed'\n"
+            "        sub['last'] = payload\n"
+            "        return ('sent', payload)\n"
+            "    return None\n"),
+        "cases": [(({'endpoint': None}, 'subscribe'), 'push.example.com'),
+                  (({'endpoint': 'e'}, 'send', '新消息'), ('sent', '新消息')),
+                  (({}, 'send', 'x'), 'not_subscribed')],
+        "params": [],
+        "calibration": "对照：Push API——订阅/推送（服务器推送通知到设备）",
+    },
+    "存储-IndexedDB": {
+        "task": "IndexedDB",
+        "pattern": (
+            "def idb_txn(db, op, key=None, value=None):\n"
+            "    # IndexedDB：对象存储事务（put/get/delete——事务原子性）\n"
+            "    if op == 'put':\n"
+            "        db[key] = value\n"
+            "        return True\n"
+            "    if op == 'get':\n"
+            "        return db.get(key)\n"
+            "    if op == 'delete':\n"
+            "        return db.pop(key, None)\n"
+            "    return None\n"),
+        "cases": [(({}, 'put', 'k', 'v'), True),
+                  (({'k': 'v'}, 'get', 'k'), 'v'),
+                  (({'k': 'v'}, 'delete', 'k'), 'v')],
+        "params": [],
+        "calibration": "对照：IndexedDB——对象存储事务（put/get/delete 键值事务）",
+    },
 }
 
 
