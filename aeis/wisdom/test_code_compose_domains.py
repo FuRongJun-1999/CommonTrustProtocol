@@ -4509,5 +4509,40 @@ try:
 except Exception as ex:
     check('㋠c 导出→窗口→活跃端到端（{0:[1],1:[0]} [b] True）', False, str(ex)[:60])
 
+# ㋡ 目标7 深化：协议/安全（路径MTU/端口扫描/会话超时 经正式管线）
+n13_qs = {
+    "路径MTU": "写一个路径 MTU 发现单元（减8重探）",
+    "端口扫描": "写一个端口扫描检测单元（扫描识别）",
+    "会话超时": "写一个会话超时单元（空闲断开）",
+}
+n13_ok = 0
+for label, q in n13_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n13_ok += 1
+    check(f'㋡ {label} 协议/安全单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋡b 协议/安全三单元全部生成', n13_ok == 3, f'{n13_ok}/3')
+
+# ㋡c 协议端到端：MTU→扫描→超时（reduced scan timeout）
+r_pm = domain_route("写一个路径 MTU 发现单元（减8重探）")
+r_sd = domain_route("写一个端口扫描检测单元（扫描识别）")
+r_st = domain_route("写一个会话超时单元（空闲断开）")
+try:
+    ns_pm, ns_sd, ns_st = {}, {}, {}
+    exec(r_pm["code"], ns_pm)
+    exec(r_sd["code"], ns_sd)
+    exec(r_st["code"], ns_st)
+    pm = ns_pm["pmtu_discover"]({'mtu': 1500}, 'result', None, True)
+    sd = ns_sd["scan_detect"](
+        {'1.2.3.4': [22, 80, 443, 8080, 3306]}, 'check', '1.2.3.4')
+    st = ns_st["session_timeout"]({'s1': 10}, 'check', 's1', 50)
+    check('㋡c MTU→扫描→超时端到端（reduced scan timeout）',
+          pm == 'reduced' and sd == 'scan' and st == 'timeout',
+          f'mtu={pm} scan={sd} timeout={st}')
+except Exception as ex:
+    check('㋡c MTU→扫描→超时端到端（reduced scan timeout）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

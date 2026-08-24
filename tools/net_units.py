@@ -1358,6 +1358,72 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：HTTP 内容协商——Accept 头匹配可用类型（q 剥离）",
     },
+    "网络-路径MTU发现": {
+        "task": "路径MTU发现",
+        "pattern": (
+            "def pmtu_discover(state, op, size=None, too_large=None):\n"
+            "    # 路径 MTU 发现：probe 探测 / result 过大减 8 / current 当前值（PMTUD）\n"
+            "    if op == 'probe':\n"
+            "        state['mtu'] = size\n"
+            "        return size\n"
+            "    if op == 'result':\n"
+            "        if too_large:\n"
+            "            state['mtu'] -= 8\n"
+            "            return 'reduced'\n"
+            "        return 'confirmed'\n"
+            "    if op == 'current':\n"
+            "        return state.get('mtu')\n"
+            "    return None\n"),
+        "cases": [(({}, 'probe', 1500), 1500),
+                  (({'mtu': 1500}, 'result', None, True), 'reduced'),
+                  (({'mtu': 1492}, 'result', None, False), 'confirmed'),
+                  (({'mtu': 1492}, 'current'), 1492)],
+        "params": [],
+        "calibration": "对照：PMTUD——路径最大传输单元发现（过大减 8 重探）",
+    },
+    "网络-端口扫描检测": {
+        "task": "端口扫描检测",
+        "pattern": (
+            "def scan_detect(conns, op, src=None, dst=None):\n"
+            "    # 端口扫描检测：record 记录连接 / check 检测（多端口快速尝试→扫描）\n"
+            "    if op == 'record':\n"
+            "        conns.setdefault(src, []).append(dst)\n"
+            "        return len(conns[src])\n"
+            "    if op == 'check':\n"
+            "        ports = conns.get(src, [])\n"
+            "        return ('scan' if len(ports) >= 5 and len(set(ports)) >= 5\n"
+            "                else 'normal')\n"
+            "    return None\n"),
+        "cases": [(({}, 'record', '1.2.3.4', 22), 1),
+                  (({'1.2.3.4': [22, 80, 443, 8080]}, 'record',
+                    '1.2.3.4', 3306), 5),
+                  (({'1.2.3.4': [22, 80, 443, 8080, 3306]}, 'check',
+                    '1.2.3.4'), 'scan'),
+                  (({'1.2.3.4': [22]}, 'check', '1.2.3.4'), 'normal')],
+        "params": [],
+        "calibration": "对照：入侵检测——端口扫描模式（多端口快速尝试识别）",
+    },
+    "网络-会话超时": {
+        "task": "会话超时",
+        "pattern": (
+            "def session_timeout(sessions, op, session=None, now=None, timeout=30):\n"
+            "    # 会话超时：activity 更新活跃 / check 检查（空闲超时断开）\n"
+            "    if op == 'activity':\n"
+            "        sessions[session] = now\n"
+            "        return now\n"
+            "    if op == 'check':\n"
+            "        last = sessions.get(session)\n"
+            "        if last is None:\n"
+            "            return 'missing'\n"
+            "        return 'timeout' if (now - last) > timeout else 'active'\n"
+            "    return None\n"),
+        "cases": [(({}, 'activity', 's1', 10), 10),
+                  (({'s1': 10}, 'check', 's1', 20), 'active'),
+                  (({'s1': 10}, 'check', 's1', 50), 'timeout'),
+                  (({}, 'check', 's1', 50), 'missing')],
+        "params": [],
+        "calibration": "对照：会话管理——空闲超时断开（保活续期）",
+    },
 }
 
 
