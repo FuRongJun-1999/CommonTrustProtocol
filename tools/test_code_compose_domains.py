@@ -1298,5 +1298,40 @@ try:
 except Exception as ex:
     check('㊆c 相似→同构→社区端到端（0.0 同构真 4标签）', False, str(ex)[:60])
 
+# ㊇ 目标7 深化：现代传输（多路复用/连接池/QUIC 经正式管线）
+n8_qs = {
+    "多路复用": "写一个多路复用单元（流帧交错）",
+    "连接池": "写一个连接池单元（获取归还）",
+    "QUIC": "写一个 QUIC 握手单元（0-RTT）",
+}
+n8_ok = 0
+for label, q in n8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n8_ok += 1
+    check(f'㊇ {label} 现代传输单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊇b 现代传输三单元全部生成', n8_ok == 3, f'{n8_ok}/3')
+
+# ㊇c 端到端：连接池→多路复用→QUIC（建连复用→流交错→快速握手）
+r_cp = domain_route("写一个连接池单元（获取归还）")
+r_mx = domain_route("写一个多路复用单元（流帧交错）")
+r_qc = domain_route("写一个 QUIC 握手单元（0-RTT）")
+try:
+    ns_cp, ns_mx, ns_qc = {}, {}, {}
+    exec(r_cp["code"], ns_cp)
+    exec(r_mx["code"], ns_mx)
+    exec(r_qc["code"], ns_qc)
+    conn = ns_cp["conn_pool"]({}, 'get', 'a.com')
+    frames = ns_mx["stream_mux"]([(1, 'a'), (3, 'b')])
+    q0 = ns_qc["quic_handshake"]({'c1': 'ticket'}, 'c1')
+    check('㊇c 连接池→多路复用→QUIC 端到端（新建 2流 0-RTT）',
+          conn == 'new' and frames == [(1, 'a'), (3, 'b')]
+          and q0 == ('0-RTT', 'ticket'),
+          f'pool={conn} mux={frames} quic={q0}')
+except Exception as ex:
+    check('㊇c 连接池→多路复用→QUIC 端到端（新建 2流 0-RTT）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

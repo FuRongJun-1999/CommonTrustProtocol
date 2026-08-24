@@ -421,6 +421,54 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：HTTP 流式传输——chunked 编码（分块+长度前缀+终止块）",
     },
+    "网络-多路复用": {
+        "task": "多路复用",
+        "pattern": (
+            "def stream_mux(streams):\n"
+            "    # HTTP/2 多路复用：多流帧交错（流 ID + 数据 → 单连接混合帧）\n"
+            "    frames = []\n"
+            "    for sid, data in streams:\n"
+            "        frames.append((sid, data))\n"
+            "    return frames\n"),
+        "cases": [(([(1, 'a'), (3, 'b'), (5, 'c')],),
+                   [(1, 'a'), (3, 'b'), (5, 'c')]),
+                  (([],), [])],
+        "params": [],
+        "calibration": "对照：HTTP/2 多路复用——单连接多流帧交错（流 ID 区分）",
+    },
+    "网络-连接池": {
+        "task": "连接池",
+        "pattern": (
+            "def conn_pool(pool, op, host=None):\n"
+            "    # 连接池：获取复用/归还/新建（上限控制，避免频繁建连）\n"
+            "    if op == 'get':\n"
+            "        if pool.get(host):\n"
+            "            return pool[host].pop()\n"
+            "        return 'new'\n"
+            "    if op == 'put':\n"
+            "        pool.setdefault(host, []).append(1)\n"
+            "        return len(pool[host])\n"
+            "    return None\n"),
+        "cases": [(({'a.com': [1]}, 'get', 'a.com'), 1),
+                  (({}, 'get', 'a.com'), 'new'),
+                  (({}, 'put', 'a.com'), 1)],
+        "params": [],
+        "calibration": "对照：网络连接池——获取复用/归还（空闲复用，避免重复建连）",
+    },
+    "网络-QUIC握手": {
+        "task": "QUIC握手",
+        "pattern": (
+            "def quic_handshake(cache, client):\n"
+            "    # QUIC：0-RTT 快速握手（缓存会话 → 首次往返即发数据）\n"
+            "    if client in cache:\n"
+            "        return '0-RTT', cache[client]\n"
+            "    cache[client] = 'ticket'\n"
+            "    return '1-RTT', 'ticket'\n"),
+        "cases": [(({}, 'c1'), ('1-RTT', 'ticket')),
+                  (({'c1': 'ticket'}, 'c1'), ('0-RTT', 'ticket'))],
+        "params": [],
+        "calibration": "对照：QUIC——0-RTT 快速握手（缓存会话票据，二次连接免往返）",
+    },
 }
 
 
