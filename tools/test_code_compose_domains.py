@@ -38,13 +38,15 @@ check('②a 域识别(编译器)', detect_domain("写个类型推断单元") == 
 check('②b 域识别(操作系统)', detect_domain("写个内存分页分配") == "os", '')
 check('②c 域识别(图)', detect_domain("写个条件路由图查询") == "graph", '')
 
-# ③ 固化（自举纪律：验证通过才固化；用未固化单元——IP 分片）
-before = {k for k in CODE_SOLIDIFIED if k.startswith("domain:")}
+# ③ 固化（自举纪律：验证通过才固化；用 TCP 握手单元）
 e = domain_solidify("写一个 TCP 握手单元（三次握手状态）")
 check('③ 域固化', e is not None and e.get("source") == "domain_solidified",
       str(e.get("unit") if e else None))
-after = {k for k in CODE_SOLIDIFIED if k.startswith("domain:")}
-check('③b 固化写入JSON', len(after) > len(before), f'{len(after)} 域固化条目')
+if e:
+    key = f"domain:{e.get('domain')}|{e.get('unit')}"
+    on_disk = key in json.load(open(_SOL_FILE, encoding="utf-8"))
+    check('③b 固化写入JSON', key in CODE_SOLIDIFIED and on_disk,
+          f'{key} 已固化到 JSON')
 
 # ④ 固化直出
 r2 = domain_route("写一个 TCP 握手单元（三次握手状态）")
