@@ -26,6 +26,10 @@ GRAPH_UNITS = {
             "            self.edges[src].append(dst)\n"
             "    def neighbors(self, name):\n"
             "        return list(self.edges.get(name, []))\n"
+            "    def remove_edge(self, src, dst):\n"
+            "        # 动态图：边删除（增量更新支持）\n"
+            "        if src in self.edges and dst in self.edges[src]:\n"
+            "            self.edges[src].remove(dst)\n"
             "def graph_ops():\n"
             "    g = Graph()\n"
             "    g.add_edge('气压低', '沸点降')\n"
@@ -618,6 +622,65 @@ GRAPH_UNITS = {
         "params": [],
         "needs_inject": True,
         "calibration": "对照：图数据库 × 灵枢——条件路由图导出为灵枢记忆条目（条件链卡，可召回重建）",
+    },
+    "图存储-快照版本": {
+        "task": "快照版本",
+        "pattern": (
+            "def snapshot_ops(repo, op, version=None, state=None):\n"
+            "    # 图版本快照：保存/回溯（时间点恢复语义）\n"
+            "    if op == 'save':\n"
+            "        ver = repo.get('next', 1)\n"
+            "        repo['versions'][ver] = dict(state or {})\n"
+            "        repo['next'] = ver + 1\n"
+            "        return ver\n"
+            "    if op == 'restore':\n"
+            "        return repo['versions'].get(version)\n"
+            "    if op == 'list':\n"
+            "        return sorted(repo['versions'].keys())\n"
+            "    return None\n"),
+        "cases": [(({'versions': {}, 'next': 1}, 'save', None, {'a': 1}), 1),
+                  (({'versions': {1: {'a': 1}}, 'next': 2}, 'restore', 1),
+                   {'a': 1}),
+                  (({'versions': {1: {'a': 1}}, 'next': 2}, 'list'), [1])],
+        "params": [],
+        "calibration": "对照：图数据库版本管理——快照保存/回溯（时间点恢复）",
+    },
+    "图查询-时序查询": {
+        "task": "时序查询",
+        "pattern": (
+            "def time_query(history, time):\n"
+            "    # 时序图查询：时间点 → 该时刻图状态（快照序列检索）\n"
+            "    snaps = sorted(history.keys())\n"
+            "    cur = {}\n"
+            "    for t in snaps:\n"
+            "        if t <= time:\n"
+            "            cur = history[t]\n"
+            "        else:\n"
+            "            break\n"
+            "    return cur\n"),
+        "cases": [(({1: {'a': 1}, 3: {'a': 2}}, 2), {'a': 1}),
+                  (({1: {'a': 1}}, 5), {'a': 1}),
+                  (({3: {'a': 2}}, 1), {})],
+        "params": [],
+        "calibration": "对照：时序图查询——时间点最近快照（快照序列时间回溯）",
+    },
+    "图算法-增量更新": {
+        "task": "增量更新",
+        "pattern": (
+            "def incr_update(graph, edge, op):\n"
+            "    # 动态图增量：边增删（增量维护，不重建全图）\n"
+            "    src, dst = edge\n"
+            "    if op == 'add':\n"
+            "        graph.add_edge(src, dst)\n"
+            "        return 'added'\n"
+            "    if op == 'remove':\n"
+            "        graph.remove_edge(src, dst)\n"
+            "        return 'removed'\n"
+            "    return None\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：动态图——增量边增删（增量维护语义）",
     },
 }
 

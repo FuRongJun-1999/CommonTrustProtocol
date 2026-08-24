@@ -1078,5 +1078,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:graph|图存储-快照版本": {
+  "task": "快照版本",
+  "unit": "图存储-快照版本",
+  "code": "def snapshot_ops(repo, op, version=None, state=None):\n    # 图版本快照：保存/回溯（时间点恢复语义）\n    if op == 'save':\n        ver = repo.get('next', 1)\n        repo['versions'][ver] = dict(state or {})\n        repo['next'] = ver + 1\n        return ver\n    if op == 'restore':\n        return repo['versions'].get(version)\n    if op == 'list':\n        return sorted(repo['versions'].keys())\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-时序查询": {
+  "task": "时序查询",
+  "unit": "图查询-时序查询",
+  "code": "def time_query(history, time):\n    # 时序图查询：时间点 → 该时刻图状态（快照序列检索）\n    snaps = sorted(history.keys())\n    cur = {}\n    for t in snaps:\n        if t <= time:\n            cur = history[t]\n        else:\n            break\n    return cur\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-增量更新": {
+  "task": "增量更新",
+  "unit": "图算法-增量更新",
+  "code": "def incr_update(graph, edge, op):\n    # 动态图增量：边增删（增量维护，不重建全图）\n    src, dst = edge\n    if op == 'add':\n        graph.add_edge(src, dst)\n        return 'added'\n    if op == 'remove':\n        graph.remove_edge(src, dst)\n        return 'removed'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

@@ -97,6 +97,13 @@ for uid, u in GRAPH_UNITS.items():
                         # 注入图；批量添加 3 条边
                         g = generated["图存储-节点边"][0]["Graph"]()
                         got = fn(g, [("a", "b"), ("b", "c"), ("c", "d")])
+                    elif uid == "图算法-增量更新":
+                        # 注入图；add/remove 边
+                        g = generated["图存储-节点边"][0]["Graph"]()
+                        g.add_edge("a", "b")
+                        fn(g, ("a", "b"), 'remove')
+                        got = g.neighbors("a")  # 删除后无邻居
+                        expect = []
                     elif uid in ("图算法-节点相似度", "图算法-社区发现"):
                         # 注入两链图
                         g = generated["图存储-节点边"][0]["Graph"]()

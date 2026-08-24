@@ -1404,5 +1404,48 @@ try:
 except Exception as ex:
     check('㊋c 装饰→上下文→属性端到端（timed5 进入退出 灵枢/None）', False, str(ex)[:60])
 
+# ㊌ 目标6 深化：动态图/时序（快照版本/时序查询/增量更新 经正式管线）
+g8_qs = {
+    "快照版本": "写一个图快照版本单元（保存回溯）",
+    "时序查询": "写一个时序查询单元（时间快照）",
+    "增量更新": "写一个增量更新单元（边增删）",
+}
+g8_ok = 0
+for label, q in g8_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g8_ok += 1
+    check(f'㊌ {label} 动态图/时序单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊌b 动态图/时序三单元全部生成', g8_ok == 3, f'{g8_ok}/3')
+
+# ㊌c 端到端：快照保存→时序回溯→增量更新（版本管理→时间查询→动态维护）
+r_sp = domain_route("写一个图快照版本单元（保存回溯）")
+r_tq = domain_route("写一个时序查询单元（时间快照）")
+r_iu = domain_route("写一个增量更新单元（边增删）")
+r_g = domain_route("写一个图存储单元（节点和边）")
+ns_g8 = {}
+exec(r_g["code"], ns_g8)
+Graph8 = ns_g8["Graph"]
+try:
+    ns_sp, ns_tq, ns_iu = {}, {}, {}
+    exec(r_sp["code"], ns_sp)
+    exec(r_tq["code"], ns_tq)
+    exec(r_iu["code"], ns_iu)
+    repo = {'versions': {}, 'next': 1}
+    v1 = ns_sp["snapshot_ops"](repo, 'save', None, {'气压低': 1})
+    v2 = ns_sp["snapshot_ops"](repo, 'save', None, {'气压低': 1, '沸点降': 1})
+    back = ns_tq["time_query"]({v1: {'气压低': 1}, v2: {'气压低': 1, '沸点降': 1}}, v1)
+    g = Graph8()
+    g.add_edge("a", "b")
+    ns_iu["incr_update"](g, ("a", "b"), 'remove')
+    check('㊌c 快照→时序→增量端到端（v1回溯 删边无邻居）',
+          v1 == 1 and v2 == 2 and back == {'气压低': 1}
+          and g.neighbors("a") == [],
+          f'v={v1},{v2} back={back} nb={g.neighbors("a")}')
+except Exception as ex:
+    check('㊌c 快照→时序→增量端到端（v1回溯 删边无邻居）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
