@@ -3998,5 +3998,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:pylang|数据结构-链表": {
+  "task": "链表",
+  "unit": "数据结构-链表",
+  "code": "def linked_list_ops(values, op, value=None):\n    # 链表：build 值列表→节点链 / traverse 链→值列表 / contains 查找\n    if op == 'build':\n        head = None\n        for v in reversed(values):\n            head = {'value': v, 'next': head}\n        return head\n    if op == 'traverse':\n        out = []\n        cur = values\n        while cur is not None:\n            out.append(cur['value'])\n            cur = cur['next']\n        return out\n    if op == 'contains':\n        cur = values\n        while cur is not None:\n            if cur['value'] == value:\n                return True\n            cur = cur['next']\n        return False\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-进制转换": {
+  "task": "进制转换",
+  "unit": "工具-进制转换",
+  "code": "def base_convert(value, base, to_text=True):\n    # 进制转换：to_text 十进制→base 进制字符串 / 反向解析为十进制\n    digits = '0123456789abcdef'\n    if to_text:\n        if value == 0:\n            return '0'\n        out = []\n        n = value\n        while n > 0:\n            out.append(digits[n % base])\n            n //= base\n        return ''.join(reversed(out))\n    total = 0\n    for ch in value:\n        total = total * base + digits.index(ch)\n    return total\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异常-异常链": {
+  "task": "异常链",
+  "unit": "异常-异常链",
+  "code": "def exception_chain(msg, cause=None):\n    # 异常链：包装异常并保留原因（raise from 语义——上下文链）\n    e = ValueError(msg)\n    if cause is not None:\n        e.__cause__ = ValueError(cause)\n    return (e.__class__.__name__, str(e),\n            str(e.__cause__) if e.__cause__ else None)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

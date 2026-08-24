@@ -4939,5 +4939,44 @@ except Exception as ex:
     check('㋬c 字典→元组→转义→符号类型端到端（{甲:1} (1,2) 换行 [未定义量]）',
           False, str(ex)[:60])
 
+# ㋭ 目标1 深化：P 线机制族（链表/进制转换/异常链 经正式管线）
+p14_qs = {
+    "链表": "写一个链表单元（节点链）",
+    "进制转换": "写一个进制转换单元（进制互转）",
+    "异常链": "写一个异常链单元（原因保留）",
+}
+p14_ok = 0
+for label, q in p14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p14_ok += 1
+    check(f'㋭ {label} P线机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋭b P线机制三单元全部生成', p14_ok == 3, f'{p14_ok}/3')
+
+# ㋭c 机制端到端：链表→进制→异常链（[1,2] 含2 'ff'255 外层←内层）
+r_ll = domain_route("写一个链表单元（节点链）")
+r_bc = domain_route("写一个进制转换单元（进制互转）")
+r_ec = domain_route("写一个异常链单元（原因保留）")
+try:
+    ns_ll, ns_bc, ns_ec = {}, {}, {}
+    exec(r_ll["code"], ns_ll)
+    exec(r_bc["code"], ns_bc)
+    exec(r_ec["code"], ns_ec)
+    head = ns_ll["linked_list_ops"]([1, 2], 'build')
+    tr = ns_ll["linked_list_ops"](head, 'traverse')
+    ct = ns_ll["linked_list_ops"](head, 'contains', 2)
+    hx = ns_bc["base_convert"](255, 16, True)
+    bx = ns_bc["base_convert"]('ff', 16, False)
+    ec = ns_ec["exception_chain"]('外层', '内层')
+    check('㋭c 链表→进制→异常链端到端（[1,2] 含2 ff 255 外层←内层）',
+          tr == [1, 2] and ct is True and hx == 'ff' and bx == 255
+          and ec == ('ValueError', '外层', '内层'),
+          f'tr={tr} ct={ct} hx={hx} bx={bx} ec={ec}')
+except Exception as ex:
+    check('㋭c 链表→进制→异常链端到端（[1,2] 含2 ff 255 外层←内层）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
