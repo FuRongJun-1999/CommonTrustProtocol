@@ -538,5 +538,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:browser|存储-本地存储": {
+  "task": "本地存储",
+  "unit": "存储-本地存储",
+  "code": "def storage_op(store, op, key=None, value=None):\n    # localStorage：setItem/getItem/removeItem/clear（持久键值存储）\n    if op == 'set':\n        store[key] = value\n        return True\n    if op == 'get':\n        return store.get(key)\n    if op == 'remove':\n        return store.pop(key, None)\n    if op == 'clear':\n        store.clear()\n        return len(store)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|存储-会话存储": {
+  "task": "会话存储",
+  "unit": "存储-会话存储",
+  "code": "def session_storage(store, tab_open):\n    # sessionStorage：标签页级生命周期（新标签页 → 数据清空）\n    if tab_open:\n        return dict(store)          # 当前标签页数据\n    return {}                       # 新标签页：会话数据隔离\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|并行-Web Worker": {
+  "task": "Web Worker",
+  "unit": "并行-Web Worker",
+  "code": "def worker_msg(main, worker, data):\n    # Web Worker：主线程 postMessage → Worker 处理 → 回传（并行任务语义）\n    worker['input'] = data\n    worker['output'] = worker.get('fn', lambda x: x)(data)\n    main['result'] = worker['output']\n    return worker['output']\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

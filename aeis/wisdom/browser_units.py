@@ -283,6 +283,56 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器渲染——动画帧循环（rAF 逐帧更新状态）",
     },
+    "存储-本地存储": {
+        "task": "本地存储",
+        "pattern": (
+            "def storage_op(store, op, key=None, value=None):\n"
+            "    # localStorage：setItem/getItem/removeItem/clear（持久键值存储）\n"
+            "    if op == 'set':\n"
+            "        store[key] = value\n"
+            "        return True\n"
+            "    if op == 'get':\n"
+            "        return store.get(key)\n"
+            "    if op == 'remove':\n"
+            "        return store.pop(key, None)\n"
+            "    if op == 'clear':\n"
+            "        store.clear()\n"
+            "        return len(store)\n"
+            "    return None\n"),
+        "cases": [(({}, 'set', 'k', 'v'), True),
+                  (({'k': 'v'}, 'get', 'k'), 'v'),
+                  (({'k': 'v'}, 'remove', 'k'), 'v'),
+                  (({'k': 'v'}, 'clear'), 0)],
+        "params": [],
+        "calibration": "对照：浏览器存储——localStorage（setItem/getItem/removeItem/clear）",
+    },
+    "存储-会话存储": {
+        "task": "会话存储",
+        "pattern": (
+            "def session_storage(store, tab_open):\n"
+            "    # sessionStorage：标签页级生命周期（新标签页 → 数据清空）\n"
+            "    if tab_open:\n"
+            "        return dict(store)          # 当前标签页数据\n"
+            "    return {}                       # 新标签页：会话数据隔离\n"),
+        "cases": [(({'u': 'x'}, True), {'u': 'x'}),
+                  (({'u': 'x'}, False), {})],
+        "params": [],
+        "calibration": "对照：浏览器存储——sessionStorage（标签页生命周期，新标签页数据隔离）",
+    },
+    "并行-Web Worker": {
+        "task": "Web Worker",
+        "pattern": (
+            "def worker_msg(main, worker, data):\n"
+            "    # Web Worker：主线程 postMessage → Worker 处理 → 回传（并行任务语义）\n"
+            "    worker['input'] = data\n"
+            "    worker['output'] = worker.get('fn', lambda x: x)(data)\n"
+            "    main['result'] = worker['output']\n"
+            "    return worker['output']\n"),
+        "cases": [(({'result': None}, {'fn': lambda x: x * 2}, 21), 42),
+                  (({'result': None}, {'fn': lambda x: x + 1}, 1), 2)],
+        "params": [],
+        "calibration": "对照：浏览器并行——Web Worker（postMessage 传递数据，Worker 处理回传）",
+    },
 }
 
 

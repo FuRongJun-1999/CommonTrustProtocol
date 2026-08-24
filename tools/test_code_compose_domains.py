@@ -741,5 +741,43 @@ try:
 except Exception as ex:
     check('㉗c 向量→上下文→嵌套端到端（disk_handler 保存/恢复 抢占5>3 不抢3<5）', False, str(ex)[:60])
 
+# ㉘ 目标5 深化：Web 平台（本地存储/会话存储/Web Worker 经正式管线）
+b5_qs = {
+    "本地存储": "写一个本地存储单元（localStorage 读写）",
+    "会话存储": "写一个会话存储单元（标签页隔离）",
+    "Web Worker": "写一个 Web Worker 单元（并行任务）",
+}
+b5_ok = 0
+for label, q in b5_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b5_ok += 1
+    check(f'㉘ {label} Web平台单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉘b Web平台三单元全部生成', b5_ok == 3, f'{b5_ok}/3')
+
+# ㉘c 端到端：存储写入→会话隔离→Worker 并行（持久化+隔离+并行组合）
+r_ls = domain_route("写一个本地存储单元（localStorage 读写）")
+r_ss = domain_route("写一个会话存储单元（标签页隔离）")
+r_wk = domain_route("写一个 Web Worker 单元（并行任务）")
+try:
+    ns_ls, ns_ss, ns_wk = {}, {}, {}
+    exec(r_ls["code"], ns_ls)
+    exec(r_ss["code"], ns_ss)
+    exec(r_wk["code"], ns_wk)
+    store = {}
+    ns_ls["storage_op"](store, 'set', 'theme', 'dark')
+    v = ns_ls["storage_op"](store, 'get', 'theme')
+    same_tab = ns_ss["session_storage"](store, True)
+    new_tab = ns_ss["session_storage"](store, False)
+    w = ns_wk["worker_msg"]({'result': None}, {'fn': lambda x: x * 2}, 21)
+    check('㉘c 存储→会话→Worker 端到端（theme=dark 同标签/新标签隔离 42）',
+          v == 'dark' and same_tab == {'theme': 'dark'} and new_tab == {}
+          and w == 42,
+          f'val={v} same={same_tab} new={new_tab} worker={w}')
+except Exception as ex:
+    check('㉘c 存储→会话→Worker 端到端（theme=dark 同标签/新标签隔离 42）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
