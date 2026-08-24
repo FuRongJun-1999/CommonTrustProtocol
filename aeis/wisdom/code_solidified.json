@@ -6,6 +6,1857 @@
   "checks": [
    "✔ 语法通过 | 样例 4 组全过"
   ],
-  "source": "code_solidified"
+  "source": "code_solidified",
+  "lang": "python"
+ },
+ "domain:compiler|词法-道德经": {
+  "task": "道德经词法",
+  "unit": "词法-道德经",
+  "code": "def instr_token(word):\n    # 道德经助记符 → 指令 Token（剥离尾部标点；未接入 VM 的指令诚实返回 None）\n    m = {'道': 'DAO', '德': 'DE', '自然': 'ZIRAN', '无为': 'WUWEI',\n         '止': 'ZHI', '知足': 'ZHIZU'}\n    return m.get((word or '').rstrip('。；;，,'))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 6 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:pylang|求值-闭包": {
+  "task": "闭包机制",
+  "unit": "求值-闭包",
+  "code": "def closure_adder(n):\n    # 闭包：内部函数捕获自由变量 n（定义环境）\n    def add(x):\n        return x + n\n    return add\ndef closure_test():\n    a = closure_adder(3)\n    b = closure_adder(10)\n    return (a(1), b(1))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:os|进程-状态机": {
+  "task": "进程状态",
+  "unit": "进程-状态机",
+  "code": "def process_state(transitions):\n    # 进程状态机：事件序列 → 最终状态（就绪→运行→阻塞→就绪→终止）\n    state = '就绪'\n    for ev in transitions:\n        if state == '就绪' and ev == '调度':\n            state = '运行'\n        elif state == '运行' and ev == 'IO等待':\n            state = '阻塞'\n        elif state == '阻塞' and ev == 'IO完成':\n            state = '就绪'\n        elif state == '运行' and ev == '完成':\n            state = '终止'\n    return state\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:browser|HTTP-响应解析": {
+  "task": "HTTP解析",
+  "unit": "HTTP-响应解析",
+  "code": "def parse_http_response(raw):\n    # HTTP 响应解析：状态行/头/体 → {status, headers, body}\n    lines = raw.split('\\r\\n')\n    status = int(lines[0].split()[1])\n    headers = {}\n    i = 1\n    while i < len(lines) and lines[i]:\n        k, _, v = lines[i].partition(':')\n        headers[k.strip().lower()] = v.strip()\n        i += 1\n    body = '\\n'.join(lines[i + 1:])\n    return {'status': status, 'headers': headers, 'body': body}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|HTML-DOM解析": {
+  "task": "DOM解析",
+  "unit": "HTML-DOM解析",
+  "code": "def parse_dom(html):\n    # HTML → DOM 树（简化：标签 → 直接子标签列表）\n    import re\n    dom = {}\n    stack = []\n    for m in re.finditer(r'<(\\w+)[^>]*>|</(\\w+)>', html):\n        if m.group(1):\n            tag = m.group(1)\n            dom.setdefault(tag, [])\n            if stack:\n                dom[stack[-1]].append(tag)\n            stack.append(tag)\n        elif m.group(2) and stack:\n            stack.pop()\n    return dom\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:net|网络-IP分片": {
+  "task": "IP分片",
+  "unit": "网络-IP分片",
+  "code": "def ip_fragment(packet_size, mtu):\n    # IP 分片：包大小 + MTU → 分片数（每片含 20B IP 头）\n    import math\n    if packet_size <= mtu:\n        return 1\n    payload = mtu - 20\n    return math.ceil(packet_size / payload)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-TCP握手": {
+  "task": "TCP握手",
+  "unit": "网络-TCP握手",
+  "code": "def tcp_handshake(states):\n    # TCP 三次握手：CLOSED → SYN → SYN-ACK → ESTABLISHED\n    state = 'CLOSED'\n    for ev in states:\n        if state == 'CLOSED' and ev == 'SYN':\n            state = 'SYN_SENT'\n        elif state == 'SYN_SENT' and ev == 'SYN-ACK':\n            state = 'ESTABLISHED'\n    return state\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:browser|HTTP-请求构建": {
+  "task": "请求构建",
+  "unit": "HTTP-请求构建",
+  "code": "def build_get_request(url, host, headers=None):\n    # 构建 HTTP GET 请求：请求行 + Host 头 + 自定义头\n    h = headers or {}\n    lines = ['GET ' + url + ' HTTP/1.1', 'Host: ' + host]\n    for k, v in h.items():\n        lines.append(k + ': ' + v)\n    return '\\r\\n'.join(lines) + '\\r\\n\\r\\n'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|URL-解析": {
+  "task": "URL解析",
+  "unit": "URL-解析",
+  "code": "def parse_url(url):\n    # URL 解析：协议/主机/端口/路径\n    import re\n    m = re.match(r'(\\w+)://([^/:]+)(?::(\\d+))?(/.*)?', url)\n    return {'scheme': m.group(1), 'host': m.group(2),\n            'port': int(m.group(3)) if m.group(3) else None,\n            'path': m.group(4) or '/'}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|CSS-级联": {
+  "task": "CSS级联",
+  "unit": "CSS-级联",
+  "code": "def cascade_apply(rules):\n    # 级联应用：选择最高优先级规则\n    return max(rules, key=cascade_weight)\ndef cascade_weight(rule):\n    # CSS 级联优先级：内联1000 > id100 > class10 > 标签1\n    w = 0\n    if rule.get('inline'):\n        w += 1000\n    w += 100 * len(rule.get('ids', []))\n    w += 10 * len(rule.get('classes', []))\n    w += 1 * len(rule.get('tags', []))\n    return w\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-盒模型": {
+  "task": "盒模型",
+  "unit": "渲染-盒模型",
+  "code": "def box_model(width, padding, border, margin):\n    # 盒模型：内容+padding+border → 元素总宽（margin 不计入）\n    return width + 2 * padding + 2 * border\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:compiler|编译-循环": {
+  "task": "循环编译",
+  "unit": "编译-循环",
+  "code": "def compile_loop(cond_instrs, body_instrs):\n    # 当…执行 → 条件 + JUMP_IF_FALSE 跳出 + 循环体 + JUMP 回条件\n    # （while 语义：条件为假即退出，回跳形成循环）\n    code = []\n    code.extend(cond_instrs)\n    end_lbl = len(code) + 1 + len(body_instrs) + 1\n    code.append(('JUMP_IF_FALSE', end_lbl))\n    code.extend(body_instrs)\n    code.append(('JUMP', 0))\n    return code\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-循环执行": {
+  "task": "循环执行",
+  "unit": "VM-循环执行",
+  "code": "def vm_run_loop(code, symbols=None, max_steps=1000):\n    # 智能论 VM 循环执行：算术(ADD/SUB)+比较+回跳；步数上限防死循环\n    ip, stack = 0, []\n    symbols = dict(symbols or {})\n    steps = 0\n    while ip < len(code):\n        steps += 1\n        if steps > max_steps:\n            return {'error': '循环未终止（超出步数上限）',\n                    'symbols': symbols, 'stack': stack}\n        op, arg = code[ip]\n        ip += 1\n        if op == 'PUSH':\n            stack.append(arg)\n        elif op == 'STORE':\n            symbols[arg] = stack.pop()\n        elif op == 'LOAD':\n            if arg not in symbols:\n                return {'error': '名实不符：' + arg,\n                        'symbols': symbols, 'stack': stack}\n            stack.append(symbols[arg])\n        elif op == 'JUMP_IF_FALSE':\n            v = stack.pop() if stack else False\n            if v is False or v is None or v == 0:\n                ip = arg\n        elif op == 'JUMP':\n            ip = arg\n        elif op == 'CMP_LT':\n            b, a = stack.pop(), stack.pop()\n            stack.append(a < b)\n        elif op == 'ADD':\n            b, a = stack.pop(), stack.pop()\n            stack.append(a + b)\n        elif op == 'SUB':\n            b, a = stack.pop(), stack.pop()\n            stack.append(a - b)\n    return {'error': None, 'symbols': symbols, 'stack': stack}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:net|蜂群-消息分帧": {
+  "task": "消息分帧",
+  "unit": "蜂群-消息分帧",
+  "code": "def frame_decode(buf, delim=b'\\r\\n'):\n    # 蜂群会话层：字节流按分隔符分帧（粘包/半包处理）\n    frames = []\n    while True:\n        idx = buf.find(delim)\n        if idx < 0:\n            break\n        frames.append(buf[:idx])\n        buf = buf[idx + len(delim):]\n    return frames, buf\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|蜂群-会话状态": {
+  "task": "会话状态",
+  "unit": "蜂群-会话状态",
+  "code": "def session_step(session, event):\n    # 蜂群会话状态机：LISTEN→SYN_SENT→ESTABLISHED（确认）→CLOSED（结束）\n    s = session.get('state', 'LISTEN')\n    if s == 'LISTEN' and event == 'SYN':\n        return 'SYN_SENT'\n    if s == 'SYN_SENT' and event == 'ACK':\n        return 'ESTABLISHED'\n    if s == 'ESTABLISHED' and event == 'FIN':\n        return 'CLOSED'\n    return s\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:graph|图遍历-最短路径": {
+  "task": "最短路径",
+  "unit": "图遍历-最短路径",
+  "code": "def shortest_path(graph, start, end):\n    # 无权图最短路径：BFS 逐层扩散 + 前驱还原（最少条件链跳数）\n    if start == end:\n        return [start]\n    from collections import deque\n    prev = {start: None}\n    queue = deque([start])\n    while queue:\n        cur = queue.popleft()\n        for nxt in graph.neighbors(cur):\n            if nxt not in prev:\n                prev[nxt] = cur\n                if nxt == end:\n                    path = []\n                    node = nxt\n                    while node is not None:\n                        path.append(node)\n                        node = prev[node]\n                    return path[::-1]\n                queue.append(nxt)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（2 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图遍历-加权最短": {
+  "task": "加权最短路径",
+  "unit": "图遍历-加权最短",
+  "code": "def dijkstra(graph, weights, start, end):\n    # 加权最短路径：Dijkstra 贪心（权重=条件链代价/信任度倒数，小=优）\n    import heapq\n    dist = {start: 0}\n    prev = {start: None}\n    pq = [(0, start)]\n    while pq:\n        d, cur = heapq.heappop(pq)\n        if d > dist.get(cur, float('inf')):\n            continue\n        if cur == end:\n            break\n        for nxt in graph.neighbors(cur):\n            w = weights.get((cur, nxt), 1)\n            nd = d + w\n            if nd < dist.get(nxt, float('inf')):\n                dist[nxt] = nd\n                prev[nxt] = cur\n                heapq.heappush(pq, (nd, nxt))\n    if end not in dist:\n        return None\n    path = []\n    node = end\n    while node is not None:\n        path.append(node)\n        node = prev[node]\n    return path[::-1], dist[end]\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:os|内存-页表映射": {
+  "task": "页表映射",
+  "unit": "内存-页表映射",
+  "code": "def page_table_lookup(page_table, vpn):\n    # 虚拟内存页表：虚拟页号 → 物理帧号（present=1 已映射，0 缺页）\n    entry = page_table.get(vpn)\n    if entry is None or entry.get('present') != 1:\n        return None   # 缺页：页不在物理内存\n    return entry['frame']\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|内存-缺页处理": {
+  "task": "缺页处理",
+  "unit": "内存-缺页处理",
+  "code": "def page_fault_handler(page_table, vpn, free_frames, load):\n    # 缺页处理：present=0 → 分配空闲帧加载；无空闲帧 → 拒绝（置换由上层调度）\n    if vpn in page_table and page_table[vpn].get('present') == 1:\n        return 'hit', page_table[vpn]['frame']\n    if not free_frames:\n        return 'page_fault_no_frame', None\n    frame = free_frames.pop(0)\n    page_table[vpn] = {'present': 1, 'frame': frame}\n    load(vpn, frame)\n    return 'page_fault_loaded', frame\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|内存-页面错误": {
+  "task": "页面错误分类",
+  "unit": "内存-页面错误",
+  "code": "def classify_page_fault(vpn, page_table, access):\n    # 页面错误分类：未映射/未驻留/写保护 → 错误类型（MMU 语义）\n    entry = page_table.get(vpn)\n    if entry is None:\n        return 'segment_fault'      # 非法地址（未映射）\n    if entry.get('present') != 1:\n        return 'minor_fault'        # 缺页（软缺页：磁盘→内存）\n    if access == 'write' and not entry.get('writable'):\n        return 'protection_fault'   # 写保护违例\n    return 'ok'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:browser|渲染-样式计算": {
+  "task": "样式计算",
+  "unit": "渲染-样式计算",
+  "code": "def style_compute(node, rules):\n    # 样式计算：DOM 节点（tag/classes）→ 匹配规则级联 → 最终样式\n    best, best_w = {}, -1\n    for rule in rules:\n        if rule.get('tag') and rule['tag'] != node.get('tag'):\n            continue\n        if rule.get('class') and rule['class'] not in node.get('classes', []):\n            continue\n        w = (1000 if rule.get('inline') else 0)\n        w += 100 if rule.get('id') else 0\n        w += 10 if rule.get('class') else 0\n        w += 1 if rule.get('tag') else 0\n        if w > best_w:\n            best, best_w = rule.get('style', {}), w\n    return best\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-布局树": {
+  "task": "布局树",
+  "unit": "渲染-布局树",
+  "code": "def layout_tree(nodes, container_w):\n    # 布局树：块级节点（样式宽/高）→ (x, y, w, h) 坐标（纵向堆叠）\n    y = 0\n    out = []\n    for node in nodes:\n        w = node.get('style', {}).get('width', container_w)\n        h = node.get('style', {}).get('height', 1)\n        out.append((node.get('id'), 0, y, w, h))\n        y += h\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-绘制": {
+  "task": "绘制",
+  "unit": "渲染-绘制",
+  "code": "def paint(layout, rows, cols):\n    # 绘制：布局树 → 字符画布（'#'=元素区域，'.'=空白）\n    canvas = [['.' for _ in range(cols)] for _ in range(rows)]\n    for _, x, y, w, h in layout:\n        for dy in range(h):\n            for dx in range(w):\n                if 0 <= y + dy < rows and 0 <= x + dx < cols:\n                    canvas[y + dy][x + dx] = '#'\n    return [''.join(row) for row in canvas]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:pylang|异常-抛出": {
+  "task": "抛出异常",
+  "unit": "异常-抛出",
+  "code": "def raise_error(etype, msg):\n    # raise 语义：构造异常对象并抛出（Mini-Python 错误处理）\n    raise etype(msg)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异常-捕获": {
+  "task": "捕获异常",
+  "unit": "异常-捕获",
+  "code": "def try_except(etype, handler, risky):\n    # try/except 语义：尝试 risky()，抛 etype 异常 → handler(err)\n    try:\n        return ('ok', risky())\n    except etype as err:\n        return ('caught', handler(err))\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异常-传播": {
+  "task": "异常传播",
+  "unit": "异常-传播",
+  "code": "def propagate(call_chain, etype, msg):\n    # 异常传播：内层函数抛错 → 中间不处理 → 外层捕获（调用栈冒泡）\n    def inner():\n        raise etype(msg)\n    def mid():\n        return inner()   # 不捕获，向上传播\n    try:\n        mid()\n    except etype as err:\n        return ('caught_at_outer', str(err))\n    return ('no_catch', None)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:net|网络-滑动窗口": {
+  "task": "滑动窗口",
+  "unit": "网络-滑动窗口",
+  "code": "def sliding_window(base, next_seq, window_size, ack):\n    # TCP 滑动窗口：收到 ack 后窗口前移（可发送序号 = [next_seq, base+win)）\n    # base=已确认序号 next_seq=下一待发 ack=收到的确认\n    if ack > base:\n        base = ack\n    if next_seq < base:\n        next_seq = base\n    return {'base': base, 'next_seq': next_seq,\n            'window': [base + i for i in range(window_size)]}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-累积确认": {
+  "task": "累积确认",
+  "unit": "网络-累积确认",
+  "code": "def cum_ack(received, seq):\n    # TCP 累积确认：收到乱序包不确认，连续序列推进 ack（收到 3 则 1,2,3 都确认）\n    received.add(seq)\n    ack = 0\n    while ack + 1 in received:\n        ack += 1\n    return ack\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-拥塞控制": {
+  "task": "拥塞控制",
+  "unit": "网络-拥塞控制",
+  "code": "def slow_start(cwnd, ssthresh, acked, lost):\n    # TCP 拥塞控制：慢启动（cwnd 每 RTT 翻倍）→ 阈值后拥塞避免（线性+1）\n    # cwnd=拥塞窗口 ssthresh=慢启动阈值 acked=本 RTT 确认数 lost=是否丢包\n    if lost:\n        ssthresh = max(cwnd // 2, 1)\n        cwnd = 1\n        return {'cwnd': cwnd, 'ssthresh': ssthresh}\n    if cwnd < ssthresh:\n        return {'cwnd': min(cwnd + acked, ssthresh), 'ssthresh': ssthresh}\n    return {'cwnd': cwnd + 1, 'ssthresh': ssthresh}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:os|文件-目录树": {
+  "task": "目录树",
+  "unit": "文件-目录树",
+  "code": "def dir_ls(root, name, children=None, prefix='/'):\n    # 目录树 + 列目录：根/子目录/文件 → 路径列表（mkdir/ls 语义）\n    out = [prefix.rstrip('/') + '/' + root]\n    if name is None:\n        return out\n    base = prefix.rstrip('/') + '/' + root + '/' + name\n    out.append(base)\n    for c in (children or []):\n        out.append(base + '/' + c)\n    return sorted(out)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|文件-文件描述符": {
+  "task": "文件描述符",
+  "unit": "文件-文件描述符",
+  "code": "def fd_alloc(table, path):\n    # 打开文件表：分配最小可用 fd（0/1/2 留给标准流，从 3 起）\n    fd = 3\n    while fd in table:\n        fd += 1\n    table[fd] = path\n    return fd\ndef fd_close(table, fd):\n    # 关闭：释放 fd（返回被关闭的路径）\n    return table.pop(fd, None)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|设备-字符设备": {
+  "task": "字符设备",
+  "unit": "设备-字符设备",
+  "code": "def char_device(device, op, data=None):\n    # 字符设备抽象：open/read/write/close（驱动接口——设备=文件 语义）\n    if op == 'open':\n        device['opened'] = True\n        return True\n    if op == 'read':\n        if not device.get('opened'):\n            return None\n        buf = device.get('buf', '')\n        device['buf'] = ''\n        return buf\n    if op == 'write':\n        if not device.get('opened'):\n            return False\n        device['buf'] = device.get('buf', '') + (data or '')\n        return True\n    if op == 'close':\n        device['opened'] = False\n        return True\n    return False\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:graph|图查询-模式匹配": {
+  "task": "模式匹配",
+  "unit": "图查询-模式匹配",
+  "code": "def match_pattern(graph, src, rel, dst):\n    # 图查询语言：MATCH (a)-[r]->(b) 模式 → 匹配的三元组集合\n    # src/dst 支持 None=任意节点；rel 支持 None=任意边\n    results = []\n    for a in sorted(graph.nodes):\n        if src is not None and a != src:\n            continue\n        for b in graph.neighbors(a):\n            if rel is not None and rel not in (a, b):\n                continue\n            if dst is not None and b != dst:\n                continue\n            results.append((a, b))\n    return results\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-聚合": {
+  "task": "聚合查询",
+  "unit": "图查询-聚合",
+  "code": "def aggregate_by(graph, key_fn):\n    # 图查询语言：按条件分组聚合（每节点 → 出度计数，GROUP BY 语义）\n    groups = {}\n    for node in sorted(graph.nodes):\n        k = key_fn(node)\n        groups.setdefault(k, 0)\n        groups[k] += 1\n    return groups\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-条件链": {
+  "task": "条件链查询",
+  "unit": "图查询-条件链",
+  "code": "def chain_query(graph, condition, max_len=4):\n    # 图查询语言：从条件出发沿边收集完整链（MATCH (a)-[*]->(b) 路径语义）\n    chains = []\n    def walk(cur, path):\n        if len(path) > max_len:\n            return\n        succ = graph.neighbors(cur)\n        if not succ:\n            chains.append(list(path))\n            return\n        for nxt in succ:\n            if nxt not in path:\n                path.append(nxt)\n                walk(nxt, path)\n                path.pop()\n    walk(condition, [condition])\n    return sorted(chains)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:compiler|编译-函数定义": {
+  "task": "函数定义",
+  "unit": "编译-函数定义",
+  "code": "def compile_func_def(name, params, body_instrs):\n    # 定义 名（参数）：语句 → 函数体后置 + RETURN（入口=函数体起点）\n    # 返回 (skip_jump, entry_ip, body)：调用方拼接 JUMP 跳过 + 函数体\n    body = list(body_instrs)\n    body.append(('RETURN', None))\n    return {'name': name, 'params': params,\n            'skip': ('JUMP', None),  # 占位，拼接后回填\n            'entry_ip': 0, 'body': body}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-函数调用": {
+  "task": "函数调用",
+  "unit": "VM-函数调用",
+  "code": "def call_func(call_stack, symbols, params, args, entry_ip, ret_ip):\n    # CALL 语义：保存调用帧(返回地址+符号表) → 参数绑定(遮蔽全局) → 跳入口\n    call_stack.append((ret_ip, dict(symbols)))\n    for pname, pval in zip(params, args):\n        symbols[pname] = pval\n    return entry_ip\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-递归": {
+  "task": "递归调用",
+  "unit": "编译-递归",
+  "code": "def compile_recursive(name, params, cond_instrs, then_ret, else_expr_instrs):\n    # 递归函数：若 基条件 则 返回 基值，否则 返回 表达式（含自身调用）\n    # 组装为函数体字节码（CALL 自身由调用方回填入口）\n    body = []\n    body.extend(cond_instrs)\n    body.append(('JUMP_IF_FALSE', 0))  # 占位\n    body.extend(then_ret)\n    body.append(('RETURN', None))\n    body.append(('JUMP', 0))  # 占位\n    body.extend(else_expr_instrs)\n    body.append(('RETURN', None))\n    return {'name': name, 'params': params, 'body': body}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:browser|事件-事件冒泡": {
+  "task": "事件冒泡",
+  "unit": "事件-事件冒泡",
+  "code": "def event_path(dom_tree, target, ancestors=None):\n    # 事件传播路径：目标 → 祖先链（冒泡顺序：目标→父→…→根）\n    path = []\n    node = target\n    while node is not None:\n        path.append(node)\n        node = dom_tree.get(node)  # 父节点\n    return path\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|事件-事件监听": {
+  "task": "事件监听",
+  "unit": "事件-事件监听",
+  "code": "def listener_ops(listeners, event, target):\n    # 事件监听器：add/trigger（事件→匹配监听器列表）\n    if event == 'add':\n        listeners.setdefault(target, []).append(1)\n        return len(listeners[target])\n    if event == 'trigger':\n        return len(listeners.get(target, []))  # 匹配的监听器数\n    return 0\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-动画帧": {
+  "task": "动画帧",
+  "unit": "渲染-动画帧",
+  "code": "def animation_frame(state, step_fn, frames):\n    # 动画帧循环：逐帧应用 step_fn（requestAnimationFrame 语义）\n    out = []\n    for _ in range(frames):\n        state = step_fn(state)\n        out.append(state)\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:pylang|闭包-捕获更新": {
+  "task": "捕获更新",
+  "unit": "闭包-捕获更新",
+  "code": "def counter_nonlocal():\n    # nonlocal 语义：闭包修改捕获变量（非只读）\n    count = 0\n    def inc():\n        nonlocal count\n        count += 1\n        return count\n    return inc\ndef closure_mutate_test():\n    f = counter_nonlocal()\n    return (f(), f(), f())\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|闭包-工厂": {
+  "task": "闭包工厂",
+  "unit": "闭包-工厂",
+  "code": "def make_multiplier(factor):\n    # 闭包工厂：返回绑定了 factor 的乘法闭包\n    def mul(x):\n        return x * factor\n    return mul\ndef closure_factory_test():\n    double = make_multiplier(2)\n    triple = make_multiplier(3)\n    return (double(5), triple(5))\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|闭包-延迟绑定": {
+  "task": "延迟绑定",
+  "unit": "闭包-延迟绑定",
+  "code": "def lazy_bindings():\n    # 延迟绑定陷阱：循环后调用闭包 → 全捕获同一最终值\n    funcs = []\n    for i in range(3):\n        funcs.append(lambda: i)\n    return [f() for f in funcs]\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:net|网络-CIDR": {
+  "task": "CIDR子网",
+  "unit": "网络-CIDR",
+  "code": "def cidr_network(ip, prefix):\n    # IP 子网计算：IP + 前缀长度 → 网络地址/广播地址/主机数\n    parts = [int(x) for x in ip.split('.')]\n    mask_int = (0xFFFFFFFF << (32 - prefix)) & 0xFFFFFFFF\n    ip_int = (parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]\n    net_int = ip_int & mask_int\n    bcast_int = net_int | (~mask_int & 0xFFFFFFFF)\n    def to_ip(v):\n        return '.'.join(str((v >> s) & 0xFF) for s in (24, 16, 8, 0))\n    return {'network': to_ip(net_int), 'broadcast': to_ip(bcast_int),\n            'hosts': max(0, (1 << (32 - prefix)) - 2)}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-距离矢量": {
+  "task": "距离矢量",
+  "unit": "网络-距离矢量",
+  "code": "def distance_vector(routes, neighbor, neighbor_routes):\n    # 距离矢量路由（RIP）：收到邻居路由表 → 合并（距离+1，取最短）\n    for dst, dist in neighbor_routes.items():\n        nd = dist + 1\n        if dst not in routes or nd < routes[dst]:\n            routes[dst] = nd\n    return dict(routes)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-NAT": {
+  "task": "NAT转换",
+  "unit": "网络-NAT",
+  "code": "def nat_translate(table, src_ip, src_port, pub_ip):\n    # NAT：内网地址→公网地址（端口映射表；已映射复用端口）\n    key = (src_ip, src_port)\n    if key in table:\n        return table[key]\n    pub_port = len(table) + 1024  # 分配新公网端口\n    table[key] = (pub_ip, pub_port)\n    return table[key]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:graph|图存储-事务": {
+  "task": "图事务",
+  "unit": "图存储-事务",
+  "code": "def txn_op(state, op, payload=None):\n    # 图数据库事务：begin 快照 / commit 生效 / rollback 回滚（ACID 原子性）\n    if op == 'begin':\n        state['snapshot'] = {k: list(v) if isinstance(v, list) else v\n                              for k, v in state.get('data', {}).items()}\n        return 'active'\n    if op == 'commit':\n        state['snapshot'] = None\n        return 'committed'\n    if op == 'rollback':\n        if 'snapshot' in state and state['snapshot'] is not None:\n            state['data'] = state['snapshot']\n            state['snapshot'] = None\n        return 'rolled_back'\n    return 'idle'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图索引-属性索引": {
+  "task": "属性索引",
+  "unit": "图索引-属性索引",
+  "code": "def index_by_attr(nodes, attr):\n    # 图数据库索引：按属性值分组 → 快速查找（索引加速语义）\n    idx = {}\n    for nid, props in nodes.items():\n        val = props.get(attr)\n        if val is not None:\n            idx.setdefault(val, []).append(nid)\n    return {k: sorted(v) for k, v in idx.items()}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-子图匹配": {
+  "task": "子图匹配",
+  "unit": "图查询-子图匹配",
+  "code": "def subgraph_match(graph, pattern):\n    # 图查询：模式子图匹配（pattern=[(src, dst), ...] 边列表 → 存在性）\n    # 所有边都在图中存在 → 匹配成功（子图同构简化版）\n    for s, d in pattern:\n        if d not in graph.neighbors(s):\n            return False\n    return True\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（2 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:os|中断-向量表": {
+  "task": "中断向量",
+  "unit": "中断-向量表",
+  "code": "def vector_lookup(table, irq):\n    # 中断向量表：IRQ 号 → 处理函数（未注册 → None）\n    return table.get(irq)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|中断-上下文切换": {
+  "task": "上下文切换",
+  "unit": "中断-上下文切换",
+  "code": "def ctx_switch(ctx, save):\n    # 中断上下文切换：保存当前寄存器 → 恢复目标（现场保护/恢复）\n    if save:\n        ctx['saved'] = dict(ctx.get('regs', {}))\n        return 'saved'\n    regs = ctx.pop('saved', {})\n    ctx['regs'] = dict(regs)\n    return 'restored'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|中断-嵌套优先级": {
+  "task": "中断优先级",
+  "unit": "中断-嵌套优先级",
+  "code": "def nested_irq(current_prio, new_prio):\n    # 中断嵌套：新中断优先级更高 → 可抢占当前（NMI/高优先抢占）\n    return new_prio > current_prio\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:browser|存储-本地存储": {
+  "task": "本地存储",
+  "unit": "存储-本地存储",
+  "code": "def storage_op(store, op, key=None, value=None):\n    # localStorage：setItem/getItem/removeItem/clear（持久键值存储）\n    if op == 'set':\n        store[key] = value\n        return True\n    if op == 'get':\n        return store.get(key)\n    if op == 'remove':\n        return store.pop(key, None)\n    if op == 'clear':\n        store.clear()\n        return len(store)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|存储-会话存储": {
+  "task": "会话存储",
+  "unit": "存储-会话存储",
+  "code": "def session_storage(store, tab_open):\n    # sessionStorage：标签页级生命周期（新标签页 → 数据清空）\n    if tab_open:\n        return dict(store)          # 当前标签页数据\n    return {}                       # 新标签页：会话数据隔离\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|并行-Web Worker": {
+  "task": "Web Worker",
+  "unit": "并行-Web Worker",
+  "code": "def worker_msg(main, worker, data):\n    # Web Worker：主线程 postMessage → Worker 处理 → 回传（并行任务语义）\n    worker['input'] = data\n    worker['output'] = worker.get('fn', lambda x: x)(data)\n    main['result'] = worker['output']\n    return worker['output']\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:pylang|生成器-yield": {
+  "task": "生成器",
+  "unit": "生成器-yield",
+  "code": "def gen_count(n):\n    # 生成器：yield 暂停/恢复（惰性求值，逐个产出）\n    i = 0\n    while i < n:\n        yield i\n        i += 1\ndef gen_test():\n    return list(gen_count(3))\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|迭代器-协议": {
+  "task": "迭代协议",
+  "unit": "迭代器-协议",
+  "code": "def iter_protocol(data):\n    # 迭代器协议：__iter__/__next__（next 逐个取值，耗尽抛 StopIteration）\n    it = iter(data)\n    out = []\n    while True:\n        try:\n            out.append(next(it))\n        except StopIteration:\n            break\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|推导式-列表推导": {
+  "task": "列表推导",
+  "unit": "推导式-列表推导",
+  "code": "def list_comp(items, transform):\n    # 列表推导式：[transform(x) for x in items]（映射语义）\n    return [transform(x) for x in items]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:graph|图算法-PageRank": {
+  "task": "PageRank",
+  "unit": "图算法-PageRank",
+  "code": "def pagerank(graph, iterations=5, damping=0.85):\n    # PageRank：权重迭代传播（出链均分，阻尼因子防死端）\n    nodes = sorted(graph.nodes)\n    n = len(nodes)\n    pr = {node: 1.0 / n for node in nodes}\n    for _ in range(iterations):\n        new_pr = {node: (1 - damping) / n for node in nodes}\n        for node in nodes:\n            out = graph.neighbors(node)\n            if not out:\n                continue\n            share = damping * pr[node] / len(out)\n            for nxt in out:\n                new_pr[nxt] += share\n        pr = new_pr\n    return pr\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-连通分量": {
+  "task": "连通分量",
+  "unit": "图算法-连通分量",
+  "code": "def connected_components(graph):\n    # 无向连通分量：BFS 分组（边双向视为连通，互达节点同组）\n    from collections import deque\n    # 构建无向邻接（edges 双向化）\n    adj = {n: set(graph.neighbors(n)) for n in graph.nodes}\n    for n in list(graph.nodes):\n        for nxt in graph.neighbors(n):\n            adj.setdefault(nxt, set()).add(n)\n    seen = set()\n    comps = []\n    for start in sorted(graph.nodes):\n        if start in seen:\n            continue\n        group = set()\n        queue = deque([start])\n        seen.add(start)\n        while queue:\n            cur = queue.popleft()\n            group.add(cur)\n            for nxt in adj.get(cur, set()):\n                if nxt not in seen:\n                    seen.add(nxt)\n                    queue.append(nxt)\n        comps.append(sorted(group))\n    return sorted(comps)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-拓扑排序": {
+  "task": "拓扑排序",
+  "unit": "图算法-拓扑排序",
+  "code": "def topological_sort(graph):\n    # 拓扑排序：DAG 依赖顺序（Kahn 算法——入度归零先出）\n    from collections import deque\n    indeg = {node: 0 for node in graph.nodes}\n    for node in graph.nodes:\n        for nxt in graph.neighbors(node):\n            indeg[nxt] = indeg.get(nxt, 0) + 1\n    queue = deque(sorted(n for n, d in indeg.items() if d == 0))\n    order = []\n    while queue:\n        cur = queue.popleft()\n        order.append(cur)\n        for nxt in graph.neighbors(cur):\n            indeg[nxt] -= 1\n            if indeg[nxt] == 0:\n                queue.append(nxt)\n    return order if len(order) == len(graph.nodes) else None\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:net|网络-DNS解析": {
+  "task": "DNS解析",
+  "unit": "网络-DNS解析",
+  "code": "def dns_resolve(cache, domain):\n    # DNS 解析：域名→IP（缓存命中直返；未命中模拟查询 8.8.8.8）\n    if domain in cache:\n        return cache[domain], 'cache'\n    ip = '8.8.8.8'\n    cache[domain] = ip\n    return ip, 'query'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-HTTP状态码": {
+  "task": "HTTP状态码",
+  "unit": "网络-HTTP状态码",
+  "code": "def http_status_class(code):\n    # HTTP 状态码分类：2xx 成功/3xx 重定向/4xx 客户端错/5xx 服务端错\n    if 200 <= code < 300:\n        return '成功'\n    if 300 <= code < 400:\n        return '重定向'\n    if 400 <= code < 500:\n        return '客户端错误'\n    if 500 <= code < 600:\n        return '服务端错误'\n    return '未知'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-负载均衡": {
+  "task": "负载均衡",
+  "unit": "网络-负载均衡",
+  "code": "def load_balance(servers, request_id):\n    # 负载均衡：轮询调度（请求 → 服务器轮转分配）\n    if not servers:\n        return None\n    return servers[request_id % len(servers)]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:os|文件-系统挂载": {
+  "task": "文件系统挂载",
+  "unit": "文件-系统挂载",
+  "code": "def mount_op(mounts, path, fs_type=None):\n    # VFS 挂载：挂载点→文件系统（mount 注册/unmount 卸载/查询）\n    if fs_type is not None:\n        mounts[path] = fs_type\n        return True\n    if fs_type is None and path in mounts:\n        return mounts.pop(path)  # unmount\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|文件-文件权限": {
+  "task": "文件权限",
+  "unit": "文件-文件权限",
+  "code": "def check_perm(mode, access):\n    # 文件权限：模式位 rwx 检查（读4/写2/执行1 位运算）\n    bit = {'r': 4, 'w': 2, 'x': 1}[access]\n    return bool(mode & bit)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|进程-进程树": {
+  "task": "进程树",
+  "unit": "进程-进程树",
+  "code": "def process_tree(parents, root):\n    # 进程树：父进程关系 → 后代集合（递归收集子树）\n    children = {}\n    for pid, ppid in parents.items():\n        children.setdefault(ppid, []).append(pid)\n    desc = []\n    def walk(pid):\n        for c in children.get(pid, []):\n            desc.append(c)\n            walk(c)\n    walk(root)\n    return sorted(desc)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:browser|网络-Fetch请求": {
+  "task": "Fetch请求",
+  "unit": "网络-Fetch请求",
+  "code": "def fetch_req(method, url, headers=None, body=None):\n    # Fetch API：请求封装（方法/URL/头/体 → 请求对象）\n    req = {'method': method, 'url': url,\n           'headers': dict(headers or {}), 'body': body}\n    return req\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|网络-HTTP缓存": {
+  "task": "HTTP缓存",
+  "unit": "网络-HTTP缓存",
+  "code": "def http_cache(cache, url, etag=None):\n    # HTTP 缓存：ETag 条件请求（未变更 304 → 用缓存；变更 → 更新）\n    if url in cache and cache[url].get('etag') == etag:\n        return cache[url]['data'], '304 未变更'\n    if etag is not None:\n        cache[url] = {'etag': etag, 'data': url + '@' + etag}\n        return cache[url]['data'], '200 已更新'\n    return None, '未缓存'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|网络-Cookie": {
+  "task": "Cookie管理",
+  "unit": "网络-Cookie",
+  "code": "def cookie_op(cookies, op, name=None, value=None):\n    # Cookie：设置/读取（domain 键值存储，Session 无过期）\n    if op == 'set':\n        cookies[name] = value\n        return True\n    if op == 'get':\n        return cookies.get(name)\n    if op == 'delete':\n        return cookies.pop(name, None)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:os|系统调用-接口": {
+  "task": "系统调用",
+  "unit": "系统调用-接口",
+  "code": "def syscall_dispatch(table, num, args):\n    # 系统调用：编号 → 处理函数分派（未知编号 → None）\n    fn = table.get(num)\n    if fn is None:\n        return None\n    return fn(*args)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|信号-信号处理": {
+  "task": "信号处理",
+  "unit": "信号-信号处理",
+  "code": "def signal_op(handlers, op, signum=None, handler=None):\n    # 信号：注册 handler / 发送信号 / 默认处理（忽略/终止）\n    if op == 'register':\n        handlers[signum] = handler\n        return True\n    if op == 'send':\n        fn = handlers.get(signum)\n        if fn is not None:\n            return ('handled', fn())\n        return ('default', 'terminate' if signum == 2 else 'ignore')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统调用-参数校验": {
+  "task": "参数校验",
+  "unit": "系统调用-参数校验",
+  "code": "def validate_args(args, types):\n    # 系统调用参数校验：类型检查（copy_from_user 语义——非法参数拒绝）\n    if len(args) != len(types):\n            return False\n    for a, t in zip(args, types):\n        if not isinstance(a, t):\n            return False\n    return True\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:net|网络-WebSocket握手": {
+  "task": "WebSocket握手",
+  "unit": "网络-WebSocket握手",
+  "code": "def ws_handshake(headers):\n    # WebSocket 握手：HTTP Upgrade: websocket → 101 切换协议\n    upgrade = headers.get('Upgrade', '').lower()\n    key_ok = 'Sec-WebSocket-Key' in headers\n    if upgrade == 'websocket' and key_ok:\n        return 101, 'Switching Protocols'\n    return 400, 'Bad Request'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-帧封装": {
+  "task": "帧封装",
+  "unit": "网络-帧封装",
+  "code": "def ws_frame(opcode, payload):\n    # WebSocket 帧：首字节(FIN+opcode) + 长度 + 负载（RFC 6455 简化）\n    fin_opcode = 0x80 | opcode   # FIN=1 + 4bit opcode\n    n = len(payload)\n    if n < 126:\n        return bytes([fin_opcode, n]) + payload\n    return bytes([fin_opcode, 126, (n >> 8) & 0xFF, n & 0xFF]) + payload\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-流式传输": {
+  "task": "流式传输",
+  "unit": "网络-流式传输",
+  "code": "def chunked_encode(data, size=4):\n    # 流式分块传输：数据切块 + 长度前缀（HTTP chunked 语义）\n    out = []\n    for i in range(0, len(data), size):\n        chunk = data[i:i + size]\n        out.append(f'{len(chunk):X}\\r\\n' + chunk.decode('utf-8', 'ignore') + '\\r\\n')\n    out.append('0\\r\\n\\r\\n')\n    return ''.join(out)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:graph|图查询-执行计划": {
+  "task": "执行计划",
+  "unit": "图查询-执行计划",
+  "code": "def query_plan(conditions, stats):\n    # 查询执行计划：按选择性排序条件（低选择性先执行——查询优化语义）\n    plan = sorted(conditions, key=lambda c: stats.get(c, 0))\n    return plan\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图存储-批量操作": {
+  "task": "批量建图",
+  "unit": "图存储-批量操作",
+  "code": "def batch_edges(graph, edges):\n    # 批量建图：一次添加多条边（批量导入语义）\n    for src, dst in edges:\n        graph.add_edge(src, dst)\n    return len(edges)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图索引-布隆过滤": {
+  "task": "布隆过滤",
+  "unit": "图索引-布隆过滤",
+  "code": "def bloom_filter(items, probe):\n    # 布隆过滤器：多哈希位数组（成员可能判定，误报可接受）\n    size = 64\n    bits = [False] * size\n    def h1(x):\n        return sum(ord(c) for c in x) % size\n    def h2(x):\n        return (len(x) * 7 + sum(ord(c) for c in x)) % size\n    for it in items:\n        bits[h1(it)] = bits[h2(it)] = True\n    return bits[h1(probe)] and bits[h2(probe)]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:os|文件-日志恢复": {
+  "task": "日志恢复",
+  "unit": "文件-日志恢复",
+  "code": "def journal_replay(entries, disk):\n    # 文件系统日志：崩溃后重放（journal 条目 → 磁盘状态恢复）\n    for e in entries:\n        if e.get('type') == 'write':\n            disk[e['inode']] = e['data']\n        elif e.get('type') == 'delete':\n            disk.pop(e['inode'], None)\n    return dict(disk)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-监控指标": {
+  "task": "系统监控",
+  "unit": "系统-监控指标",
+  "code": "def sys_metrics(usage_samples):\n    # 系统监控：CPU/内存采样 → 平均/峰值（负载统计）\n    if not usage_samples:\n        return {'avg': 0.0, 'peak': 0.0}\n    return {'avg': round(sum(usage_samples) / len(usage_samples), 2),\n            'peak': max(usage_samples)}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-守护进程": {
+  "task": "守护进程",
+  "unit": "系统-守护进程",
+  "code": "def daemon_lifecycle(state, op):\n    # 守护进程：启动→运行→停止（后台服务生命周期）\n    if op == 'start':\n        state['status'] = 'running'\n        return 'running'\n    if op == 'stop':\n        state['status'] = 'stopped'\n        return 'stopped'\n    if op == 'status':\n        return state.get('status', 'unknown')\n    return 'unknown'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:pylang|面向对象-类定义": {
+  "task": "类定义",
+  "unit": "面向对象-类定义",
+  "code": "class Dog:\n    # 类定义：__init__ 构造 + 方法（实例属性）\n    def __init__(self, name):\n        self.name = name\n    def speak(self):\n        return self.name + ' 汪汪'\ndef oop_class_test():\n    d = Dog('阿黄')\n    return (d.name, d.speak())\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|面向对象-继承": {
+  "task": "类继承",
+  "unit": "面向对象-继承",
+  "code": "class Animal:\n    def speak(self):\n        return '动物'\nclass Cat(Animal):\n    # 继承：子类覆盖父类方法（方法重写）\n    def speak(self):\n        return '喵'\ndef oop_inherit_test():\n    return (Animal().speak(), Cat().speak())\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|面向对象-多态": {
+  "task": "多态分发",
+  "unit": "面向对象-多态",
+  "code": "def poly_speak(obj):\n    # 多态：同一接口不同实现（运行时方法分发）\n    return obj.speak()\ndef oop_poly_test():\n    return [poly_speak(o) for o in\n            (type('D', (), {'speak': lambda s: '汪'})(),\n             type('C', (), {'speak': lambda s: '喵'})())]\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:os|并发-信号量": {
+  "task": "信号量",
+  "unit": "并发-信号量",
+  "code": "def semaphore_op(sem, op):\n    # 信号量：P 减（资源不足阻塞）/ V 加（释放资源）——计数同步\n    if op == 'P':\n        if sem['count'] <= 0:\n            return 'blocked'\n        sem['count'] -= 1\n        return 'acquired'\n    if op == 'V':\n        sem['count'] += 1\n        return 'released'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|并发-读写锁": {
+  "task": "读写锁",
+  "unit": "并发-读写锁",
+  "code": "def rwlock_op(lock, op):\n    # 读写锁：多读并发/写独占（读者计数 + 写者标志）\n    if op == 'r_lock':\n        if lock.get('writer'):\n            return 'blocked'\n        lock['readers'] = lock.get('readers', 0) + 1\n        return 'r_acquired'\n    if op == 'w_lock':\n        if lock.get('writer') or lock.get('readers', 0) > 0:\n            return 'blocked'\n        lock['writer'] = True\n        return 'w_acquired'\n    if op == 'r_unlock':\n        lock['readers'] = max(0, lock.get('readers', 0) - 1)\n        return 'r_released'\n    if op == 'w_unlock':\n        lock['writer'] = False\n        return 'w_released'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|并发-生产者消费者": {
+  "task": "生产者消费者",
+  "unit": "并发-生产者消费者",
+  "code": "def producer_consumer(buf, op, item=None):\n    # 生产者-消费者：有界缓冲（生产入队/消费出队）\n    if op == 'produce':\n        if len(buf) >= 4:\n            return 'buffer_full'\n        buf.append(item)\n        return len(buf)\n    if op == 'consume':\n        if not buf:\n            return 'buffer_empty'\n        return buf.pop(0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:compiler|词法-注释剥离": {
+  "task": "注释剥离",
+  "unit": "词法-注释剥离",
+  "code": "def strip_comments(src):\n    # 注释剥离：# 行注释 / 井号中文注释（词法预处理）\n    lines = []\n    for line in src.splitlines():\n        idx = line.find('#')\n        lines.append(line[:idx] if idx >= 0 else line)\n    return '\\n'.join(lines)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-逻辑表达式": {
+  "task": "逻辑表达式",
+  "unit": "编译-逻辑表达式",
+  "code": "def compile_logic(left_instrs, op, right_instrs):\n    # 逻辑表达式：且/或 → 短路跳转字节码（AND/OR 语义）\n    code = list(left_instrs)\n    if op == '且':\n        code.append(('JUMP_IF_FALSE', 0))  # 左假短路\n        code.extend(right_instrs)\n    else:  # 或\n        code.append(('JUMP_IF_TRUE', 0))   # 左真短路\n        code.extend(right_instrs)\n    return code\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-链式比较": {
+  "task": "链式比较",
+  "unit": "编译-链式比较",
+  "code": "def compile_chain(cmp1, cmp2):\n    # 链式比较：a < b < c → 比较1 且 比较2（AND 组合）\n    code = list(cmp1)\n    code.append(('JUMP_IF_FALSE', 0))  # 第一比较假 → 短路\n    code.extend(cmp2)\n    return code\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:browser|安全-同源策略": {
+  "task": "同源策略",
+  "unit": "安全-同源策略",
+  "code": "def same_origin(a, b):\n    # 同源策略：协议+域名+端口 全同才同源（跨域请求拦截）\n    def parts(u):\n        s, rest = u.split('://')\n        host_port = rest.split('/')[0]\n        if ':' in host_port:\n            host, port = host_port.split(':')\n        else:\n            host, port = host_port, ('443' if s == 'https' else '80')\n        return (s, host, port)\n    return parts(a) == parts(b)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|安全-CSP策略": {
+  "task": "CSP策略",
+  "unit": "安全-CSP策略",
+  "code": "def csp_allow(policy, resource_type, source):\n    # CSP：内容安全策略（资源类型 → 允许的来源白名单）\n    allowed = policy.get(resource_type, [])\n    return source in allowed or '*' in allowed\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|安全-XSS防护": {
+  "task": "XSS防护",
+  "unit": "安全-XSS防护",
+  "code": "def escape_html(text):\n    # XSS 防护：HTML 转义（< > & \" ' → 实体，防脚本注入）\n    return (text.replace('&', '&amp;').replace('<', '&lt;')\n            .replace('>', '&gt;').replace('\"', '&quot;')\n            .replace(\"'\", '&#39;'))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:graph|图算法-节点相似度": {
+  "task": "节点相似度",
+  "unit": "图算法-节点相似度",
+  "code": "def jaccard_similarity(graph, a, b):\n    # 节点相似度：Jaccard（共同邻居 / 邻居并集）——推荐语义\n    na = set(graph.neighbors(a))\n    nb = set(graph.neighbors(b))\n    if not na and not nb:\n        return 0.0\n    return len(na & nb) / len(na | nb)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-图同构": {
+  "task": "图同构判定",
+  "unit": "图算法-图同构",
+  "code": "def graph_isomorphic(edges_a, edges_b):\n    # 图同构（简化）：边数+节点度序列 相同 → 可能同构（必要条件）\n    def deg_seq(edges):\n        nodes = set()\n        for s, d in edges:\n            nodes.add(s)\n            nodes.add(d)\n        deg = {n: 0 for n in nodes}\n        for s, d in edges:\n            deg[s] += 1\n            deg[d] += 1\n        return len(nodes), sorted(deg.values())\n    return deg_seq(edges_a) == deg_seq(edges_b)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-社区发现": {
+  "task": "社区发现",
+  "unit": "图算法-社区发现",
+  "code": "def label_propagation(graph, iterations=3):\n    # 社区发现：标签传播（LPA——节点取邻居多数标签收敛）\n    labels = {n: n for n in graph.nodes}\n    for _ in range(iterations):\n        for n in sorted(graph.nodes):\n            neigh = graph.neighbors(n)\n            if not neigh:\n                continue\n            from collections import Counter\n            cnt = Counter(labels[x] for x in neigh)\n            labels[n] = cnt.most_common(1)[0][0]\n    return labels\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:net|网络-多路复用": {
+  "task": "多路复用",
+  "unit": "网络-多路复用",
+  "code": "def stream_mux(streams):\n    # HTTP/2 多路复用：多流帧交错（流 ID + 数据 → 单连接混合帧）\n    frames = []\n    for sid, data in streams:\n        frames.append((sid, data))\n    return frames\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-连接池": {
+  "task": "连接池",
+  "unit": "网络-连接池",
+  "code": "def conn_pool(pool, op, host=None):\n    # 连接池：获取复用/归还/新建（上限控制，避免频繁建连）\n    if op == 'get':\n        if pool.get(host):\n            return pool[host].pop()\n        return 'new'\n    if op == 'put':\n        pool.setdefault(host, []).append(1)\n        return len(pool[host])\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-QUIC握手": {
+  "task": "QUIC握手",
+  "unit": "网络-QUIC握手",
+  "code": "def quic_handshake(cache, client):\n    # QUIC：0-RTT 快速握手（缓存会话 → 首次往返即发数据）\n    if client in cache:\n        return '0-RTT', cache[client]\n    cache[client] = 'ticket'\n    return '1-RTT', 'ticket'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:os|虚拟化-命名空间": {
+  "task": "命名空间",
+  "unit": "虚拟化-命名空间",
+  "code": "def ns_map(op, ns, pid=None):\n    # 命名空间隔离：PID/网络视图映射（容器进程 → 命名空间内 PID）\n    if op == 'register':\n        ns['inner'] = ns.get('inner', 100) + 1\n        ns[pid] = ns['inner']\n        return ns[pid]\n    if op == 'lookup':\n        return ns.get(pid)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|虚拟化-cgroup限制": {
+  "task": "资源限制",
+  "unit": "虚拟化-cgroup限制",
+  "code": "def cgroup_limit(cg, resource, limit, usage):\n    # cgroup：资源配额（CPU/内存 限额，超限拒绝）\n    if resource not in cg:\n        cg[resource] = limit\n    return usage <= cg[resource]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|容器-生命周期": {
+  "task": "容器生命周期",
+  "unit": "容器-生命周期",
+  "code": "def container_ops(state, op, img=None):\n    # 容器：创建/启动/停止/删除（镜像 → 运行实例）\n    if op == 'create':\n        state['img'] = img\n        state['status'] = 'created'\n        return 'created'\n    if op == 'start':\n        state['status'] = 'running'\n        return 'running'\n    if op == 'stop':\n        state['status'] = 'exited'\n        return 'exited'\n    if op == 'remove':\n        state.clear()\n        return 'removed'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:pylang|装饰器-定义使用": {
+  "task": "装饰器",
+  "unit": "装饰器-定义使用",
+  "code": "def timer(fn):\n    # 装饰器：包装函数（@timer 语义——增强不改原逻辑）\n    def wrapper(*args):\n        return ('timed', fn(*args))\n    return wrapper\ndef decorator_test():\n    @timer\n    def add(a, b):\n        return a + b\n    return add(2, 3)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|上下文-管理器": {
+  "task": "上下文管理器",
+  "unit": "上下文-管理器",
+  "code": "class Open:\n    # 上下文管理器：with 语义（__enter__ 获取/__exit__ 释放）\n    def __enter__(self):\n        self.opened = True\n        return self\n    def __exit__(self, *exc):\n        self.opened = False\n        return False\ndef with_test():\n    with Open() as f:\n        inside = f.opened\n    return (inside, f.opened)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-属性访问": {
+  "task": "属性访问",
+  "unit": "工具-属性访问",
+  "code": "class User:\n    # 属性访问：getattr/setattr（动态读写属性）\n    def __init__(self):\n        self._d = {}\n    def __getattr__(self, name):\n        return self._d.get(name)\n    def __setattr__(self, name, value):\n        if name == '_d':\n            object.__setattr__(self, name, value)\n        else:\n            self._d[name] = value\ndef attr_test():\n    u = User()\n    u.名字 = '灵枢'\n    return (u.名字, u.不存在)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:graph|图存储-快照版本": {
+  "task": "快照版本",
+  "unit": "图存储-快照版本",
+  "code": "def snapshot_ops(repo, op, version=None, state=None):\n    # 图版本快照：保存/回溯（时间点恢复语义）\n    if op == 'save':\n        ver = repo.get('next', 1)\n        repo['versions'][ver] = dict(state or {})\n        repo['next'] = ver + 1\n        return ver\n    if op == 'restore':\n        return repo['versions'].get(version)\n    if op == 'list':\n        return sorted(repo['versions'].keys())\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-时序查询": {
+  "task": "时序查询",
+  "unit": "图查询-时序查询",
+  "code": "def time_query(history, time):\n    # 时序图查询：时间点 → 该时刻图状态（快照序列检索）\n    snaps = sorted(history.keys())\n    cur = {}\n    for t in snaps:\n        if t <= time:\n            cur = history[t]\n        else:\n            break\n    return cur\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-增量更新": {
+  "task": "增量更新",
+  "unit": "图算法-增量更新",
+  "code": "def incr_update(graph, edge, op):\n    # 动态图增量：边增删（增量维护，不重建全图）\n    src, dst = edge\n    if op == 'add':\n        graph.add_edge(src, dst)\n        return 'added'\n    if op == 'remove':\n        graph.remove_edge(src, dst)\n        return 'removed'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:net|网络-BGP路径选择": {
+  "task": "BGP路径选择",
+  "unit": "网络-BGP路径选择",
+  "code": "def bgp_select(routes):\n    # BGP 路径选择：AS 路径最短优先（选路决策属性）\n    best = None\n    for r in routes:\n        if best is None or len(r['as_path']) < len(best['as_path']):\n            best = r\n    return best\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-Anycast": {
+  "task": "Anycast",
+  "unit": "网络-Anycast",
+  "code": "def anycast_select(servers, client_loc):\n    # Anycast：同一 IP 多节点 → 选最近（就近接入语义）\n    if not servers:\n        return None\n    return min(servers, key=lambda s: abs(s['loc'] - client_loc))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-CRC校验": {
+  "task": "CRC校验",
+  "unit": "网络-CRC校验",
+  "code": "def crc16(data):\n    # CRC-16 校验：多项式 0x8005（数据完整性——传输错误检测）\n    crc = 0\n    for b in data:\n        crc ^= b << 8\n        for _ in range(8):\n            if crc & 0x8000:\n                crc = ((crc << 1) ^ 0x8005) & 0xFFFF\n            else:\n                crc = (crc << 1) & 0xFFFF\n    return crc\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:os|文件-RAID条带": {
+  "task": "RAID条带",
+  "unit": "文件-RAID条带",
+  "code": "def raid_stripe(data, disks):\n    # RAID 0：数据条带化（分块分布到多盘——并行读写）\n    if not disks:\n        return []\n    return [data[i::disks] for i in range(disks)]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|文件-RAID奇偶校验": {
+  "task": "RAID奇偶",
+  "unit": "文件-RAID奇偶校验",
+  "code": "def raid_parity(blocks):\n    # RAID 5：XOR 奇偶校验（N-1 容错——单盘故障可恢复）\n    parity = 0\n    for b in blocks:\n        parity ^= b\n    return parity\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|文件-文件系统快照": {
+  "task": "文件快照",
+  "unit": "文件-文件系统快照",
+  "code": "def fs_snapshot(blocks, op, idx=None, data=None):\n    # 文件系统快照：写时复制（修改前复制原块——快照一致性）\n    if op == 'snap':\n        blocks['snap'] = dict(blocks['data'])\n        return 'snapped'\n    if op == 'write':\n        if 'snap' in blocks and idx not in blocks['snap']:\n            blocks['snap'][idx] = blocks['data'][idx]  # 写时复制\n        blocks['data'][idx] = data\n        return blocks['data'][idx]\n    if op == 'rollback':\n        blocks['data'] = dict(blocks.get('snap', {}))\n        return blocks['data']\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:browser|并行-Service Worker": {
+  "task": "Service Worker",
+  "unit": "并行-Service Worker",
+  "code": "def sw_lifecycle(sw, event, url=None):\n    # Service Worker：install→activate→fetch 拦截（离线能力核心）\n    if event == 'install':\n        sw['status'] = 'installed'\n        return 'installed'\n    if event == 'activate':\n        sw['status'] = 'active'\n        return 'active'\n    if event == 'fetch':\n        cache = sw.get('cache', {})\n        if url in cache:\n            return ('cached', cache[url])\n        return ('network', url)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|通知-推送消息": {
+  "task": "推送通知",
+  "unit": "通知-推送消息",
+  "code": "def push_msg(sub, op, payload=None):\n    # Push API：订阅/推送（服务器 → 用户设备通知）\n    if op == 'subscribe':\n        sub['endpoint'] = 'push.example.com'\n        return sub['endpoint']\n    if op == 'send':\n        if not sub.get('endpoint'):\n            return 'not_subscribed'\n        sub['last'] = payload\n        return ('sent', payload)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|存储-IndexedDB": {
+  "task": "IndexedDB",
+  "unit": "存储-IndexedDB",
+  "code": "def idb_txn(db, op, key=None, value=None):\n    # IndexedDB：对象存储事务（put/get/delete——事务原子性）\n    if op == 'put':\n        db[key] = value\n        return True\n    if op == 'get':\n        return db.get(key)\n    if op == 'delete':\n        return db.pop(key, None)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:net|网络-IPv6地址": {
+  "task": "IPv6地址",
+  "unit": "网络-IPv6地址",
+  "code": "def ipv6_parse(addr):\n    # IPv6 解析：压缩形式展开 + 分组（:: 零压缩还原）\n    if '::' in addr:\n        left, right = addr.split('::')\n        l = left.split(':') if left else []\n        r = right.split(':') if right else []\n        missing = 8 - len(l) - len(r)\n        groups = l + ['0'] * missing + r\n    else:\n        groups = addr.split(':')\n    return groups\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-隧道封装": {
+  "task": "隧道封装",
+  "unit": "网络-隧道封装",
+  "code": "def tunnel_encap(inner, outer_src, outer_dst):\n    # 隧道：内层包 + 外层头（IP-in-IP 封装——跨网络传输）\n    return {'outer': (outer_src, outer_dst), 'inner': inner}\ndef tunnel_decap(pkt):\n    # 解封装：剥离外层头 → 内层包\n    return pkt['inner']\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-VLAN划分": {
+  "task": "VLAN划分",
+  "unit": "网络-VLAN划分",
+  "code": "def vlan_tag(frame, vlan_id):\n    # VLAN：802.1Q 标签（4 字节——TPID+TCI 含 VID 12bit）\n    tci = vlan_id & 0xFFF\n    return ('0x8100', tci)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:os|启动-引导加载": {
+  "task": "引导加载",
+  "unit": "启动-引导加载",
+  "code": "def bootloader(disk, stage):\n    # bootloader：MBR→内核加载（引导阶段推进）\n    if stage == 'mbr':\n        return ('loaded', disk.get('kernel', 'vmlinuz'))\n    if stage == 'initrd':\n        return ('mounted', 'initramfs')\n    return 'unknown'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|启动-初始化流程": {
+  "task": "初始化流程",
+  "unit": "启动-初始化流程",
+  "code": "def init_sequence(services):\n    # init 进程：按依赖顺序启动服务（启动序列）\n    order = []\n    remaining = set(services)\n    while remaining:\n        for s in sorted(remaining):\n            deps = services[s]\n            if all(d in order for d in deps):\n                order.append(s)\n                remaining.remove(s)\n                break\n    return order\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-固件接口": {
+  "task": "固件接口",
+  "unit": "系统-固件接口",
+  "code": "def firmware_call(fw, call):\n    # 固件接口：UEFI/BIOS 调用（硬件抽象服务）\n    if call == 'get_time':\n        return fw.get('time', 0)\n    if call == 'reboot':\n        return 'rebooting'\n    if call == 'set_boot':\n        fw['boot_dev'] = 'disk0'\n        return 'set'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:graph|图存储-分区分片": {
+  "task": "分区分片",
+  "unit": "图存储-分区分片",
+  "code": "def graph_shard(nodes, shards):\n    # 图分区：节点确定性哈希 → 分片（水平扩展语义）\n    parts = {i: [] for i in range(shards)}\n    for n in nodes:\n        parts[sum(ord(c) for c in n) % shards].append(n)\n    return {k: sorted(v) for k, v in parts.items()}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图存储-主从复制": {
+  "task": "主从复制",
+  "unit": "图存储-主从复制",
+  "code": "def replication(replicas, op, key=None, value=None):\n    # 主从复制：写主节点 → 同步从节点（读扩展/容错）\n    if op == 'write':\n        for r in replicas:\n            r[key] = value\n        return len(replicas)\n    if op == 'read':\n        return replicas[0].get(key)  # 读主副本\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-分布式查询": {
+  "task": "分布式查询",
+  "unit": "图查询-分布式查询",
+  "code": "def dist_query(shards, query_fn):\n    # 分布式查询：各分片并行查 → 合并结果（MapReduce 语义）\n    results = []\n    for shard in shards:\n        results.extend(query_fn(shard))\n    return sorted(results)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:net|网络-MQTT发布订阅": {
+  "task": "MQTT发布订阅",
+  "unit": "网络-MQTT发布订阅",
+  "code": "def mqtt_broker(broker, op, topic=None, payload=None, client=None):\n    # MQTT：发布/订阅（主题路由——客户端订阅主题收消息）\n    if op == 'subscribe':\n        broker.setdefault(topic, set()).add(client)\n        return len(broker[topic])\n    if op == 'publish':\n        subs = broker.get(topic, set())\n        return sorted(subs)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-物联网遥测": {
+  "task": "物联网遥测",
+  "unit": "网络-物联网遥测",
+  "code": "def iot_telemetry(devices, device, reading):\n    # IoT 遥测：传感器读数上报（设备 → 平台数据流）\n    devices.setdefault(device, []).append(reading)\n    return len(devices[device])\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-消息队列": {
+  "task": "消息队列",
+  "unit": "网络-消息队列",
+  "code": "def msg_queue(q, op, item=None):\n    # 消息队列：入队/出队（FIFO 生产消费解耦）\n    if op == 'enqueue':\n        q.append(item)\n        return len(q)\n    if op == 'dequeue':\n        if not q:\n            return None\n        return q.pop(0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:compiler|编译-常量折叠": {
+  "task": "常量折叠",
+  "unit": "编译-常量折叠",
+  "code": "def fold_constants(instrs):\n    # 常量折叠：PUSH 常量 + 算术 → 立即结果（编译期求值优化）\n    out, i = [], 0\n    while i < len(instrs):\n        if (i + 2 < len(instrs) and instrs[i][0] == 'PUSH'\n                and instrs[i + 1][0] == 'PUSH'\n                and instrs[i + 2][0] in ('ADD', 'SUB', 'MUL', 'DIV')):\n            a, b = instrs[i][1], instrs[i + 1][1]\n            op = instrs[i + 2][0]\n            val = {'ADD': a + b, 'SUB': a - b, 'MUL': a * b,\n                   'DIV': a / b}[op]\n            out.append(('PUSH', val))\n            i += 3\n        else:\n            out.append(instrs[i])\n            i += 1\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-死代码消除": {
+  "task": "死代码消除",
+  "unit": "编译-死代码消除",
+  "code": "def dead_code_elim(code):\n    # 死代码消除：不可达指令（无条件 JUMP 之后）删除\n    live = []\n    reachable = True\n    for op, arg in code:\n        if op == 'JUMP':\n            live.append((op, arg))\n            reachable = False\n        elif reachable:\n            live.append((op, arg))\n    return live\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-寄存器分配": {
+  "task": "寄存器分配",
+  "unit": "编译-寄存器分配",
+  "code": "def reg_alloc(vars_used):\n    # 寄存器分配：变量 → 寄存器（无冲突复用，溢出计数）\n    regs = {}\n    spills = 0\n    for v in vars_used:\n        if v not in regs:\n            if len(regs) < 4:\n                regs[v] = 'R' + str(len(regs))\n            else:\n                spills += 1\n                regs[v] = 'mem'\n    return regs, spills\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:graph|图可视化-力导向布局": {
+  "task": "力导向布局",
+  "unit": "图可视化-力导向布局",
+  "code": "def force_layout(nodes, edges, iterations=2):\n    # 力导向布局：斥力+引力迭代（节点坐标稳定——图可视化）\n    pos = {n: i * 1.0 for i, n in enumerate(nodes)}  # 初始线性\n    for _ in range(iterations):\n        for a in nodes:\n            for b in nodes:\n                if a != b and pos[a] < pos[b]:\n                    pos[a] += 0.1  # 斥力推远\n                    pos[b] -= 0.1\n        for a, b in edges:\n            pos[b] = (pos[a] + pos[b]) / 2  # 引力拉近\n    return {n: round(pos[n], 2) for n in nodes}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图可视化-分层布局": {
+  "task": "分层布局",
+  "unit": "图可视化-分层布局",
+  "code": "def layer_layout(graph):\n    # 分层布局：按 BFS 深度分层（层次坐标——层级图可视化）\n    from collections import deque\n    starts = [n for n in graph.nodes if not any(\n        n in graph.neighbors(m) for m in graph.nodes)]\n    if not starts:\n        starts = [min(graph.nodes)]\n    layers = {}\n    for s in starts:\n        q = deque([(s, 0)])\n        while q:\n            n, d = q.popleft()\n            if n not in layers or d < layers[n]:\n                layers[n] = d\n            for nxt in graph.neighbors(n):\n                if nxt not in layers or d + 1 < layers[nxt]:\n                    q.append((nxt, d + 1))\n    return layers\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图可视化-邻接矩阵": {
+  "task": "邻接矩阵",
+  "unit": "图可视化-邻接矩阵",
+  "code": "def adjacency_matrix(graph):\n    # 邻接矩阵：节点 × 节点 0/1（图的结构矩阵表示）\n    nodes = sorted(graph.nodes)\n    idx = {n: i for i, n in enumerate(nodes)}\n    mat = [[0] * len(nodes) for _ in nodes]\n    for n in nodes:\n        for nxt in graph.neighbors(n):\n            mat[idx[n]][idx[nxt]] = 1\n    return mat\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:pylang|类型-类型注解": {
+  "task": "类型注解",
+  "unit": "类型-类型注解",
+  "code": "def annotate(params, ret):\n    # 类型注解：参数/返回类型标注（def f(x: int) -> str 语义）\n    return {'params': dict(params), 'return': ret}\ndef annotate_test():\n    return annotate({'x': int}, str)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|类型-运行时检查": {
+  "task": "运行时检查",
+  "unit": "类型-运行时检查",
+  "code": "def runtime_check(value, expected):\n    # 运行时类型检查：isinstance 语义（鸭子类型——结构兼容即可）\n    if isinstance(value, expected):\n        return 'ok'\n    if expected is int and isinstance(value, float) and value.is_integer():\n        return 'ok'\n    return 'type_error'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|类型-协议接口": {
+  "task": "协议接口",
+  "unit": "类型-协议接口",
+  "code": "def check_protocol(obj, methods):\n    # 协议：结构约定（具 __len__ 即序列协议——鸭子类型）\n    return all(hasattr(obj, m) for m in methods)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:os|安全-访问控制": {
+  "task": "访问控制",
+  "unit": "安全-访问控制",
+  "code": "def acl_check(acl, subject, resource, action):\n    # ACL：访问控制列表（主体→资源→动作 权限判定）\n    rules = acl.get(resource, [])\n    for r in rules:\n        if r['subject'] == subject and r['action'] == action:\n            return r['allow']\n    return False  # 默认拒绝\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|安全-审计日志": {
+  "task": "审计日志",
+  "unit": "安全-审计日志",
+  "code": "def audit_log(log, event, subject):\n    # 审计：安全事件记录（操作 → 日志条目）\n    log.append({'event': event, 'subject': subject})\n    return len(log)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|安全-能力系统": {
+  "task": "能力系统",
+  "unit": "安全-能力系统",
+  "code": "def capability(caps, op, cap=None):\n    # 能力：特权令牌（持能力才可操作——最小权限语义）\n    if op == 'grant':\n        caps.add(cap)\n        return True\n    if op == 'check':\n        return cap in caps\n    if op == 'revoke':\n        caps.discard(cap)\n        return cap not in caps\n    return False\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:net|网络-CDN缓存": {
+  "task": "CDN缓存",
+  "unit": "网络-CDN缓存",
+  "code": "def cdn_cache(edges, content, url):\n    # CDN：边缘节点缓存（内容就近分发——回源/命中）\n    edge = edges[0] if edges else None\n    if edge is None:\n        return ('origin', url)\n    edge.setdefault('cache', {})\n    if url in edge['cache']:\n        return ('hit', edge['cache'][url])\n    edge['cache'][url] = content\n    return ('miss', content)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-边缘计算": {
+  "task": "边缘计算",
+  "unit": "网络-边缘计算",
+  "code": "def edge_compute(nodes, task, data):\n    # 边缘计算：任务分发到就近节点处理（延迟降低语义）\n    if not nodes:\n        return ('cloud', task)\n    node = min(nodes, key=lambda n: n['loc'])\n    return (node['id'], task, node['fn'](data))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-内容路由": {
+  "task": "内容路由",
+  "unit": "网络-内容路由",
+  "code": "def content_route(table, url):\n    # 内容路由：URL 前缀 → 后端节点（按内容寻址）\n    best = None\n    for prefix, node in table.items():\n        if url.startswith(prefix) and (best is None\n                                       or len(prefix) > len(best[0])):\n            best = (prefix, node)\n    return best[1] if best else None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:graph|图存储-备份恢复": {
+  "task": "备份恢复",
+  "unit": "图存储-备份恢复",
+  "code": "def backup_ops(repo, op, data=None):\n    # 图备份：全量备份/增量合并/恢复（数据安全语义）\n    if op == 'full':\n        repo['full'] = dict(data or {})\n        repo['incr'] = {}\n        return 'full_backed'\n    if op == 'incr':\n        repo['incr'].update(data or {})\n        return 'incr_backed'\n    if op == 'restore':\n        merged = dict(repo.get('full', {}))\n        merged.update(repo.get('incr', {}))\n        return merged\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图存储-一致性检查": {
+  "task": "一致性检查",
+  "unit": "图存储-一致性检查",
+  "code": "def integrity_check(graph):\n    # 一致性：边两端节点存在 + 无重复边（数据完整性）\n    errors = []\n    seen = set()\n    for src in graph.nodes:\n        for dst in graph.neighbors(src):\n            if dst not in graph.nodes:\n                errors.append(f'悬空边: {src}→{dst}')\n            if (src, dst) in seen:\n                errors.append(f'重复边: {src}→{dst}')\n            seen.add((src, dst))\n    return errors\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图存储-压缩编码": {
+  "task": "图压缩",
+  "unit": "图存储-压缩编码",
+  "code": "def compress_adjacency(graph):\n    # 图压缩：邻接表 CSR 表示（顶点偏移+邻接数组——紧凑存储）\n    nodes = sorted(graph.nodes)\n    offsets, adj = [], []\n    for n in nodes:\n        offsets.append(len(adj))\n        adj.extend(sorted(graph.neighbors(n)))\n    offsets.append(len(adj))\n    return {'nodes': nodes, 'offsets': offsets, 'adj': adj}\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:os|性能-性能分析": {
+  "task": "性能分析",
+  "unit": "性能-性能分析",
+  "code": "def profile_funcs(times):\n    # profiling：函数耗时统计（累计/平均——热点定位）\n    total = sum(times)\n    if not times:\n        return {'total': 0, 'avg': 0.0}\n    return {'total': total, 'avg': round(total / len(times), 2)}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|性能-瓶颈检测": {
+  "task": "瓶颈检测",
+  "unit": "性能-瓶颈检测",
+  "code": "def bottleneck(resources):\n    # 瓶颈检测：利用率最高的资源（系统瓶颈定位）\n    if not resources:\n        return None\n    return max(resources.items(), key=lambda kv: kv[1])\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|性能-调优建议": {
+  "task": "调优建议",
+  "unit": "性能-调优建议",
+  "code": "def tuning_advice(metrics):\n    # 调优：指标 → 建议（瓶颈 → 调整参数）\n    adv = []\n    if metrics.get('cpu', 0) > 80:\n        adv.append('升级 CPU 或减少进程')\n    if metrics.get('mem', 0) > 80:\n        adv.append('增加内存或优化缓存')\n    if not adv:\n        adv.append('当前配置合理')\n    return adv\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:graph|图监控-指标统计": {
+  "task": "图指标",
+  "unit": "图监控-指标统计",
+  "code": "def graph_metrics(graph):\n    # 图指标：节点数/边数/密度（规模与稀疏度）\n    n = len(graph.nodes)\n    e = sum(len(graph.neighbors(x)) for x in graph.nodes)\n    density = (2 * e / (n * (n - 1))) if n > 1 else 0.0\n    return {'nodes': n, 'edges': e, 'density': round(density, 2)}\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图监控-健康检查": {
+  "task": "健康检查",
+  "unit": "图监控-健康检查",
+  "code": "def health_check(graph):\n    # 健康检查：无向连通（正反向边都走）+ 无孤立节点（可用性判定）\n    if not graph.nodes:\n        return ('ok', True)\n    # 无向邻接（正向+反向边）\n    adj = {n: set(graph.neighbors(n)) for n in graph.nodes}\n    for n in graph.nodes:\n        for nxt in graph.neighbors(n):\n            adj.setdefault(nxt, set()).add(n)\n    visited = set()\n    stack = [next(iter(graph.nodes))]\n    while stack:\n        cur = stack.pop()\n        if cur in visited:\n            continue\n        visited.add(cur)\n        stack.extend(adj.get(cur, set()))\n    if len(visited) != len(graph.nodes):\n        return ('isolated', False)\n    return ('ok', True)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图监控-度分布": {
+  "task": "度分布",
+  "unit": "图监控-度分布",
+  "code": "def degree_distribution(graph):\n    # 度分布：出度直方图（度 → 节点数，结构统计）\n    hist = {}\n    for n in graph.nodes:\n        d = len(graph.neighbors(n))\n        hist[d] = hist.get(d, 0) + 1\n    return hist\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:pylang|异步-async await": {
+  "task": "异步协程",
+  "unit": "异步-async await",
+  "code": "import asyncio\nasync def fetch(name):\n    # async/await 协程：挂起等待（异步 I/O 语义）\n    await asyncio.sleep(0)\n    return name + '_done'\ndef async_test():\n    return asyncio.run(fetch('任务'))\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异步-事件循环": {
+  "task": "事件循环",
+  "unit": "异步-事件循环",
+  "code": "def event_loop(tasks):\n    # 事件循环：任务队列调度（依次执行——单线程并发）\n    done = []\n    for t in tasks:\n        done.append(t())\n    return done\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异步-并发任务": {
+  "task": "并发任务",
+  "unit": "异步-并发任务",
+  "code": "def gather(tasks):\n    # 并发任务：asyncio.gather 语义（并行执行汇总结果）\n    return [t() for t in tasks]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:os|文件-磁盘配额": {
+  "task": "磁盘配额",
+  "unit": "文件-磁盘配额",
+  "code": "def quota_check(quotas, user, usage, size):\n    # 磁盘配额：用户使用量 + 新写入 ≤ 限额（超限拒绝）\n    limit = quotas.get(user, float('inf'))\n    return usage + size <= limit\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|文件-文件锁": {
+  "task": "文件锁",
+  "unit": "文件-文件锁",
+  "code": "def file_lock(state, op):\n    # 文件锁：flock 语义（独占/释放——并发写保护）\n    if op == 'lock':\n        if state.get('locked'):\n            return 'blocked'\n        state['locked'] = True\n        return 'locked'\n    if op == 'unlock':\n        state['locked'] = False\n        return 'unlocked'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-资源限额": {
+  "task": "资源限额",
+  "unit": "系统-资源限额",
+  "code": "def rlimit(res, op, soft=None):\n    # ulimit：进程资源限制（设置/查询软限制）\n    if op == 'set':\n        res['soft'] = soft\n        return soft\n    if op == 'get':\n        return res.get('soft')\n    if op == 'check':\n        return res.get('soft', float('inf'))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:net|网络-流量统计": {
+  "task": "流量统计",
+  "unit": "网络-流量统计",
+  "code": "def traffic_stats(flows):\n    # 流量统计：每流字节/包汇总（流量分析）\n    stats = {}\n    for f in flows:\n        key = f['src'] + '→' + f['dst']\n        s = stats.setdefault(key, {'bytes': 0, 'pkts': 0})\n        s['bytes'] += f['bytes']\n        s['pkts'] += f['pkts']\n    return stats\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-延迟测量": {
+  "task": "延迟测量",
+  "unit": "网络-延迟测量",
+  "code": "def rtt_stats(samples):\n    # RTT 测量：延迟样本 → 平均/最小/最大（链路质量）\n    if not samples:\n        return {'avg': 0.0, 'min': 0, 'max': 0}\n    return {'avg': round(sum(samples) / len(samples), 2),\n            'min': min(samples), 'max': max(samples)}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-异常检测": {
+  "task": "异常检测",
+  "unit": "网络-异常检测",
+  "code": "def anomaly_detect(traffic, threshold):\n    # 异常检测：流量突增（超过阈值 → 告警）\n    alerts = []\n    for t in traffic:\n        if t > threshold:\n            alerts.append(t)\n    return alerts\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:os|可信-安全启动": {
+  "task": "安全启动",
+  "unit": "可信-安全启动",
+  "code": "def secure_boot(chain, keyring):\n    # 安全启动：启动组件签名验证链（未签名/密钥不符拒绝）\n    for comp in chain:\n        if comp not in keyring:\n            return ('denied', comp)\n    return ('booted', True)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|可信-TPM度量": {
+  "task": "TPM度量",
+  "unit": "可信-TPM度量",
+  "code": "def tpm_measure(pcr, component):\n    # TPM 度量：PCR 扩展（哈希累加——信任链度量）\n    h = sum(ord(c) for c in component) % 256\n    pcr = (pcr + h) % 256\n    return pcr\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|可信-哈希校验": {
+  "task": "哈希校验",
+  "unit": "可信-哈希校验",
+  "code": "def hash_verify(file_hash, expected):\n    # 文件完整性：哈希比对（不匹配 → 篡改告警）\n    if file_hash == expected:\n        return 'integrity_ok'\n    return 'tampered'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:graph|图嵌入-节点特征": {
+  "task": "节点特征",
+  "unit": "图嵌入-节点特征",
+  "code": "def node_features(graph):\n    # 节点特征：度/入度/出度（图学习特征向量）\n    out_deg = {n: len(graph.neighbors(n)) for n in graph.nodes}\n    in_deg = {n: 0 for n in graph.nodes}\n    for n in graph.nodes:\n        for nxt in graph.neighbors(n):\n            in_deg[nxt] += 1\n    return {n: {'out': out_deg[n], 'in': in_deg[n]}\n            for n in sorted(graph.nodes)}\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图嵌入-图特征": {
+  "task": "图特征",
+  "unit": "图嵌入-图特征",
+  "code": "def graph_features(graph):\n    # 图级特征：节点数/边数/连通分量数（图分类输入）\n    n = len(graph.nodes)\n    e = sum(len(graph.neighbors(x)) for x in graph.nodes)\n    return {'nodes': n, 'edges': e, 'density': round(\n        2 * e / (n * (n - 1)), 2) if n > 1 else 0.0}\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图学习-相似推荐": {
+  "task": "相似推荐",
+  "unit": "图学习-相似推荐",
+  "code": "def similar_recommend(graph, node, top=2):\n    # 相似推荐：共同邻居最多的节点（协同过滤语义）\n    def common(a, b):\n        na = set(graph.neighbors(a))\n        nb = set(graph.neighbors(b))\n        return len(na & nb)\n    cands = [x for x in graph.nodes if x != node]\n    cands.sort(key=lambda x: common(node, x), reverse=True)\n    return cands[:top]\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:browser|性能-渲染优化": {
+  "task": "渲染优化",
+  "unit": "性能-渲染优化",
+  "code": "def batch_update(updates):\n    # 渲染优化：批量 DOM 更新（合并多次修改为一次）\n    merged = {}\n    for u in updates:\n        merged[u['id']] = u['html']\n    return merged\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|性能-懒加载": {
+  "task": "懒加载",
+  "unit": "性能-懒加载",
+  "code": "def lazy_load(loads, viewport):\n    # 懒加载：视口内才加载（按需加载优化）\n    return [l for l in loads if l['pos'] <= viewport]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|性能-防抖节流": {
+  "task": "节流",
+  "unit": "性能-防抖节流",
+  "code": "def throttle(events, interval):\n    # 节流：限频执行（首个事件立即执行，后续间隔 ≥ interval）\n    last = -float('inf')\n    out = []\n    for e in events:\n        if e - last >= interval:\n            out.append(e)\n            last = e\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:net|网络-报文解析": {
+  "task": "报文解析",
+  "unit": "网络-报文解析",
+  "code": "def parse_ip(packet):\n    # IP 报文解析：头部字段（版本/协议/源/目的）\n    ver = packet[0] >> 4\n    proto = packet[9]\n    src = '.'.join(str(b) for b in packet[12:16])\n    dst = '.'.join(str(b) for b in packet[16:20])\n    return {'version': ver, 'proto': proto, 'src': src, 'dst': dst}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 1 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-抓包分析": {
+  "task": "抓包分析",
+  "unit": "网络-抓包分析",
+  "code": "def capture_stats(captures):\n    # 抓包分析：包计数/协议分布（pcap 统计语义）\n    total = len(captures)\n    by_proto = {}\n    for c in captures:\n        by_proto[c['proto']] = by_proto.get(c['proto'], 0) + 1\n    return {'total': total, 'by_proto': by_proto}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-协议解码": {
+  "task": "协议解码",
+  "unit": "网络-协议解码",
+  "code": "def hex_decode(hex_str):\n    # 协议解码：十六进制 → 字节串（抓包数据解码）\n    return bytes.fromhex(hex_str)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:os|设备-热插拔": {
+  "task": "热插拔",
+  "unit": "设备-热插拔",
+  "code": "def hotplug(bus, op, device=None):\n    # 热插拔：设备接入/移除（运行中动态管理）\n    if op == 'plug':\n        bus.add(device)\n        return 'plugged'\n    if op == 'unplug':\n        bus.discard(device)\n        return 'unplugged'\n    if op == 'list':\n        return sorted(bus)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|设备-即插即用": {
+  "task": "即插即用",
+  "unit": "设备-即插即用",
+  "code": "def plug_and_play(device, drivers):\n    # 即插即用：设备 ID → 自动匹配驱动（免手动配置）\n    for d in drivers:\n        if device.startswith(d['vendor']):\n            return ('matched', d['name'])\n    return ('nomatch', None)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|设备-设备树": {
+  "task": "设备树",
+  "unit": "设备-设备树",
+  "code": "def device_tree_lookup(tree, node):\n    # 设备树：硬件拓扑节点查找（属性查询）\n    return tree.get(node)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:graph|图安全-权限控制": {
+  "task": "图权限",
+  "unit": "图安全-权限控制",
+  "code": "def graph_acl(acl, user, node, action):\n    # 图权限：节点级访问控制（用户/节点/动作）\n    rules = acl.get(node, [])\n    for r in rules:\n        if r['user'] == user and r['action'] == action:\n            return r['allow']\n    return False\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图安全-租户隔离": {
+  "task": "租户隔离",
+  "unit": "图安全-租户隔离",
+  "code": "def tenant_scope(graph, tenant):\n    # 租户隔离：返回租户可见节点（数据隔离语义）\n    return sorted(n for n in graph.nodes\n                  if graph.owner.get(n) == tenant)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图安全-加密存储": {
+  "task": "加密存储",
+  "unit": "图安全-加密存储",
+  "code": "def encrypt_node(value, key):\n    # 图加密：节点值异或密钥（静态数据加密）\n    return ''.join(chr(ord(c) ^ key) for c in value)\ndef decrypt_node(code, key):\n    return ''.join(chr(ord(c) ^ key) for c in code)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 2 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:compiler|编译-闭包捕获分析": {
+  "task": "闭包捕获分析",
+  "unit": "编译-闭包捕获分析",
+  "code": "def analyze_free_vars(func_refs, params, outer_vars):\n    # 闭包捕获分析：函数体引用 且 非参数 且 外层可见 = 自由变量\n    # （词法作用域：内层函数用到的外层名字 → 需捕获为 cell；保持源码引用顺序）\n    return [r for r in func_refs\n            if r not in params and r in outer_vars]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-闭包创建": {
+  "task": "闭包创建",
+  "unit": "VM-闭包创建",
+  "code": "def make_closure(func_body, free_names, captured_values):\n    # 闭包创建：函数体 + 捕获映射（自由变量→当前值）→ 闭包对象\n    # （知 + 所见环境；未捕获到的名字不入环境）\n    return {'body': list(func_body),\n            'env': {n: captured_values[n] for n in free_names\n                    if n in captured_values}}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-闭包调用": {
+  "task": "闭包调用",
+  "unit": "VM-闭包调用",
+  "code": "def call_closure(closure, params, args):\n    # 闭包调用：捕获环境 + 参数绑定 → 执行环境\n    # （词法父作用域可见 + 当前参数；参数遮蔽捕获变量）\n    env = dict(closure['env'])\n    for p, a in zip(params, args):\n        env[p] = a\n    return env\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

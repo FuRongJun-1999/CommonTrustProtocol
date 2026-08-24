@@ -2350,5 +2350,39 @@ try:
 except Exception as ex:
     check('㊤c 权限→租户→加密端到端（读允 t1见a 加密解密往返）', False, str(ex)[:60])
 
+# ㊥ 目标2 深化：中文编译器闭包（捕获分析/闭包创建/闭包调用 经正式管线）
+c3_qs = {
+    "捕获分析": "写一个中文编译器闭包捕获分析单元（自由变量）",
+    "闭包创建": "写一个中文编译器闭包创建单元（函数体捕获环境）",
+    "闭包调用": "写一个中文编译器闭包调用单元（捕获环境参数绑定）",
+}
+c3_ok = 0
+for label, q in c3_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c3_ok += 1
+    check(f'㊥ {label} 编译器闭包单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊥b 编译器闭包三单元全部生成', c3_ok == 3, f'{c3_ok}/3')
+
+# ㊥c 闭包端到端：捕获分析→创建→调用（自由变量甲被捕获，参数乙遮蔽捕获值）
+r_fa = domain_route("写一个中文编译器闭包捕获分析单元（自由变量）")
+r_mc = domain_route("写一个中文编译器闭包创建单元（函数体捕获环境）")
+r_cc = domain_route("写一个中文编译器闭包调用单元（捕获环境参数绑定）")
+try:
+    ns_fa, ns_mc, ns_cc = {}, {}, {}
+    exec(r_fa["code"], ns_fa)
+    exec(r_mc["code"], ns_mc)
+    exec(r_cc["code"], ns_cc)
+    free = ns_fa["analyze_free_vars"](['甲', '乙'], ['乙'], ['甲', '乙', '丙'])
+    cl = ns_mc["make_closure"]([("DE", 0.5)], free, {"甲": 3, "乙": 7})
+    env = ns_cc["call_closure"](cl, ["乙"], [9])
+    check('㊥c 闭包端到端（捕获甲=3 参数乙=9 遮蔽捕获7）',
+          free == ['甲'] and env == {"甲": 3, "乙": 9},
+          f'free={free} env={env}')
+except Exception as ex:
+    check('㊥c 闭包端到端（捕获甲=3 参数乙=9 遮蔽捕获7）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

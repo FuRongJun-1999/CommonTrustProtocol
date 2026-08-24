@@ -1828,5 +1828,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:compiler|编译-闭包捕获分析": {
+  "task": "闭包捕获分析",
+  "unit": "编译-闭包捕获分析",
+  "code": "def analyze_free_vars(func_refs, params, outer_vars):\n    # 闭包捕获分析：函数体引用 且 非参数 且 外层可见 = 自由变量\n    # （词法作用域：内层函数用到的外层名字 → 需捕获为 cell；保持源码引用顺序）\n    return [r for r in func_refs\n            if r not in params and r in outer_vars]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-闭包创建": {
+  "task": "闭包创建",
+  "unit": "VM-闭包创建",
+  "code": "def make_closure(func_body, free_names, captured_values):\n    # 闭包创建：函数体 + 捕获映射（自由变量→当前值）→ 闭包对象\n    # （知 + 所见环境；未捕获到的名字不入环境）\n    return {'body': list(func_body),\n            'env': {n: captured_values[n] for n in free_names\n                    if n in captured_values}}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-闭包调用": {
+  "task": "闭包调用",
+  "unit": "VM-闭包调用",
+  "code": "def call_closure(closure, params, args):\n    # 闭包调用：捕获环境 + 参数绑定 → 执行环境\n    # （词法父作用域可见 + 当前参数；参数遮蔽捕获变量）\n    env = dict(closure['env'])\n    for p, a in zip(params, args):\n        env[p] = a\n    return env\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

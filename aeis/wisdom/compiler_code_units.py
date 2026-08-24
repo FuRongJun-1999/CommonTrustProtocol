@@ -960,6 +960,54 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：编译优化——寄存器分配（4 寄存器，溢出到内存）",
     },
+    "编译-闭包捕获分析": {
+        "task": "闭包捕获分析",
+        "pattern": (
+            "def analyze_free_vars(func_refs, params, outer_vars):\n"
+            "    # 闭包捕获分析：函数体引用 且 非参数 且 外层可见 = 自由变量\n"
+            "    # （词法作用域：内层函数用到的外层名字 → 需捕获为 cell；保持源码引用顺序）\n"
+            "    return [r for r in func_refs\n"
+            "            if r not in params and r in outer_vars]\n"),
+        "cases": [((['甲', '乙', '丙'], ['甲'], ['甲', '乙']), ['乙']),
+                  ((['甲'], [], []), []),
+                  ((['甲', '乙'], ['丙'], ['甲', '乙']), ['甲', '乙'])],
+        "params": [],
+        "calibration": "对照：闭包自由变量分析——引用∩外层-参数（CPython cell 捕获语义·词法作用域）",
+    },
+    "VM-闭包创建": {
+        "task": "闭包创建",
+        "pattern": (
+            "def make_closure(func_body, free_names, captured_values):\n"
+            "    # 闭包创建：函数体 + 捕获映射（自由变量→当前值）→ 闭包对象\n"
+            "    # （知 + 所见环境；未捕获到的名字不入环境）\n"
+            "    return {'body': list(func_body),\n"
+            "            'env': {n: captured_values[n] for n in free_names\n"
+            "                    if n in captured_values}}\n"),
+        "cases": [(([("LOAD", "甲"), ("DE", None)], ["甲"], {"甲": 3}),
+                   {"body": [("LOAD", "甲"), ("DE", None)], "env": {"甲": 3}}),
+                  (([], ["甲"], {}), {"body": [], "env": {}}),
+                  (([("DE", 0.5)], ["甲", "乙"], {"乙": 7}),
+                   {"body": [("DE", 0.5)], "env": {"乙": 7}})],
+        "params": [],
+        "calibration": "对照：闭包对象=函数体+捕获环境（MAKE_CLOSURE 指令语义；未捕获名字不入环境）",
+    },
+    "VM-闭包调用": {
+        "task": "闭包调用",
+        "pattern": (
+            "def call_closure(closure, params, args):\n"
+            "    # 闭包调用：捕获环境 + 参数绑定 → 执行环境\n"
+            "    # （词法父作用域可见 + 当前参数；参数遮蔽捕获变量）\n"
+            "    env = dict(closure['env'])\n"
+            "    for p, a in zip(params, args):\n"
+            "        env[p] = a\n"
+            "    return env\n"),
+        "cases": [(({"body": [("DE", 0.5)], "env": {"甲": 3}}, ["乙"], [7]),
+                   {"甲": 3, "乙": 7}),
+                  (({"body": [], "env": {}}, [], []), {}),
+                  (({"body": [], "env": {"甲": 3}}, ["甲"], [9]), {"甲": 9})],
+        "params": [],
+        "calibration": "对照：闭包调用——词法父环境 + 参数遮蔽（CPython 闭包调用语义）",
+    },
 }
 
 
