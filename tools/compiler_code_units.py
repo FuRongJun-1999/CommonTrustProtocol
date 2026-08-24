@@ -1859,6 +1859,53 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：词法——转义序列（反斜杠n反斜杠t反斜杠引号 解码）",
     },
+    "语法-布尔字面量": {
+        "task": "布尔字面量",
+        "pattern": (
+            "def parse_bool(token):\n"
+            "    # 布尔字面量：真/假 → True/False（布尔值解析）\n"
+            "    if token == '真':\n"
+            "        return (True, 1)\n"
+            "    if token == '假':\n"
+            "        return (False, 1)\n"
+            "    return (None, 0)\n"),
+        "cases": [(('真',), (True, 1)),
+                  (('假',), (False, 1)),
+                  (('x',), (None, 0))],
+        "params": [],
+        "calibration": "对照：词法——布尔字面量（真/假→True/False）",
+    },
+    "语法-空值字面量": {
+        "task": "空值字面量",
+        "pattern": (
+            "def parse_null(token):\n"
+            "    # 空值字面量：无/空 → None（空值解析）\n"
+            "    if token in ('无', '空'):\n"
+            "        return (None, 1)\n"
+            "    return (None, 0)\n"),
+        "cases": [(('无',), (None, 1)),
+                  (('空',), (None, 1)),
+                  (('x',), (None, 0))],
+        "params": [],
+        "calibration": "对照：词法——空值字面量（无/空→None）",
+    },
+    "词法-行号跟踪": {
+        "task": "行号跟踪",
+        "pattern": (
+            "def track_lines(src):\n"
+            "    # 行号跟踪：源码按行拆 token 并附行号（定位调试用）\n"
+            "    out = []\n"
+            "    for i, line in enumerate(src.split(chr(10)), 1):\n"
+            "        for tok in line.split():\n"
+            "            out.append((tok, i))\n"
+            "    return out\n"),
+        "cases": [
+            (('甲 乙\n丙',), [('甲', 1), ('乙', 1), ('丙', 2)]),
+            (('',), []),
+            (('单行',), [('单行', 1)])],
+        "params": [],
+        "calibration": "对照：词法——行号跟踪（token 附行号，调试定位）",
+    },
 }
 
 

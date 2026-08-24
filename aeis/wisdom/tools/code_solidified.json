@@ -4178,5 +4178,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:compiler|语法-布尔字面量": {
+  "task": "布尔字面量",
+  "unit": "语法-布尔字面量",
+  "code": "def parse_bool(token):\n    # 布尔字面量：真/假 → True/False（布尔值解析）\n    if token == '真':\n        return (True, 1)\n    if token == '假':\n        return (False, 1)\n    return (None, 0)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|语法-空值字面量": {
+  "task": "空值字面量",
+  "unit": "语法-空值字面量",
+  "code": "def parse_null(token):\n    # 空值字面量：无/空 → None（空值解析）\n    if token in ('无', '空'):\n        return (None, 1)\n    return (None, 0)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|词法-行号跟踪": {
+  "task": "行号跟踪",
+  "unit": "词法-行号跟踪",
+  "code": "def track_lines(src):\n    # 行号跟踪：源码按行拆 token 并附行号（定位调试用）\n    out = []\n    for i, line in enumerate(src.split(chr(10)), 1):\n        for tok in line.split():\n            out.append((tok, i))\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

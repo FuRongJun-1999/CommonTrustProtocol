@@ -5158,5 +5158,41 @@ except Exception as ex:
     check('㋲c 沙箱→滚动→在线端到端（granted True 200 offline）',
           False, str(ex)[:60])
 
+# ㋳ 目标2 深化：词法/语法字面量（布尔/空值/行号跟踪 经正式管线）
+c18_qs = {
+    "布尔字面量": "写一个布尔字面量单元（真/假）",
+    "空值字面量": "写一个空值字面量单元（无/空）",
+    "行号跟踪": "写一个行号跟踪单元（定位调试）",
+}
+c18_ok = 0
+for label, q in c18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c18_ok += 1
+    check(f'㋳ {label} 词法/语法字面量单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋳b 词法/语法字面量三单元全部生成', c18_ok == 3, f'{c18_ok}/3')
+
+# ㋳c 字面量端到端：布尔→空值→行号（(True,1) (None,1) [(甲,1),(丙,2)]）
+r_bl = domain_route("写一个布尔字面量单元（真/假）")
+r_nl = domain_route("写一个空值字面量单元（无/空）")
+r_tl = domain_route("写一个行号跟踪单元（定位调试）")
+try:
+    ns_bl, ns_nl, ns_tl = {}, {}, {}
+    exec(r_bl["code"], ns_bl)
+    exec(r_nl["code"], ns_nl)
+    exec(r_tl["code"], ns_tl)
+    bl = ns_bl["parse_bool"]('真')
+    nl = ns_nl["parse_null"]('无')
+    tl = ns_tl["track_lines"]('甲 乙\n丙')
+    check('㋳c 布尔→空值→行号端到端（(True,1) (None,1) [(甲,1),(乙,1),(丙,2)]）',
+          bl == (True, 1) and nl == (None, 1)
+          and tl == [('甲', 1), ('乙', 1), ('丙', 2)],
+          f'bool={bl} null={nl} lines={tl}')
+except Exception as ex:
+    check('㋳c 布尔→空值→行号端到端（(True,1) (None,1) [(甲,1),(乙,1),(丙,2)]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
