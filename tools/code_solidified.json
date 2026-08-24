@@ -1978,5 +1978,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:graph|运维-读写分离": {
+  "task": "读写分离",
+  "unit": "运维-读写分离",
+  "code": "def rw_split(master, replicas, op, key=None, value=None, replica_id=0):\n    # 读写分离：写→主库并同步从库 / 读→从库（负载分散，主从一致）\n    if op == 'write':\n        master[key] = value\n        for r in replicas:\n            r[key] = value\n        return 'written'\n    if op == 'read':\n        if replicas:\n            rep = replicas[replica_id % len(replicas)]\n            return rep.get(key)\n        return master.get(key)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|运维-慢查询定位": {
+  "task": "慢查询定位",
+  "unit": "运维-慢查询定位",
+  "code": "def slow_query_scan(plan_times, threshold):\n    # 慢查询定位：执行计划耗时 > 阈值 → 慢查询列表（耗时降序）\n    slow = [(op, t) for op, t in plan_times if t > threshold]\n    slow.sort(key=lambda x: x[1], reverse=True)\n    return slow\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|运维-在线扩容": {
+  "task": "在线扩容",
+  "unit": "运维-在线扩容",
+  "code": "def rebalance_keys(keys, old_count, new_count):\n    # 在线扩容：键按确定性哈希重分配到新片（取模），统计迁移键\n    # （ord 求和哈希避免 PYTHONHASHSEED 跨进程波动）\n    moved = 0\n    for k in keys:\n        h = sum(ord(c) for c in str(k))\n        if h % old_count != h % new_count:\n            moved += 1\n    return moved, new_count\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

@@ -998,6 +998,61 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图安全——加密存储（异或加密/解密，静态数据保护）",
     },
+    "运维-读写分离": {
+        "task": "读写分离",
+        "pattern": (
+            "def rw_split(master, replicas, op, key=None, value=None, replica_id=0):\n"
+            "    # 读写分离：写→主库并同步从库 / 读→从库（负载分散，主从一致）\n"
+            "    if op == 'write':\n"
+            "        master[key] = value\n"
+            "        for r in replicas:\n"
+            "            r[key] = value\n"
+            "        return 'written'\n"
+            "    if op == 'read':\n"
+            "        if replicas:\n"
+            "            rep = replicas[replica_id % len(replicas)]\n"
+            "            return rep.get(key)\n"
+            "        return master.get(key)\n"
+            "    return None\n"),
+        "cases": [(({'a': 1}, [{}, {}], 'write', 'b', 2, 0), 'written'),
+                  (({'a': 1}, [{'a': 1}], 'read', 'a', None, 0), 1),
+                  (({'a': 1}, [], 'read', 'a', None, 0), 1)],
+        "params": [],
+        "calibration": "对照：数据库读写分离——主库写+同步从库，从库读（负载分散）",
+    },
+    "运维-慢查询定位": {
+        "task": "慢查询定位",
+        "pattern": (
+            "def slow_query_scan(plan_times, threshold):\n"
+            "    # 慢查询定位：执行计划耗时 > 阈值 → 慢查询列表（耗时降序）\n"
+            "    slow = [(op, t) for op, t in plan_times if t > threshold]\n"
+            "    slow.sort(key=lambda x: x[1], reverse=True)\n"
+            "    return slow\n"),
+        "cases": [(([('全表扫描', 2.5), ('索引查找', 0.3)], 1.0),
+                   [('全表扫描', 2.5)]),
+                  (([('a', 1.0)], 1.0), []),
+                  (([], 1.0), [])],
+        "params": [],
+        "calibration": "对照：数据库慢查询——耗时超阈值定位（降序，等于阈值不算）",
+    },
+    "运维-在线扩容": {
+        "task": "在线扩容",
+        "pattern": (
+            "def rebalance_keys(keys, old_count, new_count):\n"
+            "    # 在线扩容：键按确定性哈希重分配到新片（取模），统计迁移键\n"
+            "    # （ord 求和哈希避免 PYTHONHASHSEED 跨进程波动）\n"
+            "    moved = 0\n"
+            "    for k in keys:\n"
+            "        h = sum(ord(c) for c in str(k))\n"
+            "        if h % old_count != h % new_count:\n"
+            "            moved += 1\n"
+            "    return moved, new_count\n"),
+        "cases": [((['a', 'b', 'c'], 2, 3), (2, 3)),
+                  ((['a'], 2, 2), (0, 2)),
+                  (([], 2, 4), (0, 4))],
+        "params": [],
+        "calibration": "对照：数据库在线扩容——分片重平衡（确定性哈希，迁移键计数）",
+    },
 }
 
 

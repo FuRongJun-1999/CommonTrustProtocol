@@ -2540,5 +2540,42 @@ try:
 except Exception as ex:
     check('㊩c 清单→缓存策略→安装端到端（可安装 缓存D 捕获→提示→安装）', False, str(ex)[:60])
 
+# ㊪ 目标6 深化：图运维（读写分离/慢查询定位/在线扩容 经正式管线）
+g15_qs = {
+    "读写分离": "写一个读写分离单元（主写从读）",
+    "慢查询": "写一个慢查询定位单元（耗时超阈）",
+    "在线扩容": "写一个在线扩容单元（分片重平衡）",
+}
+g15_ok = 0
+for label, q in g15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g15_ok += 1
+    check(f'㊪ {label} 图运维单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㊪b 图运维三单元全部生成', g15_ok == 3, f'{g15_ok}/3')
+
+# ㊪c 运维端到端：读写分离→慢查询→在线扩容（写b从库读 慢查询[全表2.5] 迁移2键）
+r_rw = domain_route("写一个读写分离单元（主写从读）")
+r_sq = domain_route("写一个慢查询定位单元（耗时超阈）")
+r_rb = domain_route("写一个在线扩容单元（分片重平衡）")
+try:
+    ns_rw, ns_sq, ns_rb = {}, {}, {}
+    exec(r_rw["code"], ns_rw)
+    exec(r_sq["code"], ns_sq)
+    exec(r_rb["code"], ns_rb)
+    m, reps = {'a': 1}, [{}]
+    w = ns_rw["rw_split"](m, reps, 'write', 'b', 2)
+    rd = ns_rw["rw_split"](m, reps, 'read', 'b')
+    slow = ns_sq["slow_query_scan"]([('全表扫描', 2.5), ('索引查找', 0.3)], 1.0)
+    moved, newc = ns_rb["rebalance_keys"](['a', 'b', 'c'], 2, 3)
+    check('㊪c 读写分离→慢查询→扩容端到端（written 从库2 慢查询[全表2.5] 迁移2→3片）',
+          w == 'written' and rd == 2 and slow == [('全表扫描', 2.5)]
+          and moved == 2 and newc == 3,
+          f'rw={w}/{rd} slow={slow} rebal=({moved},{newc})')
+except Exception as ex:
+    check('㊪c 读写分离→慢查询→扩容端到端（written 从库2 慢查询[全表2.5] 迁移2→3片）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
