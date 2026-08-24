@@ -203,6 +203,64 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：会话层——连接状态机（同步→确认→建立→关闭；非法事件不迁移）",
     },
+    "网络-滑动窗口": {
+        "task": "滑动窗口",
+        "pattern": (
+            "def sliding_window(base, next_seq, window_size, ack):\n"
+            "    # TCP 滑动窗口：收到 ack 后窗口前移（可发送序号 = [next_seq, base+win)）\n"
+            "    # base=已确认序号 next_seq=下一待发 ack=收到的确认\n"
+            "    if ack > base:\n"
+            "        base = ack\n"
+            "    if next_seq < base:\n"
+            "        next_seq = base\n"
+            "    return {'base': base, 'next_seq': next_seq,\n"
+            "            'window': [base + i for i in range(window_size)]}\n"),
+        "cases": [((0, 0, 3, 2), {'base': 2, 'next_seq': 2,
+                                  'window': [2, 3, 4]}),
+                  ((2, 2, 3, 5), {'base': 5, 'next_seq': 5,
+                                  'window': [5, 6, 7]}),
+                  ((0, 1, 2, 0), {'base': 0, 'next_seq': 1,
+                                  'window': [0, 1]})],
+        "params": [],
+        "calibration": "对照：TCP 可靠传输——滑动窗口（ACK 确认后窗口前移，窗口内可发送）",
+    },
+    "网络-累积确认": {
+        "task": "累积确认",
+        "pattern": (
+            "def cum_ack(received, seq):\n"
+            "    # TCP 累积确认：收到乱序包不确认，连续序列推进 ack（收到 3 则 1,2,3 都确认）\n"
+            "    received.add(seq)\n"
+            "    ack = 0\n"
+            "    while ack + 1 in received:\n"
+            "        ack += 1\n"
+            "    return ack\n"),
+        "cases": [(({1, 2}, 3), 3),
+                  (({1, 3}, 2), 3),
+                  ((set(), 1), 1),
+                  (({2, 3}, 1), 3)],
+        "params": [],
+        "calibration": "对照：TCP 接收端——累积确认（连续序号推进 ACK；乱序只确认连续前缀）",
+    },
+    "网络-拥塞控制": {
+        "task": "拥塞控制",
+        "pattern": (
+            "def slow_start(cwnd, ssthresh, acked, lost):\n"
+            "    # TCP 拥塞控制：慢启动（cwnd 每 RTT 翻倍）→ 阈值后拥塞避免（线性+1）\n"
+            "    # cwnd=拥塞窗口 ssthresh=慢启动阈值 acked=本 RTT 确认数 lost=是否丢包\n"
+            "    if lost:\n"
+            "        ssthresh = max(cwnd // 2, 1)\n"
+            "        cwnd = 1\n"
+            "        return {'cwnd': cwnd, 'ssthresh': ssthresh}\n"
+            "    if cwnd < ssthresh:\n"
+            "        return {'cwnd': min(cwnd + acked, ssthresh), 'ssthresh': ssthresh}\n"
+            "    return {'cwnd': cwnd + 1, 'ssthresh': ssthresh}\n"),
+        "cases": [((1, 8, 2, False), {'cwnd': 3, 'ssthresh': 8}),
+                  ((4, 8, 4, False), {'cwnd': 8, 'ssthresh': 8}),
+                  ((8, 8, 8, False), {'cwnd': 9, 'ssthresh': 8}),
+                  ((8, 8, 0, True), {'cwnd': 1, 'ssthresh': 4})],
+        "params": [],
+        "calibration": "对照：TCP 拥塞控制——慢启动指数增长→阈值后线性+1；丢包减半阈值+重置窗口",
+    },
 }
 
 

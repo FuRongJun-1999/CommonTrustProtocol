@@ -398,5 +398,47 @@ try:
 except Exception as ex:
     check('⑱c 捕获+传播端到端（ValueError 被接 / 内层抛外层捕）', False, str(ex)[:60])
 
+# ⑲ 目标7 深化：TCP 可靠传输（滑动窗口/累积确认/拥塞控制 经正式管线）
+n4_qs = {
+    "滑动窗口": "写一个 TCP 滑动窗口单元（ACK 窗口前移）",
+    "累积确认": "写一个 TCP 累积确认单元（连续序号推进）",
+    "拥塞控制": "写一个 TCP 拥塞控制单元（慢启动阈值）",
+}
+n4_ok = 0
+for label, q in n4_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n4_ok += 1
+    check(f'⑲ {label} TCP可靠传输单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑲b TCP可靠传输三单元全部生成', n4_ok == 3, f'{n4_ok}/3')
+
+# ⑲c 端到端：滑动窗口+累积确认+拥塞控制 组装（发送窗口推进→连续确认→丢包减窗）
+r_sw = domain_route("写一个 TCP 滑动窗口单元（ACK 窗口前移）")
+r_ca = domain_route("写一个 TCP 累积确认单元（连续序号推进）")
+r_cc = domain_route("写一个 TCP 拥塞控制单元（慢启动阈值）")
+try:
+    ns_sw, ns_ca, ns_cc = {}, {}, {}
+    exec(r_sw["code"], ns_sw)
+    exec(r_ca["code"], ns_ca)
+    exec(r_cc["code"], ns_cc)
+    # 发送 1,2,3 → 收到确认 3 → 窗口前移到 3
+    recv = set()
+    for s in (1, 2, 3):
+        ack = ns_ca["cum_ack"](recv, s)
+    win = ns_sw["sliding_window"](0, 0, 3, ack)
+    # 拥塞窗口从 1 增长到阈值 8
+    cc = ns_cc["slow_start"](1, 8, 2, False)
+    # 丢包 → 阈值减半 + 窗口重置 1
+    cc_lost = ns_cc["slow_start"](8, 8, 0, True)
+    check('⑲c 窗口→确认→拥塞端到端（ack3窗口[3,4,5] 慢启动2→3 丢包重置1）',
+          ack == 3 and win == {'base': 3, 'next_seq': 3, 'window': [3, 4, 5]}
+          and cc == {'cwnd': 3, 'ssthresh': 8}
+          and cc_lost == {'cwnd': 1, 'ssthresh': 4},
+          f'ack={ack} win={win} cc={cc} lost={cc_lost}')
+except Exception as ex:
+    check('⑲c 窗口→确认→拥塞端到端（ack3窗口[3,4,5] 慢启动2→3 丢包重置1）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

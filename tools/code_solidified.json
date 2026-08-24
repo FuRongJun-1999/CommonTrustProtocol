@@ -268,5 +268,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:net|网络-滑动窗口": {
+  "task": "滑动窗口",
+  "unit": "网络-滑动窗口",
+  "code": "def sliding_window(base, next_seq, window_size, ack):\n    # TCP 滑动窗口：收到 ack 后窗口前移（可发送序号 = [next_seq, base+win)）\n    # base=已确认序号 next_seq=下一待发 ack=收到的确认\n    if ack > base:\n        base = ack\n    if next_seq < base:\n        next_seq = base\n    return {'base': base, 'next_seq': next_seq,\n            'window': [base + i for i in range(window_size)]}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-累积确认": {
+  "task": "累积确认",
+  "unit": "网络-累积确认",
+  "code": "def cum_ack(received, seq):\n    # TCP 累积确认：收到乱序包不确认，连续序列推进 ack（收到 3 则 1,2,3 都确认）\n    received.add(seq)\n    ack = 0\n    while ack + 1 in received:\n        ack += 1\n    return ack\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-拥塞控制": {
+  "task": "拥塞控制",
+  "unit": "网络-拥塞控制",
+  "code": "def slow_start(cwnd, ssthresh, acked, lost):\n    # TCP 拥塞控制：慢启动（cwnd 每 RTT 翻倍）→ 阈值后拥塞避免（线性+1）\n    # cwnd=拥塞窗口 ssthresh=慢启动阈值 acked=本 RTT 确认数 lost=是否丢包\n    if lost:\n        ssthresh = max(cwnd // 2, 1)\n        cwnd = 1\n        return {'cwnd': cwnd, 'ssthresh': ssthresh}\n    if cwnd < ssthresh:\n        return {'cwnd': min(cwnd + acked, ssthresh), 'ssthresh': ssthresh}\n    return {'cwnd': cwnd + 1, 'ssthresh': ssthresh}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }
