@@ -333,6 +333,59 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：浏览器并行——Web Worker（postMessage 传递数据，Worker 处理回传）",
     },
+    "网络-Fetch请求": {
+        "task": "Fetch请求",
+        "pattern": (
+            "def fetch_req(method, url, headers=None, body=None):\n"
+            "    # Fetch API：请求封装（方法/URL/头/体 → 请求对象）\n"
+            "    req = {'method': method, 'url': url,\n"
+            "           'headers': dict(headers or {}), 'body': body}\n"
+            "    return req\n"),
+        "cases": [(('GET', '/api', {'Accept': 'json'}, None),
+                   {'method': 'GET', 'url': '/api',
+                    'headers': {'Accept': 'json'}, 'body': None}),
+                  (('POST', '/api', {}, '{"a":1}'),
+                   {'method': 'POST', 'url': '/api', 'headers': {}, 'body': '{"a":1}'})],
+        "params": [],
+        "calibration": "对照：浏览器网络——Fetch API（请求方法/URL/头/体封装）",
+    },
+    "网络-HTTP缓存": {
+        "task": "HTTP缓存",
+        "pattern": (
+            "def http_cache(cache, url, etag=None):\n"
+            "    # HTTP 缓存：ETag 条件请求（未变更 304 → 用缓存；变更 → 更新）\n"
+            "    if url in cache and cache[url].get('etag') == etag:\n"
+            "        return cache[url]['data'], '304 未变更'\n"
+            "    if etag is not None:\n"
+            "        cache[url] = {'etag': etag, 'data': url + '@' + etag}\n"
+            "        return cache[url]['data'], '200 已更新'\n"
+            "    return None, '未缓存'\n"),
+        "cases": [(({}, '/a', None), (None, '未缓存')),
+                  (({'/a': {'etag': 'v1', 'data': 'D'}}, '/a', 'v1'),
+                   ('D', '304 未变更')),
+                  (({}, '/b', 'v2'), ('/b@v2', '200 已更新'))],
+        "params": [],
+        "calibration": "对照：浏览器网络——HTTP 缓存（ETag 条件请求 304/200 语义）",
+    },
+    "网络-Cookie": {
+        "task": "Cookie管理",
+        "pattern": (
+            "def cookie_op(cookies, op, name=None, value=None):\n"
+            "    # Cookie：设置/读取（domain 键值存储，Session 无过期）\n"
+            "    if op == 'set':\n"
+            "        cookies[name] = value\n"
+            "        return True\n"
+            "    if op == 'get':\n"
+            "        return cookies.get(name)\n"
+            "    if op == 'delete':\n"
+            "        return cookies.pop(name, None)\n"
+            "    return None\n"),
+        "cases": [(({}, 'set', 'sid', 'abc'), True),
+                  (({'sid': 'abc'}, 'get', 'sid'), 'abc'),
+                  (({'sid': 'abc'}, 'delete', 'sid'), 'abc')],
+        "params": [],
+        "calibration": "对照：浏览器网络——Cookie（设置/读取/删除，会话状态保持）",
+    },
 }
 
 

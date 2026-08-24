@@ -927,5 +927,42 @@ try:
 except Exception as ex:
     check('㉜c 挂载→权限→进程树端到端（ext4挂载 写拒读允 后代a,b,c）', False, str(ex)[:60])
 
+# ㉝ 目标5 深化：网络增强（Fetch/HTTP缓存/Cookie 经正式管线）
+b6_qs = {
+    "Fetch": "写一个 Fetch 请求单元（方法 URL 封装）",
+    "HTTP缓存": "写一个 HTTP 缓存单元（ETag 条件请求）",
+    "Cookie": "写一个 Cookie 管理单元（设置读取删除）",
+}
+b6_ok = 0
+for label, q in b6_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b6_ok += 1
+    check(f'㉝ {label} 网络增强单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㉝b 网络增强三单元全部生成', b6_ok == 3, f'{b6_ok}/3')
+
+# ㉝c 端到端：Fetch 请求→Cookie 会话→HTTP 缓存（请求带会话→缓存命中）
+r_fr = domain_route("写一个 Fetch 请求单元（方法 URL 封装）")
+r_ck = domain_route("写一个 Cookie 管理单元（设置读取删除）")
+r_hc = domain_route("写一个 HTTP 缓存单元（ETag 条件请求）")
+try:
+    ns_fr, ns_ck, ns_hc = {}, {}, {}
+    exec(r_fr["code"], ns_fr)
+    exec(r_ck["code"], ns_ck)
+    exec(r_hc["code"], ns_hc)
+    req = ns_fr["fetch_req"]('GET', '/api', {'Cookie': 'sid=abc'})
+    ns_ck["cookie_op"]({}, 'set', 'sid', 'abc')
+    sid = ns_ck["cookie_op"]({'sid': 'abc'}, 'get', 'sid')
+    cache = {'/api': {'etag': 'v1', 'data': '数据'}}
+    data, status = ns_hc["http_cache"](cache, '/api', 'v1')
+    check('㉝c Fetch→Cookie→缓存端到端（GET带Cookie sid=abc 缓存304命中）',
+          req['method'] == 'GET' and req['headers'].get('Cookie') == 'sid=abc'
+          and sid == 'abc' and data == '数据' and status == '304 未变更',
+          f'req={req["method"]} sid={sid} cache={status}')
+except Exception as ex:
+    check('㉝c Fetch→Cookie→缓存端到端（GET带Cookie sid=abc 缓存304命中）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
