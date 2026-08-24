@@ -802,13 +802,16 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
     except Exception:
         pass
 
-    # 0. 时空感知分支（v2.0·第四阶段感知进主路由）：
+    # 0. 时空感知分支（v2.0·第四阶段感知进主路由；v5.0·3D 时空问答扩展）：
     # 时空问题（怎么动/方向/周期/发生了什么/运动/移动/轨迹/静止/快慢）
     # 自动走白箱感知通道（3D 时空 CNN × 时空记忆图），零 LLM。
+    # v5.0：3D 词（多远/位移/飞了/直线/拐弯/三维）并入——3D 时空问答同通道；
+    # 感知器未命中（ok=False）自然回落主流程，不误伤普通「多远/距离」问题。
     _SPACETIME_WORDS = ["怎么动", "往哪", "向哪", "方向", "周期", "规律", "间隔",
                         "发生了什么", "看到什么", "怎么回事", "运动", "移动",
                         "轨迹", "静止", "快慢", "多快", "闪烁", "在动", "动吗",
-                        "动了", "有没有动"]
+                        "动了", "有没有动", "多远", "位移", "飞了", "走了",
+                        "直线", "拐弯", "三维", "3D"]
     if perceiver_fn is not None and any(w in message for w in _SPACETIME_WORDS):
         try:
             _pr = perceiver_fn(message)
