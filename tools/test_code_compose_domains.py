@@ -5406,5 +5406,40 @@ except Exception as ex:
     check('㋹c CSMA→收敛→链路端到端（8 converged good）',
           False, str(ex)[:60])
 
+# ㋺ 目标5 深化：浏览器机制（像素光栅化/触控手势/设备方向 经正式管线）
+b13_qs = {
+    "像素光栅化": "写一个像素光栅化单元（画布填色）",
+    "触控手势": "写一个触控手势单元（手势识别）",
+    "设备方向": "写一个设备方向单元（角度记录）",
+}
+b13_ok = 0
+for label, q in b13_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b13_ok += 1
+    check(f'㋺ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋺b 浏览器机制三单元全部生成', b13_ok == 3, f'{b13_ok}/3')
+
+# ㋺c 机制端到端：像素→触控→方向（True (10,5) 竖屏）
+r_rz = domain_route("写一个像素光栅化单元（画布填色）")
+r_gs = domain_route("写一个触控手势单元（手势识别）")
+r_do = domain_route("写一个设备方向单元（角度记录）")
+try:
+    ns_rz, ns_gs, ns_do = {}, {}, {}
+    exec(r_rz["code"], ns_rz)
+    exec(r_gs["code"], ns_gs)
+    exec(r_do["code"], ns_do)
+    rz = ns_rz["rasterize"]([['.', '.'], ['.', '.']], 1, 0, '#')
+    gs = ns_gs["gesture_ops"]({}, 'pan', (0, 0), (10, 5))
+    do = ns_do["device_orient"]({'beta': 10}, 'portrait')
+    check('㋺c 像素→触控→方向端到端（True (10,5) 竖屏）',
+          rz is True and gs == (10, 5) and do is True,
+          f'raster={rz} gest={gs} orient={do}')
+except Exception as ex:
+    check('㋺c 像素→触控→方向端到端（True (10,5) 竖屏）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

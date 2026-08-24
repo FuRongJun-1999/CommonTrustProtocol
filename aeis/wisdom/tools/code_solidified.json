@@ -4388,5 +4388,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:browser|渲染-像素光栅化": {
+  "task": "像素光栅化",
+  "unit": "渲染-像素光栅化",
+  "code": "def rasterize(canvas, x, y, color):\n    # 像素光栅化：画布坐标填色（canvas 像素级绘制）\n    w = len(canvas[0])\n    h = len(canvas)\n    if 0 <= x < w and 0 <= y < h:\n        canvas[y][x] = color\n        return True\n    return False\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-触控手势": {
+  "task": "触控手势",
+  "unit": "浏览器-触控手势",
+  "code": "def gesture_ops(state, op, p1=None, p2=None):\n    # 触控手势：tap 轻点 / pan 平移 / pinch 双指缩放（触摸识别）\n    if op == 'tap':\n        return 'tap'\n    if op == 'pan':\n        dx = p2[0] - p1[0]\n        dy = p2[1] - p1[1]\n        state['pan'] = (dx, dy)\n        return (dx, dy)\n    if op == 'pinch':\n        d1 = ((p1[0][0] - p1[1][0]) ** 2 + (p1[0][1] - p1[1][1]) ** 2) ** 0.5\n        d2 = ((p2[0][0] - p2[1][0]) ** 2 + (p2[0][1] - p2[1][1]) ** 2) ** 0.5\n        return round(d2 / d1, 2) if d1 else 1.0\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-设备方向": {
+  "task": "设备方向",
+  "unit": "浏览器-设备方向",
+  "code": "def device_orient(state, op, alpha=None, beta=None):\n    # 设备方向：set 记录角度 / get 当前 / portrait 竖屏判定（DeviceOrientation）\n    if op == 'set':\n        state['alpha'] = alpha\n        state['beta'] = beta\n        return (alpha, beta)\n    if op == 'get':\n        return (state.get('alpha', 0), state.get('beta', 0))\n    if op == 'portrait':\n        return abs(state.get('beta', 0)) < 45\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

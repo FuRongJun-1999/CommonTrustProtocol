@@ -1335,6 +1335,70 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：document.visibilityState——页面可见性（visible/hidden 切换）",
     },
+    "渲染-像素光栅化": {
+        "task": "像素光栅化",
+        "pattern": (
+            "def rasterize(canvas, x, y, color):\n"
+            "    # 像素光栅化：画布坐标填色（canvas 像素级绘制）\n"
+            "    w = len(canvas[0])\n"
+            "    h = len(canvas)\n"
+            "    if 0 <= x < w and 0 <= y < h:\n"
+            "        canvas[y][x] = color\n"
+            "        return True\n"
+            "    return False\n"),
+        "cases": [
+            (([['.', '.'], ['.', '.']], 1, 0, '#'), True),
+            (([['.', '.'], ['.', '.']], 5, 5, '#'), False),
+            (([['.']], 0, 0, '#'), True)],
+        "params": [],
+        "calibration": "对照：Canvas 像素绘制——坐标填充与边界检查（光栅化）",
+    },
+    "浏览器-触控手势": {
+        "task": "触控手势",
+        "pattern": (
+            "def gesture_ops(state, op, p1=None, p2=None):\n"
+            "    # 触控手势：tap 轻点 / pan 平移 / pinch 双指缩放（触摸识别）\n"
+            "    if op == 'tap':\n"
+            "        return 'tap'\n"
+            "    if op == 'pan':\n"
+            "        dx = p2[0] - p1[0]\n"
+            "        dy = p2[1] - p1[1]\n"
+            "        state['pan'] = (dx, dy)\n"
+            "        return (dx, dy)\n"
+            "    if op == 'pinch':\n"
+            "        d1 = ((p1[0][0] - p1[1][0]) ** 2 + (p1[0][1] - p1[1][1]) ** 2) ** 0.5\n"
+            "        d2 = ((p2[0][0] - p2[1][0]) ** 2 + (p2[0][1] - p2[1][1]) ** 2) ** 0.5\n"
+            "        return round(d2 / d1, 2) if d1 else 1.0\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'tap'), 'tap'),
+            (({}, 'pan', (0, 0), (10, 5)), (10, 5)),
+            (({}, 'pinch', ((0, 0), (10, 0)), ((0, 0), (20, 0))), 2.0)],
+        "params": [],
+        "calibration": "对照：Touch Events——轻点/平移/双指缩放手势识别",
+    },
+    "浏览器-设备方向": {
+        "task": "设备方向",
+        "pattern": (
+            "def device_orient(state, op, alpha=None, beta=None):\n"
+            "    # 设备方向：set 记录角度 / get 当前 / portrait 竖屏判定（DeviceOrientation）\n"
+            "    if op == 'set':\n"
+            "        state['alpha'] = alpha\n"
+            "        state['beta'] = beta\n"
+            "        return (alpha, beta)\n"
+            "    if op == 'get':\n"
+            "        return (state.get('alpha', 0), state.get('beta', 0))\n"
+            "    if op == 'portrait':\n"
+            "        return abs(state.get('beta', 0)) < 45\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'set', 90, 30), (90, 30)),
+            (({}, 'get'), (0, 0)),
+            (({'beta': 10}, 'portrait'), True),
+            (({'beta': 80}, 'portrait'), False)],
+        "params": [],
+        "calibration": "对照：DeviceOrientation——α/β 角度记录与竖屏判定",
+    },
 }
 
 
