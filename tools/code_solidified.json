@@ -238,5 +238,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:pylang|异常-抛出": {
+  "task": "抛出异常",
+  "unit": "异常-抛出",
+  "code": "def raise_error(etype, msg):\n    # raise 语义：构造异常对象并抛出（Mini-Python 错误处理）\n    raise etype(msg)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异常-捕获": {
+  "task": "捕获异常",
+  "unit": "异常-捕获",
+  "code": "def try_except(etype, handler, risky):\n    # try/except 语义：尝试 risky()，抛 etype 异常 → handler(err)\n    try:\n        return ('ok', risky())\n    except etype as err:\n        return ('caught', handler(err))\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异常-传播": {
+  "task": "异常传播",
+  "unit": "异常-传播",
+  "code": "def propagate(call_chain, etype, msg):\n    # 异常传播：内层函数抛错 → 中间不处理 → 外层捕获（调用栈冒泡）\n    def inner():\n        raise etype(msg)\n    def mid():\n        return inner()   # 不捕获，向上传播\n    try:\n        mid()\n    except etype as err:\n        return ('caught_at_outer', str(err))\n    return ('no_catch', None)\n",
+  "checks": [
+   "✔ 语法通过 | 注入型单元：L2 样例由域集成测试覆盖（1 组）"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

@@ -301,6 +301,50 @@ PYTHON_UNITS = {
         "needs_inject": True,
         "calibration": "对照：mini_python.py run_program（词法→语法→语句执行全链路；组装白箱生成单元）",
     },
+    "异常-抛出": {
+        "task": "抛出异常",
+        "pattern": (
+            "def raise_error(etype, msg):\n"
+            "    # raise 语义：构造异常对象并抛出（Mini-Python 错误处理）\n"
+            "    raise etype(msg)\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python raise（构造异常实例并抛出）",
+    },
+    "异常-捕获": {
+        "task": "捕获异常",
+        "pattern": (
+            "def try_except(etype, handler, risky):\n"
+            "    # try/except 语义：尝试 risky()，抛 etype 异常 → handler(err)\n"
+            "    try:\n"
+            "        return ('ok', risky())\n"
+            "    except etype as err:\n"
+            "        return ('caught', handler(err))\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python try/except（异常匹配 etype → 处理器；无异常 → ok）",
+    },
+    "异常-传播": {
+        "task": "异常传播",
+        "pattern": (
+            "def propagate(call_chain, etype, msg):\n"
+            "    # 异常传播：内层函数抛错 → 中间不处理 → 外层捕获（调用栈冒泡）\n"
+            "    def inner():\n"
+            "        raise etype(msg)\n"
+            "    def mid():\n"
+            "        return inner()   # 不捕获，向上传播\n"
+            "    try:\n"
+            "        mid()\n"
+            "    except etype as err:\n"
+            "        return ('caught_at_outer', str(err))\n"
+            "    return ('no_catch', None)\n"),
+        "cases": [("call", None)],
+        "params": [],
+        "needs_inject": True,
+        "calibration": "对照：Python 异常传播（内层 raise → 中间不处理 → 外层捕获）",
+    },
 }
 
 

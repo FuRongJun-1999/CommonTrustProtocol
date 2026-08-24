@@ -365,5 +365,38 @@ try:
 except Exception as ex:
     check('⑰c 样式→布局→绘制端到端（red→堆叠→画布##.. ###.）', False, str(ex)[:60])
 
+# ⑱ 目标1 深化：异常处理（抛出/捕获/传播 经正式管线）
+p2_qs = {
+    "抛出": "写一个异常抛出单元（raise 错误）",
+    "捕获": "写一个异常捕获单元（try except 匹配）",
+    "传播": "写一个异常传播单元（调用栈冒泡）",
+}
+p2_ok = 0
+for label, q in p2_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p2_ok += 1
+    check(f'⑱ {label} 异常处理单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('⑱b 异常处理三单元全部生成', p2_ok == 3, f'{p2_ok}/3')
+
+# ⑱c 端到端：捕获（try_except 接 ValueError）+ 传播（内层抛→外层捕）
+r_te = domain_route("写一个异常捕获单元（try except 匹配）")
+r_pr = domain_route("写一个异常传播单元（调用栈冒泡）")
+try:
+    ns_te, ns_pr = {}, {}
+    exec(r_te["code"], ns_te)
+    exec(r_pr["code"], ns_pr)
+    def risky():
+        raise ValueError("除以零")
+    r1 = ns_te["try_except"](ValueError, lambda e: "处理:" + str(e), risky)
+    r2 = ns_pr["propagate"](None, ValueError, "深层错误")
+    check('⑱c 捕获+传播端到端（ValueError 被接 / 内层抛外层捕）',
+          r1 == ('caught', '处理:除以零') and r2 == ('caught_at_outer', '深层错误'),
+          f'try_except={r1} propagate={r2}')
+except Exception as ex:
+    check('⑱c 捕获+传播端到端（ValueError 被接 / 内层抛外层捕）', False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
