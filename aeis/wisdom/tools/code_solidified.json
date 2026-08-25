@@ -4838,5 +4838,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:browser|渲染-边框圆角": {
+  "task": "边框圆角",
+  "unit": "渲染-边框圆角",
+  "code": "def border_radius(box, radius, point):\n    # 边框圆角：点是否在圆角矩形内（border-radius 命中判定）\n    x1, y1, x2, y2 = box\n    x, y = point\n    if not (x1 <= x <= x2 and y1 <= y <= y2):\n        return False\n    cx = min(max(x, x1 + radius), x2 - radius)\n    cy = min(max(y, y1 + radius), y2 - radius)\n    return (x - cx) ** 2 + (y - cy) ** 2 <= radius ** 2\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-屏幕方向": {
+  "task": "屏幕方向",
+  "unit": "浏览器-屏幕方向",
+  "code": "def screen_orient(state, op, orient=None):\n    # 屏幕方向：lock 锁定 / unlock 解锁 / get 当前（Screen Orientation API）\n    if op == 'lock':\n        state['orient'] = orient\n        state['locked'] = True\n        return 'locked'\n    if op == 'unlock':\n        state['locked'] = False\n        return 'unlocked'\n    if op == 'get':\n        return state.get('orient', 'portrait-primary')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-空闲调度": {
+  "task": "空闲调度",
+  "unit": "浏览器-空闲调度",
+  "code": "def idle_schedule(state, op, deadline=None):\n    # 空闲调度：request 登记低优先任务 / run 空闲时执行 / pending 待办数（requestIdleCallback）\n    if op == 'request':\n        state['pending'] = state.get('pending', 0) + 1\n        return state['pending']\n    if op == 'run':\n        if state.get('pending', 0) > 0:\n            state['pending'] -= 1\n            return 'executed'\n        return 'idle'\n    if op == 'pending':\n        return state.get('pending', 0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

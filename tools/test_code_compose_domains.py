@@ -5932,5 +5932,40 @@ except Exception as ex:
     check('㌈c 循环检测→指令调度→溢出端到端（True 前移 [c]）',
           False, str(ex)[:60])
 
+# ㌉ 目标5 深化：浏览器机制（边框圆角/屏幕方向/空闲调度 经正式管线）
+b16_qs = {
+    "边框圆角": "写一个边框圆角单元（内点判定）",
+    "屏幕方向": "写一个屏幕方向单元（锁定切换）",
+    "空闲调度": "写一个空闲调度单元（低优先任务）",
+}
+b16_ok = 0
+for label, q in b16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b16_ok += 1
+    check(f'㌉ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌉b 浏览器机制三单元全部生成', b16_ok == 3, f'{b16_ok}/3')
+
+# ㌉c 机制端到端：圆角→屏幕方向→空闲调度（True locked executed）
+r_br = domain_route("写一个边框圆角单元（内点判定）")
+r_so = domain_route("写一个屏幕方向单元（锁定切换）")
+r_is = domain_route("写一个空闲调度单元（低优先任务）")
+try:
+    ns_br, ns_so, ns_is = {}, {}, {}
+    exec(r_br["code"], ns_br)
+    exec(r_so["code"], ns_so)
+    exec(r_is["code"], ns_is)
+    br = ns_br["border_radius"]((0, 0, 10, 10), 2, (5, 5))
+    so = ns_so["screen_orient"]({}, 'lock', 'landscape')
+    isd = ns_is["idle_schedule"]({'pending': 1}, 'run')
+    check('㌉c 圆角→屏幕方向→空闲调度端到端（True locked executed）',
+          br is True and so == 'locked' and isd == 'executed',
+          f'radius={br} orient={so} idle={isd}')
+except Exception as ex:
+    check('㌉c 圆角→屏幕方向→空闲调度端到端（True locked executed）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -1529,6 +1529,73 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：canvas 混合模式——multiply/screen/overlay 通道计算",
     },
+    "渲染-边框圆角": {
+        "task": "边框圆角",
+        "pattern": (
+            "def border_radius(box, radius, point):\n"
+            "    # 边框圆角：点是否在圆角矩形内（border-radius 命中判定）\n"
+            "    x1, y1, x2, y2 = box\n"
+            "    x, y = point\n"
+            "    if not (x1 <= x <= x2 and y1 <= y <= y2):\n"
+            "        return False\n"
+            "    cx = min(max(x, x1 + radius), x2 - radius)\n"
+            "    cy = min(max(y, y1 + radius), y2 - radius)\n"
+            "    return (x - cx) ** 2 + (y - cy) ** 2 <= radius ** 2\n"),
+        "cases": [
+            (((0, 0, 10, 10), 2, (5, 5)), True),
+            (((0, 0, 10, 10), 2, (9, 9)), True),
+            (((0, 0, 10, 10), 2, (9, 0)), False),
+            (((0, 0, 10, 10), 2, (20, 5)), False)],
+        "params": [],
+        "calibration": "对照：border-radius——圆角矩形内点判定（命中测试）",
+    },
+    "浏览器-屏幕方向": {
+        "task": "屏幕方向",
+        "pattern": (
+            "def screen_orient(state, op, orient=None):\n"
+            "    # 屏幕方向：lock 锁定 / unlock 解锁 / get 当前（Screen Orientation API）\n"
+            "    if op == 'lock':\n"
+            "        state['orient'] = orient\n"
+            "        state['locked'] = True\n"
+            "        return 'locked'\n"
+            "    if op == 'unlock':\n"
+            "        state['locked'] = False\n"
+            "        return 'unlocked'\n"
+            "    if op == 'get':\n"
+            "        return state.get('orient', 'portrait-primary')\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'lock', 'landscape'), 'locked'),
+            (({}, 'unlock'), 'unlocked'),
+            (({}, 'get'), 'portrait-primary'),
+            (({'orient': 'landscape'}, 'get'), 'landscape')],
+        "params": [],
+        "calibration": "对照：Screen Orientation API——方向锁定/解锁/查询",
+    },
+    "浏览器-空闲调度": {
+        "task": "空闲调度",
+        "pattern": (
+            "def idle_schedule(state, op, deadline=None):\n"
+            "    # 空闲调度：request 登记低优先任务 / run 空闲时执行 / pending 待办数（requestIdleCallback）\n"
+            "    if op == 'request':\n"
+            "        state['pending'] = state.get('pending', 0) + 1\n"
+            "        return state['pending']\n"
+            "    if op == 'run':\n"
+            "        if state.get('pending', 0) > 0:\n"
+            "            state['pending'] -= 1\n"
+            "            return 'executed'\n"
+            "        return 'idle'\n"
+            "    if op == 'pending':\n"
+            "        return state.get('pending', 0)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'request'), 1),
+            (({'pending': 1}, 'run'), 'executed'),
+            (({}, 'run'), 'idle'),
+            (({'pending': 2}, 'pending'), 2)],
+        "params": [],
+        "calibration": "对照：requestIdleCallback——空闲时段低优先任务调度",
+    },
 }
 
 
