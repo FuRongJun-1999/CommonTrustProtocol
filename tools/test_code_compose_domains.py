@@ -7028,5 +7028,40 @@ except Exception as ex:
     check('㌧c 累加器→成对迭代→打乱端到端（[1,3,6,10] [(1,2),(2,3)] [2,3,4,1]）',
           False, str(ex)[:60])
 
+# ㌨ 目标4 深化：OS 机制（僵尸进程/内存热插拔/文件系统日志 经正式管线）
+o17_qs = {
+    "僵尸进程": "写一个僵尸进程单元（回收管理）",
+    "内存热插拔": "写一个内存热插拔单元（节点上下线）",
+    "文件系统日志": "写一个文件系统日志单元（journal 重放）",
+}
+o17_ok = 0
+for label, q in o17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o17_ok += 1
+    check(f'㌨ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌨b OS机制三单元全部生成', o17_ok == 3, f'{o17_ok}/3')
+
+# ㌨c 端到端：僵尸进程→热插拔→日志（zombie online [写条目]）
+r_zp = domain_route("写一个僵尸进程单元（回收管理）")
+r_mh = domain_route("写一个内存热插拔单元（节点上下线）")
+r_jl = domain_route("写一个文件系统日志单元（journal 重放）")
+try:
+    ns_zp, ns_mh, ns_jl = {}, {}, {}
+    exec(r_zp["code"], ns_zp)
+    exec(r_mh["code"], ns_mh)
+    exec(r_jl["code"], ns_jl)
+    zp = ns_zp["zombie_proc"]({}, 'exit', 3)
+    mh = ns_mh["mem_hotplug"]({}, 'online', 'n0', 16)
+    jl = ns_jl["journal"]({'journal': [('write', 'a')]}, 'replay')
+    check('㌨c 僵尸进程→热插拔→日志端到端（zombie online [(\'write\',\'a\')]）',
+          zp == 'zombie' and mh == 'online' and jl == [('write', 'a')],
+          f'zombie={zp} hotplug={mh} journal={jl}')
+except Exception as ex:
+    check('㌨c 僵尸进程→热插拔→日志端到端（zombie online [(\'write\',\'a\')]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -5768,5 +5768,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:os|进程-僵尸进程": {
+  "task": "僵尸进程",
+  "unit": "进程-僵尸进程",
+  "code": "def zombie_proc(state, op, pid=None):\n    # 僵尸进程：exit 退出未回收 / reap 回收 / zombies 列表（进程生命周期）\n    if op == 'exit':\n        state.setdefault('zombies', []).append(pid)\n        return 'zombie'\n    if op == 'reap':\n        z = state.get('zombies', [])\n        if pid in z:\n            z.remove(pid)\n            return 'reaped'\n        return None\n    if op == 'zombies':\n        return list(state.get('zombies', []))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|内存-内存热插拔": {
+  "task": "内存热插拔",
+  "unit": "内存-内存热插拔",
+  "code": "def mem_hotplug(state, op, node=None, size=None):\n    # 内存热插拔：online 上线 / offline 下线 / nodes 节点表（内存热添加）\n    if op == 'online':\n        state.setdefault('nodes', {})[node] = size\n        return 'online'\n    if op == 'offline':\n        if node in state.get('nodes', {}):\n            state['nodes'][node] = None\n            return 'offline'\n        return None\n    if op == 'nodes':\n        return dict(state.get('nodes', {}))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|文件-文件系统日志": {
+  "task": "文件系统日志",
+  "unit": "文件-文件系统日志",
+  "code": "def journal(state, op, entry=None):\n    # 文件系统日志：log 记录 / replay 重放 / pending 待重放（journaling）\n    if op == 'log':\n        state.setdefault('journal', []).append(entry)\n        return 'logged'\n    if op == 'replay':\n        out = list(state.get('journal', []))\n        state['journal'] = []\n        return out\n    if op == 'pending':\n        return len(state.get('journal', []))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }

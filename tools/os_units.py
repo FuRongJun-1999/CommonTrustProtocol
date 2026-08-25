@@ -2058,6 +2058,78 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：SMP——多核负载均衡（最小负载核分配）",
     },
+    "进程-僵尸进程": {
+        "task": "僵尸进程",
+        "pattern": (
+            "def zombie_proc(state, op, pid=None):\n"
+            "    # 僵尸进程：exit 退出未回收 / reap 回收 / zombies 列表（进程生命周期）\n"
+            "    if op == 'exit':\n"
+            "        state.setdefault('zombies', []).append(pid)\n"
+            "        return 'zombie'\n"
+            "    if op == 'reap':\n"
+            "        z = state.get('zombies', [])\n"
+            "        if pid in z:\n"
+            "            z.remove(pid)\n"
+            "            return 'reaped'\n"
+            "        return None\n"
+            "    if op == 'zombies':\n"
+            "        return list(state.get('zombies', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'exit', 3), 'zombie'),
+            (({'zombies': [3]}, 'reap', 3), 'reaped'),
+            (({}, 'reap', 5), None),
+            (({'zombies': [3]}, 'zombies'), [3])],
+        "params": [],
+        "calibration": "对照：僵尸进程——exit 未回收/reap 回收（wait 语义）",
+    },
+    "内存-内存热插拔": {
+        "task": "内存热插拔",
+        "pattern": (
+            "def mem_hotplug(state, op, node=None, size=None):\n"
+            "    # 内存热插拔：online 上线 / offline 下线 / nodes 节点表（内存热添加）\n"
+            "    if op == 'online':\n"
+            "        state.setdefault('nodes', {})[node] = size\n"
+            "        return 'online'\n"
+            "    if op == 'offline':\n"
+            "        if node in state.get('nodes', {}):\n"
+            "            state['nodes'][node] = None\n"
+            "            return 'offline'\n"
+            "        return None\n"
+            "    if op == 'nodes':\n"
+            "        return dict(state.get('nodes', {}))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'online', 'n0', 16), 'online'),
+            (({'nodes': {'n0': 16}}, 'offline', 'n0'), 'offline'),
+            (({}, 'offline', 'n0'), None),
+            (({'nodes': {'n0': 16}}, 'nodes'), {'n0': 16})],
+        "params": [],
+        "calibration": "对照：内存热插拔——节点上线/下线（热添加内存）",
+    },
+    "文件-文件系统日志": {
+        "task": "文件系统日志",
+        "pattern": (
+            "def journal(state, op, entry=None):\n"
+            "    # 文件系统日志：log 记录 / replay 重放 / pending 待重放（journaling）\n"
+            "    if op == 'log':\n"
+            "        state.setdefault('journal', []).append(entry)\n"
+            "        return 'logged'\n"
+            "    if op == 'replay':\n"
+            "        out = list(state.get('journal', []))\n"
+            "        state['journal'] = []\n"
+            "        return out\n"
+            "    if op == 'pending':\n"
+            "        return len(state.get('journal', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'log', ('write', 'a')), 'logged'),
+            (({'journal': [('write', 'a')]}, 'replay'), [('write', 'a')]),
+            (({}, 'replay'), []),
+            (({'journal': [1, 2]}, 'pending'), 2)],
+        "params": [],
+        "calibration": "对照：journaling——日志记录/崩溃重放/待重放",
+    },
 }
 
 
