@@ -6158,5 +6158,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:net|网络-帧解析": {
+  "task": "帧解析",
+  "unit": "网络-帧解析",
+  "code": "def ws_frame_parse(frame):\n    # WebSocket 帧解析：FIN/opcode/长度/载荷（RFC 6455 解码——帧封装的逆）\n    fin = (frame[0] >> 7) & 1\n    opcode = frame[0] & 0x0F\n    n = frame[1] & 0x7F\n    off = 2\n    if n == 126:\n        n = int.from_bytes(frame[2:4], 'big')\n        off = 4\n    elif n == 127:\n        n = int.from_bytes(frame[4:12], 'big')\n        off = 10\n    return (fin, opcode, n, frame[off:off + n].decode('utf-8', 'replace'))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-MAC学习": {
+  "task": "MAC学习",
+  "unit": "网络-MAC学习",
+  "code": "def mac_learn(table, port, mac, action):\n    # MAC 学习：交换机按源 MAC 记录端口，未知目标泛洪（转发决策基础）\n    if action == 'learn':\n        table[mac] = port\n        return 'learned'\n    if action == 'lookup':\n        return table.get(mac, 'flood')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-证书校验": {
+  "task": "证书校验",
+  "unit": "网络-证书校验",
+  "code": "def cert_verify(cert, now):\n    # 证书校验：有效期时间窗检查（TLS 信任链第一步）\n    if now < cert.get('not_before', 0) or now > cert.get('not_after', 0):\n        return 'expired'\n    return 'valid'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

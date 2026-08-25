@@ -2317,6 +2317,67 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：ACL——按五元组规则过滤（允许/拒绝）",
     },
+    "网络-帧解析": {
+        "task": "帧解析",
+        "pattern": (
+            "def ws_frame_parse(frame):\n"
+            "    # WebSocket 帧解析：FIN/opcode/长度/载荷（RFC 6455 解码——帧封装的逆）\n"
+            "    fin = (frame[0] >> 7) & 1\n"
+            "    opcode = frame[0] & 0x0F\n"
+            "    n = frame[1] & 0x7F\n"
+            "    off = 2\n"
+            "    if n == 126:\n"
+            "        n = int.from_bytes(frame[2:4], 'big')\n"
+            "        off = 4\n"
+            "    elif n == 127:\n"
+            "        n = int.from_bytes(frame[4:12], 'big')\n"
+            "        off = 10\n"
+            "    return (fin, opcode, n, frame[off:off + n].decode('utf-8', 'replace'))\n"),
+        "cases": [
+            ((bytes([0x81, 0x02]) + b'hi',), (1, 1, 2, 'hi')),
+            ((bytes([0x89, 0x00]),), (1, 9, 0, '')),
+            ((bytes([0x81, 126]) + (300).to_bytes(2, 'big') + b'a' * 300,),
+             (1, 1, 300, 'a' * 300)),
+            ((bytes([0x82, 0x01]) + b'\x00',), (1, 2, 1, '\x00'))],
+        "params": [],
+        "calibration": "对照：RFC 6455——WebSocket 帧解码（FIN/opcode/长度/载荷，与帧封装 ws_frame 互逆）",
+    },
+    "网络-MAC学习": {
+        "task": "MAC学习",
+        "pattern": (
+            "def mac_learn(table, port, mac, action):\n"
+            "    # MAC 学习：交换机按源 MAC 记录端口，未知目标泛洪（转发决策基础）\n"
+            "    if action == 'learn':\n"
+            "        table[mac] = port\n"
+            "        return 'learned'\n"
+            "    if action == 'lookup':\n"
+            "        return table.get(mac, 'flood')\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'p1', 'aa', 'learn'), 'learned'),
+            (({'aa': 'p1'}, 'p1', 'aa', 'lookup'), 'p1'),
+            (({'aa': 'p1'}, 'p1', 'bb', 'lookup'), 'flood'),
+            (({'aa': 'p1'}, 'p2', 'aa', 'learn'), 'learned'),
+            (({}, 'p1', 'aa', 'unknown'), None)],
+        "params": [],
+        "calibration": "对照：交换机 MAC 学习——源 MAC 记端口，未知目标泛洪，学习可更新端口",
+    },
+    "网络-证书校验": {
+        "task": "证书校验",
+        "pattern": (
+            "def cert_verify(cert, now):\n"
+            "    # 证书校验：有效期时间窗检查（TLS 信任链第一步）\n"
+            "    if now < cert.get('not_before', 0) or now > cert.get('not_after', 0):\n"
+            "        return 'expired'\n"
+            "    return 'valid'\n"),
+        "cases": [
+            (({'not_before': 100, 'not_after': 200}, 150), 'valid'),
+            (({'not_before': 100, 'not_after': 200}, 50), 'expired'),
+            (({'not_before': 100, 'not_after': 200}, 250), 'expired'),
+            (({}, 150), 'expired')],
+        "params": [],
+        "calibration": "对照：X.509 证书有效期校验——not_before/not_after 时间窗判定",
+    },
 }
 
 

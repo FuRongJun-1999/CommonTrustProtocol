@@ -7486,5 +7486,40 @@ except Exception as ex:
     check('㌴c 事件委托→弹窗拦截→混合内容端到端（clicked blocked blocked）',
           False, str(ex)[:60])
 
+# ㌵ 目标7 收官：网络协议（帧解析/MAC学习/证书校验 经正式管线）
+n27_qs = {
+    "帧解析": "写一个帧解析单元（报文解码）",
+    "MAC学习": "写一个MAC学习单元（交换机转发）",
+    "证书校验": "写一个证书校验单元（有效期检查）",
+}
+n27_ok = 0
+for label, q in n27_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n27_ok += 1
+    check(f'㌵ {label} 网络协议单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌵b 网络协议三单元全部生成', n27_ok == 3, f'{n27_ok}/3')
+
+# ㌵c 端到端：帧解析→MAC学习→证书校验（(1,1,2,hi) p1 valid）
+r_wf = domain_route("写一个帧解析单元（报文解码）")
+r_ml2 = domain_route("写一个MAC学习单元（交换机转发）")
+r_cv = domain_route("写一个证书校验单元（有效期检查）")
+try:
+    ns_wf, ns_ml2, ns_cv = {}, {}, {}
+    exec(r_wf["code"], ns_wf)
+    exec(r_ml2["code"], ns_ml2)
+    exec(r_cv["code"], ns_cv)
+    wf = ns_wf["ws_frame_parse"](bytes([0x81, 0x02]) + b'hi')
+    ml2 = ns_ml2["mac_learn"]({'aa': 'p1'}, 'p1', 'aa', 'lookup')
+    cv = ns_cv["cert_verify"]({'not_before': 100, 'not_after': 200}, 150)
+    check('㌵c 帧解析→MAC学习→证书校验端到端（(1,1,2,hi) p1 valid）',
+          wf == (1, 1, 2, 'hi') and ml2 == 'p1' and cv == 'valid',
+          f'frame={wf} mac={ml2} cert={cv}')
+except Exception as ex:
+    check('㌵c 帧解析→MAC学习→证书校验端到端（(1,1,2,hi) p1 valid）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
