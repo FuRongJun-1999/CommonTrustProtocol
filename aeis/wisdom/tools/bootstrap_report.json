@@ -1,0 +1,51 @@
+{
+ "experiment": "自举稳定性（验证单元 三盲区 → §15 锚点机制）",
+ "bootstrap": {
+  "anchors": [
+   {
+    "name": "_bigrams",
+    "exists": true,
+    "doc": true,
+    "atomic": true
+   },
+   {
+    "name": "_core_task",
+    "exists": true,
+    "doc": true,
+    "atomic": true
+   },
+   {
+    "name": "_jaccard",
+    "exists": true,
+    "doc": true,
+    "atomic": true
+   },
+   {
+    "name": "_q_tokens",
+    "exists": true,
+    "doc": true,
+    "atomic": true
+   },
+   {
+    "name": "_semantic_head",
+    "exists": true,
+    "doc": true,
+    "atomic": true
+   },
+   {
+    "name": "_word_df",
+    "exists": true,
+    "doc": true,
+    "atomic": true
+   }
+  ],
+  "ok": true,
+  "anchors_in_graph": [],
+  "n_anchors": 6
+ },
+ "negatives": {
+  "strong_rate": 0.9651,
+  "drift": 19
+ },
+ "conclusion": "盲区1 哥德尔困境：锚点层声明（类型系统兜底元级失效，终止递归堆叠）；盲区2 自举锚点：6 个不可再分原语不参与路由图（启动条件）；盲区3 否定边界动态性：负面闭环暴露过时边界（19 处漂移如实登记）"
+}

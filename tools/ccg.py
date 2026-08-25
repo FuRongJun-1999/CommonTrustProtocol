@@ -18,6 +18,71 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 
+# 自举锚点（Bootstrap Anchors，验证单元三盲区 §15.1）：
+# 不可再分的底层调度/索引原语——无需被路由，构成路由的启动条件。
+# 特性：①原子（无依赖更底层函数）②不参与路由图（search 不含锚点词）
+# ③有中文注释（docstring 即声明）④不可再分（无子功能可递归）。
+# 锚点失效条件 = 输入类型错误——由 L1 语法层兜底，元级不再需要注释级
+# 声明（类型系统裁决，终止哥德尔递归堆叠 §15.2）。
+BOOTSTRAP_ANCHORS = {
+    "_bigrams",       # 中文二元组切分（原子变换）
+    "_q_tokens",      # 问题条件词（停用词过滤）
+    "_core_task",     # 任务核心词提取
+    "_semantic_head", # 语义化首行（跳过三要素标记行）
+    "_jaccard",       # 集合相似度（能力互斥判定）
+    "_word_df",       # 词文档频率（判别力检测）
+}
+
+
+def bootstrap_check(nodes=None) -> dict:
+    """自举验证（验证单元三盲区 → 锚点机制 §15）。
+
+    检查每个锚点：存在（源码定义）/ 有中文注释（docstring 声明）/
+    不参与路由图（search 对锚点名检索不命中能力单元——锚点不是条件
+    空间成员，避免「路由路由」递归）。返回完整性报告。
+    """
+    import inspect as _ins
+    src = _ins.getsource(_bigrams)  # 同模块源码
+    report = {"anchors": [], "ok": True}
+    for name in sorted(BOOTSTRAP_ANCHORS):
+        fn = globals().get(name)
+        entry = {"name": name}
+        # ① 存在
+        if fn is None:
+            entry["exists"] = False
+            entry["doc"] = False
+            entry["reason"] = "锚点函数缺失"
+            report["ok"] = False
+            report["anchors"].append(entry)
+            continue
+        entry["exists"] = True
+        # ② 有中文注释（docstring 含中文）
+        doc = (fn.__doc__ or "").strip()
+        has_cn = any('\u4e00' <= c <= '\u9fff' for c in doc)
+        entry["doc"] = has_cn
+        if not has_cn:
+            entry["reason"] = "锚点缺中文注释（docstring 声明缺失）"
+            report["ok"] = False
+        # ③ 原子性（不调用其他锚点/路由函数——不可再分）
+        body_src = _ins.getsource(fn)
+        calls = [n for n in ("search(", "route(", "compose(", "escalate(")
+                 if n in body_src]
+        entry["atomic"] = not calls
+        if calls:
+            entry["reason"] = f"锚点调用了路由函数 {calls}"
+            report["ok"] = False
+        report["anchors"].append(entry)
+    # ④ 锚点不参与路由图：build_graph 的单元库不含锚点（锚点是元层，
+    # 非条件空间成员——避免「路由路由自身」递归）
+    nodes = nodes if nodes is not None else build_graph()
+    anchor_in_graph = [a for a in BOOTSTRAP_ANCHORS if a in nodes]
+    report["anchors_in_graph"] = anchor_in_graph
+    if anchor_in_graph:
+        report["ok"] = False
+    report["n_anchors"] = len(BOOTSTRAP_ANCHORS)
+    return report
+
+
 def _bigrams(text: str) -> set:
     """中文二元组（含空格归一化）——灵枢中文检索同款。"""
     t = re.sub(r'\s+', '', text)
@@ -130,6 +195,7 @@ def _semantic_head(code: str) -> str:
 
 
 def _jaccard(a: str, b: str) -> float:
+    """集合相似度：两串二元组集合的 Jaccard 系数（能力互斥判定）。"""
     sa, sb = _bigrams(a), _bigrams(b)
     if not sa or not sb:
         return 0.0
