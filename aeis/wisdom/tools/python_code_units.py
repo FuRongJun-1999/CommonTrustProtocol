@@ -268,7 +268,10 @@ PYTHON_UNITS = {
         "task": "延迟绑定",
         "pattern": (
             "def lazy_bindings():\n"
-            "    # 延迟绑定陷阱：循环后调用闭包 → 全捕获同一最终值\n"
+            "    # 延迟绑定陷阱（闭包延迟绑定）：循环后调用闭包 → 全捕获同一最终值\n"
+            "    # 生效条件：无（演示函数——构造循环闭包列表）\n"
+            "    # 子功能：① 循环创建闭包 ② 循环后统一调用\n"
+            "    # 执行：闭包捕获循环变量（最终值），调用全返同一值\n"
             "    funcs = []\n"
             "    for i in range(3):\n"
             "        funcs.append(lambda: i)\n"
@@ -376,7 +379,10 @@ PYTHON_UNITS = {
         "task": "捕获异常",
         "pattern": (
             "def try_except(etype, handler, risky):\n"
-            "    # try/except 语义：尝试 risky()，抛 etype 异常 → handler(err)\n"
+            "    # 异常捕获（try/except）：尝试 risky()，抛 etype 异常 → handler(err)\n"
+            "    # 生效条件：risky 为可调用；etype 为异常类型；handler 为异常处理器\n"
+            "    # 子功能：① 尝试执行 ② 捕获指定异常 ③ 转交处理器\n"
+            "    # 执行：try risky() → except etype → handler(err)\n"
             "    try:\n"
             "        return ('ok', risky())\n"
             "    except etype as err:\n"
@@ -1100,7 +1106,10 @@ PYTHON_UNITS = {
         "task": "字符串替换",
         "pattern": (
             "def str_replace(text, old, new, count=None):\n"
-            "    # 字符串替换：全部/前 n 次替换（replace 语义）\n"
+            "    # 字符串替换（replace）：全部/前 n 次替换（replace 语义）\n"
+            "    # 生效条件：text 为字符串；old/new 为替换对；count 为次数或 None（全部）\n"
+            "    # 子功能：① 全部替换 ② 限量替换\n"
+            "    # 执行：count 给定 → text.replace(old, new, count)，否则全替\n"
             "    return (text.replace(old, new) if count is None\n"
             "            else text.replace(old, new, count))\n"),
         "cases": [(('aaa', 'a', 'b'), 'bbb'),

@@ -388,7 +388,10 @@ COMPILER_UNITS = {
         "task": "中文程序词法",
         "pattern": (
             "def lex_line(line):\n"
-            "    # 中文程序行 → (kind, payload)；九章算术结构/条件/指令/步骤识别\n"
+            "    # 中文程序词法（词法分析）：中文程序行 → (kind, payload)；九章算术结构/条件/指令/步骤识别\n"
+            "    # 生效条件：line 为中文程序源码行\n"
+            "    # 子功能：① 九章算术结构识别 ② 条件/指令/步骤分类 ③ 提取载荷\n"
+            "    # 执行：前缀匹配 + 分类返回 (kind, payload)\n"
             "    line = line.strip()\n"
             "    if not line or line.startswith('#'):\n"
             "        return None\n"
@@ -810,7 +813,10 @@ COMPILER_UNITS = {
         "task": "VM单步",
         "pattern": (
             "def step_exec(code, ip, stack=None, symbols=None, trust=0.0, cond=None):\n"
-            "    # VM 单步：执行一条指令 → (next_ip, 新状态)；止/无为返回 halt；越界返回 None\n"
+            "    # VM 单步（调试器单步）：执行一条指令 → (next_ip, 新状态)；止/无为返回 halt；越界返回 None\n"
+            "    # 生效条件：code 为指令列表；ip 为当前指令指针\n"
+            "    # 子功能：① 取当前指令 ② 分派执行 ③ 返回下一状态\n"
+            "    # 执行：按 op 分派，止/无为→halt，越界→None\n"
             "    if ip >= len(code):\n"
             "        return None\n"
             "    op, arg = code[ip]\n"
@@ -858,7 +864,10 @@ COMPILER_UNITS = {
         "task": "字节码转储",
         "pattern": (
             "def dump_bytecode(code):\n"
-            "    # 字节码 → 可读指令列表（地址+指令+参数——分析器输出）\n"
+            "    # 字节码转储（可读转储）：字节码 → 可读指令列表（地址+指令+参数——分析器输出）\n"
+            "    # 生效条件：code 为指令列表（op, arg）\n"
+            "    # 子功能：① 逐指令编号 ② 格式化指令行\n"
+            "    # 执行：enumerate 生成 (地址, op, arg) 行\n"
             "    return [f'{i:4d}  {op:14s} {arg}' for i, (op, arg) in enumerate(code)]\n"),
         "cases": [(([("DE", 0.3), ("ZHI", None)],),
                   ['   0  DE             0.3', '   1  ZHI            None'])],
@@ -885,7 +894,10 @@ COMPILER_UNITS = {
         "task": "逻辑表达式",
         "pattern": (
             "def compile_logic(left_instrs, op, right_instrs):\n"
-            "    # 逻辑表达式：且/或 → 短路跳转字节码（AND/OR 语义）\n"
+            "    # 逻辑表达式编译（短路编译）：且/或 → 短路跳转字节码（AND/OR 语义）\n"
+            "    # 生效条件：op ∈ {且, 或}；left/right 为指令列表\n"
+            "    # 子功能：① 拼接左指令 ② 短路跳转 ③ 拼接右指令\n"
+            "    # 执行：且→JUMP_IF_FALSE、或→JUMP_IF_TRUE（左短路）\n"
             "    code = list(left_instrs)\n"
             "    if op == '且':\n"
             "        code.append(('JUMP_IF_FALSE', 0))  # 左假短路\n"

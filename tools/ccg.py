@@ -197,23 +197,39 @@ def search(question: str, nodes=None, top: int = 5) -> list:
 
 
 def compose(question: str, nodes=None, top: int = 5) -> dict:
-    """条件编写：多单元命中 → 沿依赖边组装 → 代码（原型：依赖链拼接）。"""
+    """条件编写：多单元命中 → 沿依赖边组装 → 代码（多候选择优 + verifier）。
+
+    多分支择优：对 search 前 3 个候选各自沿依赖链扩展，选最长链（验证全过者优先）。
+    """
     nodes = nodes if nodes is not None else build_graph()
     dep = build_dep_graph()
     hits = search(question, nodes, top=top)
     if not hits:
         return {"ok": False, "reason": "无命中单元", "chain": [], "code": None}
-    # 组装链：首命中单元 → 沿依赖边收集后继（存在则续链）
-    chain = [hits[0][0]]
-    seen = set(chain)
-    cur = chain[0]
-    while dep.get(cur):
-        nxt = dep[cur][0]
-        if nxt in seen:
-            break
-        chain.append(nxt)
-        seen.add(nxt)
-        cur = nxt
+    # 多候选链：每个命中单元沿依赖边扩展；优先 top1 链（语义最相关），
+    # 仅当 top1 无后继（链长 1）时才取更长候选（多分支兜底）
+    # max_len 限制：自动依赖边是「c 端到端」三元组，跨链共享单元会让链
+    # 串到不相关域——单链最长 6，防跨语义漂移
+    MAX_CHAIN = 6
+    chains = []
+    seen_chains = set()
+    for uid in [h[0] for h in hits[:3]]:
+        chain = [uid]
+        seen = set(chain)
+        cur = uid
+        while dep.get(cur) and len(chain) < MAX_CHAIN:
+            nxt = dep[cur][0]
+            if nxt in seen:
+                break
+            chain.append(nxt)
+            seen.add(nxt)
+            cur = nxt
+        key = tuple(chain)
+        if key not in seen_chains:
+            seen_chains.add(key)
+            chains.append(chain)
+    chain = chains[0] if (len(chains[0]) >= 2 or len(chains) == 1) \
+        else max(chains, key=len)
     # 拼接代码（组装链）
     from compiler_code_units import COMPILER_UNITS
     from python_code_units import PYTHON_UNITS

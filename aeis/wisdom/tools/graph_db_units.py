@@ -70,7 +70,10 @@ GRAPH_UNITS = {
         "task": "路径查找",
         "pattern": (
             "def has_path(graph, start, end):\n"
-            "    # 路径存在性：start 能否到达 end（条件链是否存在）\n"
+            "    # 路径存在性（可达判定）：start 能否到达 end（条件链是否存在）\n"
+            "    # 生效条件：graph 提供 neighbors 接口；start/end 为图中节点\n"
+            "    # 子功能：① 起终点相同直判 ② BFS 扩散 ③ 终点命中判定\n"
+            "    # 执行：BFS 队列遍历，命中终点即返 True\n"
             "    if start == end:\n"
             "        return True\n"
             "    from collections import deque\n"
@@ -507,7 +510,10 @@ GRAPH_UNITS = {
         "task": "拓扑排序",
         "pattern": (
             "def topological_sort(graph):\n"
-            "    # 拓扑排序：DAG 依赖顺序（Kahn 算法——入度归零先出）\n"
+            "    # 拓扑排序（DAG 排序）：DAG 依赖顺序（Kahn 算法——入度归零先出）\n"
+            "    # 生效条件：graph 为有向无环图（含 nodes/neighbors 接口）\n"
+            "    # 子功能：① 入度统计 ② 零入度入队 ③ 出队并减后继入度\n"
+            "    # 执行：Kahn 队列反复出零入度节点（依赖顺序）\n"
             "    from collections import deque\n"
             "    indeg = {node: 0 for node in graph.nodes}\n"
             "    for node in graph.nodes:\n"

@@ -97,7 +97,10 @@ BROWSER_UNITS = {
         "task": "请求构建",
         "pattern": (
             "def build_get_request(url, host, headers=None):\n"
-            "    # 构建 HTTP GET 请求：请求行 + Host 头 + 自定义头\n"
+            "    # HTTP 请求构建（GET 请求）：请求行 + Host 头 + 自定义头\n"
+            "    # 生效条件：url 为请求路径；host 为主机名；headers 为附加头字典\n"
+            "    # 子功能：① 请求行拼接 ② Host 头 ③ 附加头展开\n"
+            "    # 执行：首行 GET + Host + 逐头拼接\n"
             "    h = headers or {}\n"
             "    lines = ['GET ' + url + ' HTTP/1.1', 'Host: ' + host]\n"
             "    for k, v in h.items():\n"

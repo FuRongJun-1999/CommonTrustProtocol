@@ -150,6 +150,9 @@ OS_UNITS = {
         "pattern": (
             "def process_state(transitions):\n"
             "    # 进程状态机：事件序列 → 最终状态（就绪→运行→阻塞→就绪→终止）\n"
+            "    # 生效条件：transitions 为事件序列（按状态转移表合法）\n"
+            "    # 子功能：① 初始就绪 ② 逐事件迁移 ③ 返回终态\n"
+            "    # 执行：状态转移表逐事件推进\n"
             "    state = '就绪'\n"
             "    for ev in transitions:\n"
             "        if state == '就绪' and ev == '调度':\n"
