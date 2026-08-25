@@ -5967,5 +5967,40 @@ except Exception as ex:
     check('㌉c 圆角→屏幕方向→空闲调度端到端（True locked executed）',
           False, str(ex)[:60])
 
+# ㌊ 目标7 深化：网络机制（RTT平滑/路由汇聚/序列号回绕 经正式管线）
+n20_qs = {
+    "RTT平滑": "写一个 RTT 平滑单元（EWMA 估值）",
+    "路由汇聚": "写一个路由汇聚单元（前缀合成）",
+    "序列号回绕": "写一个序列号回绕单元（TCP 序号）",
+}
+n20_ok = 0
+for label, q in n20_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n20_ok += 1
+    check(f'㌊ {label} 网络机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌊b 网络机制三单元全部生成', n20_ok == 3, f'{n20_ok}/3')
+
+# ㌊c 端到端：RTT→汇聚→回绕（112.5 192.168.0.0/16 True）
+r_rs = domain_route("写一个 RTT 平滑单元（EWMA 估值）")
+r_ru = domain_route("写一个路由汇聚单元（前缀合成）")
+r_sw = domain_route("写一个序列号回绕单元（TCP 序号）")
+try:
+    ns_rs, ns_ru, ns_sw = {}, {}, {}
+    exec(r_rs["code"], ns_rs)
+    exec(r_ru["code"], ns_ru)
+    exec(r_sw["code"], ns_sw)
+    rs = ns_rs["rtt_smooth"]({'rtt': 100.0}, 'sample', 200.0)
+    ru = ns_ru["route_summary"](['192.168.1.0/24', '192.168.2.0/24'])
+    sw = ns_sw["seq_wrap"]({}, 'compare', (1, 6), 8)
+    check('㌊c RTT→汇聚→回绕端到端（112.5 [192.168.0.0/16] True）',
+          rs == 112.5 and ru == ['192.168.0.0/16'] and sw is True,
+          f'rtt={rs} summary={ru} wrap={sw}')
+except Exception as ex:
+    check('㌊c RTT→汇聚→回绕端到端（112.5 [192.168.0.0/16] True）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

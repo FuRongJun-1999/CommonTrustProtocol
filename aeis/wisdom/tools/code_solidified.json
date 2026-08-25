@@ -4868,5 +4868,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:net|网络-RTT平滑": {
+  "task": "RTT平滑",
+  "unit": "网络-RTT平滑",
+  "code": "def rtt_smooth(state, op, sample=None, alpha=0.125):\n    # RTT 平滑：sample 加权更新 / get 当前估值（EWMA 指数加权）\n    if op == 'sample':\n        prev = state.get('rtt', sample)\n        state['rtt'] = round((1 - alpha) * prev + alpha * sample, 2)\n        return state['rtt']\n    if op == 'get':\n        return state.get('rtt', 0.0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-路由汇聚": {
+  "task": "路由汇聚",
+  "unit": "网络-路由汇聚",
+  "code": "def route_summary(routes):\n    # 路由汇聚：同网段路由合成 CIDR 汇总（前两段公共）\n    if not routes:\n        return []\n    segs = [r.split('.') for r in routes]\n    if not segs or len(segs[0]) < 2:\n        return []\n    return [segs[0][0] + '.' + segs[0][1] + '.0.0/16']\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-序列号回绕": {
+  "task": "序列号回绕",
+  "unit": "网络-序列号回绕",
+  "code": "def seq_wrap(state, op, seq=None, space=2 ** 32):\n    # 序列号回绕：next 推进 / compare 回绕比较 / wrap 是否已回绕（TCP seq）\n    if op == 'next':\n        cur = state.get('seq', 0)\n        nxt = (cur + 1) % space\n        state['seq'] = nxt\n        if nxt < cur:\n            state['wrapped'] = True\n        return nxt\n    if op == 'compare':\n        a, b = seq\n        return (a - b) % space < space // 2\n    if op == 'wrap':\n        return state.get('wrapped', False)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

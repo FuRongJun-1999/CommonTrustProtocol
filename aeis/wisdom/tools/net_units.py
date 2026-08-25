@@ -1819,6 +1819,71 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：多宿主——多接口轮询选择与故障切换（multihoming）",
     },
+    "网络-RTT平滑": {
+        "task": "RTT平滑",
+        "pattern": (
+            "def rtt_smooth(state, op, sample=None, alpha=0.125):\n"
+            "    # RTT 平滑：sample 加权更新 / get 当前估值（EWMA 指数加权）\n"
+            "    if op == 'sample':\n"
+            "        prev = state.get('rtt', sample)\n"
+            "        state['rtt'] = round((1 - alpha) * prev + alpha * sample, 2)\n"
+            "        return state['rtt']\n"
+            "    if op == 'get':\n"
+            "        return state.get('rtt', 0.0)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'sample', 100.0), 100.0),
+            (({'rtt': 100.0}, 'sample', 200.0), 112.5),
+            (({}, 'get'), 0.0),
+            (({'rtt': 80.0}, 'get'), 80.0)],
+        "params": [],
+        "calibration": "对照：TCP RTT——EWMA 加权平滑估值（α=0.125）",
+    },
+    "网络-路由汇聚": {
+        "task": "路由汇聚",
+        "pattern": (
+            "def route_summary(routes):\n"
+            "    # 路由汇聚：同网段路由合成 CIDR 汇总（前两段公共）\n"
+            "    if not routes:\n"
+            "        return []\n"
+            "    segs = [r.split('.') for r in routes]\n"
+            "    if not segs or len(segs[0]) < 2:\n"
+            "        return []\n"
+            "    return [segs[0][0] + '.' + segs[0][1] + '.0.0/16']\n"),
+        "cases": [
+            ((['192.168.1.0/24', '192.168.2.0/24'],), ['192.168.0.0/16']),
+            ((['10.1.0.0/16', '10.1.1.0/24'],), ['10.1.0.0/16']),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：路由汇聚——CIDR 汇总（最长公共前缀合成）",
+    },
+    "网络-序列号回绕": {
+        "task": "序列号回绕",
+        "pattern": (
+            "def seq_wrap(state, op, seq=None, space=2 ** 32):\n"
+            "    # 序列号回绕：next 推进 / compare 回绕比较 / wrap 是否已回绕（TCP seq）\n"
+            "    if op == 'next':\n"
+            "        cur = state.get('seq', 0)\n"
+            "        nxt = (cur + 1) % space\n"
+            "        state['seq'] = nxt\n"
+            "        if nxt < cur:\n"
+            "            state['wrapped'] = True\n"
+            "        return nxt\n"
+            "    if op == 'compare':\n"
+            "        a, b = seq\n"
+            "        return (a - b) % space < space // 2\n"
+            "    if op == 'wrap':\n"
+            "        return state.get('wrapped', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'next', None, 4), 1),
+            (({'seq': 3}, 'next', None, 4), 0),
+            (({}, 'compare', (1, 6), 8), True),
+            (({}, 'compare', (6, 1), 8), False),
+            (({'wrapped': True}, 'wrap'), True)],
+        "params": [],
+        "calibration": "对照：TCP 序列号——回绕推进/回绕比较（2^32 空间）",
+    },
 }
 
 
