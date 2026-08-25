@@ -5686,5 +5686,40 @@ except Exception as ex:
     check('㌁c 异常→表达式树→栈深度端到端（10 (\'+\',\'a\',\'b\') 2）',
           False, str(ex)[:60])
 
+# ㌂ 目标5 深化：浏览器机制（颜色转换/振动反馈/混合模式 经正式管线）
+b15_qs = {
+    "颜色转换": "写一个颜色转换单元（hex 互转）",
+    "振动反馈": "写一个振动反馈单元（振动控制）",
+    "混合模式": "写一个混合模式单元（通道计算）",
+}
+b15_ok = 0
+for label, q in b15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b15_ok += 1
+    check(f'㌂ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌂b 浏览器机制三单元全部生成', b15_ok == 3, f'{b15_ok}/3')
+
+# ㌂c 机制端到端：颜色→振动→混合（(255,0,0) vibrating 128）
+r_cv = domain_route("写一个颜色转换单元（hex 互转）")
+r_vb = domain_route("写一个振动反馈单元（振动控制）")
+r_bm = domain_route("写一个混合模式单元（通道计算）")
+try:
+    ns_cv, ns_vb, ns_bm = {}, {}, {}
+    exec(r_cv["code"], ns_cv)
+    exec(r_vb["code"], ns_vb)
+    exec(r_bm["code"], ns_bm)
+    cv = ns_cv["color_convert"]('#ff0000', 'hex2rgb')
+    vb = ns_vb["vibrate"]({}, 'start', [100, 50])
+    bm = ns_bm["blend_mode"](255, 128, 'multiply')
+    check('㌂c 颜色→振动→混合端到端（(255,0,0) vibrating 128）',
+          cv == (255, 0, 0) and vb == 'vibrating' and bm == 128,
+          f'color={cv} vib={vb} blend={bm}')
+except Exception as ex:
+    check('㌂c 颜色→振动→混合端到端（(255,0,0) vibrating 128）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

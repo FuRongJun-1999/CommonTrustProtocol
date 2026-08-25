@@ -4628,5 +4628,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:browser|渲染-颜色转换": {
+  "task": "颜色转换",
+  "unit": "渲染-颜色转换",
+  "code": "def color_convert(value, op):\n    # 颜色转换：hex→rgb 解析 / rgb→hex 编码（CSS 颜色）\n    if op == 'hex2rgb':\n        v = value.lstrip('#')\n        return tuple(int(v[i:i + 2], 16) for i in (0, 2, 4))\n    if op == 'rgb2hex':\n        return '#' + ''.join(f'{c:02x}' for c in value)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-振动反馈": {
+  "task": "振动反馈",
+  "unit": "浏览器-振动反馈",
+  "code": "def vibrate(state, op, pattern=None):\n    # 振动反馈：start 启动 / stop 停止 / active 是否振动（navigator.vibrate）\n    if op == 'start':\n        state['active'] = True\n        state['pattern'] = pattern\n        return 'vibrating'\n    if op == 'stop':\n        state['active'] = False\n        return 'stopped'\n    if op == 'active':\n        return state.get('active', False)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|渲染-混合模式": {
+  "task": "混合模式",
+  "unit": "渲染-混合模式",
+  "code": "def blend_mode(base, overlay, mode):\n    # 混合模式：multiply 正片叠底 / screen 滤色 / overlay 叠加（canvas 混合）\n    b = base / 255.0\n    o = overlay / 255.0\n    if mode == 'multiply':\n        return round(b * o * 255)\n    if mode == 'screen':\n        return round((1 - (1 - b) * (1 - o)) * 255)\n    if mode == 'overlay':\n        if b < 0.5:\n            return round(2 * b * o * 255)\n        return round((1 - 2 * (1 - b) * (1 - o)) * 255)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

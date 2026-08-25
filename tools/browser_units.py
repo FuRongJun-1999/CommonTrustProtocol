@@ -1463,6 +1463,72 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：Font Loading API——字体加载状态与回退切换（font-display）",
     },
+    "渲染-颜色转换": {
+        "task": "颜色转换",
+        "pattern": (
+            "def color_convert(value, op):\n"
+            "    # 颜色转换：hex→rgb 解析 / rgb→hex 编码（CSS 颜色）\n"
+            "    if op == 'hex2rgb':\n"
+            "        v = value.lstrip('#')\n"
+            "        return tuple(int(v[i:i + 2], 16) for i in (0, 2, 4))\n"
+            "    if op == 'rgb2hex':\n"
+            "        return '#' + ''.join(f'{c:02x}' for c in value)\n"
+            "    return None\n"),
+        "cases": [
+            (('#ff0000', 'hex2rgb'), (255, 0, 0)),
+            (('#00ff80', 'hex2rgb'), (0, 255, 128)),
+            (((255, 0, 0), 'rgb2hex'), '#ff0000'),
+            (((0, 0, 0), 'rgb2hex'), '#000000')],
+        "params": [],
+        "calibration": "对照：CSS 颜色——hex↔rgb 双向转换",
+    },
+    "浏览器-振动反馈": {
+        "task": "振动反馈",
+        "pattern": (
+            "def vibrate(state, op, pattern=None):\n"
+            "    # 振动反馈：start 启动 / stop 停止 / active 是否振动（navigator.vibrate）\n"
+            "    if op == 'start':\n"
+            "        state['active'] = True\n"
+            "        state['pattern'] = pattern\n"
+            "        return 'vibrating'\n"
+            "    if op == 'stop':\n"
+            "        state['active'] = False\n"
+            "        return 'stopped'\n"
+            "    if op == 'active':\n"
+            "        return state.get('active', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'start', [100, 50]), 'vibrating'),
+            (({}, 'stop'), 'stopped'),
+            (({}, 'active'), False),
+            (({'active': True}, 'active'), True)],
+        "params": [],
+        "calibration": "对照：navigator.vibrate——振动启动/停止/状态",
+    },
+    "渲染-混合模式": {
+        "task": "混合模式",
+        "pattern": (
+            "def blend_mode(base, overlay, mode):\n"
+            "    # 混合模式：multiply 正片叠底 / screen 滤色 / overlay 叠加（canvas 混合）\n"
+            "    b = base / 255.0\n"
+            "    o = overlay / 255.0\n"
+            "    if mode == 'multiply':\n"
+            "        return round(b * o * 255)\n"
+            "    if mode == 'screen':\n"
+            "        return round((1 - (1 - b) * (1 - o)) * 255)\n"
+            "    if mode == 'overlay':\n"
+            "        if b < 0.5:\n"
+            "            return round(2 * b * o * 255)\n"
+            "        return round((1 - 2 * (1 - b) * (1 - o)) * 255)\n"
+            "    return None\n"),
+        "cases": [
+            ((255, 128, 'multiply'), 128),
+            ((255, 128, 'screen'), 255),
+            ((64, 128, 'overlay'), 64),
+            ((192, 128, 'overlay'), 192)],
+        "params": [],
+        "calibration": "对照：canvas 混合模式——multiply/screen/overlay 通道计算",
+    },
 }
 
 
