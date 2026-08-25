@@ -5288,5 +5288,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:browser|浏览器-网页共享": {
+  "task": "网页共享",
+  "unit": "浏览器-网页共享",
+  "code": "def web_share(state, op, data=None):\n    # 网页共享：share 分享 / can_share 可否 / last 最近分享（Web Share API）\n    if op == 'share':\n        state['last'] = data\n        return 'shared'\n    if op == 'can_share':\n        return bool(data)\n    if op == 'last':\n        return state.get('last')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-唤醒锁": {
+  "task": "唤醒锁",
+  "unit": "浏览器-唤醒锁",
+  "code": "def wake_lock(state, op):\n    # 唤醒锁：request 请求 / release 释放 / active 状态（Wake Lock API）\n    if op == 'request':\n        state['active'] = True\n        return 'held'\n    if op == 'release':\n        state['active'] = False\n        return 'released'\n    if op == 'active':\n        return state.get('active', False)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-窗口管理": {
+  "task": "窗口管理",
+  "unit": "浏览器-窗口管理",
+  "code": "def window_mgmt(state, op, win=None):\n    # 窗口管理：open 开窗 / move 移动 / close 关闭（Window Management）\n    if op == 'open':\n        state.setdefault('wins', {})[win] = {'x': 0, 'y': 0}\n        return 'opened'\n    if op == 'move':\n        if win in state.get('wins', {}):\n            state['wins'][win] = {'x': 100, 'y': 50}\n            return 'moved'\n        return None\n    if op == 'close':\n        wins = state.get('wins', {})\n        if win in wins:\n            wins.pop(win)\n            return 'closed'\n        return None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

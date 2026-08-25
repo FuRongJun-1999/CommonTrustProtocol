@@ -1806,6 +1806,77 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：File System Access——本地文件打开/写/读",
     },
+    "浏览器-网页共享": {
+        "task": "网页共享",
+        "pattern": (
+            "def web_share(state, op, data=None):\n"
+            "    # 网页共享：share 分享 / can_share 可否 / last 最近分享（Web Share API）\n"
+            "    if op == 'share':\n"
+            "        state['last'] = data\n"
+            "        return 'shared'\n"
+            "    if op == 'can_share':\n"
+            "        return bool(data)\n"
+            "    if op == 'last':\n"
+            "        return state.get('last')\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'share', {'title': 't'}), 'shared'),
+            (({}, 'can_share', {'text': 'x'}), True),
+            (({}, 'can_share', None), False),
+            (({'last': {'title': 't'}}, 'last'), {'title': 't'})],
+        "params": [],
+        "calibration": "对照：Web Share API——网页内容分享",
+    },
+    "浏览器-唤醒锁": {
+        "task": "唤醒锁",
+        "pattern": (
+            "def wake_lock(state, op):\n"
+            "    # 唤醒锁：request 请求 / release 释放 / active 状态（Wake Lock API）\n"
+            "    if op == 'request':\n"
+            "        state['active'] = True\n"
+            "        return 'held'\n"
+            "    if op == 'release':\n"
+            "        state['active'] = False\n"
+            "        return 'released'\n"
+            "    if op == 'active':\n"
+            "        return state.get('active', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'request'), 'held'),
+            (({}, 'release'), 'released'),
+            (({}, 'active'), False),
+            (({'active': True}, 'active'), True)],
+        "params": [],
+        "calibration": "对照：Wake Lock——屏幕唤醒锁请求/释放",
+    },
+    "浏览器-窗口管理": {
+        "task": "窗口管理",
+        "pattern": (
+            "def window_mgmt(state, op, win=None):\n"
+            "    # 窗口管理：open 开窗 / move 移动 / close 关闭（Window Management）\n"
+            "    if op == 'open':\n"
+            "        state.setdefault('wins', {})[win] = {'x': 0, 'y': 0}\n"
+            "        return 'opened'\n"
+            "    if op == 'move':\n"
+            "        if win in state.get('wins', {}):\n"
+            "            state['wins'][win] = {'x': 100, 'y': 50}\n"
+            "            return 'moved'\n"
+            "        return None\n"
+            "    if op == 'close':\n"
+            "        wins = state.get('wins', {})\n"
+            "        if win in wins:\n"
+            "            wins.pop(win)\n"
+            "            return 'closed'\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'open', 'w1'), 'opened'),
+            (({'wins': {'w1': {'x': 0, 'y': 0}}}, 'move', 'w1'), 'moved'),
+            (({}, 'move', 'wx'), None),
+            (({'wins': {'w1': {}}}, 'close', 'w1'), 'closed')],
+        "params": [],
+        "calibration": "对照：Window Management——多窗口开/移/关",
+    },
 }
 
 

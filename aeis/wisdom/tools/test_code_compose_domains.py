@@ -6464,5 +6464,40 @@ except Exception as ex:
     check('㌗c 画中画→屏幕捕获→文件系统端到端（opened granted/屏幕 内容）',
           False, str(ex)[:60])
 
+# ㌘ 目标5 深化：浏览器能力（网页共享/唤醒锁/窗口管理 经正式管线）
+b20_qs = {
+    "网页共享": "写一个网页共享单元（内容分享）",
+    "唤醒锁": "写一个唤醒锁单元（屏幕保持）",
+    "窗口管理": "写一个窗口管理单元（多窗口操作）",
+}
+b20_ok = 0
+for label, q in b20_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b20_ok += 1
+    check(f'㌘ {label} 浏览器能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌘b 浏览器能力三单元全部生成', b20_ok == 3, f'{b20_ok}/3')
+
+# ㌘c 端到端：网页共享→唤醒锁→窗口管理（shared held moved）
+r_ws = domain_route("写一个网页共享单元（内容分享）")
+r_wl = domain_route("写一个唤醒锁单元（屏幕保持）")
+r_wm = domain_route("写一个窗口管理单元（多窗口操作）")
+try:
+    ns_ws, ns_wl, ns_wm = {}, {}, {}
+    exec(r_ws["code"], ns_ws)
+    exec(r_wl["code"], ns_wl)
+    exec(r_wm["code"], ns_wm)
+    ws = ns_ws["web_share"]({}, 'share', {'title': 't'})
+    wl = ns_wl["wake_lock"]({}, 'request')
+    wm = ns_wm["window_mgmt"]({'wins': {'w1': {'x': 0, 'y': 0}}}, 'move', 'w1')
+    check('㌘c 网页共享→唤醒锁→窗口管理端到端（shared held moved）',
+          ws == 'shared' and wl == 'held' and wm == 'moved',
+          f'share={ws} wake={wl} win={wm}')
+except Exception as ex:
+    check('㌘c 网页共享→唤醒锁→窗口管理端到端（shared held moved）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
