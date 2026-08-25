@@ -7063,5 +7063,41 @@ except Exception as ex:
     check('㌨c 僵尸进程→热插拔→日志端到端（zombie online [(\'write\',\'a\')]）',
           False, str(ex)[:60])
 
+# ㌩ 目标6 深化：图算法/存储/查询（汉密尔顿路径/图差分/双层邻居 经正式管线）
+g35_qs = {
+    "汉密尔顿路径": "写一个汉密尔顿路径单元（每点一次）",
+    "图差分": "写一个图差分单元（边增减）",
+    "双层邻居": "写一个双层邻居单元（二阶邻域）",
+}
+g35_ok = 0
+for label, q in g35_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g35_ok += 1
+    check(f'㌩ {label} 图算法/存储/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌩b 图算法/存储/查询三单元全部生成', g35_ok == 3, f'{g35_ok}/3')
+
+# ㌩c 端到端：汉密尔顿→图差分→双层邻居（[0,1,2] added/removed [2]）
+r_hm = domain_route("写一个汉密尔顿路径单元（每点一次）")
+r_gd = domain_route("写一个图差分单元（边增减）")
+r_th = domain_route("写一个双层邻居单元（二阶邻域）")
+try:
+    ns_hm, ns_gd, ns_th = {}, {}, {}
+    exec(r_hm["code"], ns_hm)
+    exec(r_gd["code"], ns_gd)
+    exec(r_th["code"], ns_th)
+    hm = ns_hm["hamiltonian"]({0: [1], 1: [0, 2], 2: [1]})
+    gd = ns_gd["graph_diff"]({0: [1]}, {0: [1, 2], 2: []})
+    th = ns_th["two_hop"]({0: [1], 1: [0, 2], 2: [1]}, 0)
+    check('㌩c 汉密尔顿→图差分→双层邻居端到端（[0,1,2] added(0,2) [2]）',
+          hm == [0, 1, 2] and gd == {'added': [(0, 2)], 'removed': []}
+          and th == [2],
+          f'ham={hm} diff={gd} twohop={th}')
+except Exception as ex:
+    check('㌩c 汉密尔顿→图差分→双层邻居端到端（[0,1,2] added(0,2) [2]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

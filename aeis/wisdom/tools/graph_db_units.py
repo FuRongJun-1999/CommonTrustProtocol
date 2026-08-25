@@ -2385,6 +2385,70 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图查询——边标签统计计数（标签聚合）",
     },
+    "图算法-汉密尔顿路径": {
+        "task": "汉密尔顿路径",
+        "pattern": (
+            "def hamiltonian(adj):\n"
+            "    # 汉密尔顿路径：访问每个顶点恰好一次（回溯搜索）\n"
+            "    nodes = list(adj)\n"
+            "    n = len(nodes)\n"
+            "    if n == 0:\n"
+            "        return []\n"
+            "    def dfs(u, seen, path):\n"
+            "        if len(path) == n:\n"
+            "            return path\n"
+            "        for v in adj.get(u, []):\n"
+            "            if v not in seen:\n"
+            "                seen.add(v)\n"
+            "                r = dfs(v, seen, path + [v])\n"
+            "                if r:\n"
+            "                    return r\n"
+            "                seen.remove(v)\n"
+            "        return None\n"
+            "    for s in nodes:\n"
+            "        r = dfs(s, {s}, [s])\n"
+            "        if r:\n"
+            "            return r\n"
+            "    return None\n"),
+        "cases": [
+            (({0: [1], 1: [0, 2], 2: [1]},), [0, 1, 2]),
+            (({0: [1, 2], 1: [0], 2: [0]},), [1, 0, 2]),
+            (({},), [])],
+        "params": [],
+        "calibration": "对照：汉密尔顿路径——回溯访问每顶点恰一次",
+    },
+    "图存储-图差分": {
+        "task": "图差分",
+        "pattern": (
+            "def graph_diff(g1, g2):\n"
+            "    # 图差分：新增/删除边集合（版本对比）\n"
+            "    e1 = {(u, v) for u, vs in g1.items() for v in vs}\n"
+            "    e2 = {(u, v) for u, vs in g2.items() for v in vs}\n"
+            "    return {'added': sorted(e2 - e1), 'removed': sorted(e1 - e2)}\n"),
+        "cases": [
+            (({0: [1]}, {0: [1, 2], 2: []}), {'added': [(0, 2)], 'removed': []}),
+            (({0: [1]}, {}), {'added': [], 'removed': [(0, 1)]}),
+            (({}, {}), {'added': [], 'removed': []})],
+        "params": [],
+        "calibration": "对照：图差分——边集合增减对比（版本差异）",
+    },
+    "图查询-双层邻居": {
+        "task": "双层邻居",
+        "pattern": (
+            "def two_hop(adj, start):\n"
+            "    # 双层邻居：两跳内可达节点（不含自身与一跳）\n"
+            "    hop1 = set(adj.get(start, []))\n"
+            "    hop2 = set()\n"
+            "    for u in hop1:\n"
+            "        hop2.update(adj.get(u, []))\n"
+            "    return sorted(hop2 - hop1 - {start})\n"),
+        "cases": [
+            (({0: [1], 1: [0, 2], 2: [1, 3], 3: []}, 0), [2]),
+            (({0: [1], 1: [0]}, 0), []),
+            (({}, 0), [])],
+        "params": [],
+        "calibration": "对照：图查询——两跳邻居展开（二阶邻域）",
+    },
 }
 
 
