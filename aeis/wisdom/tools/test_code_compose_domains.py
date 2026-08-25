@@ -6815,5 +6815,40 @@ except Exception as ex:
     check('㌡c 路由衰减→流分类→采样端到端（True web True）',
           False, str(ex)[:60])
 
+# ㌢ 目标2 深化：分析/编译/字节码（循环开销/字符串拼接/指令大小 经正式管线）
+c25_qs = {
+    "循环开销": "写一个循环开销单元（热循环估算）",
+    "字符串拼接": "写一个字符串拼接单元（折叠合并）",
+    "指令大小": "写一个指令大小单元（编码尺寸）",
+}
+c25_ok = 0
+for label, q in c25_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c25_ok += 1
+    check(f'㌢ {label} 分析/编译/字节码单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌢b 分析/编译/字节码三单元全部生成', c25_ok == 3, f'{c25_ok}/3')
+
+# ㌢c 端到端：循环开销→字符串拼接→指令大小（30 [('PUSH','甲乙')] 2）
+r_lc = domain_route("写一个循环开销单元（热循环估算）")
+r_cf = domain_route("写一个字符串拼接单元（折叠合并）")
+r_is = domain_route("写一个指令大小单元（编码尺寸）")
+try:
+    ns_lc, ns_cf, ns_is = {}, {}, {}
+    exec(r_lc["code"], ns_lc)
+    exec(r_cf["code"], ns_cf)
+    exec(r_is["code"], ns_is)
+    lc = ns_lc["loop_cost"]([1, 2, 3], 10)
+    cf = ns_cf["concat_fold"]([('PUSH', '甲'), ('CONCAT', None), ('PUSH', '乙')])
+    isd = ns_is["insn_size"]([('PUSH', 1), ('ADD', None)])
+    check('㌢c 循环开销→拼接→指令大小端到端（30 [(\'PUSH\',\'甲乙\')] 2）',
+          lc == 30 and cf == [('PUSH', '甲乙')] and isd == 2,
+          f'cost={lc} concat={cf} size={isd}')
+except Exception as ex:
+    check('㌢c 循环开销→拼接→指令大小端到端（30 [(\'PUSH\',\'甲乙\')] 2）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

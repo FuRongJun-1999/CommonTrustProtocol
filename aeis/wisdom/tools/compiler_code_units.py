@@ -2289,6 +2289,61 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：编译后端——IR 操作到目标指令映射（指令选择）",
     },
+    "分析-循环开销": {
+        "task": "循环开销",
+        "pattern": (
+            "def loop_cost(body, trips):\n"
+            "    # 循环开销：循环体指令数 × 迭代次数（热循环估算）\n"
+            "    return len(body) * trips\n"),
+        "cases": [
+            (([1, 2, 3], 10), 30),
+            (([], 100), 0),
+            (([1], 0), 0)],
+        "params": [],
+        "calibration": "对照：分析——循环代价估算（体长×趟数）",
+    },
+    "编译-字符串拼接": {
+        "task": "字符串拼接",
+        "pattern": (
+            "def concat_fold(instrs):\n"
+            "    # 字符串拼接优化：相邻常量串拼接折叠（concat 合并）\n"
+            "    out = []\n"
+            "    i = 0\n"
+            "    while i < len(instrs):\n"
+            "        if (i + 1 < len(instrs) and instrs[i][0] == 'PUSH'\n"
+            "                and isinstance(instrs[i][1], str)\n"
+            "                and instrs[i + 1] == ('CONCAT', None)):\n"
+            "            nxt = instrs[i + 2] if i + 2 < len(instrs) else None\n"
+            "            if nxt and nxt[0] == 'PUSH' and isinstance(nxt[1], str):\n"
+            "                out.append(('PUSH', instrs[i][1] + nxt[1]))\n"
+            "                i += 3\n"
+            "                continue\n"
+            "        out.append(instrs[i])\n"
+            "        i += 1\n"
+            "    return out\n"),
+        "cases": [
+            (([('PUSH', '甲'), ('CONCAT', None), ('PUSH', '乙')],),
+             [('PUSH', '甲乙')]),
+            (([('PUSH', '甲')],), [('PUSH', '甲')]),
+            (([('PUSH', 1), ('CONCAT', None), ('PUSH', '乙')],),
+             [('PUSH', 1), ('CONCAT', None), ('PUSH', '乙')])],
+        "params": [],
+        "calibration": "对照：编译优化——相邻常量串 CONCAT 折叠（拼接合并）",
+    },
+    "字节码-指令大小": {
+        "task": "指令大小",
+        "pattern": (
+            "def insn_size(instrs):\n"
+            "    # 指令大小：每条指令编码字节数（紧凑字节码尺寸）\n"
+            "    sizes = {op: 1 for op in ('PUSH', 'STORE', 'LOAD', 'JUMP', 'ADD')}\n"
+            "    return sum(sizes.get(ins[0], 1) for ins in instrs)\n"),
+        "cases": [
+            (([('PUSH', 1), ('ADD', None)],), 2),
+            (([],), 0),
+            (([('NOP', None)],), 1)],
+        "params": [],
+        "calibration": "对照：字节码——指令编码尺寸（紧凑性度量）",
+    },
 }
 
 
