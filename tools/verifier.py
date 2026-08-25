@@ -678,17 +678,53 @@ def _audit_all() -> None:
             print(f"[{uid}] {reason}")
 
 
+def _cost_model(daily_tokens: float = 1.3e9, hit_rate: float = 0.999,
+                price_hit: float = 2.0, price_full: float = 2.0,
+                days: int = 30) -> None:
+    """本地化成本对照模型（阶段 5 替换测算器）。
+
+    默认参数取自设计文档实测：昨日 13 亿 token、99.9% 缓存命中（重复查表校验）、
+    GLM 缓存命中价 2 元/百万。原方案：全部 token 经 LLM（命中按缓存价计费）；
+    本地化后：命中部分走本地磁盘（≈0 成本），仅未命中部分保留 LLM 按量兜底。
+    """
+    per_m = 1e6
+    orig = daily_tokens * (hit_rate * price_hit + (1 - hit_rate) * price_full) / per_m
+    local = daily_tokens * (1 - hit_rate) * price_full / per_m
+    saved = orig - local
+    print(f"=== 本地化成本对照（LLM 查表 → 本地校验缓存）===")
+    print(f"输入: 每日 token {daily_tokens:.3g} | 命中率 {hit_rate*100:.1f}% "
+          f"| 命中价 {price_hit} 元/百万 | 未命中价 {price_full} 元/百万")
+    print(f"原方案（LLM 缓存命中付费）: {orig:,.2f} 元/天 ≈ {orig*days:,.0f} 元/{days}天")
+    print(f"本地化后（命中零成本，仅未命中 LLM 兜底）: {local:,.2f} 元/天 "
+          f"≈ {local*days:,.0f} 元/{days}天")
+    print(f"节省: {saved:,.2f} 元/天 ≈ {saved*days:,.0f} 元/{days}天 "
+          f"（省 {(100*saved/orig if orig else 0):.1f}%）")
+    if hit_rate == 1.0:
+        print("命中率 100% → 本地化后每日成本归零（磁盘 I/O 可忽略）")
+
+
 def main() -> None:
     import argparse
     ap = argparse.ArgumentParser(description="白箱本地校验器（零 LLM）")
     ap.add_argument("--verify", type=str, help="校验请求 JSON 文件路径")
     ap.add_argument("--cache-stats", action="store_true", help="缓存统计")
     ap.add_argument("--audit", action="store_true", help="全量审计（六域单元）")
+    ap.add_argument("--cost-model", action="store_true", help="本地化成本对照模型")
+    ap.add_argument("--tokens", type=float, default=1.3e9, help="每日 token 量")
+    ap.add_argument("--hit-rate", type=float, default=0.999, help="缓存命中率")
+    ap.add_argument("--price-hit", type=float, default=2.0, help="命中价 元/百万")
+    ap.add_argument("--price-full", type=float, default=2.0, help="未命中价 元/百万")
+    ap.add_argument("--days", type=int, default=30, help="测算天数")
     ap.add_argument("--self-test", action="store_true", help="自测")
     args = ap.parse_args()
 
     if args.self_test:
         sys.exit(0 if _self_test() else 1)
+
+    if args.cost_model:
+        _cost_model(args.tokens, args.hit_rate, args.price_hit,
+                    args.price_full, args.days)
+        return
 
     if args.audit:
         _audit_all()

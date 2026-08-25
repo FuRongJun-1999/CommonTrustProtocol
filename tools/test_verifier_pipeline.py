@@ -67,17 +67,15 @@ s2 = v2.cache.stats()
 check('②c 暖缓存：次轮 681 全命中（零计算）', s2['hits'] == TOTAL and s2['misses'] == 0,
       f"hits={s2['hits']} misses={s2['misses']}")
 
-# ③ 域管线接入：_verify_with_verifier 兼容格式
+# ③ 域管线接入：_verify_with_verifier 兼容格式（全量 681 经真实接入路径）
 from code_compose import _verify_with_verifier
-from graph_db_units import GRAPH_UNITS as GU
-ok3 = True
-for uid in ['图算法-顶点覆盖', '图算法-最近公共祖先', '条件路由图-条件分解',
-            '条件路由图-映射']:
-    u = GU[uid]
-    o, checks = _verify_with_verifier(u['pattern'], u)
-    ok3 &= o and isinstance(checks, list) and all(isinstance(c, str) for c in checks)
-check('③ 域管线接入：_verify_with_verifier 返回 (ok, checks列表) 兼容', ok3,
-      f'{pass_n} 示例单元')
+ok3 = 0
+for d, uid, u in UNITS:
+    o, checks = _verify_with_verifier(u['pattern'], u, uid)
+    if o and isinstance(checks, list) and all(isinstance(c, str) for c in checks):
+        ok3 += 1
+check('③ 域管线接入：681 单元全量经 _verify_with_verifier（兼容格式）',
+      ok3 == TOTAL, f'{ok3}/{TOTAL}')
 
 # ④ 边界扩展回归：新字符串/数学边界族不误判（681 全过，temp 缓存）
 v3 = Verifier(cache=__import__('verifier').VerifyCache(path=tmp))
