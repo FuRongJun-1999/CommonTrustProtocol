@@ -1,0 +1,9 @@
+{
+ "experiment": "自动自迭代引擎（协议 §19）",
+ "single_round": true,
+ "steady_exit": true,
+ "crash_isolation": true,
+ "state_persist": true,
+ "safe_mode": true,
+ "conclusion": "自动循环：感知→识别→固化→记录→方向自检，间隔运行；稳态检测防空转（无新吸收即健康退出）；崩溃隔离；安全模式默认只感知——长期自动迭代就绪"
+}
