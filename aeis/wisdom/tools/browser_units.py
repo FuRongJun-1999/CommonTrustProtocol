@@ -1399,6 +1399,70 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：DeviceOrientation——α/β 角度记录与竖屏判定",
     },
+    "渲染-渐变填充": {
+        "task": "渐变填充",
+        "pattern": (
+            "def gradient_fill(stops, t):\n"
+            "    # 渐变填充：按位置 t 线性插值色停（canvas 渐变）\n"
+            "    if t <= stops[0][0]:\n"
+            "        return stops[0][1]\n"
+            "    for i in range(1, len(stops)):\n"
+            "        if t <= stops[i][0]:\n"
+            "            p0, c0 = stops[i - 1]\n"
+            "            p1, c1 = stops[i]\n"
+            "            f = (t - p0) / (p1 - p0)\n"
+            "            return tuple(round(c0[k] + (c1[k] - c0[k]) * f) for k in range(3))\n"
+            "    return stops[-1][1]\n"),
+        "cases": [
+            ((((0.0, (255, 0, 0)), (1.0, (0, 0, 255))), 0.0), (255, 0, 0)),
+            ((((0.0, (255, 0, 0)), (1.0, (0, 0, 255))), 0.5), (128, 0, 128)),
+            ((((0.0, (0, 0, 0)), (1.0, (255, 255, 255))), 1.5), (255, 255, 255))],
+        "params": [],
+        "calibration": "对照：canvas 渐变——色停线性插值（渐变填充）",
+    },
+    "浏览器-网络信息": {
+        "task": "网络信息",
+        "pattern": (
+            "def network_info(state, op, net=None):\n"
+            "    # 网络信息：set 记录类型 / get 当前 / fast 高速判定（Network Information API）\n"
+            "    if op == 'set':\n"
+            "        state['net'] = net\n"
+            "        return net\n"
+            "    if op == 'get':\n"
+            "        return state.get('net', 'unknown')\n"
+            "    if op == 'fast':\n"
+            "        return state.get('net', 'slow') in ('4g', 'wifi')\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'set', '4g'), '4g'),
+            (({}, 'get'), 'unknown'),
+            (({'net': '4g'}, 'fast'), True),
+            (({'net': '2g'}, 'fast'), False)],
+        "params": [],
+        "calibration": "对照：Network Information API——effectiveType 网络类型与高速判定",
+    },
+    "浏览器-字体加载": {
+        "task": "字体加载",
+        "pattern": (
+            "def font_load(state, op, font=None):\n"
+            "    # 字体加载：load 请求 / status 状态 / swap 回退切换（font-display）\n"
+            "    if op == 'load':\n"
+            "        state[font] = 'loading'\n"
+            "        return 'loading'\n"
+            "    if op == 'status':\n"
+            "        return state.get(font, 'unloaded')\n"
+            "    if op == 'swap':\n"
+            "        state[font] = 'loaded'\n"
+            "        return 'loaded'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'load', 'f1'), 'loading'),
+            (({}, 'status', 'f1'), 'unloaded'),
+            (({'f1': 'loading'}, 'swap', 'f1'), 'loaded'),
+            (({'f1': 'loaded'}, 'status', 'f1'), 'loaded')],
+        "params": [],
+        "calibration": "对照：Font Loading API——字体加载状态与回退切换（font-display）",
+    },
 }
 
 

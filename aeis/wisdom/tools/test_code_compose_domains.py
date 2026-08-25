@@ -5546,5 +5546,40 @@ except Exception as ex:
     check('㋽c 默认字典→排列组合→二分查找端到端（0 [(1,2),(2,1)] 2）',
           False, str(ex)[:60])
 
+# ㋾ 目标5 深化：浏览器机制（渐变填充/网络信息/字体加载 经正式管线）
+b14_qs = {
+    "渐变填充": "写一个渐变填充单元（色停插值）",
+    "网络信息": "写一个网络信息单元（effectiveType 记录）",
+    "字体加载": "写一个字体加载单元（回退切换）",
+}
+b14_ok = 0
+for label, q in b14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b14_ok += 1
+    check(f'㋾ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋾b 浏览器机制三单元全部生成', b14_ok == 3, f'{b14_ok}/3')
+
+# ㋾c 机制端到端：渐变→网络信息→字体（(128,0,128) 4g loaded）
+r_gf = domain_route("写一个渐变填充单元（色停插值）")
+r_ni = domain_route("写一个网络信息单元（effectiveType 记录）")
+r_fl = domain_route("写一个字体加载单元（回退切换）")
+try:
+    ns_gf, ns_ni, ns_fl = {}, {}, {}
+    exec(r_gf["code"], ns_gf)
+    exec(r_ni["code"], ns_ni)
+    exec(r_fl["code"], ns_fl)
+    gf = ns_gf["gradient_fill"](((0.0, (255, 0, 0)), (1.0, (0, 0, 255))), 0.5)
+    ni = ns_ni["network_info"]({}, 'set', '4g')
+    fl = ns_fl["font_load"]({'f1': 'loading'}, 'swap', 'f1')
+    check('㋾c 渐变→网络信息→字体端到端（(128,0,128) 4g loaded）',
+          gf == (128, 0, 128) and ni == '4g' and fl == 'loaded',
+          f'grad={gf} net={ni} font={fl}')
+except Exception as ex:
+    check('㋾c 渐变→网络信息→字体端到端（(128,0,128) 4g loaded）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
