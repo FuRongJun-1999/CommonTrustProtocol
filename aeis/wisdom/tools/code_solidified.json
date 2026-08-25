@@ -5558,5 +5558,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:net|网络-路由衰减": {
+  "task": "路由衰减",
+  "unit": "网络-路由衰减",
+  "code": "def route_damp(state, op, route=None, flappy=None):\n    # 路由衰减：record 记录抖动 / damped 是否抑制 / reset 重置（BGP damping）\n    if op == 'record':\n        state.setdefault('flaps', {})[route] = state.get('flaps', {}).get(route, 0) + 1\n        return state['flaps'][route]\n    if op == 'damped':\n        return state.get('flaps', {}).get(route, 0) >= flappy\n    if op == 'reset':\n        state.setdefault('flaps', {})[route] = 0\n        return 'reset'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-流分类": {
+  "task": "流分类",
+  "unit": "网络-流分类",
+  "code": "def flow_class(state, op, pkt=None):\n    # 流分类：classify 分类 / stats 统计 / reset 清空（流量识别）\n    if op == 'classify':\n        port = pkt.get('port', 0)\n        cls = 'web' if port == 80 else 'mail' if port == 25 else 'other'\n        state.setdefault('counts', {})[cls] = state.get('counts', {}).get(cls, 0) + 1\n        return cls\n    if op == 'stats':\n        return dict(state.get('counts', {}))\n    if op == 'reset':\n        state['counts'] = {}\n        return 'reset'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-数据包采样": {
+  "task": "数据包采样",
+  "unit": "网络-数据包采样",
+  "code": "def pkt_sampling(state, op, pkt=None):\n    # 数据包采样：sample 按率采样 / rate 采样率 / count 已采（流量采样）\n    if op == 'sample':\n        rate = state.get('rate', 1)\n        if pkt % rate == 0:\n            state['count'] = state.get('count', 0) + 1\n            return True\n        return False\n    if op == 'rate':\n        return state.get('rate', 1)\n    if op == 'count':\n        return state.get('count', 0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

@@ -6780,5 +6780,40 @@ except Exception as ex:
     check('㌠c 孤儿进程→内存碎片→多核均衡端到端（5 0.3 1）',
           False, str(ex)[:60])
 
+# ㌡ 目标7 深化：网络管理（路由衰减/流分类/数据包采样 经正式管线）
+n23_qs = {
+    "路由衰减": "写一个路由衰减单元（抖动抑制）",
+    "流分类": "写一个流分类单元（端口识别）",
+    "数据包采样": "写一个数据包采样单元（按率抽取）",
+}
+n23_ok = 0
+for label, q in n23_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n23_ok += 1
+    check(f'㌡ {label} 网络管理单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌡b 网络管理三单元全部生成', n23_ok == 3, f'{n23_ok}/3')
+
+# ㌡c 端到端：路由衰减→流分类→数据包采样（True web True）
+r_rd = domain_route("写一个路由衰减单元（抖动抑制）")
+r_fc = domain_route("写一个流分类单元（端口识别）")
+r_ps = domain_route("写一个数据包采样单元（按率抽取）")
+try:
+    ns_rd, ns_fc, ns_ps = {}, {}, {}
+    exec(r_rd["code"], ns_rd)
+    exec(r_fc["code"], ns_fc)
+    exec(r_ps["code"], ns_ps)
+    rd = ns_rd["route_damp"]({'flaps': {'r1': 5}}, 'damped', 'r1', 4)
+    fc = ns_fc["flow_class"]({}, 'classify', {'port': 80})
+    ps = ns_ps["pkt_sampling"]({}, 'sample', 1)
+    check('㌡c 路由衰减→流分类→采样端到端（True web True）',
+          rd is True and fc == 'web' and ps is True,
+          f'damp={rd} cls={fc} samp={ps}')
+except Exception as ex:
+    check('㌡c 路由衰减→流分类→采样端到端（True web True）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

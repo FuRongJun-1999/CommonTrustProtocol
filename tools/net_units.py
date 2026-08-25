@@ -2025,6 +2025,76 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：TCP 统计——重传统计与重传率（可靠传输）",
     },
+    "网络-路由衰减": {
+        "task": "路由衰减",
+        "pattern": (
+            "def route_damp(state, op, route=None, flappy=None):\n"
+            "    # 路由衰减：record 记录抖动 / damped 是否抑制 / reset 重置（BGP damping）\n"
+            "    if op == 'record':\n"
+            "        state.setdefault('flaps', {})[route] = state.get('flaps', {}).get(route, 0) + 1\n"
+            "        return state['flaps'][route]\n"
+            "    if op == 'damped':\n"
+            "        return state.get('flaps', {}).get(route, 0) >= flappy\n"
+            "    if op == 'reset':\n"
+            "        state.setdefault('flaps', {})[route] = 0\n"
+            "        return 'reset'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'record', 'r1'), 1),
+            (({'flaps': {'r1': 5}}, 'damped', 'r1', 4), True),
+            (({'flaps': {'r1': 2}}, 'damped', 'r1', 4), False),
+            (({'flaps': {'r1': 5}}, 'reset', 'r1'), 'reset')],
+        "params": [],
+        "calibration": "对照：BGP damping——路由抖动抑制（阈值衰减）",
+    },
+    "网络-流分类": {
+        "task": "流分类",
+        "pattern": (
+            "def flow_class(state, op, pkt=None):\n"
+            "    # 流分类：classify 分类 / stats 统计 / reset 清空（流量识别）\n"
+            "    if op == 'classify':\n"
+            "        port = pkt.get('port', 0)\n"
+            "        cls = 'web' if port == 80 else 'mail' if port == 25 else 'other'\n"
+            "        state.setdefault('counts', {})[cls] = state.get('counts', {}).get(cls, 0) + 1\n"
+            "        return cls\n"
+            "    if op == 'stats':\n"
+            "        return dict(state.get('counts', {}))\n"
+            "    if op == 'reset':\n"
+            "        state['counts'] = {}\n"
+            "        return 'reset'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'classify', {'port': 80}), 'web'),
+            (({}, 'classify', {'port': 25}), 'mail'),
+            (({'counts': {'web': 2}}, 'stats'), {'web': 2}),
+            (({'counts': {'web': 1}}, 'reset'), 'reset')],
+        "params": [],
+        "calibration": "对照：流量识别——按端口分类（web/mail/other）",
+    },
+    "网络-数据包采样": {
+        "task": "数据包采样",
+        "pattern": (
+            "def pkt_sampling(state, op, pkt=None):\n"
+            "    # 数据包采样：sample 按率采样 / rate 采样率 / count 已采（流量采样）\n"
+            "    if op == 'sample':\n"
+            "        rate = state.get('rate', 1)\n"
+            "        if pkt % rate == 0:\n"
+            "            state['count'] = state.get('count', 0) + 1\n"
+            "            return True\n"
+            "        return False\n"
+            "    if op == 'rate':\n"
+            "        return state.get('rate', 1)\n"
+            "    if op == 'count':\n"
+            "        return state.get('count', 0)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'sample', 1), True),
+            (({'rate': 2}, 'sample', 3), False),
+            (({'rate': 2}, 'rate'), 2),
+            (({'count': 5}, 'count'), 5)],
+        "params": [],
+        "calibration": "对照：NetFlow——按采样率抽取数据包（sFlow/NetFlow）",
+    },
 }
 
 
