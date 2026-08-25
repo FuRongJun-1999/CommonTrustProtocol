@@ -6285,5 +6285,42 @@ except Exception as ex:
     check('㌒c 分位数→分词→笛卡尔积端到端（2.5 [hello,world] 4组合）',
           False, str(ex)[:60])
 
+# ㌓ 目标5 深化：浏览器能力（摄像头/蓝牙扫描/传感器 经正式管线）
+b17_qs = {
+    "摄像头": "写一个摄像头单元（媒体流启停）",
+    "蓝牙扫描": "写一个蓝牙扫描单元（设备发现）",
+    "传感器": "写一个传感器单元（读数记录）",
+}
+b17_ok = 0
+for label, q in b17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b17_ok += 1
+    check(f'㌓ {label} 浏览器能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌓b 浏览器能力三单元全部生成', b17_ok == 3, f'{b17_ok}/3')
+
+# ㌓c 端到端：摄像头→蓝牙→传感器（live connected 1.5）
+r_cm = domain_route("写一个摄像头单元（媒体流启停）")
+r_bs = domain_route("写一个蓝牙扫描单元（设备发现）")
+r_sn = domain_route("写一个传感器单元（读数记录）")
+try:
+    ns_cm, ns_bs, ns_sn = {}, {}, {}
+    exec(r_cm["code"], ns_cm)
+    exec(r_bs["code"], ns_bs)
+    exec(r_sn["code"], ns_sn)
+    st = {}
+    cm_req = ns_cm["camera_ops"](st, 'request')
+    cm = ns_cm["camera_ops"](st, 'start')
+    bs = ns_bs["bluetooth_scan"]({'devices': ['d1']}, 'connect', 'd1')
+    sn = ns_sn["sensor_ops"]({'x': [1.0, 2.0]}, 'avg', 'x')
+    check('㌓c 摄像头→蓝牙→传感器端到端（granted/live connected 1.5）',
+          cm_req == 'granted' and cm == 'live' and bs == 'connected' and sn == 1.5,
+          f'cam={cm_req}/{cm} bt={bs} sens={sn}')
+except Exception as ex:
+    check('㌓c 摄像头→蓝牙→传感器端到端（granted/live connected 1.5）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

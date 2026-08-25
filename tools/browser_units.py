@@ -1596,6 +1596,78 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：requestIdleCallback——空闲时段低优先任务调度",
     },
+    "浏览器-摄像头": {
+        "task": "摄像头",
+        "pattern": (
+            "def camera_ops(state, op, stream=None):\n"
+            "    # 摄像头：request 请求权限 / start 启动流 / stop 停止（getUserMedia）\n"
+            "    if op == 'request':\n"
+            "        state['granted'] = True\n"
+            "        return 'granted'\n"
+            "    if op == 'start':\n"
+            "        if state.get('granted'):\n"
+            "            state['stream'] = stream or 'video'\n"
+            "            return 'live'\n"
+            "        return 'denied'\n"
+            "    if op == 'stop':\n"
+            "        state['stream'] = None\n"
+            "        return 'stopped'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'request'), 'granted'),
+            (({'granted': True}, 'start'), 'live'),
+            (({}, 'start'), 'denied'),
+            (({'stream': 'video'}, 'stop'), 'stopped')],
+        "params": [],
+        "calibration": "对照：getUserMedia——摄像头权限与媒体流启停",
+    },
+    "浏览器-蓝牙扫描": {
+        "task": "蓝牙扫描",
+        "pattern": (
+            "def bluetooth_scan(state, op, dev=None):\n"
+            "    # 蓝牙扫描：discover 发现 / connect 连接 / devices 列表（Web Bluetooth）\n"
+            "    if op == 'discover':\n"
+            "        state.setdefault('devices', []).append(dev)\n"
+            "        return dev\n"
+            "    if op == 'connect':\n"
+            "        if dev in state.get('devices', []):\n"
+            "            state['connected'] = dev\n"
+            "            return 'connected'\n"
+            "        return 'not_found'\n"
+            "    if op == 'devices':\n"
+            "        return list(state.get('devices', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'discover', 'd1'), 'd1'),
+            (({'devices': ['d1']}, 'connect', 'd1'), 'connected'),
+            (({}, 'connect', 'x'), 'not_found'),
+            (({'devices': ['d1']}, 'devices'), ['d1'])],
+        "params": [],
+        "calibration": "对照：Web Bluetooth——设备发现与连接",
+    },
+    "浏览器-传感器": {
+        "task": "传感器",
+        "pattern": (
+            "def sensor_ops(state, op, axis=None, value=None):\n"
+            "    # 传感器：record 记录读数 / read 读取 / avg 平均（Accelerometer）\n"
+            "    if op == 'record':\n"
+            "        state.setdefault(axis, []).append(value)\n"
+            "        return value\n"
+            "    if op == 'read':\n"
+            "        s = state.get(axis, [])\n"
+            "        return s[-1] if s else None\n"
+            "    if op == 'avg':\n"
+            "        s = state.get(axis, [])\n"
+            "        return round(sum(s) / len(s), 2) if s else 0.0\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'record', 'x', 1.0), 1.0),
+            (({'x': [1.0, 2.0]}, 'read', 'x'), 2.0),
+            (({'x': [1.0, 2.0]}, 'avg', 'x'), 1.5),
+            (({}, 'read', 'y'), None)],
+        "params": [],
+        "calibration": "对照：Accelerometer API——传感器读数记录/读取/平均",
+    },
 }
 
 

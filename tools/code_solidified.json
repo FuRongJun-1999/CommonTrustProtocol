@@ -5138,5 +5138,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:browser|浏览器-摄像头": {
+  "task": "摄像头",
+  "unit": "浏览器-摄像头",
+  "code": "def camera_ops(state, op, stream=None):\n    # 摄像头：request 请求权限 / start 启动流 / stop 停止（getUserMedia）\n    if op == 'request':\n        state['granted'] = True\n        return 'granted'\n    if op == 'start':\n        if state.get('granted'):\n            state['stream'] = stream or 'video'\n            return 'live'\n        return 'denied'\n    if op == 'stop':\n        state['stream'] = None\n        return 'stopped'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-蓝牙扫描": {
+  "task": "蓝牙扫描",
+  "unit": "浏览器-蓝牙扫描",
+  "code": "def bluetooth_scan(state, op, dev=None):\n    # 蓝牙扫描：discover 发现 / connect 连接 / devices 列表（Web Bluetooth）\n    if op == 'discover':\n        state.setdefault('devices', []).append(dev)\n        return dev\n    if op == 'connect':\n        if dev in state.get('devices', []):\n            state['connected'] = dev\n            return 'connected'\n        return 'not_found'\n    if op == 'devices':\n        return list(state.get('devices', []))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-传感器": {
+  "task": "传感器",
+  "unit": "浏览器-传感器",
+  "code": "def sensor_ops(state, op, axis=None, value=None):\n    # 传感器：record 记录读数 / read 读取 / avg 平均（Accelerometer）\n    if op == 'record':\n        state.setdefault(axis, []).append(value)\n        return value\n    if op == 'read':\n        s = state.get(axis, [])\n        return s[-1] if s else None\n    if op == 'avg':\n        s = state.get(axis, [])\n        return round(sum(s) / len(s), 2) if s else 0.0\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }
