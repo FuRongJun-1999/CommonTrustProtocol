@@ -2010,6 +2010,73 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：Storage Quota——存储用量估算与占用比",
     },
+    "浏览器-内置聊天": {
+        "task": "内置聊天",
+        "pattern": (
+            "def ai_chat(state, op, msg=None, reply=None):\n"
+            "    # 内置聊天：send 发送 / reply 回复 / history 历史（AI Chat API）\n"
+            "    if op == 'send':\n"
+            "        state.setdefault('history', []).append(('user', msg))\n"
+            "        state.setdefault('history', []).append(('ai', reply))\n"
+            "        return reply\n"
+            "    if op == 'reply':\n"
+            "        return state.get('last_reply')\n"
+            "    if op == 'history':\n"
+            "        return list(state.get('history', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'send', '你好', '你好！'), '你好！'),
+            (({}, 'reply'), None),
+            (({'history': [('user', 'hi'), ('ai', 'hi!')]}, 'history'),
+             [('user', 'hi'), ('ai', 'hi!')]),
+            (({}, 'history'), [])],
+        "params": [],
+        "calibration": "对照：AI Chat——内置对话发送/回复/历史",
+    },
+    "浏览器-图像生成": {
+        "task": "图像生成",
+        "pattern": (
+            "def image_gen(state, op, prompt=None):\n"
+            "    # 图像生成：generate 生成 / count 数量 / last 最近（Image Generation API）\n"
+            "    if op == 'generate':\n"
+            "        state['last'] = prompt\n"
+            "        state['count'] = state.get('count', 0) + 1\n"
+            "        return 'generated'\n"
+            "    if op == 'count':\n"
+            "        return state.get('count', 0)\n"
+            "    if op == 'last':\n"
+            "        return state.get('last')\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'generate', '山水画'), 'generated'),
+            (({}, 'count'), 0),
+            (({'count': 2}, 'count'), 2),
+            (({'last': '山水画'}, 'last'), '山水画')],
+        "params": [],
+        "calibration": "对照：Image Generation——文本提示生成图像",
+    },
+    "浏览器-提示词": {
+        "task": "提示词",
+        "pattern": (
+            "def prompt_api(state, op, key=None, value=None):\n"
+            "    # 提示词：set 设置 / get 读取 / clear 清除（Prompt API）\n"
+            "    if op == 'set':\n"
+            "        state.setdefault('prompts', {})[key] = value\n"
+            "        return value\n"
+            "    if op == 'get':\n"
+            "        return state.get('prompts', {}).get(key)\n"
+            "    if op == 'clear':\n"
+            "        state['prompts'] = {}\n"
+            "        return 'cleared'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'set', 'greet', '你好'), '你好'),
+            (({'prompts': {'greet': '你好'}}, 'get', 'greet'), '你好'),
+            (({}, 'get', 'x'), None),
+            (({'prompts': {'a': 1}}, 'clear'), 'cleared')],
+        "params": [],
+        "calibration": "对照：Prompt API——提示词设置/读取/清除",
+    },
 }
 
 

@@ -6569,5 +6569,40 @@ except Exception as ex:
     check('㌚c 联系人→形状检测→存储配额端到端（张三 detected 50.0）',
           False, str(ex)[:60])
 
+# ㌛ 目标5 深化：浏览器 AI（内置聊天/图像生成/提示词 经正式管线）
+b23_qs = {
+    "内置聊天": "写一个内置聊天单元（对话回复）",
+    "图像生成": "写一个图像生成单元（文本生图）",
+    "提示词": "写一个提示词单元（读写清除）",
+}
+b23_ok = 0
+for label, q in b23_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b23_ok += 1
+    check(f'㌛ {label} 浏览器AI单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌛b 浏览器AI三单元全部生成', b23_ok == 3, f'{b23_ok}/3')
+
+# ㌛c 端到端：内置聊天→图像生成→提示词（你好！ generated 你好）
+r_ac = domain_route("写一个内置聊天单元（对话回复）")
+r_ig = domain_route("写一个图像生成单元（文本生图）")
+r_pa = domain_route("写一个提示词单元（读写清除）")
+try:
+    ns_ac, ns_ig, ns_pa = {}, {}, {}
+    exec(r_ac["code"], ns_ac)
+    exec(r_ig["code"], ns_ig)
+    exec(r_pa["code"], ns_pa)
+    ac = ns_ac["ai_chat"]({}, 'send', '你好', '你好！')
+    ig = ns_ig["image_gen"]({}, 'generate', '山水画')
+    pa = ns_pa["prompt_api"]({'prompts': {'greet': '你好'}}, 'get', 'greet')
+    check('㌛c 内置聊天→图像生成→提示词端到端（你好！ generated 你好）',
+          ac == '你好！' and ig == 'generated' and pa == '你好',
+          f'chat={ac} img={ig} prompt={pa}')
+except Exception as ex:
+    check('㌛c 内置聊天→图像生成→提示词端到端（你好！ generated 你好）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

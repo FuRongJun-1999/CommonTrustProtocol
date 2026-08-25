@@ -5378,5 +5378,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:browser|浏览器-内置聊天": {
+  "task": "内置聊天",
+  "unit": "浏览器-内置聊天",
+  "code": "def ai_chat(state, op, msg=None, reply=None):\n    # 内置聊天：send 发送 / reply 回复 / history 历史（AI Chat API）\n    if op == 'send':\n        state.setdefault('history', []).append(('user', msg))\n        state.setdefault('history', []).append(('ai', reply))\n        return reply\n    if op == 'reply':\n        return state.get('last_reply')\n    if op == 'history':\n        return list(state.get('history', []))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-图像生成": {
+  "task": "图像生成",
+  "unit": "浏览器-图像生成",
+  "code": "def image_gen(state, op, prompt=None):\n    # 图像生成：generate 生成 / count 数量 / last 最近（Image Generation API）\n    if op == 'generate':\n        state['last'] = prompt\n        state['count'] = state.get('count', 0) + 1\n        return 'generated'\n    if op == 'count':\n        return state.get('count', 0)\n    if op == 'last':\n        return state.get('last')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-提示词": {
+  "task": "提示词",
+  "unit": "浏览器-提示词",
+  "code": "def prompt_api(state, op, key=None, value=None):\n    # 提示词：set 设置 / get 读取 / clear 清除（Prompt API）\n    if op == 'set':\n        state.setdefault('prompts', {})[key] = value\n        return value\n    if op == 'get':\n        return state.get('prompts', {}).get(key)\n    if op == 'clear':\n        state['prompts'] = {}\n        return 'cleared'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }
