@@ -56,7 +56,10 @@ COMPILER_UNITS = {
         "task": "编译条件",
         "pattern": (
             "def compile_condition(cond_instrs, then_instrs, else_instrs):\n"
-            "    # 若…则…否则 → JUMP_IF_FALSE + JUMP（AST→字节码）\n"
+            "    # 条件跳转编译（若则编译·条件语句编译）：若…则…否则 → JUMP_IF_FALSE + JUMP（跳转指令，AST→字节码）\n"
+            "    # 生效条件：cond_instrs/then_instrs/else_instrs 为指令列表（条件/真分支/假分支字节码）\n"
+            "    # 子功能：① 拼接条件指令 ② 假跳转至 else ③ 真分支尾跳至结束\n"
+            "    # 执行：JUMP_IF_FALSE（条件假跳）+ JUMP（跳过 else）\n"
             "    code = []\n"
             "    code.extend(cond_instrs)\n"
             "    else_lbl = len(code) + 1 + len(then_instrs) + 1\n"
@@ -219,7 +222,10 @@ COMPILER_UNITS = {
         "task": "编译赋值",
         "pattern": (
             "def compile_assign(value_instrs, name):\n"
-            "    # 赋值 → 值指令 + STORE_NAME（以名举实：名实写入）\n"
+            "    # 赋值编译（名实写入）：赋值 → 值指令 + STORE_NAME（以名举实：名实写入）\n"
+            "    # 生效条件：value_instrs 为计算值的指令列表；name 为赋值目标名\n"
+            "    # 子功能：① 拼接值指令 ② 追加名写入指令\n"
+            "    # 执行：值指令 + STORE_NAME（名实绑定语义）\n"
             "    code = list(value_instrs)\n"
             "    code.append(('STORE_NAME', name))\n"
             "    return code\n"),

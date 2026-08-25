@@ -109,7 +109,10 @@ OS_UNITS = {
         "task": "页置换",
         "pattern": (
             "def lru_replace(page_seq, capacity):\n"
-            "    # LRU 页置换：页序列 + 容量 → 缺页次数（最近最久未使用淘汰）\n"
+            "    # LRU 页置换（最近最久未使用淘汰）：页序列 + 容量 → 缺页次数\n"
+            "    # 生效条件：page_seq 为页访问序列；capacity 为物理帧容量\n"
+            "    # 子功能：① 命中页前移 ② 未命中缺页计数 ③ 满时淘汰最久未用\n"
+            "    # 执行：frames 列表维护 LRU 序（remove+append 前移）\n"
             "    frames, faults = [], 0\n"
             "    for p in page_seq:\n"
             "        if p in frames:\n"

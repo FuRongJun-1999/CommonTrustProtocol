@@ -296,7 +296,10 @@ BROWSER_UNITS = {
         "task": "本地存储",
         "pattern": (
             "def storage_op(store, op, key=None, value=None):\n"
-            "    # localStorage：setItem/getItem/removeItem/clear（持久键值存储）\n"
+            "    # 本地存储（localStorage）：setItem/getItem/removeItem/clear（持久键值存储）\n"
+            "    # 生效条件：op ∈ {set, get, remove, clear}；key/value 按 op 提供\n"
+            "    # 子功能：① set 写键值 ② get 读值 ③ remove 删键 ④ clear 清空\n"
+            "    # 执行：按 op 分派字典操作\n"
             "    if op == 'set':\n"
             "        store[key] = value\n"
             "        return True\n"

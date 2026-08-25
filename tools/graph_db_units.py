@@ -94,7 +94,10 @@ GRAPH_UNITS = {
         "task": "图序列化",
         "pattern": (
             "def graph_to_json(graph):\n"
-            "    # 图 → JSON 字符串（条件图数据库存储层）\n"
+            "    # 图序列化（图持久化·JSON 序列化）：图 → JSON 字符串（条件图数据库存储层）\n"
+            "    # 生效条件：graph 含 nodes/edges 接口（节点集 + 邻接表）\n"
+            "    # 子功能：① 节点排序收集 ② 边表排序 ③ JSON 编码\n"
+            "    # 执行：json.dumps({'nodes':…, 'edges':…})\n"
             "    import json\n"
             "    return json.dumps({'nodes': sorted(graph.nodes),\n"
             "                        'edges': {k: v for k, v in sorted(graph.edges.items())}},\n"
@@ -468,7 +471,10 @@ GRAPH_UNITS = {
         "task": "连通分量",
         "pattern": (
             "def connected_components(graph):\n"
-            "    # 无向连通分量：BFS 分组（边双向视为连通，互达节点同组）\n"
+            "    # 连通分量（无向连通分量）：BFS 分组（边双向视为连通，互达节点同组）\n"
+            "    # 生效条件：graph 提供 nodes/neighbors 接口（无向图）\n"
+            "    # 子功能：① 邻接双向化 ② BFS 未访问分组 ③ 收集各分量\n"
+            "    # 执行：BFS 逐组标记，未访问节点开新组\n"
             "    from collections import deque\n"
             "    # 构建无向邻接（edges 双向化）\n"
             "    adj = {n: set(graph.neighbors(n)) for n in graph.nodes}\n"

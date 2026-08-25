@@ -885,7 +885,10 @@ PYTHON_UNITS = {
         "task": "计数器",
         "pattern": (
             "def counter(items):\n"
-            "    # 计数器：元素频次统计（Counter 语义——频次字典）\n"
+            "    # 计数器（频次统计）：元素频次统计（Counter 语义——频次字典）\n"
+            "    # 生效条件：items 为可迭代对象\n"
+            "    # 子功能：① 逐元素计数 ② 缺失键初始化\n"
+            "    # 执行：freq.get(x, 0) + 1 累积\n"
             "    freq = {}\n"
             "    for x in items:\n"
             "        freq[x] = freq.get(x, 0) + 1\n"

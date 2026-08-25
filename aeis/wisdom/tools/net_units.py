@@ -732,7 +732,10 @@ NET_UNITS = {
         "task": "报文解析",
         "pattern": (
             "def parse_ip(packet):\n"
-            "    # IP 报文解析：头部字段（版本/协议/源/目的）\n"
+            "    # 报文解析（IP 数据包解析）：头部字段（版本/协议/源/目的）\n"
+            "    # 生效条件：packet 为 IP 报文字节（≥20 字节头部）\n"
+            "    # 子功能：① 版本/协议提取 ② 源地址提取 ③ 目的地址提取\n"
+            "    # 执行：按字节偏移位运算 + 点分十进制拼接\n"
             "    ver = packet[0] >> 4\n"
             "    proto = packet[9]\n"
             "    src = '.'.join(str(b) for b in packet[12:16])\n"
