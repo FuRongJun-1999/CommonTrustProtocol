@@ -460,6 +460,7 @@ OS_UNITS = {
             "        children.setdefault(ppid, []).append(pid)\n"
             "    desc = []\n"
             "    def walk(pid):\n"
+            "        # 递归遍历：收集当前进程的直接子进程及后代\n"
             "        for c in children.get(pid, []):\n"
             "            desc.append(c)\n"
             "            walk(c)\n"

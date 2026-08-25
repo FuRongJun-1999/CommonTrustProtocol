@@ -2105,6 +2105,7 @@ COMPILER_UNITS = {
             "    WHITE, GRAY, BLACK = 0, 1, 2\n"
             "    color = {}\n"
             "    def dfs(u):\n"
+            "        # 深度优先：标记灰后探邻接，遇灰回边判环\n"
             "        color[u] = GRAY\n"
             "        for v in adj.get(u, []):\n"
             "            if color.get(v) == GRAY:\n"

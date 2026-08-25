@@ -26,6 +26,7 @@ def make_verifier():
 
 GOOD_SORT = (
     "def solve(arr):\n"
+    "    # 排序：冒泡法（相邻比较交换，最小元素浮到头部）\n"
     "    n = len(arr)\n"
     "    for i in range(n):\n"
     "        for j in range(n-1-i):\n"

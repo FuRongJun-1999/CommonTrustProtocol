@@ -167,7 +167,7 @@ class VerifyResult:
 # 校验器规则版本：L1/L2/L3/规范/集成规则升级时必须 +1——
 # 旧版本缓存结果在规则已变的场景下不再可信，强制全部失效重验
 # （等价于「协议升级 → 相关缓存刷新」，GLM 建议的 protocol_version 落地）。
-VERIFIER_VERSION = 4
+VERIFIER_VERSION = 5
 _CACHE_VERSION_KEY = "_verifier_version"
 _STATS_KEY = "_stats"
 
@@ -624,10 +624,63 @@ class Verifier:
         except Exception:
             pass  # condition_kb 不可用时跳过（不影响主校验）
 
+        # 条件论注释规范（WB-SPEC v1.2，用户条件论要求）：
+        # R1 函数/类等抽象的总体功能必须中文注释（docstring 或紧跟 # 中文注释）
+        # R2 注释须为中文语境（英文缩写嵌入中文说明；纯英文注释行违规）
+        errors.extend(self._check_comment_spec(req))
+
         if errors:
             return {"level": "规范符合性", "ok": False, "evidence": "; ".join(errors)}
         return {"level": "规范符合性", "ok": True,
-                "evidence": "结构规范 + 语义对齐通过"}
+                "evidence": "结构规范 + 语义对齐 + 条件论注释通过"}
+
+    def _check_comment_spec(self, req: VerifyRequest) -> list:
+        """条件论注释规范（WB-SPEC v1.2）：R1 函数/类中文注释 + R2 注释中文语境。
+
+        R1：每个 FunctionDef/AsyncFunctionDef/ClassDef 必须有 docstring 或
+            紧跟的 # 中文注释描述其总体功能。
+        R2：注释行必须为中文语境（含中文字符）——英文缩写嵌入中文说明；
+            纯英文注释行（无任何中文）违规。
+        expected_structure.no_comment_spec=True 可豁免（如注入型组装片段）。
+        """
+        if req.expected_structure.get("no_comment_spec"):
+            return []
+        code = req.code
+        try:
+            tree = ast.parse(code)
+        except SyntaxError:
+            return []
+        src_lines = code.splitlines()
+        _has_cn = lambda s: any('\u4e00' <= c <= '\u9fff' for c in s)
+        errs = []
+        # R1：函数/类中文注释
+        missing = []
+        for f in ast.walk(tree):
+            if not isinstance(f, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                  ast.ClassDef)):
+                continue
+            doc = ast.get_docstring(f)
+            if doc and _has_cn(doc):
+                continue
+            ok = False
+            # 查 def/class 前后各 2 行内的 # 中文注释（docstring 已单独检查）
+            for ln in src_lines[max(0, f.lineno - 2):f.lineno + 3]:
+                if ln.strip().startswith('#') and _has_cn(ln):
+                    ok = True
+                    break
+            if not ok:
+                missing.append(f.name)
+        if missing:
+            errs.append(f"函数/类缺中文注释（条件论 R1）: {missing[:5]}")
+        # R2：注释行中文语境
+        bad_lines = []
+        for i, ln in enumerate(src_lines, 1):
+            s = ln.strip()
+            if s.startswith('#') and not _has_cn(s) and len(s) > 3:
+                bad_lines.append(f"L{i}")
+        if bad_lines:
+            errs.append(f"纯英文注释行（条件论 R2，须中文说明）: {bad_lines[:5]}")
+        return errs
 
     # ---------- ⑥ 集成测试 ----------
     def _check_integration(self, req: VerifyRequest) -> Dict[str, Any]:
@@ -681,9 +734,10 @@ def _self_test() -> bool:
     v = Verifier()
     passed = 0
 
-    # 正确代码
+    # 正确代码（含中文注释——条件论注释规范 R1）
     good_code = (
         "def solve(arr):\n"
+        "    # 排序：冒泡法（相邻比较交换，最小元素浮到头部）\n"
         "    n = len(arr)\n"
         "    for i in range(n):\n"
         "        for j in range(n-1-i):\n"

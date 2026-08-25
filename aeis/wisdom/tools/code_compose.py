@@ -20,6 +20,7 @@ CODE_UNITS = {
         "task": "排序",
         "pattern": (
             "def {fn}(arr):\n"
+            "    # 排序：冒泡法（相邻比较交换，较小元素浮到头部）\n"
             "    n = len(arr)\n"
             "    for i in range(n):\n"
             "        for j in range(n - 1 - i):\n"
@@ -34,6 +35,7 @@ CODE_UNITS = {
         "task": "去重",
         "pattern": (
             "def {fn}(arr):\n"
+            "    # 去重：保留首次出现顺序（seen 集合判重）\n"
             "    seen = set()\n"
             "    out = []\n"
             "    for x in arr:\n"
@@ -48,6 +50,7 @@ CODE_UNITS = {
         "task": "计数",
         "pattern": (
             "def {fn}(arr):\n"
+            "    # 计数：元素出现频率（Counter 统计）\n"
             "    from collections import Counter\n"
             "    return dict(Counter(arr))\n"),
         "cases": [([1, 2, 2, 3], {1: 1, 2: 2, 3: 1}), ([], {}), (["a", "a"], {"a": 2})],
@@ -57,6 +60,7 @@ CODE_UNITS = {
         "task": "最大",
         "pattern": (
             "def {fn}(arr):\n"
+            "    # 最大值：线性扫描取最大（空列表返回 None）\n"
             "    if not arr:\n"
             "        return None\n"
             "    m = arr[0]\n"
@@ -71,6 +75,7 @@ CODE_UNITS = {
         "task": "反转",
         "pattern": (
             "def {fn}(arr):\n"
+            "    # 反转：切片逆序（倒序排列）\n"
             "    return arr[::-1]\n"),
         "cases": [([1, 2, 3], [3, 2, 1]), ([], []), (["a", "b"], ["b", "a"])],
         "params": ["fn"],
@@ -79,6 +84,7 @@ CODE_UNITS = {
         "task": "求和",
         "pattern": (
             "def {fn}(arr):\n"
+            "    # 求和：累加所有元素（空列表返回 0）\n"
             "    total = 0\n"
             "    for x in arr:\n"
             "        total += x\n"

@@ -82,6 +82,7 @@ NET_UNITS = {
             "    # 蜂群消息：源节点 → 邻居递归中继（seen 防回环）\n"
             "    delivered = set()\n"
             "    def relay(node, seen):\n"
+            "        # 递归中继：未访问则记录并继续转发给邻居（去重防回环）\n"
             "        if node in seen:\n"
             "            return\n"
             "        seen.add(node)\n"
@@ -272,6 +273,7 @@ NET_UNITS = {
             "    net_int = ip_int & mask_int\n"
             "    bcast_int = net_int | (~mask_int & 0xFFFFFFFF)\n"
             "    def to_ip(v):\n"
+            "        # 整数转点分十进制 IP 字符串\n"
             "        return '.'.join(str((v >> s) & 0xFF) for s in (24, 16, 8, 0))\n"
             "    return {'network': to_ip(net_int), 'broadcast': to_ip(bcast_int),\n"
             "            'hosts': max(0, (1 << (32 - prefix)) - 2)}\n"),
