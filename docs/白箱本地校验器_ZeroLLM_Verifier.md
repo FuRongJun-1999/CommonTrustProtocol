@@ -167,3 +167,20 @@ LLM 只在「开放语义裁决」保留（如审查代码是否违背智能论�
 - 缓存第二次命中 → 零计算直接返回（自测已验证 cached=True）
 - 规则升级 → 版本 +1 → 旧缓存自动失效重验（一致性保证）
 - 全部回归无副作用：域管线 1058/1058、编译器 272/272、P线 240/240、图 123/123、生态 10/10
+
+### 9.4 阶段 4 完成：接入域管线（生成 → verifier 校验 → 固化，零 LLM）
+
+- `code_compose.py` 新增 `_verify_with_verifier(code, unit)`：替代 `verify_code` 三层，
+  走 verifier 六层 + 指纹缓存，返回兼容格式 `(ok, checks_str_list)`（不破坏 domain_route 测试读取）
+- `domain_solidify` / `domain_route` 校验全部切换至本地校验器：
+  - needs_inject 单元 → `expected_structure.inject` → L2/L3 由集成测试覆盖
+  - `'call'` 标记样例跳过（与 verify_code 语义一致）
+- **闭环验证**：域管线 1058/1058 全绿；固化直出路径零计算（0.000s）；
+  缓存 702 条全过（681 单元审计 + 域管线生成校验）；全部回归无副作用
+- 缓存文件 `data/verify_cache.json` 已加 `.gitignore`（派生数据，可随 verifier 版本重建）
+
+### 9.5 阶段 5（对照验证，进行中）
+
+- 目标：原 LLM 校验环节替换为 verifier，token 消耗归零（缓存命中场景），一致率 ≥99%
+- 现状：校验环节已 100% 本地化（六层确定性规则，无任何 LLM 调用）；
+  与既有 verify_code 语义对照一致（域管线 1058/1058、六域 681/681 双绿）

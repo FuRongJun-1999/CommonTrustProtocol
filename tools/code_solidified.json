@@ -74,7 +74,10 @@
   "unit": "网络-TCP握手",
   "code": "def tcp_handshake(states):\n    # TCP 三次握手：CLOSED → SYN → SYN-ACK → ESTABLISHED\n    state = 'CLOSED'\n    for ev in states:\n        if state == 'CLOSED' and ev == 'SYN':\n            state = 'SYN_SENT'\n        elif state == 'SYN_SENT' and ev == 'SYN-ACK':\n            state = 'ESTABLISHED'\n    return state\n",
   "checks": [
-   "✔ 语法通过 | 样例 3 组全过"
+   "✔ L1语法 语法通过（1 个函数定义）",
+   "✔ L2样例 3 组样例全部通过",
+   "✔ L3边界 无额外边界用例",
+   "✔ 规范符合性 结构规范 + 语义对齐通过"
   ],
   "source": "domain_solidified",
   "domain": "net"

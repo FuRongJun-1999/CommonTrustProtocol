@@ -339,12 +339,39 @@ def compose_domain_code(question, domain=None, unit_id=None):
     return unit["task"], best_uid, code, unit, domain
 
 
+def _verify_with_verifier(code, unit):
+    """本地校验器六层校验（替代 verify_code 三层）——返回 (ok, checks) 兼容格式。
+
+    接入（阶段 4）：code_compose 生成 → verifier 校验 → 固化，全程零 LLM。
+      - L1语法/L2样例/L3边界/规范符合性/集成 六层 + 指纹本地缓存
+      - 相同请求第二次 → 指纹命中 → 零计算直接返回（替代 LLM 缓存命中）
+      - 注入型单元（needs_inject）L2/L3 由集成测试覆盖；'call' 标记样例跳过
+    """
+    from verifier import Verifier, VerifyRequest
+    v = Verifier()
+    req = VerifyRequest(
+        task=unit.get("task", ""), code=code,
+        cases=list(unit.get("cases", [])),
+        expected_structure={"inject": True} if unit.get("needs_inject") else {},
+    )
+    r = v.verify(req)
+    checks = []
+    for c in r.checks:
+        lv = c.get("level", "?")
+        ok = c.get("ok")
+        mark = "✔" if ok else "✗"
+        checks.append(f"{mark} {lv} {str(c.get('evidence', ''))[:60]}")
+    if r.cached:
+        checks.append(f"✔ 缓存命中（指纹 {r.fingerprint[:12]}）")
+    return r.ok, checks
+
+
 def domain_solidify(question, domain=None, uid=None):
-    """域固化：组合生成 + 自校验通过 → 固化（自举纪律：未验证不固化）"""
+    """域固化：组合生成 + 本地校验器自校验通过 → 固化（自举纪律：未验证不固化）"""
     t, u, code, unit, domain = compose_domain_code(question, domain, uid)
     if code is None:
         return None
-    ok, checks = verify_code(code, unit, "python")
+    ok, checks = _verify_with_verifier(code, unit)
     if not ok:
         return None  # 自校验未过 → 拒绝固化
     key = f"domain:{domain}|{u}"
@@ -360,7 +387,7 @@ def domain_solidify(question, domain=None, uid=None):
 
 
 def domain_route(question, uid=None):
-    """域路由统一入口：单元匹配 → 已固化直出 → 域组合生成 + 自校验"""
+    """域路由统一入口：单元匹配 → 已固化直出 → 域组合生成 + 本地校验器校验"""
     domain = detect_domain(question)
     if domain is None:
         return {"question": question, "ok": False,
@@ -377,7 +404,7 @@ def domain_route(question, uid=None):
     if code is None:
         return {"question": question, "ok": False, "reason": u,
                 "task": t, "code": None, "domain": domain}
-    ok, checks = verify_code(code, unit, "python")
+    ok, checks = _verify_with_verifier(code, unit)
     return {"question": question, "ok": ok, "task": t, "unit": u,
             "code": code, "checks": checks, "solidified": False, "domain": domain}
 
