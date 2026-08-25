@@ -4898,5 +4898,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:graph|图查询-游标遍历": {
+  "task": "游标遍历",
+  "unit": "图查询-游标遍历",
+  "code": "def cursor_traverse(state, op):\n    # 游标遍历：next 取下一节点 / has_next 是否还有 / reset 重置（分页游标）\n    if op == 'next':\n        idx = state.get('idx', 0)\n        nodes = state.get('nodes', [])\n        if idx < len(nodes):\n            state['idx'] = idx + 1\n            return nodes[idx]\n        return None\n    if op == 'has_next':\n        return state.get('idx', 0) < len(state.get('nodes', []))\n    if op == 'reset':\n        state['idx'] = 0\n        return 'reset'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-路径规划": {
+  "task": "路径规划",
+  "unit": "图算法-路径规划",
+  "code": "def a_star(adj, start, goal, h):\n    # 路径规划：A* 启发式搜索（f=g+h 优先队列）\n    open_set = [(h(start), 0, start, [start])]\n    seen = set()\n    while open_set:\n        open_set.sort(key=lambda x: x[0])\n        f, g, u, path = open_set.pop(0)\n        if u == goal:\n            return path\n        if u in seen:\n            continue\n        seen.add(u)\n        for v, w in adj.get(u, []):\n            if v not in seen:\n                ng = g + w\n                open_set.append((ng + h(v), ng, v, path + [v]))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图可视化-节点大小": {
+  "task": "节点大小",
+  "unit": "图可视化-节点大小",
+  "code": "def node_size(adj, min_size=4, max_size=20):\n    # 节点大小：按度映射尺寸（可视化——度越大节点越大）\n    if not adj:\n        return {}\n    degs = [len(adj.get(n, [])) for n in adj]\n    hi = max(degs) - min(degs)\n    span = max_size - min_size\n    out = {}\n    for n in adj:\n        d = len(adj.get(n, []))\n        out[n] = min_size if hi == 0 else round(min_size + span * (d - min(degs)) / hi)\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }

@@ -2088,6 +2088,82 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：Tarjan——桥（移除致不连通，low[v]>disc[u]）",
     },
+    "图查询-游标遍历": {
+        "task": "游标遍历",
+        "pattern": (
+            "def cursor_traverse(state, op):\n"
+            "    # 游标遍历：next 取下一节点 / has_next 是否还有 / reset 重置（分页游标）\n"
+            "    if op == 'next':\n"
+            "        idx = state.get('idx', 0)\n"
+            "        nodes = state.get('nodes', [])\n"
+            "        if idx < len(nodes):\n"
+            "            state['idx'] = idx + 1\n"
+            "            return nodes[idx]\n"
+            "        return None\n"
+            "    if op == 'has_next':\n"
+            "        return state.get('idx', 0) < len(state.get('nodes', []))\n"
+            "    if op == 'reset':\n"
+            "        state['idx'] = 0\n"
+            "        return 'reset'\n"
+            "    return None\n"),
+        "cases": [
+            (({'nodes': ['a', 'b']}, 'next'), 'a'),
+            (({'nodes': ['a'], 'idx': 1}, 'next'), None),
+            (({'nodes': ['a'], 'idx': 0}, 'has_next'), True),
+            (({'nodes': ['a'], 'idx': 1}, 'reset'), 'reset')],
+        "params": [],
+        "calibration": "对照：查询游标——分页遍历（next/has_next/reset）",
+    },
+    "图算法-路径规划": {
+        "task": "路径规划",
+        "pattern": (
+            "def a_star(adj, start, goal, h):\n"
+            "    # 路径规划：A* 启发式搜索（f=g+h 优先队列）\n"
+            "    open_set = [(h(start), 0, start, [start])]\n"
+            "    seen = set()\n"
+            "    while open_set:\n"
+            "        open_set.sort(key=lambda x: x[0])\n"
+            "        f, g, u, path = open_set.pop(0)\n"
+            "        if u == goal:\n"
+            "            return path\n"
+            "        if u in seen:\n"
+            "            continue\n"
+            "        seen.add(u)\n"
+            "        for v, w in adj.get(u, []):\n"
+            "            if v not in seen:\n"
+            "                ng = g + w\n"
+            "                open_set.append((ng + h(v), ng, v, path + [v]))\n"
+            "    return None\n"),
+        "cases": [
+            (({0: [(1, 1), (2, 4)], 1: [(3, 1)], 2: [(3, 1)], 3: []}, 0, 3, lambda n: {3: 0}.get(n, 0)),
+             [0, 1, 3]),
+            (({0: [(1, 1)], 1: [(0, 1)]}, 0, 1, lambda n: 0), [0, 1]),
+            (({0: []}, 0, 5, lambda n: 0), None)],
+        "params": [],
+        "calibration": "对照：A* 搜索——f=g+h 启发式最短路径（路径规划）",
+    },
+    "图可视化-节点大小": {
+        "task": "节点大小",
+        "pattern": (
+            "def node_size(adj, min_size=4, max_size=20):\n"
+            "    # 节点大小：按度映射尺寸（可视化——度越大节点越大）\n"
+            "    if not adj:\n"
+            "        return {}\n"
+            "    degs = [len(adj.get(n, [])) for n in adj]\n"
+            "    hi = max(degs) - min(degs)\n"
+            "    span = max_size - min_size\n"
+            "    out = {}\n"
+            "    for n in adj:\n"
+            "        d = len(adj.get(n, []))\n"
+            "        out[n] = min_size if hi == 0 else round(min_size + span * (d - min(degs)) / hi)\n"
+            "    return out\n"),
+        "cases": [
+            (({0: [1], 1: [0, 2], 2: [1]},), {0: 4, 1: 20, 2: 4}),
+            (({0: [1], 1: [0]},), {0: 4, 1: 4}),
+            (({},), {})],
+        "params": [],
+        "calibration": "对照：图可视化——度→节点尺寸映射（节点大小）",
+    },
 }
 
 

@@ -6002,5 +6002,41 @@ except Exception as ex:
     check('㌊c RTT→汇聚→回绕端到端（112.5 [192.168.0.0/16] True）',
           False, str(ex)[:60])
 
+# ㌋ 目标6 深化：图查询/算法/可视化（游标遍历/路径规划/节点大小 经正式管线）
+g31_qs = {
+    "游标遍历": "写一个游标遍历单元（分页遍历）",
+    "路径规划": "写一个路径规划单元（A* 搜索）",
+    "节点大小": "写一个节点大小单元（度映射）",
+}
+g31_ok = 0
+for label, q in g31_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g31_ok += 1
+    check(f'㌋ {label} 图查询/算法/可视化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌋b 图查询/算法/可视化三单元全部生成', g31_ok == 3, f'{g31_ok}/3')
+
+# ㌋c 端到端：游标→路径规划→节点大小（a [0,1,3] {0:4,1:20,2:4}）
+r_cs = domain_route("写一个游标遍历单元（分页遍历）")
+r_ps = domain_route("写一个路径规划单元（A* 搜索）")
+r_ns = domain_route("写一个节点大小单元（度映射）")
+try:
+    ns_cs, ns_ps, ns_ns = {}, {}, {}
+    exec(r_cs["code"], ns_cs)
+    exec(r_ps["code"], ns_ps)
+    exec(r_ns["code"], ns_ns)
+    cs = ns_cs["cursor_traverse"]({'nodes': ['a', 'b']}, 'next')
+    ps = ns_ps["a_star"]({0: [(1, 1), (2, 4)], 1: [(3, 1)], 2: [(3, 1)], 3: []},
+                         0, 3, lambda n: 0)
+    ns = ns_ns["node_size"]({0: [1], 1: [0, 2], 2: [1]})
+    check('㌋c 游标→路径规划→节点大小端到端（a [0,1,3] {0:4,1:20,2:4}）',
+          cs == 'a' and ps == [0, 1, 3] and ns == {0: 4, 1: 20, 2: 4},
+          f'cur={cs} plan={ps} size={ns}')
+except Exception as ex:
+    check('㌋c 游标→路径规划→节点大小端到端（a [0,1,3] {0:4,1:20,2:4}）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
