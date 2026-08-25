@@ -1918,6 +1918,74 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：稀疏文件——数据块存储+空洞零填充（稀疏存储）",
     },
+    "存储-碎片整理": {
+        "task": "碎片整理",
+        "pattern": (
+            "def defrag(disk, op):\n"
+            "    # 碎片整理：scan 扫描空洞 / compact 压实 / frags 碎片数（磁盘整理）\n"
+            "    if op == 'scan':\n"
+            "        return [i for i, b in enumerate(disk) if b is None]\n"
+            "    if op == 'compact':\n"
+            "        return [b for b in disk if b is not None]\n"
+            "    if op == 'frags':\n"
+            "        return sum(1 for i in range(1, len(disk))\n"
+            "                   if disk[i] is not None and disk[i - 1] is None)\n"
+            "    return None\n"),
+        "cases": [
+            ((['a', None, 'b'], 'scan'), [1]),
+            ((['a', None, 'b'], 'compact'), ['a', 'b']),
+            ((['a', None, 'b'], 'frags'), 1),
+            (([None, None], 'frags'), 0)],
+        "params": [],
+        "calibration": "对照：磁盘整理——空洞扫描/压实/碎片计数",
+    },
+    "内存-段式管理": {
+        "task": "段式管理",
+        "pattern": (
+            "def segment_map(state, op, seg=None, base=None, limit=None):\n"
+            "    # 段式管理：map 登记段 / access 越界检查 / base 基址查询（分段内存）\n"
+            "    if op == 'map':\n"
+            "        state.setdefault('segs', {})[seg] = (base, limit)\n"
+            "        return base\n"
+            "    if op == 'access':\n"
+            "        s = state.get('segs', {}).get(seg)\n"
+            "        if s is None:\n"
+            "            return 'fault'\n"
+            "        b, l = s\n"
+            "        return b + base if base < l else 'fault'\n"
+            "    if op == 'base':\n"
+            "        s = state.get('segs', {}).get(seg)\n"
+            "        return s[0] if s else None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'map', 'code', 100, 50), 100),
+            (({'segs': {'code': (100, 50)}}, 'access', 'code', 30), 130),
+            (({'segs': {'code': (100, 50)}}, 'access', 'code', 60), 'fault'),
+            (({}, 'base', 'code'), None)],
+        "params": [],
+        "calibration": "对照：分段内存——段登记/基址+限长越界检查",
+    },
+    "系统-时钟节拍": {
+        "task": "时钟节拍",
+        "pattern": (
+            "def timer_tick(state, op, hz=None):\n"
+            "    # 时钟节拍：tick 推进 / elapsed 已过 / hz 频率（定时器中断）\n"
+            "    if op == 'tick':\n"
+            "        state['t'] = state.get('t', 0) + 1\n"
+            "        return state['t']\n"
+            "    if op == 'elapsed':\n"
+            "        return state.get('t', 0) / state.get('hz', hz or 100)\n"
+            "    if op == 'hz':\n"
+            "        return state.get('hz', hz or 100)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'tick'), 1),
+            (({'t': 200, 'hz': 100}, 'elapsed'), 2.0),
+            (({}, 'elapsed'), 0.0),
+            (({'hz': 250}, 'hz'), 250)],
+        "params": [],
+        "calibration": "对照：定时器——节拍推进/已过时间/频率（HZ）",
+    },
 }
 
 

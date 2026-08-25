@@ -6357,5 +6357,40 @@ except Exception as ex:
     check('㌔c 优先级继承→内存池→稀疏文件端到端（8 2 abc）',
           False, str(ex)[:60])
 
+# ㌕ 目标4 深化：OS 机制（碎片整理/段式管理/时钟节拍 经正式管线）
+o15_qs = {
+    "碎片整理": "写一个碎片整理单元（空洞压实）",
+    "段式管理": "写一个段式管理单元（基址限长）",
+    "时钟节拍": "写一个时钟节拍单元（定时器推进）",
+}
+o15_ok = 0
+for label, q in o15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o15_ok += 1
+    check(f'㌕ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌕b OS机制三单元全部生成', o15_ok == 3, f'{o15_ok}/3')
+
+# ㌕c 端到端：碎片整理→段式→时钟（[a,b] 130 2.0）
+r_dg = domain_route("写一个碎片整理单元（空洞压实）")
+r_sg = domain_route("写一个段式管理单元（基址限长）")
+r_tk = domain_route("写一个时钟节拍单元（定时器推进）")
+try:
+    ns_dg, ns_sg, ns_tk = {}, {}, {}
+    exec(r_dg["code"], ns_dg)
+    exec(r_sg["code"], ns_sg)
+    exec(r_tk["code"], ns_tk)
+    dg = ns_dg["defrag"](['a', None, 'b'], 'compact')
+    sg = ns_sg["segment_map"]({'segs': {'code': (100, 50)}}, 'access', 'code', 30)
+    tk = ns_tk["timer_tick"]({'t': 200, 'hz': 100}, 'elapsed')
+    check('㌕c 碎片整理→段式→时钟端到端（[a,b] 130 2.0）',
+          dg == ['a', 'b'] and sg == 130 and tk == 2.0,
+          f'defrag={dg} seg={sg} tick={tk}')
+except Exception as ex:
+    check('㌕c 碎片整理→段式→时钟端到端（[a,b] 130 2.0）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

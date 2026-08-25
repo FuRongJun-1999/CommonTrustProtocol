@@ -5198,5 +5198,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:os|存储-碎片整理": {
+  "task": "碎片整理",
+  "unit": "存储-碎片整理",
+  "code": "def defrag(disk, op):\n    # 碎片整理：scan 扫描空洞 / compact 压实 / frags 碎片数（磁盘整理）\n    if op == 'scan':\n        return [i for i, b in enumerate(disk) if b is None]\n    if op == 'compact':\n        return [b for b in disk if b is not None]\n    if op == 'frags':\n        return sum(1 for i in range(1, len(disk))\n                   if disk[i] is not None and disk[i - 1] is None)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|内存-段式管理": {
+  "task": "段式管理",
+  "unit": "内存-段式管理",
+  "code": "def segment_map(state, op, seg=None, base=None, limit=None):\n    # 段式管理：map 登记段 / access 越界检查 / base 基址查询（分段内存）\n    if op == 'map':\n        state.setdefault('segs', {})[seg] = (base, limit)\n        return base\n    if op == 'access':\n        s = state.get('segs', {}).get(seg)\n        if s is None:\n            return 'fault'\n        b, l = s\n        return b + base if base < l else 'fault'\n    if op == 'base':\n        s = state.get('segs', {}).get(seg)\n        return s[0] if s else None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|系统-时钟节拍": {
+  "task": "时钟节拍",
+  "unit": "系统-时钟节拍",
+  "code": "def timer_tick(state, op, hz=None):\n    # 时钟节拍：tick 推进 / elapsed 已过 / hz 频率（定时器中断）\n    if op == 'tick':\n        state['t'] = state.get('t', 0) + 1\n        return state['t']\n    if op == 'elapsed':\n        return state.get('t', 0) / state.get('hz', hz or 100)\n    if op == 'hz':\n        return state.get('hz', hz or 100)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }
