@@ -2026,6 +2026,77 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：编译期分析——指令流最大栈深度（VM 栈帧大小）",
     },
+    "分析-基本块": {
+        "task": "基本块",
+        "pattern": (
+            "def basic_blocks(instrs):\n"
+            "    # 基本块：按跳转目标/跳转指令切分（控制流线性段）\n"
+            "    blocks = []\n"
+            "    cur = []\n"
+            "    for ins in instrs:\n"
+            "        cur.append(ins)\n"
+            "        if ins[0] in ('JUMP', 'JUMP_IF_FALSE', 'RETURN'):\n"
+            "            blocks.append(cur)\n"
+            "            cur = []\n"
+            "    if cur:\n"
+            "        blocks.append(cur)\n"
+            "    return blocks\n"),
+        "cases": [
+            (([('PUSH', 1), ('RETURN', None), ('PUSH', 2)],), [[('PUSH', 1), ('RETURN', None)], [('PUSH', 2)]]),
+            (([('PUSH', 1)],), [[('PUSH', 1)]]),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：CFG 分析——基本块划分（跳转为界）",
+    },
+    "编译-支配树": {
+        "task": "支配树",
+        "pattern": (
+            "def dominator_tree(adj, entry):\n"
+            "    # 支配树：入口可达必经节点（支配关系——必经点）\n"
+            "    nodes = list(adj)\n"
+            "    dom = {n: set(nodes) for n in nodes}\n"
+            "    dom[entry] = {entry}\n"
+            "    changed = True\n"
+            "    while changed:\n"
+            "        changed = False\n"
+            "        for n in nodes:\n"
+            "            if n == entry:\n"
+            "                continue\n"
+            "            preds = [p for p in nodes if n in adj.get(p, [])]\n"
+            "            if not preds:\n"
+            "                continue\n"
+            "            new = {n} | set.intersection(*(dom[p] for p in preds))\n"
+            "            if new != dom[n]:\n"
+            "                dom[n] = new\n"
+            "                changed = True\n"
+            "    return dom\n"),
+        "cases": [
+            (({0: [1, 2], 1: [3], 2: [3], 3: []}, 0),
+             {0: {0}, 1: {0, 1}, 2: {0, 2}, 3: {0, 3}}),
+            (({0: [1], 1: []}, 0), {0: {0}, 1: {0, 1}}),
+            (({0: []}, 0), {0: {0}})],
+        "params": [],
+        "calibration": "对照：支配树——必经节点集合（迭代数据流）",
+    },
+    "编译-中间表示": {
+        "task": "中间表示",
+        "pattern": (
+            "def to_ir(expr, op):\n"
+            "    # 中间表示：表达式 → 三地址码（IR 生成）\n"
+            "    if op == 'assign':\n"
+            "        return [('=', expr[0], expr[1], None)]\n"
+            "    if op == 'binary':\n"
+            "        a, b, o = expr\n"
+            "        return [('t1', '=', a, None), ('t2', '=', b, None),\n"
+            "                (o, 't1', 't2', 't3')]\n"
+            "    return None\n"),
+        "cases": [
+            ((('x', 1), 'assign'), [('=', 'x', 1, None)]),
+            ((('a', 'b', '+'), 'binary'), [('t1', '=', 'a', None), ('t2', '=', 'b', None), ('+', 't1', 't2', 't3')]),
+            ((('x', 0), 'assign'), [('=', 'x', 0, None)])],
+        "params": [],
+        "calibration": "对照：三地址码——IR 中间表示（赋值/二元运算）",
+    },
 }
 
 

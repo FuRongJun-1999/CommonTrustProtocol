@@ -4718,5 +4718,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:compiler|分析-基本块": {
+  "task": "基本块",
+  "unit": "分析-基本块",
+  "code": "def basic_blocks(instrs):\n    # 基本块：按跳转目标/跳转指令切分（控制流线性段）\n    blocks = []\n    cur = []\n    for ins in instrs:\n        cur.append(ins)\n        if ins[0] in ('JUMP', 'JUMP_IF_FALSE', 'RETURN'):\n            blocks.append(cur)\n            cur = []\n    if cur:\n        blocks.append(cur)\n    return blocks\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-支配树": {
+  "task": "支配树",
+  "unit": "编译-支配树",
+  "code": "def dominator_tree(adj, entry):\n    # 支配树：入口可达必经节点（支配关系——必经点）\n    nodes = list(adj)\n    dom = {n: set(nodes) for n in nodes}\n    dom[entry] = {entry}\n    changed = True\n    while changed:\n        changed = False\n        for n in nodes:\n            if n == entry:\n                continue\n            preds = [p for p in nodes if n in adj.get(p, [])]\n            if not preds:\n                continue\n            new = {n} | set.intersection(*(dom[p] for p in preds))\n            if new != dom[n]:\n                dom[n] = new\n                changed = True\n    return dom\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-中间表示": {
+  "task": "中间表示",
+  "unit": "编译-中间表示",
+  "code": "def to_ir(expr, op):\n    # 中间表示：表达式 → 三地址码（IR 生成）\n    if op == 'assign':\n        return [('=', expr[0], expr[1], None)]\n    if op == 'binary':\n        a, b, o = expr\n        return [('t1', '=', a, None), ('t2', '=', b, None),\n                (o, 't1', 't2', 't3')]\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }
