@@ -1800,6 +1800,74 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：滑动平均——窗口均值平滑（时间序列）",
     },
+    "工具-行程压缩": {
+        "task": "行程压缩",
+        "pattern": (
+            "def rle_codec(data, op):\n"
+            "    # 行程压缩：encode 连续值计数 / decode 还原（run-length encoding）\n"
+            "    if op == 'encode':\n"
+            "        out = []\n"
+            "        i = 0\n"
+            "        while i < len(data):\n"
+            "            j = i\n"
+            "            while j < len(data) and data[j] == data[i]:\n"
+            "                j += 1\n"
+            "            out.append((data[i], j - i))\n"
+            "            i = j\n"
+            "        return out\n"
+            "    if op == 'decode':\n"
+            "        out = []\n"
+            "        for ch, n in data:\n"
+            "            out.extend([ch] * n)\n"
+            "        return out\n"
+            "    return None\n"),
+        "cases": [
+            (('aaabbc', 'encode'), [('a', 3), ('b', 2), ('c', 1)]),
+            (([('a', 2), ('b', 1)], 'decode'), ['a', 'a', 'b']),
+            (('', 'encode'), [])],
+        "params": [],
+        "calibration": "对照：run-length encoding——连续值行程压缩/还原",
+    },
+    "工具-位掩码": {
+        "task": "位掩码",
+        "pattern": (
+            "def bitmask_ops(flags, op, bit=None):\n"
+            "    # 位掩码：set 置位 / clear 清位 / toggle 翻转 / test 测位（位标志）\n"
+            "    if op == 'set':\n"
+            "        return flags | (1 << bit)\n"
+            "    if op == 'clear':\n"
+            "        return flags & ~(1 << bit)\n"
+            "    if op == 'toggle':\n"
+            "        return flags ^ (1 << bit)\n"
+            "    if op == 'test':\n"
+            "        return bool(flags & (1 << bit))\n"
+            "    return None\n"),
+        "cases": [
+            ((0, 'set', 2), 4),
+            ((7, 'clear', 1), 5),
+            ((1, 'toggle', 1), 3),
+            ((4, 'test', 2), True)],
+        "params": [],
+        "calibration": "对照：位标志——set/clear/toggle/test（位掩码）",
+    },
+    "工具-众数统计": {
+        "task": "众数统计",
+        "pattern": (
+            "def mode_count(items):\n"
+            "    # 众数统计：出现最频繁的元素（mode）\n"
+            "    if not items:\n"
+            "        return None\n"
+            "    cnt = {}\n"
+            "    for x in items:\n"
+            "        cnt[x] = cnt.get(x, 0) + 1\n"
+            "    return max(cnt.items(), key=lambda kv: kv[1])[0]\n"),
+        "cases": [
+            (([1, 2, 2, 3],), 2),
+            ((['a', 'b', 'a'],), 'a'),
+            (([],), None)],
+        "params": [],
+        "calibration": "对照：statistics.mode——众数（最频繁元素）",
+    },
 }
 
 

@@ -5078,5 +5078,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:pylang|工具-行程压缩": {
+  "task": "行程压缩",
+  "unit": "工具-行程压缩",
+  "code": "def rle_codec(data, op):\n    # 行程压缩：encode 连续值计数 / decode 还原（run-length encoding）\n    if op == 'encode':\n        out = []\n        i = 0\n        while i < len(data):\n            j = i\n            while j < len(data) and data[j] == data[i]:\n                j += 1\n            out.append((data[i], j - i))\n            i = j\n        return out\n    if op == 'decode':\n        out = []\n        for ch, n in data:\n            out.extend([ch] * n)\n        return out\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-位掩码": {
+  "task": "位掩码",
+  "unit": "工具-位掩码",
+  "code": "def bitmask_ops(flags, op, bit=None):\n    # 位掩码：set 置位 / clear 清位 / toggle 翻转 / test 测位（位标志）\n    if op == 'set':\n        return flags | (1 << bit)\n    if op == 'clear':\n        return flags & ~(1 << bit)\n    if op == 'toggle':\n        return flags ^ (1 << bit)\n    if op == 'test':\n        return bool(flags & (1 << bit))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-众数统计": {
+  "task": "众数统计",
+  "unit": "工具-众数统计",
+  "code": "def mode_count(items):\n    # 众数统计：出现最频繁的元素（mode）\n    if not items:\n        return None\n    cnt = {}\n    for x in items:\n        cnt[x] = cnt.get(x, 0) + 1\n    return max(cnt.items(), key=lambda kv: kv[1])[0]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

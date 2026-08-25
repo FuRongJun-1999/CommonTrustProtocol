@@ -6214,5 +6214,40 @@ except Exception as ex:
     check('㌐c 带宽分配→连接迁移→重传统计端到端（{a:75,b:25} 10.0.0.2 0.2）',
           False, str(ex)[:60])
 
+# ㌑ 目标1 深化：P 线工具（行程压缩/位掩码/众数统计 经正式管线）
+p23_qs = {
+    "行程压缩": "写一个行程压缩单元（RLE 编解码）",
+    "位掩码": "写一个位掩码单元（位标志操作）",
+    "众数统计": "写一个众数统计单元（最频繁元素）",
+}
+p23_ok = 0
+for label, q in p23_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p23_ok += 1
+    check(f'㌑ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌑b P线工具三单元全部生成', p23_ok == 3, f'{p23_ok}/3')
+
+# ㌑c 端到端：行程→位掩码→众数（[(\'a\',3),(\'b\',2)] 4 2）
+r_rl = domain_route("写一个行程压缩单元（RLE 编解码）")
+r_bm = domain_route("写一个位掩码单元（位标志操作）")
+r_mc = domain_route("写一个众数统计单元（最频繁元素）")
+try:
+    ns_rl, ns_bm, ns_mc = {}, {}, {}
+    exec(r_rl["code"], ns_rl)
+    exec(r_bm["code"], ns_bm)
+    exec(r_mc["code"], ns_mc)
+    rl = ns_rl["rle_codec"]('aaabbc', 'encode')
+    bm = ns_bm["bitmask_ops"](0, 'set', 2)
+    mc = ns_mc["mode_count"]([1, 2, 2, 3])
+    check('㌑c 行程→位掩码→众数端到端（[(\'a\',3),(\'b\',2),(\'c\',1)] 4 2）',
+          rl == [('a', 3), ('b', 2), ('c', 1)] and bm == 4 and mc == 2,
+          f'rle={rl} mask={bm} mode={mc}')
+except Exception as ex:
+    check('㌑c 行程→位掩码→众数端到端（[(\'a\',3),(\'b\',2),(\'c\',1)] 4 2）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
