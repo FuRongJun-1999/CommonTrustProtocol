@@ -2449,6 +2449,72 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图查询——两跳邻居展开（二阶邻域）",
     },
+    "图算法-树重心": {
+        "task": "树重心",
+        "pattern": (
+            "def tree_centroid(adj):\n"
+            "    # 树重心：移除后最大子树最小（平衡分割点）\n"
+            "    n = len(adj)\n"
+            "    if n == 0:\n"
+            "        return None\n"
+            "    size = {}\n"
+            "    def dfs(u, p):\n"
+            "        size[u] = 1\n"
+            "        mx = 0\n"
+            "        for v in adj.get(u, []):\n"
+            "            if v != p:\n"
+            "                dfs(v, u)\n"
+            "                size[u] += size[v]\n"
+            "                mx = max(mx, size[v])\n"
+            "        rest = n - size[u]\n"
+            "        if max(mx, rest) <= n // 2:\n"
+            "            cents.append(u)\n"
+            "    cents = []\n"
+            "    dfs(0, None)\n"
+            "    return cents\n"),
+        "cases": [
+            (({0: [1], 1: [0, 2], 2: [1]},), [1]),
+            (({0: [1, 2], 1: [0], 2: [0]},), [0]),
+            (({},), None)],
+        "params": [],
+        "calibration": "对照：树重心——移除后最大子树最小（平衡点）",
+    },
+    "图算法-最大割": {
+        "task": "最大割",
+        "pattern": (
+            "def max_cut(adj):\n"
+            "    # 最大割：贪心二分使跨割边最多（MAX-CUT 近似）\n"
+            "    side = {}\n"
+            "    for u in adj:\n"
+            "        nbs = adj.get(u, [])\n"
+            "        if nbs:\n"
+            "            side[u] = 1 - side.get(nbs[0], 0)\n"
+            "        else:\n"
+            "            side[u] = 0\n"
+            "    cut = sum(1 for u in adj for v in adj.get(u, [])\n"
+            "              if u < v and side[u] != side[v])\n"
+            "    return cut\n"),
+        "cases": [
+            (({0: [1, 2], 1: [0], 2: [0]},), 2),
+            (({0: [1], 1: [0]},), 1),
+            (({},), 0)],
+        "params": [],
+        "calibration": "对照：MAX-CUT——贪心二分最大跨割边（近似）",
+    },
+    "图存储-图规范化": {
+        "task": "图规范化",
+        "pattern": (
+            "def graph_canonical(adj):\n"
+            "    # 图规范化：边集排序签名（结构等价判定辅助）\n"
+            "    edges = sorted({(min(u, v), max(u, v)) for u, vs in adj.items() for v in vs})\n"
+            "    return (len(adj), edges)\n"),
+        "cases": [
+            (({0: [1], 1: [0]},), (2, [(0, 1)])),
+            (({1: [0], 0: [1]},), (2, [(0, 1)])),
+            (({},), (0, []))],
+        "params": [],
+        "calibration": "对照：图规范化——边集排序签名（同构判定辅助）",
+    },
 }
 
 

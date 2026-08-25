@@ -7239,5 +7239,40 @@ except Exception as ex:
     check('㌭c 进程组→页缓存→亲和性端到端（1 A 2）',
           False, str(ex)[:60])
 
+# ㌮ 目标6 深化：图算法/存储（树重心/最大割/图规范化 经正式管线）
+g36_qs = {
+    "树重心": "写一个树重心单元（平衡分割）",
+    "最大割": "写一个最大割单元（跨割边）",
+    "图规范化": "写一个图规范化单元（排序签名）",
+}
+g36_ok = 0
+for label, q in g36_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g36_ok += 1
+    check(f'㌮ {label} 图算法/存储单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌮b 图算法/存储三单元全部生成', g36_ok == 3, f'{g36_ok}/3')
+
+# ㌮c 端到端：树重心→最大割→规范化（[1] 2 (2,[(0,1)])）
+r_tc = domain_route("写一个树重心单元（平衡分割）")
+r_mc = domain_route("写一个最大割单元（跨割边）")
+r_gc = domain_route("写一个图规范化单元（排序签名）")
+try:
+    ns_tc, ns_mc, ns_gc = {}, {}, {}
+    exec(r_tc["code"], ns_tc)
+    exec(r_mc["code"], ns_mc)
+    exec(r_gc["code"], ns_gc)
+    tc = ns_tc["tree_centroid"]({0: [1], 1: [0, 2], 2: [1]})
+    mc = ns_mc["max_cut"]({0: [1, 2], 1: [0], 2: [0]})
+    gc = ns_gc["graph_canonical"]({0: [1], 1: [0]})
+    check('㌮c 树重心→最大割→规范化端到端（[1] 2 (2,[(0,1)])）',
+          tc == [1] and mc == 2 and gc == (2, [(0, 1)]),
+          f'cent={tc} cut={mc} canon={gc}')
+except Exception as ex:
+    check('㌮c 树重心→最大割→规范化端到端（[1] 2 (2,[(0,1)])）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

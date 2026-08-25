@@ -5948,5 +5948,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:graph|图算法-树重心": {
+  "task": "树重心",
+  "unit": "图算法-树重心",
+  "code": "def tree_centroid(adj):\n    # 树重心：移除后最大子树最小（平衡分割点）\n    n = len(adj)\n    if n == 0:\n        return None\n    size = {}\n    def dfs(u, p):\n        size[u] = 1\n        mx = 0\n        for v in adj.get(u, []):\n            if v != p:\n                dfs(v, u)\n                size[u] += size[v]\n                mx = max(mx, size[v])\n        rest = n - size[u]\n        if max(mx, rest) <= n // 2:\n            cents.append(u)\n    cents = []\n    dfs(0, None)\n    return cents\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-最大割": {
+  "task": "最大割",
+  "unit": "图算法-最大割",
+  "code": "def max_cut(adj):\n    # 最大割：贪心二分使跨割边最多（MAX-CUT 近似）\n    side = {}\n    for u in adj:\n        nbs = adj.get(u, [])\n        if nbs:\n            side[u] = 1 - side.get(nbs[0], 0)\n        else:\n            side[u] = 0\n    cut = sum(1 for u in adj for v in adj.get(u, [])\n              if u < v and side[u] != side[v])\n    return cut\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图存储-图规范化": {
+  "task": "图规范化",
+  "unit": "图存储-图规范化",
+  "code": "def graph_canonical(adj):\n    # 图规范化：边集排序签名（结构等价判定辅助）\n    edges = sorted({(min(u, v), max(u, v)) for u, vs in adj.items() for v in vs})\n    return (len(adj), edges)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }
