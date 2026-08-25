@@ -7169,5 +7169,40 @@ except Exception as ex:
     check('㌫c 数字后缀→逃逸分析→去虚拟化端到端（255 escaped DIRECT）',
           False, str(ex)[:60])
 
+# ㌬ 目标1 深化：P 线数据结构/工具（并查集/最长公共前缀/编辑距离 经正式管线）
+p28_qs = {
+    "并查集": "写一个并查集单元（不相交集）",
+    "最长公共前缀": "写一个最长公共前缀单元（LCP）",
+    "编辑距离": "写一个编辑距离单元（Levenshtein）",
+}
+p28_ok = 0
+for label, q in p28_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p28_ok += 1
+    check(f'㌬ {label} P线数据结构/工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌬b P线数据结构/工具三单元全部生成', p28_ok == 3, f'{p28_ok}/3')
+
+# ㌬c 端到端：并查集→LCP→编辑距离（1 fl 3）
+r_uf = domain_route("写一个并查集单元（不相交集）")
+r_cp = domain_route("写一个最长公共前缀单元（LCP）")
+r_ed = domain_route("写一个编辑距离单元（Levenshtein）")
+try:
+    ns_uf, ns_cp, ns_ed = {}, {}, {}
+    exec(r_uf["code"], ns_uf)
+    exec(r_cp["code"], ns_cp)
+    exec(r_ed["code"], ns_ed)
+    uf = ns_uf["union_find"]({}, 'union', 1, 2)
+    cp = ns_cp["common_prefix"](['flower', 'flow', 'flight'])
+    ed = ns_ed["edit_distance"]('kitten', 'sitting')
+    check('㌬c 并查集→LCP→编辑距离端到端（1 fl 3）',
+          uf == 1 and cp == 'fl' and ed == 3,
+          f'uf={uf} lcp={cp} dist={ed}')
+except Exception as ex:
+    check('㌬c 并查集→LCP→编辑距离端到端（1 fl 3）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

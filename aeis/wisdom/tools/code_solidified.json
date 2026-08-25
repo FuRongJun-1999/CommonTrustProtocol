@@ -5888,5 +5888,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:pylang|数据结构-并查集": {
+  "task": "并查集",
+  "unit": "数据结构-并查集",
+  "code": "def union_find(state, op, a=None, b=None):\n    # 并查集：find 根查找 / union 合并 / connected 连通判定（不相交集）\n    parent = state.setdefault('parent', {})\n    def find(x):\n        parent.setdefault(x, x)\n        while parent[x] != x:\n            parent[x] = parent[parent[x]]\n            x = parent[x]\n        return x\n    if op == 'find':\n        return find(a)\n    if op == 'union':\n        ra, rb = find(a), find(b)\n        if ra != rb:\n            parent[rb] = ra\n        return ra\n    if op == 'connected':\n        return find(a) == find(b)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-最长公共前缀": {
+  "task": "最长公共前缀",
+  "unit": "工具-最长公共前缀",
+  "code": "def common_prefix(words):\n    # 最长公共前缀：逐字符比对所有词（LCP）\n    if not words:\n        return ''\n    prefix = words[0]\n    for w in words[1:]:\n        while not w.startswith(prefix):\n            prefix = prefix[:-1]\n            if not prefix:\n                return ''\n    return prefix\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-编辑距离": {
+  "task": "编辑距离",
+  "unit": "工具-编辑距离",
+  "code": "def edit_distance(a, b):\n    # 编辑距离：插入/删除/替换最小次数（Levenshtein）\n    dp = [[0] * (len(b) + 1) for _ in range(len(a) + 1)]\n    for i in range(len(a) + 1):\n        dp[i][0] = i\n    for j in range(len(b) + 1):\n        dp[0][j] = j\n    for i in range(1, len(a) + 1):\n        for j in range(1, len(b) + 1):\n            cost = 0 if a[i - 1] == b[j - 1] else 1\n            dp[i][j] = min(dp[i - 1][j] + 1, dp[i][j - 1] + 1,\n                           dp[i - 1][j - 1] + cost)\n    return dp[len(a)][len(b)]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

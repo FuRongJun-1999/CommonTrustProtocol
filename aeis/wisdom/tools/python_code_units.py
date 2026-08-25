@@ -2074,6 +2074,81 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：random.shuffle——确定性打乱（带种子 Fisher-Yates）",
     },
+    "数据结构-并查集": {
+        "task": "并查集",
+        "pattern": (
+            "def union_find(state, op, a=None, b=None):\n"
+            "    # 并查集：find 根查找 / union 合并 / connected 连通判定（不相交集）\n"
+            "    parent = state.setdefault('parent', {})\n"
+            "    def find(x):\n"
+            "        parent.setdefault(x, x)\n"
+            "        while parent[x] != x:\n"
+            "            parent[x] = parent[parent[x]]\n"
+            "            x = parent[x]\n"
+            "        return x\n"
+            "    if op == 'find':\n"
+            "        return find(a)\n"
+            "    if op == 'union':\n"
+            "        ra, rb = find(a), find(b)\n"
+            "        if ra != rb:\n"
+            "            parent[rb] = ra\n"
+            "        return ra\n"
+            "    if op == 'connected':\n"
+            "        return find(a) == find(b)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'find', 1), 1),
+            (({}, 'union', 1, 2), 1),
+            (({'parent': {1: 1, 2: 1}}, 'connected', 1, 2), True),
+            (({}, 'connected', 1, 2), False)],
+        "params": [],
+        "calibration": "对照：union-find——不相交集合并/查找/连通（路径压缩）",
+    },
+    "工具-最长公共前缀": {
+        "task": "最长公共前缀",
+        "pattern": (
+            "def common_prefix(words):\n"
+            "    # 最长公共前缀：逐字符比对所有词（LCP）\n"
+            "    if not words:\n"
+            "        return ''\n"
+            "    prefix = words[0]\n"
+            "    for w in words[1:]:\n"
+            "        while not w.startswith(prefix):\n"
+            "            prefix = prefix[:-1]\n"
+            "            if not prefix:\n"
+            "                return ''\n"
+            "    return prefix\n"),
+        "cases": [
+            ((['flower', 'flow', 'flight'],), 'fl'),
+            ((['dog', 'racecar'],), ''),
+            ((['same'],), 'same')],
+        "params": [],
+        "calibration": "对照：最长公共前缀——逐词比对（LCP）",
+    },
+    "工具-编辑距离": {
+        "task": "编辑距离",
+        "pattern": (
+            "def edit_distance(a, b):\n"
+            "    # 编辑距离：插入/删除/替换最小次数（Levenshtein）\n"
+            "    dp = [[0] * (len(b) + 1) for _ in range(len(a) + 1)]\n"
+            "    for i in range(len(a) + 1):\n"
+            "        dp[i][0] = i\n"
+            "    for j in range(len(b) + 1):\n"
+            "        dp[0][j] = j\n"
+            "    for i in range(1, len(a) + 1):\n"
+            "        for j in range(1, len(b) + 1):\n"
+            "            cost = 0 if a[i - 1] == b[j - 1] else 1\n"
+            "            dp[i][j] = min(dp[i - 1][j] + 1, dp[i][j - 1] + 1,\n"
+            "                           dp[i - 1][j - 1] + cost)\n"
+            "    return dp[len(a)][len(b)]\n"),
+        "cases": [
+            ((chr(107) + chr(105) + chr(116) + chr(116) + chr(101) + chr(110),
+              chr(115) + chr(105) + chr(116) + chr(116) + chr(105) + chr(110) + chr(103)), 3),
+            ((chr(97) + chr(98), chr(97) + chr(98)), 0),
+            ((chr(97), ''), 1)],
+        "params": [],
+        "calibration": "对照：Levenshtein——编辑距离（插删改最小次数）",
+    },
 }
 
 
