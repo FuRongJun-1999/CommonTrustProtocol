@@ -2130,6 +2130,78 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：journaling——日志记录/崩溃重放/待重放",
     },
+    "进程-进程组": {
+        "task": "进程组",
+        "pattern": (
+            "def proc_group(state, op, pgid=None, pid=None):\n"
+            "    # 进程组：join 入组 / members 组员 / signal 组播信号（作业控制）\n"
+            "    if op == 'join':\n"
+            "        state.setdefault('groups', {}).setdefault(pgid, []).append(pid)\n"
+            "        return pgid\n"
+            "    if op == 'members':\n"
+            "        return list(state.get('groups', {}).get(pgid, []))\n"
+            "    if op == 'signal':\n"
+            "        m = state.get('groups', {}).get(pgid, [])\n"
+            "        return 'signaled' if m else None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'join', 1, 101), 1),
+            (({'groups': {1: [101]}}, 'members', 1), [101]),
+            (({}, 'members', 1), []),
+            (({'groups': {1: [101]}}, 'signal', 1), 'signaled')],
+        "params": [],
+        "calibration": "对照：进程组——组加入/成员/组播信号（作业控制）",
+    },
+    "内存-页缓存": {
+        "task": "页缓存",
+        "pattern": (
+            "def page_cache(state, op, page=None, data=None):\n"
+            "    # 页缓存：get 命中读 / put 写入缓存 / stats 命中率（文件页缓存）\n"
+            "    if op == 'put':\n"
+            "        state.setdefault('cache', {})[page] = data\n"
+            "        return 'cached'\n"
+            "    if op == 'get':\n"
+            "        c = state.setdefault('cache', {})\n"
+            "        state['hits'] = state.get('hits', 0) + 1\n"
+            "        if page in c:\n"
+            "            state['hit'] = state.get('hit', 0) + 1\n"
+            "            return c[page]\n"
+            "        return None\n"
+            "    if op == 'stats':\n"
+            "        h = state.get('hit', 0)\n"
+            "        t = state.get('hits', 0)\n"
+            "        return round(h / t, 2) if t else 0.0\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'put', 1, 'A'), 'cached'),
+            (({'cache': {1: 'A'}}, 'get', 1), 'A'),
+            (({}, 'get', 1), None),
+            (({'hit': 2, 'hits': 4}, 'stats'), 0.5)],
+        "params": [],
+        "calibration": "对照：页缓存——文件页缓存命中/写入/命中率",
+    },
+    "调度-亲和性": {
+        "task": "亲和性",
+        "pattern": (
+            "def cpu_affinity(state, op, pid=None, cpu=None):\n"
+            "    # 亲和性：set 绑定核 / get 查询 / allowed 允许核集（CPU affinity）\n"
+            "    if op == 'set':\n"
+            "        state.setdefault('aff', {})[pid] = cpu\n"
+            "        return cpu\n"
+            "    if op == 'get':\n"
+            "        return state.get('aff', {}).get(pid)\n"
+            "    if op == 'allowed':\n"
+            "        c = state.get('aff', {}).get(pid)\n"
+            "        return c if c is not None else list(range(state.get('ncore', 4)))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'set', 101, 2), 2),
+            (({'aff': {101: 2}}, 'get', 101), 2),
+            (({}, 'get', 101), None),
+            (({}, 'allowed', 101), [0, 1, 2, 3])],
+        "params": [],
+        "calibration": "对照：CPU 亲和性——进程绑定核/查询/允许集",
+    },
 }
 
 

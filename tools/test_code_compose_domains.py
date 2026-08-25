@@ -7204,5 +7204,40 @@ except Exception as ex:
     check('㌬c 并查集→LCP→编辑距离端到端（1 fl 3）',
           False, str(ex)[:60])
 
+# ㌭ 目标4 深化：OS 机制（进程组/页缓存/亲和性 经正式管线）
+o18_qs = {
+    "进程组": "写一个进程组单元（作业控制）",
+    "页缓存": "写一个页缓存单元（文件缓存）",
+    "亲和性": "写一个亲和性单元（CPU 绑定）",
+}
+o18_ok = 0
+for label, q in o18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o18_ok += 1
+    check(f'㌭ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌭b OS机制三单元全部生成', o18_ok == 3, f'{o18_ok}/3')
+
+# ㌭c 端到端：进程组→页缓存→亲和性（1 A 2）
+r_pg = domain_route("写一个进程组单元（作业控制）")
+r_pc = domain_route("写一个页缓存单元（文件缓存）")
+r_ca = domain_route("写一个亲和性单元（CPU 绑定）")
+try:
+    ns_pg, ns_pc, ns_ca = {}, {}, {}
+    exec(r_pg["code"], ns_pg)
+    exec(r_pc["code"], ns_pc)
+    exec(r_ca["code"], ns_ca)
+    pg = ns_pg["proc_group"]({}, 'join', 1, 101)
+    pc = ns_pc["page_cache"]({'cache': {1: 'A'}}, 'get', 1)
+    ca = ns_ca["cpu_affinity"]({}, 'set', 101, 2)
+    check('㌭c 进程组→页缓存→亲和性端到端（1 A 2）',
+          pg == 1 and pc == 'A' and ca == 2,
+          f'pg={pg} cache={pc} aff={ca}')
+except Exception as ex:
+    check('㌭c 进程组→页缓存→亲和性端到端（1 A 2）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
