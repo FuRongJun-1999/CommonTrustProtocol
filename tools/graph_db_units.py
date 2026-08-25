@@ -2473,7 +2473,10 @@ GRAPH_UNITS = {
         "task": "树重心",
         "pattern": (
             "def tree_centroid(adj):\n"
-            "    # 树重心：移除后最大子树最小（平衡分割点）\n"
+            "    # 树重心（树的重心）：移除后最大子树最小（平衡分割点）\n"
+            "    # 生效条件：adj 为树形无向图（n 个顶点连通无环）\n"
+            "    # 子功能：① DFS 统计子树大小 ② 计算各点最大子树 ③ 取最小者\n"
+            "    # 执行：后序 DFS 收集 size，比较 max(子树, n-size) 取最小\n"
             "    n = len(adj)\n"
             "    if n == 0:\n"
             "        return None\n"

@@ -2351,7 +2351,10 @@ NET_UNITS = {
         "task": "MAC学习",
         "pattern": (
             "def mac_learn(table, port, mac, action):\n"
-            "    # MAC 学习：交换机按源 MAC 记录端口，未知目标泛洪（转发决策基础）\n"
+            "    # MAC 学习（MAC地址学习）：交换机按源 MAC 记录端口，未知目标泛洪（转发决策基础）\n"
+            "    # 生效条件：action ∈ {learn, lookup}；table 为 MAC→端口 映射\n"
+            "    # 子功能：① learn 记录源 MAC 端口 ② lookup 查询转发端口 ③ 未知泛洪\n"
+            "    # 执行：learn 写表；lookup 命中返端口、未命中返 flood\n"
             "    if action == 'learn':\n"
             "        table[mac] = port\n"
             "        return 'learned'\n"

@@ -2234,7 +2234,10 @@ OS_UNITS = {
         "task": "工作窃取",
         "pattern": (
             "def work_steal(queues, worker):\n"
-            "    # 工作窃取：空闲核从最忙队列窃取一个任务（多核负载均衡）\n"
+            "    # 工作窃取（work stealing）：空闲核从最忙队列窃取一个任务（多核负载均衡）\n"
+            "    # 生效条件：queues 为各核任务队列列表；worker 为申请窃取的核号\n"
+            "    # 子功能：① 空闲判定（自己队列非空则不窃取）② 找最忙非空队列 ③ 迁移一个任务\n"
+            "    # 执行：忙核直返；空闲则取最忙队列 pop(0) 到本队列\n"
             "    if queues[worker]:\n"
             "        return queues\n"
             "    candidates = [(i, q) for i, q in enumerate(queues) if q and i != worker]\n"

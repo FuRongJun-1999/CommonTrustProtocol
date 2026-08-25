@@ -157,8 +157,33 @@ def compose(question: str, nodes=None, top: int = 5) -> dict:
         if u:
             code_parts.append(f"# ===== {uid}（{u.get('task', '')}）=====\n"
                               + u['pattern'])
-    return {"ok": True, "chain": chain, "code": "\n\n".join(code_parts),
-            "hit_units": [h[0] for h in hits]}
+    code = "\n\n".join(code_parts)
+
+    # verifier 校验闭环：链上每单元经本地校验器（六层，缓存命中零计算）
+    # + 组装代码语法检查（生成即校验，零 LLM）
+    from verifier import Verifier, VerifyRequest
+    v = Verifier()
+    results = []
+    for uid in chain:
+        u = _ALL.get(uid)
+        if not u:
+            continue
+        r = v.verify(VerifyRequest(
+            task=u['task'], code=u['pattern'], unit_id=uid,
+            cases=list(u.get('cases', [])),
+            expected_structure={'inject': True} if u.get('needs_inject') else {}))
+        results.append({"unit": uid, "ok": r.ok, "cached": r.cached})
+    import ast as _ast
+    try:
+        _ast.parse(code)
+        syntax_ok = True
+    except SyntaxError:
+        syntax_ok = False
+    return {"ok": True, "chain": chain, "code": code,
+            "hit_units": [h[0] for h in hits],
+            "verify": {"units": results,
+                       "all_ok": bool(results) and all(x["ok"] for x in results),
+                       "syntax_ok": syntax_ok}}
 
 
 def explain(uid, nodes=None) -> str:

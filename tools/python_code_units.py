@@ -2218,7 +2218,10 @@ PYTHON_UNITS = {
         "task": "集合推导",
         "pattern": (
             "def set_comprehension(items, cond=None):\n"
-            "    # 集合推导：{x for x in items if cond(x)} 去重构建（P 线推导式机制）\n"
+            "    # 集合推导（集合推导式）：{x for x in items if cond(x)} 去重构建（P 线推导式机制）\n"
+            "    # 生效条件：items 可迭代；cond 为谓词函数或 None（不过滤）\n"
+            "    # 子功能：① 无谓词直接去重建集 ② 有谓词过滤后建集\n"
+            "    # 执行：set(items) 或 {x for x in items if cond(x)}\n"
             "    if cond is None:\n"
             "        return set(items)\n"
             "    return {x for x in items if cond(x)}\n"),

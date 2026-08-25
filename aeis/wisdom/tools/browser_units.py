@@ -2184,7 +2184,10 @@ BROWSER_UNITS = {
         "task": "混合内容",
         "pattern": (
             "def mixed_content(page_scheme, res_scheme):\n"
-            "    # 混合内容：HTTPS 页面加载 HTTP 子资源拦截（浏览器安全策略）\n"
+            "    # 混合内容（mixed content）：HTTPS 页面加载 HTTP 子资源拦截（浏览器安全策略）\n"
+            "    # 生效条件：page_scheme/res_scheme ∈ {https, http}\n"
+            "    # 子功能：① HTTPS 页面检测 ② HTTP 子资源判定 ③ 拦截/放行\n"
+            "    # 执行：页面 https 且资源 http → blocked，否则 allowed\n"
             "    if page_scheme == 'https' and res_scheme == 'http':\n"
             "        return 'blocked'\n"
             "    return 'allowed'\n"),

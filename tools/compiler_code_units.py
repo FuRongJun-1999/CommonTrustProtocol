@@ -2488,7 +2488,10 @@ COMPILER_UNITS = {
         "task": "信任流分析",
         "pattern": (
             "def trust_flow(expr, env):\n"
-            "    # 德：编译期信任传播（与=取min，或=取max，非=1-t，名=查env，字面量=1.0）\n"
+            "    # 信任流分析（信任传播）：德——编译期信任传播（与=取min，或=取max，非=1-t，名=查env，字面量=1.0）\n"
+            "    # 生效条件：expr 为表达式树（tuple 操作节点/字符串名/字面量）；env 为名→信任值映射\n"
+            "    # 子功能：① 操作节点递归传播 ② 名称查 env ③ 字面量视为完全可信\n"
+            "    # 执行：AND=min / OR=max / NOT=1-t 递归归约\n"
             "    if isinstance(expr, tuple):\n"
             "        op = expr[0]\n"
             "        if op == \"AND\":\n"
@@ -2515,7 +2518,10 @@ COMPILER_UNITS = {
         "task": "短路求值",
         "pattern": (
             "def vm_short_circuit(left, op, right):\n"
-            "    # 短路求值：与=左假不求右，或=左真不求右（VM 逻辑执行语义）\n"
+            "    # 短路求值（短路逻辑）：与=左假不求右，或=左真不求右（VM 逻辑执行语义）\n"
+            "    # 生效条件：op ∈ {且, 或}；left/right 为操作数值\n"
+            "    # 子功能：① 且/或短路判定 ② 需要时求右值 ③ 返回 (结果, 右是否求值)\n"
+            "    # 执行：且左假直返 False、或左真直返 True——右侧仅必要时求值\n"
             "    # 返回 (结果, 右操作数是否被求值)\n"
             "    if op == '且':\n"
             "        if not left:\n"
