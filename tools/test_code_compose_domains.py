@@ -6534,5 +6534,40 @@ except Exception as ex:
     check('㌙c 翻译→语言检测→摘要端到端（en:你好 zh 短）',
           False, str(ex)[:60])
 
+# ㌚ 目标5 深化：浏览器 API（联系人/形状检测/存储配额 经正式管线）
+b22_qs = {
+    "联系人": "写一个联系人单元（选择列表）",
+    "形状检测": "写一个形状检测单元（人脸条码）",
+    "存储配额": "写一个存储配额单元（用量估算）",
+}
+b22_ok = 0
+for label, q in b22_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b22_ok += 1
+    check(f'㌚ {label} 浏览器API单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌚b 浏览器API三单元全部生成', b22_ok == 3, f'{b22_ok}/3')
+
+# ㌚c 端到端：联系人→形状检测→存储配额（张三 detected 50.0）
+r_cp = domain_route("写一个联系人单元（选择列表）")
+r_sd = domain_route("写一个形状检测单元（人脸条码）")
+r_sq = domain_route("写一个存储配额单元（用量估算）")
+try:
+    ns_cp, ns_sd, ns_sq = {}, {}, {}
+    exec(r_cp["code"], ns_cp)
+    exec(r_sd["code"], ns_sd)
+    exec(r_sq["code"], ns_sq)
+    cp = ns_cp["contact_pick"]({}, 'pick', '张三')
+    sd = ns_sd["shape_detect"]({}, 'detect', 'face', 2)
+    sq = ns_sq["storage_quota"]({'used': 50, 'quota': 100}, 'percent')
+    check('㌚c 联系人→形状检测→存储配额端到端（张三 detected 50.0）',
+          cp == '张三' and sd == 'detected' and sq == 50.0,
+          f'contact={cp} shape={sd} quota={sq}')
+except Exception as ex:
+    check('㌚c 联系人→形状检测→存储配额端到端（张三 detected 50.0）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -1945,6 +1945,71 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：Summarizer——文本要点提取摘要",
     },
+    "浏览器-联系人": {
+        "task": "联系人",
+        "pattern": (
+            "def contact_pick(state, op, contact=None):\n"
+            "    # 联系人：pick 选择 / selected 已选 / clear 清空（Contact Picker）\n"
+            "    if op == 'pick':\n"
+            "        state.setdefault('picked', []).append(contact)\n"
+            "        return contact\n"
+            "    if op == 'selected':\n"
+            "        return list(state.get('picked', []))\n"
+            "    if op == 'clear':\n"
+            "        state['picked'] = []\n"
+            "        return 'cleared'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'pick', '张三'), '张三'),
+            (({'picked': ['张三']}, 'selected'), ['张三']),
+            (({}, 'selected'), []),
+            (({'picked': ['张三']}, 'clear'), 'cleared')],
+        "params": [],
+        "calibration": "对照：Contact Picker——联系人选择与列表",
+    },
+    "浏览器-形状检测": {
+        "task": "形状检测",
+        "pattern": (
+            "def shape_detect(state, op, shape=None, count=None):\n"
+            "    # 形状检测：detect 检测 / count 数量 / last 最近结果（Shape Detection API）\n"
+            "    if op == 'detect':\n"
+            "        state['last'] = (shape, count)\n"
+            "        return 'detected'\n"
+            "    if op == 'count':\n"
+            "        return state.get('last', (None, 0))[1]\n"
+            "    if op == 'last':\n"
+            "        return state.get('last')\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'detect', 'face', 2), 'detected'),
+            (({'last': ('face', 2)}, 'count'), 2),
+            (({}, 'count'), 0),
+            (({'last': ('barcode', 1)}, 'last'), ('barcode', 1))],
+        "params": [],
+        "calibration": "对照：Shape Detection——人脸/条码形状检测",
+    },
+    "浏览器-存储配额": {
+        "task": "存储配额",
+        "pattern": (
+            "def storage_quota(state, op, used=None):\n"
+            "    # 存储配额：estimate 估算 / usage 已用 / percent 占用比（Storage Quota）\n"
+            "    if op == 'estimate':\n"
+            "        state['used'] = used\n"
+            "        return 'estimated'\n"
+            "    if op == 'usage':\n"
+            "        return state.get('used', 0)\n"
+            "    if op == 'percent':\n"
+            "        quota = state.get('quota', 1)\n"
+            "        return round(state.get('used', 0) / quota * 100, 1)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'estimate', 50), 'estimated'),
+            (({'used': 50}, 'usage'), 50),
+            (({'used': 50, 'quota': 100}, 'percent'), 50.0),
+            (({}, 'usage'), 0)],
+        "params": [],
+        "calibration": "对照：Storage Quota——存储用量估算与占用比",
+    },
 }
 
 

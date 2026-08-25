@@ -5348,5 +5348,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:browser|浏览器-联系人": {
+  "task": "联系人",
+  "unit": "浏览器-联系人",
+  "code": "def contact_pick(state, op, contact=None):\n    # 联系人：pick 选择 / selected 已选 / clear 清空（Contact Picker）\n    if op == 'pick':\n        state.setdefault('picked', []).append(contact)\n        return contact\n    if op == 'selected':\n        return list(state.get('picked', []))\n    if op == 'clear':\n        state['picked'] = []\n        return 'cleared'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-形状检测": {
+  "task": "形状检测",
+  "unit": "浏览器-形状检测",
+  "code": "def shape_detect(state, op, shape=None, count=None):\n    # 形状检测：detect 检测 / count 数量 / last 最近结果（Shape Detection API）\n    if op == 'detect':\n        state['last'] = (shape, count)\n        return 'detected'\n    if op == 'count':\n        return state.get('last', (None, 0))[1]\n    if op == 'last':\n        return state.get('last')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-存储配额": {
+  "task": "存储配额",
+  "unit": "浏览器-存储配额",
+  "code": "def storage_quota(state, op, used=None):\n    # 存储配额：estimate 估算 / usage 已用 / percent 占用比（Storage Quota）\n    if op == 'estimate':\n        state['used'] = used\n        return 'estimated'\n    if op == 'usage':\n        return state.get('used', 0)\n    if op == 'percent':\n        quota = state.get('quota', 1)\n        return round(state.get('used', 0) / quota * 100, 1)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }
