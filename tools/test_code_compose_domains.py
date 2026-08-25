@@ -5756,5 +5756,40 @@ except Exception as ex:
     check('㌃c 尽力交付→时延积→多宿主端到端（sent 1.0 eth0）',
           False, str(ex)[:60])
 
+# ㌄ 目标1 深化：P 线数据结构/工具（有序字典/随机采样/字节编解码 经正式管线）
+p20_qs = {
+    "有序字典": "写一个有序字典单元（插入序）",
+    "随机采样": "写一个随机采样单元（无重复取样）",
+    "字节编解码": "写一个字节编解码单元（UTF-8 互转）",
+}
+p20_ok = 0
+for label, q in p20_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p20_ok += 1
+    check(f'㌄ {label} P线数据结构/工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌄b P线数据结构/工具三单元全部生成', p20_ok == 3, f'{p20_ok}/3')
+
+# ㌄c 端到端：有序字典→随机采样→字节编解码（[a,b] [1,3] b'甲'）
+r_od = domain_route("写一个有序字典单元（插入序）")
+r_rs = domain_route("写一个随机采样单元（无重复取样）")
+r_bc = domain_route("写一个字节编解码单元（UTF-8 互转）")
+try:
+    ns_od, ns_rs, ns_bc = {}, {}, {}
+    exec(r_od["code"], ns_od)
+    exec(r_rs["code"], ns_rs)
+    exec(r_bc["code"], ns_bc)
+    od = ns_od["ordered_dict"]({'a': 1, 'b': 2}, 'order')
+    rs = ns_rs["random_sample"]([1, 2, 3, 4], 2)
+    bc = ns_bc["bytes_codec"]('甲', 'encode')
+    check('㌄c 有序字典→随机采样→字节端到端（[a,b] [1,3] b 甲）',
+          od == ['a', 'b'] and rs == [1, 3] and bc == '甲'.encode('utf-8'),
+          f'order={od} sample={rs} bytes={bc}')
+except Exception as ex:
+    check('㌄c 有序字典→随机采样→字节端到端（[a,b] [1,3] b 甲）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

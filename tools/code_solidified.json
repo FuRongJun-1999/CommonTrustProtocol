@@ -4688,5 +4688,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:pylang|数据结构-有序字典": {
+  "task": "有序字典",
+  "unit": "数据结构-有序字典",
+  "code": "def ordered_dict(d, op, key=None, value=None):\n    # 有序字典：put 按序写入 / get 取值 / order 键序（OrderedDict 语义）\n    if op == 'put':\n        d[key] = value\n        return list(d.keys())\n    if op == 'get':\n        return d.get(key)\n    if op == 'order':\n        return list(d.keys())\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-随机采样": {
+  "task": "随机采样",
+  "unit": "工具-随机采样",
+  "code": "def random_sample(items, k):\n    # 随机采样：取 k 个不重复元素（random.sample 语义，确定性取模）\n    n = len(items)\n    if k >= n:\n        return list(items)\n    step = max(1, n // k)\n    return [items[i * step] for i in range(k)]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-字节编解码": {
+  "task": "字节编解码",
+  "unit": "工具-字节编解码",
+  "code": "def bytes_codec(data, op):\n    # 字节编解码：encode 文本→字节 / decode 字节→文本（UTF-8）\n    if op == 'encode':\n        return data.encode('utf-8')\n    if op == 'decode':\n        return data.decode('utf-8')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

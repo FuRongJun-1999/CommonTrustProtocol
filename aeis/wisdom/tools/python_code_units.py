@@ -1633,6 +1633,61 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：string.Template——$ 变量占位符替换（模板渲染）",
     },
+    "数据结构-有序字典": {
+        "task": "有序字典",
+        "pattern": (
+            "def ordered_dict(d, op, key=None, value=None):\n"
+            "    # 有序字典：put 按序写入 / get 取值 / order 键序（OrderedDict 语义）\n"
+            "    if op == 'put':\n"
+            "        d[key] = value\n"
+            "        return list(d.keys())\n"
+            "    if op == 'get':\n"
+            "        return d.get(key)\n"
+            "    if op == 'order':\n"
+            "        return list(d.keys())\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'put', 'a', 1), ['a']),
+            (({'a': 1, 'b': 2}, 'get', 'b'), 2),
+            (({'a': 1, 'b': 2}, 'order'), ['a', 'b']),
+            (({}, 'get', 'x'), None)],
+        "params": [],
+        "calibration": "对照：collections.OrderedDict——插入序保持（键序）",
+    },
+    "工具-随机采样": {
+        "task": "随机采样",
+        "pattern": (
+            "def random_sample(items, k):\n"
+            "    # 随机采样：取 k 个不重复元素（random.sample 语义，确定性取模）\n"
+            "    n = len(items)\n"
+            "    if k >= n:\n"
+            "        return list(items)\n"
+            "    step = max(1, n // k)\n"
+            "    return [items[i * step] for i in range(k)]\n"),
+        "cases": [
+            (([1, 2, 3, 4], 2), [1, 3]),
+            (([1, 2, 3], 5), [1, 2, 3]),
+            (([], 0), [])],
+        "params": [],
+        "calibration": "对照：random.sample——无重复采样（确定性等价实现）",
+    },
+    "工具-字节编解码": {
+        "task": "字节编解码",
+        "pattern": (
+            "def bytes_codec(data, op):\n"
+            "    # 字节编解码：encode 文本→字节 / decode 字节→文本（UTF-8）\n"
+            "    if op == 'encode':\n"
+            "        return data.encode('utf-8')\n"
+            "    if op == 'decode':\n"
+            "        return data.decode('utf-8')\n"
+            "    return None\n"),
+        "cases": [
+            (('甲', 'encode'), b'\xe7\x94\xb2'),
+            ((b'\xe7\x94\xb2', 'decode'), '甲'),
+            (('', 'encode'), b'')],
+        "params": [],
+        "calibration": "对照：bytes——UTF-8 编码/解码（文本↔字节）",
+    },
 }
 
 
