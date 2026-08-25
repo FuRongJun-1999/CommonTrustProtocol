@@ -5828,5 +5828,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:net|网络-拓扑发现": {
+  "task": "拓扑发现",
+  "unit": "网络-拓扑发现",
+  "code": "def topo_discover(state, op, node=None, neighbor=None):\n    # 拓扑发现：probe 探测 / link 记录 / neighbors 邻居表（LLDP/拓扑感知）\n    if op == 'probe':\n        state.setdefault('links', set()).add((node, neighbor))\n        return 'found'\n    if op == 'link':\n        return sorted(state.get('links', set()))\n    if op == 'neighbors':\n        return sorted(b for a, b in state.get('links', set()) if a == node)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-路径备份": {
+  "task": "路径备份",
+  "unit": "网络-路径备份",
+  "code": "def path_backup(state, op, route=None, backup=None):\n    # 路径备份：assign 指定 / active 激活 / failover 主路故障切换（FRR）\n    if op == 'assign':\n        state['primary'] = route\n        state['backup'] = backup\n        state['active'] = route\n        return 'assigned'\n    if op == 'active':\n        return state.get('active')\n    if op == 'failover':\n        if state.get('active') == state.get('primary'):\n            state['active'] = state.get('backup')\n            return 'switched'\n        return 'noop'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-数据去重": {
+  "task": "数据去重",
+  "unit": "网络-数据去重",
+  "code": "def payload_dedup(state, op, data=None):\n    # 数据去重：hash 指纹 / store 存储 / dedup 是否重复（网络级去重）\n    if op == 'hash':\n        return sum(ord(c) for c in data) % 997\n    if op == 'store':\n        h = sum(ord(c) for c in data) % 997\n        state.setdefault('seen', set()).add(h)\n        return 'stored'\n    if op == 'dedup':\n        h = sum(ord(c) for c in data) % 997\n        return h in state.get('seen', set())\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

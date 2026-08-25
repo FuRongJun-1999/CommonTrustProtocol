@@ -7099,5 +7099,40 @@ except Exception as ex:
     check('㌩c 汉密尔顿→图差分→双层邻居端到端（[0,1,2] added(0,2) [2]）',
           False, str(ex)[:60])
 
+# ㌪ 目标7 深化：网络机制（拓扑发现/路径备份/数据去重 经正式管线）
+n25_qs = {
+    "拓扑发现": "写一个拓扑发现单元（链路探测）",
+    "路径备份": "写一个路径备份单元（FRR 快速切换）",
+    "数据去重": "写一个数据去重单元（指纹识别）",
+}
+n25_ok = 0
+for label, q in n25_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n25_ok += 1
+    check(f'㌪ {label} 网络机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌪b 网络机制三单元全部生成', n25_ok == 3, f'{n25_ok}/3')
+
+# ㌪c 端到端：拓扑发现→路径备份→数据去重（found switched True）
+r_td = domain_route("写一个拓扑发现单元（链路探测）")
+r_pb = domain_route("写一个路径备份单元（FRR 快速切换）")
+r_dd = domain_route("写一个数据去重单元（指纹识别）")
+try:
+    ns_td, ns_pb, ns_dd = {}, {}, {}
+    exec(r_td["code"], ns_td)
+    exec(r_pb["code"], ns_pb)
+    exec(r_dd["code"], ns_dd)
+    td = ns_td["topo_discover"]({}, 'probe', 'n1', 'n2')
+    pb = ns_pb["path_backup"]({'primary': 'r1', 'backup': 'r2', 'active': 'r1'}, 'failover')
+    dd = ns_dd["payload_dedup"]({'seen': {294}}, 'dedup', 'abc')
+    check('㌪c 拓扑发现→路径备份→数据去重端到端（found switched True）',
+          td == 'found' and pb == 'switched' and dd is True,
+          f'topo={td} backup={pb} dedup={dd}')
+except Exception as ex:
+    check('㌪c 拓扑发现→路径备份→数据去重端到端（found switched True）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

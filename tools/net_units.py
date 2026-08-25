@@ -2169,6 +2169,76 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：误码率——错误/总数与信噪比映射（链路质量）",
     },
+    "网络-拓扑发现": {
+        "task": "拓扑发现",
+        "pattern": (
+            "def topo_discover(state, op, node=None, neighbor=None):\n"
+            "    # 拓扑发现：probe 探测 / link 记录 / neighbors 邻居表（LLDP/拓扑感知）\n"
+            "    if op == 'probe':\n"
+            "        state.setdefault('links', set()).add((node, neighbor))\n"
+            "        return 'found'\n"
+            "    if op == 'link':\n"
+            "        return sorted(state.get('links', set()))\n"
+            "    if op == 'neighbors':\n"
+            "        return sorted(b for a, b in state.get('links', set()) if a == node)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'probe', 'n1', 'n2'), 'found'),
+            (({'links': {('n1', 'n2')}}, 'link'), [('n1', 'n2')]),
+            (({}, 'link'), []),
+            (({'links': {('n1', 'n2')}}, 'neighbors', 'n1'), ['n2'])],
+        "params": [],
+        "calibration": "对照：拓扑发现——链路探测与邻居表（LLDP）",
+    },
+    "网络-路径备份": {
+        "task": "路径备份",
+        "pattern": (
+            "def path_backup(state, op, route=None, backup=None):\n"
+            "    # 路径备份：assign 指定 / active 激活 / failover 主路故障切换（FRR）\n"
+            "    if op == 'assign':\n"
+            "        state['primary'] = route\n"
+            "        state['backup'] = backup\n"
+            "        state['active'] = route\n"
+            "        return 'assigned'\n"
+            "    if op == 'active':\n"
+            "        return state.get('active')\n"
+            "    if op == 'failover':\n"
+            "        if state.get('active') == state.get('primary'):\n"
+            "            state['active'] = state.get('backup')\n"
+            "            return 'switched'\n"
+            "        return 'noop'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'assign', 'r1', 'r2'), 'assigned'),
+            (({'active': 'r1'}, 'active'), 'r1'),
+            (({'primary': 'r1', 'backup': 'r2', 'active': 'r1'}, 'failover'), 'switched'),
+            (({'primary': 'r1', 'backup': 'r2', 'active': 'r2'}, 'failover'), 'noop')],
+        "params": [],
+        "calibration": "对照：FRR——主备路径故障切换（快速重路由）",
+    },
+    "网络-数据去重": {
+        "task": "数据去重",
+        "pattern": (
+            "def payload_dedup(state, op, data=None):\n"
+            "    # 数据去重：hash 指纹 / store 存储 / dedup 是否重复（网络级去重）\n"
+            "    if op == 'hash':\n"
+            "        return sum(ord(c) for c in data) % 997\n"
+            "    if op == 'store':\n"
+            "        h = sum(ord(c) for c in data) % 997\n"
+            "        state.setdefault('seen', set()).add(h)\n"
+            "        return 'stored'\n"
+            "    if op == 'dedup':\n"
+            "        h = sum(ord(c) for c in data) % 997\n"
+            "        return h in state.get('seen', set())\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'hash', 'abc'), 294),
+            (({}, 'store', 'abc'), 'stored'),
+            (({'seen': {294}}, 'dedup', 'abc'), True),
+            (({}, 'dedup', 'abc'), False)],
+        "params": [],
+        "calibration": "对照：网络去重——指纹识别重复载荷（dedup）",
+    },
 }
 
 
