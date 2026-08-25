@@ -28,11 +28,12 @@ _ABBR_CN = re.compile(r'([A-Z][A-Z0-9]{1,})[（(]([^）)]+)[）)]')
 
 
 def extract_comment_index(code: str) -> dict:
-    """从条件论注释提取索引：{注释文本, 子功能词, 生效条件词, 缩写同义词}。
+    """从条件论注释提取索引：{注释文本, 子功能词, 生效条件词, 不适用条件词, 缩写同义词}。
 
     三要素行分离（语义时空图·结构面）：
-      子功能行（内部功能分解）→ sub_tokens（问题问内部能力时加权）
+      子功能行（内部功能分解）→ sub_tokens
       生效条件行（前置条件）→ cond_tokens
+      不适用条件行（盲区声明·负路由）→ not_tokens（任务与其冲突 → 排除）
       功能名/执行行 → tokens（主索引）
     """
     lines = [ln.strip().lstrip('#').strip()
@@ -40,16 +41,27 @@ def extract_comment_index(code: str) -> dict:
     text = ' '.join(lines)
     sub_lines = [ln for ln in lines if ln.startswith('子功能')]
     cond_lines = [ln for ln in lines if ln.startswith('生效条件')]
+    not_lines = [ln for ln in lines if ln.startswith('不适用条件')]
     abbrs = {}
     for m in _ABBR_CN.finditer(text):
         abbrs[m.group(1)] = m.group(2)
     syn = {w for w in abbrs.values() if len(w) >= 2}
+    # 不适用条件通用词剔除：自动生成草稿的「为空/非法/越界/参数/返回」等
+    # 泛化词与任务描述词易重叠 → 误排除正常单元（盲测 Top-1 100%→76% 教训）
+    _NOT_GENERIC = {"为空", "空非", "非法", "法时", "越界", "界时", "参数",
+                    "数为", "输入", "入不", "不满", "满足", "足生", "生效",
+                    "件时", "返回", "回N", "None", "不执", "执行", "不适用",
+                    "适用", "条件", "时返", "则不"}
     idx = {
         'text': text,
         'abbrs': abbrs,
         'tokens': _bigrams(text) | syn,
         'sub_tokens': _bigrams(' '.join(sub_lines)),
         'cond_tokens': _bigrams(' '.join(cond_lines)),
+        # 负路由只统计中文二元组：英文 bigram（'DUP'→'DU','UP'）是无语义噪声，
+        # 会与任务英文词误重叠 → 误排除正常单元（盲测 Top-1 76% 教训）
+        'not_tokens': {b for b in _bigrams(' '.join(not_lines)) - _NOT_GENERIC
+                       if any('\u4e00' <= c <= '\u9fff' for c in b)},
     }
     return idx
 
@@ -179,6 +191,11 @@ def search(question: str, nodes=None, top: int = 5) -> list:
         idx = n['index']
         common = q & idx['tokens']
         if not common:
+            continue
+        # 负路由（盲区声明·条件冲突排除）：任务条件词与候选「不适用条件」
+        # 重叠 ≥2 → 该候选不适用当前任务 → 排除（条件不满足 → 不路由）
+        not_hit = len(q & idx.get('not_tokens', set()))
+        if not_hit >= 2:
             continue
         # 命中词数 + task 权威名加权（task == core 或 core 以 task 结尾——
         # 「路径解析」是「文件系统路径解析」的动作后缀 ✓，「文件系统」是

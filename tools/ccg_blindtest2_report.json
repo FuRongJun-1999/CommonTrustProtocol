@@ -3,12 +3,18 @@
  "seed": 20260826,
  "sample": 96,
  "baseline": 0.0014684287812041115,
- "top1": 96,
- "top1_rate": 1.0,
+ "top1": 95,
+ "top1_rate": 0.9896,
  "top5": 96,
  "top5_rate": 1.0,
  "neg_reject": 94,
  "neg_rate": 0.9792,
  "conclusion": "规模化下语义注释 Top-1/Top-5 高命中且负条件高拒绝率——接近 condition-based routing（条件满足→路由，不满足→不路由）",
- "misses": []
+ "misses": [
+  {
+   "unit": "进程-调度",
+   "task": "写一个[] → 完成时间列表的代码单元",
+   "got": "调度-SJF"
+  }
+ ]
 }

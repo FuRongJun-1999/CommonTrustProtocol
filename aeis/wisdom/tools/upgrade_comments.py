@@ -119,6 +119,94 @@ def has_cond_comment(code: str) -> bool:
     return all(k in joined for k in ("生效条件", "子功能", "执行"))
 
 
+def gen_not_cond(code: str) -> str:
+    """生成「不适用条件」草稿（盲区声明——何时不能调用）。
+
+    提取：if not X / 参数边界 guard / op 非预期返回 None / 顶层 return None。
+    """
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return "输入不满足生效条件时不适用"
+    funcs = [n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]
+    if not funcs:
+        return "输入不满足生效条件时不适用"
+    f = funcs[0]
+    guards = []
+    for node in ast.walk(f):
+        if isinstance(node, ast.If):
+            t = node.test
+            # if not x: / if x is None:
+            if isinstance(t, ast.UnaryOp) and isinstance(t.op, ast.Not) \
+                    and isinstance(t.operand, ast.Name):
+                guards.append(f"{t.operand.id} 为空/非法时")
+            elif isinstance(t, ast.Compare) and len(t.ops) == 1 \
+                    and isinstance(t.left, ast.Name):
+                cmp = t.ops[0]
+                if isinstance(cmp, (ast.LtE, ast.Lt, ast.GtE, ast.Gt)) \
+                        and isinstance(t.comparators[0], ast.Constant):
+                    guards.append(f"{t.left.id} 越界（{cmp.__class__.__name__}）时")
+            elif isinstance(t, ast.Compare) and len(t.ops) == 1 \
+                    and isinstance(t.ops[0], (ast.Is, ast.IsNot)) \
+                    and isinstance(t.comparators[0], ast.Constant) \
+                    and t.comparators[0].value is None:
+                guards.append(f"{t.left.id} 为 None 时")
+    # op 非预期值返回 None（有 op 分派但默认返 None）
+    ops = _op_branches(f)
+    if ops:
+        for v, vals in ops.items():
+            guards.append(f"{v} 非 {{{', '.join(vals)}}} 时")
+    if guards:
+        # 去重保序
+        seen, uniq = set(), []
+        for g in guards:
+            if g not in seen:
+                seen.add(g)
+                uniq.append(g)
+        return "；".join(uniq[:3])
+    return "输入不满足生效条件时返回 None/不执行"
+
+
+def has_not_cond(code: str) -> bool:
+    lines = [ln.strip().lstrip('#').strip()
+             for ln in code.splitlines() if ln.strip().startswith('#')]
+    return any('不适用条件' in ln for ln in lines)
+
+
+def apply_not_cond_to_file(path: str, units: dict, dry: bool = True) -> int:
+    """给缺「不适用条件」的单元补第四要素（在「执行」行后插入）。"""
+    import re
+    text = open(path, encoding='utf-8').read()
+    n = 0
+    for uid, u in units.items():
+        code = u['pattern']
+        if has_not_cond(code):
+            continue
+        nc = gen_not_cond(code)
+        esc = lambda t: t.replace('\\', '\\\\').replace('"', '\\"')
+        insert = f'"    # 不适用条件：{esc(nc)}\\n"\n'
+        start = text.find(f'"{uid}": {{')
+        if start < 0:
+            continue
+        end = text.find('"calibration"', start)
+        if end < 0:
+            end = start + 4000
+        block = text[start:end]
+        # 在「执行」注释行后插入（字符串定位，避开转义正则陷阱）
+        idx = block.find('# 执行')
+        if idx < 0:
+            continue
+        line_end_rel = block.find('\n', idx)
+        if line_end_rel < 0:
+            continue
+        pos = start + line_end_rel + 1
+        text = text[:pos] + insert + text[pos:]
+        n += 1
+    if not dry:
+        open(path, 'w', encoding='utf-8').write(text)
+    return n
+
+
 def apply_to_file(path: str, units: dict, dry: bool = True) -> int:
     """把未含三要素的单元注释升级写回源文件（在 def 行字面量后插入）。
 
@@ -185,6 +273,13 @@ if __name__ == "__main__":
     total = 0
     for fn, units in FILES:
         k = apply_to_file(os.path.join(HERE, fn), units, dry=(mode == 'dry'))
-        print(f"{fn}: {k} 个升级（{'dry 预览' if mode == 'dry' else '已写回'}）")
+        print(f"{fn}: 三要素 {k} 个升级（{'dry 预览' if mode == 'dry' else '已写回'}）")
         total += k
-    print(f"合计: {total} 个（模式: {mode}）")
+    print(f"三要素合计: {total} 个（模式: {mode}）")
+    if mode == 'notcond':
+        n2 = 0
+        for fn, units in FILES:
+            k2 = apply_not_cond_to_file(os.path.join(HERE, fn), units, dry=False)
+            print(f"{fn}: 不适用条件 {k2} 个（已写回）")
+            n2 += k2
+        print(f"不适用条件合计: {n2} 个")

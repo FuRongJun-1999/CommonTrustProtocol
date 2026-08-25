@@ -1,14 +1,7 @@
 {
- "experiment": "对抗性负条件（GPT 阶段5）",
- "seed": 20260827,
- "adv_valid": 25,
- "adv_reject": 7,
- "adv_rate": 0.28,
- "nc_valid": 48,
- "nc_reject": 48,
- "nc_rate": 1.0,
- "conclusion": "词相似但条件不满足的任务可被高比例排除（对抗负任务）——接近条件路由而非相似召回；不适用条件盲区声明参与排除",
- "adv_misses": [
+ "purpose": "对抗性负条件 regression suite（GPT 建议：保存曾经判断错误的条件）",
+ "note": "每次 CCG 修改自动跑——防止同域相似词误路由回归",
+ "cases": [
   {
    "unit": "分析-污点分析",
    "adv_source": "调试-覆盖率",
