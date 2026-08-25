@@ -2202,6 +2202,68 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：CPU 亲和性——进程绑定核/查询/允许集",
     },
+    "中断-软中断": {
+        "task": "软中断",
+        "pattern": (
+            "def softirq(queue, action, item=None):\n"
+            "    # 软中断：硬中断中延迟的低优先级工作（defer 入队按优先级 / run 依次处理）\n"
+            "    if action == 'defer':\n"
+            "        queue.append(item)\n"
+            "        queue.sort(key=lambda x: x[0])\n"
+            "        return len(queue)\n"
+            "    if action == 'run':\n"
+            "        out = []\n"
+            "        while queue:\n"
+            "            out.append(queue.pop(0))\n"
+            "        return out\n"
+            "    return None\n"),
+        "cases": [
+            (([], 'defer', (2, '网卡')), 1),
+            (([(2, '网卡')], 'defer', (1, '定时器')), 2),
+            (([(1, '定时器'), (2, '网卡')], 'run'), [(1, '定时器'), (2, '网卡')]),
+            (([], 'run'), []),
+            (([], 'unknown', None), None)],
+        "params": [],
+        "calibration": "对照：软中断（softirq）——硬中断处理中延迟低优先级工作，按优先级排队执行",
+    },
+    "调度-工作窃取": {
+        "task": "工作窃取",
+        "pattern": (
+            "def work_steal(queues, worker):\n"
+            "    # 工作窃取：空闲核从最忙队列窃取一个任务（多核负载均衡）\n"
+            "    if queues[worker]:\n"
+            "        return queues\n"
+            "    candidates = [(i, q) for i, q in enumerate(queues) if q and i != worker]\n"
+            "    if not candidates:\n"
+            "        return queues\n"
+            "    busiest = max(candidates, key=lambda x: len(x[1]))[0]\n"
+            "    queues[worker].append(queues[busiest].pop(0))\n"
+            "    return queues\n"),
+        "cases": [
+            (([[1, 2], [], [3, 4, 5]], 1), [[1, 2], [3], [4, 5]]),
+            (([[1], [2]], 0), [[1], [2]]),
+            (([[], []], 0), [[], []]),
+            (([[7], [8], []], 2), [[], [8], [7]])],
+        "params": [],
+        "calibration": "对照：工作窃取（work stealing）——空闲核从最忙队列窃取任务，无其他非空队列则不动",
+    },
+    "系统-模块加载": {
+        "task": "模块加载",
+        "pattern": (
+            "def module_load(registry, module, deps):\n"
+            "    # 模块加载：依赖满足才注册（内核模块动态装载语义）\n"
+            "    if all(d in registry for d in deps):\n"
+            "        registry[module] = 'loaded'\n"
+            "        return 'ok'\n"
+            "    return 'missing_deps'\n"),
+        "cases": [
+            (({'net': 'loaded'}, 'fs', ['net']), 'ok'),
+            (({'net': 'loaded'}, 'fs', ['net', 'usb']), 'missing_deps'),
+            (({}, 'fs', []), 'ok'),
+            (({'a': 'loaded'}, 'b', ['a', 'a']), 'ok')],
+        "params": [],
+        "calibration": "对照：内核模块装载——依赖全部已注册才加载，缺依赖拒绝",
+    },
 }
 
 

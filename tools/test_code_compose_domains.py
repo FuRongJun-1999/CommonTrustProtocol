@@ -7415,5 +7415,40 @@ except Exception as ex:
     check('㌲c 顶点覆盖→LCA→条件分解端到端（[0,1] 0 [a,b,c]）',
           False, str(ex)[:60])
 
+# ㌳ 目标4 深化：OS 机制（软中断/工作窃取/模块加载 经正式管线）
+o19_qs = {
+    "软中断": "写一个软中断单元（延迟工作）",
+    "工作窃取": "写一个工作窃取单元（空闲核均衡）",
+    "模块加载": "写一个模块加载单元（依赖注册）",
+}
+o19_ok = 0
+for label, q in o19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o19_ok += 1
+    check(f'㌳ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌳b OS机制三单元全部生成', o19_ok == 3, f'{o19_ok}/3')
+
+# ㌳c 端到端：软中断→工作窃取→模块加载（2 [(1,定时器),(2,网卡)] ok）
+r_si = domain_route("写一个软中断单元（延迟工作）")
+r_ws = domain_route("写一个工作窃取单元（空闲核均衡）")
+r_ml = domain_route("写一个模块加载单元（依赖注册）")
+try:
+    ns_si, ns_ws, ns_ml = {}, {}, {}
+    exec(r_si["code"], ns_si)
+    exec(r_ws["code"], ns_ws)
+    exec(r_ml["code"], ns_ml)
+    si = ns_si["softirq"]([(2, '网卡')], 'defer', (1, '定时器'))
+    ws = ns_ws["work_steal"]([[1, 2], [], [3, 4, 5]], 1)
+    ml = ns_ml["module_load"]({'net': 'loaded'}, 'fs', ['net'])
+    check('㌳c 软中断→工作窃取→模块加载端到端（2 [[1,2],[3],[4,5]] ok）',
+          si == 2 and ws == [[1, 2], [3], [4, 5]] and ml == 'ok',
+          f'softirq={si} steal={ws} mod={ml}')
+except Exception as ex:
+    check('㌳c 软中断→工作窃取→模块加载端到端（2 [[1,2],[3],[4,5]] ok）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
