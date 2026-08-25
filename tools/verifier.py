@@ -680,14 +680,40 @@ class Verifier:
                 bad_lines.append(f"L{i}")
         if bad_lines:
             errs.append(f"纯英文注释行（条件论 R2，须中文说明）: {bad_lines[:5]}")
-        # R3：条件论注释三要素（生效条件/子功能/执行）——升级期软模式：
+        # R3：条件论注释三要素（功能条件/子功能/执行方式）——升级期软模式：
         # 只统计达标情况写入 evidence，不拦截（expected_structure.require_cond_comment
         # 为 True 时硬拦截——全库升级完成后开启）
         if req.expected_structure.get("require_cond_comment"):
             missing3 = self._cond_comment_missing(tree, src_lines)
             if missing3:
                 errs.append(f"条件论三要素注释缺失（R3）: {missing3[:5]}")
+        # R4：不适用条件（代码语义条件协议 v1.0）——何时不能用的盲区声明。
+        # 软模式（require_not_cond=True 时硬拦截——全库补齐后开启）
+        if req.expected_structure.get("require_not_cond"):
+            missing4 = self._not_cond_missing(tree, src_lines)
+            if missing4:
+                errs.append(f"不适用条件缺失（R4·代码语义条件协议）: {missing4[:5]}")
         return errs
+
+    def _not_cond_missing(self, tree, src_lines) -> list:
+        """R4：单元主函数注释缺「不适用条件」标记（盲区声明——何时不能用）。
+
+        与 R3 同窗口（def 后 4 行注释）。不适用条件=代码盲区注册表，
+        知道何时不能调用与知道何时调用同等重要。
+        """
+        _has_cn = lambda s: any('\u4e00' <= c <= '\u9fff' for c in s)
+        funcs = [n for n in ast.walk(tree)
+                 if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                   ast.ClassDef))]
+        if not funcs:
+            return []
+        f = funcs[0]
+        block = [ln for ln in src_lines[max(0, f.lineno - 2):f.lineno + 8]
+                 if ln.strip().startswith('#') and _has_cn(ln)]
+        if not block:
+            return [f.name]
+        joined = " ".join(b.strip().lstrip('#').strip() for b in block)
+        return [f.name] if "不适用条件" not in joined else []
 
     def _cond_comment_missing(self, tree, src_lines) -> list:
         """R3：单元主函数/类缺三要素标记（生效条件/子功能/执行）。

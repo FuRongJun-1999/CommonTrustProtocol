@@ -2538,6 +2538,7 @@ OS_UNITS = {
             "    # 生效条件：action ∈ {defer, run}；defer 时 item 为 (优先级, 工作名)\n"
             "    # 子功能：① defer 入队并按优先级排序 ② run 依序弹出处理\n"
             "    # 执行：list.sort(key=优先级) + pop(0) 逐出队\n"
+            "    # 不适用条件：action 非 {defer, run} 时返回 None；不重复入队检查由调用方负责\n"
             "    if action == 'defer':\n"
             "        queue.append(item)\n"
             "        queue.sort(key=lambda x: x[0])\n"
