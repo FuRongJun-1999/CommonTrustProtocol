@@ -6886,5 +6886,40 @@ except Exception as ex:
     check('㌣c 字典反转→直方图→峰值检测端到端（{1:[a],2:[b]} [2,2,2] [(1,3),(3,5)]）',
           False, str(ex)[:60])
 
+# ㌤ 目标6 深化：图算法/查询（支配集/弦图判定/标签计数 经正式管线）
+g34_qs = {
+    "支配集": "写一个支配集单元（覆盖近似）",
+    "弦图判定": "写一个弦图判定单元（无弦环）",
+    "标签计数": "写一个标签计数单元（边标签聚合）",
+}
+g34_ok = 0
+for label, q in g34_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g34_ok += 1
+    check(f'㌤ {label} 图算法/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌤b 图算法/查询三单元全部生成', g34_ok == 3, f'{g34_ok}/3')
+
+# ㌤c 端到端：支配集→弦图→标签计数（[0] True {友:2,师:1}）
+r_ds = domain_route("写一个支配集单元（覆盖近似）")
+r_ch = domain_route("写一个弦图判定单元（无弦环）")
+r_lc = domain_route("写一个标签计数单元（边标签聚合）")
+try:
+    ns_ds, ns_ch, ns_lc = {}, {}, {}
+    exec(r_ds["code"], ns_ds)
+    exec(r_ch["code"], ns_ch)
+    exec(r_lc["code"], ns_lc)
+    ds = ns_ds["dominating_set"]({0: [1], 1: [0]})
+    ch = ns_ch["chordal_check"]({0: [1, 2], 1: [0, 2], 2: [0, 1]})
+    lc = ns_lc["label_count"]({0: [(1, '友'), (2, '师')], 1: [(2, '友')]}, ['友', '师'])
+    check('㌤c 支配集→弦图→标签计数端到端（[0] True {友:2,师:1}）',
+          ds == [0] and ch is True and lc == {'友': 2, '师': 1},
+          f'dom={ds} chordal={ch} labels={lc}')
+except Exception as ex:
+    check('㌤c 支配集→弦图→标签计数端到端（[0] True {友:2,师:1}）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

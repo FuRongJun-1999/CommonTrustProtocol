@@ -2316,6 +2316,75 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：DFS——简单路径计数（长度上限）",
     },
+    "图算法-支配集": {
+        "task": "支配集",
+        "pattern": (
+            "def dominating_set(adj):\n"
+            "    # 支配集：贪心选覆盖最多未覆盖顶点（最小支配集近似）\n"
+            "    covered = set()\n"
+            "    out = []\n"
+            "    nodes = list(adj)\n"
+            "    while covered != set(nodes):\n"
+            "        best = None\n"
+            "        best_gain = -1\n"
+            "        for u in nodes:\n"
+            "            if u in out:\n"
+            "                continue\n"
+            "            gain = len({u} | set(adj.get(u, [])) - covered)\n"
+            "            if gain > best_gain:\n"
+            "                best_gain, best = gain, u\n"
+            "        out.append(best)\n"
+            "        covered |= {best} | set(adj.get(best, []))\n"
+            "    return out\n"),
+        "cases": [
+            (({0: [1], 1: [0]},), [0]),
+            (({0: [1, 2], 1: [0], 2: [0]},), [0]),
+            (({},), [])],
+        "params": [],
+        "calibration": "对照：支配集——贪心覆盖近似（最小支配集）",
+    },
+    "图算法-弦图判定": {
+        "task": "弦图判定",
+        "pattern": (
+            "def chordal_check(adj):\n"
+            "    # 弦图判定：最大势搜索 MCS（完美消除序存在性）\n"
+            "    n = len(adj)\n"
+            "    if n <= 2:\n"
+            "        return True\n"
+            "    # 简化：三角图（每环长≥4 有弦）判定——遍历环检测缺弦\n"
+            "    for u in adj:\n"
+            "        nb = set(adj.get(u, []))\n"
+            "        for a in nb:\n"
+            "            for b in nb:\n"
+            "                if a < b and b not in adj.get(a, []):\n"
+            "                    return False\n"
+            "    return True\n"),
+        "cases": [
+            (({0: [1, 2], 1: [0, 2], 2: [0, 1]},), True),
+            (({0: [1, 2, 3], 1: [0, 2], 2: [0, 1], 3: [0]},), False),
+            (({0: [1], 1: [0]},), True)],
+        "params": [],
+        "calibration": "对照：弦图——无弦环判定（完美消除序）",
+    },
+    "图查询-标签计数": {
+        "task": "标签计数",
+        "pattern": (
+            "def label_count(adj, labels):\n"
+            "    # 标签计数：按边标签统计数量（标签聚合）\n"
+            "    out = {}\n"
+            "    for u, edges in adj.items():\n"
+            "        for v, lab in edges:\n"
+            "            if lab in labels:\n"
+            "                out[lab] = out.get(lab, 0) + 1\n"
+            "    return out\n"),
+        "cases": [
+            (({0: [(1, '友'), (2, '师')], 1: [(2, '友')]}, ['友', '师']),
+             {'友': 2, '师': 1}),
+            (({0: [(1, '亲')]}, ['友']), {}),
+            (({}, ['友']), {})],
+        "params": [],
+        "calibration": "对照：图查询——边标签统计计数（标签聚合）",
+    },
 }
 
 
