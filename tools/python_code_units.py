@@ -643,7 +643,10 @@ PYTHON_UNITS = {
         "task": "事件循环",
         "pattern": (
             "def event_loop(tasks):\n"
-            "    # 事件循环：任务队列调度（依次执行——单线程并发）\n"
+            "    # 事件循环（异步事件循环）：任务队列调度（依次执行——单线程并发）\n"
+            "    # 生效条件：tasks 为可调用任务列表（无参函数）\n"
+            "    # 子功能：① 依序取任务 ② 逐个执行 ③ 收集结果\n"
+            "    # 执行：for 循环调用并收集返回值\n"
             "    done = []\n"
             "    for t in tasks:\n"
             "        done.append(t())\n"
@@ -1079,7 +1082,10 @@ PYTHON_UNITS = {
         "task": "字符串拆分",
         "pattern": (
             "def str_split(text, sep=None):\n"
-            "    # 字符串拆分：按分隔符拆（split 语义——默认空白）\n"
+            "    # 字符串拆分（split）：按分隔符拆（split 语义——默认空白）\n"
+            "    # 生效条件：text 为字符串；sep 为分隔符或 None（默认空白拆分）\n"
+            "    # 子功能：① 显式分隔符拆分 ② 默认空白拆分\n"
+            "    # 执行：sep 非 None → text.split(sep)，否则 text.split()\n"
             "    return text.split(sep) if sep is not None else text.split()\n"),
         "cases": [(('a,b,c', ','), ['a', 'b', 'c']),
                   (('a b  c', None), ['a', 'b', 'c']),

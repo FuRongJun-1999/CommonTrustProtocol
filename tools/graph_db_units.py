@@ -381,7 +381,10 @@ GRAPH_UNITS = {
         "task": "图事务",
         "pattern": (
             "def txn_op(state, op, payload=None):\n"
-            "    # 图数据库事务：begin 快照 / commit 生效 / rollback 回滚（ACID 原子性）\n"
+            "    # 图数据库事务（ACID 事务）：begin 快照 / commit 生效 / rollback 回滚（ACID 原子性）\n"
+            "    # 生效条件：state 为图存储状态；op ∈ {begin, commit, rollback}\n"
+            "    # 子功能：① begin 深拷贝快照 ② commit 清除快照 ③ rollback 恢复快照\n"
+            "    # 执行：快照字典深拷贝 + 按 op 分派\n"
             "    if op == 'begin':\n"
             "        state['snapshot'] = {k: list(v) if isinstance(v, list) else v\n"
             "                              for k, v in state.get('data', {}).items()}\n"
@@ -1326,7 +1329,10 @@ GRAPH_UNITS = {
         "task": "最大流",
         "pattern": (
             "def max_flow(graph, source, sink):\n"
-            "    # 最大流：Ford-Fulkerson——BFS 增广路径推送（残留网络）\n"
+            "    # 最大流（Ford-Fulkerson）：BFS 增广路径推送（残留网络）\n"
+            "    # 生效条件：graph 为容量网络（含容量边）；source/sink 为源/汇节点\n"
+            "    # 子功能：① BFS 找增广路 ② 沿路推送最小剩余容量 ③ 更新残留网络\n"
+            "    # 执行：反复增广直至无路，累加推送流量\n"
             "    flow = 0\n"
             "    while True:\n"
             "        parent = {source: None}\n"

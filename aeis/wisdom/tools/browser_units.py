@@ -174,7 +174,10 @@ BROWSER_UNITS = {
         "task": "样式计算",
         "pattern": (
             "def style_compute(node, rules):\n"
-            "    # 样式计算：DOM 节点（tag/classes）→ 匹配规则级联 → 最终样式\n"
+            "    # 样式计算（CSS 级联）：DOM 节点（tag/classes）→ 匹配规则级联 → 最终样式\n"
+            "    # 生效条件：node 含 tag/classes；rules 为带特异度的样式规则列表\n"
+            "    # 子功能：① 规则匹配过滤 ② 特异度比较 ③ 级联合并最终样式\n"
+            "    # 执行：匹配规则按权重取最优逐属性合并\n"
             "    best, best_w = {}, -1\n"
             "    for rule in rules:\n"
             "        if rule.get('tag') and rule['tag'] != node.get('tag'):\n"

@@ -28,17 +28,28 @@ _ABBR_CN = re.compile(r'([A-Z][A-Z0-9]{1,})[（(]([^）)]+)[）)]')
 
 
 def extract_comment_index(code: str) -> dict:
-    """从代码注释提取索引：{注释文本, 缩写词, 缩写中文全称, 全称二元组}。"""
+    """从条件论注释提取索引：{注释文本, 子功能词, 生效条件词, 缩写同义词}。
+
+    三要素行分离（语义时空图·结构面）：
+      子功能行（内部功能分解）→ sub_tokens（问题问内部能力时加权）
+      生效条件行（前置条件）→ cond_tokens
+      功能名/执行行 → tokens（主索引）
+    """
     lines = [ln.strip().lstrip('#').strip()
              for ln in code.splitlines() if ln.strip().startswith('#')]
     text = ' '.join(lines)
+    sub_lines = [ln for ln in lines if ln.startswith('子功能')]
+    cond_lines = [ln for ln in lines if ln.startswith('生效条件')]
     abbrs = {}
     for m in _ABBR_CN.finditer(text):
         abbrs[m.group(1)] = m.group(2)
+    syn = {w for w in abbrs.values() if len(w) >= 2}
     idx = {
         'text': text,
         'abbrs': abbrs,
-        'tokens': _bigrams(text) | {w for w in abbrs.values() if len(w) >= 2},
+        'tokens': _bigrams(text) | syn,
+        'sub_tokens': _bigrams(' '.join(sub_lines)),
+        'cond_tokens': _bigrams(' '.join(cond_lines)),
     }
     return idx
 
@@ -158,10 +169,12 @@ def search(question: str, nodes=None, top: int = 5) -> list:
             continue
         # 命中词数 + task 词命中加权（task 是单元权威名）+ 注释覆盖率
         task_hit = sum(1 for c in _bigrams(n['task']) if c in q)
+        # 子功能词加权（语义时空图·结构面）：问题问内部子能力（子功能行命中）
+        sub_hit = len(q & idx['sub_tokens'])
         # task 权威名精确匹配：task 是问题子串（如「最短路径」in 问题，
         # 「加权最短路径」不在）→ 强加分（避免部分包含的平局）
         exact = 1 if n['task'] and n['task'] in question.replace(' ', '') else 0
-        score = (len(common) + 2 * task_hit + 5 * exact,
+        score = (len(common) + 2 * task_hit + sub_hit + 5 * exact,
                  len(common) / max(1, len(idx['tokens'])))
         scored.append((uid, n['domain'], score, sorted(common)[:8]))
     scored.sort(key=lambda x: (-x[2][0], -x[2][1]))

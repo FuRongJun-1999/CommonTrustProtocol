@@ -211,7 +211,10 @@ NET_UNITS = {
         "task": "滑动窗口",
         "pattern": (
             "def sliding_window(base, next_seq, window_size, ack):\n"
-            "    # TCP 滑动窗口：收到 ack 后窗口前移（可发送序号 = [next_seq, base+win)）\n"
+            "    # TCP 滑动窗口（滑动窗口协议）：收到 ack 后窗口前移（可发送序号 = [next_seq, base+win)）\n"
+            "    # 生效条件：base=已确认序号；next_seq=下一待发；ack=收到的确认\n"
+            "    # 子功能：① ack 前进基准 ② 待发序号同步 ③ 返回可发送窗口\n"
+            "    # 执行：ack > base 则前移；next_seq 落后则推进（滑动窗口语义）\n"
             "    # base=已确认序号 next_seq=下一待发 ack=收到的确认\n"
             "    if ack > base:\n"
             "        base = ack\n"

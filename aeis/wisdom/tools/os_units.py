@@ -1204,7 +1204,10 @@ OS_UNITS = {
         "task": "伙伴系统",
         "pattern": (
             "def buddy_alloc(free_lists, size):\n"
-            "    # 伙伴系统：2 的幂块分配（最小合适阶取，缺则高阶分裂回补）\n"
+            "    # 伙伴系统（buddy system）：2 的幂块分配（最小合适阶取，缺则高阶分裂回补）\n"
+            "    # 生效条件：free_lists 为各阶空闲块列表；size 为申请字节数\n"
+            "    # 子功能：① 计算合适阶 ② 低阶无块则高阶分裂 ③ 取块返回\n"
+            "    # 执行：阶逐级查找，分裂回补低阶\n"
             "    order = 0\n"
             "    while (1 << order) < size:\n"
             "        order += 1\n"

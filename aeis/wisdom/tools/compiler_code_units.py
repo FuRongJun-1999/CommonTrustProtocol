@@ -247,7 +247,10 @@ COMPILER_UNITS = {
         "task": "九章算术",
         "pattern": (
             "def structure_token(text):\n"
-            "    # 九章算术结构：问曰/答曰/术曰 → (TokenType, 原文)\n"
+            "    # 九章算术结构（词法）：问曰/答曰/术曰 → (TokenType, 原文)\n"
+            "    # 生效条件：text 以九章算术结构词（问曰/答曰/术曰）开头\n"
+            "    # 子功能：① 结构词前缀匹配 ② 命中返回类型标记 ③ 未命中返 None\n"
+            "    # 执行：顺序匹配三个结构词，命中即返 (词_STRUCT, 词)\n"
             "    for kw in ('问曰', '答曰', '术曰'):\n"
             "        if text.startswith(kw):\n"
             "            return (kw + '_STRUCT', kw)\n"
@@ -508,7 +511,10 @@ COMPILER_UNITS = {
         "task": "类型推断",
         "pattern": (
             "def infer_types(statements):\n"
-            "    # 编译期类型推断：从赋值推断符号类型，条件空间声明登记空间类型\n"
+            "    # 类型推断（编译期）：从赋值推断符号类型，条件空间声明登记空间类型\n"
+            "    # 生效条件：statements 为语句列表（assign/条件空间声明）\n"
+            "    # 子功能：① 赋值推导类型 ② 条件空间登记 ③ 冲突标记混合类型\n"
+            "    # 执行：逐语句分派，冲突赋值 → 类型标记'混合'（编译期拦截候选）\n"
             "    # 冲突赋值 → 类型标记'混合'（编译期拦截候选）\n"
             "    import re as _re\n"
             "    types, spaces = {}, {}\n"
