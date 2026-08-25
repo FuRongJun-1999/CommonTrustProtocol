@@ -6710,5 +6710,40 @@ except Exception as ex:
     check('㌞c 分块→扁平化→轮转端到端（[[1,2],[3,4],[5]] [1,2,3,4] [4,1,2,3]）',
           False, str(ex)[:60])
 
+# ㌟ 目标6 深化：图算法/查询（度序列/生成树计数/路径计数 经正式管线）
+g33_qs = {
+    "度序列": "写一个度序列单元（可图化判定）",
+    "生成树计数": "写一个生成树计数单元（矩阵树）",
+    "路径计数": "写一个路径计数单元（简单路径）",
+}
+g33_ok = 0
+for label, q in g33_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g33_ok += 1
+    check(f'㌟ {label} 图算法/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌟b 图算法/查询三单元全部生成', g33_ok == 3, f'{g33_ok}/3')
+
+# ㌟c 端到端：度序列→生成树→路径计数（True 3 2）
+r_ds = domain_route("写一个度序列单元（可图化判定）")
+r_st = domain_route("写一个生成树计数单元（矩阵树）")
+r_cp = domain_route("写一个路径计数单元（简单路径）")
+try:
+    ns_ds, ns_st, ns_cp = {}, {}, {}
+    exec(r_ds["code"], ns_ds)
+    exec(r_st["code"], ns_st)
+    exec(r_cp["code"], ns_cp)
+    ds = ns_ds["graphic_sequence"]([3, 3, 3, 3])
+    st = ns_st["spanning_trees"]({0: [1, 2], 1: [0, 2], 2: [0, 1]})
+    cp = ns_cp["count_paths"]({0: [1, 2], 1: [2], 2: []}, 0, 2, 4)
+    check('㌟c 度序列→生成树→路径计数端到端（True 3 2）',
+          ds is True and st == 3 and cp == 2,
+          f'graphic={ds} trees={st} paths={cp}')
+except Exception as ex:
+    check('㌟c 度序列→生成树→路径计数端到端（True 3 2）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

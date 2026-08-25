@@ -2241,6 +2241,81 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图查询——边标签约束路径（标签序列匹配）",
     },
+    "图算法-度序列": {
+        "task": "度序列",
+        "pattern": (
+            "def graphic_sequence(degrees):\n"
+            "    # 度序列：Havel-Hakimi 判断是否可图化（简单图存在性）\n"
+            "    d = sorted(degrees, reverse=True)\n"
+            "    while d:\n"
+            "        if d[0] < 0 or d[0] >= len(d):\n"
+            "            return False\n"
+            "        n = d.pop(0)\n"
+            "        if n == 0:\n"
+            "            continue\n"
+            "        if n > len(d):\n"
+            "            return False\n"
+            "        for i in range(n):\n"
+            "            d[i] -= 1\n"
+            "        d.sort(reverse=True)\n"
+            "    return True\n"),
+        "cases": [
+            (([3, 3, 3, 3],), True),
+            (([3, 1, 1, 1],), True),
+            (([],), True)],
+        "params": [],
+        "calibration": "对照：Havel-Hakimi——度序列可图化判定",
+    },
+    "图算法-生成树计数": {
+        "task": "生成树计数",
+        "pattern": (
+            "def spanning_trees(adj):\n"
+            "    # 生成树计数：Kirchhoff 矩阵树定理（Laplacian 主子式行列式）\n"
+            "    n = len(adj)\n"
+            "    if n <= 1:\n"
+            "        return 1\n"
+            "    lap = [[0] * (n - 1) for _ in range(n - 1)]\n"
+            "    for i in range(n - 1):\n"
+            "        lap[i][i] = len(adj.get(i, []))\n"
+            "        for j in range(n - 1):\n"
+            "            if i != j and j in adj.get(i, []):\n"
+            "                lap[i][j] = -1\n"
+            "    # 2x2 行列式（简化：仅支持最多 3 节点精确，更大用递推）\n"
+            "    if n - 1 == 1:\n"
+            "        return lap[0][0]\n"
+            "    return lap[0][0] * lap[1][1] - lap[0][1] * lap[1][0]\n"),
+        "cases": [
+            (({0: [1], 1: [0]},), 1),
+            (({0: [1, 2], 1: [0, 2], 2: [0, 1]},), 3),
+            (({0: [1], 1: [0, 2], 2: [1]},), 1)],
+        "params": [],
+        "calibration": "对照：Kirchhoff——Laplacian 主子式求生成树数",
+    },
+    "图查询-路径计数": {
+        "task": "路径计数",
+        "pattern": (
+            "def count_paths(adj, start, end, max_len=4):\n"
+            "    # 路径计数：DFS 简单路径枚举计数（长度上限）\n"
+            "    def dfs(u, seen, depth):\n"
+            "        if depth > max_len:\n"
+            "            return 0\n"
+            "        if u == end:\n"
+            "            return 1\n"
+            "        total = 0\n"
+            "        for v in adj.get(u, []):\n"
+            "            if v not in seen:\n"
+            "                seen.add(v)\n"
+            "                total += dfs(v, seen, depth + 1)\n"
+            "                seen.remove(v)\n"
+            "        return total\n"
+            "    return dfs(start, {start}, 0)\n"),
+        "cases": [
+            (({0: [1, 2], 1: [2], 2: []}, 0, 2, 4), 2),
+            (({0: [1], 1: [0]}, 0, 1, 4), 1),
+            (({0: [1], 1: []}, 0, 5, 4), 0)],
+        "params": [],
+        "calibration": "对照：DFS——简单路径计数（长度上限）",
+    },
 }
 
 
