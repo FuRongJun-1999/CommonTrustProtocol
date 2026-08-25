@@ -1976,7 +1976,7 @@ except Exception as ex:
 g12_qs = {
     "指标统计": "写一个图指标统计单元（节点边密度）",
     "健康检查": "写一个图健康检查单元（连通判定）",
-    "度分布": "写一个图度分布单元（出度直方图）",
+    "度分布": "写一个图度分布单元（出度计数）",
 }
 g12_ok = 0
 for label, q in g12_qs.items():
@@ -1991,7 +1991,7 @@ check('㊛b 图监控三单元全部生成', g12_ok == 3, f'{g12_ok}/3')
 # ㊛c 端到端：指标→健康→度分布（规模→连通→结构）
 r_gm = domain_route("写一个图指标统计单元（节点边密度）")
 r_hc = domain_route("写一个图健康检查单元（连通判定）")
-r_dd = domain_route("写一个图度分布单元（出度直方图）")
+r_dd = domain_route("写一个图度分布单元（出度计数）")
 r_g = domain_route("写一个图存储单元（节点和边）")
 ns_g12 = {}
 exec(r_g["code"], ns_g12)
@@ -6848,6 +6848,42 @@ try:
           f'cost={lc} concat={cf} size={isd}')
 except Exception as ex:
     check('㌢c 循环开销→拼接→指令大小端到端（30 [(\'PUSH\',\'甲乙\')] 2）',
+          False, str(ex)[:60])
+
+# ㌣ 目标1 深化：P 线工具（字典反转/直方图/峰值检测 经正式管线）
+p26_qs = {
+    "字典反转": "写一个字典反转单元（键值互换）",
+    "直方图": "写一个直方图单元（分桶计数）",
+    "峰值检测": "写一个峰值检测单元（局部极大）",
+}
+p26_ok = 0
+for label, q in p26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p26_ok += 1
+    check(f'㌣ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌣b P线工具三单元全部生成', p26_ok == 3, f'{p26_ok}/3')
+
+# ㌣c 端到端：字典反转→直方图→峰值检测（{1:[a],2:[b]} [2,2,2] [(1,3),(3,5)]）
+r_id = domain_route("写一个字典反转单元（键值互换）")
+r_hg = domain_route("写一个直方图单元（分桶计数）")
+r_pd = domain_route("写一个峰值检测单元（局部极大）")
+try:
+    ns_id, ns_hg, ns_pd = {}, {}, {}
+    exec(r_id["code"], ns_id)
+    exec(r_hg["code"], ns_hg)
+    exec(r_pd["code"], ns_pd)
+    idv = ns_id["invert_dict"]({'a': 1, 'b': 2})
+    hg = ns_hg["histogram"]([0, 1, 2, 3, 4, 5], 3)
+    pd = ns_pd["peak_detect"]([1, 3, 2, 5, 4])
+    check('㌣c 字典反转→直方图→峰值检测端到端（{1:[a],2:[b]} [2,2,2] [(1,3),(3,5)]）',
+          idv == {1: ['a'], 2: ['b']} and hg == [2, 2, 2]
+          and pd == [(1, 3), (3, 5)],
+          f'inv={idv} hist={hg} peak={pd}')
+except Exception as ex:
+    check('㌣c 字典反转→直方图→峰值检测端到端（{1:[a],2:[b]} [2,2,2] [(1,3),(3,5)]）',
           False, str(ex)[:60])
 
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')

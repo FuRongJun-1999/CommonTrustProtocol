@@ -1969,6 +1969,60 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：deque.rotate——循环轮转（右移 k 位）",
     },
+    "工具-字典反转": {
+        "task": "字典反转",
+        "pattern": (
+            "def invert_dict(d):\n"
+            "    # 字典反转：键值互换（值变键，重复值收集为列表）\n"
+            "    out = {}\n"
+            "    for k, v in d.items():\n"
+            "        out.setdefault(v, []).append(k)\n"
+            "    return out\n"),
+        "cases": [
+            (({'a': 1, 'b': 2},), {1: ['a'], 2: ['b']}),
+            (({'a': 1, 'b': 1},), {1: ['a', 'b']}),
+            (({},), {})],
+        "params": [],
+        "calibration": "对照：键值反转——值映射到键列表（invert）",
+    },
+    "工具-直方图": {
+        "task": "直方图",
+        "pattern": (
+            "def histogram(data, bins):\n"
+            "    # 直方图：分桶计数（数据分布统计）\n"
+            "    if not data or bins <= 0:\n"
+            "        return []\n"
+            "    lo, hi = min(data), max(data)\n"
+            "    width = (hi - lo) / bins if bins else 1\n"
+            "    counts = [0] * bins\n"
+            "    for x in data:\n"
+            "        idx = min(int((x - lo) / width), bins - 1) if width else 0\n"
+            "        counts[idx] += 1\n"
+            "    return counts\n"),
+        "cases": [
+            (([0, 1, 2, 3, 4, 5], 3), [2, 2, 2]),
+            (([1, 1, 1], 2), [3, 0]),
+            (([], 3), [])],
+        "params": [],
+        "calibration": "对照：分桶直方图——数据分布计数",
+    },
+    "工具-峰值检测": {
+        "task": "峰值检测",
+        "pattern": (
+            "def peak_detect(seq):\n"
+            "    # 峰值检测：局部极大值（高于左右邻）\n"
+            "    out = []\n"
+            "    for i in range(1, len(seq) - 1):\n"
+            "        if seq[i] > seq[i - 1] and seq[i] > seq[i + 1]:\n"
+            "            out.append((i, seq[i]))\n"
+            "    return out\n"),
+        "cases": [
+            (([1, 3, 2, 5, 4],), [(1, 3), (3, 5)]),
+            (([1, 2, 3],), []),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：峰值检测——局部极大值定位（信号分析）",
+    },
 }
 
 
