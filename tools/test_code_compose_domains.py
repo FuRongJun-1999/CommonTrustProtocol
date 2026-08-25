@@ -7309,5 +7309,40 @@ except Exception as ex:
     check('㌯c 网关→端口镜像→包过滤端到端（gw1 enabled block）',
           False, str(ex)[:60])
 
+# ㌰ 目标1 深化：中文编译器（名实绑定/信任流分析/短路求值 经正式管线）
+c37_qs = {
+    "名实绑定": "写一个编译名实绑定单元（以名举实）",
+    "信任流分析": "写一个信任流分析单元（编译期数据流）",
+    "短路求值": "写一个VM短路求值单元（逻辑语义）",
+}
+c37_ok = 0
+for label, q in c37_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c37_ok += 1
+    check(f'㌰ {label} 编译器单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌰b 编译器三单元全部生成', c37_ok == 3, f'{c37_ok}/3')
+
+# ㌰c 端到端：名实绑定→信任流分析→短路求值（(True,2) 0.2 (True,True)）
+r_nb = domain_route("写一个编译名实绑定单元（以名举实）")
+r_tf = domain_route("写一个信任流分析单元（编译期数据流）")
+r_sc = domain_route("写一个VM短路求值单元（逻辑语义）")
+try:
+    ns_nb, ns_tf, ns_sc = {}, {}, {}
+    exec(r_nb["code"], ns_nb)
+    exec(r_tf["code"], ns_tf)
+    exec(r_sc["code"], ns_sc)
+    nb = ns_nb["resolve_binding"]([{"x": 1}, {"x": 2}], "x")
+    tf = ns_tf["trust_flow"](("NOT", "x"), {"x": 0.8})
+    sc = ns_sc["vm_short_circuit"](0, "或", 5)
+    check('㌰c 名实绑定→信任流分析→短路求值端到端（(True,2) 0.2 (True,True)）',
+          nb == (True, 2) and tf == 0.2 and sc == (True, True),
+          f'bind={nb} trust={tf} sc={sc}')
+except Exception as ex:
+    check('㌰c 名实绑定→信任流分析→短路求值端到端（(True,2) 0.2 (True,True)）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

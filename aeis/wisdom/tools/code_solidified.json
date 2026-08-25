@@ -6008,5 +6008,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:compiler|编译-名实绑定": {
+  "task": "名实绑定",
+  "unit": "编译-名实绑定",
+  "code": "def resolve_binding(scope_stack, name):\n    # 以名举实：从内层到外层查找名的绑定（名实校验的编译期版本）\n    for scope in reversed(scope_stack):\n        if name in scope:\n            return (True, scope[name])\n    return (False, None)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-信任流分析": {
+  "task": "信任流分析",
+  "unit": "编译-信任流分析",
+  "code": "def trust_flow(expr, env):\n    # 德：编译期信任传播（与=取min，或=取max，非=1-t，名=查env，字面量=1.0）\n    if isinstance(expr, tuple):\n        op = expr[0]\n        if op == \"AND\":\n            return min(trust_flow(expr[1], env), trust_flow(expr[2], env))\n        if op == \"OR\":\n            return max(trust_flow(expr[1], env), trust_flow(expr[2], env))\n        if op == \"NOT\":\n            return round(1.0 - trust_flow(expr[1], env), 3)\n    if isinstance(expr, str):\n        return env.get(expr, 0.0)\n    return 1.0\n",
+  "checks": [
+   "✔ 语法通过 | 样例 7 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|VM-短路求值": {
+  "task": "短路求值",
+  "unit": "VM-短路求值",
+  "code": "def vm_short_circuit(left, op, right):\n    # 短路求值：与=左假不求右，或=左真不求右（VM 逻辑执行语义）\n    # 返回 (结果, 右操作数是否被求值)\n    if op == '且':\n        if not left:\n            return (False, False)\n        return (bool(right), True)\n    if op == '或':\n        if left:\n            return (True, False)\n        return (bool(right), True)\n    return (None, False)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 7 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

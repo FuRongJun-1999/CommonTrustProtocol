@@ -2462,6 +2462,77 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：去虚拟化——单实现类调用改直接调用",
     },
+    "编译-名实绑定": {
+        "task": "名实绑定",
+        "pattern": (
+            "def resolve_binding(scope_stack, name):\n"
+            "    # 以名举实：从内层到外层查找名的绑定（名实校验的编译期版本）\n"
+            "    for scope in reversed(scope_stack):\n"
+            "        if name in scope:\n"
+            "            return (True, scope[name])\n"
+            "    return (False, None)\n"),
+        "cases": [
+            (([{"x": 1}], "x"), (True, 1)),
+            (([{"x": 1}, {"y": 2}], "y"), (True, 2)),
+            (([{"x": 1}, {"x": 2}], "x"), (True, 2)),
+            (([{"x": 1}], "z"), (False, None)),
+            (([], "a"), (False, None))],
+        "params": [],
+        "calibration": "对照：以名举实（v0.2 名实校验）编译期绑定——作用域链逐层查找，内层遮蔽外层；未绑定→(False, None)",
+    },
+    "编译-信任流分析": {
+        "task": "信任流分析",
+        "pattern": (
+            "def trust_flow(expr, env):\n"
+            "    # 德：编译期信任传播（与=取min，或=取max，非=1-t，名=查env，字面量=1.0）\n"
+            "    if isinstance(expr, tuple):\n"
+            "        op = expr[0]\n"
+            "        if op == \"AND\":\n"
+            "            return min(trust_flow(expr[1], env), trust_flow(expr[2], env))\n"
+            "        if op == \"OR\":\n"
+            "            return max(trust_flow(expr[1], env), trust_flow(expr[2], env))\n"
+            "        if op == \"NOT\":\n"
+            "            return round(1.0 - trust_flow(expr[1], env), 3)\n"
+            "    if isinstance(expr, str):\n"
+            "        return env.get(expr, 0.0)\n"
+            "    return 1.0\n"),
+        "cases": [
+            ((("AND", "x", "y"), {"x": 0.8, "y": 0.6}), 0.6),
+            ((("OR", "x", "y"), {"x": 0.8, "y": 0.6}), 0.8),
+            ((("NOT", "x"), {"x": 0.8}), 0.2),
+            (("z", {"z": 0.9}), 0.9),
+            (("u", {"x": 0.8}), 0.0),
+            ((42, {}), 1.0),
+            ((("AND", ("NOT", "x"), "y"), {"x": 0.8, "y": 0.5}), 0.2)],
+        "params": [],
+        "calibration": "对照：德=信任累积（v0.2 信任语义）的编译期数据流——与取min、或取max、非取补；字面量完全可信、未收录名不可信",
+    },
+    "VM-短路求值": {
+        "task": "短路求值",
+        "pattern": (
+            "def vm_short_circuit(left, op, right):\n"
+            "    # 短路求值：与=左假不求右，或=左真不求右（VM 逻辑执行语义）\n"
+            "    # 返回 (结果, 右操作数是否被求值)\n"
+            "    if op == '且':\n"
+            "        if not left:\n"
+            "            return (False, False)\n"
+            "        return (bool(right), True)\n"
+            "    if op == '或':\n"
+            "        if left:\n"
+            "            return (True, False)\n"
+            "        return (bool(right), True)\n"
+            "    return (None, False)\n"),
+        "cases": [
+            ((0, '且', 5), (False, False)),
+            ((1, '且', 5), (True, True)),
+            ((1, '且', 0), (False, True)),
+            ((1, '或', 5), (True, False)),
+            ((0, '或', 5), (True, True)),
+            ((0, '或', 0), (False, True)),
+            ((1, '异或', 5), (None, False))],
+        "params": [],
+        "calibration": "对照：逻辑表达式（v0.2 短路跳转字节码）的 VM 执行端——与/或短路，右侧仅必要时求值",
+    },
 }
 
 
