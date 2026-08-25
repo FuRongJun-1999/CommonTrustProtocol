@@ -3,8 +3,8 @@
  "seed": 20260828,
  "task_adj": {
   "n": 444,
-  "reject": 396,
-  "rate": 0.8919
+  "reject": 392,
+  "rate": 0.8829
  },
  "boundary": {
   "n": 6,
@@ -125,6 +125,11 @@
   },
   {
    "type": "task-adj",
+   "unit": "图监控-健康检查",
+   "adv": "图存储-一致性检查"
+  },
+  {
+   "type": "task-adj",
    "unit": "图存储-属性边",
    "adv": "图索引-属性索引"
   },
@@ -167,6 +172,11 @@
    "type": "task-adj",
    "unit": "并发-工作池",
    "adv": "调度-工作窃取"
+  },
+  {
+   "type": "task-adj",
+   "unit": "文件-写时复制快照",
+   "adv": "内存-写时复制"
   },
   {
    "type": "task-adj",
@@ -240,6 +250,11 @@
   },
   {
    "type": "task-adj",
+   "unit": "网络-访问令牌",
+   "adv": "网络-令牌桶限速"
+  },
+  {
+   "type": "task-adj",
    "unit": "网络-HTTP重定向",
    "adv": "网络-HTTP状态码"
   },
@@ -247,6 +262,11 @@
    "type": "task-adj",
    "unit": "网络-报文分片",
    "adv": "网络-IP分片"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-带宽时延积",
+   "adv": "网络-带宽分配"
   },
   {
    "type": "task-adj",

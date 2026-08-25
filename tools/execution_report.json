@@ -2,8 +2,8 @@
  "experiment": "执行计划层五类执行题（GPT 7.2）",
  "A_conditional_sufficient": {
   "n": 4,
-  "ok": 4,
-  "rate": 1.0
+  "ok": 3,
+  "rate": 0.75
  },
  "B_conditional_missing": {
   "n": 2,
@@ -20,8 +20,8 @@
   "ok": 1
  },
  "metrics": {
-  "e2e_precision": 1.0,
-  "dry_run_pass_rate": 1.0,
+  "e2e_precision": 0.75,
+  "dry_run_pass_rate": 0.75,
   "plan_condition_completeness": 1.0,
   "rollback_correctness": "执行失败时不固化（execute 返回 ok=False 且证据注明）"
  }

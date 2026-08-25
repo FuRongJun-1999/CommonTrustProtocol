@@ -136,9 +136,13 @@ def _jaccard(a: str, b: str) -> float:
     return len(sa & sb) / len(sa | sb)
 
 
-# 停用词（问题词中无检索价值的二元组——「写一个」类）
+# 停用词（问题词中无检索价值的二元组——「写一个」类 + 请求模板词）
 _STOP = {"写一", "一个", "个单", "单元", "帮我", "请写", "给我", "实现",
-         "一下", "那个", "这个", "还有", "需要", "帮我写"}
+         "一下", "那个", "这个", "还有", "需要", "帮我写",
+         # 请求模板词「写一个 X 的代码单元」：代码/的代/码单 是模板结构词，
+         # 非任务条件词——若计入，任意任务与「死代码消除」单元 task 独有词
+         # 「代码」重叠 → 误判混合条件冲突（反事实实验教训：累积任务误伤）
+         "代码", "的代", "码单"}
 
 
 def _q_tokens(question: str) -> set:
@@ -302,11 +306,25 @@ def _diff_condition(a: str, b: str, nodes, query: str = '') -> str:
 
     da_h2 = {w for w in da_h if not _is_frag(w)}
     db_h2 = {w for w in db_h if not _is_frag(w)}
-    # 冲突证据：task 独有命中（权威名，无碎片）或 head 独有（已剔碎片）命中
-    ev_a = bool(qb & da_t) or bool(qb & da_h2)
-    ev_b = bool(qb & db_t) or bool(qb & db_h2)
-    if ev_a and ev_b:
-        return '混合条件冲突'
+    # 冲突证据：task 独有命中（权威名，无碎片）或 head 独有（已剔碎片）命中。
+    # 只统计判别词（df ≤ 15）：请求模板词「代码」与所有单元注释共现无判别力。
+    # 且必须命中【反义对】两侧才冲突（无权↔带权 / 累积↔阈值 / 列表↔字典）：
+    # 「轮询+调度」是组合相容（负载均衡轮询策略+调度语义），非条件矛盾
+    # （反事实教训：加权轮询调度任务被 负载均衡 vs 报文调度 误报冲突）。
+    _dfc = _word_df(nodes)
+    _ANTI_WORDS = (("无权", "带权", "加权"), ("累积", "阈值", "门槛"),
+                   ("列表", "字典"))
+    q_hits = set()
+    for group in _ANTI_WORDS:
+        hit = [w for w in group if any(w in t for t in qb)]
+        if hit:
+            q_hits.update(hit)
+    if len(q_hits) >= 2:
+        # query 本身含反义对两侧（无权+带权 / 累积+阈值）→ 任务内矛盾
+        ev_a = any(w in q_hits for w in (da_t | da_h2))
+        ev_b = any(w in q_hits for w in (db_t | db_h2))
+        if ev_a and ev_b:
+            return '混合条件冲突'
     # 方向判定优先 task 权威名（干净无碎片：列表 vs 字典）；
     # task 无命中时退回 head 独有（碎片 tie 风险，但 task 命中优先已消除）
     hit_at, hit_bt = len(qb & da_t), len(qb & db_t)
@@ -462,6 +480,44 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
                 "conflict": conflict_not,
                 "candidates": [h[0] for h in hits[:3]],
                 "path": [question[:30], f"矛盾:{anti_hit or conflict_not[:1]}"],
+                "trace": list(_trace), "candidate_count": cand_before}
+    # 伪造条件检测（GPT §7.4 6 类）：query 含 df=0 的词（条件空间不存在）
+    # → 任务声称不存在的条件（「超光速引擎驱动信任累积」——引擎词无单元
+    # 覆盖，但「信任累积」真实词会带偏路由）→ BLINDSPOT 不假装存在该能力。
+    # 排除停用/模板词（已在 _q_tokens 剔除）；只查中文词（英文标识符/变量
+    # 名不参与条件空间判定——df=0 是正常（函数参数名等））
+    # 伪造条件检测（GPT §7.4 6 类）：任务声称不存在的条件概念。
+    # 真伪造 = 连续未知 2-gram 段 ≥3：「超光速引擎」= 超光/光速/速引 3 段
+    # 连续未知（引擎 df>0 是真实概念「信任引擎」——伪造的是修饰词「超光速」）。
+    # 「产生列表」= 产生/生列 2 段未知（「列表」已知锚定）→ 非伪造。
+    # 阈值 3：普通动词短语（产生 X/创建 Y）最多 2 段跨界未知，伪造概念
+    # （超光速/量子纠缠/曲率引擎 类）至少 3 段连续未知。
+    fabricated = []
+    zero_w = sorted({w for w in qtoks
+                     if df.get(w, 0) == 0
+                     and any('\u4e00' <= c <= '\u9fff' for c in w)})
+    used = set()
+    for w in zero_w:
+        if w in used:
+            continue
+        seg = {w}
+        changed = True
+        while changed:
+            changed = False
+            for x in zero_w:
+                if x not in seg and (
+                        any(s[1] == x[0] for s in seg)
+                        or any(x[1] == s[0] for s in seg)):
+                    seg.add(x)
+                    changed = True
+        used |= seg
+        if len(seg) >= 3:
+            fabricated.extend(seg)
+    if fabricated:
+        return {"state": "BLINDSPOT", "reason": "伪造条件（任务条件词不在条件空间）",
+                "fabricated_words": sorted(set(fabricated))[:6],
+                "candidates": [h[0] for h in hits[:3]],
+                "path": [question[:30], f"伪造:{sorted(set(fabricated))[:3]}"],
                 "trace": list(_trace), "candidate_count": cand_before}
     top1 = hits[0]
     top2 = hits[1] if len(hits) > 1 else None
