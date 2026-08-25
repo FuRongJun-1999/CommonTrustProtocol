@@ -41,6 +41,33 @@
 
 **关键结论**：白箱的理解是**结构理解**（可裁决/可验证/可校准/可迁移）——与 LLM 的分布近似（幻觉/漂移/黑箱）形式不同。瓶颈不在理解机制，在**条件路由表覆盖**——而补表是简单、可自动化、可自举的任务（`tools/migration_fp_test.py` 已验证 0%→70%）。
 
+### 🔄 自迭代闭环 + 能力工作流化（第七阶段 · 条件递归到精准执行）
+
+**主线闭合**：问题 → 识别条件 → 递归找到知识与规则 → 生成执行计划 → 精准执行 → 验证结果 → 固化或回滚（`docs/代码语义条件协议.md` §5-§19）。
+
+```mermaid
+flowchart TD
+    Q[问题] --> C[条件识别]
+    C --> R{四态路由}
+    R -->|条件充分| ACCEPT[ACCEPT 能力单元<br/>+confidence 置信度]
+    R -->|条件冲突| BLIND[BLINDSPOT 盲区]
+    R -->|条件不足| DEFER[DEFER 缺失条件递归]
+    DEFER --> C
+    R -->|无法判断| ESC[分层升级 escalation<br/>L1单元→L2域→L3组合→终层盲区]
+    ACCEPT --> PLAN[执行计划三闸门<br/>前置检查→dry_run→结果验证]
+    PLAN --> EXEC[真实执行 + verifier 六层]
+    EXEC --> VER{结果验证}
+    VER -->|通过| SOLID[固化/工作流复用]
+    VER -->|失败| ROLL[回滚不固化]
+    SOLID --> SK[技能条件化<br/>适用/不适用条件+关系边]
+    SK --> ITER[八步自迭代闭环<br/>感知→识别→分析→验证→固化→记录→反馈→方向性自检]
+    ITER -->|理论完整性自指检查| Q
+```
+
+**八步自迭代闭环**（`tools/self_iterate.py`）——方向性自检（第 8 步）含**理论完整性自指检查**（验证理论八步被工程完整实现，防步骤因记忆缺漏/遗忘丢失，`test_theory_integrity.py` 6/6）。**隐式盲区显式化**（荣：返回默认值=不知道=自带盲区）：19 处弱兜底漂移显式声明盲区；`auto_iterate.py` 无人值守自动循环（稳态检测防空转）。
+
+**能力工作流化**（`tools/whitebox_workflow.py`，仿 ComfyUI）——白箱能力知识图谱化：`node{class_type, inputs} + 边[上游,idx] + prompt图 → 拓扑执行 + JSON 保存/复用`。节点类型：code_unit（681 单元）/ router（条件路由）/ mos_declare（元操作声明）/ pass。**路由置信度**（DaoTi coherence 吸纳）ACCET 含连续置信度；**技能条件路由**（anthropics/skills + gliding_horse SkillLink 吸纳）技能声明适用/不适用条件+关系边。**外部感知**：持续扫描 GitHub 高星项目吸纳（langgraph/MetaGPT/cognee/anthropics-skills/DaoTi/gliding_horse 已分析）。
+
 ### 条件空间声明（Condition Space Declaration）
 **运行最优**：需要长期记忆 continuity 的 Agent 场景 / 对幻觉零容忍的高风险决策 /
 需要价值观对齐和可追溯性的协作场景
