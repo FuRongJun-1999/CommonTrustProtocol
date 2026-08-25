@@ -290,6 +290,12 @@ def _summarize(applied: list) -> list:
             kinds["越界"].append(a["unit"])
     return [{
         "skill": f"不适用条件-{kind}：隐式盲区显式化",
+        # anthropics/skills 吸纳（2026-09）：技能声明适用/不适用条件——
+        # 条件路由加载技能（skills.json 元数据化）
+        "适用条件": [f"负面测试发现单元对{kind}输入返回默认值（非拒绝）",
+                    "实现用兜底分支返回默认值"],
+        "不适用条件": ["输入超范围抛异常/None/False（强拒绝=诚实声明）",
+                     "注入型单元无法独立断言"],
         "pattern": ("输入{kind}时实现返回默认值（=不知道，自带盲区）——"
                     "注释显式标记盲区声明；或修复实现为显式拒绝"),
         "instances": units[:8], "n": len(units),
@@ -303,10 +309,50 @@ def _save_skills(skills: list):
             db = json.load(open(SKILLS_PATH, encoding='utf-8'))
         except Exception:
             db = {}
-    db["契约形态-弱兜底"] = {"skills": skills,
-                            "updated_at": time.strftime("%Y-%m-%d %H:%M:%S")}
+    db["隐式盲区显式化"] = {"source": "自迭代闭环 2026-09（荣：返回默认值=盲区）",
+                           "skills": skills,
+                           "updated_at": time.strftime("%Y-%m-%d %H:%M:%S")}
     json.dump(db, open(SKILLS_PATH, 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
+
+
+def _q_tokens(text: str) -> set:
+    """简单中文二元组分词（技能条件匹配用）。"""
+    t = re.sub(r'\s+', '', text)
+    return {t[i:i + 2] for i in range(len(t) - 1)}
+
+
+def skills_cond(query: str) -> list:
+    """条件路由加载技能（anthropics/skills 吸纳 §17.4）。
+
+    按任务条件匹配技能：任务词命中技能『适用条件』→ 加载；
+    命中『不适用条件』→ 排除（条件路由——不盲目加载）。
+    """
+    if not os.path.exists(SKILLS_PATH):
+        return []
+    try:
+        db = json.load(open(SKILLS_PATH, encoding='utf-8'))
+    except Exception:
+        return []
+    qb = _q_tokens(query)
+    matched = []
+    for group, entry in db.items():
+        for s in entry.get("skills", []):
+            ok_when = any(
+                qb & _q_tokens(c) for c in s.get("适用条件", []))
+            # 不适用条件排除：query 自身含判别词（异常/强拒绝/注入型/
+            # None/False/抛异常）才可能排除——「返回默认值」的 query 不
+            # 含这些判别词，不会误排除（返回/输入=泛化词不算）
+            q_has_reject_word = any(
+                k in query for k in ("None", "False", "抛异常", "强拒绝",
+                                     "注入型", "异常"))
+            not_when = q_has_reject_word and any(
+                qb & _q_tokens(c)
+                for c in s.get("不适用条件", []))
+            if ok_when and not not_when:
+                matched.append({"skill": s["skill"], "group": group,
+                               "pattern": s.get("pattern", "")[:60]})
+    return matched
 
 
 # ── 6 记录 + 7 反馈 ───────────────────────────────────────────

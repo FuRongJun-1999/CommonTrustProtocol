@@ -1,0 +1,8 @@
+{
+ "experiment": "技能条件路由加载（GitHub 吸纳：anthropics/skills）",
+ "skills_with_meta": true,
+ "condition_hit": true,
+ "not_condition_exclude": true,
+ "no_match": true,
+ "conclusion": "技能=目录化+元数据（适用/不适用条件）→ 条件路由加载；外部工程实践（anthropics/skills）已吸纳进白箱体系"
+}
