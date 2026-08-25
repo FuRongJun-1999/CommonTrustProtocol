@@ -7,3 +7,6 @@ logs/
 *.db-shm
 *.db-wal
 
+# 本地校验缓存（派生数据，可随时按 verifier 版本重建）
+data/verify_cache.json
+

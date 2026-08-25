@@ -121,6 +121,7 @@ GRAPH_UNITS = {
         "cases": [(({"沸点降": {"conditions": ["气压低"]},
                      "煮不熟": {"conditions": ["沸点降"]}},), ["沸点降"])],
         "params": [],
+        "needs_inject": True,  # 依赖白箱组装 Graph（与 图遍历-BFS/对接 同类注入型）
         "calibration": "对照：条件单元库（{条件→规律}）→ 条件路由图（第4阶段知识图同构）",
     },
     "图持久化-文件": {
