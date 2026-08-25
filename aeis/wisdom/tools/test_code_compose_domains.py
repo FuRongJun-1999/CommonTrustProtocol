@@ -6956,5 +6956,41 @@ except Exception as ex:
     check('㌥c 时隙→跳频→误码率端到端（1 2410 0.01）',
           False, str(ex)[:60])
 
+# ㌦ 目标2 深化：分析/编译优化（控制流图/内联缓存/寄存器着色 经正式管线）
+c26_qs = {
+    "控制流图": "写一个控制流图单元（跳转边）",
+    "内联缓存": "写一个内联缓存单元（多态命中）",
+    "寄存器着色": "写一个寄存器着色单元（冲突分配）",
+}
+c26_ok = 0
+for label, q in c26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c26_ok += 1
+    check(f'㌦ {label} 分析/编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌦b 分析/编译优化三单元全部生成', c26_ok == 3, f'{c26_ok}/3')
+
+# ㌦c 端到端：控制流图→内联缓存→寄存器着色（{B0:[B1],B1:[]} f {a:0,b:1}）
+r_cg = domain_route("写一个控制流图单元（跳转边）")
+r_ic = domain_route("写一个内联缓存单元（多态命中）")
+r_rc = domain_route("写一个寄存器着色单元（冲突分配）")
+try:
+    ns_cg, ns_ic, ns_rc = {}, {}, {}
+    exec(r_cg["code"], ns_cg)
+    exec(r_ic["code"], ns_ic)
+    exec(r_rc["code"], ns_rc)
+    cg = ns_cg["build_cfg"](['B0', 'B1'], [('B0', 'B1')])
+    ic = ns_ic["inline_cache"]({'cache': {'甲': 'f'}}, 'lookup', '甲')
+    rc = ns_rc["reg_color"]((('a', (0, 2)), ('b', (1, 3))), 2)
+    check('㌦c 控制流图→内联缓存→寄存器着色端到端（{B0:[B1],B1:[]} f {a:0,b:1}）',
+          cg == {'B0': ['B1'], 'B1': []} and ic == 'f'
+          and rc == {'a': 0, 'b': 1},
+          f'cfg={cg} cache={ic} color={rc}')
+except Exception as ex:
+    check('㌦c 控制流图→内联缓存→寄存器着色端到端（{B0:[B1],B1:[]} f {a:0,b:1}）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

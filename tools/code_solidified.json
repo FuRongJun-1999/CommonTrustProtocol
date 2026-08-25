@@ -5708,5 +5708,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:compiler|分析-控制流图": {
+  "task": "控制流图",
+  "unit": "分析-控制流图",
+  "code": "def build_cfg(blocks, jumps):\n    # 控制流图：基本块间跳转关系（CFG 边构建）\n    cfg = {b: [] for b in blocks}\n    for src, dst in jumps:\n        cfg.setdefault(src, []).append(dst)\n    return cfg\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-内联缓存": {
+  "task": "内联缓存",
+  "unit": "编译-内联缓存",
+  "code": "def inline_cache(state, op, cls=None, target=None):\n    # 内联缓存：learn 学习 / lookup 命中 / miss 未命中（多态内联缓存）\n    if op == 'learn':\n        state.setdefault('cache', {})[cls] = target\n        return 'learned'\n    if op == 'lookup':\n        return state.get('cache', {}).get(cls)\n    if op == 'miss':\n        state['misses'] = state.get('misses', 0) + 1\n        return state['misses']\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-寄存器着色": {
+  "task": "寄存器着色",
+  "unit": "编译-寄存器着色",
+  "code": "def reg_color(intervals, regs):\n    # 寄存器着色：活跃区间贪心分配（冲突图着色）\n    assign = {}\n    for var, (start, end) in intervals:\n        used = {assign[v] for v, (s, e) in intervals\n                if v in assign and not (e <= start or s >= end)}\n        r = 0\n        while r in used and r < regs:\n            r += 1\n        assign[var] = r if r < regs else None\n    return assign\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

@@ -2344,6 +2344,65 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：字节码——指令编码尺寸（紧凑性度量）",
     },
+    "分析-控制流图": {
+        "task": "控制流图",
+        "pattern": (
+            "def build_cfg(blocks, jumps):\n"
+            "    # 控制流图：基本块间跳转关系（CFG 边构建）\n"
+            "    cfg = {b: [] for b in blocks}\n"
+            "    for src, dst in jumps:\n"
+            "        cfg.setdefault(src, []).append(dst)\n"
+            "    return cfg\n"),
+        "cases": [
+            ((['B0', 'B1'], [('B0', 'B1')]), {'B0': ['B1'], 'B1': []}),
+            ((['B0'], []), {'B0': []}),
+            (([], []), {})],
+        "params": [],
+        "calibration": "对照：CFG——基本块跳转边构建（控制流图）",
+    },
+    "编译-内联缓存": {
+        "task": "内联缓存",
+        "pattern": (
+            "def inline_cache(state, op, cls=None, target=None):\n"
+            "    # 内联缓存：learn 学习 / lookup 命中 / miss 未命中（多态内联缓存）\n"
+            "    if op == 'learn':\n"
+            "        state.setdefault('cache', {})[cls] = target\n"
+            "        return 'learned'\n"
+            "    if op == 'lookup':\n"
+            "        return state.get('cache', {}).get(cls)\n"
+            "    if op == 'miss':\n"
+            "        state['misses'] = state.get('misses', 0) + 1\n"
+            "        return state['misses']\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'learn', '甲', 'f'), 'learned'),
+            (({'cache': {'甲': 'f'}}, 'lookup', '甲'), 'f'),
+            (({}, 'lookup', '乙'), None),
+            (({}, 'miss'), 1)],
+        "params": [],
+        "calibration": "对照：多态内联缓存——类→方法学习/命中/未命中",
+    },
+    "编译-寄存器着色": {
+        "task": "寄存器着色",
+        "pattern": (
+            "def reg_color(intervals, regs):\n"
+            "    # 寄存器着色：活跃区间贪心分配（冲突图着色）\n"
+            "    assign = {}\n"
+            "    for var, (start, end) in intervals:\n"
+            "        used = {assign[v] for v, (s, e) in intervals\n"
+            "                if v in assign and not (e <= start or s >= end)}\n"
+            "        r = 0\n"
+            "        while r in used and r < regs:\n"
+            "            r += 1\n"
+            "        assign[var] = r if r < regs else None\n"
+            "    return assign\n"),
+        "cases": [
+            (((('a', (0, 2)), ('b', (1, 3))), 2), {'a': 0, 'b': 1}),
+            (((('a', (0, 1)), ('b', (2, 3))), 2), {'a': 0, 'b': 0}),
+            (((('a', (0, 2)), ('b', (1, 2))), 1), {'a': 0, 'b': None})],
+        "params": [],
+        "calibration": "对照：寄存器分配——活跃区间冲突着色（贪心）",
+    },
 }
 
 
