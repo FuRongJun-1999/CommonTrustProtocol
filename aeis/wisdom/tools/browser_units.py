@@ -2143,6 +2143,56 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：Web Audio——振荡器/音量/启动",
     },
+    "事件-事件委托": {
+        "task": "事件委托",
+        "pattern": (
+            "def event_delegate(handlers, event):\n"
+            "    # 事件委托：祖先单监听器按目标分派（事件冒泡优化——只挂一个监听）\n"
+            "    key = (event.get('target'), event.get('type'))\n"
+            "    if key in handlers:\n"
+            "        return handlers[key](event)\n"
+            "    return None\n"),
+        "cases": [
+            (({('btn', 'click'): lambda e: 'clicked'}, {'target': 'btn', 'type': 'click'}), 'clicked'),
+            (({('btn', 'click'): lambda e: 'clicked'}, {'target': 'div', 'type': 'click'}), None),
+            (({('a', 'input'): lambda e: e.get('value')}, {'target': 'a', 'type': 'input', 'value': 7}), 7),
+            (({}, {'target': 'btn', 'type': 'click'}), None)],
+        "params": [],
+        "calibration": "对照：事件委托——祖先单监听器按 target+type 分派子处理器（冒泡优化）",
+    },
+    "浏览器-弹窗拦截": {
+        "task": "弹窗拦截",
+        "pattern": (
+            "def popup_block(allow, user_gesture, blocked_log):\n"
+            "    # 弹窗拦截：无用户手势的自动弹窗拦截并记录（浏览器安全策略）\n"
+            "    if allow and user_gesture:\n"
+            "        return 'allowed'\n"
+            "    blocked_log.append('blocked')\n"
+            "    return 'blocked'\n"),
+        "cases": [
+            ((True, True, []), 'allowed'),
+            ((True, False, []), 'blocked'),
+            ((False, True, []), 'blocked'),
+            ((False, False, []), 'blocked')],
+        "params": [],
+        "calibration": "对照：弹窗拦截——仅用户手势触发的允许弹窗，自动弹窗拦截并记录",
+    },
+    "安全-混合内容": {
+        "task": "混合内容",
+        "pattern": (
+            "def mixed_content(page_scheme, res_scheme):\n"
+            "    # 混合内容：HTTPS 页面加载 HTTP 子资源拦截（浏览器安全策略）\n"
+            "    if page_scheme == 'https' and res_scheme == 'http':\n"
+            "        return 'blocked'\n"
+            "    return 'allowed'\n"),
+        "cases": [
+            (('https', 'http'), 'blocked'),
+            (('https', 'https'), 'allowed'),
+            (('http', 'http'), 'allowed'),
+            (('http', 'https'), 'allowed')],
+        "params": [],
+        "calibration": "对照：混合内容——HTTPS 页面加载 HTTP 子资源拦截（安全降级防护）",
+    },
 }
 
 

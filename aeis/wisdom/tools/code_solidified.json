@@ -6128,5 +6128,35 @@
   ],
   "source": "domain_solidified",
   "domain": "os"
+ },
+ "domain:browser|事件-事件委托": {
+  "task": "事件委托",
+  "unit": "事件-事件委托",
+  "code": "def event_delegate(handlers, event):\n    # 事件委托：祖先单监听器按目标分派（事件冒泡优化——只挂一个监听）\n    key = (event.get('target'), event.get('type'))\n    if key in handlers:\n        return handlers[key](event)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-弹窗拦截": {
+  "task": "弹窗拦截",
+  "unit": "浏览器-弹窗拦截",
+  "code": "def popup_block(allow, user_gesture, blocked_log):\n    # 弹窗拦截：无用户手势的自动弹窗拦截并记录（浏览器安全策略）\n    if allow and user_gesture:\n        return 'allowed'\n    blocked_log.append('blocked')\n    return 'blocked'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|安全-混合内容": {
+  "task": "混合内容",
+  "unit": "安全-混合内容",
+  "code": "def mixed_content(page_scheme, res_scheme):\n    # 混合内容：HTTPS 页面加载 HTTP 子资源拦截（浏览器安全策略）\n    if page_scheme == 'https' and res_scheme == 'http':\n        return 'blocked'\n    return 'allowed'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

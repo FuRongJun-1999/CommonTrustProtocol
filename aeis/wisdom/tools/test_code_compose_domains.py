@@ -7450,5 +7450,41 @@ except Exception as ex:
     check('㌳c 软中断→工作窃取→模块加载端到端（2 [[1,2],[3],[4,5]] ok）',
           False, str(ex)[:60])
 
+# ㌴ 目标5 深化：浏览器机制（事件委托/弹窗拦截/混合内容 经正式管线）
+b26_qs = {
+    "事件委托": "写一个事件委托单元（祖先分派）",
+    "弹窗拦截": "写一个弹窗拦截单元（用户手势）",
+    "混合内容": "写一个混合内容拦截单元（安全策略）",
+}
+b26_ok = 0
+for label, q in b26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b26_ok += 1
+    check(f'㌴ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌴b 浏览器机制三单元全部生成', b26_ok == 3, f'{b26_ok}/3')
+
+# ㌴c 端到端：事件委托→弹窗拦截→混合内容（clicked blocked blocked）
+r_ed = domain_route("写一个事件委托单元（祖先分派）")
+r_pb = domain_route("写一个弹窗拦截单元（用户手势）")
+r_mc = domain_route("写一个混合内容拦截单元（安全策略）")
+try:
+    ns_ed, ns_pb, ns_mc = {}, {}, {}
+    exec(r_ed["code"], ns_ed)
+    exec(r_pb["code"], ns_pb)
+    exec(r_mc["code"], ns_mc)
+    ed = ns_ed["event_delegate"]({('btn', 'click'): lambda e: 'clicked'},
+                                 {'target': 'btn', 'type': 'click'})
+    pb = ns_pb["popup_block"](True, False, [])
+    mc = ns_mc["mixed_content"]('https', 'http')
+    check('㌴c 事件委托→弹窗拦截→混合内容端到端（clicked blocked blocked）',
+          ed == 'clicked' and pb == 'blocked' and mc == 'blocked',
+          f'delegate={ed} popup={pb} mixed={mc}')
+except Exception as ex:
+    check('㌴c 事件委托→弹窗拦截→混合内容端到端（clicked blocked blocked）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
