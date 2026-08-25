@@ -1,0 +1,9 @@
+{
+ "experiment": "情绪方向性偏好×决策分层（PROP-EMO-002/DECISION-LAYER-003）",
+ "L1_daily": true,
+ "L2_important": true,
+ "L3_existential": true,
+ "L4_conflict": true,
+ "local_optimum": true,
+ "conclusion": "情绪=收敛参数（非干扰）：L1 高置信快速 ACCEPT 低倾向；L2 中置信可复核；L3 存在级情绪不覆盖（BLINDSPOT/冲突不强转）；局部最优合法（稳态接受，新信息打破）"
+}

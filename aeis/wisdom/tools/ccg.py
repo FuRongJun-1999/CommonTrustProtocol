@@ -498,7 +498,7 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
     df = _word_df(nodes)
     hits = search(question, nodes, top=top)
     if not hits:
-        return {"state": "BLINDSPOT", "reason": "无候选",
+        return {"state": "BLINDSPOT", "decision_layer": "L3", "reason": "无候选",
                 "path": [question[:30]], "trace": list(_trace),
                 "candidate_count": 0}
     # 任务内矛盾检测（GPT §四 C 类 + §7.4 反事实）：
@@ -540,7 +540,7 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
         if strong:
             conflict_not.append({"unit": uid, "conflict_words": strong})
     if anti_hit or conflict_not:
-        return {"state": "BLINDSPOT", "reason": "任务内矛盾（条件词冲突）",
+        return {"state": "BLINDSPOT", "decision_layer": "L3", "reason": "任务内矛盾（条件词冲突）",
                 "anti_pair": [list(anti_hit[0]) + list(anti_hit[1])]
                 if anti_hit else None,
                 "conflict": conflict_not,
@@ -596,7 +596,7 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
         if not all_anchored:
             fabricated.extend(seg)
     if fabricated:
-        return {"state": "BLINDSPOT", "reason": "伪造条件（任务条件词不在条件空间）",
+        return {"state": "BLINDSPOT", "decision_layer": "L3", "reason": "伪造条件（任务条件词不在条件空间）",
                 "fabricated_words": sorted(set(fabricated))[:6],
                 "candidates": [h[0] for h in hits[:3]],
                 "path": [question[:30], f"伪造:{sorted(set(fabricated))[:3]}"],
@@ -606,6 +606,11 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
     gap = (top1[2][0] - top2[2][0]) if top2 else 99
     # 有效词（低 df 判别词）——泛化词（功能/存在/检查 等多单元共现）不算
     meaningful = [w for w in top1[3] if df.get(w, 99) <= 11]
+    # 情绪方向性偏好工程化（PROP-EMO-DIRECTION-002 + DECISION-LAYER-003）：
+    # convergence_bias = 收敛倾向系数（类比情感权重 0.1-0.3 的加速因子）。
+    # 决策分层：L1 日常（高置信快速 ACCEPT，0-1 层递归）/
+    #           L2 重要（低置信 DEFER 递归）/ L3 存在级（BLINDSPOT 不覆盖）。
+    # 情绪不覆盖存在级：BLINDSPOT/冲突不因倾向性强转。
     if (gap >= 2 or top2 is None) and top1[2][0] >= 3 and len(meaningful) >= 2:
         # 路由置信度（DaoTi coherence 吸纳，§daoti）：命中分归一化 [0,1]
         # 连续置信度——DaoTi 用余弦相似度+阈值决定生成与否；我们补
@@ -613,8 +618,13 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
         # （低置信 ACCEPT 可降级 DEFER/人工确认）。不改变硬规则判定。
         _max_possible = max(1.0, top1[2][0] + (gap if top2 else 0))
         confidence = round(min(1.0, top1[2][0] / _max_possible), 3)
+        # 决策分层（情绪方向性偏好的工程参数）：
+        # L1 日常决策（confidence 高 → 强倾向快速收敛，0-1 层递归）
+        decision_layer = "L1" if confidence >= 0.7 else "L2"
         return {"state": "ACCEPT", "unit": top1[0], "score": top1[2][0],
                 "confidence": confidence,
+                "decision_layer": decision_layer,
+                "convergence_bias": round(0.3 - (confidence - 0.5) * 0.5, 3),
                 "path": [question[:30]], "trace": list(_trace),
                 "candidate_count": 1}
     # DEFER 前置：任务判别力不足（有效词 0）→ BLINDSPOT（盲区声明，
@@ -622,6 +632,7 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
     if not meaningful:
         return {"state": "BLINDSPOT",
                 "reason": "判别力不足（仅泛化词命中）",
+                "decision_layer": "L3",
                 "candidates": [h[0] for h in hits[:3]],
                 "path": [question[:30]], "trace": list(_trace),
                 "candidate_count": cand_before}
@@ -637,7 +648,7 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
             == '混合条件冲突'
             for i in range(min(3, len(hits)))
             for j in range(i + 1, min(3, len(hits)))):
-        return {"state": "BLINDSPOT", "reason": "混合条件冲突（任务同时含两侧独有条件）",
+        return {"state": "BLINDSPOT", "decision_layer": "L3", "reason": "混合条件冲突（任务同时含两侧独有条件）",
                 "candidates": [h[0] for h in hits[:3]],
                 "missing": missing, "missing_struct": mc,
                 "path": [question[:30], f"缺:{missing}"],
