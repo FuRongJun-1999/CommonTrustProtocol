@@ -29,6 +29,9 @@ NET_UNITS = {
         "pattern": (
             "def tcp_handshake(states):\n"
             "    # TCP 三次握手：CLOSED → SYN → SYN-ACK → ESTABLISHED\n"
+            "    # 生效条件：states 为事件序列（SYN/SYN-ACK/ACK 等）\n"
+            "    # 子功能：① 状态机迁移 ② 非法事件忽略 ③ 到达 ESTABLISHED 判定\n"
+            "    # 执行：状态转移表逐事件推进\n"
             "    state = 'CLOSED'\n"
             "    for ev in states:\n"
             "        if state == 'CLOSED' and ev == 'SYN':\n"

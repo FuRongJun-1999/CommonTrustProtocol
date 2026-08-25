@@ -77,7 +77,10 @@ COMPILER_UNITS = {
         "task": "循环编译",
         "pattern": (
             "def compile_loop(cond_instrs, body_instrs):\n"
-            "    # 当…执行 → 条件 + JUMP_IF_FALSE 跳出 + 循环体 + JUMP 回条件\n"
+            "    # 循环编译（while 编译）：当…执行 → 条件 + JUMP_IF_FALSE 跳出 + 循环体 + JUMP 回条件\n"
+            "    # 生效条件：cond_instrs/body_instrs 为指令列表（条件字节码/循环体字节码）\n"
+            "    # 子功能：① 拼接条件指令 ② 假跳转至循环后 ③ 体尾回跳条件\n"
+            "    # 执行：JUMP_IF_FALSE 跳出 + JUMP 回跳形成循环（while 语义）\n"
             "    # （while 语义：条件为假即退出，回跳形成循环）\n"
             "    code = []\n"
             "    code.extend(cond_instrs)\n"
@@ -722,7 +725,10 @@ COMPILER_UNITS = {
         "task": "字节码序列化",
         "pattern": (
             "def serialize(code):\n"
-            "    # 指令列表 → .pbc 字节串（原生编译产物：op字符串+arg编码）\n"
+            "    # 字节码序列化（.pbc 编码）：指令列表 → .pbc 字节串（原生编译产物：op字符串+arg编码）\n"
+            "    # 生效条件：code 为 (op, arg) 指令列表；arg 为 int/str/None\n"
+            "    # 子功能：① op 定长前缀编码 ② arg 类型分派编码 ③ 拼装字节串\n"
+            "    # 执行：struct.pack 前缀长度 + utf-8 op + arg 按类型编码\n"
             "    import struct\n"
             "    out = bytearray()\n"
             "    for op, arg in code:\n"

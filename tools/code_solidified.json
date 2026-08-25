@@ -72,13 +72,13 @@
  "domain:net|网络-TCP握手": {
   "task": "TCP握手",
   "unit": "网络-TCP握手",
-  "code": "def tcp_handshake(states):\n    # TCP 三次握手：CLOSED → SYN → SYN-ACK → ESTABLISHED\n    state = 'CLOSED'\n    for ev in states:\n        if state == 'CLOSED' and ev == 'SYN':\n            state = 'SYN_SENT'\n        elif state == 'SYN_SENT' and ev == 'SYN-ACK':\n            state = 'ESTABLISHED'\n    return state\n",
+  "code": "def tcp_handshake(states):\n    # TCP 三次握手：CLOSED → SYN → SYN-ACK → ESTABLISHED\n    # 生效条件：states 为事件序列（SYN/SYN-ACK/ACK 等）\n    # 子功能：① 状态机迁移 ② 非法事件忽略 ③ 到达 ESTABLISHED 判定\n    # 执行：状态转移表逐事件推进\n    state = 'CLOSED'\n    for ev in states:\n        if state == 'CLOSED' and ev == 'SYN':\n            state = 'SYN_SENT'\n        elif state == 'SYN_SENT' and ev == 'SYN-ACK':\n            state = 'ESTABLISHED'\n    return state\n",
   "checks": [
    "✔ L1语法 语法通过（1 个函数定义）",
    "✔ L2样例 3 组样例全部通过",
    "✔ L3边界 无额外边界用例",
    "✔ 规范符合性 结构规范 + 语义对齐 + 条件论注释通过",
-   "✔ 缓存命中（指纹 a16fc168a5f6）"
+   "✔ 缓存命中（指纹 22c7f121ee15）"
   ],
   "source": "domain_solidified",
   "domain": "net"

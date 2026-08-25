@@ -261,7 +261,10 @@ OS_UNITS = {
         "task": "页表映射",
         "pattern": (
             "def page_table_lookup(page_table, vpn):\n"
-            "    # 虚拟内存页表：虚拟页号 → 物理帧号（present=1 已映射，0 缺页）\n"
+            "    # 页表映射（虚拟内存页表）：虚拟页号 → 物理帧号（present=1 已映射，0 缺页）\n"
+            "    # 生效条件：page_table 为 VPN→页表项 映射；vpn 为虚拟页号\n"
+            "    # 子功能：① 查页表项 ② present 位判定 ③ 缺页/命中返回\n"
+            "    # 执行：无条目或 present≠1 → None（缺页）；否则返 frame\n"
             "    entry = page_table.get(vpn)\n"
             "    if entry is None or entry.get('present') != 1:\n"
             "        return None   # 缺页：页不在物理内存\n"

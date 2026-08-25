@@ -156,7 +156,10 @@ BROWSER_UNITS = {
         "task": "盒模型",
         "pattern": (
             "def box_model(width, padding, border, margin):\n"
-            "    # 盒模型：内容+padding+border → 元素总宽（margin 不计入）\n"
+            "    # 盒模型（CSS 盒模型）：内容+padding+border → 元素总宽（margin 不计入）\n"
+            "    # 生效条件：width/padding/border/margin 为数值（CSS 盒属性）\n"
+            "    # 子功能：① 内容宽 ② 加两侧 padding ③ 加两侧 border\n"
+            "    # 执行：width + 2*padding + 2*border（margin 不计入总宽）\n"
             "    return width + 2 * padding + 2 * border\n"),
         "cases": [((100, 10, 2, 5), 124),
                   ((50, 0, 1, 0), 52),

@@ -198,7 +198,10 @@ GRAPH_UNITS = {
         "task": "最短路径",
         "pattern": (
             "def shortest_path(graph, start, end):\n"
-            "    # 无权图最短路径：BFS 逐层扩散 + 前驱还原（最少条件链跳数）\n"
+            "    # 最短路径（无权图 BFS）：BFS 逐层扩散 + 前驱还原（最少条件链跳数）\n"
+            "    # 生效条件：graph 提供 neighbors 接口；start/end 为图中节点\n"
+            "    # 子功能：① BFS 逐层扩散 ② 记录前驱 ③ 终点回溯还原路径\n"
+            "    # 执行：队列扩散 + prev 链回溯\n"
             "    if start == end:\n"
             "        return [start]\n"
             "    from collections import deque\n"
@@ -2594,7 +2597,10 @@ GRAPH_UNITS = {
         "task": "条件分解",
         "pattern": (
             "def condition_split(cond):\n"
-            "    # 条件分解：合取条件拆分为原子条件链（条件空间语义——条件合并的逆）\n"
+            "    # 条件分解（条件链拆分）：合取条件拆分为原子条件链（条件空间语义——条件合并的逆）\n"
+            "    # 生效条件：cond 为条件表达式（AND 元组/原子条件）\n"
+            "    # 子功能：① AND 递归拆分 ② 原子条件原样保留\n"
+            "    # 执行：AND 节点分左右递归，非 AND 单元素列表（析取不可拆）\n"
             "    if isinstance(cond, tuple) and cond[0] == 'AND':\n"
             "        return condition_split(cond[1]) + condition_split(cond[2])\n"
             "    return [cond]\n"),

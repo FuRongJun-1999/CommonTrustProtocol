@@ -1286,7 +1286,10 @@ PYTHON_UNITS = {
         "task": "链表",
         "pattern": (
             "def linked_list_ops(values, op, value=None):\n"
-            "    # 链表：build 值列表→节点链 / traverse 链→值列表 / contains 查找\n"
+            "    # 链表操作（单链表）：build 值列表→节点链 / traverse 链→值列表 / contains 查找\n"
+            "    # 生效条件：op ∈ {build, traverse, contains}；value 为查找目标（contains 时）\n"
+            "    # 子功能：① build 逆序建链 ② traverse 顺序取值 ③ contains 遍历查找\n"
+            "    # 执行：节点 dict {value, next} 链式构造与遍历\n"
             "    if op == 'build':\n"
             "        head = None\n"
             "        for v in reversed(values):\n"
@@ -1825,7 +1828,10 @@ PYTHON_UNITS = {
         "task": "滑动均值",
         "pattern": (
             "def moving_avg(seq, window):\n"
-            "    # 滑动均值：窗口内平均（平滑时间序列）\n"
+            "    # 滑动均值（移动平均）：窗口内平均（平滑时间序列）\n"
+            "    # 生效条件：seq 为数值序列；window > 0\n"
+            "    # 子功能：① 非法窗口/空序列直返空 ② 逐窗口求均值 ③ 两位小数归整\n"
+            "    # 执行：滑窗求和取平均，round 2 位\n"
             "    if window <= 0 or not seq:\n"
             "        return []\n"
             "    out = []\n"
