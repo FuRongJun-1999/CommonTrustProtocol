@@ -4598,5 +4598,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:compiler|VM-异常处理": {
+  "task": "异常处理",
+  "unit": "VM-异常处理",
+  "code": "def vm_exception(state, op, etype=None):\n    # VM 异常处理：raise 抛异常 / handler 查处理表 / clear 清除（异常跳转）\n    if op == 'raise':\n        state['exc'] = etype\n        return etype\n    if op == 'handler':\n        table = state.get('table', {})\n        return table.get(state.get('exc'), None)\n    if op == 'clear':\n        state['exc'] = None\n        return None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-表达式树": {
+  "task": "表达式树",
+  "unit": "编译-表达式树",
+  "code": "def build_expr_tree(tokens, pos=0):\n    # 表达式树：中缀 token → 嵌套树（AST 节点构建）\n    stack = []\n    for tok in tokens:\n        if tok == '(':\n            continue\n        if tok == ')':\n            right = stack.pop()\n            op = stack.pop()\n            left = stack.pop()\n            stack.append((op, left, right))\n        else:\n            stack.append(tok)\n    return stack[0] if stack else None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|分析-栈深度分析": {
+  "task": "栈深度分析",
+  "unit": "分析-栈深度分析",
+  "code": "def stack_depth(instrs):\n    # 栈深度分析：模拟指令流求最大栈深（编译期栈大小）\n    depth = 0\n    mx = 0\n    for ins in instrs:\n        if ins[0] == 'PUSH':\n            depth += 1\n        elif ins[0] in ('POP', 'STORE'):\n            depth = max(0, depth - 1)\n        mx = max(mx, depth)\n    return mx\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

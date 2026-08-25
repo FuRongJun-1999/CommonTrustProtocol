@@ -1957,6 +1957,75 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：语法——分号语句分隔（多语句序列）",
     },
+    "VM-异常处理": {
+        "task": "异常处理",
+        "pattern": (
+            "def vm_exception(state, op, etype=None):\n"
+            "    # VM 异常处理：raise 抛异常 / handler 查处理表 / clear 清除（异常跳转）\n"
+            "    if op == 'raise':\n"
+            "        state['exc'] = etype\n"
+            "        return etype\n"
+            "    if op == 'handler':\n"
+            "        table = state.get('table', {})\n"
+            "        return table.get(state.get('exc'), None)\n"
+            "    if op == 'clear':\n"
+            "        state['exc'] = None\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'raise', '除零'), '除零'),
+            (({'exc': '除零', 'table': {'除零': 10}}, 'handler'), 10),
+            (({'exc': '未知', 'table': {'除零': 10}}, 'handler'), None),
+            (({'exc': '除零'}, 'clear'), None)],
+        "params": [],
+        "calibration": "对照：VM 异常——异常类型抛出与处理表跳转（try/except 语义）",
+    },
+    "编译-表达式树": {
+        "task": "表达式树",
+        "pattern": (
+            "def build_expr_tree(tokens, pos=0):\n"
+            "    # 表达式树：中缀 token → 嵌套树（AST 节点构建）\n"
+            "    stack = []\n"
+            "    for tok in tokens:\n"
+            "        if tok == '(':\n"
+            "            continue\n"
+            "        if tok == ')':\n"
+            "            right = stack.pop()\n"
+            "            op = stack.pop()\n"
+            "            left = stack.pop()\n"
+            "            stack.append((op, left, right))\n"
+            "        else:\n"
+            "            stack.append(tok)\n"
+            "    return stack[0] if stack else None\n"),
+        "cases": [
+            ((['(', 'a', '+', 'b', ')'],), ('+', 'a', 'b')),
+            ((['(', 'a', '+', '(', 'b', '*', 'c', ')', ')'],),
+             ('+', 'a', ('*', 'b', 'c'))),
+            (([],), None)],
+        "params": [],
+        "calibration": "对照：语法——中缀表达式 → 嵌套树（AST 构建）",
+    },
+    "分析-栈深度分析": {
+        "task": "栈深度分析",
+        "pattern": (
+            "def stack_depth(instrs):\n"
+            "    # 栈深度分析：模拟指令流求最大栈深（编译期栈大小）\n"
+            "    depth = 0\n"
+            "    mx = 0\n"
+            "    for ins in instrs:\n"
+            "        if ins[0] == 'PUSH':\n"
+            "            depth += 1\n"
+            "        elif ins[0] in ('POP', 'STORE'):\n"
+            "            depth = max(0, depth - 1)\n"
+            "        mx = max(mx, depth)\n"
+            "    return mx\n"),
+        "cases": [
+            (([('PUSH', 1), ('PUSH', 2), ('ADD', None)],), 2),
+            (([('PUSH', 1), ('POP', None)],), 1),
+            (([],), 0)],
+        "params": [],
+        "calibration": "对照：编译期分析——指令流最大栈深度（VM 栈帧大小）",
+    },
 }
 
 

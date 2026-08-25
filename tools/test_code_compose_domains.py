@@ -5651,5 +5651,40 @@ except Exception as ex:
     check('㌀c 字典推导→异步队列→模板渲染端到端（{甲:1,乙:1} a 你好 甲）',
           False, str(ex)[:60])
 
+# ㌁ 目标2 深化：VM/编译/分析（异常处理/表达式树/栈深度分析 经正式管线）
+c20_qs = {
+    "异常处理": "写一个异常处理单元（处理表跳转）",
+    "表达式树": "写一个表达式树单元（AST 构建）",
+    "栈深度分析": "写一个栈深度分析单元（最大栈深）",
+}
+c20_ok = 0
+for label, q in c20_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c20_ok += 1
+    check(f'㌁ {label} VM/编译/分析单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌁b VM/编译/分析三单元全部生成', c20_ok == 3, f'{c20_ok}/3')
+
+# ㌁c 端到端：异常→表达式树→栈深度（10 ('+','a','b') 2）
+r_vx = domain_route("写一个异常处理单元（处理表跳转）")
+r_et = domain_route("写一个表达式树单元（AST 构建）")
+r_sd = domain_route("写一个栈深度分析单元（最大栈深）")
+try:
+    ns_vx, ns_et, ns_sd = {}, {}, {}
+    exec(r_vx["code"], ns_vx)
+    exec(r_et["code"], ns_et)
+    exec(r_sd["code"], ns_sd)
+    vx = ns_vx["vm_exception"]({'exc': '除零', 'table': {'除零': 10}}, 'handler')
+    et = ns_et["build_expr_tree"](['(', 'a', '+', 'b', ')'])
+    sd = ns_sd["stack_depth"]([('PUSH', 1), ('PUSH', 2), ('ADD', None)])
+    check('㌁c 异常→表达式树→栈深度端到端（10 (\'+\',\'a\',\'b\') 2）',
+          vx == 10 and et == ('+', 'a', 'b') and sd == 2,
+          f'exc={vx} tree={et} depth={sd}')
+except Exception as ex:
+    check('㌁c 异常→表达式树→栈深度端到端（10 (\'+\',\'a\',\'b\') 2）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
