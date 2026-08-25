@@ -5018,5 +5018,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:net|网络-漏桶限流": {
+  "task": "漏桶限流",
+  "unit": "网络-漏桶限流",
+  "code": "def leaky_bucket(state, op, size=None, rate=None):\n    # 漏桶限流：fill 灌桶 / leak 匀速漏 / accept 是否接受（平滑流量）\n    if op == 'fill':\n        cur = state.get('level', 0)\n        if cur + 1 <= state.get('size', size):\n            state['level'] = cur + 1\n            return True\n        return False\n    if op == 'leak':\n        cur = state.get('level', 0)\n        state['level'] = max(0, cur - state.get('rate', rate))\n        return state['level']\n    if op == 'accept':\n        return state.get('level', 0) < state.get('size', size)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-报文调度": {
+  "task": "报文调度",
+  "unit": "网络-报文调度",
+  "code": "def wfq_schedule(queues, op, weights=None):\n    # 报文调度：dequeue 按权重选队列 / enqueue 入队 / weights 查询（WFQ 加权公平）\n    if op == 'enqueue':\n        return queues\n    if op == 'dequeue':\n        w = weights or {k: 1 for k in queues}\n        best = max(queues, key=lambda k: w.get(k, 1) if queues[k] else -1)\n        if queues[best]:\n            return best, queues[best].pop(0)\n        return None\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-链路利用率": {
+  "task": "链路利用率",
+  "unit": "网络-链路利用率",
+  "code": "def link_util(state, op, used=None, capacity=None):\n    # 链路利用率：sample 记录 / util 当前利用率 / peak 峰值（链路占用）\n    if op == 'sample':\n        u = used / capacity if capacity else 0.0\n        state.setdefault('samples', []).append(round(u, 2))\n        return round(u, 2)\n    if op == 'util':\n        s = state.get('samples', [])\n        return round(sum(s) / len(s), 2) if s else 0.0\n    if op == 'peak':\n        s = state.get('samples', [])\n        return max(s) if s else 0.0\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

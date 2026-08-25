@@ -6144,5 +6144,40 @@ except Exception as ex:
     check('㌎c 最大团→旅行商→标签约束端到端（[0,1,2] [0,1,2] [(0,1),(1,3)]）',
           False, str(ex)[:60])
 
+# ㌏ 目标7 深化：网络工程（漏桶限流/报文调度/链路利用率 经正式管线）
+n21_qs = {
+    "漏桶限流": "写一个漏桶限流单元（匀速漏出）",
+    "报文调度": "写一个报文调度单元（加权公平）",
+    "链路利用率": "写一个链路利用率单元（占用采样）",
+}
+n21_ok = 0
+for label, q in n21_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n21_ok += 1
+    check(f'㌏ {label} 网络工程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌏b 网络工程三单元全部生成', n21_ok == 3, f'{n21_ok}/3')
+
+# ㌏c 端到端：漏桶→调度→利用率（True ('a',1) 0.5）
+r_lb = domain_route("写一个漏桶限流单元（匀速漏出）")
+r_wf = domain_route("写一个报文调度单元（加权公平）")
+r_lu = domain_route("写一个链路利用率单元（占用采样）")
+try:
+    ns_lb, ns_wf, ns_lu = {}, {}, {}
+    exec(r_lb["code"], ns_lb)
+    exec(r_wf["code"], ns_wf)
+    exec(r_lu["code"], ns_lu)
+    lb = ns_lb["leaky_bucket"]({'size': 2}, 'fill')
+    wf = ns_wf["wfq_schedule"]({'a': [1], 'b': [2]}, 'dequeue', {'a': 3, 'b': 1})
+    lu = ns_lu["link_util"]({}, 'sample', 50, 100)
+    check('㌏c 漏桶→调度→利用率端到端（True (\'a\',1) 0.5）',
+          lb is True and wf == ('a', 1) and lu == 0.5,
+          f'leak={lb} wfq={wf} util={lu}')
+except Exception as ex:
+    check('㌏c 漏桶→调度→利用率端到端（True (\'a\',1) 0.5）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

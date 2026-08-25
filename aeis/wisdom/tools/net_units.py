@@ -1884,6 +1884,78 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：TCP 序列号——回绕推进/回绕比较（2^32 空间）",
     },
+    "网络-漏桶限流": {
+        "task": "漏桶限流",
+        "pattern": (
+            "def leaky_bucket(state, op, size=None, rate=None):\n"
+            "    # 漏桶限流：fill 灌桶 / leak 匀速漏 / accept 是否接受（平滑流量）\n"
+            "    if op == 'fill':\n"
+            "        cur = state.get('level', 0)\n"
+            "        if cur + 1 <= state.get('size', size):\n"
+            "            state['level'] = cur + 1\n"
+            "            return True\n"
+            "        return False\n"
+            "    if op == 'leak':\n"
+            "        cur = state.get('level', 0)\n"
+            "        state['level'] = max(0, cur - state.get('rate', rate))\n"
+            "        return state['level']\n"
+            "    if op == 'accept':\n"
+            "        return state.get('level', 0) < state.get('size', size)\n"
+            "    return None\n"),
+        "cases": [
+            (({'size': 2}, 'fill'), True),
+            (({'size': 1, 'level': 1}, 'fill'), False),
+            (({'level': 5, 'rate': 2}, 'leak'), 3),
+            (({'size': 2, 'level': 1}, 'accept'), True)],
+        "params": [],
+        "calibration": "对照：漏桶——匀速漏出平滑流量（灌桶/漏/接受判定）",
+    },
+    "网络-报文调度": {
+        "task": "报文调度",
+        "pattern": (
+            "def wfq_schedule(queues, op, weights=None):\n"
+            "    # 报文调度：dequeue 按权重选队列 / enqueue 入队 / weights 查询（WFQ 加权公平）\n"
+            "    if op == 'enqueue':\n"
+            "        return queues\n"
+            "    if op == 'dequeue':\n"
+            "        w = weights or {k: 1 for k in queues}\n"
+            "        best = max(queues, key=lambda k: w.get(k, 1) if queues[k] else -1)\n"
+            "        if queues[best]:\n"
+            "            return best, queues[best].pop(0)\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [
+            (({'a': [1], 'b': [2]}, 'enqueue'), {'a': [1], 'b': [2]}),
+            (({'a': [1], 'b': [2]}, 'dequeue', {'a': 3, 'b': 1}), ('a', 1)),
+            (({'a': [], 'b': [2]}, 'dequeue', {'a': 3, 'b': 1}), ('b', 2)),
+            (({'a': []}, 'dequeue', {'a': 1}), None)],
+        "params": [],
+        "calibration": "对照：WFQ——加权公平队列调度（按权重选队出队）",
+    },
+    "网络-链路利用率": {
+        "task": "链路利用率",
+        "pattern": (
+            "def link_util(state, op, used=None, capacity=None):\n"
+            "    # 链路利用率：sample 记录 / util 当前利用率 / peak 峰值（链路占用）\n"
+            "    if op == 'sample':\n"
+            "        u = used / capacity if capacity else 0.0\n"
+            "        state.setdefault('samples', []).append(round(u, 2))\n"
+            "        return round(u, 2)\n"
+            "    if op == 'util':\n"
+            "        s = state.get('samples', [])\n"
+            "        return round(sum(s) / len(s), 2) if s else 0.0\n"
+            "    if op == 'peak':\n"
+            "        s = state.get('samples', [])\n"
+            "        return max(s) if s else 0.0\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'sample', 50, 100), 0.5),
+            (({}, 'sample', 0, 100), 0.0),
+            (({'samples': [0.5, 0.7]}, 'util'), 0.6),
+            (({'samples': [0.5, 0.9]}, 'peak'), 0.9)],
+        "params": [],
+        "calibration": "对照：链路利用率——已用/容量采样（平均与峰值）",
+    },
 }
 
 
