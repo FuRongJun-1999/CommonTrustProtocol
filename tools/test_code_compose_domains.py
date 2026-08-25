@@ -5616,5 +5616,40 @@ except Exception as ex:
     check('㋿c NTP→分片→纠错端到端（15.0 [ab,cd] 3）',
           False, str(ex)[:60])
 
+# ㌀ 目标1 深化：P 线推导/异步/工具（字典推导/异步队列/模板渲染 经正式管线）
+p19_qs = {
+    "字典推导": "写一个字典推导单元（键值映射）",
+    "异步队列": "写一个异步队列单元（FIFO 出入队）",
+    "模板渲染": "写一个模板渲染单元（$ 占位符）",
+}
+p19_ok = 0
+for label, q in p19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p19_ok += 1
+    check(f'㌀ {label} P线推导/异步/工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌀b P线推导/异步/工具三单元全部生成', p19_ok == 3, f'{p19_ok}/3')
+
+# ㌀c 端到端：字典推导→异步队列→模板渲染（{甲:1} a 你好 甲）
+r_dc = domain_route("写一个字典推导单元（键值映射）")
+r_aq = domain_route("写一个异步队列单元（FIFO 出入队）")
+r_tr = domain_route("写一个模板渲染单元（$ 占位符）")
+try:
+    ns_dc, ns_aq, ns_tr = {}, {}, {}
+    exec(r_dc["code"], ns_dc)
+    exec(r_aq["code"], ns_aq)
+    exec(r_tr["code"], ns_tr)
+    dc = ns_dc["dict_comp"](['甲', '乙'], lambda x: x, lambda x: len(x))
+    aq = ns_aq["async_queue"](['a', 'b'], 'get')
+    tr = ns_tr["render_template"]('你好 $名', {'名': '甲'})
+    check('㌀c 字典推导→异步队列→模板渲染端到端（{甲:1,乙:1} a 你好 甲）',
+          dc == {'甲': 1, '乙': 1} and aq == 'a' and tr == '你好 甲',
+          f'dict={dc} aq={aq} tmpl={tr}')
+except Exception as ex:
+    check('㌀c 字典推导→异步队列→模板渲染端到端（{甲:1,乙:1} a 你好 甲）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

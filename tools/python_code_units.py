@@ -1583,6 +1583,56 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：bisect——有序序列折半查找（命中索引/-1）",
     },
+    "推导式-字典推导": {
+        "task": "字典推导",
+        "pattern": (
+            "def dict_comp(items, key_fn, val_fn):\n"
+            "    # 字典推导：键值函数映射建字典（{k:v for ...} 语义）\n"
+            "    return {key_fn(x): val_fn(x) for x in items}\n"),
+        "cases": [
+            ((['甲', '乙'], lambda x: x, lambda x: len(x)), {'甲': 1, '乙': 1}),
+            (([1, 2], lambda x: x * 10, lambda x: x * x), {10: 1, 20: 4}),
+            (([], lambda x: x, lambda x: x), {})],
+        "params": [],
+        "calibration": "对照：字典推导——键值函数映射建字典（dict comprehension）",
+    },
+    "异步-异步队列": {
+        "task": "异步队列",
+        "pattern": (
+            "def async_queue(q, op, item=None):\n"
+            "    # 异步队列：put 入队 / get 出队 / size 大小（asyncio.Queue 语义）\n"
+            "    if op == 'put':\n"
+            "        q.append(item)\n"
+            "        return len(q)\n"
+            "    if op == 'get':\n"
+            "        return q.pop(0) if q else None\n"
+            "    if op == 'size':\n"
+            "        return len(q)\n"
+            "    return None\n"),
+        "cases": [
+            (([], 'put', 'a'), 1),
+            ((['a', 'b'], 'get'), 'a'),
+            (([], 'get'), None),
+            ((['a'], 'size'), 1)],
+        "params": [],
+        "calibration": "对照：asyncio.Queue——异步入队/出队/大小（FIFO）",
+    },
+    "工具-模板渲染": {
+        "task": "模板渲染",
+        "pattern": (
+            "def render_template(template, values):\n"
+            "    # 模板渲染：$ 变量占位符替换（string.Template 语义）\n"
+            "    out = template\n"
+            "    for k, v in values.items():\n"
+            "        out = out.replace('$' + k, str(v))\n"
+            "    return out\n"),
+        "cases": [
+            (('你好 $名', {'名': '甲'}), '你好 甲'),
+            (('$a-$b', {'a': 1, 'b': 2}), '1-2'),
+            (('无变量', {}), '无变量')],
+        "params": [],
+        "calibration": "对照：string.Template——$ 变量占位符替换（模板渲染）",
+    },
 }
 
 

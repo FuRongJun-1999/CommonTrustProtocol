@@ -4568,5 +4568,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:pylang|推导式-字典推导": {
+  "task": "字典推导",
+  "unit": "推导式-字典推导",
+  "code": "def dict_comp(items, key_fn, val_fn):\n    # 字典推导：键值函数映射建字典（{k:v for ...} 语义）\n    return {key_fn(x): val_fn(x) for x in items}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|异步-异步队列": {
+  "task": "异步队列",
+  "unit": "异步-异步队列",
+  "code": "def async_queue(q, op, item=None):\n    # 异步队列：put 入队 / get 出队 / size 大小（asyncio.Queue 语义）\n    if op == 'put':\n        q.append(item)\n        return len(q)\n    if op == 'get':\n        return q.pop(0) if q else None\n    if op == 'size':\n        return len(q)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-模板渲染": {
+  "task": "模板渲染",
+  "unit": "工具-模板渲染",
+  "code": "def render_template(template, values):\n    # 模板渲染：$ 变量占位符替换（string.Template 语义）\n    out = template\n    for k, v in values.items():\n        out = out.replace('$' + k, str(v))\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }
