@@ -2077,6 +2077,72 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：Prompt API——提示词设置/读取/清除",
     },
+    "浏览器-游戏手柄": {
+        "task": "游戏手柄",
+        "pattern": (
+            "def gamepad_ops(state, op, button=None, pressed=None):\n"
+            "    # 游戏手柄：connect 连接 / button 按键状态 / axis 摇杆（Gamepad API）\n"
+            "    if op == 'connect':\n"
+            "        state['connected'] = True\n"
+            "        return 'connected'\n"
+            "    if op == 'button':\n"
+            "        state.setdefault('buttons', {})[button] = pressed\n"
+            "        return pressed\n"
+            "    if op == 'axis':\n"
+            "        return state.get('axis', 0.0)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'connect'), 'connected'),
+            (({}, 'button', 0, True), True),
+            (({}, 'axis'), 0.0),
+            (({'axis': 0.5}, 'axis'), 0.5)],
+        "params": [],
+        "calibration": "对照：Gamepad——手柄连接/按键/摇杆",
+    },
+    "浏览器-虚拟键盘": {
+        "task": "虚拟键盘",
+        "pattern": (
+            "def vkeyboard(state, op, key=None):\n"
+            "    # 虚拟键盘：show 显示 / hide 隐藏 / visible 状态（Virtual Keyboard API）\n"
+            "    if op == 'show':\n"
+            "        state['visible'] = True\n"
+            "        return 'shown'\n"
+            "    if op == 'hide':\n"
+            "        state['visible'] = False\n"
+            "        return 'hidden'\n"
+            "    if op == 'visible':\n"
+            "        return state.get('visible', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'show'), 'shown'),
+            (({}, 'hide'), 'hidden'),
+            (({}, 'visible'), False),
+            (({'visible': True}, 'visible'), True)],
+        "params": [],
+        "calibration": "对照：Virtual Keyboard——虚拟键盘显隐",
+    },
+    "浏览器-音频上下文": {
+        "task": "音频上下文",
+        "pattern": (
+            "def audio_ctx(state, op, freq=None, vol=None):\n"
+            "    # 音频上下文：osc 振荡器 / gain 音量 / start 启动（Web Audio）\n"
+            "    if op == 'osc':\n"
+            "        state['freq'] = freq\n"
+            "        return freq\n"
+            "    if op == 'gain':\n"
+            "        state['vol'] = freq\n"
+            "        return freq\n"
+            "    if op == 'start':\n"
+            "        return 'running'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'osc', 440), 440),
+            (({}, 'gain', 0.5), 0.5),
+            (({}, 'start'), 'running'),
+            (({'freq': 440}, 'osc', 880), 880)],
+        "params": [],
+        "calibration": "对照：Web Audio——振荡器/音量/启动",
+    },
 }
 
 

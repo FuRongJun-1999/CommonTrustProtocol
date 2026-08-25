@@ -5408,5 +5408,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:browser|浏览器-游戏手柄": {
+  "task": "游戏手柄",
+  "unit": "浏览器-游戏手柄",
+  "code": "def gamepad_ops(state, op, button=None, pressed=None):\n    # 游戏手柄：connect 连接 / button 按键状态 / axis 摇杆（Gamepad API）\n    if op == 'connect':\n        state['connected'] = True\n        return 'connected'\n    if op == 'button':\n        state.setdefault('buttons', {})[button] = pressed\n        return pressed\n    if op == 'axis':\n        return state.get('axis', 0.0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-虚拟键盘": {
+  "task": "虚拟键盘",
+  "unit": "浏览器-虚拟键盘",
+  "code": "def vkeyboard(state, op, key=None):\n    # 虚拟键盘：show 显示 / hide 隐藏 / visible 状态（Virtual Keyboard API）\n    if op == 'show':\n        state['visible'] = True\n        return 'shown'\n    if op == 'hide':\n        state['visible'] = False\n        return 'hidden'\n    if op == 'visible':\n        return state.get('visible', False)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-音频上下文": {
+  "task": "音频上下文",
+  "unit": "浏览器-音频上下文",
+  "code": "def audio_ctx(state, op, freq=None, vol=None):\n    # 音频上下文：osc 振荡器 / gain 音量 / start 启动（Web Audio）\n    if op == 'osc':\n        state['freq'] = freq\n        return freq\n    if op == 'gain':\n        state['vol'] = freq\n        return freq\n    if op == 'start':\n        return 'running'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }

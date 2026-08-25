@@ -6604,5 +6604,40 @@ except Exception as ex:
     check('㌛c 内置聊天→图像生成→提示词端到端（你好！ generated 你好）',
           False, str(ex)[:60])
 
+# ㌜ 目标5 深化：浏览器 API（游戏手柄/虚拟键盘/音频上下文 经正式管线）
+b24_qs = {
+    "游戏手柄": "写一个游戏手柄单元（按键摇杆）",
+    "虚拟键盘": "写一个虚拟键盘单元（显隐切换）",
+    "音频上下文": "写一个音频上下文单元（振荡器）",
+}
+b24_ok = 0
+for label, q in b24_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b24_ok += 1
+    check(f'㌜ {label} 浏览器API单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌜b 浏览器API三单元全部生成', b24_ok == 3, f'{b24_ok}/3')
+
+# ㌜c 端到端：手柄→键盘→音频（connected shown 440）
+r_gp = domain_route("写一个游戏手柄单元（按键摇杆）")
+r_vk = domain_route("写一个虚拟键盘单元（显隐切换）")
+r_ac = domain_route("写一个音频上下文单元（振荡器）")
+try:
+    ns_gp, ns_vk, ns_ac = {}, {}, {}
+    exec(r_gp["code"], ns_gp)
+    exec(r_vk["code"], ns_vk)
+    exec(r_ac["code"], ns_ac)
+    gp = ns_gp["gamepad_ops"]({}, 'connect')
+    vk = ns_vk["vkeyboard"]({}, 'show')
+    ac = ns_ac["audio_ctx"]({}, 'osc', 440)
+    check('㌜c 手柄→键盘→音频端到端（connected shown 440）',
+          gp == 'connected' and vk == 'shown' and ac == 440,
+          f'pad={gp} vk={vk} audio={ac}')
+except Exception as ex:
+    check('㌜c 手柄→键盘→音频端到端（connected shown 440）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
