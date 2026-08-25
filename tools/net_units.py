@@ -2239,6 +2239,84 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：网络去重——指纹识别重复载荷（dedup）",
     },
+    "网络-网关": {
+        "task": "网关",
+        "pattern": (
+            "def gateway(state, op, dest=None):\n"
+            "    # 网关：route 转发 / default 默认网关 / table 路由表（网络出口）\n"
+            "    if op == 'route':\n"
+            "        table = state.get('table', {})\n"
+            "        if dest in table:\n"
+            "            return table[dest]\n"
+            "        for prefix, gw in table.items():\n"
+            "            mask = int(prefix.split('/')[1]) if '/' in prefix else 32\n"
+            "            p = prefix.split('/')[0]\n"
+            "            d = dest\n"
+            "            if mask <= 8 and d.split('.')[0] == p.split('.')[0]:\n"
+            "                return gw\n"
+            "            if mask <= 16 and d.split('.')[:2] == p.split('.')[:2]:\n"
+            "                return gw\n"
+            "        return state.get('default')\n"
+            "    if op == 'default':\n"
+            "        return state.get('default')\n"
+            "    if op == 'table':\n"
+            "        return dict(state.get('table', {}))\n"
+            "    return None\n"),
+        "cases": [
+            (({'table': {'10.0.0.0/8': 'gw1'}}, 'route', '10.1.0.5'), 'gw1'),
+            (({'default': 'gw0'}, 'route', '8.8.8.8'), 'gw0'),
+            (({}, 'default'), None),
+            (({'table': {'a': 'b'}}, 'table'), {'a': 'b'})],
+        "params": [],
+        "calibration": "对照：网关——路由转发/默认出口/路由表",
+    },
+    "网络-端口镜像": {
+        "task": "端口镜像",
+        "pattern": (
+            "def port_mirror(state, op, src=None, dst=None):\n"
+            "    # 端口镜像：enable 启用 / mirror 复制 / active 状态（SPAN 监控）\n"
+            "    if op == 'enable':\n"
+            "        state['src'] = src\n"
+            "        state['dst'] = dst\n"
+            "        state['active'] = True\n"
+            "        return 'enabled'\n"
+            "    if op == 'mirror':\n"
+            "        return (state.get('src'), state.get('dst')) if state.get('active') else None\n"
+            "    if op == 'active':\n"
+            "        return state.get('active', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'enable', 'p1', 'p9'), 'enabled'),
+            (({'active': True, 'src': 'p1', 'dst': 'p9'}, 'mirror'), ('p1', 'p9')),
+            (({}, 'mirror'), None),
+            (({}, 'active'), False)],
+        "params": [],
+        "calibration": "对照：SPAN——端口流量镜像到监控口（抓包）",
+    },
+    "网络-包过滤": {
+        "task": "包过滤",
+        "pattern": (
+            "def packet_filter(state, op, pkt=None):\n"
+            "    # 包过滤：rules 规则 / filter 过滤 / stats 统计（ACL 包过滤）\n"
+            "    if op == 'rules':\n"
+            "        state.setdefault('rules', []).append(pkt)\n"
+            "        return len(state['rules'])\n"
+            "    if op == 'filter':\n"
+            "        for r in state.get('rules', []):\n"
+            "            if r[0] == pkt[0] and r[1] == pkt[1]:\n"
+            "                return r[2]\n"
+            "        return 'allow'\n"
+            "    if op == 'stats':\n"
+            "        return len(state.get('rules', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'rules', ('1.1.1.1', 80, 'block')), 1),
+            (({'rules': [('1.1.1.1', 80, 'block')]}, 'filter', ('1.1.1.1', 80)), 'block'),
+            (({}, 'filter', ('2.2.2.2', 80)), 'allow'),
+            (({'rules': [('a', 1, 'b')]}, 'stats'), 1)],
+        "params": [],
+        "calibration": "对照：ACL——按五元组规则过滤（允许/拒绝）",
+    },
 }
 
 

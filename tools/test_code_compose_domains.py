@@ -7274,5 +7274,40 @@ except Exception as ex:
     check('㌮c 树重心→最大割→规范化端到端（[1] 2 (2,[(0,1)])）',
           False, str(ex)[:60])
 
+# ㌯ 目标7 深化：网络工程（网关/端口镜像/包过滤 经正式管线）
+n26_qs = {
+    "网关": "写一个网关单元（默认出口转发）",
+    "端口镜像": "写一个端口镜像单元（SPAN 监控）",
+    "包过滤": "写一个包过滤单元（五元组过滤）",
+}
+n26_ok = 0
+for label, q in n26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n26_ok += 1
+    check(f'㌯ {label} 网络工程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌯b 网络工程三单元全部生成', n26_ok == 3, f'{n26_ok}/3')
+
+# ㌯c 端到端：网关→端口镜像→包过滤（gw1 enabled block）
+r_gw = domain_route("写一个网关单元（默认出口转发）")
+r_pm = domain_route("写一个端口镜像单元（SPAN 监控）")
+r_pf = domain_route("写一个包过滤单元（五元组过滤）")
+try:
+    ns_gw, ns_pm, ns_pf = {}, {}, {}
+    exec(r_gw["code"], ns_gw)
+    exec(r_pm["code"], ns_pm)
+    exec(r_pf["code"], ns_pf)
+    gw = ns_gw["gateway"]({'table': {'10.0.0.0/8': 'gw1'}}, 'route', '10.1.0.5')
+    pm = ns_pm["port_mirror"]({}, 'enable', 'p1', 'p9')
+    pf = ns_pf["packet_filter"]({'rules': [('1.1.1.1', 80, 'block')]}, 'filter', ('1.1.1.1', 80))
+    check('㌯c 网关→端口镜像→包过滤端到端（gw1 enabled block）',
+          gw == 'gw1' and pm == 'enabled' and pf == 'block',
+          f'gw={gw} mirror={pm} filter={pf}')
+except Exception as ex:
+    check('㌯c 网关→端口镜像→包过滤端到端（gw1 enabled block）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
