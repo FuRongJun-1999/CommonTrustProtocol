@@ -607,7 +607,14 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
     # 有效词（低 df 判别词）——泛化词（功能/存在/检查 等多单元共现）不算
     meaningful = [w for w in top1[3] if df.get(w, 99) <= 11]
     if (gap >= 2 or top2 is None) and top1[2][0] >= 3 and len(meaningful) >= 2:
+        # 路由置信度（DaoTi coherence 吸纳，§daoti）：命中分归一化 [0,1]
+        # 连续置信度——DaoTi 用余弦相似度+阈值决定生成与否；我们补
+        # 连续置信度字段供上层（escalation/执行计划）按阈值决策
+        # （低置信 ACCEPT 可降级 DEFER/人工确认）。不改变硬规则判定。
+        _max_possible = max(1.0, top1[2][0] + (gap if top2 else 0))
+        confidence = round(min(1.0, top1[2][0] / _max_possible), 3)
         return {"state": "ACCEPT", "unit": top1[0], "score": top1[2][0],
+                "confidence": confidence,
                 "path": [question[:30]], "trace": list(_trace),
                 "candidate_count": 1}
     # DEFER 前置：任务判别力不足（有效词 0）→ BLINDSPOT（盲区声明，

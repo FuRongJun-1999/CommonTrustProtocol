@@ -2136,5 +2136,113 @@
    "direction_ok": true,
    "assessment": "方向正确：指标稳定/改善，闭环可持续"
   }
+ },
+ {
+  "round": 50,
+  "timestamp": "2026-08-26 06:17:10",
+  "auto": true,
+  "感知": {
+   "n_drift": 19,
+   "strong_rate": 0.9651,
+   "mos_rate": 0.9897,
+   "route_excl": 14,
+   "blindspot": 4,
+   "spec_fail": 0
+  },
+  "识别": {
+   "blindspot": 19,
+   "new_blindspot": 0,
+   "manual": 0
+  },
+  "固化": {
+   "n": 0,
+   "items": []
+  },
+  "方向性自检": {
+   "checks": {
+    "强契约拒绝率": true,
+    "MOS 声明一致率": true,
+    "路由互斥边存在": true,
+    "盲区诚实声明": true,
+    "注释规范完整": true,
+    "固化语法安全": true
+   },
+   "passed": 6,
+   "total": 6,
+   "direction_ok": true,
+   "assessment": "方向正确：指标稳定/改善，闭环可持续"
+  }
+ },
+ {
+  "round": 51,
+  "timestamp": "2026-08-26 06:17:21",
+  "auto": true,
+  "感知": {
+   "n_drift": 19,
+   "strong_rate": 0.9651,
+   "mos_rate": 0.9897,
+   "route_excl": 14,
+   "blindspot": 4,
+   "spec_fail": 0
+  },
+  "识别": {
+   "blindspot": 19,
+   "new_blindspot": 0,
+   "manual": 0
+  },
+  "固化": {
+   "n": 0,
+   "items": []
+  },
+  "方向性自检": {
+   "checks": {
+    "强契约拒绝率": true,
+    "MOS 声明一致率": true,
+    "路由互斥边存在": true,
+    "盲区诚实声明": true,
+    "注释规范完整": true,
+    "固化语法安全": true
+   },
+   "passed": 6,
+   "total": 6,
+   "direction_ok": true,
+   "assessment": "方向正确：指标稳定/改善，闭环可持续"
+  }
+ },
+ {
+  "round": 52,
+  "timestamp": "2026-08-26 06:17:32",
+  "auto": true,
+  "感知": {
+   "n_drift": 19,
+   "strong_rate": 0.9651,
+   "mos_rate": 0.9897,
+   "route_excl": 14,
+   "blindspot": 4,
+   "spec_fail": 0
+  },
+  "识别": {
+   "blindspot": 19,
+   "new_blindspot": 0,
+   "manual": 0
+  },
+  "固化": {
+   "n": 0,
+   "items": []
+  },
+  "方向性自检": {
+   "checks": {
+    "强契约拒绝率": true,
+    "MOS 声明一致率": true,
+    "路由互斥边存在": true,
+    "盲区诚实声明": true,
+    "注释规范完整": true,
+    "固化语法安全": true
+   },
+   "passed": 6,
+   "total": 6,
+   "direction_ok": true,
+   "assessment": "方向正确：指标稳定/改善，闭环可持续"
+  }
  }
 ]
