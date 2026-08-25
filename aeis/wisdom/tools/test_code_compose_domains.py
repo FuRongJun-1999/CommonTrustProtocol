@@ -5896,5 +5896,41 @@ except Exception as ex:
     check('㌇c 哈希→跳表→时间格式化端到端（98 a 2024-03-05）',
           False, str(ex)[:60])
 
+# ㌈ 目标2 深化：分析/编译优化（循环检测/指令调度/寄存器溢出 经正式管线）
+c22_qs = {
+    "循环检测": "写一个循环检测单元（三色标记）",
+    "指令调度": "写一个指令调度单元（依赖前移）",
+    "寄存器溢出": "写一个寄存器溢出单元（活跃超限）",
+}
+c22_ok = 0
+for label, q in c22_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c22_ok += 1
+    check(f'㌈ {label} 分析/编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌈b 分析/编译优化三单元全部生成', c22_ok == 3, f'{c22_ok}/3')
+
+# ㌈c 端到端：循环检测→指令调度→寄存器溢出（True 前移 [c]）
+r_cd = domain_route("写一个循环检测单元（三色标记）")
+r_is = domain_route("写一个指令调度单元（依赖前移）")
+r_sp = domain_route("写一个寄存器溢出单元（活跃超限）")
+try:
+    ns_cd, ns_is, ns_sp = {}, {}, {}
+    exec(r_cd["code"], ns_cd)
+    exec(r_is["code"], ns_is)
+    exec(r_sp["code"], ns_sp)
+    cd = ns_cd["cycle_detect"]({0: [1], 1: [0]})
+    isd = ns_is["schedule_insn"]([('+', 't1', 't2'), ('t1', '=', 'a')])
+    sp = ns_sp["spill_regs"](['a', 'b', 'c'], 2)
+    check('㌈c 循环检测→指令调度→溢出端到端（True 前移 [c]）',
+          cd is True and isd == [('t1', '=', 'a'), ('+', 't1', 't2')]
+          and sp == ['c'],
+          f'cycle={cd} sched={isd} spill={sp}')
+except Exception as ex:
+    check('㌈c 循环检测→指令调度→溢出端到端（True 前移 [c]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

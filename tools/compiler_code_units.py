@@ -2097,6 +2097,72 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：三地址码——IR 中间表示（赋值/二元运算）",
     },
+    "分析-循环检测": {
+        "task": "循环检测",
+        "pattern": (
+            "def cycle_detect(adj):\n"
+            "    # 循环检测：DFS 三色标记（灰=在栈，回灰边即环）\n"
+            "    WHITE, GRAY, BLACK = 0, 1, 2\n"
+            "    color = {}\n"
+            "    def dfs(u):\n"
+            "        color[u] = GRAY\n"
+            "        for v in adj.get(u, []):\n"
+            "            if color.get(v) == GRAY:\n"
+            "                return True\n"
+            "            if color.get(v, WHITE) == WHITE and dfs(v):\n"
+            "                return True\n"
+            "        color[u] = BLACK\n"
+            "        return False\n"
+            "    for u in adj:\n"
+            "        if color.get(u, WHITE) == WHITE and dfs(u):\n"
+            "            return True\n"
+            "    return False\n"),
+        "cases": [
+            (({0: [1], 1: [0]},), True),
+            (({0: [1], 1: [2], 2: []},), False),
+            (({0: [1], 1: [2], 2: [0]},), True)],
+        "params": [],
+        "calibration": "对照：图分析——DFS 三色循环检测（回灰边即环）",
+    },
+    "编译-指令调度": {
+        "task": "指令调度",
+        "pattern": (
+            "def schedule_insn(instrs):\n"
+            "    # 指令调度：无依赖指令前移（乱序发射——减少停顿）\n"
+            "    deps = set()\n"
+            "    for ins in instrs:\n"
+            "        for arg in ins[1:]:\n"
+            "            if isinstance(arg, str) and arg.startswith('t'):\n"
+            "                deps.add(arg)\n"
+            "    early = [i for i in instrs if not any(a in deps for a in i[1:] if isinstance(a, str))]\n"
+            "    rest = [i for i in instrs if i not in early]\n"
+            "    return early + rest\n"),
+        "cases": [
+            (([('t1', '=', 'a'), ('t2', '=', 'b'), ('+', 't1', 't2')],),
+             [('t1', '=', 'a'), ('t2', '=', 'b'), ('+', 't1', 't2')]),
+            (([('+', 't1', 't2'), ('t1', '=', 'a')],),
+             [('t1', '=', 'a'), ('+', 't1', 't2')]),
+            (([('t1', '=', 'a')],), [('t1', '=', 'a')])],
+        "params": [],
+        "calibration": "对照：编译优化——指令调度（依赖无关前移）",
+    },
+    "编译-寄存器溢出": {
+        "task": "寄存器溢出",
+        "pattern": (
+            "def spill_regs(active, regs):\n"
+            "    # 寄存器溢出：活跃变量超寄存器数 → 溢出处（spill 内存）\n"
+            "    if len(active) <= regs:\n"
+            "        return []\n"
+            "    # 溢出最远使用（简化：溢出最后活跃者）\n"
+            "    return active[regs:]\n"),
+        "cases": [
+            ((['a', 'b'], 2), []),
+            ((['a', 'b', 'c'], 2), ['c']),
+            ((['a'], 0), ['a']),
+            (([], 2), [])],
+        "params": [],
+        "calibration": "对照：寄存器分配——活跃超限溢出处（spill）",
+    },
 }
 
 
