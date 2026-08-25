@@ -490,9 +490,11 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
     # 真伪造 = 连续未知 2-gram 段 ≥3 且段内词无已知词锚定：
     #   「超光速引擎」= 超光/光速/速引 3 段连续未知，无已知词贯穿
     #   （引擎 df>0 是真实概念「信任引擎」——伪造的是修饰词「超光速」）。
-    # 动词短语豁免：「把序列映射成列表」的 列映/射成/成列 虽 3 段未知，
-    #   但每个词左右都邻接已知词（序列/映射/列表）——跨界词（动词短语）
-    #   特征；伪造修饰词（超光速）左右无已知词支撑。
+    # 豁免一（动词短语）：「把序列映射成列表」的 列映/射成/成列 3 段未知，
+    #   但每个词左右邻接已知词（序列/映射/列表）——跨界词特征。
+    # 豁免二（语义空词）：「信任相关功能」的 任相/相关/关功 段含泛化修饰词
+    #   （相关/功能/处理）——非伪造概念（超光速是虚构名词，相关是修饰语）。
+    _GENERIC = set('相关功能处理涉及有关进行以及关于的与和')
     fabricated = []
     zero_w = sorted({w for w in qtoks
                      if df.get(w, 0) == 0
@@ -514,8 +516,10 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
         used |= seg
         if len(seg) < 3:
             continue
-        # 段内每个词都邻接已知词（跨界词：左右端连向已知 2-gram）→ 动词
-        # 短语豁免；任一词无已知邻居 → 伪造修饰（超光速左端悬空）
+        # 豁免二：段含语义空词字符（相关/功能/处理…）→ 修饰语非伪造
+        if any(c in _GENERIC for s in seg for c in s):
+            continue
+        # 豁免一：段内每个词都邻接已知词（左右端连向已知 2-gram）→ 动词短语
         all_anchored = True
         for s in seg:
             left_ok = any(k[1] == s[0] for k in qtoks if k not in zero_w)
@@ -698,6 +702,92 @@ def explain(uid, nodes=None) -> str:
     if not n:
         return ''
     return f"[{uid}] ({n['domain']} 域) 任务={n['task']}\n  注释: {n['index']['text'][:120]}"
+
+
+def escalate(question: str, nodes=None, top: int = 5, depth: int = 3) -> dict:
+    """分层判断（escalation，荣 理论补充 §13）。
+
+    子系统无法识别 → 父系统判断 → 全层无法判断 → BLINDSPOT。
+    L1 单层四态路由 → L2 域级判断（父系统：detect_domain 定位域 +
+    域内多候选聚合）→ L3 跨域组合判断（更高父：compose 依赖链）→
+    L4 终层 BLINDSPOT（escalation_trace 记录每层理由——盲区是所有层的
+    共同结论，非第一层失败）。
+    """
+    nodes = nodes if nodes is not None else build_graph()
+    r = route(question, nodes, top=top, depth=depth)
+    # 子系统未决（BLINDSPOT / DEFER_EXHAUSTED 递归耗尽）→ 升级父系统；
+    # ACCEPT/REJECT/DEFER 已决 → 不升级
+    if r["state"] in ("ACCEPT", "REJECT", "DEFER"):
+        return r
+    # 硬盲区（升级无意义——条件空间外的概念/矛盾，父系统同空间也判不了）：
+    # 伪造条件/任务内矛盾/混合冲突 是「概念不存在」或「条件互斥」——
+    # 升级到域/组合层不会改变结论（同一条件空间），直接终层 BLINDSPOT
+    _HARD = ("伪造条件", "任务内矛盾", "混合条件冲突")
+    hard_reason = r.get("reason", "")
+    if any(h in hard_reason for h in _HARD):
+        r = dict(r)
+        r["escalation_trace"] = [{"level": "L1",
+                                  "reason": hard_reason,
+                                  "note": "硬盲区（条件空间外/互斥）——升级无意义"}]
+        r["final"] = "硬盲区：条件空间外概念或互斥条件——所有层同空间，标记盲区"
+        return r
+    trace = [{"level": "L1", "reason": r.get("reason", r["state"])}]
+    qtoks = _q_tokens(question)
+    # L2 域级判断（父系统）：任务词能否定位到域 + 域内有候选群
+    domain = None
+    try:
+        from code_compose import detect_domain
+        domain = detect_domain(question)
+    except Exception:
+        domain = None
+    if domain:
+        dom_cands = [h for h in search(question, nodes, top=top)
+                     if h[1] == domain]
+        if len(dom_cands) >= 2:
+            trace.append({"level": "L2", "reason": f"父系统定位域={domain}"
+                          f"（{len(dom_cands)} 候选）——条件仍缺"})
+            return {"state": "DEFER", "reason": f"域已定（{domain}）条件仍缺",
+                    "domain": domain, "candidates": [h[0] for h in dom_cands[:3]],
+                    "escalation_trace": trace, "path": [question[:30]],
+                    "trace": r.get("trace", [])}
+        trace.append({"level": "L2", "reason": f"定位域={domain} 但候选不足"
+                      f"（{len(dom_cands)}）"})
+    else:
+        trace.append({"level": "L2", "reason": "域无法定位（跨域/泛化）"})
+    # L3 跨域组合判断（更高父系统）：compose 能否组装 ≥2 依赖链，
+    # 且命中单元覆盖 ≥2 个域（真正跨域组装——auto_dep_edges 会把整个
+    # 测试文件串成超长链，任意任务都能「组装」→ 必须要求多域命中才
+    # 算组合路径存在，否则连「无意义」任务也 DEFER）。
+    # 另要求任务有【中文实义判别词】命中（非全泛化词）：「zzzqqq 功能」
+    # 命中全靠泛化词「功能」（df=681）——无实义，不构成组合路径。
+    try:
+        cp = compose(question, nodes, top=top)
+        chain = cp.get("chain", [])
+        hit_units = cp.get("hit_units", [])
+        doms = {nodes.get(u, {}).get("domain") for u in hit_units}
+        doms.discard(None)
+        _dfc2 = _word_df(nodes)
+        has_meaningful = any(
+            w in qtoks and _dfc2.get(w, 99) <= 11
+            for h in search(question, nodes, top=top)
+            for w in h[3])
+        if len(chain) >= 2 and len(doms) >= 2 and has_meaningful:
+            trace.append({"level": "L3", "reason": f"跨域组合路径可组装"
+                          f"（{len(chain)} 链，域 {sorted(doms)}）"})
+            return {"state": "DEFER", "reason": "跨域组合路径存在",
+                    "chain": chain, "domains": sorted(doms),
+                    "escalation_trace": trace,
+                    "path": [question[:30]], "trace": r.get("trace", [])}
+        trace.append({"level": "L3", "reason": f"无跨域组合路径"
+                      f"（链{len(chain)} 域{len(doms)} "
+                      f"实义词={has_meaningful}）"})
+    except Exception as e:
+        trace.append({"level": "L3", "reason": f"组合判断异常: {str(e)[:30]}"})
+    # L4 终层：全层无法判断 → BLINDSPOT（盲区是所有层的共同结论）
+    r = dict(r)
+    r["escalation_trace"] = trace
+    r["final"] = "全层无法判断 → 标记盲区（不强行选择）"
+    return r
 
 
 if __name__ == "__main__":

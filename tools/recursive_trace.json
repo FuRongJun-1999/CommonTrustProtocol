@@ -183,9 +183,43 @@
   },
   {
    "q": "写一个处理信任相关功能的代码单元",
-   "state": "BLINDSPOT",
-   "unit": "",
-   "trace": []
+   "state": "ACCEPT",
+   "unit": "校验-信任检查",
+   "trace": [
+    {
+     "depth": 1,
+     "question": "写一个处理信任相关功能的代码单元",
+     "state": "DEFER",
+     "missing_condition": {
+      "subject": "信任",
+      "cond_type": "任合任聚 vs ≥门任值",
+      "a_side": [
+       "任合",
+       "任聚",
+       "合多",
+       "合并",
+       "多路",
+       "径信"
+      ],
+      "b_side": [
+       "≥门",
+       "任值",
+       "任检",
+       "值≥",
+       "放行",
+       "查信"
+      ],
+      "polarity": "B侧",
+      "fingerprint": "信任|B侧|任合任聚|≥门任值",
+      "a": "条件路由图-信任聚合",
+      "b": "校验-信任检查"
+     },
+     "candidate_count_before": 5,
+     "candidate_count_after": 1,
+     "information_gain": 0.8,
+     "next_query": "写一个信任检查 信任值 ≥ 门槛 放行的代码单元"
+    }
+   ]
   },
   {
    "q": "写一个推导式映射的代码单元",

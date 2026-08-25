@@ -1,0 +1,93 @@
+{
+ "experiment": "分层判断 escalation（荣 理论补充 §13）",
+ "levels": [
+  "L1 单元路由",
+  "L2 域级判断（父系统）",
+  "L3 跨域组合判断（更高父）",
+  "L4 终层 BLINDSPOT"
+ ],
+ "cases": [
+  {
+   "tag": "正常任务不升级",
+   "q": "写一个TCP三次握手的代码单元",
+   "expect": "ACCEPT",
+   "got": "ACCEPT",
+   "trace": []
+  },
+  {
+   "tag": "信任泛化",
+   "q": "写一个处理信任相关功能的代码单元",
+   "expect": "ACCEPT",
+   "got": "ACCEPT",
+   "trace": []
+  },
+  {
+   "tag": "递归耗尽升级L2",
+   "q": "写一个把编译产物存进图数据库的代码单元",
+   "expect": "DEFER",
+   "got": "DEFER",
+   "trace": [
+    {
+     "level": "L1",
+     "reason": "信息增益不足（候选未收敛）"
+    },
+    {
+     "level": "L2",
+     "reason": "父系统定位域=graph（4 候选）——条件仍缺"
+    }
+   ]
+  },
+  {
+   "tag": "伪造不升级",
+   "q": "写一个超光速引擎驱动信任累积的代码单元",
+   "expect": "BLINDSPOT",
+   "got": "BLINDSPOT",
+   "trace": [
+    {
+     "level": "L1",
+     "reason": "伪造条件（任务条件词不在条件空间）",
+     "note": "硬盲区（条件空间外/互斥）——升级无意义"
+    }
+   ]
+  },
+  {
+   "tag": "矛盾不升级",
+   "q": "写一个用无权 BFS 求带权图最小总代价路径的代码单元",
+   "expect": "BLINDSPOT",
+   "got": "BLINDSPOT",
+   "trace": [
+    {
+     "level": "L1",
+     "reason": "任务内矛盾（条件词冲突）",
+     "note": "硬盲区（条件空间外/互斥）——升级无意义"
+    }
+   ]
+  },
+  {
+   "tag": "无实义全层盲区",
+   "q": "写一个zzzqqq的功能单元",
+   "expect": "BLINDSPOT",
+   "got": "BLINDSPOT",
+   "trace": [
+    {
+     "level": "L1",
+     "reason": "判别力不足（仅泛化词命中）"
+    },
+    {
+     "level": "L2",
+     "reason": "域无法定位（跨域/泛化）"
+    },
+    {
+     "level": "L3",
+     "reason": "无跨域组合路径（链6 域3 实义词=False）"
+    }
+   ]
+  }
+ ],
+ "rule": {
+  "soft_blindspot_escalates": true,
+  "hard_blindspot_no_escalate": true,
+  "L3_requires_meaningful": true
+ },
+ "conclusion": "子系统无法识别 → 父系统判断 → 全层无法判断 → 盲区；盲区是所有层的共同结论（非第一层失败）；硬盲区（条件空间外/互斥）升级无意义，单层终止"
+}
