@@ -4538,5 +4538,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:net|网络-NTP同步": {
+  "task": "NTP同步",
+  "unit": "网络-NTP同步",
+  "code": "def ntp_sync(state, op, t1=None, t2=None, t3=None):\n    # NTP 同步：offset 时间偏移 / roundtrip 往返时延（时间同步协议）\n    if op == 'offset':\n        # 客户端 t1 发送，服务器 t2 收到 t3 回，客户端 t4 接收——简化两戳\n        return round(((t2 - t1) + (t3 - t2)) / 2, 2)\n    if op == 'roundtrip':\n        return round((t3 - t1) - (t2 - t1), 2)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-报文分片": {
+  "task": "报文分片",
+  "unit": "网络-报文分片",
+  "code": "def packet_frag(state, op, data=None, mtu=None):\n    # 报文分片：fragment 按 MTU 切分 / reassemble 按序号重组（IPv4 分片）\n    if op == 'fragment':\n        return [data[i:i + mtu] for i in range(0, len(data), mtu)]\n    if op == 'reassemble':\n        return ''.join(frag[1] for frag in sorted(data, key=lambda f: f[0]))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-前向纠错": {
+  "task": "前向纠错",
+  "unit": "网络-前向纠错",
+  "code": "def fec_recover(blocks, op, idx=None):\n    # 前向纠错：parity 异或校验块 / recover 缺块恢复（FEC 奇偶恢复）\n    if op == 'parity':\n        out = 0\n        for b in blocks:\n            out ^= b\n        return out\n    if op == 'recover':\n        # blocks 含校验块于末尾；缺 idx 块用其余异或恢复\n        out = 0\n        for i, b in enumerate(blocks):\n            if i != idx:\n                out ^= b\n        return out\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

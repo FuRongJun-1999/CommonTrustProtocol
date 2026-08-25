@@ -5581,5 +5581,40 @@ except Exception as ex:
     check('㋾c 渐变→网络信息→字体端到端（(128,0,128) 4g loaded）',
           False, str(ex)[:60])
 
+# ㋿ 目标7 深化：网络可靠/同步（NTP同步/报文分片/前向纠错 经正式管线）
+n18_qs = {
+    "NTP同步": "写一个 NTP 同步单元（时间偏移）",
+    "报文分片": "写一个报文分片单元（MTU 切分）",
+    "前向纠错": "写一个前向纠错单元（异或恢复）",
+}
+n18_ok = 0
+for label, q in n18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n18_ok += 1
+    check(f'㋿ {label} 网络可靠/同步单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋿b 网络可靠/同步三单元全部生成', n18_ok == 3, f'{n18_ok}/3')
+
+# ㋿c 端到端：NTP→分片→纠错（15.0 [ab,cd] 3）
+r_nt = domain_route("写一个 NTP 同步单元（时间偏移）")
+r_pf = domain_route("写一个报文分片单元（MTU 切分）")
+r_fe = domain_route("写一个前向纠错单元（异或恢复）")
+try:
+    ns_nt, ns_pf, ns_fe = {}, {}, {}
+    exec(r_nt["code"], ns_nt)
+    exec(r_pf["code"], ns_pf)
+    exec(r_fe["code"], ns_fe)
+    nt = ns_nt["ntp_sync"]({}, 'offset', 100, 110, 130)
+    pf = ns_pf["packet_frag"]({}, 'fragment', 'abcd', 2)
+    fe = ns_fe["fec_recover"]([1, 2, 0], 'recover', 2)
+    check('㋿c NTP→分片→纠错端到端（15.0 [ab,cd] 3）',
+          nt == 15.0 and pf == ['ab', 'cd'] and fe == 3,
+          f'ntp={nt} frag={pf} fec={fe}')
+except Exception as ex:
+    check('㋿c NTP→分片→纠错端到端（15.0 [ab,cd] 3）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

@@ -1695,6 +1695,66 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：蓝牙 RSSI——信号质量分级与距离估算（链路预算）",
     },
+    "网络-NTP同步": {
+        "task": "NTP同步",
+        "pattern": (
+            "def ntp_sync(state, op, t1=None, t2=None, t3=None):\n"
+            "    # NTP 同步：offset 时间偏移 / roundtrip 往返时延（时间同步协议）\n"
+            "    if op == 'offset':\n"
+            "        # 客户端 t1 发送，服务器 t2 收到 t3 回，客户端 t4 接收——简化两戳\n"
+            "        return round(((t2 - t1) + (t3 - t2)) / 2, 2)\n"
+            "    if op == 'roundtrip':\n"
+            "        return round((t3 - t1) - (t2 - t1), 2)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'offset', 100, 110, 130), 15.0),
+            (({}, 'roundtrip', 100, 110, 130), 20.0),
+            (({}, 'offset', 100, 100, 100), 0.0)],
+        "params": [],
+        "calibration": "对照：NTP——时间偏移与往返时延计算（时间同步）",
+    },
+    "网络-报文分片": {
+        "task": "报文分片",
+        "pattern": (
+            "def packet_frag(state, op, data=None, mtu=None):\n"
+            "    # 报文分片：fragment 按 MTU 切分 / reassemble 按序号重组（IPv4 分片）\n"
+            "    if op == 'fragment':\n"
+            "        return [data[i:i + mtu] for i in range(0, len(data), mtu)]\n"
+            "    if op == 'reassemble':\n"
+            "        return ''.join(frag[1] for frag in sorted(data, key=lambda f: f[0]))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'fragment', 'abcdef', 3), ['abc', 'def']),
+            (({}, 'fragment', 'abcd', 2), ['ab', 'cd']),
+            (({}, 'reassemble', [(1, 'b'), (0, 'a')]), 'ab')],
+        "params": [],
+        "calibration": "对照：IPv4 分片——按 MTU 切分与按偏移重组",
+    },
+    "网络-前向纠错": {
+        "task": "前向纠错",
+        "pattern": (
+            "def fec_recover(blocks, op, idx=None):\n"
+            "    # 前向纠错：parity 异或校验块 / recover 缺块恢复（FEC 奇偶恢复）\n"
+            "    if op == 'parity':\n"
+            "        out = 0\n"
+            "        for b in blocks:\n"
+            "            out ^= b\n"
+            "        return out\n"
+            "    if op == 'recover':\n"
+            "        # blocks 含校验块于末尾；缺 idx 块用其余异或恢复\n"
+            "        out = 0\n"
+            "        for i, b in enumerate(blocks):\n"
+            "            if i != idx:\n"
+            "                out ^= b\n"
+            "        return out\n"
+            "    return None\n"),
+        "cases": [
+            (([1, 2, 3], 'parity'), 0),
+            (([1, 2, 0], 'recover', 2), 3),
+            (([5, 0], 'recover', 1), 5)],
+        "params": [],
+        "calibration": "对照：FEC 异或奇偶——校验块生成与缺块恢复",
+    },
 }
 
 
