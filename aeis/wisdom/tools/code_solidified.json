@@ -5168,5 +5168,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:os|进程-优先级继承": {
+  "task": "优先级继承",
+  "unit": "进程-优先级继承",
+  "code": "def prio_inherit(state, op, holder=None, waiter=None):\n    # 优先级继承：wait 等待锁 / inherit 继承高优先 / restore 恢复（防优先级反转）\n    if op == 'wait':\n        state['holder'] = holder\n        state['waiting'] = waiter\n        if waiter > state.get('orig', 0):\n            state['orig'] = waiter\n        return 'waiting'\n    if op == 'inherit':\n        return max(state.get('orig', 0), state.get('waiting', 0))\n    if op == 'restore':\n        state['waiting'] = None\n        return state.get('orig', 0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|内存-内存池": {
+  "task": "内存池",
+  "unit": "内存-内存池",
+  "code": "def pool_alloc(state, op, size=None):\n    # 内存池：alloc 分配 / free 释放 / stats 统计（固定块池）\n    if op == 'alloc':\n        free = state.setdefault('free', [])\n        if size is not None and size not in state.setdefault('blocks', {}):\n            state['blocks'][size] = [None] * 4\n        pool = state.get('blocks', {}).get(size, free)\n        if pool:\n            return pool.pop()\n        return None\n    if op == 'free':\n        state.setdefault('free', []).append(size)\n        return 'freed'\n    if op == 'stats':\n        return len(state.get('free', []))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
+ },
+ "domain:os|文件-稀疏文件": {
+  "task": "稀疏文件",
+  "unit": "文件-稀疏文件",
+  "code": "def sparse_file(state, op, offset=None, data=None):\n    # 稀疏文件：write 写数据块 / read 读（空洞返回零）/ holes 空洞统计（稀疏存储）\n    if op == 'write':\n        state.setdefault('blocks', {})[offset] = data\n        return offset\n    if op == 'read':\n        return state.get('blocks', {}).get(offset, chr(48) * len(data or [0]))\n    if op == 'holes':\n        total = state.get('size', 0)\n        written = len(state.get('blocks', {}))\n        return max(0, total - written)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "os"
  }
 }

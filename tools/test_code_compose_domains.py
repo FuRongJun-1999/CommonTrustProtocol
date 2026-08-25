@@ -6322,5 +6322,40 @@ except Exception as ex:
     check('㌓c 摄像头→蓝牙→传感器端到端（granted/live connected 1.5）',
           False, str(ex)[:60])
 
+# ㌔ 目标4 深化：OS 机制（优先级继承/内存池/稀疏文件 经正式管线）
+o14_qs = {
+    "优先级继承": "写一个优先级继承单元（持锁提权）",
+    "内存池": "写一个内存池单元（固定块分配）",
+    "稀疏文件": "写一个稀疏文件单元（空洞零填充）",
+}
+o14_ok = 0
+for label, q in o14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o14_ok += 1
+    check(f'㌔ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌔b OS机制三单元全部生成', o14_ok == 3, f'{o14_ok}/3')
+
+# ㌔c 端到端：优先级继承→内存池→稀疏文件（8 2 abc）
+r_pi = domain_route("写一个优先级继承单元（持锁提权）")
+r_pl = domain_route("写一个内存池单元（固定块分配）")
+r_sf = domain_route("写一个稀疏文件单元（空洞零填充）")
+try:
+    ns_pi, ns_pl, ns_sf = {}, {}, {}
+    exec(r_pi["code"], ns_pi)
+    exec(r_pl["code"], ns_pl)
+    exec(r_sf["code"], ns_sf)
+    pi = ns_pi["prio_inherit"]({'orig': 2, 'waiting': 8}, 'inherit')
+    pl = ns_pl["pool_alloc"]({'free': [1, 2]}, 'alloc', None)
+    sf = ns_sf["sparse_file"]({'blocks': {10: 'abc'}}, 'read', 10, 'abc')
+    check('㌔c 优先级继承→内存池→稀疏文件端到端（8 2 abc）',
+          pi == 8 and pl == 2 and sf == 'abc',
+          f'prio={pi} pool={pl} sparse={sf}')
+except Exception as ex:
+    check('㌔c 优先级继承→内存池→稀疏文件端到端（8 2 abc）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
