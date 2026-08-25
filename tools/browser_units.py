@@ -12,6 +12,9 @@ BROWSER_UNITS = {
         "task": "HTTP解析",
         "pattern": (
             "def parse_http_response(raw):\n"
+"    # 生效条件：v.strip 可用；k.strip 可用\n"
+"    # 子功能：① 调用 int；② 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # HTTP 响应解析：状态行/头/体 → {status, headers, body}\n"
             "    lines = raw.split('\\r\\n')\n"
             "    status = int(lines[0].split()[1])\n"
@@ -34,6 +37,9 @@ BROWSER_UNITS = {
         "task": "DOM解析",
         "pattern": (
             "def parse_dom(html):\n"
+"    # 生效条件：re.finditer 可用；m.group 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # HTML → DOM 树（简化：标签 → 直接子标签列表）\n"
             "    import re\n"
             "    dom = {}\n"
@@ -58,6 +64,9 @@ BROWSER_UNITS = {
         "task": "CSS选择器",
         "pattern": (
             "def css_match(selector, tag, classes):\n"
+"    # 生效条件：selector.startswith 可用\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # CSS 选择器匹配：tag / .class / tag.class\n"
             "    if selector.startswith('.'):\n"
             "        return selector[1:] in classes\n"
@@ -76,6 +85,9 @@ BROWSER_UNITS = {
         "task": "块布局",
         "pattern": (
             "def block_layout(elements, width):\n"
+"    # 生效条件：参数 elements/width 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 块布局：元素宽度序列 → 行堆叠（超出容器宽度换行）\n"
             "    rows, cur, used = [], [], 0\n"
             "    for w in elements:\n"
@@ -138,6 +150,9 @@ BROWSER_UNITS = {
         "task": "CSS级联",
         "pattern": (
             "def cascade_apply(rules):\n"
+"    # 生效条件：参数 rules 合法\n"
+"    # 子功能：① 调用 max\n"
+"    # 执行：顺序调用\n"
             "    # 级联应用：选择最高优先级规则\n"
             "    return max(rules, key=cascade_weight)\n"
             "def cascade_weight(rule):\n"
@@ -210,6 +225,9 @@ BROWSER_UNITS = {
         "task": "布局树",
         "pattern": (
             "def layout_tree(nodes, container_w):\n"
+"    # 生效条件：参数 nodes/container_w 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # 布局树：块级节点（样式宽/高）→ (x, y, w, h) 坐标（纵向堆叠）\n"
             "    y = 0\n"
             "    out = []\n"
@@ -230,6 +248,9 @@ BROWSER_UNITS = {
         "task": "绘制",
         "pattern": (
             "def paint(layout, rows, cols):\n"
+"    # 生效条件：参数 layout/rows/cols 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 绘制：布局树 → 字符画布（'#'=元素区域，'.'=空白）\n"
             "    canvas = [['.' for _ in range(cols)] for _ in range(rows)]\n"
             "    for _, x, y, w, h in layout:\n"
@@ -248,6 +269,9 @@ BROWSER_UNITS = {
         "task": "事件冒泡",
         "pattern": (
             "def event_path(dom_tree, target, ancestors=None):\n"
+"    # 生效条件：参数 dom_tree/target/ancestors 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # 事件传播路径：目标 → 祖先链（冒泡顺序：目标→父→…→根）\n"
             "    path = []\n"
             "    node = target\n"
@@ -266,6 +290,9 @@ BROWSER_UNITS = {
         "task": "事件监听",
         "pattern": (
             "def listener_ops(listeners, event, target):\n"
+"    # 生效条件：event ∈ {add, trigger}\n"
+"    # 子功能：1 event 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 事件监听器：add/trigger（事件→匹配监听器列表）\n"
             "    if event == 'add':\n"
             "        listeners.setdefault(target, []).append(1)\n"
@@ -283,6 +310,9 @@ BROWSER_UNITS = {
         "task": "动画帧",
         "pattern": (
             "def animation_frame(state, step_fn, frames):\n"
+"    # 生效条件：参数 state/step_fn/frames 合法\n"
+"    # 子功能：① 调用 range；② 调用 step_fn\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 动画帧循环：逐帧应用 step_fn（requestAnimationFrame 语义）\n"
             "    out = []\n"
             "    for _ in range(frames):\n"
@@ -325,6 +355,9 @@ BROWSER_UNITS = {
         "task": "会话存储",
         "pattern": (
             "def session_storage(store, tab_open):\n"
+"    # 生效条件：参数 store/tab_open 合法\n"
+"    # 子功能：① 调用 dict\n"
+"    # 执行：顺序调用\n"
             "    # sessionStorage：标签页级生命周期（新标签页 → 数据清空）\n"
             "    if tab_open:\n"
             "        return dict(store)          # 当前标签页数据\n"
@@ -338,6 +371,9 @@ BROWSER_UNITS = {
         "task": "Web Worker",
         "pattern": (
             "def worker_msg(main, worker, data):\n"
+"    # 生效条件：参数 main/worker/data 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # Web Worker：主线程 postMessage → Worker 处理 → 回传（并行任务语义）\n"
             "    worker['input'] = data\n"
             "    worker['output'] = worker.get('fn', lambda x: x)(data)\n"
@@ -352,6 +388,9 @@ BROWSER_UNITS = {
         "task": "Fetch请求",
         "pattern": (
             "def fetch_req(method, url, headers=None, body=None):\n"
+"    # 生效条件：参数 method/url/headers/body 合法\n"
+"    # 子功能：① 调用 dict\n"
+"    # 执行：顺序调用\n"
             "    # Fetch API：请求封装（方法/URL/头/体 → 请求对象）\n"
             "    req = {'method': method, 'url': url,\n"
             "           'headers': dict(headers or {}), 'body': body}\n"
@@ -368,6 +407,9 @@ BROWSER_UNITS = {
         "task": "HTTP缓存",
         "pattern": (
             "def http_cache(cache, url, etag=None):\n"
+"    # 生效条件：参数 cache/url/etag 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # HTTP 缓存：ETag 条件请求（未变更 304 → 用缓存；变更 → 更新）\n"
             "    if url in cache and cache[url].get('etag') == etag:\n"
             "        return cache[url]['data'], '304 未变更'\n"
@@ -386,6 +428,9 @@ BROWSER_UNITS = {
         "task": "Cookie管理",
         "pattern": (
             "def cookie_op(cookies, op, name=None, value=None):\n"
+"    # 生效条件：op ∈ {delete, get, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # Cookie：设置/读取（domain 键值存储，Session 无过期）\n"
             "    if op == 'set':\n"
             "        cookies[name] = value\n"
@@ -405,6 +450,9 @@ BROWSER_UNITS = {
         "task": "同源策略",
         "pattern": (
             "def same_origin(a, b):\n"
+"    # 生效条件：参数 a/b 合法\n"
+"    # 子功能：① 调用 parts\n"
+"    # 执行：顺序调用\n"
             "    # 同源策略：协议+域名+端口 全同才同源（跨域请求拦截）\n"
             "    def parts(u):\n"
             "        s, rest = u.split('://')\n"
@@ -425,6 +473,9 @@ BROWSER_UNITS = {
         "task": "CSP策略",
         "pattern": (
             "def csp_allow(policy, resource_type, source):\n"
+"    # 生效条件：参数 policy/resource_type/source 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # CSP：内容安全策略（资源类型 → 允许的来源白名单）\n"
             "    allowed = policy.get(resource_type, [])\n"
             "    return source in allowed or '*' in allowed\n"),
@@ -438,6 +489,9 @@ BROWSER_UNITS = {
         "task": "XSS防护",
         "pattern": (
             "def escape_html(text):\n"
+"    # 生效条件：text.replace 可用\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # XSS 防护：HTML 转义（< > & \" ' → 实体，防脚本注入）\n"
             "    return (text.replace('&', '&amp;').replace('<', '&lt;')\n"
             "            .replace('>', '&gt;').replace('\"', '&quot;')\n"
@@ -453,6 +507,9 @@ BROWSER_UNITS = {
         "task": "Service Worker",
         "pattern": (
             "def sw_lifecycle(sw, event, url=None):\n"
+"    # 生效条件：event ∈ {activate, fetch, install}\n"
+"    # 子功能：1 event 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # Service Worker：install→activate→fetch 拦截（离线能力核心）\n"
             "    if event == 'install':\n"
             "        sw['status'] = 'installed'\n"
@@ -478,6 +535,9 @@ BROWSER_UNITS = {
         "task": "推送通知",
         "pattern": (
             "def push_msg(sub, op, payload=None):\n"
+"    # 生效条件：op ∈ {send, subscribe}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # Push API：订阅/推送（服务器 → 用户设备通知）\n"
             "    if op == 'subscribe':\n"
             "        sub['endpoint'] = 'push.example.com'\n"
@@ -498,6 +558,9 @@ BROWSER_UNITS = {
         "task": "IndexedDB",
         "pattern": (
             "def idb_txn(db, op, key=None, value=None):\n"
+"    # 生效条件：op ∈ {delete, get, put}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # IndexedDB：对象存储事务（put/get/delete——事务原子性）\n"
             "    if op == 'put':\n"
             "        db[key] = value\n"
@@ -517,6 +580,9 @@ BROWSER_UNITS = {
         "task": "渲染优化",
         "pattern": (
             "def batch_update(updates):\n"
+"    # 生效条件：参数 updates 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # 渲染优化：批量 DOM 更新（合并多次修改为一次）\n"
             "    merged = {}\n"
             "    for u in updates:\n"
@@ -533,6 +599,9 @@ BROWSER_UNITS = {
         "task": "懒加载",
         "pattern": (
             "def lazy_load(loads, viewport):\n"
+"    # 生效条件：参数 loads/viewport 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 懒加载：视口内才加载（按需加载优化）\n"
             "    return [l for l in loads if l['pos'] <= viewport]\n"),
         "cases": [(([{'id': 'a', 'pos': 100}, {'id': 'b', 'pos': 500}], 300),
@@ -545,6 +614,9 @@ BROWSER_UNITS = {
         "task": "节流",
         "pattern": (
             "def throttle(events, interval):\n"
+"    # 生效条件：参数 events/interval 合法\n"
+"    # 子功能：① 调用 float\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 节流：限频执行（首个事件立即执行，后续间隔 ≥ interval）\n"
             "    last = -float('inf')\n"
             "    out = []\n"
@@ -563,6 +635,9 @@ BROWSER_UNITS = {
         "task": "应用清单",
         "pattern": (
             "def manifest_check(manifest):\n"
+"    # 生效条件：参数 manifest 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # PWA 清单：最小字段校验（名称/图标/启动地址——可安装条件）\n"
             "    required = ['name', 'icons', 'start_url']\n"
             "    missing = [k for k in required if not manifest.get(k)]\n"
@@ -578,6 +653,9 @@ BROWSER_UNITS = {
         "task": "缓存策略",
         "pattern": (
             "def cache_strategy(strategy, cache, url, network_ok=True):\n"
+"    # 生效条件：strategy ∈ {cache-first, network-first}\n"
+"    # 子功能：1 strategy 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # PWA 缓存策略：cache-first 缓存优先 / network-first 网络优先\n"
             "    # / stale 陈旧再验证（离线可用性策略）\n"
             "    cached = cache.get(url)\n"
@@ -600,6 +678,9 @@ BROWSER_UNITS = {
         "task": "安装事件",
         "pattern": (
             "def install_prompt(state, action):\n"
+"    # 生效条件：action ∈ {accept, capture, dismiss, prompt}\n"
+"    # 子功能：1 action 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # PWA 安装：beforeinstallprompt 捕获 → 提示展示 → 接受/拒绝/延迟\n"
             "    if action == 'capture':\n"
             "        state['available'] = True\n"
@@ -624,6 +705,9 @@ BROWSER_UNITS = {
         "task": "合成分层",
         "pattern": (
             "def composite_layers(layers, op, layer_id=None, content=None):\n"
+"    # 生效条件：op ∈ {add, render, update}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 合成分层：add 加层 / update 更新层 / render 按 z 序合成（GPU 合成语义）\n"
             "    if op == 'add':\n"
             "        layers[layer_id] = content\n"
@@ -648,6 +732,9 @@ BROWSER_UNITS = {
         "task": "重排重绘",
         "pattern": (
             "def reflow_classify(change):\n"
+"    # 生效条件：参数 change 合法\n"
+"    # 子功能：① 调用 any\n"
+"    # 执行：顺序调用\n"
             "    # 重排/重绘：几何属性→reflow（重排），外观属性→repaint（重绘）\n"
             "    # （渲染成本分类：重排更贵）\n"
             "    geometry = ['宽度', '高度', '位置', 'margin', 'padding', 'border']\n"
@@ -665,6 +752,9 @@ BROWSER_UNITS = {
         "task": "关键渲染路径",
         "pattern": (
             "def crp_advance(done, next_step):\n"
+"    # 生效条件：order.index 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 关键渲染路径：按依赖顺序推进（DOM→CSSOM→布局→绘制→合成）\n"
             "    order = ['DOM', 'CSSOM', '布局', '绘制', '合成']\n"
             "    if next_step not in order:\n"
@@ -684,6 +774,9 @@ BROWSER_UNITS = {
         "task": "历史记录",
         "pattern": (
             "def history_ops(hist, op, url=None):\n"
+"    # 生效条件：op ∈ {back, forward, visit}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 历史记录：visit 记录 / back 后退 / forward 前进（栈+指针语义）\n"
             "    if op == 'visit':\n"
             "        hist['stack'] = hist.get('stack', [])[:hist.get('pos', -1) + 1]\n"
@@ -715,6 +808,9 @@ BROWSER_UNITS = {
         "task": "书签管理",
         "pattern": (
             "def bookmark_ops(marks, op, name=None, url=None):\n"
+"    # 生效条件：op ∈ {add, get, list, remove}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 书签：add 添加 / get 查询 / remove 删除 / list 列出（名称排序）\n"
             "    if op == 'add':\n"
             "        marks[name] = url\n"
@@ -738,6 +834,9 @@ BROWSER_UNITS = {
         "task": "标签页管理",
         "pattern": (
             "def tab_ops(tabs, op, tab_id=None, url=None):\n"
+"    # 生效条件：op ∈ {close, open, switch}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 标签页：open 新建 / switch 切换 / close 关闭（活动标签维护）\n"
             "    if op == 'open':\n"
             "        tabs.append({'id': tab_id, 'url': url})\n"
@@ -764,6 +863,9 @@ BROWSER_UNITS = {
         "task": "下载管理",
         "pattern": (
             "def download_ops(tasks, op, task_id=None, chunk=None, total=100):\n"
+"    # 生效条件：op ∈ {pause, progress, resume, start}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 下载管理：start 开始 / progress 进度推进（断点续传）/ pause 暂停 / resume 恢复\n"
             "    if op == 'start':\n"
             "        tasks[task_id] = {'received': 0, 'total': total, 'paused': False}\n"
@@ -802,6 +904,9 @@ BROWSER_UNITS = {
         "task": "扩展管理",
         "pattern": (
             "def extension_ops(exts, op, ext_id=None, permissions=None, requested=None):\n"
+"    # 生效条件：op ∈ {check, enable, install}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 扩展管理：install 安装 / enable 启停 / check 权限检查（最小权限）\n"
             "    if op == 'install':\n"
             "        exts[ext_id] = {'enabled': True, 'permissions': permissions or []}\n"
@@ -832,6 +937,9 @@ BROWSER_UNITS = {
         "task": "网络记录",
         "pattern": (
             "def network_log(log, op, request=None, status=None, size=0):\n"
+"    # 生效条件：op ∈ {filter, record, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 开发者工具：record 记录请求 / filter 按状态过滤 / stats 汇总\n"
             "    if op == 'record':\n"
             "        log.append({'url': request, 'status': status, 'size': size})\n"
@@ -857,6 +965,9 @@ BROWSER_UNITS = {
         "task": "表单验证",
         "pattern": (
             "def form_validate(fields, values):\n"
+"    # 生效条件：参数 fields/values 合法\n"
+"    # 子功能：① 调用 str\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 表单验证：必填 + 格式（邮箱/数字——提交前校验）\n"
             "    errors = []\n"
             "    for name, rule in fields.items():\n"
@@ -879,6 +990,9 @@ BROWSER_UNITS = {
         "task": "拖放交互",
         "pattern": (
             "def drag_drop(state, op, data=None, target=None):\n"
+"    # 生效条件：op ∈ {dragstart, drop, get}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 拖放：dragstart 开始携带数据 / drop 放到目标（数据传输）\n"
             "    if op == 'dragstart':\n"
             "        state['drag_data'] = data\n"
@@ -903,6 +1017,9 @@ BROWSER_UNITS = {
         "task": "资源完整性",
         "pattern": (
             "def sri_verify(resource_hash, expected):\n"
+"    # 生效条件：参数 resource_hash/expected 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 子资源完整性：哈希比对（SRI——防篡改第三方脚本）\n"
             "    return 'ok' if resource_hash == expected else 'mismatch'\n"),
         "cases": [(('abc', 'abc'), 'ok'),
@@ -915,6 +1032,9 @@ BROWSER_UNITS = {
         "task": "媒体播放",
         "pattern": (
             "def media_ops(media, op, position=None, volume=None):\n"
+"    # 生效条件：op ∈ {pause, play, seek, volume}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 媒体播放：play 播放 / pause 暂停 / seek 跳转 / volume 音量（夹紧 0-1）\n"
             "    if op == 'play':\n"
             "        media['playing'] = True\n"
@@ -943,6 +1063,9 @@ BROWSER_UNITS = {
         "task": "地理位置",
         "pattern": (
             "def geolocation(state, op, permission=None, lat=None, lng=None):\n"
+"    # 生效条件：op ∈ {get, request}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 地理位置：request 请求权限 / get 获取坐标（权限门控）\n"
             "    if op == 'request':\n"
             "        state['granted'] = permission\n"
@@ -963,6 +1086,9 @@ BROWSER_UNITS = {
         "task": "全屏模式",
         "pattern": (
             "def fullscreen_ops(state, op, element=None):\n"
+"    # 生效条件：op ∈ {enter, exit}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 全屏模式：enter 元素全屏 / exit 退出（全屏 API 状态）\n"
             "    if op == 'enter':\n"
             "        state['fullscreen'] = element\n"
@@ -981,6 +1107,9 @@ BROWSER_UNITS = {
         "task": "预加载",
         "pattern": (
             "def preload_ops(preloads, op, url=None, kind=None):\n"
+"    # 生效条件：op ∈ {add, stats, use}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 预加载：add 登记预加载资源 / use 命中使用 / stats 统计（preload）\n"
             "    if op == 'add':\n"
             "        preloads[url] = {'kind': kind, 'used': False}\n"
@@ -1007,6 +1136,9 @@ BROWSER_UNITS = {
         "task": "请求合并",
         "pattern": (
             "def batch_requests(batches, op, batch_id=None, urls=None):\n"
+"    # 生效条件：op ∈ {add, count, create}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 请求合并：create 建批 / add 加入 / count 计数（多请求合并成批）\n"
             "    if op == 'create':\n"
             "        batches[batch_id] = []\n"
@@ -1028,6 +1160,9 @@ BROWSER_UNITS = {
         "task": "资源优先级",
         "pattern": (
             "def resource_priority(resources, op, url=None, kind=None):\n"
+"    # 生效条件：op ∈ {priority, register}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 资源优先级：register 登记类型 / priority 查询（关键 CSS/JS 优先）\n"
             "    if op == 'register':\n"
             "        resources[url] = kind\n"
@@ -1048,6 +1183,9 @@ BROWSER_UNITS = {
         "task": "权限API",
         "pattern": (
             "def permission_api(state, op, perm=None, granted=None):\n"
+"    # 生效条件：op ∈ {query, request}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 权限 API：query 查询 / request 请求（权限状态管理）\n"
             "    if op == 'query':\n"
             "        return state.get(perm, 'prompt')\n"
@@ -1066,6 +1204,9 @@ BROWSER_UNITS = {
         "task": "CSP报告",
         "pattern": (
             "def csp_report(reports, op, violation=None, policy=None):\n"
+"    # 生效条件：op ∈ {count, filter, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # CSP 报告：record 记录违规 / count 统计 / filter 按策略过滤（上报）\n"
             "    if op == 'record':\n"
             "        reports.append({'violation': violation, 'policy': policy})\n"
@@ -1089,6 +1230,9 @@ BROWSER_UNITS = {
         "task": "支付请求",
         "pattern": (
             "def payment_ops(payment, op, method=None, amount=None):\n"
+"    # 生效条件：op ∈ {can_pay, pay, status}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 支付请求：can_pay 检查方法 / pay 支付 / status 状态（支付流程）\n"
             "    if op == 'can_pay':\n"
             "        return method in payment.get('methods', [])\n"
@@ -1113,6 +1257,9 @@ BROWSER_UNITS = {
         "task": "响应式断点",
         "pattern": (
             "def responsive_breakpoint(width, breakpoints):\n"
+"    # 生效条件：参数 width/breakpoints 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 响应式断点：按宽度匹配断点（媒体查询——响应式布局）\n"
             "    matched = 'base'\n"
             "    for bp, w in sorted(breakpoints.items(), key=lambda x: x[1]):\n"
@@ -1130,6 +1277,9 @@ BROWSER_UNITS = {
         "task": "离线队列",
         "pattern": (
             "def offline_queue(queue, op, request=None):\n"
+"    # 生效条件：op ∈ {count, enqueue, flush}；queue.clear 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 离线队列：enqueue 离线入队 / flush 上线重发 / count 计数\n"
             "    if op == 'enqueue':\n"
             "        queue.append(request)\n"
@@ -1152,6 +1302,9 @@ BROWSER_UNITS = {
         "task": "会话恢复",
         "pattern": (
             "def session_restore(snapshots, op, name=None, tabs=None):\n"
+"    # 生效条件：op ∈ {restore, save}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 会话恢复：save 保存标签页 / restore 恢复（崩溃恢复）\n"
             "    if op == 'save':\n"
             "        snapshots[name] = list(tabs)\n"
@@ -1170,6 +1323,9 @@ BROWSER_UNITS = {
         "task": "CORS检查",
         "pattern": (
             "def cors_check(origin, target, method='GET'):\n"
+"    # 生效条件：参数 origin/target/method 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # CORS：同源放行 / 简单请求放行 / 预检判定（跨域资源共享）\n"
             "    if origin == target:\n"
             "        return 'same-origin'\n"
@@ -1187,6 +1343,9 @@ BROWSER_UNITS = {
         "task": "文本排版",
         "pattern": (
             "def text_wrap(text, width):\n"
+"    # 生效条件：参数 text/width 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 文本排版：按宽度贪心换行（文本布局——每行不超宽度）\n"
             "    if not text:\n"
             "        return []\n"
@@ -1211,6 +1370,9 @@ BROWSER_UNITS = {
         "task": "剪贴板",
         "pattern": (
             "def clipboard_ops(state, op, text=None):\n"
+"    # 生效条件：op ∈ {clear, copy, paste}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 剪贴板：copy 写入 / paste 读取 / clear 清空（系统剪贴板）\n"
             "    if op == 'copy':\n"
             "        state['text'] = text\n"
@@ -1232,6 +1394,9 @@ BROWSER_UNITS = {
         "task": "沙箱隔离",
         "pattern": (
             "def sandbox_perms(capabilities, op, cap=None):\n"
+"    # 生效条件：op ∈ {check, grant, revoke}；capabilities.discard 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 沙箱隔离：grant 授权 / check 校验 / revoke 撤销（iframe sandbox 权限裁剪）\n"
             "    if op == 'grant':\n"
             "        capabilities.add(cap)\n"
@@ -1253,6 +1418,9 @@ BROWSER_UNITS = {
         "task": "滚动容器",
         "pattern": (
             "def scroll_container(state, op, delta=None):\n"
+"    # 生效条件：op ∈ {bottom, position, scroll}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 滚动容器：scroll 按增量滚动 / position 当前位置 / bottom 是否触底（视口滚动）\n"
             "    if op == 'scroll':\n"
             "        state['pos'] = state.get('pos', 0) + delta\n"
@@ -1273,6 +1441,9 @@ BROWSER_UNITS = {
         "task": "在线状态",
         "pattern": (
             "def online_state(events, op, online=None):\n"
+"    # 生效条件：op ∈ {events, get, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 在线状态：set 设置 online/offline / get 当前状态 / events 事件序列（navigator.onLine）\n"
             "    if op == 'set':\n"
             "        events.append('online' if online else 'offline')\n"
@@ -1293,6 +1464,9 @@ BROWSER_UNITS = {
         "task": "命中测试",
         "pattern": (
             "def hit_test(layers, x, y):\n"
+"    # 生效条件：参数 layers/x/y 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 命中测试：从顶层向下找包含 (x,y) 的元素（点击命中）\n"
             "    for layer in layers:\n"
             "        x1, y1, x2, y2, name = layer\n"
@@ -1310,6 +1484,9 @@ BROWSER_UNITS = {
         "task": "标签页通信",
         "pattern": (
             "def tab_channel(state, op, msg=None):\n"
+"    # 生效条件：op ∈ {listeners, post, recv}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 标签页通信：post 广播消息 / recv 收取 / listeners 统计（BroadcastChannel）\n"
             "    if op == 'post':\n"
             "        state.setdefault('msgs', []).append(msg)\n"
@@ -1332,6 +1509,9 @@ BROWSER_UNITS = {
         "task": "页面可见性",
         "pattern": (
             "def visibility(state, op, v=None):\n"
+"    # 生效条件：op ∈ {events, get, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 页面可见性：set 切换 visible/hidden / get 当前 / events 记录（visibilitychange）\n"
             "    if op == 'set':\n"
             "        state['vis'] = v\n"
@@ -1354,6 +1534,9 @@ BROWSER_UNITS = {
         "task": "像素光栅化",
         "pattern": (
             "def rasterize(canvas, x, y, color):\n"
+"    # 生效条件：参数 canvas/x/y/color 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 像素光栅化：画布坐标填色（canvas 像素级绘制）\n"
             "    w = len(canvas[0])\n"
             "    h = len(canvas)\n"
@@ -1372,6 +1555,9 @@ BROWSER_UNITS = {
         "task": "触控手势",
         "pattern": (
             "def gesture_ops(state, op, p1=None, p2=None):\n"
+"    # 生效条件：op ∈ {pan, pinch, tap}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 触控手势：tap 轻点 / pan 平移 / pinch 双指缩放（触摸识别）\n"
             "    if op == 'tap':\n"
             "        return 'tap'\n"
@@ -1396,6 +1582,9 @@ BROWSER_UNITS = {
         "task": "设备方向",
         "pattern": (
             "def device_orient(state, op, alpha=None, beta=None):\n"
+"    # 生效条件：op ∈ {get, portrait, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 设备方向：set 记录角度 / get 当前 / portrait 竖屏判定（DeviceOrientation）\n"
             "    if op == 'set':\n"
             "        state['alpha'] = alpha\n"
@@ -1418,6 +1607,9 @@ BROWSER_UNITS = {
         "task": "渐变填充",
         "pattern": (
             "def gradient_fill(stops, t):\n"
+"    # 生效条件：参数 stops/t 合法\n"
+"    # 子功能：① 调用 range；② 调用 len；③ 调用 tuple\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 渐变填充：按位置 t 线性插值色停（canvas 渐变）\n"
             "    if t <= stops[0][0]:\n"
             "        return stops[0][1]\n"
@@ -1439,6 +1631,9 @@ BROWSER_UNITS = {
         "task": "网络信息",
         "pattern": (
             "def network_info(state, op, net=None):\n"
+"    # 生效条件：op ∈ {fast, get, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 网络信息：set 记录类型 / get 当前 / fast 高速判定（Network Information API）\n"
             "    if op == 'set':\n"
             "        state['net'] = net\n"
@@ -1460,6 +1655,9 @@ BROWSER_UNITS = {
         "task": "字体加载",
         "pattern": (
             "def font_load(state, op, font=None):\n"
+"    # 生效条件：op ∈ {load, status, swap}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 字体加载：load 请求 / status 状态 / swap 回退切换（font-display）\n"
             "    if op == 'load':\n"
             "        state[font] = 'loading'\n"
@@ -1482,6 +1680,9 @@ BROWSER_UNITS = {
         "task": "颜色转换",
         "pattern": (
             "def color_convert(value, op):\n"
+"    # 生效条件：op ∈ {hex2rgb, rgb2hex}；value.lstrip 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 颜色转换：hex→rgb 解析 / rgb→hex 编码（CSS 颜色）\n"
             "    if op == 'hex2rgb':\n"
             "        v = value.lstrip('#')\n"
@@ -1501,6 +1702,9 @@ BROWSER_UNITS = {
         "task": "振动反馈",
         "pattern": (
             "def vibrate(state, op, pattern=None):\n"
+"    # 生效条件：op ∈ {active, start, stop}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 振动反馈：start 启动 / stop 停止 / active 是否振动（navigator.vibrate）\n"
             "    if op == 'start':\n"
             "        state['active'] = True\n"
@@ -1524,6 +1728,9 @@ BROWSER_UNITS = {
         "task": "混合模式",
         "pattern": (
             "def blend_mode(base, overlay, mode):\n"
+"    # 生效条件：mode ∈ {multiply, overlay, screen}\n"
+"    # 子功能：1 mode 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 混合模式：multiply 正片叠底 / screen 滤色 / overlay 叠加（canvas 混合）\n"
             "    b = base / 255.0\n"
             "    o = overlay / 255.0\n"
@@ -1548,6 +1755,9 @@ BROWSER_UNITS = {
         "task": "边框圆角",
         "pattern": (
             "def border_radius(box, radius, point):\n"
+"    # 生效条件：参数 box/radius/point 合法\n"
+"    # 子功能：① 调用 min；② 调用 max\n"
+"    # 执行：顺序调用\n"
             "    # 边框圆角：点是否在圆角矩形内（border-radius 命中判定）\n"
             "    x1, y1, x2, y2 = box\n"
             "    x, y = point\n"
@@ -1568,6 +1778,9 @@ BROWSER_UNITS = {
         "task": "屏幕方向",
         "pattern": (
             "def screen_orient(state, op, orient=None):\n"
+"    # 生效条件：op ∈ {get, lock, unlock}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 屏幕方向：lock 锁定 / unlock 解锁 / get 当前（Screen Orientation API）\n"
             "    if op == 'lock':\n"
             "        state['orient'] = orient\n"
@@ -1591,6 +1804,9 @@ BROWSER_UNITS = {
         "task": "空闲调度",
         "pattern": (
             "def idle_schedule(state, op, deadline=None):\n"
+"    # 生效条件：op ∈ {pending, request, run}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 空闲调度：request 登记低优先任务 / run 空闲时执行 / pending 待办数（requestIdleCallback）\n"
             "    if op == 'request':\n"
             "        state['pending'] = state.get('pending', 0) + 1\n"
@@ -1615,6 +1831,9 @@ BROWSER_UNITS = {
         "task": "摄像头",
         "pattern": (
             "def camera_ops(state, op, stream=None):\n"
+"    # 生效条件：op ∈ {request, start, stop}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 摄像头：request 请求权限 / start 启动流 / stop 停止（getUserMedia）\n"
             "    if op == 'request':\n"
             "        state['granted'] = True\n"
@@ -1640,6 +1859,9 @@ BROWSER_UNITS = {
         "task": "蓝牙扫描",
         "pattern": (
             "def bluetooth_scan(state, op, dev=None):\n"
+"    # 生效条件：op ∈ {connect, devices, discover}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 蓝牙扫描：discover 发现 / connect 连接 / devices 列表（Web Bluetooth）\n"
             "    if op == 'discover':\n"
             "        state.setdefault('devices', []).append(dev)\n"
@@ -1664,6 +1886,9 @@ BROWSER_UNITS = {
         "task": "传感器",
         "pattern": (
             "def sensor_ops(state, op, axis=None, value=None):\n"
+"    # 生效条件：op ∈ {avg, read, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 传感器：record 记录读数 / read 读取 / avg 平均（Accelerometer）\n"
             "    if op == 'record':\n"
             "        state.setdefault(axis, []).append(value)\n"
@@ -1687,6 +1912,9 @@ BROWSER_UNITS = {
         "task": "语音合成",
         "pattern": (
             "def speech_synth(state, op, text=None):\n"
+"    # 生效条件：op ∈ {pause, resume, speak}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 语音合成：speak 朗读 / pause 暂停 / resume 继续（SpeechSynthesis）\n"
             "    if op == 'speak':\n"
             "        state['text'] = text\n"
@@ -1711,6 +1939,9 @@ BROWSER_UNITS = {
         "task": "语音识别",
         "pattern": (
             "def speech_recog(state, op, text=None):\n"
+"    # 生效条件：op ∈ {final, result, start}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 语音识别：start 开始 / result 识别结果 / final 最终文本（SpeechRecognition）\n"
             "    if op == 'start':\n"
             "        state['listening'] = True\n"
@@ -1734,6 +1965,9 @@ BROWSER_UNITS = {
         "task": "扫码",
         "pattern": (
             "def barcode_scan(state, op, code=None):\n"
+"    # 生效条件：op ∈ {cache, last, scan}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 扫码：scan 检测 / cache 缓存 / last 最近结果（BarcodeDetector）\n"
             "    if op == 'scan':\n"
             "        state['last'] = code\n"
@@ -1756,6 +1990,9 @@ BROWSER_UNITS = {
         "task": "画中画",
         "pattern": (
             "def pip_ops(state, op):\n"
+"    # 生效条件：op ∈ {active, close, open}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 画中画：open 打开 / close 关闭 / active 状态（Picture-in-Picture）\n"
             "    if op == 'open':\n"
             "        state['pip'] = True\n"
@@ -1778,6 +2015,9 @@ BROWSER_UNITS = {
         "task": "屏幕捕获",
         "pattern": (
             "def screen_capture(state, op, source=None):\n"
+"    # 生效条件：op ∈ {request, select, stop}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 屏幕捕获：request 请求 / select 选源 / stop 停止（getDisplayMedia）\n"
             "    if op == 'request':\n"
             "        state['granted'] = True\n"
@@ -1803,6 +2043,9 @@ BROWSER_UNITS = {
         "task": "文件系统访问",
         "pattern": (
             "def fs_access(state, op, name=None, data=None):\n"
+"    # 生效条件：op ∈ {open, read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 文件系统访问：open 打开 / write 写入 / read 读取（File System Access）\n"
             "    if op == 'open':\n"
             "        state.setdefault('files', {})[name] = data or ''\n"
@@ -1825,6 +2068,9 @@ BROWSER_UNITS = {
         "task": "网页共享",
         "pattern": (
             "def web_share(state, op, data=None):\n"
+"    # 生效条件：op ∈ {can_share, last, share}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 网页共享：share 分享 / can_share 可否 / last 最近分享（Web Share API）\n"
             "    if op == 'share':\n"
             "        state['last'] = data\n"
@@ -1846,6 +2092,9 @@ BROWSER_UNITS = {
         "task": "唤醒锁",
         "pattern": (
             "def wake_lock(state, op):\n"
+"    # 生效条件：op ∈ {active, release, request}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 唤醒锁：request 请求 / release 释放 / active 状态（Wake Lock API）\n"
             "    if op == 'request':\n"
             "        state['active'] = True\n"
@@ -1868,6 +2117,9 @@ BROWSER_UNITS = {
         "task": "窗口管理",
         "pattern": (
             "def window_mgmt(state, op, win=None):\n"
+"    # 生效条件：op ∈ {close, move, open}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 窗口管理：open 开窗 / move 移动 / close 关闭（Window Management）\n"
             "    if op == 'open':\n"
             "        state.setdefault('wins', {})[win] = {'x': 0, 'y': 0}\n"
@@ -1896,6 +2148,9 @@ BROWSER_UNITS = {
         "task": "翻译",
         "pattern": (
             "def translate_api(state, op, text=None, lang=None):\n"
+"    # 生效条件：op ∈ {available, langs, translate}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 翻译：translate 翻译 / available 可用 / langs 语言对（Translator API）\n"
             "    if op == 'translate':\n"
             "        if text and lang:\n"
@@ -1919,6 +2174,9 @@ BROWSER_UNITS = {
         "task": "语言检测",
         "pattern": (
             "def lang_detect(state, op, text=None):\n"
+"    # 生效条件：op ∈ {detect, last, score}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 语言检测：detect 识别 / score 置信度 / last 最近结果（Language Detector）\n"
             "    if op == 'detect':\n"
             "        lang = 'zh' if any('\u4e00' <= c <= '\u9fff' for c in text) else 'en'\n"
@@ -1941,6 +2199,9 @@ BROWSER_UNITS = {
         "task": "文本摘要",
         "pattern": (
             "def summarizer(state, op, text=None):\n"
+"    # 生效条件：op ∈ {last, length, summarize}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 文本摘要：summarize 提取要点 / length 长度 / last 最近摘要（Summarizer）\n"
             "    if op == 'summarize':\n"
             "        out = text[:20] + (chr(46) * 3 if len(text) > 20 else '')\n"
@@ -1964,6 +2225,9 @@ BROWSER_UNITS = {
         "task": "联系人",
         "pattern": (
             "def contact_pick(state, op, contact=None):\n"
+"    # 生效条件：op ∈ {clear, pick, selected}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 联系人：pick 选择 / selected 已选 / clear 清空（Contact Picker）\n"
             "    if op == 'pick':\n"
             "        state.setdefault('picked', []).append(contact)\n"
@@ -1986,6 +2250,9 @@ BROWSER_UNITS = {
         "task": "形状检测",
         "pattern": (
             "def shape_detect(state, op, shape=None, count=None):\n"
+"    # 生效条件：op ∈ {count, detect, last}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 形状检测：detect 检测 / count 数量 / last 最近结果（Shape Detection API）\n"
             "    if op == 'detect':\n"
             "        state['last'] = (shape, count)\n"
@@ -2007,6 +2274,9 @@ BROWSER_UNITS = {
         "task": "存储配额",
         "pattern": (
             "def storage_quota(state, op, used=None):\n"
+"    # 生效条件：op ∈ {estimate, percent, usage}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 存储配额：estimate 估算 / usage 已用 / percent 占用比（Storage Quota）\n"
             "    if op == 'estimate':\n"
             "        state['used'] = used\n"
@@ -2029,6 +2299,9 @@ BROWSER_UNITS = {
         "task": "内置聊天",
         "pattern": (
             "def ai_chat(state, op, msg=None, reply=None):\n"
+"    # 生效条件：op ∈ {history, reply, send}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 内置聊天：send 发送 / reply 回复 / history 历史（AI Chat API）\n"
             "    if op == 'send':\n"
             "        state.setdefault('history', []).append(('user', msg))\n"
@@ -2052,6 +2325,9 @@ BROWSER_UNITS = {
         "task": "图像生成",
         "pattern": (
             "def image_gen(state, op, prompt=None):\n"
+"    # 生效条件：op ∈ {count, generate, last}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 图像生成：generate 生成 / count 数量 / last 最近（Image Generation API）\n"
             "    if op == 'generate':\n"
             "        state['last'] = prompt\n"
@@ -2074,6 +2350,9 @@ BROWSER_UNITS = {
         "task": "提示词",
         "pattern": (
             "def prompt_api(state, op, key=None, value=None):\n"
+"    # 生效条件：op ∈ {clear, get, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 提示词：set 设置 / get 读取 / clear 清除（Prompt API）\n"
             "    if op == 'set':\n"
             "        state.setdefault('prompts', {})[key] = value\n"
@@ -2096,6 +2375,9 @@ BROWSER_UNITS = {
         "task": "游戏手柄",
         "pattern": (
             "def gamepad_ops(state, op, button=None, pressed=None):\n"
+"    # 生效条件：op ∈ {axis, button, connect}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 游戏手柄：connect 连接 / button 按键状态 / axis 摇杆（Gamepad API）\n"
             "    if op == 'connect':\n"
             "        state['connected'] = True\n"
@@ -2118,6 +2400,9 @@ BROWSER_UNITS = {
         "task": "虚拟键盘",
         "pattern": (
             "def vkeyboard(state, op, key=None):\n"
+"    # 生效条件：op ∈ {hide, show, visible}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 虚拟键盘：show 显示 / hide 隐藏 / visible 状态（Virtual Keyboard API）\n"
             "    if op == 'show':\n"
             "        state['visible'] = True\n"
@@ -2140,6 +2425,9 @@ BROWSER_UNITS = {
         "task": "音频上下文",
         "pattern": (
             "def audio_ctx(state, op, freq=None, vol=None):\n"
+"    # 生效条件：op ∈ {gain, osc, start}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 音频上下文：osc 振荡器 / gain 音量 / start 启动（Web Audio）\n"
             "    if op == 'osc':\n"
             "        state['freq'] = freq\n"

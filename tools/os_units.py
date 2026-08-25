@@ -12,6 +12,9 @@ OS_UNITS = {
         "task": "进程调度",
         "pattern": (
             "def fcfs_schedule(processes):\n"
+"    # 生效条件：参数 processes 合法\n"
+"    # 子功能：① 调用 max\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # FCFS 进程调度：[(到达时间, 运行时长)] → 完成时间列表\n"
             "    time, done = 0, []\n"
             "    for at, dur in processes:\n"
@@ -28,6 +31,9 @@ OS_UNITS = {
         "task": "轮转调度",
         "pattern": (
             "def round_robin(processes, quantum=2):\n"
+"    # 生效条件：参数 processes/quantum 合法\n"
+"    # 子功能：① 调用 list；② 调用 any；③ 调用 min\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # RR 时间片轮转：[(运行时长)] → 调度序列（进程索引）\n"
             "    remain = list(processes)\n"
             "    order, i = [], 0\n"
@@ -48,6 +54,9 @@ OS_UNITS = {
         "task": "内存分配",
         "pattern": (
             "def page_alloc(pages_free, requests):\n"
+"    # 生效条件：参数 pages_free/requests 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 分页内存分配：请求页数 → 分配成功/拒绝（可用内存耗尽拒绝）\n"
             "    free = pages_free\n"
             "    results = []\n"
@@ -68,7 +77,10 @@ OS_UNITS = {
         "task": "文件路径",
         "pattern": (
             "def resolve_path(path, cwd):\n"
-            "    # 路径解析：绝对/相对/.. /./ → 规范路径\n"
+            "    # 路径解析（文件系统路径解析）：绝对/相对/.. /./ → 规范路径\n"
+            "    # 生效条件：path 为路径字符串；cwd 为当前工作目录\n"
+            "    # 子功能：① 绝对/相对判定 ② 分量规整 ③ .. 上溯\n"
+            "    # 执行：split 分量 + 栈式规整\n"
             "    if path.startswith('/'):\n"
             "        parts = path.split('/')[1:]\n"
             "    else:\n"
@@ -92,6 +104,9 @@ OS_UNITS = {
         "task": "进程通信",
         "pattern": (
             "def pipe_transfer(sender_data, reader):\n"
+"    # 生效条件：参数 sender_data/reader 合法\n"
+"    # 子功能：① 调用 list；② 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 管道 IPC：写端数据 → FIFO 缓冲 → 读端取前 reader 项\n"
             "    buf = list(sender_data)\n"
             "    out = []\n"
@@ -134,6 +149,9 @@ OS_UNITS = {
         "task": "inode查询",
         "pattern": (
             "def inode_lookup(files, name):\n"
+"    # 生效条件：参数 files/name 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # inode 表查询：文件名 → (大小, 权限) 或 None\n"
             "    for f in files:\n"
             "        if f['name'] == name:\n"
@@ -174,6 +192,9 @@ OS_UNITS = {
         "task": "最短作业",
         "pattern": (
             "def sjf_schedule(processes):\n"
+"    # 生效条件：ready.sort 可用\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # SJF 最短作业优先（非抢占）：[(到达, 时长)] → 完成时间列表\n"
             "    time, done, ready = 0, [], []\n"
             "    remaining = sorted(processes)\n"
@@ -199,6 +220,9 @@ OS_UNITS = {
         "task": "块管理",
         "pattern": (
             "def block_alloc(bitmap, size):\n"
+"    # 生效条件：参数 bitmap/size 合法\n"
+"    # 子功能：① 调用 len；② 调用 range；③ 调用 all\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 块位图分配：连续 size 块 → 起始块（首次适配）或 -1\n"
             "    n = len(bitmap)\n"
             "    for start in range(n - size + 1):\n"
@@ -217,6 +241,9 @@ OS_UNITS = {
         "task": "优先级调度",
         "pattern": (
             "def priority_schedule(processes):\n"
+"    # 生效条件：参数 processes 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 优先级调度（非抢占）：[(时长, 优先级)] → 完成时间（高优先先跑）\n"
             "    procs = sorted(processes, key=lambda p: p[1], reverse=True)\n"
             "    time, done = 0, []\n"
@@ -234,6 +261,9 @@ OS_UNITS = {
         "task": "互斥锁",
         "pattern": (
             "def mutex_op(state, op, owner=None):\n"
+"    # 生效条件：op ∈ {lock, unlock}；state ∈ {free}\n"
+"    # 子功能：① op 分支处理；2 state 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 互斥锁操作：lock/unlock（忙等语义：占用时 lock 失败）\n"
             "    if op == 'lock':\n"
             "        if state == 'free':\n"
@@ -252,6 +282,9 @@ OS_UNITS = {
         "task": "首次适配",
         "pattern": (
             "def first_fit(blocks, size):\n"
+"    # 生效条件：参数 blocks/size 合法\n"
+"    # 子功能：① 调用 enumerate\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 内存首次适配：空闲块大小列表 → 分配的块索引（首个足够大）\n"
             "    for i, b in enumerate(blocks):\n"
             "        if b >= size:\n"
@@ -285,6 +318,9 @@ OS_UNITS = {
         "task": "缺页处理",
         "pattern": (
             "def page_fault_handler(page_table, vpn, free_frames, load):\n"
+"    # 生效条件：参数 page_table/vpn/free_frames/load 合法\n"
+"    # 子功能：① 调用 load\n"
+"    # 执行：顺序调用\n"
             "    # 缺页处理：present=0 → 分配空闲帧加载；无空闲帧 → 拒绝（置换由上层调度）\n"
             "    if vpn in page_table and page_table[vpn].get('present') == 1:\n"
             "        return 'hit', page_table[vpn]['frame']\n"
@@ -305,6 +341,9 @@ OS_UNITS = {
         "task": "页面错误分类",
         "pattern": (
             "def classify_page_fault(vpn, page_table, access):\n"
+"    # 生效条件：参数 vpn/page_table/access 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 页面错误分类：未映射/未驻留/写保护 → 错误类型（MMU 语义）\n"
             "    entry = page_table.get(vpn)\n"
             "    if entry is None:\n"
@@ -326,6 +365,9 @@ OS_UNITS = {
         "task": "目录树",
         "pattern": (
             "def dir_ls(root, name, children=None, prefix='/'):\n"
+"    # 生效条件：prefix.rstrip 可用\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 目录树 + 列目录：根/子目录/文件 → 路径列表（mkdir/ls 语义）\n"
             "    out = [prefix.rstrip('/') + '/' + root]\n"
             "    if name is None:\n"
@@ -345,6 +387,9 @@ OS_UNITS = {
         "task": "文件描述符",
         "pattern": (
             "def fd_alloc(table, path):\n"
+"    # 生效条件：参数 table/path 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # 打开文件表：分配最小可用 fd（0/1/2 留给标准流，从 3 起）\n"
             "    fd = 3\n"
             "    while fd in table:\n"
@@ -364,6 +409,9 @@ OS_UNITS = {
         "task": "字符设备",
         "pattern": (
             "def char_device(device, op, data=None):\n"
+"    # 生效条件：op ∈ {close, open, read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 字符设备抽象：open/read/write/close（驱动接口——设备=文件 语义）\n"
             "    if op == 'open':\n"
             "        device['opened'] = True\n"
@@ -394,6 +442,9 @@ OS_UNITS = {
         "task": "中断向量",
         "pattern": (
             "def vector_lookup(table, irq):\n"
+"    # 生效条件：参数 table/irq 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 中断向量表：IRQ 号 → 处理函数（未注册 → None）\n"
             "    return table.get(irq)\n"),
         "cases": [(({3: 'timer_handler', 14: 'disk_handler'}, 3), 'timer_handler'),
@@ -406,6 +457,9 @@ OS_UNITS = {
         "task": "上下文切换",
         "pattern": (
             "def ctx_switch(ctx, save):\n"
+"    # 生效条件：参数 ctx/save 合法\n"
+"    # 子功能：① 调用 dict\n"
+"    # 执行：顺序调用\n"
             "    # 中断上下文切换：保存当前寄存器 → 恢复目标（现场保护/恢复）\n"
             "    if save:\n"
             "        ctx['saved'] = dict(ctx.get('regs', {}))\n"
@@ -422,6 +476,9 @@ OS_UNITS = {
         "task": "中断优先级",
         "pattern": (
             "def nested_irq(current_prio, new_prio):\n"
+"    # 生效条件：参数 current_prio/new_prio 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 中断嵌套：新中断优先级更高 → 可抢占当前（NMI/高优先抢占）\n"
             "    return new_prio > current_prio\n"),
         "cases": [((3, 5), True),
@@ -434,6 +491,9 @@ OS_UNITS = {
         "task": "文件系统挂载",
         "pattern": (
             "def mount_op(mounts, path, fs_type=None):\n"
+"    # 生效条件：参数 mounts/path/fs_type 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # VFS 挂载：挂载点→文件系统（mount 注册/unmount 卸载/查询）\n"
             "    if fs_type is not None:\n"
             "        mounts[path] = fs_type\n"
@@ -451,6 +511,9 @@ OS_UNITS = {
         "task": "文件权限",
         "pattern": (
             "def check_perm(mode, access):\n"
+"    # 生效条件：参数 mode/access 合法\n"
+"    # 子功能：① 调用 bool\n"
+"    # 执行：顺序调用\n"
             "    # 文件权限：模式位 rwx 检查（读4/写2/执行1 位运算）\n"
             "    bit = {'r': 4, 'w': 2, 'x': 1}[access]\n"
             "    return bool(mode & bit)\n"),
@@ -463,6 +526,9 @@ OS_UNITS = {
         "task": "进程树",
         "pattern": (
             "def process_tree(parents, root):\n"
+"    # 生效条件：参数 parents/root 合法\n"
+"    # 子功能：① 调用 walk；② 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 进程树：父进程关系 → 后代集合（递归收集子树）\n"
             "    children = {}\n"
             "    for pid, ppid in parents.items():\n"
@@ -485,6 +551,9 @@ OS_UNITS = {
         "task": "系统调用",
         "pattern": (
             "def syscall_dispatch(table, num, args):\n"
+"    # 生效条件：参数 table/num/args 合法\n"
+"    # 子功能：① 调用 fn\n"
+"    # 执行：顺序调用\n"
             "    # 系统调用：编号 → 处理函数分派（未知编号 → None）\n"
             "    fn = table.get(num)\n"
             "    if fn is None:\n"
@@ -500,6 +569,9 @@ OS_UNITS = {
         "task": "信号处理",
         "pattern": (
             "def signal_op(handlers, op, signum=None, handler=None):\n"
+"    # 生效条件：op ∈ {register, send}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 信号：注册 handler / 发送信号 / 默认处理（忽略/终止）\n"
             "    if op == 'register':\n"
             "        handlers[signum] = handler\n"
@@ -521,6 +593,9 @@ OS_UNITS = {
         "task": "参数校验",
         "pattern": (
             "def validate_args(args, types):\n"
+"    # 生效条件：参数 args/types 合法\n"
+"    # 子功能：① 调用 zip；② 调用 len；③ 调用 isinstance\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 系统调用参数校验：类型检查（copy_from_user 语义——非法参数拒绝）\n"
             "    if len(args) != len(types):\n"
             "            return False\n"
@@ -538,6 +613,9 @@ OS_UNITS = {
         "task": "日志恢复",
         "pattern": (
             "def journal_replay(entries, disk):\n"
+"    # 生效条件：参数 entries/disk 合法\n"
+"    # 子功能：① 调用 dict\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 文件系统日志：崩溃后重放（journal 条目 → 磁盘状态恢复）\n"
             "    for e in entries:\n"
             "        if e.get('type') == 'write':\n"
@@ -557,6 +635,9 @@ OS_UNITS = {
         "task": "系统监控",
         "pattern": (
             "def sys_metrics(usage_samples):\n"
+"    # 生效条件：参数 usage_samples 合法\n"
+"    # 子功能：① 调用 round；② 调用 max；③ 调用 sum\n"
+"    # 执行：顺序调用\n"
             "    # 系统监控：CPU/内存采样 → 平均/峰值（负载统计）\n"
             "    if not usage_samples:\n"
             "        return {'avg': 0.0, 'peak': 0.0}\n"
@@ -572,6 +653,9 @@ OS_UNITS = {
         "task": "守护进程",
         "pattern": (
             "def daemon_lifecycle(state, op):\n"
+"    # 生效条件：op ∈ {start, status, stop}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 守护进程：启动→运行→停止（后台服务生命周期）\n"
             "    if op == 'start':\n"
             "        state['status'] = 'running'\n"
@@ -592,6 +676,9 @@ OS_UNITS = {
         "task": "信号量",
         "pattern": (
             "def semaphore_op(sem, op):\n"
+"    # 生效条件：op ∈ {P, V}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 信号量：P 减（资源不足阻塞）/ V 加（释放资源）——计数同步\n"
             "    if op == 'P':\n"
             "        if sem['count'] <= 0:\n"
@@ -612,6 +699,9 @@ OS_UNITS = {
         "task": "读写锁",
         "pattern": (
             "def rwlock_op(lock, op):\n"
+"    # 生效条件：op ∈ {r_lock, r_unlock, w_lock, w_unlock}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 读写锁：多读并发/写独占（读者计数 + 写者标志）\n"
             "    if op == 'r_lock':\n"
             "        if lock.get('writer'):\n"
@@ -640,6 +730,9 @@ OS_UNITS = {
         "task": "生产者消费者",
         "pattern": (
             "def producer_consumer(buf, op, item=None):\n"
+"    # 生效条件：op ∈ {consume, produce}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 生产者-消费者：有界缓冲（生产入队/消费出队）\n"
             "    if op == 'produce':\n"
             "        if len(buf) >= 4:\n"
@@ -662,6 +755,9 @@ OS_UNITS = {
         "task": "命名空间",
         "pattern": (
             "def ns_map(op, ns, pid=None):\n"
+"    # 生效条件：op ∈ {lookup, register}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 命名空间隔离：PID/网络视图映射（容器进程 → 命名空间内 PID）\n"
             "    if op == 'register':\n"
             "        ns['inner'] = ns.get('inner', 100) + 1\n"
@@ -680,6 +776,9 @@ OS_UNITS = {
         "task": "资源限制",
         "pattern": (
             "def cgroup_limit(cg, resource, limit, usage):\n"
+"    # 生效条件：参数 cg/resource/limit/usage 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # cgroup：资源配额（CPU/内存 限额，超限拒绝）\n"
             "    if resource not in cg:\n"
             "        cg[resource] = limit\n"
@@ -694,6 +793,9 @@ OS_UNITS = {
         "task": "容器生命周期",
         "pattern": (
             "def container_ops(state, op, img=None):\n"
+"    # 生效条件：op ∈ {create, remove, start, stop}；state.clear 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 容器：创建/启动/停止/删除（镜像 → 运行实例）\n"
             "    if op == 'create':\n"
             "        state['img'] = img\n"
@@ -720,6 +822,9 @@ OS_UNITS = {
         "task": "RAID条带",
         "pattern": (
             "def raid_stripe(data, disks):\n"
+"    # 生效条件：参数 data/disks 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：顺序调用\n"
             "    # RAID 0：数据条带化（分块分布到多盘——并行读写）\n"
             "    if not disks:\n"
             "        return []\n"
@@ -734,6 +839,9 @@ OS_UNITS = {
         "task": "RAID奇偶",
         "pattern": (
             "def raid_parity(blocks):\n"
+"    # 生效条件：参数 blocks 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # RAID 5：XOR 奇偶校验（N-1 容错——单盘故障可恢复）\n"
             "    parity = 0\n"
             "    for b in blocks:\n"
@@ -749,6 +857,9 @@ OS_UNITS = {
         "task": "文件快照",
         "pattern": (
             "def fs_snapshot(blocks, op, idx=None, data=None):\n"
+"    # 生效条件：op ∈ {rollback, snap, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 文件系统快照：写时复制（修改前复制原块——快照一致性）\n"
             "    if op == 'snap':\n"
             "        blocks['snap'] = dict(blocks['data'])\n"
@@ -772,6 +883,9 @@ OS_UNITS = {
         "task": "引导加载",
         "pattern": (
             "def bootloader(disk, stage):\n"
+"    # 生效条件：stage ∈ {initrd, mbr}\n"
+"    # 子功能：1 stage 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # bootloader：MBR→内核加载（引导阶段推进）\n"
             "    if stage == 'mbr':\n"
             "        return ('loaded', disk.get('kernel', 'vmlinuz'))\n"
@@ -788,6 +902,9 @@ OS_UNITS = {
         "task": "初始化流程",
         "pattern": (
             "def init_sequence(services):\n"
+"    # 生效条件：参数 services 合法\n"
+"    # 子功能：① 调用 set；② 调用 sorted；③ 调用 all\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # init 进程：按依赖顺序启动服务（启动序列）\n"
             "    order = []\n"
             "    remaining = set(services)\n"
@@ -809,6 +926,9 @@ OS_UNITS = {
         "task": "固件接口",
         "pattern": (
             "def firmware_call(fw, call):\n"
+"    # 生效条件：call ∈ {get_time, reboot, set_boot}\n"
+"    # 子功能：1 call 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 固件接口：UEFI/BIOS 调用（硬件抽象服务）\n"
             "    if call == 'get_time':\n"
             "        return fw.get('time', 0)\n"
@@ -828,6 +948,9 @@ OS_UNITS = {
         "task": "访问控制",
         "pattern": (
             "def acl_check(acl, subject, resource, action):\n"
+"    # 生效条件：参数 acl/subject/resource/action 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # ACL：访问控制列表（主体→资源→动作 权限判定）\n"
             "    rules = acl.get(resource, [])\n"
             "    for r in rules:\n"
@@ -846,6 +969,9 @@ OS_UNITS = {
         "task": "审计日志",
         "pattern": (
             "def audit_log(log, event, subject):\n"
+"    # 生效条件：参数 log/event/subject 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 审计：安全事件记录（操作 → 日志条目）\n"
             "    log.append({'event': event, 'subject': subject})\n"
             "    return len(log)\n"),
@@ -858,6 +984,9 @@ OS_UNITS = {
         "task": "能力系统",
         "pattern": (
             "def capability(caps, op, cap=None):\n"
+"    # 生效条件：op ∈ {check, grant, revoke}；caps.discard 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 能力：特权令牌（持能力才可操作——最小权限语义）\n"
             "    if op == 'grant':\n"
             "        caps.add(cap)\n"
@@ -879,6 +1008,9 @@ OS_UNITS = {
         "task": "性能分析",
         "pattern": (
             "def profile_funcs(times):\n"
+"    # 生效条件：参数 times 合法\n"
+"    # 子功能：① 调用 sum；② 调用 round；③ 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # profiling：函数耗时统计（累计/平均——热点定位）\n"
             "    total = sum(times)\n"
             "    if not times:\n"
@@ -893,6 +1025,9 @@ OS_UNITS = {
         "task": "瓶颈检测",
         "pattern": (
             "def bottleneck(resources):\n"
+"    # 生效条件：参数 resources 合法\n"
+"    # 子功能：① 调用 max\n"
+"    # 执行：顺序调用\n"
             "    # 瓶颈检测：利用率最高的资源（系统瓶颈定位）\n"
             "    if not resources:\n"
             "        return None\n"
@@ -906,6 +1041,9 @@ OS_UNITS = {
         "task": "调优建议",
         "pattern": (
             "def tuning_advice(metrics):\n"
+"    # 生效条件：参数 metrics 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 调优：指标 → 建议（瓶颈 → 调整参数）\n"
             "    adv = []\n"
             "    if metrics.get('cpu', 0) > 80:\n"
@@ -925,6 +1063,9 @@ OS_UNITS = {
         "task": "磁盘配额",
         "pattern": (
             "def quota_check(quotas, user, usage, size):\n"
+"    # 生效条件：参数 quotas/user/usage/size 合法\n"
+"    # 子功能：① 调用 float\n"
+"    # 执行：顺序调用\n"
             "    # 磁盘配额：用户使用量 + 新写入 ≤ 限额（超限拒绝）\n"
             "    limit = quotas.get(user, float('inf'))\n"
             "    return usage + size <= limit\n"),
@@ -938,6 +1079,9 @@ OS_UNITS = {
         "task": "文件锁",
         "pattern": (
             "def file_lock(state, op):\n"
+"    # 生效条件：op ∈ {lock, unlock}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 文件锁：flock 语义（独占/释放——并发写保护）\n"
             "    if op == 'lock':\n"
             "        if state.get('locked'):\n"
@@ -958,6 +1102,9 @@ OS_UNITS = {
         "task": "资源限额",
         "pattern": (
             "def rlimit(res, op, soft=None):\n"
+"    # 生效条件：op ∈ {check, get, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # ulimit：进程资源限制（设置/查询软限制）\n"
             "    if op == 'set':\n"
             "        res['soft'] = soft\n"
@@ -977,6 +1124,9 @@ OS_UNITS = {
         "task": "安全启动",
         "pattern": (
             "def secure_boot(chain, keyring):\n"
+"    # 生效条件：参数 chain/keyring 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 安全启动：启动组件签名验证链（未签名/密钥不符拒绝）\n"
             "    for comp in chain:\n"
             "        if comp not in keyring:\n"
@@ -991,6 +1141,9 @@ OS_UNITS = {
         "task": "TPM度量",
         "pattern": (
             "def tpm_measure(pcr, component):\n"
+"    # 生效条件：参数 pcr/component 合法\n"
+"    # 子功能：① 调用 sum；② 调用 ord\n"
+"    # 执行：顺序调用\n"
             "    # TPM 度量：PCR 扩展（哈希累加——信任链度量）\n"
             "    h = sum(ord(c) for c in component) % 256\n"
             "    pcr = (pcr + h) % 256\n"
@@ -1005,6 +1158,9 @@ OS_UNITS = {
         "task": "哈希校验",
         "pattern": (
             "def hash_verify(file_hash, expected):\n"
+"    # 生效条件：参数 file_hash/expected 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 文件完整性：哈希比对（不匹配 → 篡改告警）\n"
             "    if file_hash == expected:\n"
             "        return 'integrity_ok'\n"
@@ -1018,6 +1174,9 @@ OS_UNITS = {
         "task": "热插拔",
         "pattern": (
             "def hotplug(bus, op, device=None):\n"
+"    # 生效条件：op ∈ {list, plug, unplug}；bus.discard 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 热插拔：设备接入/移除（运行中动态管理）\n"
             "    if op == 'plug':\n"
             "        bus.add(device)\n"
@@ -1038,6 +1197,9 @@ OS_UNITS = {
         "task": "即插即用",
         "pattern": (
             "def plug_and_play(device, drivers):\n"
+"    # 生效条件：device.startswith 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 即插即用：设备 ID → 自动匹配驱动（免手动配置）\n"
             "    for d in drivers:\n"
             "        if device.startswith(d['vendor']):\n"
@@ -1054,6 +1216,9 @@ OS_UNITS = {
         "task": "设备树",
         "pattern": (
             "def device_tree_lookup(tree, node):\n"
+"    # 生效条件：参数 tree/node 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 设备树：硬件拓扑节点查找（属性查询）\n"
             "    return tree.get(node)\n"),
         "cases": [(({'uart0': {'compatible': 'ns16550'}}, 'uart0'),
@@ -1066,6 +1231,9 @@ OS_UNITS = {
         "task": "消息队列",
         "pattern": (
             "def msg_queue_ops(q, op, mtype=None, body=None):\n"
+"    # 生效条件：op ∈ {count, recv, send}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 消息队列：send 按类型投递 / recv 按类型取最早 / count 统计\n"
             "    # （SysV msg 语义：消息带类型，按类型取）\n"
             "    if op == 'send':\n"
@@ -1091,6 +1259,9 @@ OS_UNITS = {
         "task": "共享内存",
         "pattern": (
             "def shm_ops(segments, key, op, offset=0, value=None, size=0):\n"
+"    # 生效条件：op ∈ {attach, detach, read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 共享内存：attach 挂接 / write 写偏移 / read 读偏移 / detach 释放\n"
             "    # （多进程映射同一物理页，引用计数）\n"
             "    if op == 'attach':\n"
@@ -1121,6 +1292,9 @@ OS_UNITS = {
         "task": "邮箱",
         "pattern": (
             "def mailbox_ops(mb, op, msg=None):\n"
+"    # 生效条件：op ∈ {get, put}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 邮箱：put 投递 / get 取最早（FIFO）/ 空返回 None\n"
             "    # （异步消息槽，收发进程解耦）\n"
             "    if op == 'put':\n"
@@ -1140,6 +1314,9 @@ OS_UNITS = {
         "task": "多级反馈队列",
         "pattern": (
             "def mlfq_ops(queues, op, pid=None, level=None, boost_to=0):\n"
+"    # 生效条件：op ∈ {boost, enqueue, pick}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 多级反馈队列：enqueue 按等级入队 / pick 取最高级队首\n"
             "    # / boost 低优先级提升（防饿死）\n"
             "    if op == 'enqueue':\n"
@@ -1171,6 +1348,9 @@ OS_UNITS = {
         "task": "实时调度",
         "pattern": (
             "def edf_pick(ready, now):\n"
+"    # 生效条件：参数 ready/now 合法\n"
+"    # 子功能：① 调用 min\n"
+"    # 执行：顺序调用\n"
             "    # 实时调度：最早截止时间优先（EDF——deadline 最近者先执行）\n"
             "    if not ready:\n"
             "        return None\n"
@@ -1185,6 +1365,9 @@ OS_UNITS = {
         "task": "文件系统调用",
         "pattern": (
             "def syscall_file(op, fd_table, fd=None, path=None, data=None, mode='r'):\n"
+"    # 生效条件：op ∈ {close, open, read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 系统调用：open/read/write/close 分派（fd 表管理文件操作）\n"
             "    if op == 'open':\n"
             "        fd_table.append({'path': path, 'mode': mode, 'data': data or ''})\n"
@@ -1236,6 +1419,9 @@ OS_UNITS = {
         "task": "写时复制",
         "pattern": (
             "def cow_write(pages, idx, value, shared_set):\n"
+"    # 生效条件：shared_set.discard 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 写时复制：写共享页 → 复制新页再写（原页保留，fork COW 语义）\n"
             "    if idx in shared_set:\n"
             "        pages[idx] = value\n"
@@ -1253,6 +1439,9 @@ OS_UNITS = {
         "task": "内存压缩",
         "pattern": (
             "def memory_compress(pages, threshold):\n"
+"    # 生效条件：参数 pages/threshold 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 内存压缩：超长页压缩存储（zswap——节省物理内存）\n"
             "    saved = 0\n"
             "    for p in pages:\n"
@@ -1269,6 +1458,9 @@ OS_UNITS = {
         "task": "文件链接",
         "pattern": (
             "def link_ops(fs, op, name=None, target=None):\n"
+"    # 生效条件：op ∈ {hard, resolve, soft}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 文件链接：hard 硬链接（共享 inode）/ soft 软链接（路径引用）/ resolve 解析\n"
             "    if op == 'hard':\n"
             "        if target in fs:\n"
@@ -1299,6 +1491,9 @@ OS_UNITS = {
         "task": "文件元数据",
         "pattern": (
             "def stat_file(fs, name):\n"
+"    # 生效条件：参数 fs/name 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 文件元数据：stat 查询（大小/权限/类型——文件信息）\n"
             "    f = fs.get(name)\n"
             "    if f is None:\n"
@@ -1316,6 +1511,9 @@ OS_UNITS = {
         "task": "内存映射",
         "pattern": (
             "def mmap_ops(maps, op, path=None, offset=0, size=0, data=None):\n"
+"    # 生效条件：op ∈ {map, read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 内存映射：map 映射文件段到内存 / read 读偏移 / write 写偏移回写\n"
             "    if op == 'map':\n"
             "        maps[path] = {'offset': offset, 'size': size,\n"
@@ -1341,6 +1539,9 @@ OS_UNITS = {
         "task": "屏障同步",
         "pattern": (
             "def barrier_ops(state, op, n=None):\n"
+"    # 生效条件：op ∈ {wait}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 屏障同步：wait 到达汇合点 / 全部到达释放（多线程同步汇合）\n"
             "    if op == 'wait':\n"
             "        state['arrived'] = state.get('arrived', 0) + 1\n"
@@ -1359,6 +1560,9 @@ OS_UNITS = {
         "task": "工作池",
         "pattern": (
             "def worker_pool(tasks, workers):\n"
+"    # 生效条件：参数 tasks/workers 合法\n"
+"    # 子功能：① 调用 enumerate；② 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 工作池：任务队列分发给固定 worker（并发处理，轮询负载均衡）\n"
             "    out = [[] for _ in range(workers)]\n"
             "    for i, t in enumerate(tasks):\n"
@@ -1374,6 +1578,9 @@ OS_UNITS = {
         "task": "进程生命周期",
         "pattern": (
             "def proc_life(states, op, pid=None, code=0):\n"
+"    # 生效条件：op ∈ {exec, fork, wait}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 进程生命周期：fork 创建 / exec 执行 / wait 等待退出（状态机）\n"
             "    if op == 'fork':\n"
             "        states[pid] = 'created'\n"
@@ -1400,6 +1607,9 @@ OS_UNITS = {
         "task": "磁盘调度",
         "pattern": (
             "def scan_schedule(requests, head, direction=1):\n"
+"    # 生效条件：参数 requests/head/direction 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：顺序调用\n"
             "    # 磁盘调度：SCAN 电梯算法（单向扫描到端再折返）\n"
             "    up = sorted(r for r in requests if r >= head)\n"
             "    down = sorted((r for r in requests if r < head), reverse=True)\n"
@@ -1417,7 +1627,10 @@ OS_UNITS = {
         "pattern": (
             "def cow_snapshot(blocks, op, snapshot=None, block=None, data=None,\n"
             "                 snapshots=None):\n"
-            "    # 写时复制快照：snapshot 冻结块引用 / write 写块时快照侧冻结原值\n"
+            "    # 写时复制快照（COW 快照）：snapshot 冻结块引用 / write 写块时快照侧冻结原值\n"
+            "    # 生效条件：op ∈ {snapshot, write}；snapshots 为快照表（可空）\n"
+            "    # 子功能：① snapshot 冻结块引用 ② write 写块时复制原值\n"
+            "    # 执行：按 op 分派快照/写时复制\n"
             "    snapshots = snapshots if snapshots is not None else {}\n"
             "    if op == 'snapshot':\n"
             "        snapshots[snapshot] = dict(blocks)\n"
@@ -1444,6 +1657,9 @@ OS_UNITS = {
         "task": "磨损均衡",
         "pattern": (
             "def wear_leveling(blocks, op, block=None):\n"
+"    # 生效条件：op ∈ {pick, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 磨损均衡：写块记录写入次数，pick 选最少磨损块（SSD 寿命）\n"
             "    if op == 'write':\n"
             "        blocks[block] = blocks.get(block, 0) + 1\n"
@@ -1463,6 +1679,9 @@ OS_UNITS = {
         "task": "强制访问控制",
         "pattern": (
             "def mac_check(policy, subject_label, object_label, action):\n"
+"    # 生效条件：参数 policy/subject_label/object_label/action 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # MAC 强制访问控制：标签对操作授权（安全标签规则表——强制策略）\n"
             "    rules = policy.get('rules', {})\n"
             "    return rules.get((subject_label, object_label, action), 'denied')\n"),
@@ -1478,6 +1697,9 @@ OS_UNITS = {
         "task": "系统调用过滤",
         "pattern": (
             "def seccomp_filter(syscalls, op, name=None):\n"
+"    # 生效条件：op ∈ {allow, check}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 系统调用过滤：seccomp——白名单拦截（沙箱限制进程能力）\n"
             "    if op == 'allow':\n"
             "        syscalls.add(name)\n"
@@ -1495,6 +1717,9 @@ OS_UNITS = {
         "task": "加密文件系统",
         "pattern": (
             "def crypt_fs(fs, op, path=None, data=None, key=7):\n"
+"    # 生效条件：op ∈ {read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 加密文件系统：write 加密存储 / read 解密读取（透明加解密）\n"
             "    if op == 'write':\n"
             "        fs[path] = ''.join(chr(ord(c) ^ key) for c in data)\n"
@@ -1515,6 +1740,9 @@ OS_UNITS = {
         "task": "服务管理",
         "pattern": (
             "def service_ops(services, op, name=None):\n"
+"    # 生效条件：op ∈ {start, status, stop}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 服务管理：start 启动 / stop 停止 / status 查询（服务生命周期）\n"
             "    if op == 'start':\n"
             "        services[name] = 'running'\n"
@@ -1538,6 +1766,9 @@ OS_UNITS = {
         "task": "日志轮转",
         "pattern": (
             "def log_rotate(logs, op, name=None, size=0, limit=1024):\n"
+"    # 生效条件：op ∈ {append, size}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 日志轮转：append 追加（超限轮转）/ size 查询（logrotate）\n"
             "    if op == 'append':\n"
             "        entry = logs.setdefault(name, {'size': 0, 'rotations': 0})\n"
@@ -1562,6 +1793,9 @@ OS_UNITS = {
         "task": "定时任务",
         "pattern": (
             "def cron_match(rule, minute, hour):\n"
+"    # 生效条件：参数 rule/minute/hour 合法\n"
+"    # 子功能：① 调用 int\n"
+"    # 执行：顺序调用\n"
             "    # 定时任务：cron 规则匹配（'*' 任意 / 数字精确——分钟小时）\n"
             "    m_rule, h_rule = rule.split()\n"
             "    m_ok = m_rule == '*' or int(m_rule) == minute\n"
@@ -1578,6 +1812,9 @@ OS_UNITS = {
         "task": "配置管理",
         "pattern": (
             "def config_ops(config, op, key=None, value=None, default=None):\n"
+"    # 生效条件：op ∈ {get, list, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 配置管理：set 设置 / get 读取（默认值）/ list 列出（键值配置）\n"
             "    if op == 'set':\n"
             "        config[key] = value\n"
@@ -1598,6 +1835,9 @@ OS_UNITS = {
         "task": "权限提升",
         "pattern": (
             "def sudo_check(auth, op, user=None, command=None):\n"
+"    # 生效条件：op ∈ {check, run}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 权限提升：check 校验授权 / run 提权执行（sudo——命令白名单）\n"
             "    if op == 'check':\n"
             "        if user in auth and command in auth[user]:\n"
@@ -1619,6 +1859,9 @@ OS_UNITS = {
         "task": "环境变量",
         "pattern": (
             "def env_ops(env, op, name=None, value=None, default=None):\n"
+"    # 生效条件：op ∈ {get, set, unset}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 环境变量：set 设置 / get 读取（默认值）/ unset 删除（进程环境）\n"
             "    if op == 'set':\n"
             "        env[name] = value\n"
@@ -1639,6 +1882,9 @@ OS_UNITS = {
         "task": "网络接口",
         "pattern": (
             "def netif_ops(interfaces, op, name=None, addr=None, up=None):\n"
+"    # 生效条件：op ∈ {configure, set_state, status}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 网络接口：configure 配置 / status 查询 / set_state 启停（网卡抽象）\n"
             "    if op == 'configure':\n"
             "        interfaces[name] = {'addr': addr, 'up': up}\n"
@@ -1664,6 +1910,9 @@ OS_UNITS = {
         "task": "设备驱动",
         "pattern": (
             "def driver_register(drivers, op, device=None, driver=None):\n"
+"    # 生效条件：op ∈ {match, register}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
             "    # 设备驱动：register 注册 / match 匹配（设备 ID→驱动）\n"
             "    if op == 'register':\n"
             "        drivers[driver] = device\n"
@@ -1684,6 +1933,9 @@ OS_UNITS = {
         "task": "电源管理",
         "pattern": (
             "def power_ops(state, op):\n"
+"    # 生效条件：op ∈ {resume, status, suspend}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 电源管理：suspend 休眠 / resume 唤醒 / status 状态（ACPI）\n"
             "    if op == 'suspend':\n"
             "        state['power'] = 'suspended'\n"
@@ -1705,6 +1957,9 @@ OS_UNITS = {
         "task": "文件压缩",
         "pattern": (
             "def file_compress(data, mode):\n"
+"    # 生效条件：mode ∈ {compress, decompress}\n"
+"    # 子功能：1 mode 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 文件压缩：compress RLE 行程编码 / decompress 还原（体积优化）\n"
             "    if mode == 'compress':\n"
             "        out = []\n"
@@ -1729,6 +1984,9 @@ OS_UNITS = {
         "task": "存储池",
         "pattern": (
             "def storage_pool(pool, op, name=None, size=0):\n"
+"    # 生效条件：op ∈ {alloc, create, free, status}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 存储池：create 建池 / alloc 分配（容量扣减）/ free 释放 / status 状态\n"
             "    if op == 'create':\n"
             "        pool[name] = {'total': size, 'used': 0}\n"
@@ -1767,6 +2025,9 @@ OS_UNITS = {
         "task": "文件版本",
         "pattern": (
             "def file_version(versions, op, name=None, content=None):\n"
+"    # 生效条件：op ∈ {get, list, save}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 文件版本：save 存版本 / list 版本列表 / get 取最新（版本历史）\n"
             "    if op == 'save':\n"
             "        versions.setdefault(name, []).append(content)\n"
@@ -1789,6 +2050,9 @@ OS_UNITS = {
         "task": "条件变量",
         "pattern": (
             "def cond_var(state, op, waiters=None):\n"
+"    # 生效条件：op ∈ {notify, notify_all, wait}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 条件变量：wait 等待 / notify 通知一个 / notify_all 全部（条件同步）\n"
             "    if op == 'wait':\n"
             "        state.setdefault('waiting', []).append(waiters)\n"
@@ -1814,6 +2078,9 @@ OS_UNITS = {
         "task": "自旋锁",
         "pattern": (
             "def spinlock(lock, op):\n"
+"    # 生效条件：op ∈ {acquire, release}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 自旋锁：acquire 忙等获取 / release 释放（锁状态）\n"
             "    if op == 'acquire':\n"
             "        if lock.get('held'):\n"
@@ -1837,6 +2104,9 @@ OS_UNITS = {
         "task": "抢占轮转",
         "pattern": (
             "def round_robin(ready, op, quantum=None, current=None):\n"
+"    # 生效条件：op ∈ {preempt, run, status}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 时间片轮转：run 执行队首 / preempt 时间片耗尽抢占回队尾（RR）\n"
             "    if op == 'run':\n"
             "        if not ready:\n"
@@ -1860,6 +2130,9 @@ OS_UNITS = {
         "task": "优先级继承",
         "pattern": (
             "def prio_inherit(state, op, holder=None, waiter=None):\n"
+"    # 生效条件：op ∈ {inherit, restore, wait}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 优先级继承：wait 等待锁 / inherit 继承高优先 / restore 恢复（防优先级反转）\n"
             "    if op == 'wait':\n"
             "        state['holder'] = holder\n"
@@ -1885,6 +2158,9 @@ OS_UNITS = {
         "task": "内存池",
         "pattern": (
             "def pool_alloc(state, op, size=None):\n"
+"    # 生效条件：op ∈ {alloc, free, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 内存池：alloc 分配 / free 释放 / stats 统计（固定块池）\n"
             "    if op == 'alloc':\n"
             "        free = state.setdefault('free', [])\n"
@@ -1912,6 +2188,9 @@ OS_UNITS = {
         "task": "稀疏文件",
         "pattern": (
             "def sparse_file(state, op, offset=None, data=None):\n"
+"    # 生效条件：op ∈ {holes, read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 稀疏文件：write 写数据块 / read 读（空洞返回零）/ holes 空洞统计（稀疏存储）\n"
             "    if op == 'write':\n"
             "        state.setdefault('blocks', {})[offset] = data\n"
@@ -1935,6 +2214,9 @@ OS_UNITS = {
         "task": "碎片整理",
         "pattern": (
             "def defrag(disk, op):\n"
+"    # 生效条件：op ∈ {compact, frags, scan}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 碎片整理：scan 扫描空洞 / compact 压实 / frags 碎片数（磁盘整理）\n"
             "    if op == 'scan':\n"
             "        return [i for i, b in enumerate(disk) if b is None]\n"
@@ -1956,6 +2238,9 @@ OS_UNITS = {
         "task": "段式管理",
         "pattern": (
             "def segment_map(state, op, seg=None, base=None, limit=None):\n"
+"    # 生效条件：op ∈ {access, base, map}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 段式管理：map 登记段 / access 越界检查 / base 基址查询（分段内存）\n"
             "    if op == 'map':\n"
             "        state.setdefault('segs', {})[seg] = (base, limit)\n"
@@ -1982,6 +2267,9 @@ OS_UNITS = {
         "task": "时钟节拍",
         "pattern": (
             "def timer_tick(state, op, hz=None):\n"
+"    # 生效条件：op ∈ {elapsed, hz, tick}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 时钟节拍：tick 推进 / elapsed 已过 / hz 频率（定时器中断）\n"
             "    if op == 'tick':\n"
             "        state['t'] = state.get('t', 0) + 1\n"
@@ -2003,6 +2291,9 @@ OS_UNITS = {
         "task": "孤儿进程",
         "pattern": (
             "def orphan_proc(state, op, pid=None):\n"
+"    # 生效条件：op ∈ {adopt, orphaned, parent}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 孤儿进程：adopt 收养 / orphaned 孤儿列表 / parent 查询（父亡子被 init 收养）\n"
             "    if op == 'adopt':\n"
             "        state.setdefault('adopted', []).append(pid)\n"
@@ -2024,6 +2315,9 @@ OS_UNITS = {
         "task": "内存碎片",
         "pattern": (
             "def mem_frag(state, op, hole=None):\n"
+"    # 生效条件：op ∈ {holes, rate, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 内存碎片：record 记录空洞 / rate 碎片率 / holes 空洞数（碎片化度量）\n"
             "    if op == 'record':\n"
             "        state.setdefault('holes', []).append(hole)\n"
@@ -2047,6 +2341,9 @@ OS_UNITS = {
         "task": "多核均衡",
         "pattern": (
             "def multi_core(state, op, load=None):\n"
+"    # 生效条件：op ∈ {assign, balance, loads}；cores.index 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 多核均衡：assign 分核 / balance 均衡迁移 / loads 各核负载（SMP 负载均衡）\n"
             "    if op == 'assign':\n"
             "        cores = state.setdefault('cores', [])\n"
@@ -2075,6 +2372,9 @@ OS_UNITS = {
         "task": "僵尸进程",
         "pattern": (
             "def zombie_proc(state, op, pid=None):\n"
+"    # 生效条件：op ∈ {exit, reap, zombies}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 僵尸进程：exit 退出未回收 / reap 回收 / zombies 列表（进程生命周期）\n"
             "    if op == 'exit':\n"
             "        state.setdefault('zombies', []).append(pid)\n"
@@ -2100,6 +2400,9 @@ OS_UNITS = {
         "task": "内存热插拔",
         "pattern": (
             "def mem_hotplug(state, op, node=None, size=None):\n"
+"    # 生效条件：op ∈ {nodes, offline, online}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 内存热插拔：online 上线 / offline 下线 / nodes 节点表（内存热添加）\n"
             "    if op == 'online':\n"
             "        state.setdefault('nodes', {})[node] = size\n"
@@ -2124,6 +2427,9 @@ OS_UNITS = {
         "task": "文件系统日志",
         "pattern": (
             "def journal(state, op, entry=None):\n"
+"    # 生效条件：op ∈ {log, pending, replay}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 文件系统日志：log 记录 / replay 重放 / pending 待重放（journaling）\n"
             "    if op == 'log':\n"
             "        state.setdefault('journal', []).append(entry)\n"
@@ -2147,6 +2453,9 @@ OS_UNITS = {
         "task": "进程组",
         "pattern": (
             "def proc_group(state, op, pgid=None, pid=None):\n"
+"    # 生效条件：op ∈ {join, members, signal}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 进程组：join 入组 / members 组员 / signal 组播信号（作业控制）\n"
             "    if op == 'join':\n"
             "        state.setdefault('groups', {}).setdefault(pgid, []).append(pid)\n"
@@ -2169,6 +2478,9 @@ OS_UNITS = {
         "task": "页缓存",
         "pattern": (
             "def page_cache(state, op, page=None, data=None):\n"
+"    # 生效条件：op ∈ {get, put, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 页缓存：get 命中读 / put 写入缓存 / stats 命中率（文件页缓存）\n"
             "    if op == 'put':\n"
             "        state.setdefault('cache', {})[page] = data\n"
@@ -2197,6 +2509,9 @@ OS_UNITS = {
         "task": "亲和性",
         "pattern": (
             "def cpu_affinity(state, op, pid=None, cpu=None):\n"
+"    # 生效条件：op ∈ {allowed, get, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 亲和性：set 绑定核 / get 查询 / allowed 允许核集（CPU affinity）\n"
             "    if op == 'set':\n"
             "        state.setdefault('aff', {})[pid] = cpu\n"

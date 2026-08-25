@@ -12,7 +12,10 @@ GRAPH_UNITS = {
         "task": "图存储",
         "pattern": (
             "class Graph:\n"
-            "    # 图存储：节点 + 有向边（知识=节点，条件链=边）\n"
+            "    # 图存储（图）：节点 + 有向边（知识=节点，条件链=边）\n"
+            "    # 生效条件：节点名可哈希；边两端节点存在\n"
+            "    # 子功能：① 加节点 ② 加边 ③ 邻居查询 ④ 删边\n"
+            "    # 执行：节点集合 + 邻接表（去重边）\n"
             "    def __init__(self):\n"
             "        # 构造：初始化节点集合与邻接表\n"
             "        self.nodes = set()\n"
@@ -35,6 +38,9 @@ GRAPH_UNITS = {
             "        if src in self.edges and dst in self.edges[src]:\n"
             "            self.edges[src].remove(dst)\n"
             "def graph_ops():\n"
+"    # 生效条件：g.add_edge 可用；g.neighbors 可用\n"
+"    # 子功能：① 调用 Graph；② 调用 sorted\n"
+"    # 执行：顺序调用\n"
             "    # 演示：建边并查询节点与邻居（图存储语义）\n"
             "    g = Graph()\n"
             "    g.add_edge('气压低', '沸点降')\n"
@@ -124,6 +130,9 @@ GRAPH_UNITS = {
         "task": "条件路由映射",
         "pattern": (
             "def units_to_graph(units):\n"
+"    # 生效条件：g.add_node 可用；g.add_edge 可用\n"
+"    # 子功能：① 调用 Graph\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 条件单元库 → 条件路由图：知识=节点，conditions=入边（条件→知识）\n"
             "    # units: {知识名: {'conditions': [条件...]}}\n"
             "    g = Graph()\n"
@@ -142,6 +151,9 @@ GRAPH_UNITS = {
         "task": "图文件",
         "pattern": (
             "def save_graph(graph, path):\n"
+"    # 生效条件：json.dump 可用\n"
+"    # 子功能：① 调用 open；② 调用 sorted\n"
+"    # 执行：顺序调用\n"
             "    # 图 → .cgdb 文件（条件图数据库文件）\n"
             "    import json\n"
             "    with open(path, 'w', encoding='utf-8') as f:\n"
@@ -178,6 +190,9 @@ GRAPH_UNITS = {
         "task": "路径枚举",
         "pattern": (
             "def all_paths(graph, start, end, max_len=5):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 dfs；② 调用 sorted；③ 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 枚举 start→end 所有路径（条件链组合——可解释路径）\n"
             "    paths = []\n"
             "    def dfs(cur, path):\n"
@@ -237,6 +252,9 @@ GRAPH_UNITS = {
         "task": "加权最短路径",
         "pattern": (
             "def dijkstra(graph, weights, start, end):\n"
+"    # 生效条件：heapq.heappop 可用；graph.neighbors 可用\n"
+"    # 子功能：① 调用 float\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 加权最短路径：Dijkstra 贪心（权重=条件链代价/信任度倒数，小=优）\n"
             "    import heapq\n"
             "    dist = {start: 0}\n"
@@ -272,6 +290,9 @@ GRAPH_UNITS = {
         "task": "路由查询",
         "pattern": (
             "def route_query(graph, condition):\n"
+"    # 生效条件：queue.popleft 可用；graph.neighbors 可用\n"
+"    # 子功能：① 调用 sorted；② 调用 set；③ 调用 deque\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 条件路由查询：从条件出发影响传播 → 可达规律（影响面，不含起点）\n"
             "    from collections import deque\n"
             "    visited, queue = set(), deque([condition])\n"
@@ -291,6 +312,9 @@ GRAPH_UNITS = {
         "task": "条件单元对接",
         "pattern": (
             "def build_from_condition_units(units):\n"
+"    # 生效条件：g.add_node 可用；g.add_edge 可用\n"
+"    # 子功能：① 调用 Graph\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # compose_engine.CONDITION_UNITS → 条件路由图（知识=单元，conditions=条件入边）\n"
             "    g = Graph()\n"
             "    for name, u in units.items():\n"
@@ -319,6 +343,9 @@ GRAPH_UNITS = {
         "task": "模式匹配",
         "pattern": (
             "def match_pattern(graph, src, rel, dst):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 图查询语言：MATCH (a)-[r]->(b) 模式 → 匹配的三元组集合\n"
             "    # src/dst 支持 None=任意节点；rel 支持 None=任意边\n"
             "    results = []\n"
@@ -341,6 +368,9 @@ GRAPH_UNITS = {
         "task": "聚合查询",
         "pattern": (
             "def aggregate_by(graph, key_fn):\n"
+"    # 生效条件：参数 graph/key_fn 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 key_fn\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 图查询语言：按条件分组聚合（每节点 → 出度计数，GROUP BY 语义）\n"
             "    groups = {}\n"
             "    for node in sorted(graph.nodes):\n"
@@ -416,6 +446,9 @@ GRAPH_UNITS = {
         "task": "属性索引",
         "pattern": (
             "def index_by_attr(nodes, attr):\n"
+"    # 生效条件：参数 nodes/attr 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 图数据库索引：按属性值分组 → 快速查找（索引加速语义）\n"
             "    idx = {}\n"
             "    for nid, props in nodes.items():\n"
@@ -434,6 +467,9 @@ GRAPH_UNITS = {
         "task": "子图匹配",
         "pattern": (
             "def subgraph_match(graph, pattern):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 图查询：模式子图匹配（pattern=[(src, dst), ...] 边列表 → 存在性）\n"
             "    # 所有边都在图中存在 → 匹配成功（子图同构简化版）\n"
             "    for s, d in pattern:\n"
@@ -450,6 +486,9 @@ GRAPH_UNITS = {
         "task": "PageRank",
         "pattern": (
             "def pagerank(graph, iterations=5, damping=0.85):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 sorted；② 调用 len；③ 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # PageRank：权重迭代传播（出链均分，阻尼因子防死端）\n"
             "    nodes = sorted(graph.nodes)\n"
             "    n = len(nodes)\n"
@@ -538,6 +577,9 @@ GRAPH_UNITS = {
         "task": "执行计划",
         "pattern": (
             "def query_plan(conditions, stats):\n"
+"    # 生效条件：参数 conditions/stats 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：顺序调用\n"
             "    # 查询执行计划：按选择性排序条件（低选择性先执行——查询优化语义）\n"
             "    plan = sorted(conditions, key=lambda c: stats.get(c, 0))\n"
             "    return plan\n"),
@@ -551,6 +593,9 @@ GRAPH_UNITS = {
         "task": "批量建图",
         "pattern": (
             "def batch_edges(graph, edges):\n"
+"    # 生效条件：graph.add_edge 可用\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 批量建图：一次添加多条边（批量导入语义）\n"
             "    for src, dst in edges:\n"
             "        graph.add_edge(src, dst)\n"
@@ -564,6 +609,9 @@ GRAPH_UNITS = {
         "task": "布隆过滤",
         "pattern": (
             "def bloom_filter(items, probe):\n"
+"    # 生效条件：参数 items/probe 合法\n"
+"    # 子功能：① 调用 sum；② 调用 h1；③ 调用 h2\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 布隆过滤器：多哈希位数组（成员可能判定，误报可接受）\n"
             "    size = 64\n"
             "    bits = [False] * size\n"
@@ -586,6 +634,9 @@ GRAPH_UNITS = {
         "task": "节点相似度",
         "pattern": (
             "def jaccard_similarity(graph, a, b):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 set；② 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 节点相似度：Jaccard（共同邻居 / 邻居并集）——推荐语义\n"
             "    na = set(graph.neighbors(a))\n"
             "    nb = set(graph.neighbors(b))\n"
@@ -601,6 +652,9 @@ GRAPH_UNITS = {
         "task": "图同构判定",
         "pattern": (
             "def graph_isomorphic(edges_a, edges_b):\n"
+"    # 生效条件：参数 edges_a/edges_b 合法\n"
+"    # 子功能：① 调用 set；② 调用 deg_seq；③ 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 图同构（简化）：边数+节点度序列 相同 → 可能同构（必要条件）\n"
             "    def deg_seq(edges):\n"
             "        nodes = set()\n"
@@ -622,6 +676,9 @@ GRAPH_UNITS = {
         "task": "社区发现",
         "pattern": (
             "def label_propagation(graph, iterations=3):\n"
+"    # 生效条件：graph.neighbors 可用；cnt.most_common 可用\n"
+"    # 子功能：① 调用 range；② 调用 sorted；③ 调用 Counter\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 社区发现：标签传播（LPA——节点取邻居多数标签收敛）\n"
             "    labels = {n: n for n in graph.nodes}\n"
             "    for _ in range(iterations):\n"
@@ -642,6 +699,9 @@ GRAPH_UNITS = {
         "task": "图导出灵枢",
         "pattern": (
             "def graph_to_memories(graph, max_chain=4):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 条件路由图 → 灵枢记忆条目（每节点=条件链卡，可写入灵枢记忆库）\n"
             "    mems = []\n"
             "    for node in sorted(graph.nodes):\n"
@@ -661,6 +721,9 @@ GRAPH_UNITS = {
         "task": "快照版本",
         "pattern": (
             "def snapshot_ops(repo, op, version=None, state=None):\n"
+"    # 生效条件：op ∈ {list, restore, save}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 图版本快照：保存/回溯（时间点恢复语义）\n"
             "    if op == 'save':\n"
             "        ver = repo.get('next', 1)\n"
@@ -683,6 +746,9 @@ GRAPH_UNITS = {
         "task": "时序查询",
         "pattern": (
             "def time_query(history, time):\n"
+"    # 生效条件：参数 history/time 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 时序图查询：时间点 → 该时刻图状态（快照序列检索）\n"
             "    snaps = sorted(history.keys())\n"
             "    cur = {}\n"
@@ -702,6 +768,9 @@ GRAPH_UNITS = {
         "task": "增量更新",
         "pattern": (
             "def incr_update(graph, edge, op):\n"
+"    # 生效条件：op ∈ {add, remove}；graph.add_edge 可用；graph.remove_edge 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 动态图增量：边增删（增量维护，不重建全图）\n"
             "    src, dst = edge\n"
             "    if op == 'add':\n"
@@ -720,6 +789,9 @@ GRAPH_UNITS = {
         "task": "分区分片",
         "pattern": (
             "def graph_shard(nodes, shards):\n"
+"    # 生效条件：参数 nodes/shards 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 range；③ 调用 sum\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 图分区：节点确定性哈希 → 分片（水平扩展语义）\n"
             "    parts = {i: [] for i in range(shards)}\n"
             "    for n in nodes:\n"
@@ -734,6 +806,9 @@ GRAPH_UNITS = {
         "task": "主从复制",
         "pattern": (
             "def replication(replicas, op, key=None, value=None):\n"
+"    # 生效条件：op ∈ {read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 主从复制：写主节点 → 同步从节点（读扩展/容错）\n"
             "    if op == 'write':\n"
             "        for r in replicas:\n"
@@ -752,6 +827,9 @@ GRAPH_UNITS = {
         "task": "分布式查询",
         "pattern": (
             "def dist_query(shards, query_fn):\n"
+"    # 生效条件：参数 shards/query_fn 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 query_fn\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 分布式查询：各分片并行查 → 合并结果（MapReduce 语义）\n"
             "    results = []\n"
             "    for shard in shards:\n"
@@ -766,6 +844,9 @@ GRAPH_UNITS = {
         "task": "力导向布局",
         "pattern": (
             "def force_layout(nodes, edges, iterations=2):\n"
+"    # 生效条件：参数 nodes/edges/iterations 合法\n"
+"    # 子功能：① 调用 range；② 调用 round；③ 调用 enumerate\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 力导向布局：斥力+引力迭代（节点坐标稳定——图可视化）\n"
             "    pos = {n: i * 1.0 for i, n in enumerate(nodes)}  # 初始线性\n"
             "    for _ in range(iterations):\n"
@@ -786,6 +867,9 @@ GRAPH_UNITS = {
         "task": "分层布局",
         "pattern": (
             "def layer_layout(graph):\n"
+"    # 生效条件：q.popleft 可用；graph.neighbors 可用\n"
+"    # 子功能：① 调用 deque；② 调用 min；③ 调用 any\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 分层布局：按 BFS 深度分层（层次坐标——层级图可视化）\n"
             "    from collections import deque\n"
             "    starts = [n for n in graph.nodes if not any(\n"
@@ -812,6 +896,9 @@ GRAPH_UNITS = {
         "task": "邻接矩阵",
         "pattern": (
             "def adjacency_matrix(graph):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 sorted；② 调用 enumerate；③ 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 邻接矩阵：节点 × 节点 0/1（图的结构矩阵表示）\n"
             "    nodes = sorted(graph.nodes)\n"
             "    idx = {n: i for i, n in enumerate(nodes)}\n"
@@ -829,6 +916,9 @@ GRAPH_UNITS = {
         "task": "备份恢复",
         "pattern": (
             "def backup_ops(repo, op, data=None):\n"
+"    # 生效条件：op ∈ {full, incr, restore}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 图备份：全量备份/增量合并/恢复（数据安全语义）\n"
             "    if op == 'full':\n"
             "        repo['full'] = dict(data or {})\n"
@@ -853,6 +943,9 @@ GRAPH_UNITS = {
         "task": "一致性检查",
         "pattern": (
             "def integrity_check(graph):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 一致性：边两端节点存在 + 无重复边（数据完整性）\n"
             "    errors = []\n"
             "    seen = set()\n"
@@ -873,6 +966,9 @@ GRAPH_UNITS = {
         "task": "图压缩",
         "pattern": (
             "def compress_adjacency(graph):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 sorted；② 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 图压缩：邻接表 CSR 表示（顶点偏移+邻接数组——紧凑存储）\n"
             "    nodes = sorted(graph.nodes)\n"
             "    offsets, adj = [], []\n"
@@ -890,6 +986,9 @@ GRAPH_UNITS = {
         "task": "图指标",
         "pattern": (
             "def graph_metrics(graph):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 len；② 调用 sum；③ 调用 round\n"
+"    # 执行：顺序调用\n"
             "    # 图指标：节点数/边数/密度（规模与稀疏度）\n"
             "    n = len(graph.nodes)\n"
             "    e = sum(len(graph.neighbors(x)) for x in graph.nodes)\n"
@@ -904,6 +1003,9 @@ GRAPH_UNITS = {
         "task": "健康检查",
         "pattern": (
             "def health_check(graph):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 set；② 调用 next；③ 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 健康检查：无向连通（正反向边都走）+ 无孤立节点（可用性判定）\n"
             "    if not graph.nodes:\n"
             "        return ('ok', True)\n"
@@ -932,6 +1034,9 @@ GRAPH_UNITS = {
         "task": "度分布",
         "pattern": (
             "def degree_distribution(graph):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 度分布：出度直方图（度 → 节点数，结构统计）\n"
             "    hist = {}\n"
             "    for n in graph.nodes:\n"
@@ -947,6 +1052,9 @@ GRAPH_UNITS = {
         "task": "节点特征",
         "pattern": (
             "def node_features(graph):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 len；② 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 节点特征：度/入度/出度（图学习特征向量）\n"
             "    out_deg = {n: len(graph.neighbors(n)) for n in graph.nodes}\n"
             "    in_deg = {n: 0 for n in graph.nodes}\n"
@@ -964,6 +1072,9 @@ GRAPH_UNITS = {
         "task": "图特征",
         "pattern": (
             "def graph_features(graph):\n"
+"    # 生效条件：graph.neighbors 可用\n"
+"    # 子功能：① 调用 len；② 调用 sum；③ 调用 round\n"
+"    # 执行：顺序调用\n"
             "    # 图级特征：节点数/边数/连通分量数（图分类输入）\n"
             "    n = len(graph.nodes)\n"
             "    e = sum(len(graph.neighbors(x)) for x in graph.nodes)\n"
@@ -978,6 +1089,9 @@ GRAPH_UNITS = {
         "task": "相似推荐",
         "pattern": (
             "def similar_recommend(graph, node, top=2):\n"
+"    # 生效条件：cands.sort 可用；graph.neighbors 可用\n"
+"    # 子功能：① 调用 set；② 调用 len；③ 调用 common\n"
+"    # 执行：顺序调用\n"
             "    # 相似推荐：共同邻居最多的节点（协同过滤语义）\n"
             "    def common(a, b):\n"
             "        na = set(graph.neighbors(a))\n"
@@ -995,6 +1109,9 @@ GRAPH_UNITS = {
         "task": "图权限",
         "pattern": (
             "def graph_acl(acl, user, node, action):\n"
+"    # 生效条件：参数 acl/user/node/action 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 图权限：节点级访问控制（用户/节点/动作）\n"
             "    rules = acl.get(node, [])\n"
             "    for r in rules:\n"
@@ -1011,6 +1128,9 @@ GRAPH_UNITS = {
         "task": "租户隔离",
         "pattern": (
             "def tenant_scope(graph, tenant):\n"
+"    # 生效条件：参数 graph/tenant 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：顺序调用\n"
             "    # 租户隔离：返回租户可见节点（数据隔离语义）\n"
             "    return sorted(n for n in graph.nodes\n"
             "                  if graph.owner.get(n) == tenant)\n"),
@@ -1023,6 +1143,9 @@ GRAPH_UNITS = {
         "task": "加密存储",
         "pattern": (
             "def encrypt_node(value, key):\n"
+"    # 生效条件：参数 value/key 合法\n"
+"    # 子功能：① 调用 chr；② 调用 ord\n"
+"    # 执行：顺序调用\n"
             "    # 图加密：节点值异或密钥（静态数据加密）\n"
             "    return ''.join(chr(ord(c) ^ key) for c in value)\n"
             "def decrypt_node(code, key):\n"
@@ -1037,6 +1160,9 @@ GRAPH_UNITS = {
         "task": "读写分离",
         "pattern": (
             "def rw_split(master, replicas, op, key=None, value=None, replica_id=0):\n"
+"    # 生效条件：op ∈ {read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 读写分离：写→主库并同步从库 / 读→从库（负载分散，主从一致）\n"
             "    if op == 'write':\n"
             "        master[key] = value\n"
@@ -1059,6 +1185,9 @@ GRAPH_UNITS = {
         "task": "慢查询定位",
         "pattern": (
             "def slow_query_scan(plan_times, threshold):\n"
+"    # 生效条件：slow.sort 可用\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 慢查询定位：执行计划耗时 > 阈值 → 慢查询列表（耗时降序）\n"
             "    slow = [(op, t) for op, t in plan_times if t > threshold]\n"
             "    slow.sort(key=lambda x: x[1], reverse=True)\n"
@@ -1074,6 +1203,9 @@ GRAPH_UNITS = {
         "task": "在线扩容",
         "pattern": (
             "def rebalance_keys(keys, old_count, new_count):\n"
+"    # 生效条件：参数 keys/old_count/new_count 合法\n"
+"    # 子功能：① 调用 sum；② 调用 ord；③ 调用 str\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 在线扩容：键按确定性哈希重分配到新片（取模），统计迁移键\n"
             "    # （ord 求和哈希避免 PYTHONHASHSEED 跨进程波动）\n"
             "    moved = 0\n"
@@ -1092,6 +1224,9 @@ GRAPH_UNITS = {
         "task": "最小生成树",
         "pattern": (
             "def kruskal_mst(edges, n):\n"
+"    # 生效条件：参数 edges/n 合法\n"
+"    # 子功能：① 调用 list；② 调用 sorted；③ 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 最小生成树：Kruskal——按权重升序加边，并查集避环（最小连通代价）\n"
             "    parent = list(range(n))\n"
             "    def find(x):\n"
@@ -1120,6 +1255,9 @@ GRAPH_UNITS = {
         "task": "二分图判定",
         "pattern": (
             "def is_bipartite(adj, n):\n"
+"    # 生效条件：参数 adj/n 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 二分图判定：BFS 染色（相邻异色，颜色冲突即非二分）\n"
             "    color = [-1] * n\n"
             "    for s in range(n):\n"
@@ -1146,6 +1284,9 @@ GRAPH_UNITS = {
         "task": "度中心性",
         "pattern": (
             "def degree_centrality(adj, n):\n"
+"    # 生效条件：参数 adj/n 合法\n"
+"    # 子功能：① 调用 round；② 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 度中心性：节点度数 / (n-1)（归一化——重要度排序依据）\n"
             "    norm = n - 1 if n > 1 else 1\n"
             "    return {k: round(len(v) / norm, 3) for k, v in adj.items()}\n"),
@@ -1160,6 +1301,9 @@ GRAPH_UNITS = {
         "task": "正则路径",
         "pattern": (
             "def regex_path_find(adj, start, labels):\n"
+"    # 生效条件：参数 adj/start/labels 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 正则路径查询：按标签序列沿边匹配（存在路径→终点列表）\n"
             "    frontier = [start]\n"
             "    for lab in labels:\n"
@@ -1184,6 +1328,9 @@ GRAPH_UNITS = {
         "task": "查询缓存",
         "pattern": (
             "def query_cache(cache, op, key=None, result=None, capacity=3):\n"
+"    # 生效条件：op ∈ {get, put}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 查询缓存：get 命中返回并移末尾 / put 存结果（LRU 淘汰超容量）\n"
             "    if op == 'get':\n"
             "        if key in cache:\n"
@@ -1210,6 +1357,9 @@ GRAPH_UNITS = {
         "task": "物化视图",
         "pattern": (
             "def materialize_view(base, view_name, view_fn, op, params=None):\n"
+"    # 生效条件：op ∈ {query, refresh}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 物化视图：预计算子查询结果（复用加速），refresh 重算\n"
             "    if op == 'query':\n"
             "        v = base.get(view_name)\n"
@@ -1232,6 +1382,9 @@ GRAPH_UNITS = {
         "task": "环形布局",
         "pattern": (
             "def circular_layout(nodes, cx=0, cy=0, radius=100):\n"
+"    # 生效条件：math.cos 可用；math.sin 可用\n"
+"    # 子功能：① 调用 len；② 调用 enumerate；③ 调用 round\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 环形布局：节点均匀分布圆周（可视化坐标生成）\n"
             "    import math\n"
             "    out = {}\n"
@@ -1251,6 +1404,9 @@ GRAPH_UNITS = {
         "task": "视口变换",
         "pattern": (
             "def viewport_transform(x, y, scale, tx, ty):\n"
+"    # 生效条件：参数 x/y/scale/tx/ty 合法\n"
+"    # 子功能：① 调用 round\n"
+"    # 执行：顺序调用\n"
             "    # 视口变换：缩放平移（zoom/pan——画布坐标映射）\n"
             "    return round(x * scale + tx, 3), round(y * scale + ty, 3)\n"),
         "cases": [((0, 0, 2, 10, 10), (10.0, 10.0)),
@@ -1263,6 +1419,9 @@ GRAPH_UNITS = {
         "task": "社区着色",
         "pattern": (
             "def community_color(communities):\n"
+"    # 生效条件：参数 communities 合法\n"
+"    # 子功能：① 调用 enumerate；② 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 社区着色：社区分组 → 颜色映射（可视化区分社群）\n"
             "    palette = ['red', 'blue', 'green', 'orange', 'purple']\n"
             "    out = {}\n"
@@ -1281,6 +1440,9 @@ GRAPH_UNITS = {
         "task": "邻接表压缩",
         "pattern": (
             "def csr_build(edges, n):\n"
+"    # 生效条件：参数 edges/n 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # CSR 邻接表：边列表 → 压缩稀疏行（偏移+邻接数组——紧凑存储）\n"
             "    offsets = [0] * (n + 1)\n"
             "    deg = [0] * n\n"
@@ -1304,6 +1466,9 @@ GRAPH_UNITS = {
         "task": "图合并",
         "pattern": (
             "def merge_graphs(g1, g2):\n"
+"    # 生效条件：参数 g1/g2 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 图合并：两图邻接合并（节点并集，边并集去重）\n"
             "    merged = {}\n"
             "    for g in (g1, g2):\n"
@@ -1320,6 +1485,9 @@ GRAPH_UNITS = {
         "task": "属性边",
         "pattern": (
             "def edge_attr_query(edges, op, u=None, v=None, attr=None):\n"
+"    # 生效条件：op ∈ {by_attr, get, put}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 属性边：put 存边属性 / get 查属性 / by_attr 按属性找边\n"
             "    if op == 'put':\n"
             "        edges[(u, v)] = attr\n"
@@ -1386,6 +1554,9 @@ GRAPH_UNITS = {
         "task": "欧拉路径",
         "pattern": (
             "def euler_path(adj, n):\n"
+"    # 生效条件：参数 adj/n 合法\n"
+"    # 子功能：① 调用 sum；② 调用 len；③ 调用 range\n"
+"    # 执行：顺序调用\n"
             "    # 欧拉路径：一笔画判定（0 或 2 个奇度节点——连通图）\n"
             "    deg = {i: len(adj.get(i, [])) for i in range(n)}\n"
             "    odd = sum(1 for d in deg.values() if d % 2)\n"
@@ -1400,6 +1571,9 @@ GRAPH_UNITS = {
         "task": "图直径",
         "pattern": (
             "def graph_diameter(adj, n):\n"
+"    # 生效条件：参数 adj/n 合法\n"
+"    # 子功能：① 调用 max；② 调用 bfs；③ 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 图直径：最长最短路径（全源 BFS 最大距离）\n"
             "    def bfs(s):\n"
             "        dist = {s: 0}\n"
@@ -1422,6 +1596,9 @@ GRAPH_UNITS = {
         "task": "条件合并",
         "pattern": (
             "def merge_conditions(cond1, cond2):\n"
+"    # 生效条件：参数 cond1/cond2 合法\n"
+"    # 子功能：① 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 条件合并：两条条件链合并（AND 语义——路由条件叠加，冲突拒绝）\n"
             "    merged = {}\n"
             "    for k in set(cond1) | set(cond2):\n"
@@ -1439,6 +1616,9 @@ GRAPH_UNITS = {
         "task": "信任传播",
         "pattern": (
             "def trust_propagate(graph, node, trust, decay=0.5):\n"
+"    # 生效条件：参数 graph/node/trust/decay 合法\n"
+"    # 子功能：① 调用 round\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 信任传播：信任沿边衰减传播（信任引擎——多跳信任累积）\n"
             "    out = {node: trust}\n"
             "    queue = [(node, trust)]\n"
@@ -1461,6 +1641,9 @@ GRAPH_UNITS = {
         "task": "信息差收敛",
         "pattern": (
             "def info_gap_path(graph, start, end, gap):\n"
+"    # 生效条件：参数 graph/start/end/gap 合法\n"
+"    # 子功能：① 调用 round；② 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 信息差收敛：沿路径逐节点缩小信息差（路由决策——信息差递减）\n"
             "    path = [start]\n"
             "    cur = start\n"
@@ -1486,6 +1669,9 @@ GRAPH_UNITS = {
         "task": "增量备份",
         "pattern": (
             "def incremental_backup(backups, op, base=None, changes=None, tag=None):\n"
+"    # 生效条件：op ∈ {full, incr, restore}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 增量备份：full 全量 / incr 增量（记录变更）/ restore 还原\n"
             "    if op == 'full':\n"
             "        backups[tag] = {'type': 'full', 'data': dict(base)}\n"
@@ -1519,6 +1705,9 @@ GRAPH_UNITS = {
         "task": "一致性快照",
         "pattern": (
             "def snapshot_isolation(versions, op, key=None, value=None, version=None):\n"
+"    # 生效条件：op ∈ {read, write}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 一致性快照：版本化读写（读 ≤ 版本最新值——MVCC 快照隔离）\n"
             "    if op == 'write':\n"
             "        versions.setdefault(key, {})[version] = value\n"
@@ -1541,6 +1730,9 @@ GRAPH_UNITS = {
         "task": "一致性哈希",
         "pattern": (
             "def consistent_hash(ring, op, node=None, key=None):\n"
+"    # 生效条件：op ∈ {add, locate}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 一致性哈希：add 节点入环 / locate 键定位（哈希环——最小迁移）\n"
             "    if op == 'add':\n"
             "        h = sum(ord(c) for c in node)\n"
@@ -1566,6 +1758,9 @@ GRAPH_UNITS = {
         "task": "邻居查询",
         "pattern": (
             "def neighbor_query(adj, op, node=None, hops=1):\n"
+"    # 生效条件：op ∈ {direct, multi}；seen.discard 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 邻居查询：direct 一跳邻居 / multi 多跳邻居（BFS 扩展）\n"
             "    if op == 'direct':\n"
             "        return sorted(adj.get(node, []))\n"
@@ -1593,6 +1788,9 @@ GRAPH_UNITS = {
         "task": "路径过滤",
         "pattern": (
             "def path_filter(paths, pred):\n"
+"    # 生效条件：参数 paths/pred 合法\n"
+"    # 子功能：① 调用 pred\n"
+"    # 执行：顺序调用\n"
             "    # 路径过滤：按条件保留路径（长度/终点——路径筛选）\n"
             "    return [p for p in paths if pred(p)]\n"),
         "cases": [(([[0, 1], [0, 2, 1], [0]], lambda p: len(p) >= 2),
@@ -1606,6 +1804,9 @@ GRAPH_UNITS = {
         "task": "三角形计数",
         "pattern": (
             "def triangle_count(adj, n):\n"
+"    # 生效条件：参数 adj/n 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 三角形计数：闭合三元组（聚类检测——社交网络三角）\n"
             "    triangles = 0\n"
             "    for u in range(n):\n"
@@ -1625,6 +1826,9 @@ GRAPH_UNITS = {
         "task": "导出子图",
         "pattern": (
             "def induced_subgraph(adj, nodes):\n"
+"    # 生效条件：参数 adj/nodes 合法\n"
+"    # 子功能：① 调用 set\n"
+"    # 执行：顺序调用\n"
             "    # 导出子图：按节点集诱导（节点集 + 内部边）\n"
             "    node_set = set(nodes)\n"
             "    return {u: [v for v in adj.get(u, []) if v in node_set]\n"
@@ -1639,6 +1843,9 @@ GRAPH_UNITS = {
         "task": "时间窗口",
         "pattern": (
             "def time_window(events, op, start=None, end=None):\n"
+"    # 生效条件：op ∈ {count, window}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 时间窗口：window 窗口内事件 / count 计数（时序图查询）\n"
             "    if op == 'window':\n"
             "        return [e for e in events if start <= e['t'] <= end]\n"
@@ -1656,6 +1863,9 @@ GRAPH_UNITS = {
         "task": "边活跃度",
         "pattern": (
             "def edge_activity(edges, op, edge=None, now=None):\n"
+"    # 生效条件：op ∈ {active, touch}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 边活跃度：touch 更新活跃时间 / active 活跃判定（时间窗内）\n"
             "    if op == 'touch':\n"
             "        edges[edge] = now\n"
@@ -1675,6 +1885,9 @@ GRAPH_UNITS = {
         "task": "模式路径",
         "pattern": (
             "def pattern_path(adj, start, min_deg, steps):\n"
+"    # 生效条件：参数 adj/start/min_deg/steps 合法\n"
+"    # 子功能：① 调用 range；② 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 模式路径：按节点度数模式匹配（每步需出度 ≥ min_deg）\n"
             "    path = [start]\n"
             "    cur = start\n"
@@ -1697,6 +1910,9 @@ GRAPH_UNITS = {
         "task": "节点标签",
         "pattern": (
             "def node_labels(positions, labels):\n"
+"    # 生效条件：参数 positions/labels 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 节点标签：为节点附标签（可视化标注，缺省 ?）\n"
             "    return {node: labels.get(node, '?') for node in positions}\n"),
         "cases": [((['a', 'b'], {'a': '甲'}), {'a': '甲', 'b': '?'}),
@@ -1709,6 +1925,9 @@ GRAPH_UNITS = {
         "task": "模糊匹配",
         "pattern": (
             "def fuzzy_match(query, nodes, names, threshold=0):\n"
+"    # 生效条件：参数 query/nodes/names/threshold 合法\n"
+"    # 子功能：① 调用 len；② 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 模糊匹配：查询与节点名公共字符数 ≥ 阈值（近似名称匹配）\n"
             "    out = []\n"
             "    for n in nodes:\n"
@@ -1727,6 +1946,9 @@ GRAPH_UNITS = {
         "task": "条件回溯",
         "pattern": (
             "def condition_backtrack(prev, end, conditions):\n"
+"    # 生效条件：参数 prev/end/conditions 合法\n"
+"    # 子功能：① 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 条件回溯：沿前驱链收集条件（反向推导路径条件）\n"
             "    conds = []\n"
             "    cur = end\n"
@@ -1748,6 +1970,9 @@ GRAPH_UNITS = {
         "task": "信任聚合",
         "pattern": (
             "def trust_aggregate(paths, op, source=None, target=None, val=None):\n"
+"    # 生效条件：op ∈ {avg, max, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 信任聚合：多路径信任合并（max 最大 / avg 平均——信任路由决策）\n"
             "    if op == 'record':\n"
             "        paths.setdefault((source, target), []).append(val)\n"
@@ -1769,6 +1994,9 @@ GRAPH_UNITS = {
         "task": "审计记录",
         "pattern": (
             "def audit_log(log, op, user=None, action=None, obj=None):\n"
+"    # 生效条件：op ∈ {count, filter, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 审计日志：record 记录操作 / filter 按用户过滤 / count 计数（安全审计）\n"
             "    if op == 'record':\n"
             "        log.append({'user': user, 'action': action, 'obj': obj})\n"
@@ -1792,6 +2020,9 @@ GRAPH_UNITS = {
         "task": "强连通分量",
         "pattern": (
             "def scc_kosaraju(graph):\n"
+"    # 生效条件：visited.clear 可用\n"
+"    # 子功能：① 调用 set；② 调用 reversed；③ 调用 dfs\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 强连通分量：Kosaraju 两遍 DFS（反向图第二次遍历收集 SCC）\n"
             "    visited = set()\n"
             "    order = []\n"
@@ -1828,6 +2059,9 @@ GRAPH_UNITS = {
         "task": "二分匹配",
         "pattern": (
             "def bipartite_matching(adj, left):\n"
+"    # 生效条件：参数 adj/left 合法\n"
+"    # 子功能：① 调用 try_k；② 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 二分匹配：增广路查找最大匹配（left 集合顶点 → 唯一 right 顶点）\n"
             "    match = {}\n"
             "    def try_k(u, seen):\n"
@@ -1856,6 +2090,9 @@ GRAPH_UNITS = {
         "task": "可达性判定",
         "pattern": (
             "def reachable(graph, start, target):\n"
+"    # 生效条件：参数 graph/start/target 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 可达性判定：BFS 从起点能否到达目标（条件链传导）\n"
             "    seen = {start}\n"
             "    q = [start]\n"
@@ -1880,6 +2117,9 @@ GRAPH_UNITS = {
         "task": "传递闭包",
         "pattern": (
             "def transitive_closure(adj, n):\n"
+"    # 生效条件：参数 adj/n 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 传递闭包：Floyd-Warshall 布尔可达闭包（可达性矩阵）\n"
             "    reach = [[False] * n for _ in range(n)]\n"
             "    for i in range(n):\n"
@@ -1903,6 +2143,9 @@ GRAPH_UNITS = {
         "task": "图着色",
         "pattern": (
             "def greedy_coloring(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # 图着色：贪心按邻接已用色最小可用（顶点着色）\n"
             "    colors = {}\n"
             "    for u in adj:\n"
@@ -1923,6 +2166,9 @@ GRAPH_UNITS = {
         "task": "最小割",
         "pattern": (
             "def min_cut(adj, s, t):\n"
+"    # 生效条件：参数 adj/s/t 合法\n"
+"    # 子功能：① 调用 dict；② 调用 float；③ 调用 min\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 最小割：最大流=最小割（BFS 找增广路累加容量）\n"
             "    flow = 0\n"
             "    cap = {u: dict(vs) for u, vs in adj.items()}\n"
@@ -1964,6 +2210,9 @@ GRAPH_UNITS = {
         "task": "聚类系数",
         "pattern": (
             "def clustering_coef(adj, u):\n"
+"    # 生效条件：参数 adj/u 合法\n"
+"    # 子功能：① 调用 set；② 调用 len；③ 调用 sum\n"
+"    # 执行：顺序调用\n"
             "    # 聚类系数：邻居间实际边数 / 可能边数（局部聚类）\n"
             "    nb = set(adj.get(u, []))\n"
             "    k = len(nb)\n"
@@ -1982,6 +2231,9 @@ GRAPH_UNITS = {
         "task": "介数中心性",
         "pattern": (
             "def betweenness(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 list；② 调用 round；③ 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 介数中心性：节点出现在最短路径中的次数（桥梁重要性）\n"
             "    nodes = list(adj)\n"
             "    score = {n: 0.0 for n in nodes}\n"
@@ -2021,6 +2273,9 @@ GRAPH_UNITS = {
         "task": "边索引",
         "pattern": (
             "def edge_index(idx, op, key=None, edge=None):\n"
+"    # 生效条件：op ∈ {drop, get, put}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 边索引：put 按键存边 / get 按键查边 / drop 删除（边属性索引）\n"
             "    if op == 'put':\n"
             "        idx[key] = edge\n"
@@ -2042,6 +2297,9 @@ GRAPH_UNITS = {
         "task": "割点",
         "pattern": (
             "def articulation_points(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 len；② 调用 set；③ 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 割点：移除后图不连通的顶点（Tarjan DFS low 值）\n"
             "    n = len(adj)\n"
             "    disc = {}\n"
@@ -2081,6 +2339,9 @@ GRAPH_UNITS = {
         "task": "独立集",
         "pattern": (
             "def independent_set(adj):\n"
+"    # 生效条件：nodes.discard 可用\n"
+"    # 子功能：① 调用 set；② 调用 min；③ 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 独立集：贪心取低度顶点（无邻接边——最大独立集近似）\n"
             "    nodes = set(adj)\n"
             "    out = []\n"
@@ -2101,6 +2362,9 @@ GRAPH_UNITS = {
         "task": "桥检测",
         "pattern": (
             "def bridge_edges(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 dfs；② 调用 min\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 桥检测：移除后不连通的边（Tarjan low 值判定）\n"
             "    disc = {}\n"
             "    low = {}\n"
@@ -2135,6 +2399,9 @@ GRAPH_UNITS = {
         "task": "游标遍历",
         "pattern": (
             "def cursor_traverse(state, op):\n"
+"    # 生效条件：op ∈ {has_next, next, reset}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 游标遍历：next 取下一节点 / has_next 是否还有 / reset 重置（分页游标）\n"
             "    if op == 'next':\n"
             "        idx = state.get('idx', 0)\n"
@@ -2161,6 +2428,9 @@ GRAPH_UNITS = {
         "task": "路径规划",
         "pattern": (
             "def a_star(adj, start, goal, h):\n"
+"    # 生效条件：open_set.sort 可用\n"
+"    # 子功能：① 调用 set；② 调用 h\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 路径规划：A* 启发式搜索（f=g+h 优先队列）\n"
             "    open_set = [(h(start), 0, start, [start])]\n"
             "    seen = set()\n"
@@ -2189,6 +2459,9 @@ GRAPH_UNITS = {
         "task": "节点大小",
         "pattern": (
             "def node_size(adj, min_size=4, max_size=20):\n"
+"    # 生效条件：参数 adj/min_size/max_size 合法\n"
+"    # 子功能：① 调用 len；② 调用 max；③ 调用 min\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 节点大小：按度映射尺寸（可视化——度越大节点越大）\n"
             "    if not adj:\n"
             "        return {}\n"
@@ -2211,6 +2484,9 @@ GRAPH_UNITS = {
         "task": "最大团",
         "pattern": (
             "def max_clique(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 list；② 调用 all；③ 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 最大团：贪心扩张完全子图（Bron-Kerbosch 近似——完全连通子集）\n"
             "    nodes = list(adj)\n"
             "    best = []\n"
@@ -2235,6 +2511,9 @@ GRAPH_UNITS = {
         "task": "旅行商",
         "pattern": (
             "def tsp_greedy(adj, start=0):\n"
+"    # 生效条件：参数 adj/start 合法\n"
+"    # 子功能：① 调用 len；② 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 旅行商：贪心最近邻环游（TSP 近似——每次走最近未访点）\n"
             "    path = [start]\n"
             "    seen = {start}\n"
@@ -2262,6 +2541,9 @@ GRAPH_UNITS = {
         "task": "标签约束",
         "pattern": (
             "def label_path(adj, start, end, labels, want):\n"
+"    # 生效条件：参数 adj/start/end/labels/want 合法\n"
+"    # 子功能：① 调用 set；② 调用 tuple\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 标签约束：路径边标签序列匹配（标签约束查询）\n"
             "    q = [(start, [])]\n"
             "    seen = set()\n"
@@ -2288,6 +2570,9 @@ GRAPH_UNITS = {
         "task": "度序列",
         "pattern": (
             "def graphic_sequence(degrees):\n"
+"    # 生效条件：d.sort 可用\n"
+"    # 子功能：① 调用 sorted；② 调用 range；③ 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 度序列：Havel-Hakimi 判断是否可图化（简单图存在性）\n"
             "    d = sorted(degrees, reverse=True)\n"
             "    while d:\n"
@@ -2313,6 +2598,9 @@ GRAPH_UNITS = {
         "task": "生成树计数",
         "pattern": (
             "def spanning_trees(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 len；② 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 生成树计数：Kirchhoff 矩阵树定理（Laplacian 主子式行列式）\n"
             "    n = len(adj)\n"
             "    if n <= 1:\n"
@@ -2338,6 +2626,9 @@ GRAPH_UNITS = {
         "task": "路径计数",
         "pattern": (
             "def count_paths(adj, start, end, max_len=4):\n"
+"    # 生效条件：参数 adj/start/end/max_len 合法\n"
+"    # 子功能：① 调用 dfs\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 路径计数：DFS 简单路径枚举计数（长度上限）\n"
             "    def dfs(u, seen, depth):\n"
             "        if depth > max_len:\n"
@@ -2363,6 +2654,9 @@ GRAPH_UNITS = {
         "task": "支配集",
         "pattern": (
             "def dominating_set(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 set；② 调用 list；③ 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 支配集：贪心选覆盖最多未覆盖顶点（最小支配集近似）\n"
             "    covered = set()\n"
             "    out = []\n"
@@ -2390,6 +2684,9 @@ GRAPH_UNITS = {
         "task": "弦图判定",
         "pattern": (
             "def chordal_check(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 len；② 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 弦图判定：最大势搜索 MCS（完美消除序存在性）\n"
             "    n = len(adj)\n"
             "    if n <= 2:\n"
@@ -2413,6 +2710,9 @@ GRAPH_UNITS = {
         "task": "标签计数",
         "pattern": (
             "def label_count(adj, labels):\n"
+"    # 生效条件：参数 adj/labels 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 标签计数：按边标签统计数量（标签聚合）\n"
             "    out = {}\n"
             "    for u, edges in adj.items():\n"
@@ -2432,6 +2732,9 @@ GRAPH_UNITS = {
         "task": "汉密尔顿路径",
         "pattern": (
             "def hamiltonian(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 list；② 调用 len；③ 调用 dfs\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 汉密尔顿路径：访问每个顶点恰好一次（回溯搜索）\n"
             "    nodes = list(adj)\n"
             "    n = len(nodes)\n"
@@ -2465,6 +2768,9 @@ GRAPH_UNITS = {
         "task": "图差分",
         "pattern": (
             "def graph_diff(g1, g2):\n"
+"    # 生效条件：参数 g1/g2 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：顺序调用\n"
             "    # 图差分：新增/删除边集合（版本对比）\n"
             "    e1 = {(u, v) for u, vs in g1.items() for v in vs}\n"
             "    e2 = {(u, v) for u, vs in g2.items() for v in vs}\n"
@@ -2480,6 +2786,9 @@ GRAPH_UNITS = {
         "task": "双层邻居",
         "pattern": (
             "def two_hop(adj, start):\n"
+"    # 生效条件：参数 adj/start 合法\n"
+"    # 子功能：① 调用 set；② 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 双层邻居：两跳内可达节点（不含自身与一跳）\n"
             "    hop1 = set(adj.get(start, []))\n"
             "    hop2 = set()\n"
@@ -2556,6 +2865,9 @@ GRAPH_UNITS = {
         "task": "图规范化",
         "pattern": (
             "def graph_canonical(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 len；③ 调用 min\n"
+"    # 执行：顺序调用\n"
             "    # 图规范化：边集排序签名（结构等价判定辅助）\n"
             "    edges = sorted({(min(u, v), max(u, v)) for u, vs in adj.items() for v in vs})\n"
             "    return (len(adj), edges)\n"),
@@ -2570,6 +2882,9 @@ GRAPH_UNITS = {
         "task": "顶点覆盖",
         "pattern": (
             "def vertex_cover(edges):\n"
+"    # 生效条件：参数 edges 合法\n"
+"    # 子功能：① 调用 set；② 调用 sorted；③ 调用 list\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 顶点覆盖：贪心选边两端加入覆盖并删去关联边（2-近似）\n"
             "    cover = set()\n"
             "    e = [list(ed) for ed in edges]\n"
@@ -2591,6 +2906,9 @@ GRAPH_UNITS = {
         "task": "最近公共祖先",
         "pattern": (
             "def lca(parent, depth, a, b):\n"
+"    # 生效条件：参数 parent/depth/a/b 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # 最近公共祖先：深度对齐后同步上溯（树上查询）\n"
             "    while depth[a] > depth[b]:\n"
             "        a = parent[a]\n"

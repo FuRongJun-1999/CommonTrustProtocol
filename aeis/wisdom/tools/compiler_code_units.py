@@ -13,6 +13,9 @@ COMPILER_UNITS = {
         "task": "条件跳转",
         "pattern": (
             "def exec_jump_if_false(stack, ip, target):\n"
+"    # 生效条件：参数 stack/ip/target 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 若…则…否则：栈顶为假则跳转（智能论条件语句的 VM 语义）\n"
             "    if not stack:\n"
             "        return ip + 1\n"
@@ -40,6 +43,9 @@ COMPILER_UNITS = {
         "task": "条件空间",
         "pattern": (
             "def condition_space_op(space_stack, op, name):\n"
+"    # 生效条件：op ∈ {自然, 道}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 道：创建协议路径（条件空间栈压入）；自然：恢复默认（弹栈到根）\n"
             "    if op == '道':\n"
             "        space_stack.append({'name': name})\n"
@@ -106,6 +112,9 @@ COMPILER_UNITS = {
         "task": "循环执行",
         "pattern": (
             "def vm_run_loop(code, symbols=None, max_steps=1000):\n"
+"    # 生效条件：op ∈ {ADD, CMP_LT, JUMP, JUMP_IF_FALSE, LOAD, PUSH, STORE, SUB}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 智能论 VM 循环执行：算术(ADD/SUB)+比较+回跳；步数上限防死循环\n"
             "    ip, stack = 0, []\n"
             "    symbols = dict(symbols or {})\n"
@@ -168,6 +177,9 @@ COMPILER_UNITS = {
         "task": "函数定义",
         "pattern": (
             "def compile_func_def(name, params, body_instrs):\n"
+"    # 生效条件：参数 name/params/body_instrs 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
             "    # 定义 名（参数）：语句 → 函数体后置 + RETURN（入口=函数体起点）\n"
             "    # 返回 (skip_jump, entry_ip, body)：调用方拼接 JUMP 跳过 + 函数体\n"
             "    body = list(body_instrs)\n"
@@ -185,6 +197,9 @@ COMPILER_UNITS = {
         "task": "函数调用",
         "pattern": (
             "def call_func(call_stack, symbols, params, args, entry_ip, ret_ip):\n"
+"    # 生效条件：参数 call_stack/symbols/params/args/entry_ip/ret_ip 合法\n"
+"    # 子功能：① 调用 zip；② 调用 dict\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # CALL 语义：保存调用帧(返回地址+符号表) → 参数绑定(遮蔽全局) → 跳入口\n"
             "    call_stack.append((ret_ip, dict(symbols)))\n"
             "    for pname, pval in zip(params, args):\n"
@@ -198,6 +213,9 @@ COMPILER_UNITS = {
         "task": "递归调用",
         "pattern": (
             "def compile_recursive(name, params, cond_instrs, then_ret, else_expr_instrs):\n"
+"    # 生效条件：参数 name/params/cond_instrs/then_ret/else_expr_instrs 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 递归函数：若 基条件 则 返回 基值，否则 返回 表达式（含自身调用）\n"
             "    # 组装为函数体字节码（CALL 自身由调用方回填入口）\n"
             "    body = []\n"
@@ -272,6 +290,9 @@ COMPILER_UNITS = {
         "task": "名实校验",
         "pattern": (
             "def check_names(required, declared):\n"
+"    # 生效条件：参数 required/declared 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 以名举实：要求的符号必须已声明（墨辩静态检查）\n"
             "    return [s for s in required if s not in declared]\n"),
         "cases": [((["a"], {"a": 1, "b": 2}), []),
@@ -354,6 +375,9 @@ COMPILER_UNITS = {
         "task": "编译指令",
         "pattern": (
             "def compile_instr(kind, operand=None):\n"
+"    # 生效条件：kind ∈ {DAO, DE}\n"
+"    # 子功能：1 kind 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 道德经指令 AST → VM 指令（未接入 VM 的指令诚实返回 None）\n"
             "    if kind == 'DAO':\n"
             "        return ('DAO', operand or '无名路径')\n"
@@ -371,6 +395,9 @@ COMPILER_UNITS = {
         "task": "条件空间符号类型",
         "pattern": (
             "def check_condition_types(conditions, symbol_types):\n"
+"    # 生效条件：参数 conditions/symbol_types 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 条件空间=类型系统：条件声明中的符号必须已定义类型（编译期静态检查）\n"
             "    # conditions: [{'space': '伴侣', 'symbol': '情感权重', 'type': '数值'}]\n"
             "    return [c for c in conditions\n"
@@ -431,6 +458,9 @@ COMPILER_UNITS = {
         "task": "编译程序",
         "pattern": (
             "def compile_program(statements, compile_instr=None, compile_condition=None):\n"
+"    # 生效条件：kind ∈ {COND, INSTR, 术曰, 止}；s.replace 可用\n"
+"    # 子功能：1 kind 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 程序语句列表 → 字节码（术曰=作用域；条件=跳转；指令=道德经；止=停止）\n"
             "    def _num(v):\n"
             "        if v is None:\n"
@@ -472,6 +502,9 @@ COMPILER_UNITS = {
         "task": "条件空间存在",
         "pattern": (
             "def check_condition_spaces(used_spaces, declared_spaces):\n"
+"    # 生效条件：参数 used_spaces/declared_spaces 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 条件空间=类型系统：使用的条件空间必须已声明（编译期拦截未声明空间）\n"
             "    return [s for s in used_spaces if s not in declared_spaces]\n"),
         "cases": [((["伴侣", "高原"], {"伴侣", "高原"}), []),
@@ -485,6 +518,9 @@ COMPILER_UNITS = {
         "task": "编译管线",
         "pattern": (
             "def compile_pipeline(statements, symbol_types, declared_spaces):\n"
+"    # 生效条件：kind ∈ {COND}；_re.search 可用；m.group 可用\n"
+"    # 子功能：1 kind 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 编译管线（C2 语义：静态检查→字节码）——名实 + 条件空间类型 + 存在性\n"
             "    errors = []\n"
             "    for st in statements:\n"
@@ -562,6 +598,9 @@ COMPILER_UNITS = {
         "task": "类型检查",
         "pattern": (
             "def compile_typed(statements, infer_fn=None):\n"
+"    # 生效条件：t ∈ {混合}；_re.findall 可用\n"
+"    # 子功能：1 t 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 类型检查编译：先类型推断 → 未推断/混合类型符号使用 → 编译期拦截\n"
             "    # infer_fn 注入（组装白箱单元：分析-类型推断）\n"
             "    import re as _re\n"
@@ -598,6 +637,9 @@ COMPILER_UNITS = {
         "task": "完整编译",
         "pattern": (
             "def compile_full(source, declared_spaces=None):\n"
+"    # 生效条件：kw ∈ {知足}；source.splitlines 可用；line.strip 可用\n"
+"    # 子功能：1 kw 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 白箱版 pc compile 单入口：中文源码 → 字节码\n"
             "    # 流程：逐行词法 → 静态检查（条件空间存在性/类型）→ 编译指令\n"
             "    import re as _re\n"
@@ -698,6 +740,9 @@ COMPILER_UNITS = {
         "task": "条件求值",
         "pattern": (
             "def eval_condition(cond_text, symbols):\n"
+"    # 生效条件：right_s.strip 可用；left_s.strip 可用\n"
+"    # 子功能：① 调用 float\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 中文条件表达式求值：左值 比较词 右值（比较词：大于/小于/等于/不等于/不小于/不大于）\n"
             "    ops = {'不小于': '>=', '不大于': '<=', '大于': '>', '小于': '<',\n"
             "           '等于': '==', '不等于': '!='}\n"
@@ -726,6 +771,9 @@ COMPILER_UNITS = {
         "task": "协议词法对接",
         "pattern": (
             "def bridge_token(token_name):\n"
+"    # 生效条件：参数 token_name 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # protocol-compiler TokenType → 白箱指令名（真实词法对接校准基准）\n"
             "    m = {'DAO': 'DAO', 'DE': 'DE', 'ZIRAN': 'ZIRAN', 'WUWEI': 'WUWEI',\n"
             "         'ZHI': 'ZHI', 'ZHIZU': 'ZHIZU', 'RUO': 'COND_START',\n"
@@ -778,6 +826,9 @@ COMPILER_UNITS = {
         "task": "字节码反序列化",
         "pattern": (
             "def deserialize(data):\n"
+"    # 生效条件：struct.unpack_from 可用\n"
+"    # 子功能：① 调用 len；② 调用 ValueError；③ 调用 str\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # .pbc 字节串 → 指令列表（原生编译加载）\n"
             "    import struct\n"
             "    code, i = [], 0\n"
@@ -878,6 +929,9 @@ COMPILER_UNITS = {
         "task": "注释剥离",
         "pattern": (
             "def strip_comments(src):\n"
+"    # 生效条件：src.splitlines 可用；line.find 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 注释剥离：# 行注释 / 井号中文注释（词法预处理）\n"
             "    lines = []\n"
             "    for line in src.splitlines():\n"
@@ -917,6 +971,9 @@ COMPILER_UNITS = {
         "task": "链式比较",
         "pattern": (
             "def compile_chain(cmp1, cmp2):\n"
+"    # 生效条件：参数 cmp1/cmp2 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
             "    # 链式比较：a < b < c → 比较1 且 比较2（AND 组合）\n"
             "    code = list(cmp1)\n"
             "    code.append(('JUMP_IF_FALSE', 0))  # 第一比较假 → 短路\n"
@@ -934,6 +991,9 @@ COMPILER_UNITS = {
         "task": "常量折叠",
         "pattern": (
             "def fold_constants(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 常量折叠：PUSH 常量 + 算术 → 立即结果（编译期求值优化）\n"
             "    out, i = [], 0\n"
             "    while i < len(instrs):\n"
@@ -961,6 +1021,9 @@ COMPILER_UNITS = {
         "task": "死代码消除",
         "pattern": (
             "def dead_code_elim(code):\n"
+"    # 生效条件：op ∈ {JUMP}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
             "    # 死代码消除：不可达指令（无条件 JUMP 之后）删除\n"
             "    live = []\n"
             "    reachable = True\n"
@@ -981,6 +1044,9 @@ COMPILER_UNITS = {
         "task": "寄存器分配",
         "pattern": (
             "def reg_alloc(vars_used):\n"
+"    # 生效条件：参数 vars_used 合法\n"
+"    # 子功能：① 调用 len；② 调用 str\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 寄存器分配：变量 → 寄存器（无冲突复用，溢出计数）\n"
             "    regs = {}\n"
             "    spills = 0\n"
@@ -1003,6 +1069,9 @@ COMPILER_UNITS = {
         "task": "闭包捕获分析",
         "pattern": (
             "def analyze_free_vars(func_refs, params, outer_vars):\n"
+"    # 生效条件：参数 func_refs/params/outer_vars 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 闭包捕获分析：函数体引用 且 非参数 且 外层可见 = 自由变量\n"
             "    # （词法作用域：内层函数用到的外层名字 → 需捕获为 cell；保持源码引用顺序）\n"
             "    return [r for r in func_refs\n"
@@ -1017,6 +1086,9 @@ COMPILER_UNITS = {
         "task": "闭包创建",
         "pattern": (
             "def make_closure(func_body, free_names, captured_values):\n"
+"    # 生效条件：参数 func_body/free_names/captured_values 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
             "    # 闭包创建：函数体 + 捕获映射（自由变量→当前值）→ 闭包对象\n"
             "    # （知 + 所见环境；未捕获到的名字不入环境）\n"
             "    return {'body': list(func_body),\n"
@@ -1034,6 +1106,9 @@ COMPILER_UNITS = {
         "task": "闭包调用",
         "pattern": (
             "def call_closure(closure, params, args):\n"
+"    # 生效条件：参数 closure/params/args 合法\n"
+"    # 子功能：① 调用 dict；② 调用 zip\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 闭包调用：捕获环境 + 参数绑定 → 执行环境\n"
             "    # （词法父作用域可见 + 当前参数；参数遮蔽捕获变量）\n"
             "    env = dict(closure['env'])\n"
@@ -1051,6 +1126,9 @@ COMPILER_UNITS = {
         "task": "断点",
         "pattern": (
             "def breakpoint_hit(breaks, ip, enable=None):\n"
+"    # 生效条件：breaks.discard 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 断点：enable=True 登记 / False 清除 / None 查询命中（调试器暂停点）\n"
             "    if enable is True:\n"
             "        breaks.add(ip)\n"
@@ -1071,6 +1149,9 @@ COMPILER_UNITS = {
         "task": "调用栈回溯",
         "pattern": (
             "def traceback_chain(call_stack, error_frame):\n"
+"    # 生效条件：参数 call_stack/error_frame 合法\n"
+"    # 子功能：① 调用 reversed\n"
+"    # 执行：顺序调用\n"
             "    # 调用栈回溯：出错帧 + 调用链（最新→最旧）——调试器栈回溯语义\n"
             "    chain = [error_frame]\n"
             "    chain.extend(reversed(call_stack))\n"
@@ -1085,6 +1166,9 @@ COMPILER_UNITS = {
         "task": "变量监视",
         "pattern": (
             "def watch_eval(expr, symbols):\n"
+"    # 生效条件：参数 expr/symbols 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 变量监视：监视名在符号表求值（未知名 → None）——调试器监视窗\n"
             "    return symbols.get(expr)\n"),
         "cases": [((("甲", {"甲": 3}), 3)),
@@ -1097,6 +1181,9 @@ COMPILER_UNITS = {
         "task": "内联展开",
         "pattern": (
             "def inline_small(funcs, name, call_site):\n"
+"    # 生效条件：参数 funcs/name/call_site 合法\n"
+"    # 子功能：① 调用 list；② 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 内联展开：小函数（指令数 ≤ 3）调用处直接展开（减少调用开销）\n"
             "    body = funcs.get(name)\n"
             "    if body is None or len(body) > 3:\n"
@@ -1113,6 +1200,9 @@ COMPILER_UNITS = {
         "task": "循环展开",
         "pattern": (
             "def loop_unroll(body, times, max_unroll=3):\n"
+"    # 生效条件：参数 body/times/max_unroll 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
             "    # 循环展开：循环体复制 times 次（减少回跳，阈值上限防代码膨胀）\n"
             "    if times > max_unroll or times <= 0:\n"
             "        return list(body)\n"
@@ -1128,6 +1218,9 @@ COMPILER_UNITS = {
         "task": "尾调用优化",
         "pattern": (
             "def tail_call_opt(body):\n"
+"    # 生效条件：参数 body 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
             "    # 尾调用优化：末尾调用指令 → 跳转指令（尾递归转循环，栈安全）\n"
             "    if body and body[-1][0] == 'CALL':\n"
             "        return list(body[:-1]) + [('JUMP', body[-1][1])]\n"
@@ -1143,6 +1236,9 @@ COMPILER_UNITS = {
         "task": "文件头校验",
         "pattern": (
             "def pbc_header_check(header, version):\n"
+"    # 生效条件：参数 header/version 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # .pbc 文件头：魔数 + 版本兼容（C3 原生编译文件格式）\n"
             "    if header.get('magic') != 'PBC1':\n"
             "        return 'bad_magic'\n"
@@ -1159,6 +1255,9 @@ COMPILER_UNITS = {
         "task": "完整性校验",
         "pattern": (
             "def pbc_checksum(data, expected):\n"
+"    # 生效条件：参数 data/expected 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # .pbc 完整性：异或校验和验证（检测字节损坏）\n"
             "    calc = 0\n"
             "    for b in data:\n"
@@ -1174,6 +1273,9 @@ COMPILER_UNITS = {
         "task": "紧凑编码",
         "pattern": (
             "def varint_codec(n_or_bytes, mode):\n"
+"    # 生效条件：mode ∈ {decode, encode}\n"
+"    # 子功能：1 mode 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 紧凑编码：encode 变长整数 / decode 还原（7 位一组，小整数省字节）\n"
             "    if mode == 'encode':\n"
             "        out = []\n"
@@ -1203,6 +1305,9 @@ COMPILER_UNITS = {
         "task": "圈复杂度",
         "pattern": (
             "def cyclomatic_complexity(code):\n"
+"    # 生效条件：参数 code 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 圈复杂度：判定节点数 + 1（if/while 分支——代码复杂度度量）\n"
             "    decisions = 0\n"
             "    for op, _ in code:\n"
@@ -1221,6 +1326,9 @@ COMPILER_UNITS = {
         "task": "活跃变量",
         "pattern": (
             "def dead_var_detect(defs, uses):\n"
+"    # 生效条件：参数 defs/uses 合法\n"
+"    # 子功能：① 调用 any\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 活跃变量：定义后未被使用 → 死变量（死代码消除依据）\n"
             "    dead = []\n"
             "    for var, def_line in defs:\n"
@@ -1237,6 +1345,9 @@ COMPILER_UNITS = {
         "task": "调用图",
         "pattern": (
             "def call_graph(funcs):\n"
+"    # 生效条件：参数 funcs 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 调用图：函数 → 被调函数集合（调用关系图构建）\n"
             "    graph = {}\n"
             "    for fn, calls in funcs:\n"
@@ -1253,6 +1364,9 @@ COMPILER_UNITS = {
         "task": "字符串字面量",
         "pattern": (
             "def lex_string(src, i):\n"
+"    # 生效条件：参数 src/i 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 字符串字面量：引号内解析（支持反斜杠转义）→ (token, 新位置)\n"
             "    if src[i] != '\"':\n"
             "        return None, i\n"
@@ -1278,6 +1392,9 @@ COMPILER_UNITS = {
         "task": "数字字面量",
         "pattern": (
             "def lex_number(src, i):\n"
+"    # 生效条件：参数 src/i 合法\n"
+"    # 子功能：① 调用 len；② 调用 int；③ 调用 float\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 数字字面量：整数/浮点/十六进制解析 → (token, 新位置)\n"
             "    if src[i] == '0' and i + 1 < len(src) and src[i + 1] in 'xX':\n"
             "        j = i + 2\n"
@@ -1301,6 +1418,9 @@ COMPILER_UNITS = {
         "task": "数组字面量",
         "pattern": (
             "def parse_array(tokens, i):\n"
+"    # 生效条件：参数 tokens/i 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 数组字面量：'[' 元素列表 ']' 解析（逗号分隔）→ (list, 新位置)\n"
             "    if tokens[i] != '[':\n"
             "        return None, i\n"
@@ -1321,6 +1441,9 @@ COMPILER_UNITS = {
         "task": "作用域分析",
         "pattern": (
             "def scope_lookup(scopes, name):\n"
+"    # 生效条件：参数 scopes/name 合法\n"
+"    # 子功能：① 调用 reversed\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 作用域分析：嵌套作用域由内向外查找（变量遮蔽语义）\n"
             "    for scope in reversed(scopes):\n"
             "        if name in scope:\n"
@@ -1337,6 +1460,9 @@ COMPILER_UNITS = {
         "task": "常量传播",
         "pattern": (
             "def const_propagate(instrs, consts):\n"
+"    # 生效条件：参数 instrs/consts 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 常量传播：常量变量替换为字面量（编译期代入）\n"
             "    out = []\n"
             "    for op, arg in instrs:\n"
@@ -1356,6 +1482,9 @@ COMPILER_UNITS = {
         "task": "指令重排",
         "pattern": (
             "def reorder_instrs(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 指令重排：PUSH 常量提前（无关指令乱序——减少停顿）\n"
             "    pushes = [i for i in instrs if i[0] == 'PUSH']\n"
             "    rest = [i for i in instrs if i[0] != 'PUSH']\n"
@@ -1371,6 +1500,9 @@ COMPILER_UNITS = {
         "task": "引用计数",
         "pattern": (
             "def refcount_ops(refs, op, obj=None):\n"
+"    # 生效条件：op ∈ {dec, inc}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 引用计数：inc/dec 增减引用，归零回收（GC 语义）\n"
             "    if op == 'inc':\n"
             "        refs[obj] = refs.get(obj, 0) + 1\n"
@@ -1393,6 +1525,9 @@ COMPILER_UNITS = {
         "task": "指令剖析",
         "pattern": (
             "def instr_profile(code):\n"
+"    # 生效条件：参数 code 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # 指令剖析：指令类型频次统计（profiling——热点定位）\n"
             "    freq = {}\n"
             "    for op, _ in code:\n"
@@ -1409,6 +1544,9 @@ COMPILER_UNITS = {
         "task": "栈保护",
         "pattern": (
             "def stack_push_guard(stack, limit, value):\n"
+"    # 生效条件：参数 stack/limit/value 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 栈保护：压栈前检查深度（防栈溢出——递归深度控制）\n"
             "    if len(stack) >= limit:\n"
             "        return 'overflow'\n"
@@ -1425,6 +1563,9 @@ COMPILER_UNITS = {
         "task": "名实一致",
         "pattern": (
             "def ming_shi_check(refs, bindings):\n"
+"    # 生效条件：参数 refs/bindings 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 名实校验：名称引用须有绑定实体（以名举实——墨辩语义）\n"
             "    return [r for r in refs if r not in bindings]\n"),
         "cases": [((['甲', '乙'], {'甲': 1, '乙': 2}), []),
@@ -1437,6 +1578,9 @@ COMPILER_UNITS = {
         "task": "类型转换",
         "pattern": (
             "def type_convert(value, from_type, to_type, rules):\n"
+"    # 生效条件：参数 value/from_type/to_type/rules 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 类型转换：按规则隐式/显式转换（数值↔文本——转换规则表）\n"
             "    if (from_type, to_type) in rules:\n"
             "        return rules[(from_type, to_type)](value)\n"
@@ -1451,6 +1595,9 @@ COMPILER_UNITS = {
         "task": "数据流分析",
         "pattern": (
             "def def_use_chain(defs, uses):\n"
+"    # 生效条件：参数 defs/uses 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 数据流分析：def-use 链（定义→使用点连接——数据流路径）\n"
             "    chain = []\n"
             "    for var, def_line in defs:\n"
@@ -1469,6 +1616,9 @@ COMPILER_UNITS = {
         "task": "三元表达式",
         "pattern": (
             "def ternary_compile(cond, then_expr, else_expr):\n"
+"    # 生效条件：参数 cond/then_expr/else_expr 合法\n"
+"    # 子功能：① 调用 list；② 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 三元表达式：条件 ? 真值 : 假值 → 条件跳转字节码\n"
             "    code = list(cond)\n"
             "    else_lbl = len(code) + 1 + len(then_expr) + 1\n"
@@ -1488,6 +1638,9 @@ COMPILER_UNITS = {
         "task": "复合赋值",
         "pattern": (
             "def compound_assign(op, name, expr):\n"
+"    # 生效条件：参数 op/name/expr 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
             "    # 复合赋值：甲 += 表达式 → LOAD 甲 + 表达式 + 运算 + STORE 甲\n"
             "    ops = {'+=': 'ADD', '-=': 'SUB', '*=': 'MUL'}\n"
             "    return [('LOAD', name)] + list(expr) + \\\n"
@@ -1505,6 +1658,9 @@ COMPILER_UNITS = {
         "task": "位运算",
         "pattern": (
             "def bitwise_op(a, b, op):\n"
+"    # 生效条件：op ∈ {and, not, or, xor}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 位运算：按位与/或/异或/取反（bitwise 操作符）\n"
             "    if op == 'and':\n"
             "        return a & b\n"
@@ -1526,6 +1682,9 @@ COMPILER_UNITS = {
         "task": "标识符解析",
         "pattern": (
             "def lex_ident(src, i):\n"
+"    # 生效条件：参数 src/i 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 标识符解析：CJK/字母/下划线开头，后接字母数字下划线\n"
             "    if not (src[i].isalpha() or src[i] == '_'):\n"
             "        return None, i\n"
@@ -1544,6 +1703,9 @@ COMPILER_UNITS = {
         "task": "操作符解析",
         "pattern": (
             "def lex_op(src, i):\n"
+"    # 生效条件：参数 src/i 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 操作符解析：多字符操作符优先（>= <= == != 先匹配双字符）\n"
             "    two = src[i:i + 2]\n"
             "    if two in ('>=', '<=', '==', '!='):\n"
@@ -1562,6 +1724,9 @@ COMPILER_UNITS = {
         "task": "函数签名",
         "pattern": (
             "def parse_signature(params_str):\n"
+"    # 生效条件：params_str.strip 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 函数签名解析：参数列表（逗号分隔，默认值剥离）→ 参数名列表\n"
             "    params_str = params_str.strip()\n"
             "    if not params_str:\n"
@@ -1577,6 +1742,9 @@ COMPILER_UNITS = {
         "task": "栈操作",
         "pattern": (
             "def stack_ops(stack, op):\n"
+"    # 生效条件：op ∈ {DUP, SWAP}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 栈操作：DUP 复制栈顶 / SWAP 交换栈顶两元素（栈指令）\n"
             "    if op == 'DUP':\n"
             "        if not stack:\n"
@@ -1600,6 +1768,9 @@ COMPILER_UNITS = {
         "task": "算术执行",
         "pattern": (
             "def arith_exec(stack, op):\n"
+"    # 生效条件：op ∈ {ADD, DIV, MUL, SUB}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 算术执行：弹出两操作数执行 ADD/SUB/MUL/DIV（栈机算术指令）\n"
             "    if len(stack) < 2:\n"
             "        return None\n"
@@ -1628,6 +1799,9 @@ COMPILER_UNITS = {
         "task": "比较执行",
         "pattern": (
             "def cmp_exec(stack, op):\n"
+"    # 生效条件：op ∈ {EQ, GT, LT}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 比较执行：弹出两操作数比较 LT/GT/EQ（栈机比较指令→布尔）\n"
             "    if len(stack) < 2:\n"
             "        return None\n"
@@ -1654,6 +1828,9 @@ COMPILER_UNITS = {
         "task": "信任检查",
         "pattern": (
             "def trust_check(trust, threshold):\n"
+"    # 生效条件：参数 trust/threshold 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 信任检查：信任值 ≥ 门槛 放行（智能论信任作为运行时语义）\n"
             "    return 'pass' if trust >= threshold else 'fail'\n"),
         "cases": [((0.8, 0.7), 'pass'),
@@ -1666,6 +1843,9 @@ COMPILER_UNITS = {
         "task": "信息差追踪",
         "pattern": (
             "def info_gap_track(events, op, gap=None, node=None):\n"
+"    # 生效条件：op ∈ {latest, max, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 信息差追踪：record 记录节点信息差 / max 最大 / latest 最新\n"
             "    if op == 'record':\n"
             "        events.append({'node': node, 'gap': gap})\n"
@@ -1689,6 +1869,9 @@ COMPILER_UNITS = {
         "task": "条件空间类型",
         "pattern": (
             "def space_type_check(declared, used):\n"
+"    # 生效条件：参数 declared/used 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 set\n"
+"    # 执行：顺序调用\n"
             "    # 条件空间类型：使用须在已声明空间内（条件空间=类型系统语义）\n"
             "    return ([] if set(used) <= set(declared)\n"
             "            else sorted(set(used) - set(declared)))\n"),
@@ -1702,6 +1885,9 @@ COMPILER_UNITS = {
         "task": "条件断点",
         "pattern": (
             "def cond_breakpoint(breaks, op, addr=None, cond=None, env=None):\n"
+"    # 生效条件：op ∈ {hit, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 条件断点：set 设置条件 / hit 命中（条件满足才停）\n"
             "    if op == 'set':\n"
             "        breaks[addr] = cond\n"
@@ -1725,6 +1911,9 @@ COMPILER_UNITS = {
         "task": "调用计数",
         "pattern": (
             "def call_counter(stats, op, func=None):\n"
+"    # 生效条件：op ∈ {count, report}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 调用计数：count 记录调用 / report 报告（profiler 调用次数）\n"
             "    if op == 'count':\n"
             "        stats[func] = stats.get(func, 0) + 1\n"
@@ -1742,6 +1931,9 @@ COMPILER_UNITS = {
         "task": "覆盖率",
         "pattern": (
             "def coverage_track(covered, op, addr=None, total=None):\n"
+"    # 生效条件：op ∈ {mark, report}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 覆盖率：mark 标记执行 / report 报告（指令覆盖百分比）\n"
             "    if op == 'mark':\n"
             "        covered.add(addr)\n"
@@ -1761,6 +1953,9 @@ COMPILER_UNITS = {
         "task": "窥孔优化",
         "pattern": (
             "def peephole_opt(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 窥孔优化：PUSH 0 + ADD → 弹出（冗余指令模式替换）\n"
             "    out = []\n"
             "    i = 0\n"
@@ -1784,6 +1979,9 @@ COMPILER_UNITS = {
         "task": "指令融合",
         "pattern": (
             "def fuse_load_store(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 指令融合：LOAD x + STORE x → MOV（复制指令融合）\n"
             "    out = []\n"
             "    i = 0\n"
@@ -1808,6 +2006,9 @@ COMPILER_UNITS = {
         "task": "循环不变式",
         "pattern": (
             "def loop_invariant(body, invariant_ops):\n"
+"    # 生效条件：参数 body/invariant_ops 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 循环不变式：不变指令外提（循环外计算一次）\n"
             "    loop_part = []\n"
             "    hoisted = []\n"
@@ -1828,6 +2029,9 @@ COMPILER_UNITS = {
         "task": "字典字面量",
         "pattern": (
             "def parse_dict(tokens, i):\n"
+"    # 生效条件：参数 tokens/i 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 字典字面量：'{' 键:值 '}' 解析（冒号分隔键值对）\n"
             "    if tokens[i] != '{':\n"
             "        return None, i\n"
@@ -1852,6 +2056,9 @@ COMPILER_UNITS = {
         "task": "元组解析",
         "pattern": (
             "def parse_tuple(tokens, i):\n"
+"    # 生效条件：参数 tokens/i 合法\n"
+"    # 子功能：① 调用 tuple；② 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 元组解析：'(' 元素 ')' 解析（逗号分隔——元组字面量）\n"
             "    if tokens[i] != '(':\n"
             "        return None, i\n"
@@ -1872,6 +2079,9 @@ COMPILER_UNITS = {
         "task": "转义序列",
         "pattern": (
             "def unescape(text):\n"
+"    # 生效条件：nxt ∈ {n, t}\n"
+"    # 子功能：1 nxt 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 转义序列：反斜杠n 反斜杠t 反斜杠引号 解码（字符串转义处理）\n"
             "    out = []\n"
             "    i = 0\n"
@@ -1902,6 +2112,9 @@ COMPILER_UNITS = {
         "task": "布尔字面量",
         "pattern": (
             "def parse_bool(token):\n"
+"    # 生效条件：token ∈ {假, 真}\n"
+"    # 子功能：1 token 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 布尔字面量：真/假 → True/False（布尔值解析）\n"
             "    if token == '真':\n"
             "        return (True, 1)\n"
@@ -1918,6 +2131,9 @@ COMPILER_UNITS = {
         "task": "空值字面量",
         "pattern": (
             "def parse_null(token):\n"
+"    # 生效条件：参数 token 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 空值字面量：无/空 → None（空值解析）\n"
             "    if token in ('无', '空'):\n"
             "        return (None, 1)\n"
@@ -1932,6 +2148,9 @@ COMPILER_UNITS = {
         "task": "行号跟踪",
         "pattern": (
             "def track_lines(src):\n"
+"    # 生效条件：参数 src 合法\n"
+"    # 子功能：① 调用 enumerate；② 调用 chr\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 行号跟踪：源码按行拆 token 并附行号（定位调试用）\n"
             "    out = []\n"
             "    for i, line in enumerate(src.split(chr(10)), 1):\n"
@@ -1949,6 +2168,9 @@ COMPILER_UNITS = {
         "task": "关键字识别",
         "pattern": (
             "def keyword_check(word, keywords):\n"
+"    # 生效条件：参数 word/keywords 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 关键字识别：命中关键字表返回 (KW, 词) 否则 None（词法分类）\n"
             "    if word in keywords:\n"
             "        return ('KW', word)\n"
@@ -1964,6 +2186,9 @@ COMPILER_UNITS = {
         "task": "常量池",
         "pattern": (
             "def literal_pool(pool, op, value=None):\n"
+"    # 生效条件：op ∈ {add, get, size}；pool.index 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 常量池：add 去重登记 / get 取索引 / size 池大小（字面量去重）\n"
             "    if op == 'add':\n"
             "        if value not in pool:\n"
@@ -1986,6 +2211,9 @@ COMPILER_UNITS = {
         "task": "语句分隔",
         "pattern": (
             "def split_statements(src):\n"
+"    # 生效条件：s.strip 可用\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 语句分隔：按分号拆分多语句（语句序列解析）\n"
             "    return [s.strip() for s in src.split(';') if s.strip()]\n"),
         "cases": [
@@ -2000,6 +2228,9 @@ COMPILER_UNITS = {
         "task": "异常处理",
         "pattern": (
             "def vm_exception(state, op, etype=None):\n"
+"    # 生效条件：op ∈ {clear, handler, raise}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # VM 异常处理：raise 抛异常 / handler 查处理表 / clear 清除（异常跳转）\n"
             "    if op == 'raise':\n"
             "        state['exc'] = etype\n"
@@ -2023,6 +2254,9 @@ COMPILER_UNITS = {
         "task": "表达式树",
         "pattern": (
             "def build_expr_tree(tokens, pos=0):\n"
+"    # 生效条件：tok ∈ {(, )}\n"
+"    # 子功能：1 tok 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
             "    # 表达式树：中缀 token → 嵌套树（AST 节点构建）\n"
             "    stack = []\n"
             "    for tok in tokens:\n"
@@ -2048,6 +2282,9 @@ COMPILER_UNITS = {
         "task": "栈深度分析",
         "pattern": (
             "def stack_depth(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 max\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 栈深度分析：模拟指令流求最大栈深（编译期栈大小）\n"
             "    depth = 0\n"
             "    mx = 0\n"
@@ -2069,6 +2306,9 @@ COMPILER_UNITS = {
         "task": "基本块",
         "pattern": (
             "def basic_blocks(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 基本块：按跳转目标/跳转指令切分（控制流线性段）\n"
             "    blocks = []\n"
             "    cur = []\n"
@@ -2091,6 +2331,9 @@ COMPILER_UNITS = {
         "task": "支配树",
         "pattern": (
             "def dominator_tree(adj, entry):\n"
+"    # 生效条件：set.intersection 可用\n"
+"    # 子功能：① 调用 list；② 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 支配树：入口可达必经节点（支配关系——必经点）\n"
             "    nodes = list(adj)\n"
             "    dom = {n: set(nodes) for n in nodes}\n"
@@ -2121,6 +2364,9 @@ COMPILER_UNITS = {
         "task": "中间表示",
         "pattern": (
             "def to_ir(expr, op):\n"
+"    # 生效条件：op ∈ {assign, binary}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 中间表示：表达式 → 三地址码（IR 生成）\n"
             "    if op == 'assign':\n"
             "        return [('=', expr[0], expr[1], None)]\n"
@@ -2140,6 +2386,9 @@ COMPILER_UNITS = {
         "task": "循环检测",
         "pattern": (
             "def cycle_detect(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 dfs\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 循环检测：DFS 三色标记（灰=在栈，回灰边即环）\n"
             "    WHITE, GRAY, BLACK = 0, 1, 2\n"
             "    color = {}\n"
@@ -2168,6 +2417,9 @@ COMPILER_UNITS = {
         "task": "指令调度",
         "pattern": (
             "def schedule_insn(instrs):\n"
+"    # 生效条件：arg.startswith 可用\n"
+"    # 子功能：① 调用 set；② 调用 isinstance；③ 调用 any\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 指令调度：无依赖指令前移（乱序发射——减少停顿）\n"
             "    deps = set()\n"
             "    for ins in instrs:\n"
@@ -2190,6 +2442,9 @@ COMPILER_UNITS = {
         "task": "寄存器溢出",
         "pattern": (
             "def spill_regs(active, regs):\n"
+"    # 生效条件：参数 active/regs 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 寄存器溢出：活跃变量超寄存器数 → 溢出处（spill 内存）\n"
             "    if len(active) <= regs:\n"
             "        return []\n"
@@ -2207,6 +2462,9 @@ COMPILER_UNITS = {
         "task": "数组操作",
         "pattern": (
             "def array_ops(arr, op, idx=None, val=None):\n"
+"    # 生效条件：op ∈ {aget, aset, size}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 数组操作：aget 索引读 / aset 索引写 / size 长度（数组 VM 指令）\n"
             "    if op == 'aget':\n"
             "        if 0 <= idx < len(arr):\n"
@@ -2232,6 +2490,9 @@ COMPILER_UNITS = {
         "task": "污点分析",
         "pattern": (
             "def taint_prop(state, op, var=None, source=None):\n"
+"    # 生效条件：op ∈ {check, mark, propagate}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 污点分析：mark 标记污点 / propagate 传播 / check 查询（安全数据流）\n"
             "    if op == 'mark':\n"
             "        state.setdefault('taint', set()).add(var)\n"
@@ -2256,6 +2517,9 @@ COMPILER_UNITS = {
         "task": "边界检查消除",
         "pattern": (
             "def bounds_elim(loops, op, info=None):\n"
+"    # 生效条件：op ∈ {eliminate, prove}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 边界检查消除：prove 证明范围 / eliminate 消除检查 / keep 保留（循环不变边界）\n"
             "    if op == 'prove':\n"
             "        lo, hi, idx = info\n"
@@ -2277,6 +2541,9 @@ COMPILER_UNITS = {
         "task": "字符类别",
         "pattern": (
             "def char_class(ch):\n"
+"    # 生效条件：ch.isalpha 可用；ch.isdigit 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 字符类别：字母/数字/空白/其他（词法分类基础）\n"
             "    if ch.isalpha():\n"
             "        return 'letter'\n"
@@ -2297,6 +2564,9 @@ COMPILER_UNITS = {
         "task": "括号匹配",
         "pattern": (
             "def bracket_balance(text):\n"
+"    # 生效条件：参数 text 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 括号匹配：栈配对校验（()[]{} 嵌套平衡）\n"
             "    pairs = {')': '(', ']': '[', '}': '{'}\n"
             "    stack = []\n"
@@ -2319,6 +2589,9 @@ COMPILER_UNITS = {
         "task": "指令选择",
         "pattern": (
             "def insn_select(ir):\n"
+"    # 生效条件：参数 ir 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 指令选择：IR 操作 → 目标指令（模式匹配翻译）\n"
             "    table = {'+': 'ADD', '-': 'SUB', '*': 'MUL', '/': 'DIV', '=': 'MOV'}\n"
             "    return [table.get(op, 'NOP') for op in ir]\n"),
@@ -2333,6 +2606,9 @@ COMPILER_UNITS = {
         "task": "循环开销",
         "pattern": (
             "def loop_cost(body, trips):\n"
+"    # 生效条件：参数 body/trips 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 循环开销：循环体指令数 × 迭代次数（热循环估算）\n"
             "    return len(body) * trips\n"),
         "cases": [
@@ -2346,6 +2622,9 @@ COMPILER_UNITS = {
         "task": "字符串拼接",
         "pattern": (
             "def concat_fold(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 len；② 调用 isinstance\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 字符串拼接优化：相邻常量串拼接折叠（concat 合并）\n"
             "    out = []\n"
             "    i = 0\n"
@@ -2374,6 +2653,9 @@ COMPILER_UNITS = {
         "task": "指令大小",
         "pattern": (
             "def insn_size(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 sum\n"
+"    # 执行：顺序调用\n"
             "    # 指令大小：每条指令编码字节数（紧凑字节码尺寸）\n"
             "    sizes = {op: 1 for op in ('PUSH', 'STORE', 'LOAD', 'JUMP', 'ADD')}\n"
             "    return sum(sizes.get(ins[0], 1) for ins in instrs)\n"),
@@ -2388,6 +2670,9 @@ COMPILER_UNITS = {
         "task": "控制流图",
         "pattern": (
             "def build_cfg(blocks, jumps):\n"
+"    # 生效条件：参数 blocks/jumps 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # 控制流图：基本块间跳转关系（CFG 边构建）\n"
             "    cfg = {b: [] for b in blocks}\n"
             "    for src, dst in jumps:\n"
@@ -2404,6 +2689,9 @@ COMPILER_UNITS = {
         "task": "内联缓存",
         "pattern": (
             "def inline_cache(state, op, cls=None, target=None):\n"
+"    # 生效条件：op ∈ {learn, lookup, miss}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 内联缓存：learn 学习 / lookup 命中 / miss 未命中（多态内联缓存）\n"
             "    if op == 'learn':\n"
             "        state.setdefault('cache', {})[cls] = target\n"
@@ -2426,6 +2714,9 @@ COMPILER_UNITS = {
         "task": "寄存器着色",
         "pattern": (
             "def reg_color(intervals, regs):\n"
+"    # 生效条件：参数 intervals/regs 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 寄存器着色：活跃区间贪心分配（冲突图着色）\n"
             "    assign = {}\n"
             "    for var, (start, end) in intervals:\n"
@@ -2447,6 +2738,9 @@ COMPILER_UNITS = {
         "task": "数字后缀",
         "pattern": (
             "def num_suffix(text):\n"
+"    # 生效条件：text.lower 可用；t.startswith 可用\n"
+"    # 子功能：① 调用 int\n"
+"    # 执行：顺序调用\n"
             "    # 数字后缀：解析 0x 十六进制/0b 二进制/后缀 k/m（字面量变体）\n"
             "    t = text.lower()\n"
             "    if t.startswith('0x'):\n"
@@ -2470,6 +2764,9 @@ COMPILER_UNITS = {
         "task": "逃逸分析",
         "pattern": (
             "def escape_analysis(alloc, ops):\n"
+"    # 生效条件：参数 alloc/ops 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 逃逸分析：对象是否逃逸函数（栈上分配可行性）\n"
             "    if 'return' in ops or 'store' in ops:\n"
             "        return 'escaped'\n"
@@ -2486,6 +2783,9 @@ COMPILER_UNITS = {
         "task": "去虚拟化",
         "pattern": (
             "def devirt(dispatch, known):\n"
+"    # 生效条件：参数 dispatch/known 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 去虚拟化：已知单实现调用替换为直接调用（内联化前提）\n"
             "    out = []\n"
             "    for cls, method in dispatch:\n"

@@ -180,10 +180,11 @@ def search(question: str, nodes=None, top: int = 5) -> list:
         common = q & idx['tokens']
         if not common:
             continue
-        # 命中词数 + task 权威名加权（task 整体出现在核心词 → 强加权；
-        # 二元组部分包含不再计——「数据包采样」task 含「数据包」但不代表
-        # 「数据包解析」问它，避免平局误判）+ 注释覆盖率
-        task_hit = 2 if n['task'] and n['task'] in core else 0
+        # 命中词数 + task 权威名加权（task == core 或 core 以 task 结尾——
+        # 「路径解析」是「文件系统路径解析」的动作后缀 ✓，「文件系统」是
+        # 前缀修饰非动作 ✗——动作词优先，避免修饰词误加权）+ 注释覆盖率
+        task_hit = 2 if n['task'] and (n['task'] == core
+                                       or core.endswith(n['task'])) else 0
         # 子功能词加权（语义时空图·结构面）：问题问内部子能力（子功能行命中）
         sub_hit = len(q & idx['sub_tokens'])
         # task 权威名精确匹配：核心词与 task 完全相等（「最短路径」== task，

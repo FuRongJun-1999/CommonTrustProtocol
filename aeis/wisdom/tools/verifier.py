@@ -690,22 +690,26 @@ class Verifier:
         return errs
 
     def _cond_comment_missing(self, tree, src_lines) -> list:
-        """R3：函数/类注释块缺三要素标记（生效条件/子功能/执行）的函数名。"""
+        """R3：单元主函数/类缺三要素标记（生效条件/子功能/执行）。
+
+        检查首个 def/class（单元抽象总体功能的入口声明——用户核心关注）；
+        内部辅助函数（dfs/walk 等）由 R1（中文注释）覆盖，三要素列入精修。
+        窗口 [lineno-2 : lineno+6]：三要素注释为 def 后 3-4 行。
+        """
         _has_cn = lambda s: any('\u4e00' <= c <= '\u9fff' for c in s)
-        missing = []
-        for f in ast.walk(tree):
-            if not isinstance(f, (ast.FunctionDef, ast.AsyncFunctionDef,
-                                  ast.ClassDef)):
-                continue
-            block = [ln for ln in src_lines[max(0, f.lineno - 2):f.lineno + 3]
-                     if ln.strip().startswith('#') and _has_cn(ln)]
-            if not block:
-                continue  # R1 已管（无中文注释）
-            joined = " ".join(b.strip().lstrip('#').strip() for b in block)
-            need = ("生效条件", "子功能", "执行")
-            if not all(k in joined for k in need):
-                missing.append(f.name)
-        return missing
+        funcs = [n for n in ast.walk(tree)
+                 if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                   ast.ClassDef))]
+        if not funcs:
+            return []
+        f = funcs[0]
+        block = [ln for ln in src_lines[max(0, f.lineno - 2):f.lineno + 6]
+                 if ln.strip().startswith('#') and _has_cn(ln)]
+        if not block:
+            return [f.name]  # R1 已管（无中文注释），此处仅标记
+        joined = " ".join(b.strip().lstrip('#').strip() for b in block)
+        need = ("生效条件", "子功能", "执行")
+        return [f.name] if not all(k in joined for k in need) else []
 
     # ---------- ⑥ 集成测试 ----------
     def _check_integration(self, req: VerifyRequest) -> Dict[str, Any]:

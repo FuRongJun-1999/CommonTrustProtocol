@@ -12,6 +12,9 @@ NET_UNITS = {
         "task": "IP分片",
         "pattern": (
             "def ip_fragment(packet_size, mtu):\n"
+"    # 生效条件：math.ceil 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # IP 分片：包大小 + MTU → 分片数（每片含 20B IP 头）\n"
             "    import math\n"
             "    if packet_size <= mtu:\n"
@@ -49,6 +52,9 @@ NET_UNITS = {
         "task": "校验和",
         "pattern": (
             "def checksum(data):\n"
+"    # 生效条件：参数 data 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # UDP 校验和（简化）：16 位和进位折叠 → 取反\n"
             "    total = 0\n"
             "    for b in data:\n"
@@ -66,6 +72,9 @@ NET_UNITS = {
         "task": "局域网发现",
         "pattern": (
             "def discover(devices, heartbeat_ttl=3):\n"
+"    # 生效条件：参数 devices/heartbeat_ttl 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 局域网发现：设备表+心跳 → 在线设备（心跳超时剔除）\n"
             "    online = []\n"
             "    for dev in devices:\n"
@@ -82,6 +91,9 @@ NET_UNITS = {
         "task": "蜂群中继",
         "pattern": (
             "def swarm_relay(neighbors, source, message=None):\n"
+"    # 生效条件：参数 neighbors/source/message 合法\n"
+"    # 子功能：① 调用 set；② 调用 relay；③ 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 蜂群消息：源节点 → 邻居递归中继（seen 防回环）\n"
             "    delivered = set()\n"
             "    def relay(node, seen):\n"
@@ -104,6 +116,9 @@ NET_UNITS = {
         "task": "消息去重",
         "pattern": (
             "def dedup(messages, seen_ids):\n"
+"    # 生效条件：参数 messages/seen_ids 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 蜂群消息去重：已见 ID 跳过，新 ID 投递（防重复传播）\n"
             "    new = []\n"
             "    for msg in messages:\n"
@@ -121,6 +136,9 @@ NET_UNITS = {
         "task": "路由表",
         "pattern": (
             "def route_table_update(table, node, next_hop):\n"
+"    # 生效条件：参数 table/node/next_hop 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 路由表：节点 → 下一跳 维护（更新/查询）\n"
             "    if next_hop is not None:\n"
             "        table[node] = next_hop\n"
@@ -135,6 +153,9 @@ NET_UNITS = {
         "task": "超时重传",
         "pattern": (
             "def retransmit(packets, ack_ids, max_tries=3):\n"
+"    # 生效条件：参数 packets/ack_ids/max_tries 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 蜂群可靠传输：未确认包超时重传（超过重试上限放弃）\n"
             "    need = []\n"
             "    for p in packets:\n"
@@ -155,6 +176,9 @@ NET_UNITS = {
         "task": "停等协议",
         "pattern": (
             "def stop_and_wait(send_packets, ack_all=True):\n"
+"    # 生效条件：参数 send_packets/ack_all 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 停等协议：发送→等确认→再发下一个（ack_all=False 首包后停止）\n"
             "    sent = []\n"
             "    for p in send_packets:\n"
@@ -172,6 +196,9 @@ NET_UNITS = {
         "task": "消息分帧",
         "pattern": (
             "def frame_decode(buf, delim=b'\\r\\n'):\n"
+"    # 生效条件：buf.find 可用\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 蜂群会话层：字节流按分隔符分帧（粘包/半包处理）\n"
             "    frames = []\n"
             "    while True:\n"
@@ -191,6 +218,9 @@ NET_UNITS = {
         "task": "会话状态",
         "pattern": (
             "def session_step(session, event):\n"
+"    # 生效条件：参数 session/event 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # 蜂群会话状态机：LISTEN→SYN_SENT→ESTABLISHED（确认）→CLOSED（结束）\n"
             "    s = session.get('state', 'LISTEN')\n"
             "    if s == 'LISTEN' and event == 'SYN':\n"
@@ -235,6 +265,9 @@ NET_UNITS = {
         "task": "累积确认",
         "pattern": (
             "def cum_ack(received, seq):\n"
+"    # 生效条件：参数 received/seq 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # TCP 累积确认：收到乱序包不确认，连续序列推进 ack（收到 3 则 1,2,3 都确认）\n"
             "    received.add(seq)\n"
             "    ack = 0\n"
@@ -252,6 +285,9 @@ NET_UNITS = {
         "task": "拥塞控制",
         "pattern": (
             "def slow_start(cwnd, ssthresh, acked, lost):\n"
+"    # 生效条件：参数 cwnd/ssthresh/acked/lost 合法\n"
+"    # 子功能：① 调用 max；② 调用 min\n"
+"    # 执行：顺序调用\n"
             "    # TCP 拥塞控制：慢启动（cwnd 每 RTT 翻倍）→ 阈值后拥塞避免（线性+1）\n"
             "    # cwnd=拥塞窗口 ssthresh=慢启动阈值 acked=本 RTT 确认数 lost=是否丢包\n"
             "    if lost:\n"
@@ -272,6 +308,9 @@ NET_UNITS = {
         "task": "CIDR子网",
         "pattern": (
             "def cidr_network(ip, prefix):\n"
+"    # 生效条件：参数 ip/prefix 合法\n"
+"    # 子功能：① 调用 int；② 调用 to_ip；③ 调用 max\n"
+"    # 执行：顺序调用\n"
             "    # IP 子网计算：IP + 前缀长度 → 网络地址/广播地址/主机数\n"
             "    parts = [int(x) for x in ip.split('.')]\n"
             "    mask_int = (0xFFFFFFFF << (32 - prefix)) & 0xFFFFFFFF\n"
@@ -296,6 +335,9 @@ NET_UNITS = {
         "task": "距离矢量",
         "pattern": (
             "def distance_vector(routes, neighbor, neighbor_routes):\n"
+"    # 生效条件：参数 routes/neighbor/neighbor_routes 合法\n"
+"    # 子功能：① 调用 dict\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 距离矢量路由（RIP）：收到邻居路由表 → 合并（距离+1，取最短）\n"
             "    for dst, dist in neighbor_routes.items():\n"
             "        nd = dist + 1\n"
@@ -313,6 +355,9 @@ NET_UNITS = {
         "task": "NAT转换",
         "pattern": (
             "def nat_translate(table, src_ip, src_port, pub_ip):\n"
+"    # 生效条件：参数 table/src_ip/src_port/pub_ip 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # NAT：内网地址→公网地址（端口映射表；已映射复用端口）\n"
             "    key = (src_ip, src_port)\n"
             "    if key in table:\n"
@@ -335,6 +380,9 @@ NET_UNITS = {
         "task": "DNS解析",
         "pattern": (
             "def dns_resolve(cache, domain):\n"
+"    # 生效条件：参数 cache/domain 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # DNS 解析：域名→IP（缓存命中直返；未命中模拟查询 8.8.8.8）\n"
             "    if domain in cache:\n"
             "        return cache[domain], 'cache'\n"
@@ -351,6 +399,9 @@ NET_UNITS = {
         "task": "HTTP状态码",
         "pattern": (
             "def http_status_class(code):\n"
+"    # 生效条件：参数 code 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # HTTP 状态码分类：2xx 成功/3xx 重定向/4xx 客户端错/5xx 服务端错\n"
             "    if 200 <= code < 300:\n"
             "        return '成功'\n"
@@ -370,6 +421,9 @@ NET_UNITS = {
         "task": "负载均衡",
         "pattern": (
             "def load_balance(servers, request_id):\n"
+"    # 生效条件：参数 servers/request_id 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 负载均衡：轮询调度（请求 → 服务器轮转分配）\n"
             "    if not servers:\n"
             "        return None\n"
@@ -384,6 +438,9 @@ NET_UNITS = {
         "task": "WebSocket握手",
         "pattern": (
             "def ws_handshake(headers):\n"
+"    # 生效条件：参数 headers 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # WebSocket 握手：HTTP Upgrade: websocket → 101 切换协议\n"
             "    upgrade = headers.get('Upgrade', '').lower()\n"
             "    key_ok = 'Sec-WebSocket-Key' in headers\n"
@@ -401,6 +458,9 @@ NET_UNITS = {
         "task": "帧封装",
         "pattern": (
             "def ws_frame(opcode, payload):\n"
+"    # 生效条件：参数 opcode/payload 合法\n"
+"    # 子功能：① 调用 len；② 调用 bytes\n"
+"    # 执行：顺序调用\n"
             "    # WebSocket 帧：首字节(FIN+opcode) + 长度 + 负载（RFC 6455 简化）\n"
             "    fin_opcode = 0x80 | opcode   # FIN=1 + 4bit opcode\n"
             "    n = len(payload)\n"
@@ -417,6 +477,9 @@ NET_UNITS = {
         "task": "流式传输",
         "pattern": (
             "def chunked_encode(data, size=4):\n"
+"    # 生效条件：chunk.decode 可用\n"
+"    # 子功能：① 调用 range；② 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 流式分块传输：数据切块 + 长度前缀（HTTP chunked 语义）\n"
             "    out = []\n"
             "    for i in range(0, len(data), size):\n"
@@ -433,6 +496,9 @@ NET_UNITS = {
         "task": "多路复用",
         "pattern": (
             "def stream_mux(streams):\n"
+"    # 生效条件：参数 streams 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # HTTP/2 多路复用：多流帧交错（流 ID + 数据 → 单连接混合帧）\n"
             "    frames = []\n"
             "    for sid, data in streams:\n"
@@ -448,6 +514,9 @@ NET_UNITS = {
         "task": "连接池",
         "pattern": (
             "def conn_pool(pool, op, host=None):\n"
+"    # 生效条件：op ∈ {get, put}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 连接池：获取复用/归还/新建（上限控制，避免频繁建连）\n"
             "    if op == 'get':\n"
             "        if pool.get(host):\n"
@@ -467,6 +536,9 @@ NET_UNITS = {
         "task": "QUIC握手",
         "pattern": (
             "def quic_handshake(cache, client):\n"
+"    # 生效条件：参数 cache/client 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # QUIC：0-RTT 快速握手（缓存会话 → 首次往返即发数据）\n"
             "    if client in cache:\n"
             "        return '0-RTT', cache[client]\n"
@@ -481,6 +553,9 @@ NET_UNITS = {
         "task": "BGP路径选择",
         "pattern": (
             "def bgp_select(routes):\n"
+"    # 生效条件：参数 routes 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # BGP 路径选择：AS 路径最短优先（选路决策属性）\n"
             "    best = None\n"
             "    for r in routes:\n"
@@ -499,6 +574,9 @@ NET_UNITS = {
         "task": "Anycast",
         "pattern": (
             "def anycast_select(servers, client_loc):\n"
+"    # 生效条件：参数 servers/client_loc 合法\n"
+"    # 子功能：① 调用 min；② 调用 abs\n"
+"    # 执行：顺序调用\n"
             "    # Anycast：同一 IP 多节点 → 选最近（就近接入语义）\n"
             "    if not servers:\n"
             "        return None\n"
@@ -515,6 +593,9 @@ NET_UNITS = {
         "task": "CRC校验",
         "pattern": (
             "def crc16(data):\n"
+"    # 生效条件：参数 data 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # CRC-16 校验：多项式 0x8005（数据完整性——传输错误检测）\n"
             "    crc = 0\n"
             "    for b in data:\n"
@@ -535,6 +616,9 @@ NET_UNITS = {
         "task": "IPv6地址",
         "pattern": (
             "def ipv6_parse(addr):\n"
+"    # 生效条件：参数 addr 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # IPv6 解析：压缩形式展开 + 分组（:: 零压缩还原）\n"
             "    if '::' in addr:\n"
             "        left, right = addr.split('::')\n"
@@ -555,6 +639,9 @@ NET_UNITS = {
         "task": "隧道封装",
         "pattern": (
             "def tunnel_encap(inner, outer_src, outer_dst):\n"
+"    # 生效条件：参数 inner/outer_src/outer_dst 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 隧道：内层包 + 外层头（IP-in-IP 封装——跨网络传输）\n"
             "    return {'outer': (outer_src, outer_dst), 'inner': inner}\n"
             "def tunnel_decap(pkt):\n"
@@ -569,6 +656,9 @@ NET_UNITS = {
         "task": "VLAN划分",
         "pattern": (
             "def vlan_tag(frame, vlan_id):\n"
+"    # 生效条件：参数 frame/vlan_id 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # VLAN：802.1Q 标签（4 字节——TPID+TCI 含 VID 12bit）\n"
             "    tci = vlan_id & 0xFFF\n"
             "    return ('0x8100', tci)\n"),
@@ -582,6 +672,9 @@ NET_UNITS = {
         "task": "MQTT发布订阅",
         "pattern": (
             "def mqtt_broker(broker, op, topic=None, payload=None, client=None):\n"
+"    # 生效条件：op ∈ {publish, subscribe}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # MQTT：发布/订阅（主题路由——客户端订阅主题收消息）\n"
             "    if op == 'subscribe':\n"
             "        broker.setdefault(topic, set()).add(client)\n"
@@ -600,6 +693,9 @@ NET_UNITS = {
         "task": "物联网遥测",
         "pattern": (
             "def iot_telemetry(devices, device, reading):\n"
+"    # 生效条件：参数 devices/device/reading 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # IoT 遥测：传感器读数上报（设备 → 平台数据流）\n"
             "    devices.setdefault(device, []).append(reading)\n"
             "    return len(devices[device])\n"),
@@ -613,6 +709,9 @@ NET_UNITS = {
         "task": "消息队列",
         "pattern": (
             "def msg_queue(q, op, item=None):\n"
+"    # 生效条件：op ∈ {dequeue, enqueue}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 消息队列：入队/出队（FIFO 生产消费解耦）\n"
             "    if op == 'enqueue':\n"
             "        q.append(item)\n"
@@ -632,6 +731,9 @@ NET_UNITS = {
         "task": "CDN缓存",
         "pattern": (
             "def cdn_cache(edges, content, url):\n"
+"    # 生效条件：参数 edges/content/url 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
             "    # CDN：边缘节点缓存（内容就近分发——回源/命中）\n"
             "    edge = edges[0] if edges else None\n"
             "    if edge is None:\n"
@@ -651,6 +753,9 @@ NET_UNITS = {
         "task": "边缘计算",
         "pattern": (
             "def edge_compute(nodes, task, data):\n"
+"    # 生效条件：参数 nodes/task/data 合法\n"
+"    # 子功能：① 调用 min\n"
+"    # 执行：顺序调用\n"
             "    # 边缘计算：任务分发到就近节点处理（延迟降低语义）\n"
             "    if not nodes:\n"
             "        return ('cloud', task)\n"
@@ -666,6 +771,9 @@ NET_UNITS = {
         "task": "内容路由",
         "pattern": (
             "def content_route(table, url):\n"
+"    # 生效条件：url.startswith 可用\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 内容路由：URL 前缀 → 后端节点（按内容寻址）\n"
             "    best = None\n"
             "    for prefix, node in table.items():\n"
@@ -683,6 +791,9 @@ NET_UNITS = {
         "task": "流量统计",
         "pattern": (
             "def traffic_stats(flows):\n"
+"    # 生效条件：参数 flows 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
             "    # 流量统计：每流字节/包汇总（流量分析）\n"
             "    stats = {}\n"
             "    for f in flows:\n"
@@ -702,6 +813,9 @@ NET_UNITS = {
         "task": "延迟测量",
         "pattern": (
             "def rtt_stats(samples):\n"
+"    # 生效条件：参数 samples 合法\n"
+"    # 子功能：① 调用 round；② 调用 min；③ 调用 max\n"
+"    # 执行：顺序调用\n"
             "    # RTT 测量：延迟样本 → 平均/最小/最大（链路质量）\n"
             "    if not samples:\n"
             "        return {'avg': 0.0, 'min': 0, 'max': 0}\n"
@@ -716,6 +830,9 @@ NET_UNITS = {
         "task": "异常检测",
         "pattern": (
             "def anomaly_detect(traffic, threshold):\n"
+"    # 生效条件：参数 traffic/threshold 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
             "    # 异常检测：流量突增（超过阈值 → 告警）\n"
             "    alerts = []\n"
             "    for t in traffic:\n"
@@ -752,6 +869,9 @@ NET_UNITS = {
         "task": "抓包分析",
         "pattern": (
             "def capture_stats(captures):\n"
+"    # 生效条件：参数 captures 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 抓包分析：包计数/协议分布（pcap 统计语义）\n"
             "    total = len(captures)\n"
             "    by_proto = {}\n"
@@ -768,6 +888,9 @@ NET_UNITS = {
         "task": "协议解码",
         "pattern": (
             "def hex_decode(hex_str):\n"
+"    # 生效条件：bytes.fromhex 可用\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 协议解码：十六进制 → 字节串（抓包数据解码）\n"
             "    return bytes.fromhex(hex_str)\n"),
         "cases": [(('48656c6c6f',), b'Hello'),
@@ -780,6 +903,9 @@ NET_UNITS = {
         "task": "令牌桶",
         "pattern": (
             "def token_bucket(tokens, capacity, rate, elapsed):\n"
+"    # 生效条件：参数 tokens/capacity/rate/elapsed 合法\n"
+"    # 子功能：① 调用 min\n"
+"    # 执行：顺序调用\n"
             "    # 令牌桶限速：按速率补令牌（上限 capacity）——流量整形\n"
             "    return min(capacity, tokens + rate * elapsed)\n"),
         "cases": [((0, 10, 2, 3), 6),
@@ -792,6 +918,9 @@ NET_UNITS = {
         "task": "服务发现",
         "pattern": (
             "def service_discover(registry, op, service=None, addr=None, ttl=0, now=0):\n"
+"    # 生效条件：op ∈ {discover, heartbeat, register}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 服务发现：注册 / 心跳续期 / 发现（健康节点，过期剔除）\n"
             "    if op == 'register':\n"
             "        registry[service] = {'addr': addr, 'expire': now + ttl}\n"
@@ -818,6 +947,9 @@ NET_UNITS = {
         "task": "加密握手",
         "pattern": (
             "def tls_handshake(state, op):\n"
+"    # 生效条件：op ∈ {exchange, finish, hello}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 加密传输：TLS 简化握手状态机（问候→密钥交换→完成→安全通道）\n"
             "    if op == 'hello':\n"
             "        state['phase'] = 'hello'\n"
@@ -850,6 +982,9 @@ NET_UNITS = {
         "task": "慢启动",
         "pattern": (
             "def slow_start(cwnd, ssthresh, rtts):\n"
+"    # 生效条件：参数 cwnd/ssthresh/rtts 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 慢启动：每 RTT 拥塞窗口翻倍（指数增长），达阈值转拥塞避免（线性）\n"
             "    for _ in range(rtts):\n"
             "        if cwnd < ssthresh:\n"
@@ -868,6 +1003,9 @@ NET_UNITS = {
         "task": "快速重传",
         "pattern": (
             "def fast_retransmit(dup_acks, threshold=3):\n"
+"    # 生效条件：参数 dup_acks/threshold 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # 快速重传：重复 ACK 达阈值立即重传（不等超时——快速恢复）\n"
             "    return dup_acks >= threshold\n"),
         "cases": [((2, 3), False),
@@ -881,6 +1019,9 @@ NET_UNITS = {
         "task": "选择性确认",
         "pattern": (
             "def sack_missing(received, expected):\n"
+"    # 生效条件：参数 received/expected 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：顺序调用\n"
             "    # 选择性确认：已收段 vs 期望序列 → 缺失段（SACK——只重传缺失）\n"
             "    return [i for i in range(1, expected + 1) if i not in received]\n"),
         "cases": [(({1, 2, 4}, 5), [3, 5]),
@@ -893,6 +1034,9 @@ NET_UNITS = {
         "task": "端口转发",
         "pattern": (
             "def port_forward(table, op, ext_port=None, int_host=None, int_port=None):\n"
+"    # 生效条件：op ∈ {add, lookup, remove}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 端口转发：add 映射 / lookup 查询 / remove 删除（外网端口→内网）\n"
             "    if op == 'add':\n"
             "        table[ext_port] = (int_host, int_port)\n"
@@ -914,6 +1058,9 @@ NET_UNITS = {
         "task": "QoS队列",
         "pattern": (
             "def qos_queue(queues, op, flow=None, priority=None):\n"
+"    # 生效条件：op ∈ {classify, dequeue, enqueue}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
             "    # QoS 队列：classify 流量分类 / enqueue 按优先级入队 / dequeue 高优先先出\n"
             "    if op == 'classify':\n"
             "        return 'high' if priority and priority >= 3 else 'low'\n"
@@ -940,6 +1087,9 @@ NET_UNITS = {
         "task": "链路聚合",
         "pattern": (
             "def link_aggregation(links, op, link_id=None, data=None):\n"
+"    # 生效条件：op ∈ {add, fail, send}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 链路聚合：add 加链路 / send 选最少链路分发（负载均衡）/ fail 故障切换\n"
             "    if op == 'add':\n"
             "        links.append({'id': link_id, 'up': True, 'sent': 0})\n"
@@ -971,6 +1121,9 @@ NET_UNITS = {
         "task": "滑动窗口限流",
         "pattern": (
             "def rate_limit(requests, window, limit):\n"
+"    # 生效条件：参数 requests/window/limit 合法\n"
+"    # 子功能：① 调用 enumerate；② 调用 sum\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 滑动窗口限流：窗口内请求数 ≤ 上限（时间戳窗口滑动）\n"
             "    out = []\n"
             "    for i, ts in enumerate(requests):\n"
@@ -989,6 +1142,9 @@ NET_UNITS = {
         "task": "反向代理",
         "pattern": (
             "def reverse_proxy(backends, op, backend_id=None):\n"
+"    # 生效条件：op ∈ {fail, recover, route}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 反向代理：route 轮询转发（客户端不知后端）/ fail 摘除 / recover 恢复\n"
             "    if op == 'route':\n"
             "        healthy = [i for i, b in enumerate(backends) if b.get('up', True)]\n"
@@ -1018,6 +1174,9 @@ NET_UNITS = {
         "task": "组播",
         "pattern": (
             "def multicast_group(groups, op, group=None, member=None, msg=None):\n"
+"    # 生效条件：op ∈ {join, leave, send}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 组播：join 加入组 / leave 离开 / send 组内广播（成员管理）\n"
             "    if op == 'join':\n"
             "        groups.setdefault(group, []).append(member)\n"
@@ -1042,6 +1201,9 @@ NET_UNITS = {
         "task": "Reno拥塞控制",
         "pattern": (
             "def reno_phase(state, event, cwnd=None):\n"
+"    # 生效条件：event ∈ {ack, loss}\n"
+"    # 子功能：1 event 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # Reno 拥塞控制：ack 慢启动翻倍/拥塞避免线性，loss 快速恢复（阈值减半）\n"
             "    if event == 'loss':\n"
             "        state['ssthresh'] = max((cwnd or state.get('cwnd', 1)) // 2, 1)\n"
@@ -1066,6 +1228,9 @@ NET_UNITS = {
         "task": "RTO退避",
         "pattern": (
             "def rto_backoff(rto, losses):\n"
+"    # 生效条件：参数 rto/losses 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
             "    # RTO 重传超时：指数退避（每次超时翻倍——避免拥塞加剧）\n"
             "    return rto * (2 ** losses)\n"),
         "cases": [((1.0, 0), 1.0),
@@ -1078,6 +1243,9 @@ NET_UNITS = {
         "task": "吞吐量测量",
         "pattern": (
             "def throughput(data_bytes, seconds):\n"
+"    # 生效条件：参数 data_bytes/seconds 合法\n"
+"    # 子功能：① 调用 round\n"
+"    # 执行：顺序调用\n"
             "    # 吞吐量测量：字节数 / 时间（单位 KB/s）\n"
             "    return round(data_bytes / 1024 / seconds, 3) if seconds else 0.0\n"),
         "cases": [((10240, 10), 1.0),
@@ -1090,6 +1258,9 @@ NET_UNITS = {
         "task": "链路状态路由",
         "pattern": (
             "def link_state_routing(graph, source):\n"
+"    # 生效条件：unvisited.discard 可用\n"
+"    # 子功能：① 调用 set；② 调用 min；③ 调用 float\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 链路状态路由：Dijkstra 最短路径树（OSPF 全拓扑计算）\n"
             "    dist = {source: 0}\n"
             "    prev = {}\n"
@@ -1117,6 +1288,9 @@ NET_UNITS = {
         "task": "策略路由",
         "pattern": (
             "def policy_routing(policies, op, flow=None, policy_name=None):\n"
+"    # 生效条件：op ∈ {add, match}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 策略路由：add 注册策略 / match 按流量特征匹配（源地址/类型）\n"
             "    if op == 'add':\n"
             "        policies[policy_name] = flow\n"
@@ -1139,6 +1313,9 @@ NET_UNITS = {
         "task": "多径传输",
         "pattern": (
             "def multipath_send(paths, op, subflow=None, data=None):\n"
+"    # 生效条件：op ∈ {add, send, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 多径传输：MPTCP 多子流并行（add 加子流 / send 选最少 / stats 汇总）\n"
             "    if op == 'add':\n"
             "        paths[subflow] = {'sent': 0}\n"
@@ -1165,6 +1342,9 @@ NET_UNITS = {
         "task": "访问令牌",
         "pattern": (
             "def token_ops(tokens, op, token=None, user=None, ttl=0, now=0):\n"
+"    # 生效条件：op ∈ {issue, revoke, verify}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 访问令牌：issue 签发 / verify 校验（未过期且有效）/ revoke 吊销\n"
             "    if op == 'issue':\n"
             "        tokens[token] = {'user': user, 'expire': now + ttl,\n"
@@ -1196,6 +1376,9 @@ NET_UNITS = {
         "task": "压缩传输",
         "pattern": (
             "def compress_transfer(data, mode):\n"
+"    # 生效条件：mode ∈ {compress, decompress}\n"
+"    # 子功能：1 mode 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 压缩传输：compress 行程编码（RLE 重复段）/ decompress 还原\n"
             "    if mode == 'compress':\n"
             "        out = []\n"
@@ -1220,6 +1403,9 @@ NET_UNITS = {
         "task": "会话亲和",
         "pattern": (
             "def sticky_session(backends, op, session=None, backend_id=None):\n"
+"    # 生效条件：op ∈ {bind, route}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 会话亲和：bind 绑定会话到后端 / route 同会话同后端（sticky session）\n"
             "    if op == 'bind':\n"
             "        backends[session] = backend_id\n"
@@ -1237,6 +1423,9 @@ NET_UNITS = {
         "task": "链路加密",
         "pattern": (
             "def link_encrypt(frames, op, frame=None, key=7):\n"
+"    # 生效条件：op ∈ {decrypt, encrypt}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 链路加密：encrypt 帧加密（异或密钥）/ decrypt 解密（MACsec 链路层）\n"
             "    if op == 'encrypt':\n"
             "        frames[frame] = ''.join(chr(ord(c) ^ key) for c in frame)\n"
@@ -1257,6 +1446,9 @@ NET_UNITS = {
         "task": "流量镜像",
         "pattern": (
             "def port_mirror(monitor, op, src_port=None, dst_port=None, packet=None):\n"
+"    # 生效条件：op ∈ {capture, mirror, route}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 流量镜像：mirror 镜像源到目标 / capture 采集 / route 转发（SPAN）\n"
             "    if op == 'mirror':\n"
             "        monitor[src_port] = dst_port\n"
@@ -1278,6 +1470,9 @@ NET_UNITS = {
         "task": "网络切片",
         "pattern": (
             "def network_slice(slices, op, name=None, bw=None, flow=None):\n"
+"    # 生效条件：op ∈ {admit, create}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 网络切片：create 创建 / admit 带宽准入（按服务隔离网络资源）\n"
             "    if op == 'create':\n"
             "        slices[name] = {'bw': bw, 'used': 0}\n"
@@ -1304,6 +1499,9 @@ NET_UNITS = {
         "task": "分块传输",
         "pattern": (
             "def chunked_transfer(op, data=None, chunk_size=0):\n"
+"    # 生效条件：op ∈ {decode, encode}；data.index 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 分块传输：encode 分块编码（每块十六进制长度）/ decode 还原\n"
             "    if op == 'encode':\n"
             "        chunks = [data[i:i + chunk_size]\n"
@@ -1333,6 +1531,9 @@ NET_UNITS = {
         "task": "HTTP重定向",
         "pattern": (
             "def http_redirect(op, status=None, location=None, max_hops=5):\n"
+"    # 生效条件：op ∈ {follow}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
             "    # HTTP 重定向：follow 跟随 3xx（location 链，超跳数返回 None）\n"
             "    if op == 'follow':\n"
             "        hops = 0\n"
@@ -1353,6 +1554,9 @@ NET_UNITS = {
         "task": "内容协商",
         "pattern": (
             "def content_negotiation(accept, available, op='match'):\n"
+"    # 生效条件：op ∈ {match}；a.strip 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
             "    # 内容协商：Accept 头匹配可用类型（按序——最佳匹配）\n"
             "    if op == 'match':\n"
             "        for a in accept.split(','):\n"
@@ -1373,6 +1577,9 @@ NET_UNITS = {
         "task": "路径MTU发现",
         "pattern": (
             "def pmtu_discover(state, op, size=None, too_large=None):\n"
+"    # 生效条件：op ∈ {current, probe, result}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 路径 MTU 发现：probe 探测 / result 过大减 8 / current 当前值（PMTUD）\n"
             "    if op == 'probe':\n"
             "        state['mtu'] = size\n"
@@ -1396,6 +1603,9 @@ NET_UNITS = {
         "task": "端口扫描检测",
         "pattern": (
             "def scan_detect(conns, op, src=None, dst=None):\n"
+"    # 生效条件：op ∈ {check, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 端口扫描检测：record 记录连接 / check 检测（多端口快速尝试→扫描）\n"
             "    if op == 'record':\n"
             "        conns.setdefault(src, []).append(dst)\n"
@@ -1418,6 +1628,9 @@ NET_UNITS = {
         "task": "会话超时",
         "pattern": (
             "def session_timeout(sessions, op, session=None, now=None, timeout=30):\n"
+"    # 生效条件：op ∈ {activity, check}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 会话超时：activity 更新活跃 / check 检查（空闲超时断开）\n"
             "    if op == 'activity':\n"
             "        sessions[session] = now\n"
@@ -1439,6 +1652,9 @@ NET_UNITS = {
         "task": "消息路由",
         "pattern": (
             "def msg_routing(routes, op, topic=None, queue=None):\n"
+"    # 生效条件：op ∈ {bind, route}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 消息路由：bind 绑定主题到队列 / route 路由（主题→队列）\n"
             "    if op == 'bind':\n"
             "        routes.setdefault(topic, []).append(queue)\n"
@@ -1457,6 +1673,9 @@ NET_UNITS = {
         "task": "API限流",
         "pattern": (
             "def api_rate_limit(state, op, user=None, quota=0):\n"
+"    # 生效条件：op ∈ {check, use}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # API 限流：use 消耗配额 / check 检查（每用户配额）\n"
             "    if op == 'use':\n"
             "        state[user] = state.get(user, quota) - 1\n"
@@ -1475,6 +1694,9 @@ NET_UNITS = {
         "task": "数据序列化",
         "pattern": (
             "def proto_encode(fields, values):\n"
+"    # 生效条件：参数 fields/values 合法\n"
+"    # 子功能：① 调用 enumerate\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 数据序列化：字段表+值 → 紧凑编码（protobuf 简化——字段序号+类型+值）\n"
             "    out = []\n"
             "    for i, (name, typ) in enumerate(fields):\n"
@@ -1494,6 +1716,9 @@ NET_UNITS = {
         "task": "DHCP租约",
         "pattern": (
             "def dhcp_lease(pool, op, mac=None, ttl=3600):\n"
+"    # 生效条件：op ∈ {offer, release, renew}；state ∈ {free}\n"
+"    # 子功能：① op 分支处理；2 state 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # DHCP：offer 分配/释放 / renew 续租（IP 地址租约管理）\n"
             "    if op == 'offer':\n"
             "        for ip, state in pool.items():\n"
@@ -1526,6 +1751,9 @@ NET_UNITS = {
         "task": "ARP解析",
         "pattern": (
             "def arp_resolve(table, op, ip=None, mac=None):\n"
+"    # 生效条件：op ∈ {flush, learn, lookup}；table.clear 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # ARP：lookup IP→MAC / learn 学习缓存 / flush 清空（地址解析）\n"
             "    if op == 'lookup':\n"
             "        return table.get(ip)\n"
@@ -1547,6 +1775,9 @@ NET_UNITS = {
         "task": "ICMP探测",
         "pattern": (
             "def icmp_probe(results, op, target=None, rtt=None):\n"
+"    # 生效条件：op ∈ {ping, reply, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # ICMP：ping 记录往返 / reply 可达判定 / stats 汇总（探测协议）\n"
             "    if op == 'ping':\n"
             "        results.append({'target': target, 'rtt': rtt})\n"
@@ -1567,6 +1798,9 @@ NET_UNITS = {
         "task": "广播风暴",
         "pattern": (
             "def storm_control(state, op, port=None):\n"
+"    # 生效条件：op ∈ {block, count, rate}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 广播风暴：count 计数 / rate 速率 / block 超阈阻塞（风暴抑制）\n"
             "    if op == 'count':\n"
             "        state[port] = state.get(port, 0) + 1\n"
@@ -1588,6 +1822,9 @@ NET_UNITS = {
         "task": "心跳保活",
         "pattern": (
             "def keepalive(state, op, now=None):\n"
+"    # 生效条件：op ∈ {alive, beat, reset}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 心跳保活：beat 记录心跳 / alive 超时判定 / reset 重置（连接保活）\n"
             "    if op == 'beat':\n"
             "        state['last'] = now\n"
@@ -1610,6 +1847,9 @@ NET_UNITS = {
         "task": "报文重排序",
         "pattern": (
             "def reorder_buffer(state, op, seq=None, data=None):\n"
+"    # 生效条件：op ∈ {flush, put}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 报文重排序：put 乱序存入 / flush 按序取出（重排缓冲）\n"
             "    if op == 'put':\n"
             "        state.setdefault('buf', {})[seq] = data\n"
@@ -1635,6 +1875,9 @@ NET_UNITS = {
         "task": "CSMA退避",
         "pattern": (
             "def csma_backoff(state, op, attempt=None):\n"
+"    # 生效条件：op ∈ {collision, reset, wait}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # CSMA 退避：collision 碰撞计数 / wait 指数退避等待 / reset 重传成功清零（以太网）\n"
             "    if op == 'collision':\n"
             "        state['n'] = state.get('n', 0) + 1\n"
@@ -1658,6 +1901,9 @@ NET_UNITS = {
         "task": "路由收敛",
         "pattern": (
             "def route_converge(routes, op, src=None, change=None):\n"
+"    # 生效条件：op ∈ {converge, stable, update}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 路由收敛：update 链路变化 / converge 传播收敛 / stable 是否稳定（路由协议收敛）\n"
             "    if op == 'update':\n"
             "        routes['dirty'] = True\n"
@@ -1681,6 +1927,9 @@ NET_UNITS = {
         "task": "链路预算",
         "pattern": (
             "def link_budget(state, op, rssi=None):\n"
+"    # 生效条件：op ∈ {distance, measure, quality}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 链路预算：measure 记录 RSSI / quality 信号质量分级 / distance 距离估算（蓝牙）\n"
             "    if op == 'measure':\n"
             "        state['rssi'] = rssi\n"
@@ -1710,6 +1959,9 @@ NET_UNITS = {
         "task": "NTP同步",
         "pattern": (
             "def ntp_sync(state, op, t1=None, t2=None, t3=None):\n"
+"    # 生效条件：op ∈ {offset, roundtrip}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # NTP 同步：offset 时间偏移 / roundtrip 往返时延（时间同步协议）\n"
             "    if op == 'offset':\n"
             "        # 客户端 t1 发送，服务器 t2 收到 t3 回，客户端 t4 接收——简化两戳\n"
@@ -1728,6 +1980,9 @@ NET_UNITS = {
         "task": "报文分片",
         "pattern": (
             "def packet_frag(state, op, data=None, mtu=None):\n"
+"    # 生效条件：op ∈ {fragment, reassemble}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 报文分片：fragment 按 MTU 切分 / reassemble 按序号重组（IPv4 分片）\n"
             "    if op == 'fragment':\n"
             "        return [data[i:i + mtu] for i in range(0, len(data), mtu)]\n"
@@ -1745,6 +2000,9 @@ NET_UNITS = {
         "task": "前向纠错",
         "pattern": (
             "def fec_recover(blocks, op, idx=None):\n"
+"    # 生效条件：op ∈ {parity, recover}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 前向纠错：parity 异或校验块 / recover 缺块恢复（FEC 奇偶恢复）\n"
             "    if op == 'parity':\n"
             "        out = 0\n"
@@ -1770,6 +2028,9 @@ NET_UNITS = {
         "task": "尽力交付",
         "pattern": (
             "def best_effort(state, op, seq=None):\n"
+"    # 生效条件：op ∈ {delivered, drop, send}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 尽力交付：send 发送（无确认）/ drop 随机丢包模拟 / delivered 统计（UDP 语义）\n"
             "    if op == 'send':\n"
             "        state.setdefault('sent', []).append(seq)\n"
@@ -1794,6 +2055,9 @@ NET_UNITS = {
         "task": "带宽时延积",
         "pattern": (
             "def bdp_calc(bandwidth, rtt):\n"
+"    # 生效条件：参数 bandwidth/rtt 合法\n"
+"    # 子功能：① 调用 round\n"
+"    # 执行：顺序调用\n"
             "    # 带宽时延积：带宽×RTT = 在途数据量（管道容量）\n"
             "    return round(bandwidth * rtt, 2)\n"),
         "cases": [
@@ -1807,6 +2071,9 @@ NET_UNITS = {
         "task": "多宿主",
         "pattern": (
             "def multihoming(state, op, iface=None):\n"
+"    # 生效条件：op ∈ {add, failover, select}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 多宿主：add 添加接口 / select 按序选择 / failover 故障切换（多接口主机）\n"
             "    if op == 'add':\n"
             "        state.setdefault('ifaces', []).append(iface)\n"
@@ -1834,6 +2101,9 @@ NET_UNITS = {
         "task": "RTT平滑",
         "pattern": (
             "def rtt_smooth(state, op, sample=None, alpha=0.125):\n"
+"    # 生效条件：op ∈ {get, sample}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # RTT 平滑：sample 加权更新 / get 当前估值（EWMA 指数加权）\n"
             "    if op == 'sample':\n"
             "        prev = state.get('rtt', sample)\n"
@@ -1854,6 +2124,9 @@ NET_UNITS = {
         "task": "路由汇聚",
         "pattern": (
             "def route_summary(routes):\n"
+"    # 生效条件：参数 routes 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
             "    # 路由汇聚：同网段路由合成 CIDR 汇总（前两段公共）\n"
             "    if not routes:\n"
             "        return []\n"
@@ -1872,6 +2145,9 @@ NET_UNITS = {
         "task": "序列号回绕",
         "pattern": (
             "def seq_wrap(state, op, seq=None, space=2 ** 32):\n"
+"    # 生效条件：op ∈ {compare, next, wrap}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 序列号回绕：next 推进 / compare 回绕比较 / wrap 是否已回绕（TCP seq）\n"
             "    if op == 'next':\n"
             "        cur = state.get('seq', 0)\n"
@@ -1899,6 +2175,9 @@ NET_UNITS = {
         "task": "漏桶限流",
         "pattern": (
             "def leaky_bucket(state, op, size=None, rate=None):\n"
+"    # 生效条件：op ∈ {accept, fill, leak}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 漏桶限流：fill 灌桶 / leak 匀速漏 / accept 是否接受（平滑流量）\n"
             "    if op == 'fill':\n"
             "        cur = state.get('level', 0)\n"
@@ -1925,6 +2204,9 @@ NET_UNITS = {
         "task": "报文调度",
         "pattern": (
             "def wfq_schedule(queues, op, weights=None):\n"
+"    # 生效条件：op ∈ {dequeue, enqueue}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 报文调度：dequeue 按权重选队列 / enqueue 入队 / weights 查询（WFQ 加权公平）\n"
             "    if op == 'enqueue':\n"
             "        return queues\n"
@@ -1947,6 +2229,9 @@ NET_UNITS = {
         "task": "链路利用率",
         "pattern": (
             "def link_util(state, op, used=None, capacity=None):\n"
+"    # 生效条件：op ∈ {peak, sample, util}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 链路利用率：sample 记录 / util 当前利用率 / peak 峰值（链路占用）\n"
             "    if op == 'sample':\n"
             "        u = used / capacity if capacity else 0.0\n"
@@ -1971,6 +2256,9 @@ NET_UNITS = {
         "task": "带宽分配",
         "pattern": (
             "def bw_alloc(total, weights):\n"
+"    # 生效条件：参数 total/weights 合法\n"
+"    # 子功能：① 调用 sum；② 调用 round\n"
+"    # 执行：循环迭代；顺序调用\n"
             "    # 带宽分配：按权重比例分总带宽（公平分配）\n"
             "    s = sum(weights.values())\n"
             "    if s <= 0:\n"
@@ -1994,6 +2282,9 @@ NET_UNITS = {
         "task": "连接迁移",
         "pattern": (
             "def conn_migrate(state, op, ep=None):\n"
+"    # 生效条件：op ∈ {count, current, migrate}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 连接迁移：migrate 换端点 / current 当前端点 / count 迁移次数（QUIC migration）\n"
             "    if op == 'migrate':\n"
             "        state['ep'] = ep\n"
@@ -2016,6 +2307,9 @@ NET_UNITS = {
         "task": "重传统计",
         "pattern": (
             "def retrans_stats(state, op, seq=None):\n"
+"    # 生效条件：op ∈ {count, rate, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 重传统计：record 记录 / count 总数 / rate 重传率（可靠传输统计）\n"
             "    if op == 'record':\n"
             "        state.setdefault('retx', set()).add(seq)\n"
@@ -2040,6 +2334,9 @@ NET_UNITS = {
         "task": "路由衰减",
         "pattern": (
             "def route_damp(state, op, route=None, flappy=None):\n"
+"    # 生效条件：op ∈ {damped, record, reset}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 路由衰减：record 记录抖动 / damped 是否抑制 / reset 重置（BGP damping）\n"
             "    if op == 'record':\n"
             "        state.setdefault('flaps', {})[route] = state.get('flaps', {}).get(route, 0) + 1\n"
@@ -2062,6 +2359,9 @@ NET_UNITS = {
         "task": "流分类",
         "pattern": (
             "def flow_class(state, op, pkt=None):\n"
+"    # 生效条件：op ∈ {classify, reset, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 流分类：classify 分类 / stats 统计 / reset 清空（流量识别）\n"
             "    if op == 'classify':\n"
             "        port = pkt.get('port', 0)\n"
@@ -2086,6 +2386,9 @@ NET_UNITS = {
         "task": "数据包采样",
         "pattern": (
             "def pkt_sampling(state, op, pkt=None):\n"
+"    # 生效条件：op ∈ {count, rate, sample}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 数据包采样：sample 按率采样 / rate 采样率 / count 已采（流量采样）\n"
             "    if op == 'sample':\n"
             "        rate = state.get('rate', 1)\n"
@@ -2110,6 +2413,9 @@ NET_UNITS = {
         "task": "时隙",
         "pattern": (
             "def tdma_slot(state, op, node=None, slot=None):\n"
+"    # 生效条件：op ∈ {assign, next, owner}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
             "    # 时隙：assign 分配 / next 下一时隙 / owner 归属（TDMA 分时）\n"
             "    if op == 'assign':\n"
             "        state.setdefault('slots', {})[node] = slot\n"
@@ -2136,6 +2442,9 @@ NET_UNITS = {
         "task": "跳频",
         "pattern": (
             "def freq_hop(state, op, seq=None):\n"
+"    # 生效条件：op ∈ {current, hop, pattern}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 跳频：hop 下一频率 / current 当前 / pattern 序列（FHSS 抗干扰）\n"
             "    if op == 'hop':\n"
             "        pat = state.get('pattern', [2400, 2410, 2420])\n"
@@ -2160,6 +2469,9 @@ NET_UNITS = {
         "task": "误码率",
         "pattern": (
             "def ber_calc(state, op, errors=None, total=None):\n"
+"    # 生效条件：op ∈ {ber, sample, snr}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 误码率：sample 采样 / ber 误码率 / snr 信噪比映射（链路质量）\n"
             "    if op == 'sample':\n"
             "        state['errors'] = errors\n"
@@ -2184,6 +2496,9 @@ NET_UNITS = {
         "task": "拓扑发现",
         "pattern": (
             "def topo_discover(state, op, node=None, neighbor=None):\n"
+"    # 生效条件：op ∈ {link, neighbors, probe}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 拓扑发现：probe 探测 / link 记录 / neighbors 邻居表（LLDP/拓扑感知）\n"
             "    if op == 'probe':\n"
             "        state.setdefault('links', set()).add((node, neighbor))\n"
@@ -2205,6 +2520,9 @@ NET_UNITS = {
         "task": "路径备份",
         "pattern": (
             "def path_backup(state, op, route=None, backup=None):\n"
+"    # 生效条件：op ∈ {active, assign, failover}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 路径备份：assign 指定 / active 激活 / failover 主路故障切换（FRR）\n"
             "    if op == 'assign':\n"
             "        state['primary'] = route\n"
@@ -2231,6 +2549,9 @@ NET_UNITS = {
         "task": "数据去重",
         "pattern": (
             "def payload_dedup(state, op, data=None):\n"
+"    # 生效条件：op ∈ {dedup, hash, store}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
             "    # 数据去重：hash 指纹 / store 存储 / dedup 是否重复（网络级去重）\n"
             "    if op == 'hash':\n"
             "        return sum(ord(c) for c in data) % 997\n"
@@ -2254,6 +2575,9 @@ NET_UNITS = {
         "task": "网关",
         "pattern": (
             "def gateway(state, op, dest=None):\n"
+"    # 生效条件：op ∈ {default, route, table}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 网关：route 转发 / default 默认网关 / table 路由表（网络出口）\n"
             "    if op == 'route':\n"
             "        table = state.get('table', {})\n"
@@ -2285,6 +2609,9 @@ NET_UNITS = {
         "task": "端口镜像",
         "pattern": (
             "def port_mirror(state, op, src=None, dst=None):\n"
+"    # 生效条件：op ∈ {active, enable, mirror}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
             "    # 端口镜像：enable 启用 / mirror 复制 / active 状态（SPAN 监控）\n"
             "    if op == 'enable':\n"
             "        state['src'] = src\n"
@@ -2308,6 +2635,9 @@ NET_UNITS = {
         "task": "包过滤",
         "pattern": (
             "def packet_filter(state, op, pkt=None):\n"
+"    # 生效条件：op ∈ {filter, rules, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
             "    # 包过滤：rules 规则 / filter 过滤 / stats 统计（ACL 包过滤）\n"
             "    if op == 'rules':\n"
             "        state.setdefault('rules', []).append(pkt)\n"
