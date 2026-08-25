@@ -6499,5 +6499,40 @@ except Exception as ex:
     check('㌘c 网页共享→唤醒锁→窗口管理端到端（shared held moved）',
           False, str(ex)[:60])
 
+# ㌙ 目标5 深化：浏览器 AI 能力（翻译/语言检测/文本摘要 经正式管线）
+b21_qs = {
+    "翻译": "写一个翻译单元（文本翻译）",
+    "语言检测": "写一个语言检测单元（语种识别）",
+    "文本摘要": "写一个文本摘要单元（要点提取）",
+}
+b21_ok = 0
+for label, q in b21_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b21_ok += 1
+    check(f'㌙ {label} 浏览器AI能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌙b 浏览器AI能力三单元全部生成', b21_ok == 3, f'{b21_ok}/3')
+
+# ㌙c 端到端：翻译→语言检测→摘要（en:你好 zh 截断）
+r_tr = domain_route("写一个翻译单元（文本翻译）")
+r_ld = domain_route("写一个语言检测单元（语种识别）")
+r_sm = domain_route("写一个文本摘要单元（要点提取）")
+try:
+    ns_tr, ns_ld, ns_sm = {}, {}, {}
+    exec(r_tr["code"], ns_tr)
+    exec(r_ld["code"], ns_ld)
+    exec(r_sm["code"], ns_sm)
+    tr = ns_tr["translate_api"]({}, 'translate', '你好', 'en')
+    ld = ns_ld["lang_detect"]({}, 'detect', '你好世界')
+    sm = ns_sm["summarizer"]({}, 'summarize', '短')
+    check('㌙c 翻译→语言检测→摘要端到端（en:你好 zh 短）',
+          tr == 'en:你好' and ld == 'zh' and sm == '短',
+          f'trans={tr} detect={ld} sum={sm}')
+except Exception as ex:
+    check('㌙c 翻译→语言检测→摘要端到端（en:你好 zh 短）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

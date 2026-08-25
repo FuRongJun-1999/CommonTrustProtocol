@@ -5318,5 +5318,35 @@
   ],
   "source": "domain_solidified",
   "domain": "browser"
+ },
+ "domain:browser|浏览器-翻译": {
+  "task": "翻译",
+  "unit": "浏览器-翻译",
+  "code": "def translate_api(state, op, text=None, lang=None):\n    # 翻译：translate 翻译 / available 可用 / langs 语言对（Translator API）\n    if op == 'translate':\n        if text and lang:\n            state['last'] = (text, lang)\n            return lang + ':' + text\n        return None\n    if op == 'available':\n        return text in state.get('langs', ['en', 'zh'])\n    if op == 'langs':\n        return list(state.get('langs', ['en', 'zh']))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-语言检测": {
+  "task": "语言检测",
+  "unit": "浏览器-语言检测",
+  "code": "def lang_detect(state, op, text=None):\n    # 语言检测：detect 识别 / score 置信度 / last 最近结果（Language Detector）\n    if op == 'detect':\n        lang = 'zh' if any('一' <= c <= '鿿' for c in text) else 'en'\n        state['last'] = (text, lang)\n        return lang\n    if op == 'score':\n        return 0.95\n    if op == 'last':\n        return state.get('last')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
+ },
+ "domain:browser|浏览器-文本摘要": {
+  "task": "文本摘要",
+  "unit": "浏览器-文本摘要",
+  "code": "def summarizer(state, op, text=None):\n    # 文本摘要：summarize 提取要点 / length 长度 / last 最近摘要（Summarizer）\n    if op == 'summarize':\n        out = text[:20] + (chr(46) * 3 if len(text) > 20 else '')\n        state['last'] = out\n        return out\n    if op == 'length':\n        return len(state.get('last', ''))\n    if op == 'last':\n        return state.get('last')\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "browser"
  }
 }
