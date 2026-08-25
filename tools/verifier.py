@@ -152,17 +152,23 @@ class VerifyResult:
 # 校验器规则版本：L1/L2/L3/规范/集成规则升级时必须 +1——
 # 旧版本缓存结果在规则已变的场景下不再可信，强制全部失效重验
 # （等价于「协议升级 → 相关缓存刷新」，GLM 建议的 protocol_version 落地）。
-VERIFIER_VERSION = 3
+VERIFIER_VERSION = 4
 _CACHE_VERSION_KEY = "_verifier_version"
 
 
 class VerifyCache:
-    """校验结果本地缓存。相同指纹 → 零计算返回。"""
+    """校验结果本地缓存。相同指纹 → 零计算返回。
+
+    hits/misses 为进程内命中计数（token 归零的证据面：命中次数 × 每次
+    本该发生的 LLM 查表成本 = 本地化省下的成本）。
+    """
 
     def __init__(self, path: str = CACHE_FILE, version: int = VERIFIER_VERSION):
         self.path = path
         self.version = version
         self._data: Dict[str, Dict[str, Any]] = {}
+        self.hits = 0
+        self.misses = 0
         self._load()
 
     def _load(self) -> None:
@@ -180,7 +186,9 @@ class VerifyCache:
     def get(self, fingerprint: str) -> Optional[VerifyResult]:
         entry = self._data.get(fingerprint)
         if entry is None:
+            self.misses += 1
             return None
+        self.hits += 1
         r = VerifyResult(ok=entry["ok"], fingerprint=fingerprint, cached=True)
         r.checks = entry.get("checks", [])
         r.reason = entry.get("reason", "")
@@ -207,7 +215,11 @@ class VerifyCache:
         entries = {k: v for k, v in self._data.items() if k != _CACHE_VERSION_KEY}
         n = len(entries)
         n_pass = sum(1 for v in entries.values() if v.get("ok"))
-        return {"total": n, "passed": n_pass, "failed": n - n_pass}
+        total_reqs = self.hits + self.misses
+        hit_rate = round(100.0 * self.hits / total_reqs, 1) if total_reqs else 0.0
+        return {"total": n, "passed": n_pass, "failed": n - n_pass,
+                "hits": self.hits, "misses": self.misses,
+                "hit_rate": hit_rate}
 
 
 # ============ 三、校验器 ============
@@ -439,6 +451,15 @@ class Verifier:
             return [([], 0), (None, "any")]
         if any(w in t for w in ("计数", "count", "频率", "freq")):
             return [([], {}), (None, "any")]  # Counter 语义：空列表 → {}
+        # 字符串族：拆分/替换/拼接/判断/对齐/哈希/分词/格式化——空串语义因函数而异
+        # （分词空串→[]、拼接空列表→''），统一断言会误判 → 只查「空串处理不崩溃」
+        if any(w in t for w in ("字符串", "拆分", "替换", "拼接", "判断", "对齐",
+                                "哈希", "分词", "格式化")):
+            return [("", "any")]
+        # 数学族：舍入/统计/数学函数/均值/众数/分位数——零输入形态因函数而异
+        # （列表统计收 []、数值函数收 0），统一断言会误判 → 只查「零输入不崩溃」
+        if any(w in t for w in ("舍入", "统计", "数学函数", "均值", "众数", "分位数")):
+            return [(0, "any")]
         return []
 
     # ---------- ⑤ 规范符合性（白箱规则 + condition_kb） ----------
@@ -609,6 +630,8 @@ def main() -> None:
     if args.cache_stats:
         stats = VerifyCache().stats()
         print(f"缓存统计: 共 {stats['total']} 条（通过 {stats['passed']} / 失败 {stats['failed']}）")
+        print(f"命中计数: 本进程命中 {stats['hits']} / 未命中 {stats['misses']}（命中率 {stats['hit_rate']}%）")
+        print("（每次命中 = 一次本该发生的 LLM 查表 → 本地零计算返回）")
         return
 
     if args.verify:
