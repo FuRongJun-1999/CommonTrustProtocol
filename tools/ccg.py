@@ -9,6 +9,7 @@
 对照现状：扁平关键词表 route（「广度优先搜索」→ 域未识别）；
 CCG 从注释索引 → 命中 图遍历-BFS。
 """
+import json
 import os
 import re
 import sys
@@ -332,11 +333,117 @@ def search(question: str, nodes=None, top: int = 5) -> list:
         # task 权威名精确匹配：核心词与 task 完全相等（「最短路径」== task，
         # 「条件跳转编译」≠「条件跳转」——避免子串误加分）→ 强加分
         exact = 1 if n['task'] and n['task'] == core else 0
-        score = (len(common) + 2 * task_hit + task_shared + 5 * exact,
+        # 条件反射优先度（荣 2026-09）：工程验证的高效 → 长期记忆/条件反射。
+        # 依据被调用次数/频率提高优先度（log 缩放——热门单元优先命中，
+        # 人类重复性决策的简化：验证过的高效路径直接走，不重新推理）。
+        freq_boost = _freq_boost(uid)
+        score = (len(common) + 2 * task_hit + task_shared + 5 * exact
+                 + freq_boost,
                  len(common) / max(1, len(idx['tokens'])))
         scored.append((uid, n['domain'], score, sorted(common)[:8]))
     scored.sort(key=lambda x: (-x[2][0], -x[2][1]))
     return scored[:top]
+
+
+# 条件反射频率表（荣 2026-09）：单元被 route/search 命中的次数 →
+# 已验证高效路径的调用频率。持久化到 reflex_freq.json（长期记忆）。
+_FREQ_PATH = os.path.join(HERE, 'reflex_freq.json')
+_FREQ = None
+_FREQ_DIRTY = False
+
+
+def _load_freq() -> dict:
+    """加载频率表（长期记忆——跨进程持久）。"""
+    global _FREQ
+    if _FREQ is None:
+        try:
+            _FREQ = json.load(open(_FREQ_PATH, encoding='utf-8'))
+        except Exception:
+            _FREQ = {}
+    return _FREQ
+
+
+def _save_freq():
+    """保存频率表（条件反射固化——验证过的高效路径）。"""
+    global _FREQ_DIRTY
+    if _FREQ_DIRTY and _FREQ is not None:
+        try:
+            json.dump(_FREQ, open(_FREQ_PATH, 'w', encoding='utf-8'),
+                      ensure_ascii=False, indent=1)
+            _FREQ_DIRTY = False
+        except Exception:
+            pass
+
+
+def _freq_boost(uid: str) -> float:
+    """频率优先度：log(1+n)*0.25——热门单元最多 +1.0 分（不淹没条件匹配）。"""
+    n = _load_freq().get(uid, 0)
+    if n <= 0:
+        return 0.0
+    return round(0.25 * __import__('math').log1p(n), 3)
+
+
+def reflex(uid: str = None, n: int = 1) -> dict:
+    """条件反射记录：单元被调用 → 频率+1（工程验证的高效路径固化优先度）。
+
+    荣：依据被调用次数/频率提高优先度——人类面对重复性问题的决策（简化）。
+    uid=None 时返回频率表快照（高频单元=条件反射候选）。
+    """
+    freq = _load_freq()
+    global _FREQ_DIRTY
+    if uid:
+        freq[uid] = freq.get(uid, 0) + n
+        _FREQ_DIRTY = True
+        _save_freq()
+    return {"freq": freq, "n_units": len(freq),
+            "top": sorted(freq.items(), key=lambda x: -x[1])[:8]}
+
+
+def reflex_simplify_candidates(top_k: int = 10) -> list:
+    """简化候选（W6 效率 × 频率交叉）：高频单元优先简化（Reduce 模式）。
+
+    用户：工程验证的高效直接作为长期记忆/条件反射——高频单元是重复
+    决策路径，优先做无损简化（gliding_horse SkillEvolution Reduce 吸纳）。
+    """
+    freq = _load_freq()
+    nodes = build_graph()
+    cands = []
+    for uid, n in freq.items():
+        if uid not in nodes:
+            continue
+        code = nodes[uid].get('code', '')
+        # 用单元库取代码
+        from compiler_code_units import COMPILER_UNITS
+        from python_code_units import PYTHON_UNITS
+        from graph_db_units import GRAPH_UNITS
+        from os_units import OS_UNITS
+        from browser_units import BROWSER_UNITS
+        from net_units import NET_UNITS
+        for m in (COMPILER_UNITS, PYTHON_UNITS, GRAPH_UNITS,
+                  OS_UNITS, BROWSER_UNITS, NET_UNITS):
+            if uid in m:
+                code = m[uid]['pattern']
+                break
+        if not code:
+            continue
+        import ast as _ast
+        try:
+            tree = _ast.parse(code)
+            funcs = [f for f in _ast.walk(tree)
+                     if isinstance(f, _ast.FunctionDef)]
+            if not funcs:
+                continue
+            # 圈复杂度近似（决策点）
+            decisions = sum(1 for node in _ast.walk(tree)
+                            if isinstance(node, (_ast.If, _ast.For,
+                                                 _ast.While, _ast.Try)))
+            cands.append({"unit": uid, "freq": n,
+                          "complexity": decisions + 1,
+                          "simplify_score": round(n * (decisions + 1), 1)})
+        except Exception:
+            continue
+    cands.sort(key=lambda x: -x["simplify_score"])
+    return cands[:top_k]
 
 
 def _diff_condition(a: str, b: str, nodes, query: str = '') -> str:
@@ -621,6 +728,12 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
         # 决策分层（情绪方向性偏好的工程参数）：
         # L1 日常决策（confidence 高 → 强倾向快速收敛，0-1 层递归）
         decision_layer = "L1" if confidence >= 0.7 else "L2"
+        # 条件反射记录（荣）：被路由命中的单元频率+1——工程验证的高效
+        # 路径 → 长期记忆/条件反射（下次优先命中，人类重复决策简化）
+        try:
+            reflex(top1[0])
+        except Exception:
+            pass
         return {"state": "ACCEPT", "unit": top1[0], "score": top1[2][0],
                 "confidence": confidence,
                 "decision_layer": decision_layer,

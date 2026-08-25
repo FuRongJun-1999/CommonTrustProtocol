@@ -3,8 +3,8 @@
  "seed": 20260828,
  "task_adj": {
   "n": 444,
-  "reject": 392,
-  "rate": 0.8829
+  "reject": 394,
+  "rate": 0.8874
  },
  "boundary": {
   "n": 6,
@@ -42,11 +42,6 @@
    "type": "task-adj",
    "unit": "编译-寄存器分配",
    "adv": "编译-寄存器溢出"
-  },
-  {
-   "type": "task-adj",
-   "unit": "词法-数字字面量",
-   "adv": "语法-数组字面量"
   },
   {
    "type": "task-adj",
@@ -137,11 +132,6 @@
    "type": "task-adj",
    "unit": "条件路由图-信任聚合",
    "adv": "图查询-聚合"
-  },
-  {
-   "type": "task-adj",
-   "unit": "图查询-路径计数",
-   "adv": "图遍历-路径"
   },
   {
    "type": "task-adj",

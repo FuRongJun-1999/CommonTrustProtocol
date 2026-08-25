@@ -153,15 +153,8 @@
      "state": "DEFER",
      "missing_condition": {
       "subject": "最短短路路径",
-      "cond_type": "a贪加权 vs +前S逐",
+      "cond_type": "+前S逐 vs a贪加权",
       "a_side": [
-       "a贪",
-       "加权",
-       "径D",
-       "权最",
-       "贪心"
-      ],
-      "b_side": [
        "+前",
        "S逐",
        "前驱",
@@ -169,15 +162,22 @@
        "径B",
        "扩散"
       ],
-      "polarity": "B侧",
-      "fingerprint": "最短短路路径|B侧|a贪加权|+前S逐",
-      "a": "图遍历-加权最短",
-      "b": "图遍历-最短路径"
+      "b_side": [
+       "a贪",
+       "加权",
+       "径D",
+       "权最",
+       "贪心"
+      ],
+      "polarity": "A侧",
+      "fingerprint": "最短短路路径|A侧|+前S逐|a贪加权",
+      "a": "图遍历-最短路径",
+      "b": "图遍历-加权最短"
      },
      "candidate_count_before": 5,
      "candidate_count_after": 1,
      "information_gain": 0.8,
-     "next_query": "写一个最短路径 BFS 逐层扩散 + 前驱还原的代码单元"
+     "next_query": "写一个加权最短路径 Dijkstra 贪心的代码单元"
     }
    ]
   },
@@ -192,16 +192,8 @@
      "state": "DEFER",
      "missing_condition": {
       "subject": "信任",
-      "cond_type": "任合任聚 vs ≥门任值",
+      "cond_type": "≥门任值 vs 任合任聚",
       "a_side": [
-       "任合",
-       "任聚",
-       "合多",
-       "合并",
-       "多路",
-       "径信"
-      ],
-      "b_side": [
        "≥门",
        "任值",
        "任检",
@@ -209,10 +201,18 @@
        "放行",
        "查信"
       ],
-      "polarity": "B侧",
-      "fingerprint": "信任|B侧|任合任聚|≥门任值",
-      "a": "条件路由图-信任聚合",
-      "b": "校验-信任检查"
+      "b_side": [
+       "任合",
+       "任聚",
+       "合多",
+       "合并",
+       "多路",
+       "径信"
+      ],
+      "polarity": "A侧",
+      "fingerprint": "信任|A侧|≥门任值|任合任聚",
+      "a": "校验-信任检查",
+      "b": "条件路由图-信任聚合"
      },
      "candidate_count_before": 5,
      "candidate_count_after": 1,

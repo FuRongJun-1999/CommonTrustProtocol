@@ -1,0 +1,9 @@
+{
+ "experiment": "条件反射优先度（荣：频率驱动简化）",
+ "reflex_record": true,
+ "freq_boost": true,
+ "route_auto": true,
+ "simplify_candidates": true,
+ "persist": true,
+ "conclusion": "工程验证的高效→长期记忆/条件反射：调用频率追踪→search加权优先命中→高频单元优先简化（W6 解法入口）；人类重复决策的简化机制工程化"
+}

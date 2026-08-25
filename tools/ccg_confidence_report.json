@@ -5,10 +5,10 @@
  "hard_rule_compat": true,
  "threshold_channel": true,
  "confidence_samples": [
-  0.75,
-  0.583,
+  0.759,
+  0.579,
   0.6,
-  0.714
+  0.591
  ],
  "conclusion": "CCG 路由吸纳 DaoTi coherence 模式：命中分归一化为连续置信度 [0,1]——高置信 ACCEPT，低置信降级；硬规则不变"
 }
