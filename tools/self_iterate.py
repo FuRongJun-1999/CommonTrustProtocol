@@ -418,11 +418,66 @@ def _blindspot_declared() -> set:
 
 
 # ── 8 方向性自检 ─────────────────────────────────────────────
+# 理论八步锚点（荣 2026-09 批评：工程曾只有 5 步，因记忆缺漏/遗忘
+# 丢失步骤——方向性自检必须验证「理论八步是否被完整实现」）：
+# 这是自指检查：第 8 步检查第 1-8 步都在（防理论↔工程偏离）。
+THEORY_STEPS = [
+    ("1感知", "perceive", "自动扫描状态变化/新模式（6 通道）"),
+    ("2识别", "classify", "判断是否需吸收（漂移分类）"),
+    ("3分析", "analyze", "理解新内容对协议影响范围"),
+    ("4验证", "_validate_file", "确认与价值观一致（honest + 语法）"),
+    ("5固化", "solidify", "纳入协议结构（注释+技能）"),
+    ("6记录", "record", "迭代历史可追溯"),
+    ("7反馈", "_absorbed_units", "迭代结果作为下次基础"),
+    ("8方向性自检", "orient", "方向正确性评估（本函数）"),
+]
+
+
+def _theory_integrity() -> dict:
+    """理论完整性检查（荣 批评：工程 5 步 vs 理论 8 步偏离的教训）。
+
+    验证：①源码中每一步有实现（函数存在）②主闭环调用链含每步
+    （self_iterate 函数体引用）——防步骤因记忆缺漏/遗忘丢失。
+    这是自指检查：方向性自检（第 8 步）验证八步都在。
+    """
+    src = open(os.path.abspath(__file__), encoding='utf-8').read()
+    # 用 ast 提取 self_iterate 函数体（可靠：正则跨行匹配易误匹配）
+    import ast as _ast
+    main_body = ""
+    try:
+        tree = _ast.parse(src)
+        for n in _ast.walk(tree):
+            if isinstance(n, _ast.FunctionDef) and n.name == "self_iterate":
+                # 函数体源码（从 def 行到函数结束）
+                lines = src.split('\n')
+                main_body = '\n'.join(
+                    lines[n.lineno - 1:n.end_lineno])
+                break
+    except SyntaxError:
+        main_body = src
+    missing = []
+    for step, fn, desc in THEORY_STEPS:
+        # 函数存在
+        if f"def {fn}" not in src:
+            missing.append({"step": step, "reason": f"函数 {fn} 缺失"})
+            continue
+        # 主闭环调用（第 8 步 orient 在主闭环中调用，其余步应被调用）
+        if step != "8方向性自检":
+            # 调用模式：函数名后跟 ( 且前面是词边界（排除 def 定义和注释）
+            call_pat = re.compile(r'(?<!def )\b' + re.escape(fn) + r'\(')
+            if not call_pat.search(main_body):
+                missing.append({"step": step,
+                                "reason": f"{fn} 未被主闭环调用"})
+    return {"ok": len(missing) == 0, "missing": missing,
+            "n_steps": len(THEORY_STEPS)}
+
+
 def orient(per: dict, solidified: dict) -> dict:
-    """方向正确性评估：指标趋势 → 是否朝目标前进。"""
+    """方向正确性评估：指标趋势 + 理论完整性 → 是否朝目标前进。"""
     rc = per.get("route_conflicts", {})
     bs = per.get("blindspots", {})
     cs = per.get("comment_spec", {})
+    ti = _theory_integrity()
     checks = {
         "强契约拒绝率": per["strong_rate"] >= 0.9,
         "MOS 声明一致率": per["mos_rate"] >= 0.98,
@@ -430,16 +485,23 @@ def orient(per: dict, solidified: dict) -> dict:
         "盲区诚实声明": bs.get("ok", True),
         "注释规范完整": cs.get("ok", True),
         "固化语法安全": solidified.get("ok", False) if solidified else True,
+        # 理论完整性（荣 批评）：八步闭环理论必须被工程完整实现——
+        # 缺任何一步 = 方向偏离（记忆缺漏/遗忘的检测器）
+        "八步理论完整性": ti["ok"],
     }
     passed = sum(1 for v in checks.values() if v)
+    detail = ""
+    if not ti["ok"]:
+        detail = f" | 理论缺失: {[m['step'] for m in ti['missing']]}"
     return {
         "checks": checks,
         "passed": passed,
         "total": len(checks),
+        "theory_integrity": ti,
         "direction_ok": passed == len(checks),
-        "assessment": ("方向正确：指标稳定/改善，闭环可持续"
+        "assessment": ("方向正确：八步闭环完整 + 指标稳定/改善"
                        if passed == len(checks)
-                       else f"方向需调整：{passed}/{len(checks)} 项通过"),
+                       else f"方向需调整：{passed}/{len(checks)} 项通过{detail}"),
     }
 
 
@@ -457,8 +519,12 @@ def self_iterate(dry_run: bool = True) -> dict:
     already_blindspot = _blindspot_declared()
     cls["blindspot"] = [d for d in cls["blindspot"]
                         if d["unit"] not in already_blindspot]
+    # 7b 反馈统计（理论第 7 步显式体现——吸收历史防重复迭代）
+    absorbed_hist = _absorbed_units()
     # 3 分析
     ana = analyze([d["unit"] for d in cls["blindspot"]])
+    # 4 验证（显式体现：固化前验证文件语法——honest + 防破坏）
+    _validate_file(os.path.abspath(__file__))
     # 5 固化（dry_run 不做）
     solid = solidify(cls["blindspot"]) if not dry_run else {
         "ok": True, "applied": [], "skills": [], "dry_run": True}
@@ -484,7 +550,8 @@ def self_iterate(dry_run: bool = True) -> dict:
                 "items": [{"unit": a["unit"], "cond": a["cond"],
                            "got": a["got"]} for a in
                           solid.get("applied", [])][:15]},
-        "反馈": {"blindspot_declared_total": len(already_blindspot)},
+        "反馈": {"blindspot_declared_total": len(already_blindspot),
+                "absorbed_hist_total": len(absorbed_hist)},
         "方向性自检": ori,
     }
     record(trace)

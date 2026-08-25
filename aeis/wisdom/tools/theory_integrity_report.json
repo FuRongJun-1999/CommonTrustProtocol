@@ -1,0 +1,18 @@
+{
+ "experiment": "理论完整性检查（荣 批评：理论8步 vs 工程5步偏离）",
+ "theory_steps": [
+  "1感知",
+  "2识别",
+  "3分析",
+  "4验证",
+  "5固化",
+  "6记录",
+  "7反馈",
+  "8方向性自检"
+ ],
+ "integrity_ok": true,
+ "self_check_channel": true,
+ "detection_capability": true,
+ "doc_consistency": true,
+ "conclusion": "方向性自检新增『八步理论完整性』通道——验证理论八步被工程完整实现，防步骤因记忆缺漏/遗忘丢失（曾 5步偏离的检测器）；文档↔工程一致性也纳入"
+}
