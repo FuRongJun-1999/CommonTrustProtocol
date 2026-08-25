@@ -6992,5 +6992,41 @@ except Exception as ex:
     check('㌦c 控制流图→内联缓存→寄存器着色端到端（{B0:[B1],B1:[]} f {a:0,b:1}）',
           False, str(ex)[:60])
 
+# ㌧ 目标1 深化：P 线工具（累加器/成对迭代/打乱 经正式管线）
+p27_qs = {
+    "累加器": "写一个累加器单元（前缀累积）",
+    "成对迭代": "写一个成对迭代单元（相邻对）",
+    "打乱": "写一个打乱单元（种子重排）",
+}
+p27_ok = 0
+for label, q in p27_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p27_ok += 1
+    check(f'㌧ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌧b P线工具三单元全部生成', p27_ok == 3, f'{p27_ok}/3')
+
+# ㌧c 端到端：累加器→成对迭代→打乱（[1,3,6,10] [(1,2),(2,3)] [2,3,4,1]）
+r_ac = domain_route("写一个累加器单元（前缀累积）")
+r_pw = domain_route("写一个成对迭代单元（相邻对）")
+r_sh = domain_route("写一个打乱单元（种子重排）")
+try:
+    ns_ac, ns_pw, ns_sh = {}, {}, {}
+    exec(r_ac["code"], ns_ac)
+    exec(r_pw["code"], ns_pw)
+    exec(r_sh["code"], ns_sh)
+    ac = ns_ac["accumulate"]([1, 2, 3, 4])
+    pw = ns_pw["pairwise"]([1, 2, 3])
+    sh = ns_sh["shuffle_seq"]([1, 2, 3, 4], 7)
+    check('㌧c 累加器→成对迭代→打乱端到端（[1,3,6,10] [(1,2),(2,3)] [2,3,4,1]）',
+          ac == [1, 3, 6, 10] and pw == [(1, 2), (2, 3)]
+          and sh == [2, 3, 4, 1],
+          f'acc={ac} pair={pw} shuf={sh}')
+except Exception as ex:
+    check('㌧c 累加器→成对迭代→打乱端到端（[1,3,6,10] [(1,2),(2,3)] [2,3,4,1]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

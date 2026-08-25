@@ -2023,6 +2023,57 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：峰值检测——局部极大值定位（信号分析）",
     },
+    "工具-累加器": {
+        "task": "累加器",
+        "pattern": (
+            "def accumulate(seq, func=None):\n"
+            "    # 累加器：前缀累积（itertools.accumulate 语义）\n"
+            "    f = func or (lambda a, b: a + b)\n"
+            "    out = []\n"
+            "    cur = None\n"
+            "    for x in seq:\n"
+            "        cur = x if cur is None else f(cur, x)\n"
+            "        out.append(cur)\n"
+            "    return out\n"),
+        "cases": [
+            (([1, 2, 3, 4],), [1, 3, 6, 10]),
+            (([1, 2, 3], lambda a, b: a * b), [1, 2, 6]),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：itertools.accumulate——前缀累积（和/积）",
+    },
+    "工具-成对迭代": {
+        "task": "成对迭代",
+        "pattern": (
+            "def pairwise(seq):\n"
+            "    # 成对迭代：相邻元素对（itertools.pairwise 语义）\n"
+            "    return [(seq[i], seq[i + 1]) for i in range(len(seq) - 1)]\n"),
+        "cases": [
+            (([1, 2, 3, 4],), [(1, 2), (2, 3), (3, 4)]),
+            (([1],), []),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：itertools.pairwise——相邻元素对",
+    },
+    "工具-打乱": {
+        "task": "打乱",
+        "pattern": (
+            "def shuffle_seq(seq, seed=7):\n"
+            "    # 打乱：确定性伪随机重排（Fisher-Yates 带种子）\n"
+            "    items = list(seq)\n"
+            "    r = seed\n"
+            "    for i in range(len(items) - 1, 0, -1):\n"
+            "        r = (r * 31 + 7) % 997\n"
+            "        j = r % (i + 1)\n"
+            "        items[i], items[j] = items[j], items[i]\n"
+            "    return items\n"),
+        "cases": [
+            (([1, 2, 3, 4], 7), [2, 3, 4, 1]),
+            (([1, 2, 3], 7), [1, 2, 3]),
+            (([], 7), [])],
+        "params": [],
+        "calibration": "对照：random.shuffle——确定性打乱（带种子 Fisher-Yates）",
+    },
 }
 
 
