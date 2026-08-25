@@ -5108,5 +5108,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:pylang|工具-分位数": {
+  "task": "分位数",
+  "unit": "工具-分位数",
+  "code": "def percentile(data, p):\n    # 分位数：排序后按百分位取位置（statistics.quantiles 语义）\n    if not data:\n        return None\n    s = sorted(data)\n    k = (len(s) - 1) * p / 100.0\n    lo = int(k)\n    hi = min(lo + 1, len(s) - 1)\n    frac = k - lo\n    return round(s[lo] + (s[hi] - s[lo]) * frac, 2)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-文本分词": {
+  "task": "文本分词",
+  "unit": "工具-文本分词",
+  "code": "def tokenize_text(text):\n    # 文本分词：非字母字符分割并转小写（简单 tokenizer）\n    import re\n    return [t for t in re.split(r'[^A-Za-z0-9]+', text.lower()) if t]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-笛卡尔积": {
+  "task": "笛卡尔积",
+  "unit": "工具-笛卡尔积",
+  "code": "def cartesian_product(*seqs):\n    # 笛卡尔积：多序列组合（itertools.product 语义）\n    from itertools import product\n    return list(product(*seqs))\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

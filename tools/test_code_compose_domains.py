@@ -6249,5 +6249,41 @@ except Exception as ex:
     check('㌑c 行程→位掩码→众数端到端（[(\'a\',3),(\'b\',2),(\'c\',1)] 4 2）',
           False, str(ex)[:60])
 
+# ㌒ 目标1 深化：P 线工具（分位数/文本分词/笛卡尔积 经正式管线）
+p24_qs = {
+    "分位数": "写一个分位数单元（百分位插值）",
+    "文本分词": "写一个文本分词单元（token 分割）",
+    "笛卡尔积": "写一个笛卡尔积单元（全组合）",
+}
+p24_ok = 0
+for label, q in p24_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p24_ok += 1
+    check(f'㌒ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌒b P线工具三单元全部生成', p24_ok == 3, f'{p24_ok}/3')
+
+# ㌒c 端到端：分位数→文本分词→笛卡尔积（2.5 [hello,world] [(1,a),(1,b),(2,a),(2,b)]）
+r_pc = domain_route("写一个分位数单元（百分位插值）")
+r_tk = domain_route("写一个文本分词单元（token 分割）")
+r_cp = domain_route("写一个笛卡尔积单元（全组合）")
+try:
+    ns_pc, ns_tk, ns_cp = {}, {}, {}
+    exec(r_pc["code"], ns_pc)
+    exec(r_tk["code"], ns_tk)
+    exec(r_cp["code"], ns_cp)
+    pc = ns_pc["percentile"]([1, 2, 3, 4], 50)
+    tk = ns_tk["tokenize_text"]('Hello, World!')
+    cp = ns_cp["cartesian_product"]([1, 2], ['a', 'b'])
+    check('㌒c 分位数→分词→笛卡尔积端到端（2.5 [hello,world] 4组合）',
+          pc == 2.5 and tk == ['hello', 'world']
+          and cp == [(1, 'a'), (1, 'b'), (2, 'a'), (2, 'b')],
+          f'pctl={pc} tok={tk} cart={cp}')
+except Exception as ex:
+    check('㌒c 分位数→分词→笛卡尔积端到端（2.5 [hello,world] 4组合）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

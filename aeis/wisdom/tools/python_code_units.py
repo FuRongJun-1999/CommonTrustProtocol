@@ -1868,6 +1868,55 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：statistics.mode——众数（最频繁元素）",
     },
+    "工具-分位数": {
+        "task": "分位数",
+        "pattern": (
+            "def percentile(data, p):\n"
+            "    # 分位数：排序后按百分位取位置（statistics.quantiles 语义）\n"
+            "    if not data:\n"
+            "        return None\n"
+            "    s = sorted(data)\n"
+            "    k = (len(s) - 1) * p / 100.0\n"
+            "    lo = int(k)\n"
+            "    hi = min(lo + 1, len(s) - 1)\n"
+            "    frac = k - lo\n"
+            "    return round(s[lo] + (s[hi] - s[lo]) * frac, 2)\n"),
+        "cases": [
+            (([1, 2, 3, 4], 50), 2.5),
+            (([1, 2, 3, 4], 0), 1.0),
+            (([1, 2, 3, 4], 100), 4.0),
+            (([], 50), None)],
+        "params": [],
+        "calibration": "对照：quantiles——百分位插值（分位数）",
+    },
+    "工具-文本分词": {
+        "task": "文本分词",
+        "pattern": (
+            "def tokenize_text(text):\n"
+            "    # 文本分词：非字母字符分割并转小写（简单 tokenizer）\n"
+            "    import re\n"
+            "    return [t for t in re.split(r'[^A-Za-z0-9]+', text.lower()) if t]\n"),
+        "cases": [
+            ((chr(72) + chr(101) + chr(108) + chr(108) + chr(111) + ',' + chr(32) + chr(87) + chr(111) + chr(114) + chr(108) + chr(100) + '!',), ['hello', 'world']),
+            ((chr(97) + chr(32) + chr(98) + chr(32) + chr(99),), ['a', 'b', 'c']),
+            ((chr(32),), [])],
+        "params": [],
+        "calibration": "对照：tokenize——非字母数字分割（文本分词）",
+    },
+    "工具-笛卡尔积": {
+        "task": "笛卡尔积",
+        "pattern": (
+            "def cartesian_product(*seqs):\n"
+            "    # 笛卡尔积：多序列组合（itertools.product 语义）\n"
+            "    from itertools import product\n"
+            "    return list(product(*seqs))\n"),
+        "cases": [
+            (([1, 2], ['a', 'b']), [(1, 'a'), (1, 'b'), (2, 'a'), (2, 'b')]),
+            (([1], []), []),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：itertools.product——笛卡尔积（全组合）",
+    },
 }
 
 
