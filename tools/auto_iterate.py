@@ -43,13 +43,13 @@ def run_one_round(apply: bool) -> dict:
     round_no = len(si._load_trace()) + 1
     per = si.perceive()
     cls = si.classify(per["drift"])
-    absorbed = si._absorbed_units()
-    new_absorbable = [d for d in cls["absorbable"]
-                      if d["unit"] not in absorbed]
-    # 固化（可吸收且 apply 时——字符串内替换 + 语法校验）
+    already = si._blindspot_declared()
+    new_blindspot = [d for d in cls["blindspot"]
+                     if d["unit"] not in already]
+    # 固化（隐式盲区且 apply 时——字符串内替换 + 语法校验）
     solid = {"ok": True, "applied": [], "skills": []}
-    if new_absorbable and apply:
-        solid = si.solidify(new_absorbable)
+    if new_blindspot and apply:
+        solid = si.solidify(new_blindspot)
     # 方向自检
     ori = si.orient(per, solid)
     # 记录
@@ -63,8 +63,8 @@ def run_one_round(apply: bool) -> dict:
                 "route_excl": per.get("route_conflicts", {}).get("n_excl_units", 0),
                 "blindspot": per.get("blindspots", {}).get("n_blindspot", 0),
                 "spec_fail": per.get("comment_spec", {}).get("n_spec_fail", 0)},
-        "识别": {"absorbable": len(cls["absorbable"]),
-                "new_absorbable": len(new_absorbable),
+        "识别": {"blindspot": len(cls["blindspot"]),
+                "new_blindspot": len(new_blindspot),
                 "manual": len(cls["manual"])},
         "固化": {"n": len(solid.get("applied", [])),
                 "items": [{"unit": a["unit"], "cond": a["cond"]}
@@ -100,7 +100,7 @@ def main():
             round_no += 1
             try:
                 t = run_one_round(args.apply)
-                n_new = t["识别"]["new_absorbable"]
+                n_new = t["识别"]["new_blindspot"]
                 n_solid = t["固化"]["n"]
                 state["total_rounds"] += 1
                 state["solidified_total"] += n_solid

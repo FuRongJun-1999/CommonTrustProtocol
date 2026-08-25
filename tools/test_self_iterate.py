@@ -37,27 +37,27 @@ print(f'  路由互斥 {rc.get("n_excl_units")} 单元 | 盲区探测 '
       f'{cs.get("n_spec_fail")} 失败/681')
 check('①b 感知扩展：路由冲突+escalation盲区+注释规范 通道', ok1b)
 
-# ── ② 识别：漂移分类（弱兜底可吸收）────────────────────────
+# ── ② 识别：漂移分类（隐式盲区 vs 需人工）──────────────────
 cls = si.classify(per["drift"])
-ok2 = len(cls["absorbable"]) > 0 and len(cls["absorbable"]) + \
+ok2 = len(cls["blindspot"]) > 0 and len(cls["blindspot"]) + \
       len(cls["manual"]) == per["n_drift"]
-print(f'  可吸收 {len(cls["absorbable"])} | 需人工 {len(cls["manual"])}')
-check('② 识别：漂移分类（弱兜底 vs 需人工）', ok2)
+print(f'  隐式盲区 {len(cls["blindspot"])} | 需人工 {len(cls["manual"])}')
+check('② 识别：漂移分类（隐式盲区=返回默认值 vs 需人工）', ok2)
 
 # ── ③ 分析：影响范围 ─────────────────────────────────────────
-ana = si.analyze([d["unit"] for d in cls["absorbable"]])
+ana = si.analyze([d["unit"] for d in cls["blindspot"]])
 ok3 = "not_tokens" in ana["note_policy"]
 print(f'  {ana["note_policy"][:44]}')
 check('③ 分析：note 不加判别词 → 路由无影响', ok3)
 
 # ── ④ 验证 + ⑤ 固化：字符串内替换语法安全 ─────────────────
-# 用已吸收单元验证：VM-条件跳转 注释已含「弱契约」
+# 用已固化单元验证：VM-条件跳转 注释已含「隐式盲区」
 from compiler_code_units import COMPILER_UNITS
 u = COMPILER_UNITS['VM-条件跳转']
 lines = [ln for ln in u['pattern'].splitlines() if '不适用条件' in ln]
-ok4 = bool(lines) and ('弱契约' in lines[0] or '兜底' in lines[0])
+ok4 = bool(lines) and '隐式盲区' in lines[0]
 print(f'  VM-条件跳转 注释: {lines[0][:56] if lines else "NONE"}')
-check('④ 固化：注释语义对齐已落盘（字符串内替换）', ok4)
+check('④ 固化：注释显式声明隐式盲区（返回默认值=未知行为）', ok4)
 
 # 语法安全（6 域文件 ast.parse）
 ok5 = all(si._validate_file(os.path.join(HERE, fn)) for fn in si.FILES)
@@ -71,11 +71,11 @@ print(f'  轨迹 {len(traces)} 轮 | 含固化轮: '
       f'{any(t["固化"]["n"] > 0 for t in traces)}')
 check('⑥ 记录：iteration_trace.json 可追溯演进路径', ok6)
 
-# ── ⑦ 反馈：已吸收单元跳过（防重复迭代）──────────────────
-absorbed = si._absorbed_units()
-ok7 = len(absorbed) >= 5
-print(f'  已吸收单元 {len(absorbed)} 个（反馈跳过防重复）')
-check('⑦ 反馈：已吸收单元跳过（trace 读回）', ok7)
+# ── ⑦ 反馈：已盲区声明单元跳过（防重复迭代）──────────────
+declared = si._blindspot_declared()
+ok7 = len(declared) >= 10
+print(f'  盲区声明单元 {len(declared)} 个（反馈跳过防重复）')
+check('⑦ 反馈：已盲区声明单元跳过（trace 读回）', ok7)
 
 # ── ⑧ 方向性自检 ────────────────────────────────────────────
 ori = si.orient(per, {"ok": True})
@@ -87,14 +87,14 @@ report = {
     "experiment": "自迭代八步闭环（荣 长期任务）",
     "感知": {"n_drift": per["n_drift"], "strong_rate": per["strong_rate"],
              "mos_rate": per["mos_rate"]},
-    "识别": {"absorbable": len(cls["absorbable"]),
+    "识别": {"blindspot": len(cls["blindspot"]),
              "manual": len(cls["manual"])},
-    "固化_已对齐": len(absorbed),
+    "固化_盲区声明": len(si._blindspot_declared()),
     "轨迹轮数": len(traces),
     "方向自检": ori,
     "conclusion": ("八步闭环完整：感知扫描→识别分类→分析影响→验证诚实→"
-                   "固化安全→记录可追溯→反馈跳过→方向自检；8 处弱兜底"
-                   "契约注释已语义对齐，全回归绿"),
+                   "固化安全→记录可追溯→反馈跳过→方向自检；返回默认值"
+                   "=隐式盲区，已显式声明，全回归绿"),
 }
 rp = os.path.join(HERE, 'self_iterate_report.json')
 json.dump(report, open(rp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)

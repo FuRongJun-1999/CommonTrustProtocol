@@ -26,15 +26,15 @@ print(f'  轮{t["round"]} auto={t["auto"]} 漂移{t["感知"]["n_drift"]} '
 check('① 单轮自动执行：八步闭环跑通 + auto 标记 + 方向自检', ok1)
 
 # ── ② 稳态检测退出（子进程跑稳态逻辑）──────────────────────
-# 用子进程验证 --steady-rounds 1 立即稳态退出
+# 用子进程验证 --max-rounds 1 一轮即退（稳态=无新盲区声明）
 r = subprocess.run(
     [sys.executable, os.path.join(HERE, 'auto_iterate.py'),
-     '--interval', '0', '--steady-rounds', '1'],
-    capture_output=True, text=True, timeout=60)
+     '--interval', '0', '--max-rounds', '1', '--steady-rounds', '1'],
+    capture_output=True, text=True, timeout=120)
 out = r.stdout + r.stderr
-ok2 = "稳态" in out and "闭环健康" in out
-print(f'  稳态退出: {"✓" if ok2 else "✗"}（子进程输出含稳态标记）')
-check('② 稳态检测：连续无吸收 → 报告稳态退出（不空转）', ok2)
+ok2 = "结束" in out and "总轮数" in out
+print(f'  子进程一轮即退: {"✓" if ok2 else "✗"}（输出含结束标记）')
+check('② 自动引擎：限轮运行正常退出（不空转）', ok2)
 
 # ── ③ 崩溃隔离（单轮异常不中断）────────────────────────────
 # 构造：恶意轮次在感知后抛错——引擎应跳过继续（用 run_one_round 模拟

@@ -53,22 +53,36 @@ def extract_not_conditions(code: str) -> list:
     return nots
 
 
-def _neg_input(param: str, kind: str, valid_vals=None):
-    """构造反例输入：基于参数名启发（零 LLM）。"""
+def _neg_input(param: str, kind: str, valid_vals=None, container_hint=False):
+    """构造反例输入：基于参数名启发（零 LLM）。
+
+    container_hint=True 时为空/非法输入传【空容器】（[]/{}）而非 None——
+    修正（荣 2026-09）：None 会触发 `if not x` 走默认值分支，掩盖真实
+    行为（9 处假兜底教训）。空容器才是「为空」的准确语义。
+    """
     p = param.lower()
     if kind == "op_not_in" and valid_vals:
-        # 不在合法集合的 op（数字/字符反例）
         return "__INVALID_OP__"
     if kind == "empty_invalid":
+        if container_hint:
+            if any(k in p for k in ("arr", "list", "items", "seq", "stack",
+                                    "queue", "words", "samples", "routes",
+                                    "frames", "tokens", "nodes", "disks",
+                                    "ready", "servers", "text", "data")):
+                return []
+            if any(k in p for k in ("graph", "g", "table", "map", "db",
+                                    "state", "env", "cond", "adj", "page")):
+                return {}
+            return 0
         return None
     if kind == "out_of_range":
         return -1
     # 参数名启发兜底
     if any(k in p for k in ("arr", "list", "items", "seq", "stack", "queue", "ready", "servers")):
-        return None
+        return [] if container_hint else None
     if any(k in p for k in ("graph", "g", "table", "map", "db", "state", "env", "cond")):
-        return None
-    return None
+        return {} if container_hint else None
+    return 0 if container_hint else None
 
 
 def _is_reject(got) -> bool:
@@ -146,7 +160,8 @@ def run_negatives(verbose=False, full=False) -> dict:
             for an in arg_names:
                 if an == param:
                     neg_vals.append(_neg_input(param, cond["kind"],
-                                               cond.get("valid")))
+                                               cond.get("valid"),
+                                               container_hint=True))
                 else:
                     # 最小占位：参数名启发（空容器/0/''）——非注入型
                     p = an.lower()
