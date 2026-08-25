@@ -27,8 +27,15 @@ q_ok = "负面测试发现空输入返回默认值需要标注盲区"
 r_ok = si.skills_cond(q_ok)
 ok2 = len(r_ok) >= 1 and any("空/非法" in m["skill"] for m in r_ok)
 print(f'  加载 [{q_ok[:14]}…] → {len(r_ok)} 条: '
-      f'{", ".join(m["skill"][:18] for m in r_ok[:2])}')
+      f'{", ".join(m["skill"][:16] for m in r_ok[:3])}')
 check('② 适用条件命中 → 技能加载', ok2)
+
+# ②b 技能关系边扩展（gliding_horse SkillLink 吸纳）
+linked = [m for m in r_ok if "relation" in m]
+ok2b = len(linked) >= 1 and any(m["relation"] == "Related" for m in linked)
+print(f'  沿关系边扩展: {len(linked)} 条相关技能'
+      f'（{"✓" if ok2b else "✗"}）')
+check('②b 技能关系边：命中技能沿 Related 边扩展提示', ok2b)
 
 # ③ 不适用条件命中 → 排除（抛异常是强拒绝非盲区）
 q_not = "输入超范围抛异常强拒绝不是盲区"

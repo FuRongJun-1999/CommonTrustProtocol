@@ -323,10 +323,12 @@ def _q_tokens(text: str) -> set:
 
 
 def skills_cond(query: str) -> list:
-    """条件路由加载技能（anthropics/skills 吸纳 §17.4）。
+    """条件路由加载技能（anthropics/skills + gliding_horse SkillLink 吸纳）。
 
-    按任务条件匹配技能：任务词命中技能『适用条件』→ 加载；
-    命中『不适用条件』→ 排除（条件路由——不盲目加载）。
+    按任务条件匹配技能：命中『适用条件』→ 加载；命中『不适用条件』
+    判别词（异常/强拒绝/None/False）→ 排除；无关任务不盲目加载。
+    技能 links（Related/Alternative）→ 沿关系边扩展（相关技能一并提示，
+    gliding_horse SkillGraph 吸纳 §17.4b）。
     """
     if not os.path.exists(SKILLS_PATH):
         return []
@@ -335,24 +337,41 @@ def skills_cond(query: str) -> list:
     except Exception:
         return []
     qb = _q_tokens(query)
-    matched = []
+    matched, by_name = [], {}
     for group, entry in db.items():
         for s in entry.get("skills", []):
+            by_name[s["skill"]] = (group, s)
             ok_when = any(
                 qb & _q_tokens(c) for c in s.get("适用条件", []))
-            # 不适用条件排除：query 自身含判别词（异常/强拒绝/注入型/
-            # None/False/抛异常）才可能排除——「返回默认值」的 query 不
-            # 含这些判别词，不会误排除（返回/输入=泛化词不算）
+            # 判别词要求：技能特有判别词（空/非法/越界/非集合/集合外）
+            # 必须被 query 命中——否则「返回默认值」模板词共享导致多技能
+            # 同质匹配（gliding_horse SkillGraph 教训：技能条件须差异化）
+            discrim = s.get("判别词", [])
+            has_discrim = (not discrim) or any(
+                d in query for d in discrim)
             q_has_reject_word = any(
                 k in query for k in ("None", "False", "抛异常", "强拒绝",
                                      "注入型", "异常"))
             not_when = q_has_reject_word and any(
                 qb & _q_tokens(c)
                 for c in s.get("不适用条件", []))
-            if ok_when and not not_when:
+            if ok_when and has_discrim and not not_when:
                 matched.append({"skill": s["skill"], "group": group,
                                "pattern": s.get("pattern", "")[:60]})
-    return matched
+    # 沿 SkillLink 关系边扩展：已命中技能的相关/替代技能一并提示
+    linked = []
+    for m in matched:
+        s = by_name.get(m["skill"], (None, {}))[1]
+        for link in s.get("links", []):
+            tgt = link.get("target", "")
+            if tgt and tgt not in {x["skill"] for x in matched}:
+                tg = by_name.get(tgt)
+                if tg:
+                    linked.append({"skill": tgt,
+                                   "group": tg[0],
+                                   "relation": link.get("type", "Related"),
+                                   "pattern": tg[1].get("pattern", "")[:50]})
+    return matched + linked
 
 
 # ── 6 记录 + 7 反馈 ───────────────────────────────────────────
