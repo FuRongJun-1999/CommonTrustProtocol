@@ -7379,5 +7379,41 @@ except Exception as ex:
     check('㌱c 解包赋值→集合推导→切片赋值端到端（{a:1,b:2} {2,4} [1,8,9,4,5]）',
           False, str(ex)[:60])
 
+# ㌲ 目标6 深化：图算法/条件路由（顶点覆盖/最近公共祖先/条件分解 经正式管线）
+g37_qs = {
+    "顶点覆盖": "写一个顶点覆盖单元（边端点选取）",
+    "最近公共祖先": "写一个最近公共祖先单元（树上查询）",
+    "条件分解": "写一个条件分解单元（合取拆分）",
+}
+g37_ok = 0
+for label, q in g37_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g37_ok += 1
+    check(f'㌲ {label} 图算法/条件路由单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌲b 图算法/条件路由三单元全部生成', g37_ok == 3, f'{g37_ok}/3')
+
+# ㌲c 端到端：顶点覆盖→LCA→条件分解（[0,1] 0 [a,b,c]）
+r_vc = domain_route("写一个顶点覆盖单元（边端点选取）")
+r_lca = domain_route("写一个最近公共祖先单元（树上查询）")
+r_cs = domain_route("写一个条件分解单元（合取拆分）")
+try:
+    ns_vc, ns_lca, ns_cs = {}, {}, {}
+    exec(r_vc["code"], ns_vc)
+    exec(r_lca["code"], ns_lca)
+    exec(r_cs["code"], ns_cs)
+    vc = ns_vc["vertex_cover"](((0, 1), (0, 2), (1, 2)))
+    lca = ns_lca["lca"]({0: 0, 1: 0, 2: 0, 3: 1, 4: 1, 5: 2},
+                        {0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2}, 3, 5)
+    cs = ns_cs["condition_split"](('AND', ('AND', 'a', 'b'), 'c'))
+    check('㌲c 顶点覆盖→LCA→条件分解端到端（[0,1] 0 [a,b,c]）',
+          vc == [0, 1] and lca == 0 and cs == ['a', 'b', 'c'],
+          f'cover={vc} lca={lca} split={cs}')
+except Exception as ex:
+    check('㌲c 顶点覆盖→LCA→条件分解端到端（[0,1] 0 [a,b,c]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

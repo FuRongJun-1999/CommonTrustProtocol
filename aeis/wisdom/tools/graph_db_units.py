@@ -2515,6 +2515,67 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图规范化——边集排序签名（同构判定辅助）",
     },
+    "图算法-顶点覆盖": {
+        "task": "顶点覆盖",
+        "pattern": (
+            "def vertex_cover(edges):\n"
+            "    # 顶点覆盖：贪心选边两端加入覆盖并删去关联边（2-近似）\n"
+            "    cover = set()\n"
+            "    e = [list(ed) for ed in edges]\n"
+            "    while e:\n"
+            "        u, v = e[0]\n"
+            "        cover.add(u)\n"
+            "        cover.add(v)\n"
+            "        e = [ed for ed in e if u not in ed and v not in ed]\n"
+            "    return sorted(cover)\n"),
+        "cases": [
+            ((((0, 1), (1, 2), (2, 3)),), [0, 1, 2, 3]),
+            ((((0, 1), (0, 2), (1, 2)),), [0, 1]),
+            (([],), []),
+            ((((1, 1),),), [1])],
+        "params": [],
+        "calibration": "对照：顶点覆盖（NP 完全）——贪心 2-近似：选边两端入覆盖，删去关联边",
+    },
+    "图算法-最近公共祖先": {
+        "task": "最近公共祖先",
+        "pattern": (
+            "def lca(parent, depth, a, b):\n"
+            "    # 最近公共祖先：深度对齐后同步上溯（树上查询）\n"
+            "    while depth[a] > depth[b]:\n"
+            "        a = parent[a]\n"
+            "    while depth[b] > depth[a]:\n"
+            "        b = parent[b]\n"
+            "    while a != b:\n"
+            "        a = parent[a]\n"
+            "        b = parent[b]\n"
+            "    return a\n"),
+        "cases": [
+            (({0: 0, 1: 0, 2: 0, 3: 1, 4: 1, 5: 2},
+              {0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2}, 3, 4), 1),
+            (({0: 0, 1: 0, 2: 0, 3: 1, 4: 1, 5: 2},
+              {0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2}, 3, 5), 0),
+            (({0: 0, 1: 0, 2: 0, 3: 1, 4: 1, 5: 2},
+              {0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2}, 1, 4), 1),
+            (({0: 0, 1: 0}, {0: 0, 1: 1}, 0, 1), 0)],
+        "params": [],
+        "calibration": "对照：LCA——深度对齐后同步上溯（朴素 O(深度)，树上最近公共祖先查询）",
+    },
+    "条件路由图-条件分解": {
+        "task": "条件分解",
+        "pattern": (
+            "def condition_split(cond):\n"
+            "    # 条件分解：合取条件拆分为原子条件链（条件空间语义——条件合并的逆）\n"
+            "    if isinstance(cond, tuple) and cond[0] == 'AND':\n"
+            "        return condition_split(cond[1]) + condition_split(cond[2])\n"
+            "    return [cond]\n"),
+        "cases": [
+            ((('AND', 'a', 'b'),), ['a', 'b']),
+            ((('AND', ('AND', 'a', 'b'), 'c'),), ['a', 'b', 'c']),
+            (('x',), ['x']),
+            ((('OR', 'a', 'b'),), [('OR', 'a', 'b')])],
+        "params": [],
+        "calibration": "对照：条件合并（v0.2 条件链叠加）的逆——合取拆为原子链，析取不可拆",
+    },
 }
 
 
