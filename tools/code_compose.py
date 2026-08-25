@@ -339,18 +339,19 @@ def compose_domain_code(question, domain=None, unit_id=None):
     return unit["task"], best_uid, code, unit, domain
 
 
-def _verify_with_verifier(code, unit):
+def _verify_with_verifier(code, unit, unit_id=""):
     """本地校验器六层校验（替代 verify_code 三层）——返回 (ok, checks) 兼容格式。
 
     接入（阶段 4）：code_compose 生成 → verifier 校验 → 固化，全程零 LLM。
       - L1语法/L2样例/L3边界/规范符合性/集成 六层 + 指纹本地缓存
       - 相同请求第二次 → 指纹命中 → 零计算直接返回（替代 LLM 缓存命中）
+      - unit_id 传入（与 --audit 共享同一指纹空间——同一单元同一指纹同一缓存条目）
       - 注入型单元（needs_inject）L2/L3 由集成测试覆盖；'call' 标记样例跳过
     """
     from verifier import Verifier, VerifyRequest
     v = Verifier()
     req = VerifyRequest(
-        task=unit.get("task", ""), code=code,
+        task=unit.get("task", ""), code=code, unit_id=unit_id,
         cases=list(unit.get("cases", [])),
         expected_structure={"inject": True} if unit.get("needs_inject") else {},
     )
@@ -371,7 +372,7 @@ def domain_solidify(question, domain=None, uid=None):
     t, u, code, unit, domain = compose_domain_code(question, domain, uid)
     if code is None:
         return None
-    ok, checks = _verify_with_verifier(code, unit)
+    ok, checks = _verify_with_verifier(code, unit, u)
     if not ok:
         return None  # 自校验未过 → 拒绝固化
     key = f"domain:{domain}|{u}"
@@ -404,7 +405,7 @@ def domain_route(question, uid=None):
     if code is None:
         return {"question": question, "ok": False, "reason": u,
                 "task": t, "code": None, "domain": domain}
-    ok, checks = _verify_with_verifier(code, unit)
+    ok, checks = _verify_with_verifier(code, unit, u)
     return {"question": question, "ok": ok, "task": t, "unit": u,
             "code": code, "checks": checks, "solidified": False, "domain": domain}
 

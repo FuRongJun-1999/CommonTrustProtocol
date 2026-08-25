@@ -29,7 +29,9 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
 import traceback
+import types
 from dataclasses import dataclass, field, asdict
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
@@ -64,6 +66,14 @@ def _stable_serialize(obj: Any) -> Any:
                              for k, v in sorted(obj.items(), key=lambda kv: str(kv[0]))}}
     if isinstance(obj, (bytes, bytearray)):
         return {"__bytes__": bytes(obj).hex()}
+    if isinstance(obj, types.CodeType):
+        # 嵌套 code 对象（lambda 的 co_consts 里可能含 <listcomp>/嵌套 lambda）：
+        # repr 含内存地址（<code object at 0x…>）跨进程漂移——必须确定性摘要
+        digest = hashlib.sha256(json.dumps(
+            [obj.co_code.hex(), list(obj.co_consts), list(obj.co_names)],
+            ensure_ascii=False, sort_keys=True, default=_stable_serialize,
+        ).encode("utf-8")).hexdigest()[:16]
+        return {"__code__": digest}
     if callable(obj):
         co = getattr(obj, "__code__", None)
         if co is not None:
@@ -136,6 +146,8 @@ class VerifyResult:
     fingerprint: str = ""
     cached: bool = False
     reason: str = ""
+    verified_at: str = ""     # 校验时间戳（ISO）
+    version: int = 0          # 校验器规则版本（VERIFIER_VERSION 快照）
 
     def summary(self) -> str:
         parts = [f"✅ 通过" if self.ok else f"❌ 失败"]
@@ -144,6 +156,8 @@ class VerifyResult:
             parts.append(f"{mark} {c['level']}")
         if self.reason:
             parts.append(f"原因: {self.reason}")
+        if self.version:
+            parts.append(f"v{self.version}")
         return " | ".join(parts)
 
 
@@ -192,6 +206,8 @@ class VerifyCache:
         r = VerifyResult(ok=entry["ok"], fingerprint=fingerprint, cached=True)
         r.checks = entry.get("checks", [])
         r.reason = entry.get("reason", "")
+        r.verified_at = entry.get("verified_at", "")
+        r.version = entry.get("version", 0)
         return r
 
     def put(self, result: VerifyResult) -> None:
@@ -199,6 +215,8 @@ class VerifyCache:
             "ok": result.ok,
             "checks": result.checks,
             "reason": result.reason,
+            "verified_at": result.verified_at,
+            "version": result.version,
         }
         self._data[_CACHE_VERSION_KEY] = self.version
         self._flush()
@@ -274,7 +292,9 @@ class Verifier:
             failed = [c for c in checks if not c["ok"]]
             reason = failed[0]["evidence"] if failed else "未知失败"
 
-        result = VerifyResult(ok=ok, checks=checks, fingerprint=fp, reason=reason)
+        result = VerifyResult(ok=ok, checks=checks, fingerprint=fp, reason=reason,
+                              verified_at=time.strftime("%Y-%m-%d %H:%M:%S"),
+                              version=VERIFIER_VERSION)
         # 写缓存
         self.cache.put(result)
         return result
@@ -616,16 +636,63 @@ def _self_test() -> bool:
     return passed == 5
 
 
+def _audit_all() -> None:
+    """全量审计：六域单元库 → 本地校验器 → 报告（通过率/失败清单/缓存/耗时）。"""
+    from compiler_code_units import COMPILER_UNITS
+    from python_code_units import PYTHON_UNITS
+    from graph_db_units import GRAPH_UNITS
+    from os_units import OS_UNITS
+    from browser_units import BROWSER_UNITS
+    from net_units import NET_UNITS
+    domains = [('compiler', COMPILER_UNITS), ('pylang', PYTHON_UNITS),
+               ('graph', GRAPH_UNITS), ('os', OS_UNITS),
+               ('browser', BROWSER_UNITS), ('net', NET_UNITS)]
+    t0 = time.time()
+    v = Verifier()
+    total = ok = 0
+    fails = []
+    by_domain = {}
+    for dname, units in domains:
+        d_ok = d_fail = 0
+        for uid, u in units.items():
+            total += 1
+            req = VerifyRequest(
+                task=u['task'], code=u['pattern'], unit_id=uid,
+                cases=list(u.get('cases', [])),
+                expected_structure={'inject': True} if u.get('needs_inject') else {})
+            r = v.verify(req)
+            if r.ok:
+                ok += 1; d_ok += 1
+            else:
+                fails.append((uid, r.reason[:80])); d_fail += 1
+        by_domain[dname] = (d_ok, d_fail)
+    s = v.cache.stats()
+    print(f"=== 全量审计（verifier v{VERIFIER_VERSION}）: {ok}/{total} 通过 "
+          f"({100.0 * ok / total:.1f}%） 耗时 {time.time() - t0:.1f}s ===")
+    print("各域:", by_domain)
+    print(f"缓存: 共 {s['total']} 条（通过 {s['passed']} / 失败 {s['failed']}）"
+          f" | 本进程命中 {s['hits']} / 未命中 {s['misses']}（命中率 {s['hit_rate']}%）")
+    if fails:
+        print("--- 失败清单 ---")
+        for uid, reason in fails:
+            print(f"[{uid}] {reason}")
+
+
 def main() -> None:
     import argparse
     ap = argparse.ArgumentParser(description="白箱本地校验器（零 LLM）")
     ap.add_argument("--verify", type=str, help="校验请求 JSON 文件路径")
     ap.add_argument("--cache-stats", action="store_true", help="缓存统计")
+    ap.add_argument("--audit", action="store_true", help="全量审计（六域单元）")
     ap.add_argument("--self-test", action="store_true", help="自测")
     args = ap.parse_args()
 
     if args.self_test:
         sys.exit(0 if _self_test() else 1)
+
+    if args.audit:
+        _audit_all()
+        return
 
     if args.cache_stats:
         stats = VerifyCache().stats()
