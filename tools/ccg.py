@@ -249,6 +249,80 @@ def search(question: str, nodes=None, top: int = 5) -> list:
     return scored[:top]
 
 
+def _diff_condition(a: str, b: str, nodes) -> str:
+    """DEFER 缺失条件：候选 a/b 的条件差异（head 独有侧的能力描述）。
+
+    缺失条件 = 决定两能力边界的信息（a 有 b 没有 / b 有 a 没有的 head 侧）。
+    """
+    ha = nodes.get(a, {}).get('head', '')
+    hb = nodes.get(b, {}).get('head', '')
+    if not ha and not hb:
+        return '细分条件'
+    da, db = _bigrams(ha) - _bigrams(hb), _bigrams(hb) - _bigrams(ha)
+    if len(db) >= len(da) and db:
+        return (hb[:24] + '（而非 ' + ha[:12] + '）') if ha else hb[:24]
+    if da:
+        return (ha[:24] + '（而非 ' + hb[:12] + '）') if hb else ha[:24]
+    return '细分条件'
+
+
+_DF_CACHE = None
+
+
+def _word_df(nodes) -> dict:
+    """词文档频率：出现该词的单元数（泛化词检测——判别力）。"""
+    global _DF_CACHE
+    if _DF_CACHE is not None:
+        return _DF_CACHE
+    df = {}
+    for n in nodes.values():
+        for w in n['index']['tokens']:
+            df[w] = df.get(w, 0) + 1
+    _DF_CACHE = df
+    return df
+
+
+def route(question: str, nodes=None, top: int = 5, depth: int = 3) -> dict:
+    """四态递归路由（GPT：ACCEPT/REJECT/DEFER/BLINDSPOT + 缺失条件递归）。
+
+    ACCEPT：top1 分差显著 且 命中词数 ≥3 且 有效词（低 df 判别词）≥2。
+    REJECT：任务与候选不适用条件冲突（search 已排除）。
+    DEFER：top1/top2 分差小（邻域相关）→ 识别缺失条件 → 递归检索。
+    BLINDSPOT：递归到底仍无法归属（记录 任务/候选/缺失条件/路径——盲区声明）。
+    """
+    nodes = nodes if nodes is not None else build_graph()
+    df = _word_df(nodes)
+    hits = search(question, nodes, top=top)
+    if not hits:
+        return {"state": "BLINDSPOT", "reason": "无候选",
+                "path": [question[:30]]}
+    top1 = hits[0]
+    top2 = hits[1] if len(hits) > 1 else None
+    gap = (top1[2][0] - top2[2][0]) if top2 else 99
+    # 有效词（低 df 判别词）——泛化词（功能/存在/检查 等多单元共现）不算
+    meaningful = [w for w in top1[3] if df.get(w, 99) <= 11]
+    if (gap >= 2 or top2 is None) and top1[2][0] >= 3 and len(meaningful) >= 2:
+        return {"state": "ACCEPT", "unit": top1[0], "score": top1[2][0],
+                "path": [question[:30]]}
+    # DEFER 前置：任务判别力不足（有效词 0）→ BLINDSPOT（盲区声明，
+    # 不强行递归——「不存在的功能」仅泛化词命中，无真实邻域可递归）
+    if not meaningful:
+        return {"state": "BLINDSPOT",
+                "reason": "判别力不足（仅泛化词命中）",
+                "candidates": [h[0] for h in hits[:3]],
+                "path": [question[:30]]}
+    # DEFER：候选邻域相关（top1/top2 分差小）
+    missing = _diff_condition(top1[0], top2[0], nodes)
+    if depth <= 1:
+        return {"state": "BLINDSPOT", "candidates": [h[0] for h in hits[:3]],
+                "missing": missing, "path": [question[:30], f"缺:{missing}"]}
+    new_q = f"写一个{missing}的代码单元"
+    r = route(new_q, nodes, top, depth - 1)
+    r["path"] = [question[:30], f"缺:{missing}"] + r.get("path", [])
+    r["defer_from"] = [top1[0], top2[0]]
+    return r
+
+
 def compose(question: str, nodes=None, top: int = 5) -> dict:
     """条件编写：多单元命中 → 沿依赖边组装 → 代码（多候选择优 + verifier）。
 
