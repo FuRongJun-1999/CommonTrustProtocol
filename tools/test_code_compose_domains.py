@@ -6674,5 +6674,41 @@ except Exception as ex:
     check('㌝c 字符类别→括号匹配→指令选择端到端（letter False [ADD,SUB,MUL]）',
           False, str(ex)[:60])
 
+# ㌞ 目标1 深化：P 线工具（列表分块/嵌套扁平化/循环轮转 经正式管线）
+p25_qs = {
+    "列表分块": "写一个列表分块单元（分批处理）",
+    "嵌套扁平化": "写一个嵌套扁平化单元（递归展开）",
+    "循环轮转": "写一个循环轮转单元（右移旋转）",
+}
+p25_ok = 0
+for label, q in p25_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p25_ok += 1
+    check(f'㌞ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌞b P线工具三单元全部生成', p25_ok == 3, f'{p25_ok}/3')
+
+# ㌞c 端到端：分块→扁平化→轮转（[[1,2],[3,4],[5]] [1,2,3,4] [4,1,2,3]）
+r_ck = domain_route("写一个列表分块单元（分批处理）")
+r_fl = domain_route("写一个嵌套扁平化单元（递归展开）")
+r_rt = domain_route("写一个循环轮转单元（右移旋转）")
+try:
+    ns_ck, ns_fl, ns_rt = {}, {}, {}
+    exec(r_ck["code"], ns_ck)
+    exec(r_fl["code"], ns_fl)
+    exec(r_rt["code"], ns_rt)
+    ck = ns_ck["chunk_list"]([1, 2, 3, 4, 5], 2)
+    fl = ns_fl["flatten"]([[1, 2], [3, [4]]])
+    rt = ns_rt["rotate"]([1, 2, 3, 4], 1)
+    check('㌞c 分块→扁平化→轮转端到端（[[1,2],[3,4],[5]] [1,2,3,4] [4,1,2,3]）',
+          ck == [[1, 2], [3, 4], [5]] and fl == [1, 2, 3, 4]
+          and rt == [4, 1, 2, 3],
+          f'chunk={ck} flat={fl} rot={rt}')
+except Exception as ex:
+    check('㌞c 分块→扁平化→轮转端到端（[[1,2],[3,4],[5]] [1,2,3,4] [4,1,2,3]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

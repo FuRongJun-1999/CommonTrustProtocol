@@ -5468,5 +5468,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:pylang|工具-列表分块": {
+  "task": "列表分块",
+  "unit": "工具-列表分块",
+  "code": "def chunk_list(items, size):\n    # 列表分块：按固定大小切块（分批处理）\n    if size <= 0:\n        return []\n    return [items[i:i + size] for i in range(0, len(items), size)]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-嵌套扁平化": {
+  "task": "嵌套扁平化",
+  "unit": "工具-嵌套扁平化",
+  "code": "def flatten(items):\n    # 嵌套扁平化：递归展开嵌套列表（单层拍平）\n    out = []\n    for x in items:\n        if isinstance(x, list):\n            out.extend(flatten(x))\n        else:\n            out.append(x)\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-循环轮转": {
+  "task": "循环轮转",
+  "unit": "工具-循环轮转",
+  "code": "def rotate(items, k):\n    # 循环轮转：向右旋转 k 位（deque.rotate 语义）\n    if not items:\n        return []\n    k = k % len(items)\n    return items[-k:] + items[:-k] if k else list(items)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

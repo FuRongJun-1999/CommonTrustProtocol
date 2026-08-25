@@ -1917,6 +1917,58 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：itertools.product——笛卡尔积（全组合）",
     },
+    "工具-列表分块": {
+        "task": "列表分块",
+        "pattern": (
+            "def chunk_list(items, size):\n"
+            "    # 列表分块：按固定大小切块（分批处理）\n"
+            "    if size <= 0:\n"
+            "        return []\n"
+            "    return [items[i:i + size] for i in range(0, len(items), size)]\n"),
+        "cases": [
+            (([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]]),
+            (([1, 2, 3], 3), [[1, 2, 3]]),
+            (([], 2), []),
+            (([1, 2], 0), [])],
+        "params": [],
+        "calibration": "对照：分块——按大小分批（chunking）",
+    },
+    "工具-嵌套扁平化": {
+        "task": "嵌套扁平化",
+        "pattern": (
+            "def flatten(items):\n"
+            "    # 嵌套扁平化：递归展开嵌套列表（单层拍平）\n"
+            "    out = []\n"
+            "    for x in items:\n"
+            "        if isinstance(x, list):\n"
+            "            out.extend(flatten(x))\n"
+            "        else:\n"
+            "            out.append(x)\n"
+            "    return out\n"),
+        "cases": [
+            (([[1, 2], [3, [4]]],), [1, 2, 3, 4]),
+            (([[1], 2],), [1, 2]),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：递归展开——嵌套列表扁平化（flatten）",
+    },
+    "工具-循环轮转": {
+        "task": "循环轮转",
+        "pattern": (
+            "def rotate(items, k):\n"
+            "    # 循环轮转：向右旋转 k 位（deque.rotate 语义）\n"
+            "    if not items:\n"
+            "        return []\n"
+            "    k = k % len(items)\n"
+            "    return items[-k:] + items[:-k] if k else list(items)\n"),
+        "cases": [
+            (([1, 2, 3, 4], 1), [4, 1, 2, 3]),
+            (([1, 2, 3], 2), [2, 3, 1]),
+            (([1, 2], 4), [1, 2]),
+            (([], 3), [])],
+        "params": [],
+        "calibration": "对照：deque.rotate——循环轮转（右移 k 位）",
+    },
 }
 
 
