@@ -1,0 +1,88 @@
+{
+ "target": "codegraph-ref/crates/codegraph",
+ "n_files": 42,
+ "build_status": {
+  "ok": false,
+  "note": "环境受限（依赖 C 构建失败，非 codegraph 代码缺陷）",
+  "env_limited": true
+ },
+ "dimension_scores": {
+  "W1": 0.9048,
+  "W2": 0.9048,
+  "W3": 0.9048,
+  "W4": 0.881,
+  "W5": 0.9048,
+  "W6": 0.8333,
+  "W7": 0.9524,
+  "W8": 0.9762
+ },
+ "overall_score": 0.9012,
+ "failed_samples": [
+  {
+   "file": "build.rs",
+   "failed": [
+    "W8"
+   ]
+  },
+  {
+   "file": "graph_operations.rs",
+   "failed": [
+    "W4",
+    "W7"
+   ]
+  },
+  {
+   "file": "call_graph.rs",
+   "failed": [
+    "W6"
+   ]
+  },
+  {
+   "file": "dependency_tree.rs",
+   "failed": [
+    "W6"
+   ]
+  },
+  {
+   "file": "impact_analysis.rs",
+   "failed": [
+    "W6"
+   ]
+  },
+  {
+   "file": "inspect_db.rs",
+   "failed": [
+    "W4",
+    "W6"
+   ]
+  },
+  {
+   "file": "visualize.rs",
+   "failed": [
+    "W1",
+    "W2",
+    "W3",
+    "W5"
+   ]
+  },
+  {
+   "file": "query.rs",
+   "failed": [
+    "W6"
+   ]
+  },
+  {
+   "file": "dot.rs",
+   "failed": [
+    "W6"
+   ]
+  },
+  {
+   "file": "codegraph.rs",
+   "failed": [
+    "W6"
+   ]
+  }
+ ],
+ "n_failed_files": 17
+}
