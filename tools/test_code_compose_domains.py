@@ -6639,5 +6639,40 @@ except Exception as ex:
     check('㌜c 手柄→键盘→音频端到端（connected shown 440）',
           False, str(ex)[:60])
 
+# ㌝ 目标2 深化：词法/语法/后端（字符类别/括号匹配/指令选择 经正式管线）
+c24_qs = {
+    "字符类别": "写一个字符类别单元（词法分类）",
+    "括号匹配": "写一个括号匹配单元（嵌套平衡）",
+    "指令选择": "写一个指令选择单元（IR 映射）",
+}
+c24_ok = 0
+for label, q in c24_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c24_ok += 1
+    check(f'㌝ {label} 词法/语法/后端单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌝b 词法/语法/后端三单元全部生成', c24_ok == 3, f'{c24_ok}/3')
+
+# ㌝c 端到端：字符类别→括号匹配→指令选择（letter True [ADD,SUB,MUL]）
+r_cc = domain_route("写一个字符类别单元（词法分类）")
+r_bb = domain_route("写一个括号匹配单元（嵌套平衡）")
+r_is = domain_route("写一个指令选择单元（IR 映射）")
+try:
+    ns_cc, ns_bb, ns_is = {}, {}, {}
+    exec(r_cc["code"], ns_cc)
+    exec(r_bb["code"], ns_bb)
+    exec(r_is["code"], ns_is)
+    cc = ns_cc["char_class"]('a')
+    bb = ns_bb["bracket_balance"]('([)]')
+    isd = ns_is["insn_select"]('+-*')
+    check('㌝c 字符类别→括号匹配→指令选择端到端（letter False [ADD,SUB,MUL]）',
+          cc == 'letter' and bb is False and isd == ['ADD', 'SUB', 'MUL'],
+          f'class={cc} balance={bb} sel={isd}')
+except Exception as ex:
+    check('㌝c 字符类别→括号匹配→指令选择端到端（letter False [ADD,SUB,MUL]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

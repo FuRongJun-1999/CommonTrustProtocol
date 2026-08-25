@@ -2233,6 +2233,62 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：编译优化——边界检查消除（可证范围免检）",
     },
+    "词法-字符类别": {
+        "task": "字符类别",
+        "pattern": (
+            "def char_class(ch):\n"
+            "    # 字符类别：字母/数字/空白/其他（词法分类基础）\n"
+            "    if ch.isalpha():\n"
+            "        return 'letter'\n"
+            "    if ch.isdigit():\n"
+            "        return 'digit'\n"
+            "    if ch.isspace():\n"
+            "        return 'space'\n"
+            "    return 'other'\n"),
+        "cases": [
+            ((chr(97),), 'letter'),
+            ((chr(49),), 'digit'),
+            ((chr(32),), 'space'),
+            ((chr(43),), 'other')],
+        "params": [],
+        "calibration": "对照：词法——字符类别判定（字母/数字/空白/其他）",
+    },
+    "语法-括号匹配": {
+        "task": "括号匹配",
+        "pattern": (
+            "def bracket_balance(text):\n"
+            "    # 括号匹配：栈配对校验（()[]{} 嵌套平衡）\n"
+            "    pairs = {')': '(', ']': '[', '}': '{'}\n"
+            "    stack = []\n"
+            "    for ch in text:\n"
+            "        if ch in '([{':\n"
+            "            stack.append(ch)\n"
+            "        elif ch in ')]}':\n"
+            "            if not stack or stack.pop() != pairs[ch]:\n"
+            "                return False\n"
+            "    return len(stack) == 0\n"),
+        "cases": [
+            ((chr(40) + chr(41),), True),
+            ((chr(40) + chr(91) + chr(93) + chr(41),), True),
+            ((chr(40) + chr(93),), False),
+            ((chr(40),), False)],
+        "params": [],
+        "calibration": "对照：语法——括号配对平衡（嵌套校验）",
+    },
+    "编译-指令选择": {
+        "task": "指令选择",
+        "pattern": (
+            "def insn_select(ir):\n"
+            "    # 指令选择：IR 操作 → 目标指令（模式匹配翻译）\n"
+            "    table = {'+': 'ADD', '-': 'SUB', '*': 'MUL', '/': 'DIV', '=': 'MOV'}\n"
+            "    return [table.get(op, 'NOP') for op in ir]\n"),
+        "cases": [
+            ((chr(43) + chr(45) + chr(42),), ['ADD', 'SUB', 'MUL']),
+            ((chr(61),), ['MOV']),
+            ((chr(37),), ['NOP'])],
+        "params": [],
+        "calibration": "对照：编译后端——IR 操作到目标指令映射（指令选择）",
+    },
 }
 
 
