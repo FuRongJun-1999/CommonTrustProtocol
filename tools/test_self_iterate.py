@@ -26,6 +26,17 @@ print(f'  漂移 {per["n_drift"]} | 强契约 {100.0*per["strong_rate"]:.0f}% '
       f'| MOS {100.0*per["mos_rate"]:.0f}%')
 check('① 感知：负面漂移+契约率+MOS 一致率 全扫描', ok1)
 
+# ── ①b 感知扩展：路由冲突/盲区/注释规范 通道 ────────────────
+rc = per.get("route_conflicts", {})
+bs = per.get("blindspots", {})
+cs = per.get("comment_spec", {})
+ok1b = (rc.get("ok") and rc.get("n_excl_units", 0) > 0
+        and bs.get("ok") and cs.get("ok") and cs.get("n_spec_fail", -1) == 0)
+print(f'  路由互斥 {rc.get("n_excl_units")} 单元 | 盲区探测 '
+      f'{bs.get("n_blindspot")}/{bs.get("n")} | 注释规范 '
+      f'{cs.get("n_spec_fail")} 失败/681')
+check('①b 感知扩展：路由冲突+escalation盲区+注释规范 通道', ok1b)
+
 # ── ② 识别：漂移分类（弱兜底可吸收）────────────────────────
 cls = si.classify(per["drift"])
 ok2 = len(cls["absorbable"]) > 0 and len(cls["absorbable"]) + \
@@ -69,7 +80,7 @@ check('⑦ 反馈：已吸收单元跳过（trace 读回）', ok7)
 # ── ⑧ 方向性自检 ────────────────────────────────────────────
 ori = si.orient(per, {"ok": True})
 ok8 = ori["direction_ok"] and ori["passed"] == ori["total"]
-print(f'  {ori["assessment"]}')
+print(f'  {ori["assessment"]}（{ori["passed"]}/{ori["total"]}）')
 check('⑧ 方向性自检：指标趋势朝向目标（减少错误/冲突/盲区）', ok8)
 
 report = {

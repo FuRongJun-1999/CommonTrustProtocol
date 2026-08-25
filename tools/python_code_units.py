@@ -2611,7 +2611,7 @@ PYTHON_UNITS = {
 "    # 生效条件：w.startswith 可用\n"
 "    # 子功能：① 条件判定 ② 结果处理\n"
 "    # 执行：循环迭代\n"
-"    # 不适用条件：words 为空/非法时；prefix 为空/非法时\n"
+"    # 不适用条件：words 为空/非法时；prefix 为空/非法时（返回 空串 兜底——不拒绝，弱契约）\n"
             "    # 最长公共前缀：逐字符比对所有词（LCP）\n"
             "    if not words:\n"
             "        return ''\n"
