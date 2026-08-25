@@ -1,0 +1,23 @@
+{
+ "experiment": "条件边界三分类（GPT 四态路由）",
+ "seed": 20260829,
+ "domain_in": {
+  "n": 48,
+  "accept": 48,
+  "rate": 1.0
+ },
+ "domain_out": {
+  "n": 48,
+  "reject": 48,
+  "rate": 1.0
+ },
+ "neighbor": {
+  "n": 29,
+  "not_accept": 29,
+  "rate": 1.0
+ },
+ "mis_reject": 0,
+ "reject_precision": 1.0,
+ "defer_cases": [],
+ "conclusion": "四态路由评估：能力域 ACCEPT、域外 REJECT、邻域 DEFER/路由邻居（未错误 ACCEPT）；REJECT precision 高（误拒最少——最危险错误受控）"
+}
