@@ -1,0 +1,227 @@
+{
+ "experiment": "新对抗集（GPT：验证 88% 非补丁）",
+ "seed": 20260828,
+ "task_adj": {
+  "n": 444,
+  "reject": 403,
+  "rate": 0.9077
+ },
+ "boundary": {
+  "n": 6,
+  "reject": 5,
+  "rate": 0.8333
+ },
+ "conclusion": "机制不同的新对抗集拒绝率——若显著，能力级互斥为结构性升级（非旧集补丁）",
+ "misses": [
+  {
+   "type": "task-adj",
+   "unit": "VM-信任累积",
+   "adv": "校验-信任检查"
+  },
+  {
+   "type": "task-adj",
+   "unit": "VM-条件空间",
+   "adv": "校验-条件空间存在性"
+  },
+  {
+   "type": "task-adj",
+   "unit": "分析-类型推断",
+   "adv": "编译-类型检查"
+  },
+  {
+   "type": "task-adj",
+   "unit": "编译-类型检查",
+   "adv": "分析-类型推断"
+  },
+  {
+   "type": "task-adj",
+   "unit": "VM-闭包创建",
+   "adv": "VM-闭包调用"
+  },
+  {
+   "type": "task-adj",
+   "unit": "语法-复合赋值",
+   "adv": "编译-赋值"
+  },
+  {
+   "type": "task-adj",
+   "unit": "编译-寄存器着色",
+   "adv": "编译-寄存器分配"
+  },
+  {
+   "type": "task-adj",
+   "unit": "推导式-列表推导",
+   "adv": "推导式-字典推导"
+  },
+  {
+   "type": "task-adj",
+   "unit": "异步-信号量",
+   "adv": "异步-async await"
+  },
+  {
+   "type": "task-adj",
+   "unit": "语法-默认参数",
+   "adv": "数据结构-默认字典"
+  },
+  {
+   "type": "task-adj",
+   "unit": "工具-环境查询",
+   "adv": "环境-作用域链"
+  },
+  {
+   "type": "task-adj",
+   "unit": "异步-异步生成器",
+   "adv": "生成器-yield"
+  },
+  {
+   "type": "task-adj",
+   "unit": "工具-时间格式化",
+   "adv": "工具-格式化"
+  },
+  {
+   "type": "task-adj",
+   "unit": "工具-列表分块",
+   "adv": "推导式-列表推导"
+  },
+  {
+   "type": "task-adj",
+   "unit": "求值-解包赋值",
+   "adv": "语法-切片赋值"
+  },
+  {
+   "type": "task-adj",
+   "unit": "图查询-子图匹配",
+   "adv": "图查询-模式匹配"
+  },
+  {
+   "type": "task-adj",
+   "unit": "图存储-快照版本",
+   "adv": "图存储-一致性快照"
+  },
+  {
+   "type": "task-adj",
+   "unit": "图存储-备份恢复",
+   "adv": "图存储-增量备份"
+  },
+  {
+   "type": "task-adj",
+   "unit": "图存储-邻接表CSR",
+   "adv": "图存储-压缩编码"
+  },
+  {
+   "type": "task-adj",
+   "unit": "图存储-属性边",
+   "adv": "图索引-属性索引"
+  },
+  {
+   "type": "task-adj",
+   "unit": "条件路由图-信任聚合",
+   "adv": "图查询-聚合"
+  },
+  {
+   "type": "task-adj",
+   "unit": "图查询-路径计数",
+   "adv": "图遍历-路径"
+  },
+  {
+   "type": "task-adj",
+   "unit": "调度-优先级",
+   "adv": "中断-嵌套优先级"
+  },
+  {
+   "type": "task-adj",
+   "unit": "系统-守护进程",
+   "adv": "进程-进程树"
+  },
+  {
+   "type": "task-adj",
+   "unit": "并发-工作池",
+   "adv": "调度-工作窃取"
+  },
+  {
+   "type": "task-adj",
+   "unit": "安全-强制访问控制",
+   "adv": "安全-访问控制"
+  },
+  {
+   "type": "task-adj",
+   "unit": "安全-加密文件系统",
+   "adv": "文件-系统挂载"
+  },
+  {
+   "type": "task-adj",
+   "unit": "文件-文件系统日志",
+   "adv": "文件-系统挂载"
+  },
+  {
+   "type": "task-adj",
+   "unit": "调度-工作窃取",
+   "adv": "并发-工作池"
+  },
+  {
+   "type": "task-adj",
+   "unit": "系统-模块加载",
+   "adv": "启动-引导加载"
+  },
+  {
+   "type": "task-adj",
+   "unit": "并行-Service Worker",
+   "adv": "并行-Web Worker"
+  },
+  {
+   "type": "task-adj",
+   "unit": "浏览器-预加载",
+   "adv": "性能-懒加载"
+  },
+  {
+   "type": "task-adj",
+   "unit": "浏览器-支付请求",
+   "adv": "HTTP-请求构建"
+  },
+  {
+   "type": "task-adj",
+   "unit": "浏览器-形状检测",
+   "adv": "浏览器-语言检测"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-TCP握手",
+   "adv": "网络-加密握手"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-局域网发现",
+   "adv": "网络-服务发现"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-快速重传",
+   "adv": "蜂群-超时重传"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-QoS队列",
+   "adv": "网络-消息队列"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-HTTP重定向",
+   "adv": "网络-HTTP状态码"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-报文分片",
+   "adv": "网络-IP分片"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-重传统计",
+   "adv": "蜂群-超时重传"
+  },
+  {
+   "type": "boundary",
+   "unit": "推导式-列表推导",
+   "adv": "推导式-字典推导"
+  }
+ ]
+}
