@@ -1668,6 +1668,75 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：Accelerometer API——传感器读数记录/读取/平均",
     },
+    "浏览器-语音合成": {
+        "task": "语音合成",
+        "pattern": (
+            "def speech_synth(state, op, text=None):\n"
+            "    # 语音合成：speak 朗读 / pause 暂停 / resume 继续（SpeechSynthesis）\n"
+            "    if op == 'speak':\n"
+            "        state['text'] = text\n"
+            "        state['speaking'] = True\n"
+            "        return 'speaking'\n"
+            "    if op == 'pause':\n"
+            "        state['paused'] = True\n"
+            "        return 'paused'\n"
+            "    if op == 'resume':\n"
+            "        state['paused'] = False\n"
+            "        return 'speaking'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'speak', '你好'), 'speaking'),
+            (({}, 'pause'), 'paused'),
+            (({'paused': True}, 'resume'), 'speaking'),
+            (({'text': '你好', 'speaking': True}, 'pause'), 'paused')],
+        "params": [],
+        "calibration": "对照：SpeechSynthesis——文本朗读/暂停/继续",
+    },
+    "浏览器-语音识别": {
+        "task": "语音识别",
+        "pattern": (
+            "def speech_recog(state, op, text=None):\n"
+            "    # 语音识别：start 开始 / result 识别结果 / final 最终文本（SpeechRecognition）\n"
+            "    if op == 'start':\n"
+            "        state['listening'] = True\n"
+            "        return 'listening'\n"
+            "    if op == 'result':\n"
+            "        state.setdefault('results', []).append(text)\n"
+            "        return text\n"
+            "    if op == 'final':\n"
+            "        r = state.get('results', [])\n"
+            "        return r[-1] if r else None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'start'), 'listening'),
+            (({}, 'result', '你好'), '你好'),
+            (({'results': ['你好']}, 'final'), '你好'),
+            (({}, 'final'), None)],
+        "params": [],
+        "calibration": "对照：SpeechRecognition——开始/识别结果/最终文本",
+    },
+    "浏览器-扫码": {
+        "task": "扫码",
+        "pattern": (
+            "def barcode_scan(state, op, code=None):\n"
+            "    # 扫码：scan 检测 / cache 缓存 / last 最近结果（BarcodeDetector）\n"
+            "    if op == 'scan':\n"
+            "        state['last'] = code\n"
+            "        return code\n"
+            "    if op == 'cache':\n"
+            "        state.setdefault('cached', []).append(code)\n"
+            "        return len(state['cached'])\n"
+            "    if op == 'last':\n"
+            "        return state.get('last')\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'scan', '12345'), '12345'),
+            (({}, 'cache', '12345'), 1),
+            (({'last': '12345'}, 'last'), '12345'),
+            (({}, 'last'), None)],
+        "params": [],
+        "calibration": "对照：BarcodeDetector——条码/二维码检测与缓存",
+    },
 }
 
 

@@ -6392,5 +6392,40 @@ except Exception as ex:
     check('㌕c 碎片整理→段式→时钟端到端（[a,b] 130 2.0）',
           False, str(ex)[:60])
 
+# ㌖ 目标5 深化：浏览器能力（语音合成/语音识别/扫码 经正式管线）
+b18_qs = {
+    "语音合成": "写一个语音合成单元（文本朗读）",
+    "语音识别": "写一个语音识别单元（识别结果）",
+    "扫码": "写一个扫码单元（条码检测）",
+}
+b18_ok = 0
+for label, q in b18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b18_ok += 1
+    check(f'㌖ {label} 浏览器能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌖b 浏览器能力三单元全部生成', b18_ok == 3, f'{b18_ok}/3')
+
+# ㌖c 端到端：语音合成→语音识别→扫码（speaking 你好 12345）
+r_ss = domain_route("写一个语音合成单元（文本朗读）")
+r_sr = domain_route("写一个语音识别单元（识别结果）")
+r_bs = domain_route("写一个扫码单元（条码检测）")
+try:
+    ns_ss, ns_sr, ns_bs = {}, {}, {}
+    exec(r_ss["code"], ns_ss)
+    exec(r_sr["code"], ns_sr)
+    exec(r_bs["code"], ns_bs)
+    ss = ns_ss["speech_synth"]({}, 'speak', '你好')
+    sr = ns_sr["speech_recog"]({}, 'result', '你好')
+    bs = ns_bs["barcode_scan"]({}, 'scan', '12345')
+    check('㌖c 语音合成→语音识别→扫码端到端（speaking 你好 12345）',
+          ss == 'speaking' and sr == '你好' and bs == '12345',
+          f'synth={ss} recog={sr} scan={bs}')
+except Exception as ex:
+    check('㌖c 语音合成→语音识别→扫码端到端（speaking 你好 12345）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
