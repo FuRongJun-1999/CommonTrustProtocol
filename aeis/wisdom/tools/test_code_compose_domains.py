@@ -6108,5 +6108,41 @@ except Exception as ex:
     check('㌍c 数组→污点→边界检查端到端（20 tainted eliminated）',
           False, str(ex)[:60])
 
+# ㌎ 目标6 深化：图算法/查询（最大团/旅行商/标签约束 经正式管线）
+g32_qs = {
+    "最大团": "写一个最大团单元（完全子图）",
+    "旅行商": "写一个旅行商单元（最近邻环游）",
+    "标签约束": "写一个标签约束单元（边标签路径）",
+}
+g32_ok = 0
+for label, q in g32_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g32_ok += 1
+    check(f'㌎ {label} 图算法/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌎b 图算法/查询三单元全部生成', g32_ok == 3, f'{g32_ok}/3')
+
+# ㌎c 端到端：最大团→旅行商→标签约束（[0,1,2] [0,1,2] [(0,1),(1,3)]）
+r_mc = domain_route("写一个最大团单元（完全子图）")
+r_tp = domain_route("写一个旅行商单元（最近邻环游）")
+r_lp = domain_route("写一个标签约束单元（边标签路径）")
+try:
+    ns_mc, ns_tp, ns_lp = {}, {}, {}
+    exec(r_mc["code"], ns_mc)
+    exec(r_tp["code"], ns_tp)
+    exec(r_lp["code"], ns_lp)
+    mc = ns_mc["max_clique"]({0: [1, 2], 1: [0, 2], 2: [0, 1]})
+    tp = ns_tp["tsp_greedy"]({0: [(1, 1), (2, 5)], 1: [(0, 1), (2, 2)], 2: [(0, 5), (1, 2)]})
+    lp = ns_lp["label_path"]({0: [(1, '友'), (2, '师')], 1: [(3, '友')], 2: [(3, '亲')], 3: []},
+                             0, 3, {}, '友')
+    check('㌎c 最大团→旅行商→标签约束端到端（[0,1,2] [0,1,2] [(0,1),(1,3)]）',
+          mc == [0, 1, 2] and tp == [0, 1, 2] and lp == [(0, 1), (1, 3)],
+          f'clique={mc} tsp={tp} label={lp}')
+except Exception as ex:
+    check('㌎c 最大团→旅行商→标签约束端到端（[0,1,2] [0,1,2] [(0,1),(1,3)]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

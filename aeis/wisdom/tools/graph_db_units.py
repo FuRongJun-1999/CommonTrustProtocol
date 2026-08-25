@@ -2164,6 +2164,83 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：图可视化——度→节点尺寸映射（节点大小）",
     },
+    "图算法-最大团": {
+        "task": "最大团",
+        "pattern": (
+            "def max_clique(adj):\n"
+            "    # 最大团：贪心扩张完全子图（Bron-Kerbosch 近似——完全连通子集）\n"
+            "    nodes = list(adj)\n"
+            "    best = []\n"
+            "    for start in nodes:\n"
+            "        clique = [start]\n"
+            "        for v in nodes:\n"
+            "            if v == start:\n"
+            "                continue\n"
+            "            if all(v in adj.get(u, []) for u in clique):\n"
+            "                clique.append(v)\n"
+            "        if len(clique) > len(best):\n"
+            "            best = clique\n"
+            "    return best\n"),
+        "cases": [
+            (({0: [1, 2], 1: [0, 2], 2: [0, 1]},), [0, 1, 2]),
+            (({0: [1], 1: [0, 2], 2: [1]},), [0, 1]),
+            (({},), [])],
+        "params": [],
+        "calibration": "对照：Bron-Kerbosch——最大完全子图（贪心扩张近似）",
+    },
+    "图算法-旅行商": {
+        "task": "旅行商",
+        "pattern": (
+            "def tsp_greedy(adj, start=0):\n"
+            "    # 旅行商：贪心最近邻环游（TSP 近似——每次走最近未访点）\n"
+            "    path = [start]\n"
+            "    seen = {start}\n"
+            "    cur = start\n"
+            "    while len(path) < len(adj):\n"
+            "        nxt = None\n"
+            "        for v, w in sorted(adj.get(cur, []), key=lambda x: x[1]):\n"
+            "            if v not in seen:\n"
+            "                nxt = v\n"
+            "                break\n"
+            "        if nxt is None:\n"
+            "            break\n"
+            "        path.append(nxt)\n"
+            "        seen.add(nxt)\n"
+            "        cur = nxt\n"
+            "    return path\n"),
+        "cases": [
+            (({0: [(1, 1), (2, 5)], 1: [(0, 1), (2, 2)], 2: [(0, 5), (1, 2)]},), [0, 1, 2]),
+            (({0: [(1, 1)], 1: [(0, 1)]},), [0, 1]),
+            (({0: []},), [0])],
+        "params": [],
+        "calibration": "对照：TSP——最近邻贪心环游（旅行商近似）",
+    },
+    "图查询-标签约束": {
+        "task": "标签约束",
+        "pattern": (
+            "def label_path(adj, start, end, labels, want):\n"
+            "    # 标签约束：路径边标签序列匹配（标签约束查询）\n"
+            "    q = [(start, [])]\n"
+            "    seen = set()\n"
+            "    while q:\n"
+            "        u, path = q.pop(0)\n"
+            "        if u == end:\n"
+            "            return path\n"
+            "        if (u, tuple(path)) in seen:\n"
+            "            continue\n"
+            "        seen.add((u, tuple(path)))\n"
+            "        for v, lab in adj.get(u, []):\n"
+            "            if lab == want or want is None:\n"
+            "                q.append((v, path + [(u, v)]))\n"
+            "    return None\n"),
+        "cases": [
+            (({0: [(1, '友'), (2, '师')], 1: [(3, '友')], 2: [(3, '亲')], 3: []},
+              0, 3, {}, '友'), [(0, 1), (1, 3)]),
+            (({0: [(1, '师')], 1: [(3, '亲')], 3: []}, 0, 3, {}, '友'), None),
+            (({0: [(1, '友')], 1: [(0, '友')]}, 0, 1, {}, None), [(0, 1)])],
+        "params": [],
+        "calibration": "对照：图查询——边标签约束路径（标签序列匹配）",
+    },
 }
 
 

@@ -4988,5 +4988,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:graph|图算法-最大团": {
+  "task": "最大团",
+  "unit": "图算法-最大团",
+  "code": "def max_clique(adj):\n    # 最大团：贪心扩张完全子图（Bron-Kerbosch 近似——完全连通子集）\n    nodes = list(adj)\n    best = []\n    for start in nodes:\n        clique = [start]\n        for v in nodes:\n            if v == start:\n                continue\n            if all(v in adj.get(u, []) for u in clique):\n                clique.append(v)\n        if len(clique) > len(best):\n            best = clique\n    return best\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图算法-旅行商": {
+  "task": "旅行商",
+  "unit": "图算法-旅行商",
+  "code": "def tsp_greedy(adj, start=0):\n    # 旅行商：贪心最近邻环游（TSP 近似——每次走最近未访点）\n    path = [start]\n    seen = {start}\n    cur = start\n    while len(path) < len(adj):\n        nxt = None\n        for v, w in sorted(adj.get(cur, []), key=lambda x: x[1]):\n            if v not in seen:\n                nxt = v\n                break\n        if nxt is None:\n            break\n        path.append(nxt)\n        seen.add(nxt)\n        cur = nxt\n    return path\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
+ },
+ "domain:graph|图查询-标签约束": {
+  "task": "标签约束",
+  "unit": "图查询-标签约束",
+  "code": "def label_path(adj, start, end, labels, want):\n    # 标签约束：路径边标签序列匹配（标签约束查询）\n    q = [(start, [])]\n    seen = set()\n    while q:\n        u, path = q.pop(0)\n        if u == end:\n            return path\n        if (u, tuple(path)) in seen:\n            continue\n        seen.add((u, tuple(path)))\n        for v, lab in adj.get(u, []):\n            if lab == want or want is None:\n                q.append((v, path + [(u, v)]))\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "graph"
  }
 }
