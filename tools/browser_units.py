@@ -114,7 +114,10 @@ BROWSER_UNITS = {
         "task": "URL解析",
         "pattern": (
             "def parse_url(url):\n"
-            "    # URL 解析：协议/主机/端口/路径\n"
+            "    # URL 解析（网页地址/统一资源定位符解析）：协议/主机/端口/路径\n"
+            "    # 生效条件：url 为合法 URL 字符串（scheme://host[:port][/path]）\n"
+            "    # 子功能：① 协议提取 ② 主机提取 ③ 端口/路径提取\n"
+            "    # 执行：正则 `\\w+://...` 分组捕获\n"
             "    import re\n"
             "    m = re.match(r'(\\w+)://([^/:]+)(?::(\\d+))?(/.*)?', url)\n"
             "    return {'scheme': m.group(1), 'host': m.group(2),\n"

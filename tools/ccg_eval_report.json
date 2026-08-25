@@ -1,0 +1,9 @@
+{
+ "eval_set": 19,
+ "route_hit": 15,
+ "ccg_hit": 19,
+ "route_rate": 78.9,
+ "ccg_rate": 100.0,
+ "ccg_improved_cases": 4,
+ "both_fail": []
+}

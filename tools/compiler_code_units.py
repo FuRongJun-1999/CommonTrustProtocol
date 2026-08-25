@@ -275,7 +275,10 @@ COMPILER_UNITS = {
         "task": "执行循环",
         "pattern": (
             "def vm_run(code, symbols=None, trust=0.0, cond_stack=None):\n"
-            "    # 智能论 VM 执行循环：ip 顺序执行；止/无为 = 控制流信号；名实不符报错\n"
+            "    # 虚拟机（VM·智能论）执行循环：字节码指令 ip 顺序执行；止/无为 = 控制流信号；名实不符报错\n"
+            "    # 生效条件：code 为指令列表；symbols 为符号表；trust 为初始信任值\n"
+            "    # 子功能：① 按 ip 取指执行 ② 控制流信号处理 ③ 名实校验拦截\n"
+            "    # 执行：循环取指分派，止/无为跳转，名实不符报错\n"
             "    ip, stack = 0, []\n"
             "    symbols = dict(symbols or {})\n"
             "    cond_stack = list(cond_stack or [])\n"
