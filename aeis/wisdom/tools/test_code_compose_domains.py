@@ -6038,5 +6038,40 @@ except Exception as ex:
     check('㌋c 游标→路径规划→节点大小端到端（a [0,1,3] {0:4,1:20,2:4}）',
           False, str(ex)[:60])
 
+# ㌌ 目标1 深化：P 线工具（字符串对齐/顺序去重/滑动均值 经正式管线）
+p22_qs = {
+    "字符串对齐": "写一个字符串对齐单元（填充对齐）",
+    "顺序去重": "写一个顺序去重单元（保序去重）",
+    "滑动均值": "写一个滑动均值单元（窗口平滑）",
+}
+p22_ok = 0
+for label, q in p22_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p22_ok += 1
+    check(f'㌌ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌌b P线工具三单元全部生成', p22_ok == 3, f'{p22_ok}/3')
+
+# ㌌c 端到端：对齐→去重→滑动均值（  甲 [1,2,3] [1.5,2.5,3.5]）
+r_sa = domain_route("写一个字符串对齐单元（填充对齐）")
+r_dd = domain_route("写一个顺序去重单元（保序去重）")
+r_ma = domain_route("写一个滑动均值单元（窗口平滑）")
+try:
+    ns_sa, ns_dd, ns_ma = {}, {}, {}
+    exec(r_sa["code"], ns_sa)
+    exec(r_dd["code"], ns_dd)
+    exec(r_ma["code"], ns_ma)
+    sa = ns_sa["str_align"]('甲', 3, 'right')
+    dd = ns_dd["dedup_keep"]([1, 2, 1, 3, 2])
+    ma = ns_ma["moving_avg"]([1, 2, 3, 4], 2)
+    check('㌌c 对齐→去重→滑动均值端到端（  甲 [1,2,3] [1.5,2.5,3.5]）',
+          sa == '  甲' and dd == [1, 2, 3] and ma == [1.5, 2.5, 3.5],
+          f'align={sa} dedup={dd} avg={ma}')
+except Exception as ex:
+    check('㌌c 对齐→去重→滑动均值端到端（  甲 [1,2,3] [1.5,2.5,3.5]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

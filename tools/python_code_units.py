@@ -1742,6 +1742,64 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：strftime——%Y/%m/%d 占位符时间格式化",
     },
+    "工具-字符串对齐": {
+        "task": "字符串对齐",
+        "pattern": (
+            "def str_align(text, width, align, fill=' '):\n"
+            "    # 字符串对齐：ljust 左 / rjust 右 / center 中（填充到宽）\n"
+            "    if align == 'left':\n"
+            "        return text.ljust(width, fill)\n"
+            "    if align == 'right':\n"
+            "        return text.rjust(width, fill)\n"
+            "    if align == 'center':\n"
+            "        return text.center(width, fill)\n"
+            "    return text\n"),
+        "cases": [
+            (('甲', 3, 'right'), '  甲'),
+            (('甲', 3, 'center'), ' 甲 '),
+            (('甲', 5, 'left', '-'), '甲----'),
+            (('甲乙', 2, 'left'), '甲乙')],
+        "params": [],
+        "calibration": "对照：str.ljust/rjust/center——填充对齐",
+    },
+    "工具-顺序去重": {
+        "task": "顺序去重",
+        "pattern": (
+            "def dedup_keep(seq):\n"
+            "    # 顺序去重：保留首次出现序（preserve-order unique）\n"
+            "    seen = set()\n"
+            "    out = []\n"
+            "    for x in seq:\n"
+            "        if x not in seen:\n"
+            "            seen.add(x)\n"
+            "            out.append(x)\n"
+            "    return out\n"),
+        "cases": [
+            (([1, 2, 1, 3, 2],), [1, 2, 3]),
+            ((['a', 'a', 'b'],), ['a', 'b']),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：preserve-order unique——去重保序（dict.fromkeys 语义）",
+    },
+    "工具-滑动均值": {
+        "task": "滑动均值",
+        "pattern": (
+            "def moving_avg(seq, window):\n"
+            "    # 滑动均值：窗口内平均（平滑时间序列）\n"
+            "    if window <= 0 or not seq:\n"
+            "        return []\n"
+            "    out = []\n"
+            "    for i in range(len(seq) - window + 1):\n"
+            "        out.append(round(sum(seq[i:i + window]) / window, 2))\n"
+            "    return out\n"),
+        "cases": [
+            (([1, 2, 3, 4], 2), [1.5, 2.5, 3.5]),
+            (([1, 2, 3], 3), [2.0]),
+            (([1, 2], 3), []),
+            (([], 2), [])],
+        "params": [],
+        "calibration": "对照：滑动平均——窗口均值平滑（时间序列）",
+    },
 }
 
 

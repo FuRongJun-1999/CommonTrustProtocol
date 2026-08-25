@@ -4928,5 +4928,35 @@
   ],
   "source": "domain_solidified",
   "domain": "graph"
+ },
+ "domain:pylang|工具-字符串对齐": {
+  "task": "字符串对齐",
+  "unit": "工具-字符串对齐",
+  "code": "def str_align(text, width, align, fill=' '):\n    # 字符串对齐：ljust 左 / rjust 右 / center 中（填充到宽）\n    if align == 'left':\n        return text.ljust(width, fill)\n    if align == 'right':\n        return text.rjust(width, fill)\n    if align == 'center':\n        return text.center(width, fill)\n    return text\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-顺序去重": {
+  "task": "顺序去重",
+  "unit": "工具-顺序去重",
+  "code": "def dedup_keep(seq):\n    # 顺序去重：保留首次出现序（preserve-order unique）\n    seen = set()\n    out = []\n    for x in seq:\n        if x not in seen:\n            seen.add(x)\n            out.append(x)\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|工具-滑动均值": {
+  "task": "滑动均值",
+  "unit": "工具-滑动均值",
+  "code": "def moving_avg(seq, window):\n    # 滑动均值：窗口内平均（平滑时间序列）\n    if window <= 0 or not seq:\n        return []\n    out = []\n    for i in range(len(seq) - window + 1):\n        out.append(round(sum(seq[i:i + window]) / window, 2))\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }
