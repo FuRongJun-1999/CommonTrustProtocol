@@ -77,12 +77,47 @@ def build_graph():
     domains = [('compiler', COMPILER_UNITS), ('pylang', PYTHON_UNITS),
                ('graph', GRAPH_UNITS), ('os', OS_UNITS),
                ('browser', BROWSER_UNITS), ('net', NET_UNITS)]
-    nodes = {}  # uid -> {domain, task, index}
+    nodes = {}  # uid -> {domain, task, head, index}
     for dname, units in domains:
         for uid, u in units.items():
+            idx = extract_comment_index(u.get('pattern', ''))
             nodes[uid] = {'domain': dname, 'task': u.get('task', ''),
-                          'index': extract_comment_index(u.get('pattern', ''))}
+                          'head': _semantic_head(u.get('pattern', '')),
+                          'index': idx}
+    # 能力级负路由（GPT：参数级=能不能执行，能力级=该不该执行）：
+    # 同域 head 高重叠单元互斥——A 不负责 B → B 的【独有词】进 A 的排除集
+    # （B 独有词 = B head - A head；正任务含 A 词不含 B 独有词 → 不误伤；
+    #  对抗任务（B 描述含 B 独有词）→ 与 A 的 not_tokens 重叠 → A 排除）。
+    for uid, n in nodes.items():
+        best, best_j = None, 0.0
+        for oid, on in nodes.items():
+            if oid == uid or on['domain'] != n['domain']:
+                continue
+            j = _jaccard(n['head'], on['head'])
+            if j > best_j:
+                best, best_j = oid, j
+        if best and best_j >= 0.12:
+            own = _bigrams(n['head'])
+            n['index']['not_tokens'] |= _bigrams(nodes[best]['head']) - own
     return nodes
+
+
+def _semantic_head(code: str) -> str:
+    """语义化首行描述（跳过三要素标记行）。"""
+    lines = [ln.strip().lstrip('#').strip()
+             for ln in code.splitlines() if ln.strip().startswith('#')]
+    head = next((ln for ln in lines
+                 if not ln.startswith(('生效条件', '子功能', '执行',
+                                       '不适用条件', '返回', '功能条件'))), '')
+    desc = head.split('：', 1)[-1].split(':', 1)[-1].strip()
+    return re.sub(r'[（(][^）)]*[）)]', '', desc).strip()
+
+
+def _jaccard(a: str, b: str) -> float:
+    sa, sb = _bigrams(a), _bigrams(b)
+    if not sa or not sb:
+        return 0.0
+    return len(sa & sb) / len(sa | sb)
 
 
 # 停用词（问题词中无检索价值的二元组——「写一个」类）

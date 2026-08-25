@@ -2,28 +2,13 @@
  "experiment": "对抗性负条件（GPT 阶段5）",
  "seed": 20260827,
  "adv_valid": 25,
- "adv_reject": 7,
- "adv_rate": 0.28,
+ "adv_reject": 22,
+ "adv_rate": 0.88,
  "nc_valid": 48,
  "nc_reject": 48,
  "nc_rate": 1.0,
  "conclusion": "词相似但条件不满足的任务可被高比例排除（对抗负任务）——接近条件路由而非相似召回；不适用条件盲区声明参与排除",
  "adv_misses": [
-  {
-   "unit": "分析-污点分析",
-   "adv_source": "调试-覆盖率",
-   "jaccard": 0.132
-  },
-  {
-   "unit": "编译-管线静态检查",
-   "adv_source": "分析-类型推断",
-   "jaccard": 0.135
-  },
-  {
-   "unit": "编译-逻辑表达式",
-   "adv_source": "语法-三元表达式",
-   "jaccard": 0.267
-  },
   {
    "unit": "语法-数组字面量",
    "adv_source": "语法-元组解析",
@@ -35,69 +20,9 @@
    "jaccard": 0.571
   },
   {
-   "unit": "面向对象-组合",
-   "adv_source": "面向对象-运算符重载",
-   "jaccard": 0.143
-  },
-  {
    "unit": "图存储-主从复制",
    "adv_source": "运维-读写分离",
    "jaccard": 0.111
-  },
-  {
-   "unit": "图查询-路径过滤",
-   "adv_source": "图查询-聚合",
-   "jaccard": 0.2
-  },
-  {
-   "unit": "IPC-共享内存",
-   "adv_source": "文件-内存映射",
-   "jaccard": 0.366
-  },
-  {
-   "unit": "内存-内存池",
-   "adv_source": "存储-存储池",
-   "jaccard": 0.562
-  },
-  {
-   "unit": "浏览器-扫码",
-   "adv_source": "浏览器-形状检测",
-   "jaccard": 0.324
-  },
-  {
-   "unit": "浏览器-网络信息",
-   "adv_source": "浏览器-设备方向",
-   "jaccard": 0.294
-  },
-  {
-   "unit": "浏览器-响应式断点",
-   "adv_source": "渲染-文本排版",
-   "jaccard": 0.2
-  },
-  {
-   "unit": "浏览器-下载管理",
-   "adv_source": "浏览器-语音合成",
-   "jaccard": 0.333
-  },
-  {
-   "unit": "浏览器-语音识别",
-   "adv_source": "浏览器-下载管理",
-   "jaccard": 0.224
-  },
-  {
-   "unit": "网络-连接迁移",
-   "adv_source": "网络-跳频",
-   "jaccard": 0.262
-  },
-  {
-   "unit": "网络-帧封装",
-   "adv_source": "网络-流式传输",
-   "jaccard": 0.143
-  },
-  {
-   "unit": "网络-TCP握手",
-   "adv_source": "蜂群-会话状态",
-   "jaccard": 0.625
   }
  ]
 }
