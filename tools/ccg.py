@@ -109,7 +109,23 @@ def _semantic_head(code: str) -> str:
     head = next((ln for ln in lines
                  if not ln.startswith(('生效条件', '子功能', '执行',
                                        '不适用条件', '返回', '功能条件'))), '')
-    desc = head.split('：', 1)[-1].split(':', 1)[-1].strip()
+    # 保留冒号前的语义名（「列表推导式：」→ 列表推导式 是任务判别词，
+    # 剥掉会丢容器/算法词 → 缺失条件无法辨识（Missing Condition 教训））
+    # name 先去括号（「BFS 遍历（广度优先搜索）」→ BFS 遍历）再判长度，
+    # 否则带同义词括号的语义名超长被丢（页置换/本地存储 教训）
+    name, body = '', head
+    if '：' in head:
+        name, _, body = head.partition('：')
+    elif ':' in head:
+        name, _, body = head.partition(':')
+    if name:
+        clean_name = re.sub(r'[（(][^）)]*[）)]', '', name).strip()
+        if len(clean_name) <= 8 and body.strip():
+            desc = clean_name + ' ' + body.strip()
+        else:
+            desc = body
+    else:
+        desc = body
     return re.sub(r'[（(][^）)]*[）)]', '', desc).strip()
 
 
@@ -239,27 +255,67 @@ def search(question: str, nodes=None, top: int = 5) -> list:
         # 子功能行泛化词干扰排序）——已移除，统一全注释 tokens 加权
         task_hit = 2 if n['task'] and (n['task'] == core
                                        or core.endswith(n['task'])) else 0
+        # task 权威名共享（「字节码编码」vs task「字节码序列化」共享 字节码
+        # 前缀 → 序列化破 tie 胜指令大小；编码=序列化动作语义）
+        task_shared = 1 if n['task'] and (
+            _bigrams(n['task']) & _bigrams(core)) else 0
         # task 权威名精确匹配：核心词与 task 完全相等（「最短路径」== task，
         # 「条件跳转编译」≠「条件跳转」——避免子串误加分）→ 强加分
         exact = 1 if n['task'] and n['task'] == core else 0
-        score = (len(common) + 2 * task_hit + 5 * exact,
+        score = (len(common) + 2 * task_hit + task_shared + 5 * exact,
                  len(common) / max(1, len(idx['tokens'])))
         scored.append((uid, n['domain'], score, sorted(common)[:8]))
     scored.sort(key=lambda x: (-x[2][0], -x[2][1]))
     return scored[:top]
 
 
-def _diff_condition(a: str, b: str, nodes) -> str:
+def _diff_condition(a: str, b: str, nodes, query: str = '') -> str:
     """DEFER 缺失条件：候选 a/b 的条件差异（head 独有侧的能力描述）。
 
     缺失条件 = 决定两能力边界的信息（a 有 b 没有 / b 有 a 没有的 head 侧）。
+    方向对齐任务（扰动实验教训）：query 含哪侧独有词 → 缺失条件指哪侧，
+    否则 DEFER 递归会偏航到错误一侧（累积任务 → 阈值检查）。
     """
     ha = nodes.get(a, {}).get('head', '')
     hb = nodes.get(b, {}).get('head', '')
     if not ha and not hb:
         return '细分条件'
-    da, db = _bigrams(ha) - _bigrams(hb), _bigrams(hb) - _bigrams(ha)
-    if len(db) >= len(da) and db:
+    # 语义名方向（扰动实验教训）：task 权威名独有词（列表推导-字典推导 →
+    # 独有「字典」）与 query 重叠 → 缺失条件指该侧。head bigram 差集会
+    # 被碎片（「导式」=推导式尾巴）干扰 tie，task 名干净无碎片。
+    ta, tb = nodes.get(a, {}).get('task', ''), nodes.get(b, {}).get('task', '')
+    qb = _bigrams(query)
+    # 混合条件冲突（扰动实验 ②）：query 同时含两侧独有条件词
+    # （累积 与 门槛放行）→ 不强行选边 → BLINDSPOT 声明。
+    # task 名独有词 + head 独有词 都纳入（门槛/放行 在 head 不在 task 名）
+    da_t, db_t = _bigrams(ta) - _bigrams(tb), _bigrams(tb) - _bigrams(ta)
+    da_h, db_h = _bigrams(ha) - _bigrams(hb), _bigrams(hb) - _bigrams(ha)
+    hit_at, hit_bt = len(qb & da_t), len(qb & db_t)
+    hit_ah, hit_bh = len(qb & da_h), len(qb & db_h)
+    # 并集去重（「字典」同时在 task 独有和 head 独有 → 只算一次，
+    # 否则同一证据重复计数造成假冲突）
+    hit_a, hit_b = len(qb & (da_t | da_h)), len(qb & (db_t | db_h))
+    # 混合条件冲突需多重证据：两侧都命中且总命中 ≥3。
+    # 单侧碎片（「导式」=推导式公共后缀的不对称碎片，1 个）不构成冲突；
+    # 真冲突（累积 + 门槛放行）至少一侧 ≥2。
+    if hit_a and hit_b and (hit_a + hit_b) >= 3:
+        return '混合条件冲突'
+    # 方向判定优先 task 权威名（干净无碎片：列表 vs 字典）；
+    # task 无命中时退回 head 独有（碎片 tie 风险，但 task 命中优先已消除）
+    if hit_at or hit_bt:
+        if hit_bt > hit_at:
+            return (hb[:24] + '（而非 ' + ha[:12] + '）') if ha else hb[:24]
+        return (ha[:24] + '（而非 ' + hb[:12] + '）') if hb else ha[:24]
+    if hit_ah or hit_bh:
+        if hit_bh > hit_ah:
+            return (hb[:24] + '（而非 ' + ha[:12] + '）') if ha else hb[:24]
+        return (ha[:24] + '（而非 ' + hb[:12] + '）') if hb else ha[:24]
+    da, db = da_h, db_h
+    # 任务方向：query 与哪侧独有词重叠更多 → 缺失条件指该侧
+    hit_a, hit_b = len(qb & da), len(qb & db)
+    prefer_b = (hit_b > hit_a and db) or (not hit_a and not hit_b and
+                                          len(db) >= len(da) and db)
+    if prefer_b:
         return (hb[:24] + '（而非 ' + ha[:12] + '）') if ha else hb[:24]
     if da:
         return (ha[:24] + '（而非 ' + hb[:12] + '）') if hb else ha[:24]
@@ -311,12 +367,21 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3) -> dict:
                 "reason": "判别力不足（仅泛化词命中）",
                 "candidates": [h[0] for h in hits[:3]],
                 "path": [question[:30]]}
-    # DEFER：候选邻域相关（top1/top2 分差小）
-    missing = _diff_condition(top1[0], top2[0], nodes)
+    # DEFER：候选邻域相关（top1/top2 分差小）→ 缺失条件方向对齐任务
+    missing = _diff_condition(top1[0], top2[0], nodes, question)
+    # 混合条件冲突：任务同时含两侧独有条件词（累积+门槛放行）→ 盲区声明，
+    # 不强行选边（扰动实验 ②——条件冲突不该被递归掩盖）
+    if missing == '混合条件冲突':
+        return {"state": "BLINDSPOT", "reason": "混合条件冲突（任务同时含两侧独有条件）",
+                "candidates": [h[0] for h in hits[:3]],
+                "missing": missing, "path": [question[:30], f"缺:{missing}"]}
     if depth <= 1:
         return {"state": "BLINDSPOT", "candidates": [h[0] for h in hits[:3]],
                 "missing": missing, "path": [question[:30], f"缺:{missing}"]}
-    new_q = f"写一个{missing}的代码单元"
+    # 递归只带缺失侧描述（「（而非 …）」是另一侧，带入会重新引入噪声词
+    # → 递归偏航——扰动实验教训）
+    miss_side = missing.split('（而非')[0].split('(而非')[0].strip() or missing
+    new_q = f"写一个{miss_side}的代码单元"
     r = route(new_q, nodes, top, depth - 1)
     r["path"] = [question[:30], f"缺:{missing}"] + r.get("path", [])
     r["defer_from"] = [top1[0], top2[0]]

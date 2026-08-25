@@ -1,0 +1,11 @@
+{
+ "experiment": "Missing Condition Accuracy（GPT：条件结构 GT）",
+ "method": "_diff_condition 输出的缺失条件 vs 条件结构 GT（subject/cond_type/A侧/B侧判别词，同义词归一）",
+ "pairs": 10,
+ "strict": 10,
+ "semantic": 10,
+ "strict_rate": 1.0,
+ "semantic_rate": 1.0,
+ "blindspots": [],
+ "conclusion": "缺失条件能否反推真条件差异：语义等价率=条件辨识力（非描述相似）；严格率=条件结构两侧对齐度"
+}

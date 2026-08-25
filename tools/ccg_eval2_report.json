@@ -4,6 +4,8 @@
  "ccg_hit": 52,
  "route_rate": 70.4,
  "ccg_rate": 96.3,
- "ccg_improved": 16,
- "both_fail": []
+ "ccg_improved": 15,
+ "both_fail": [
+  "写一个条件跳转单元"
+ ]
 }

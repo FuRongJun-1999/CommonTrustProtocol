@@ -2,13 +2,23 @@
  "experiment": "对抗性负条件（GPT 阶段5）",
  "seed": 20260827,
  "adv_valid": 25,
- "adv_reject": 22,
- "adv_rate": 0.88,
+ "adv_reject": 16,
+ "adv_rate": 0.64,
  "nc_valid": 48,
  "nc_reject": 48,
  "nc_rate": 1.0,
  "conclusion": "词相似但条件不满足的任务可被高比例排除（对抗负任务）——接近条件路由而非相似召回；不适用条件盲区声明参与排除",
  "adv_misses": [
+  {
+   "unit": "分析-污点分析",
+   "adv_source": "调试-覆盖率",
+   "jaccard": 0.132
+  },
+  {
+   "unit": "编译-管线静态检查",
+   "adv_source": "分析-类型推断",
+   "jaccard": 0.135
+  },
   {
    "unit": "语法-数组字面量",
    "adv_source": "语法-元组解析",
@@ -20,9 +30,29 @@
    "jaccard": 0.571
   },
   {
+   "unit": "面向对象-组合",
+   "adv_source": "面向对象-运算符重载",
+   "jaccard": 0.143
+  },
+  {
    "unit": "图存储-主从复制",
    "adv_source": "运维-读写分离",
    "jaccard": 0.111
+  },
+  {
+   "unit": "图遍历-最短路径",
+   "adv_source": "图算法-连通分量",
+   "jaccard": 0.154
+  },
+  {
+   "unit": "浏览器-响应式断点",
+   "adv_source": "渲染-文本排版",
+   "jaccard": 0.2
+  },
+  {
+   "unit": "网络-帧封装",
+   "adv_source": "网络-流式传输",
+   "jaccard": 0.143
   }
  ]
 }

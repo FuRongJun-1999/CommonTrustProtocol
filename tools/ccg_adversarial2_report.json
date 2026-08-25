@@ -3,8 +3,8 @@
  "seed": 20260828,
  "task_adj": {
   "n": 444,
-  "reject": 403,
-  "rate": 0.9077
+  "reject": 396,
+  "rate": 0.8919
  },
  "boundary": {
   "n": 6,
@@ -25,6 +25,11 @@
   },
   {
    "type": "task-adj",
+   "unit": "校验-条件空间符号类型",
+   "adv": "校验-条件空间类型"
+  },
+  {
+   "type": "task-adj",
    "unit": "分析-类型推断",
    "adv": "编译-类型检查"
   },
@@ -35,8 +40,13 @@
   },
   {
    "type": "task-adj",
-   "unit": "VM-闭包创建",
-   "adv": "VM-闭包调用"
+   "unit": "编译-寄存器分配",
+   "adv": "编译-寄存器溢出"
+  },
+  {
+   "type": "task-adj",
+   "unit": "词法-数字字面量",
+   "adv": "语法-数组字面量"
   },
   {
    "type": "task-adj",
@@ -45,8 +55,13 @@
   },
   {
    "type": "task-adj",
-   "unit": "编译-寄存器着色",
-   "adv": "编译-寄存器分配"
+   "unit": "校验-信任检查",
+   "adv": "VM-信任累积"
+  },
+  {
+   "type": "task-adj",
+   "unit": "异常-抛出",
+   "adv": "异常-异常链"
   },
   {
    "type": "task-adj",
@@ -65,6 +80,11 @@
   },
   {
    "type": "task-adj",
+   "unit": "语法-关键字参数",
+   "adv": "语法-默认参数"
+  },
+  {
+   "type": "task-adj",
    "unit": "工具-环境查询",
    "adv": "环境-作用域链"
   },
@@ -72,6 +92,11 @@
    "type": "task-adj",
    "unit": "异步-异步生成器",
    "adv": "生成器-yield"
+  },
+  {
+   "type": "task-adj",
+   "unit": "数据结构-有序字典",
+   "adv": "语法-字典合并"
   },
   {
    "type": "task-adj",
@@ -90,23 +115,13 @@
   },
   {
    "type": "task-adj",
+   "unit": "图索引-属性索引",
+   "adv": "图存储-属性边"
+  },
+  {
+   "type": "task-adj",
    "unit": "图查询-子图匹配",
    "adv": "图查询-模式匹配"
-  },
-  {
-   "type": "task-adj",
-   "unit": "图存储-快照版本",
-   "adv": "图存储-一致性快照"
-  },
-  {
-   "type": "task-adj",
-   "unit": "图存储-备份恢复",
-   "adv": "图存储-增量备份"
-  },
-  {
-   "type": "task-adj",
-   "unit": "图存储-邻接表CSR",
-   "adv": "图存储-压缩编码"
   },
   {
    "type": "task-adj",
@@ -125,6 +140,16 @@
   },
   {
    "type": "task-adj",
+   "unit": "图查询-标签计数",
+   "adv": "图可视化-节点标签"
+  },
+  {
+   "type": "task-adj",
+   "unit": "条件路由图-条件分解",
+   "adv": "条件路由图-条件合并"
+  },
+  {
+   "type": "task-adj",
    "unit": "调度-优先级",
    "adv": "中断-嵌套优先级"
   },
@@ -132,6 +157,11 @@
    "type": "task-adj",
    "unit": "系统-守护进程",
    "adv": "进程-进程树"
+  },
+  {
+   "type": "task-adj",
+   "unit": "系统-资源限额",
+   "adv": "虚拟化-cgroup限制"
   },
   {
    "type": "task-adj",
@@ -180,18 +210,18 @@
   },
   {
    "type": "task-adj",
-   "unit": "浏览器-形状检测",
-   "adv": "浏览器-语言检测"
-  },
-  {
-   "type": "task-adj",
-   "unit": "网络-TCP握手",
-   "adv": "网络-加密握手"
+   "unit": "浏览器-字体加载",
+   "adv": "性能-懒加载"
   },
   {
    "type": "task-adj",
    "unit": "网络-局域网发现",
    "adv": "网络-服务发现"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-拥塞控制",
+   "adv": "网络-Reno拥塞控制"
   },
   {
    "type": "task-adj",
@@ -202,6 +232,11 @@
    "type": "task-adj",
    "unit": "网络-QoS队列",
    "adv": "网络-消息队列"
+  },
+  {
+   "type": "task-adj",
+   "unit": "网络-Reno拥塞控制",
+   "adv": "网络-拥塞控制"
   },
   {
    "type": "task-adj",
