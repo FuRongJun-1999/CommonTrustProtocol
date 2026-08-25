@@ -158,7 +158,10 @@ def search(question: str, nodes=None, top: int = 5) -> list:
             continue
         # 命中词数 + task 词命中加权（task 是单元权威名）+ 注释覆盖率
         task_hit = sum(1 for c in _bigrams(n['task']) if c in q)
-        score = (len(common) + 2 * task_hit,
+        # task 权威名精确匹配：task 是问题子串（如「最短路径」in 问题，
+        # 「加权最短路径」不在）→ 强加分（避免部分包含的平局）
+        exact = 1 if n['task'] and n['task'] in question.replace(' ', '') else 0
+        score = (len(common) + 2 * task_hit + 5 * exact,
                  len(common) / max(1, len(idx['tokens'])))
         scored.append((uid, n['domain'], score, sorted(common)[:8]))
     scored.sort(key=lambda x: (-x[2][0], -x[2][1]))
