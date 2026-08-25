@@ -183,14 +183,14 @@ def search(question: str, nodes=None, top: int = 5) -> list:
         # 命中词数 + task 权威名加权（task == core 或 core 以 task 结尾——
         # 「路径解析」是「文件系统路径解析」的动作后缀 ✓，「文件系统」是
         # 前缀修饰非动作 ✗——动作词优先，避免修饰词误加权）+ 注释覆盖率
+        # 注：子功能词加权（sub_hit）经消融实验验证为负优化（D 97% < C 100%，
+        # 子功能行泛化词干扰排序）——已移除，统一全注释 tokens 加权
         task_hit = 2 if n['task'] and (n['task'] == core
                                        or core.endswith(n['task'])) else 0
-        # 子功能词加权（语义时空图·结构面）：问题问内部子能力（子功能行命中）
-        sub_hit = len(q & idx['sub_tokens'])
         # task 权威名精确匹配：核心词与 task 完全相等（「最短路径」== task，
         # 「条件跳转编译」≠「条件跳转」——避免子串误加分）→ 强加分
         exact = 1 if n['task'] and n['task'] == core else 0
-        score = (len(common) + 2 * task_hit + sub_hit + 5 * exact,
+        score = (len(common) + 2 * task_hit + 5 * exact,
                  len(common) / max(1, len(idx['tokens'])))
         scored.append((uid, n['domain'], score, sorted(common)[:8]))
     scored.sort(key=lambda x: (-x[2][0], -x[2][1]))

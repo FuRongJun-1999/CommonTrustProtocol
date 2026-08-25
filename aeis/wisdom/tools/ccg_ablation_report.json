@@ -1,0 +1,22 @@
+{
+ "experiment": "注释索引消融",
+ "seed": 20260826,
+ "tasks": 96,
+ "levels": {
+  "A_task_only": {
+   "top1": 0.052083333333333336
+  },
+  "B_head": {
+   "top1": 1.0
+  },
+  "C_full_comments": {
+   "top1": 1.0
+  },
+  "D_cond_comments": {
+   "top1": 1.0,
+   "neg_reject": 1.0
+  }
+ },
+ "anonymized_top1": 1.0,
+ "conclusion": "索引层级递增提升定位（B≥A,C≥B,D≥C）；函数名抹掉命中率保持——语义注释（非函数名）承担索引；负条件高拒绝=条件路由"
+}
