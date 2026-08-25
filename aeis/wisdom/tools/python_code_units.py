@@ -2191,7 +2191,10 @@ PYTHON_UNITS = {
         "task": "解包赋值",
         "pattern": (
             "def unpack_assign(targets, values):\n"
-            "    # 解包赋值：a, b = b, a 多重赋值/嵌套解包（P 线赋值机制）\n"
+            "    # 解包赋值（多重赋值）：a, b = b, a 嵌套解包（P 线赋值机制）\n"
+            "    # 生效条件：targets 与 values 结构对应（嵌套列表匹配嵌套值）\n"
+            "    # 子功能：① 逐目标遍历 ② 嵌套列表递归解包 ③ 叶子目标绑定值\n"
+            "    # 执行：zip 配对 + 递归 walk，RHS 先求值后逐层写入\n"
             "    out = {}\n"
             "    def walk(ts, vs):\n"
             "        # 递归遍历：嵌套列表目标逐层绑定值\n"

@@ -2323,7 +2323,10 @@ NET_UNITS = {
         "task": "帧解析",
         "pattern": (
             "def ws_frame_parse(frame):\n"
-            "    # WebSocket 帧解析：FIN/opcode/长度/载荷（RFC 6455 解码——帧封装的逆）\n"
+            "    # WebSocket 帧解析（帧解析）：FIN/opcode/长度/载荷（RFC 6455 解码——帧封装的逆）\n"
+            "    # 生效条件：frame 为 RFC 6455 帧字节（首字节 FIN+opcode，次字节长度）\n"
+            "    # 子功能：① 解析 FIN/opcode ② 解析长度（含 126/127 扩展）③ 截取载荷解码\n"
+            "    # 执行：位运算取首字节 + 定长/扩展长度读法 + utf-8 解码\n"
             "    fin = (frame[0] >> 7) & 1\n"
             "    opcode = frame[0] & 0x0F\n"
             "    n = frame[1] & 0x7F\n"

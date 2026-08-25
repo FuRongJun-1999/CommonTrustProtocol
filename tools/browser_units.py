@@ -2147,7 +2147,10 @@ BROWSER_UNITS = {
         "task": "事件委托",
         "pattern": (
             "def event_delegate(handlers, event):\n"
-            "    # 事件委托：祖先单监听器按目标分派（事件冒泡优化——只挂一个监听）\n"
+            "    # 事件委托（事件代理）：祖先单监听器按目标分派（事件冒泡优化——只挂一个监听）\n"
+            "    # 生效条件：handlers 键为 (目标, 事件类型)；event 含 target/type\n"
+            "    # 子功能：① 按 (target, type) 查处理器 ② 命中调用并返回结果\n"
+            "    # 执行：dict 精确键查 + 处理器调用，未命中返回 None\n"
             "    key = (event.get('target'), event.get('type'))\n"
             "    if key in handlers:\n"
             "        return handlers[key](event)\n"

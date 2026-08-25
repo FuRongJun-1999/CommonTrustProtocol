@@ -2467,7 +2467,10 @@ COMPILER_UNITS = {
         "task": "名实绑定",
         "pattern": (
             "def resolve_binding(scope_stack, name):\n"
-            "    # 以名举实：从内层到外层查找名的绑定（名实校验的编译期版本）\n"
+            "    # 名实绑定（以名举实）：从内层到外层查找名的绑定（名实校验编译期版）\n"
+            "    # 生效条件：scope_stack 为作用域栈（内层在前）；name 为待查符号名\n"
+            "    # 子功能：① 逆序遍历作用域 ② 命中即返回绑定 ③ 全未命中返回未绑定\n"
+            "    # 执行：reversed 逐层 dict 查键，内层遮蔽外层\n"
             "    for scope in reversed(scope_stack):\n"
             "        if name in scope:\n"
             "            return (True, scope[name])\n"

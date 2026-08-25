@@ -2207,7 +2207,10 @@ OS_UNITS = {
         "task": "软中断",
         "pattern": (
             "def softirq(queue, action, item=None):\n"
-            "    # 软中断：硬中断中延迟的低优先级工作（defer 入队按优先级 / run 依次处理）\n"
+            "    # 软中断（softirq）：硬中断中延迟的低优先级工作（defer 入队按优先级 / run 依次处理）\n"
+            "    # 生效条件：action ∈ {defer, run}；defer 时 item 为 (优先级, 工作名)\n"
+            "    # 子功能：① defer 入队并按优先级排序 ② run 依序弹出处理\n"
+            "    # 执行：list.sort(key=优先级) + pop(0) 逐出队\n"
             "    if action == 'defer':\n"
             "        queue.append(item)\n"
             "        queue.sort(key=lambda x: x[0])\n"

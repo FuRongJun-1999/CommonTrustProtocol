@@ -48,7 +48,10 @@ GRAPH_UNITS = {
         "task": "图遍历",
         "pattern": (
             "def reachable(graph, start):\n"
-            "    # BFS 遍历：从起点出发可达的所有节点（条件链组合——影响传播）\n"
+            "    # BFS 遍历（广度优先搜索）：从起点出发可达的所有节点（条件链组合——影响传播）\n"
+            "    # 生效条件：graph 提供 neighbors 接口；start 为图中已存在节点\n"
+            "    # 子功能：① 起点入队并标记 ② 出队访问并入队未访问邻接\n"
+            "    # 执行：队列 + 已访问集合，逐层扩展直至队空\n"
             "    from collections import deque\n"
             "    visited, queue = {start}, deque([start])\n"
             "    while queue:\n"
