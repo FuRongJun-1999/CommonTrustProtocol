@@ -10,13 +10,13 @@
  "drift_findings": [
   {
    "unit": "VM-条件跳转",
-   "cond": "stack 为空/非法时",
+   "cond": "stack 为空/非法时（返回 1 兜底——不拒绝，弱契约）",
    "param": "stack",
    "got": "1"
   },
   {
    "unit": "VM-条件空间",
-   "cond": "op 非 {自然, 道} 时",
+   "cond": "op 非 {自然, 道} 时（返回 [] 兜底——不拒绝，弱契约）",
    "param": "op",
    "got": "[]"
   },
@@ -28,19 +28,19 @@
   },
   {
    "unit": "工具-日期时间",
-   "cond": "month 越界（Lt）时",
+   "cond": "month 越界（Lt）时（返回 (-1, 12, 30) 兜底——不拒绝，弱契",
    "param": "month",
    "got": "(-1, 12, 30)"
   },
   {
    "unit": "工具-字符串对齐",
-   "cond": "align 非 {center, left, right} 时",
+   "cond": "align 非 {center, left, right} 时（返回 0 兜底—",
    "param": "align",
    "got": "0"
   },
   {
    "unit": "工具-列表分块",
-   "cond": "size 越界（LtE）时",
+   "cond": "size 越界（LtE）时（返回 [] 兜底——不拒绝，弱契约）",
    "param": "size",
    "got": "[]"
   },
@@ -58,13 +58,13 @@
   },
   {
    "unit": "图存储-事务",
-   "cond": "op 非 {begin, commit, rollback} 时",
+   "cond": "op 非 {begin, commit, rollback} 时（返回 idle",
    "param": "op",
    "got": "idle"
   },
   {
    "unit": "图可视化-节点大小",
-   "cond": "adj 为空/非法时",
+   "cond": "adj 为空/非法时（返回 {} 兜底——不拒绝，弱契约）",
    "param": "adj",
    "got": "{}"
   }

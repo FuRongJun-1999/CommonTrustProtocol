@@ -95,6 +95,11 @@
   },
   {
    "type": "task-adj",
+   "unit": "推导式-字典推导",
+   "adv": "推导式-列表推导"
+  },
+  {
+   "type": "task-adj",
    "unit": "数据结构-有序字典",
    "adv": "语法-字典合并"
   },
@@ -102,11 +107,6 @@
    "type": "task-adj",
    "unit": "工具-时间格式化",
    "adv": "工具-格式化"
-  },
-  {
-   "type": "task-adj",
-   "unit": "工具-列表分块",
-   "adv": "推导式-列表推导"
   },
   {
    "type": "task-adj",
@@ -160,11 +160,6 @@
   },
   {
    "type": "task-adj",
-   "unit": "系统-守护进程",
-   "adv": "进程-进程树"
-  },
-  {
-   "type": "task-adj",
    "unit": "系统-资源限额",
    "adv": "虚拟化-cgroup限制"
   },
@@ -187,6 +182,11 @@
    "type": "task-adj",
    "unit": "安全-加密文件系统",
    "adv": "文件-系统挂载"
+  },
+  {
+   "type": "task-adj",
+   "unit": "进程-僵尸进程",
+   "adv": "进程-进程树"
   },
   {
    "type": "task-adj",

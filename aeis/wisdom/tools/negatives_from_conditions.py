@@ -86,10 +86,11 @@ def _is_reject(got) -> bool:
     return False
 
 
-def run_negatives(verbose=False) -> dict:
+def run_negatives(verbose=False, full=False) -> dict:
     """全库负面测试：解析不适用条件 → 构造反例 → 执行断言「拒绝」。
 
     拒绝 = 调用抛异常 / 返回 None / 返回 False / 返回值含 None 组件。
+    full=True 返回全部未拒绝明细（默认截断 10 条防日志过长）。
     """
     from compiler_code_units import COMPILER_UNITS
     from python_code_units import PYTHON_UNITS
@@ -191,7 +192,7 @@ def run_negatives(verbose=False) -> dict:
             "reject_rate": round(rejected / max(1, parsed), 4),
             "strong": {"parsed": strong_parsed, "rejected": strong_rejected,
                        "rate": round(strong_rejected / max(1, strong_parsed), 4)},
-            "details": reject_details[:10],
+            "details": (reject_details if full else reject_details[:10]),
             "n_details": len(reject_details)}
 
 

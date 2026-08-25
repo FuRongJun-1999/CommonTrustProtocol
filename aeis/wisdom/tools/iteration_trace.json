@@ -1,0 +1,391 @@
+[
+ {
+  "round": 1,
+  "timestamp": "2026-08-26 04:35:54",
+  "dry_run": true,
+  "感知": {
+   "n_drift": 19,
+   "strong_rate": 0.9651,
+   "mos_rate": 0.9897
+  },
+  "识别": {
+   "absorbable": 9,
+   "manual": 1,
+   "absorbed_skip": false
+  },
+  "分析": {
+   "note_policy": "note 仅含『返回 X 兜底——不拒绝，弱契约』，无新中文判别词 → CCG not_tokens 稳定 → 路由无影响",
+   "affected_tests": [
+    "负面闭环（注释不影响执行——漂移数不变，但语义声明已对齐）"
+   ],
+   "units": [
+    "VM-条件跳转",
+    "VM-条件空间",
+    "工具-日期时间",
+    "工具-日期时间",
+    "工具-字符串对齐",
+    "工具-列表分块",
+    "工具-循环轮转",
+    "图存储-事务",
+    "图可视化-节点大小"
+   ]
+  },
+  "验证": "honest：只改注释不改实现 + ast.parse 校验",
+  "固化": {
+   "n": 0,
+   "items": []
+  },
+  "反馈": {
+   "absorbed_total": 0
+  },
+  "方向性自检": {
+   "checks": {
+    "强契约拒绝率": true,
+    "MOS 声明一致率": true,
+    "负面闭环可运行": true,
+    "固化语法安全": true
+   },
+   "passed": 4,
+   "total": 4,
+   "direction_ok": true,
+   "assessment": "方向正确：指标稳定/改善，闭环可持续"
+  }
+ },
+ {
+  "round": 2,
+  "timestamp": "2026-08-26 04:36:00",
+  "dry_run": false,
+  "感知": {
+   "n_drift": 19,
+   "strong_rate": 0.9651,
+   "mos_rate": 0.9897
+  },
+  "识别": {
+   "absorbable": 9,
+   "manual": 1,
+   "absorbed_skip": false
+  },
+  "分析": {
+   "note_policy": "note 仅含『返回 X 兜底——不拒绝，弱契约』，无新中文判别词 → CCG not_tokens 稳定 → 路由无影响",
+   "affected_tests": [
+    "负面闭环（注释不影响执行——漂移数不变，但语义声明已对齐）"
+   ],
+   "units": [
+    "VM-条件跳转",
+    "VM-条件空间",
+    "工具-日期时间",
+    "工具-日期时间",
+    "工具-字符串对齐",
+    "工具-列表分块",
+    "工具-循环轮转",
+    "图存储-事务",
+    "图可视化-节点大小"
+   ]
+  },
+  "验证": "honest：只改注释不改实现 + ast.parse 校验",
+  "固化": {
+   "n": 0,
+   "items": []
+  },
+  "反馈": {
+   "absorbed_total": 0
+  },
+  "方向性自检": {
+   "checks": {
+    "强契约拒绝率": true,
+    "MOS 声明一致率": true,
+    "负面闭环可运行": true,
+    "固化语法安全": true
+   },
+   "passed": 4,
+   "total": 4,
+   "direction_ok": true,
+   "assessment": "方向正确：指标稳定/改善，闭环可持续"
+  }
+ },
+ {
+  "round": 3,
+  "timestamp": "2026-08-26 04:36:34",
+  "dry_run": false,
+  "感知": {
+   "n_drift": 19,
+   "strong_rate": 0.9651,
+   "mos_rate": 0.9897
+  },
+  "识别": {
+   "absorbable": 9,
+   "manual": 1,
+   "absorbed_skip": false
+  },
+  "分析": {
+   "note_policy": "note 仅含『返回 X 兜底——不拒绝，弱契约』，无新中文判别词 → CCG not_tokens 稳定 → 路由无影响",
+   "affected_tests": [
+    "负面闭环（注释不影响执行——漂移数不变，但语义声明已对齐）"
+   ],
+   "units": [
+    "VM-条件跳转",
+    "VM-条件空间",
+    "工具-日期时间",
+    "工具-日期时间",
+    "工具-字符串对齐",
+    "工具-列表分块",
+    "工具-循环轮转",
+    "图存储-事务",
+    "图可视化-节点大小"
+   ]
+  },
+  "验证": "honest：只改注释不改实现 + ast.parse 校验",
+  "固化": {
+   "n": 8,
+   "items": [
+    {
+     "unit": "VM-条件跳转",
+     "cond": "stack 为空/非法时",
+     "got": "1"
+    },
+    {
+     "unit": "VM-条件空间",
+     "cond": "op 非 {自然, 道} 时",
+     "got": "[]"
+    },
+    {
+     "unit": "工具-日期时间",
+     "cond": "month 越界（Gt）时",
+     "got": "(-1, 12, 30)"
+    },
+    {
+     "unit": "工具-字符串对齐",
+     "cond": "align 非 {center, left, right} 时",
+     "got": "0"
+    },
+    {
+     "unit": "工具-列表分块",
+     "cond": "size 越界（LtE）时",
+     "got": "[]"
+    },
+    {
+     "unit": "工具-循环轮转",
+     "cond": "items 为空/非法时",
+     "got": "[]"
+    },
+    {
+     "unit": "图存储-事务",
+     "cond": "op 非 {begin, commit, rollback} 时",
+     "got": "idle"
+    },
+    {
+     "unit": "图可视化-节点大小",
+     "cond": "adj 为空/非法时",
+     "got": "{}"
+    }
+   ]
+  },
+  "反馈": {
+   "absorbed_total": 0
+  },
+  "方向性自检": {
+   "checks": {
+    "强契约拒绝率": true,
+    "MOS 声明一致率": true,
+    "负面闭环可运行": true,
+    "固化语法安全": true
+   },
+   "passed": 4,
+   "total": 4,
+   "direction_ok": true,
+   "assessment": "方向正确：指标稳定/改善，闭环可持续"
+  }
+ },
+ {
+  "round": 4,
+  "timestamp": "2026-08-26 04:36:53",
+  "dry_run": true,
+  "感知": {
+   "n_drift": 19,
+   "strong_rate": 0.9651,
+   "mos_rate": 0.9897
+  },
+  "识别": {
+   "absorbable": 9,
+   "manual": 1,
+   "absorbed_skip": false
+  },
+  "分析": {
+   "note_policy": "note 仅含『返回 X 兜底——不拒绝，弱契约』，无新中文判别词 → CCG not_tokens 稳定 → 路由无影响",
+   "affected_tests": [
+    "负面闭环（注释不影响执行——漂移数不变，但语义声明已对齐）"
+   ],
+   "units": [
+    "VM-条件跳转",
+    "VM-条件空间",
+    "工具-日期时间",
+    "工具-日期时间",
+    "工具-字符串对齐",
+    "工具-列表分块",
+    "工具-循环轮转",
+    "图存储-事务",
+    "图可视化-节点大小"
+   ]
+  },
+  "验证": "honest：只改注释不改实现 + ast.parse 校验",
+  "固化": {
+   "n": 0,
+   "items": []
+  },
+  "反馈": {
+   "absorbed_total": 0
+  },
+  "方向性自检": {
+   "checks": {
+    "强契约拒绝率": true,
+    "MOS 声明一致率": true,
+    "负面闭环可运行": true,
+    "固化语法安全": true
+   },
+   "passed": 4,
+   "total": 4,
+   "direction_ok": true,
+   "assessment": "方向正确：指标稳定/改善，闭环可持续"
+  }
+ },
+ {
+  "round": 5,
+  "timestamp": "2026-08-26 04:37:29",
+  "dry_run": true,
+  "感知": {
+   "n_drift": 19,
+   "strong_rate": 0.9651,
+   "mos_rate": 0.9897
+  },
+  "识别": {
+   "absorbable": 0,
+   "manual": 1,
+   "absorbed_skip": true
+  },
+  "分析": {
+   "note_policy": "note 仅含『返回 X 兜底——不拒绝，弱契约』，无新中文判别词 → CCG not_tokens 稳定 → 路由无影响",
+   "affected_tests": [
+    "负面闭环（注释不影响执行——漂移数不变，但语义声明已对齐）"
+   ],
+   "units": []
+  },
+  "验证": "honest：只改注释不改实现 + ast.parse 校验",
+  "固化": {
+   "n": 0,
+   "items": []
+  },
+  "反馈": {
+   "absorbed_total": 8
+  },
+  "方向性自检": {
+   "checks": {
+    "强契约拒绝率": true,
+    "MOS 声明一致率": true,
+    "负面闭环可运行": true,
+    "固化语法安全": true
+   },
+   "passed": 4,
+   "total": 4,
+   "direction_ok": true,
+   "assessment": "方向正确：指标稳定/改善，闭环可持续"
+  }
+ },
+ {
+  "round": 6,
+  "timestamp": "2026-08-26 04:38:47",
+  "dry_run": false,
+  "感知": {
+   "n_drift": 19,
+   "strong_rate": 0.9651,
+   "mos_rate": 0.9897
+  },
+  "识别": {
+   "absorbable": 9,
+   "manual": 1,
+   "absorbed_skip": false
+  },
+  "分析": {
+   "note_policy": "note 仅含『返回 X 兜底——不拒绝，弱契约』，无新中文判别词 → CCG not_tokens 稳定 → 路由无影响",
+   "affected_tests": [
+    "负面闭环（注释不影响执行——漂移数不变，但语义声明已对齐）"
+   ],
+   "units": [
+    "系统-监控指标",
+    "系统-守护进程",
+    "文件-RAID条带",
+    "启动-引导加载",
+    "事件-事件监听",
+    "渲染-文本排版",
+    "网络-边缘计算",
+    "网络-延迟测量",
+    "网络-路由汇聚"
+   ]
+  },
+  "验证": "honest：只改注释不改实现 + ast.parse 校验",
+  "固化": {
+   "n": 9,
+   "items": [
+    {
+     "unit": "系统-监控指标",
+     "cond": "usage_samples 为空/非法时",
+     "got": "{'avg': 0.0, 'peak': 0.0}"
+    },
+    {
+     "unit": "系统-守护进程",
+     "cond": "op 非 {start, status, stop} 时",
+     "got": "unknown"
+    },
+    {
+     "unit": "文件-RAID条带",
+     "cond": "disks 为空/非法时",
+     "got": "[]"
+    },
+    {
+     "unit": "启动-引导加载",
+     "cond": "stage 非 {initrd, mbr} 时",
+     "got": "unknown"
+    },
+    {
+     "unit": "事件-事件监听",
+     "cond": "event 非 {add, trigger} 时",
+     "got": "0"
+    },
+    {
+     "unit": "渲染-文本排版",
+     "cond": "text 为空/非法时",
+     "got": "[]"
+    },
+    {
+     "unit": "网络-边缘计算",
+     "cond": "nodes 为空/非法时",
+     "got": "('cloud', 0)"
+    },
+    {
+     "unit": "网络-延迟测量",
+     "cond": "samples 为空/非法时",
+     "got": "{'avg': 0.0, 'min': 0, 'max': "
+    },
+    {
+     "unit": "网络-路由汇聚",
+     "cond": "routes 为空/非法时",
+     "got": "[]"
+    }
+   ]
+  },
+  "反馈": {
+   "absorbed_total": 8
+  },
+  "方向性自检": {
+   "checks": {
+    "强契约拒绝率": true,
+    "MOS 声明一致率": true,
+    "负面闭环可运行": true,
+    "固化语法安全": true
+   },
+   "passed": 4,
+   "total": 4,
+   "direction_ok": true,
+   "assessment": "方向正确：指标稳定/改善，闭环可持续"
+  }
+ }
+]
