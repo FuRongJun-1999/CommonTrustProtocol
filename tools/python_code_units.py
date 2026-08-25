@@ -849,7 +849,10 @@ PYTHON_UNITS = {
         "task": "排序键控",
         "pattern": (
             "def sort_by_key(items, key_fn):\n"
-            "    # 排序键控：按 key 函数排序（sorted(key=) 语义——稳定排序）\n"
+            "    # 排序键控（键排序）：按 key 函数排序（sorted(key=) 语义——稳定排序）\n"
+            "    # 生效条件：items 可迭代；key_fn 为取键函数（可调用）\n"
+            "    # 子功能：① 对每项取键 ② 按键稳定排序\n"
+            "    # 执行：sorted(items, key=key_fn)（稳定排序语义）\n"
             "    return sorted(items, key=key_fn)\n"),
         "cases": [(([('b', 2), ('a', 1)], lambda x: x[1]), [('a', 1), ('b', 2)]),
                   (([3, 1, 2], lambda x: -x), [3, 2, 1]),

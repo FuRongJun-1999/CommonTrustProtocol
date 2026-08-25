@@ -27,7 +27,10 @@ COMPILER_UNITS = {
         "task": "信任累积",
         "pattern": (
             "def accumulate_trust(trust, amount):\n"
-            "    # 德：信任值累积（信任引擎内建语义）\n"
+            "    # 信任累积（德）：德——信任值累积（信任引擎内建语义）\n"
+            "    # 生效条件：trust/amount 为数值（信任值 0-1 区间）\n"
+            "    # 子功能：① 信任值相加 ② 三位小数归整\n"
+            "    # 执行：round(trust + amount, 3)\n"
             "    return round(trust + amount, 3)\n"),
         "cases": [((0.0, 0.5), 0.5), ((0.3, 0.5), 0.8), ((0.7, 0.0), 0.7)],
         "params": [],
@@ -225,7 +228,10 @@ COMPILER_UNITS = {
         "task": "道德经词法",
         "pattern": (
             "def instr_token(word):\n"
-            "    # 道德经助记符 → 指令 Token（剥离尾部标点；未接入 VM 的指令诚实返回 None）\n"
+            "    # 道德经助记符（词法）：道德经助记符 → 指令 Token（剥离尾部标点；未接入 VM 的指令诚实返回 None）\n"
+            "    # 生效条件：word 为道德经助记符文本（道/德/自然/无为/止/知足）\n"
+            "    # 子功能：① 剥离尾部标点 ② 助记符查映射表 ③ 未收录返回 None\n"
+            "    # 执行：rstrip 标点 + dict.get，命中返指令码\n"
             "    m = {'道': 'DAO', '德': 'DE', '自然': 'ZIRAN', '无为': 'WUWEI',\n"
             "         '止': 'ZHI', '知足': 'ZHIZU'}\n"
             "    return m.get((word or '').rstrip('。；;，,'))\n"),

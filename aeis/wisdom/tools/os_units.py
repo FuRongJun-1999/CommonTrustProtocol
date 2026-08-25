@@ -2258,7 +2258,10 @@ OS_UNITS = {
         "task": "模块加载",
         "pattern": (
             "def module_load(registry, module, deps):\n"
-            "    # 模块加载：依赖满足才注册（内核模块动态装载语义）\n"
+            "    # 模块加载（内核模块装载）：依赖满足才注册（内核模块动态装载语义）\n"
+            "    # 生效条件：registry 为已加载模块表；deps 为模块依赖名列表\n"
+            "    # 子功能：① 依赖存在性检查 ② 全满足注册 ③ 缺依赖拒绝\n"
+            "    # 执行：all(d in registry) → 注册返回 ok，否则 missing_deps\n"
             "    if all(d in registry for d in deps):\n"
             "        registry[module] = 'loaded'\n"
             "        return 'ok'\n"

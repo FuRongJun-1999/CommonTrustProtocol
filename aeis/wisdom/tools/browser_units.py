@@ -2167,7 +2167,10 @@ BROWSER_UNITS = {
         "task": "弹窗拦截",
         "pattern": (
             "def popup_block(allow, user_gesture, blocked_log):\n"
-            "    # 弹窗拦截：无用户手势的自动弹窗拦截并记录（浏览器安全策略）\n"
+            "    # 弹窗拦截（弹出窗口拦截）：无用户手势的自动弹窗拦截并记录（浏览器安全策略）\n"
+            "    # 生效条件：allow 为站点弹窗许可；user_gesture 为用户手势标志\n"
+            "    # 子功能：① 许可+手势放行 ② 否则拦截并记录\n"
+            "    # 执行：allow ∧ user_gesture → allowed；否则 blocked_log 追加并返 blocked\n"
             "    if allow and user_gesture:\n"
             "        return 'allowed'\n"
             "    blocked_log.append('blocked')\n"

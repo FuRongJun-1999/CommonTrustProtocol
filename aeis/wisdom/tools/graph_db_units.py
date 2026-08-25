@@ -348,7 +348,10 @@ GRAPH_UNITS = {
         "task": "条件链查询",
         "pattern": (
             "def chain_query(graph, condition, max_len=4):\n"
-            "    # 图查询语言：从条件出发沿边收集完整链（MATCH (a)-[*]->(b) 路径语义）\n"
+            "    # 条件链查询（图查询语言）：从条件出发沿边收集完整链（MATCH (a)-[*]->(b) 路径语义）\n"
+            "    # 生效条件：graph 提供 neighbors 接口；condition 为起始条件节点\n"
+            "    # 子功能：① 递归沿边走链 ② 无后继记录完整链 ③ 超长截断\n"
+            "    # 执行：DFS 回溯 + max_len 剪枝，收集全部条件链\n"
             "    chains = []\n"
             "    def walk(cur, path):\n"
             "        # 递归走链：无后继时记录完整条件链\n"
@@ -2507,7 +2510,10 @@ GRAPH_UNITS = {
         "task": "最大割",
         "pattern": (
             "def max_cut(adj):\n"
-            "    # 最大割：贪心二分使跨割边最多（MAX-CUT 近似）\n"
+            "    # 最大割（MAX-CUT）：贪心二分使跨割边最多（MAX-CUT 近似）\n"
+            "    # 生效条件：adj 为无向图邻接表（顶点可哈希）\n"
+            "    # 子功能：① 交替着色分侧 ② 统计跨侧边数\n"
+            "    # 执行：逐顶点按首个邻居反向着色，u<v 且异侧计数\n"
             "    side = {}\n"
             "    for u in adj:\n"
             "        nbs = adj.get(u, [])\n"

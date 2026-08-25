@@ -2374,7 +2374,10 @@ NET_UNITS = {
         "task": "证书校验",
         "pattern": (
             "def cert_verify(cert, now):\n"
-            "    # 证书校验：有效期时间窗检查（TLS 信任链第一步）\n"
+            "    # 证书校验（证书有效期校验）：有效期时间窗检查（TLS 信任链第一步）\n"
+            "    # 生效条件：cert 含 not_before/not_after；now 为当前时间戳\n"
+            "    # 子功能：① 时间窗边界比较 ② 越界判过期 ③ 窗内判有效\n"
+            "    # 执行：now < not_before 或 now > not_after → expired（fail-closed）\n"
             "    if now < cert.get('not_before', 0) or now > cert.get('not_after', 0):\n"
             "        return 'expired'\n"
             "    return 'valid'\n"),

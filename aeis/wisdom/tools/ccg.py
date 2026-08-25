@@ -95,12 +95,55 @@ DEP_EDGES = [
 ]
 
 
+def auto_dep_edges(test_path: str = None) -> list:
+    """从域管线 c 端到端段自动提取 U→U 依赖边（115 段 ≈ 200+ 边）。
+
+    解析 test_code_compose_domains.py：按「c 端到端」注释分块，
+    每块连续 domain_route("问题") 调用 → 固化直出单元名 → 链边。
+    新单元固化后重跑即自动建边（替代手工维护）。
+    """
+    import re as _re
+    from code_compose import domain_route
+    test_path = test_path or os.path.join(HERE, 'test_code_compose_domains.py')
+    try:
+        src = open(test_path, encoding='utf-8').read()
+    except OSError:
+        return DEP_EDGES
+    blocks = _re.split(r'# .*c 端到端', src)
+    edges = []
+    for block in blocks[1:]:
+        calls = _re.findall(r'domain_route\("([^"]+)"\)', block)
+        units = []
+        for q in calls:
+            try:
+                r = domain_route(q)
+                if r.get('ok') and r.get('unit'):
+                    units.append(r['unit'])
+            except Exception:
+                continue
+        if len(units) >= 2:
+            edges.extend(zip(units, units[1:]))
+    seen, uniq = set(), []
+    for e in edges:
+        if e not in seen:
+            seen.add(e)
+            uniq.append(e)
+    return uniq or DEP_EDGES
+
+
+# 依赖边缓存（auto_dep_edges 解析一次）
+_DEP_CACHE = None
+
+
 def build_dep_graph() -> dict:
-    """依赖图：uid -> 后继 uid 列表。"""
-    g = {}
-    for a, b in DEP_EDGES:
-        g.setdefault(a, []).append(b)
-    return g
+    """依赖图：uid -> 后继 uid 列表（自动提取 + 手工兜底）。"""
+    global _DEP_CACHE
+    if _DEP_CACHE is None:
+        g = {}
+        for a, b in auto_dep_edges():
+            g.setdefault(a, []).append(b)
+        _DEP_CACHE = g
+    return _DEP_CACHE
 
 
 def search(question: str, nodes=None, top: int = 5) -> list:
