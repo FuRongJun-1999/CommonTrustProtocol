@@ -7134,5 +7134,40 @@ except Exception as ex:
     check('㌪c 拓扑发现→路径备份→数据去重端到端（found switched True）',
           False, str(ex)[:60])
 
+# ㌫ 目标2 深化：词法/分析/编译优化（数字后缀/逃逸分析/去虚拟化 经正式管线）
+c27_qs = {
+    "数字后缀": "写一个数字后缀单元（字面量变体）",
+    "逃逸分析": "写一个逃逸分析单元（栈分配）",
+    "去虚拟化": "写一个去虚拟化单元（devirtualize 直调）",
+}
+c27_ok = 0
+for label, q in c27_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c27_ok += 1
+    check(f'㌫ {label} 词法/分析/编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌫b 词法/分析/编译优化三单元全部生成', c27_ok == 3, f'{c27_ok}/3')
+
+# ㌫c 端到端：数字后缀→逃逸分析→去虚拟化（255 escaped DIRECT）
+r_ns = domain_route("写一个数字后缀单元（字面量变体）")
+r_ea = domain_route("写一个逃逸分析单元（栈分配）")
+r_dv = domain_route("写一个去虚拟化单元（devirtualize 直调）")
+try:
+    ns_ns, ns_ea, ns_dv = {}, {}, {}
+    exec(r_ns["code"], ns_ns)
+    exec(r_ea["code"], ns_ea)
+    exec(r_dv["code"], ns_dv)
+    ns = ns_ns["num_suffix"]('0xff')
+    ea = ns_ea["escape_analysis"]('a', ['use', 'return'])
+    dv = ns_dv["devirt"]((('甲', 'f'),), {'甲': ['fa']})
+    check('㌫c 数字后缀→逃逸分析→去虚拟化端到端（255 escaped DIRECT）',
+          ns == 255 and ea == 'escaped' and dv == [('DIRECT', 'fa')],
+          f'suffix={ns} escape={ea} devirt={dv}')
+except Exception as ex:
+    check('㌫c 数字后缀→逃逸分析→去虚拟化端到端（255 escaped DIRECT）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

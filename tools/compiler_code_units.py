@@ -2403,6 +2403,65 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：寄存器分配——活跃区间冲突着色（贪心）",
     },
+    "词法-数字后缀": {
+        "task": "数字后缀",
+        "pattern": (
+            "def num_suffix(text):\n"
+            "    # 数字后缀：解析 0x 十六进制/0b 二进制/后缀 k/m（字面量变体）\n"
+            "    t = text.lower()\n"
+            "    if t.startswith('0x'):\n"
+            "        return int(t[2:], 16)\n"
+            "    if t.startswith('0b'):\n"
+            "        return int(t[2:], 2)\n"
+            "    if t.endswith('k'):\n"
+            "        return int(t[:-1]) * 1024\n"
+            "    if t.endswith('m'):\n"
+            "        return int(t[:-1]) * 1024 * 1024\n"
+            "    return int(t)\n"),
+        "cases": [
+            ((chr(48) + chr(120) + chr(102) + chr(102),), 255),
+            ((chr(48) + chr(98) + chr(49) + chr(48) + chr(49),), 5),
+            ((chr(50) + chr(107),), 2048),
+            ((chr(49) + chr(48),), 10)],
+        "params": [],
+        "calibration": "对照：词法——数字字面量后缀（0x/0b/k/m）",
+    },
+    "分析-逃逸分析": {
+        "task": "逃逸分析",
+        "pattern": (
+            "def escape_analysis(alloc, ops):\n"
+            "    # 逃逸分析：对象是否逃逸函数（栈上分配可行性）\n"
+            "    if 'return' in ops or 'store' in ops:\n"
+            "        return 'escaped'\n"
+            "    return 'local'\n"),
+        "cases": [
+            ((chr(97), ['use', 'return']), 'escaped'),
+            ((chr(97), ['use', 'store']), 'escaped'),
+            ((chr(97), ['use', 'pass']), 'local'),
+            ((chr(97), []), 'local')],
+        "params": [],
+        "calibration": "对照：逃逸分析——返回/存储即逃逸（栈分配优化）",
+    },
+    "编译-去虚拟化": {
+        "task": "去虚拟化",
+        "pattern": (
+            "def devirt(dispatch, known):\n"
+            "    # 去虚拟化：已知单实现调用替换为直接调用（内联化前提）\n"
+            "    out = []\n"
+            "    for cls, method in dispatch:\n"
+            "        if cls in known and len(known[cls]) == 1:\n"
+            "            out.append(('DIRECT', known[cls][0]))\n"
+            "        else:\n"
+            "            out.append(('VIRTUAL', method))\n"
+            "    return out\n"),
+        "cases": [
+            (((('甲', 'f'),), {'甲': ['fa']}), [('DIRECT', 'fa')]),
+            (((('甲', 'f'), ('乙', 'g')), {'甲': ['fa', 'fb'], '乙': ['gb']}),
+             [('VIRTUAL', 'f'), ('DIRECT', 'gb')]),
+            (((('甲', 'f'),), {}), [('VIRTUAL', 'f')])],
+        "params": [],
+        "calibration": "对照：去虚拟化——单实现类调用改直接调用",
+    },
 }
 
 

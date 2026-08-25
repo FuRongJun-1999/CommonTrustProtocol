@@ -5858,5 +5858,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:compiler|词法-数字后缀": {
+  "task": "数字后缀",
+  "unit": "词法-数字后缀",
+  "code": "def num_suffix(text):\n    # 数字后缀：解析 0x 十六进制/0b 二进制/后缀 k/m（字面量变体）\n    t = text.lower()\n    if t.startswith('0x'):\n        return int(t[2:], 16)\n    if t.startswith('0b'):\n        return int(t[2:], 2)\n    if t.endswith('k'):\n        return int(t[:-1]) * 1024\n    if t.endswith('m'):\n        return int(t[:-1]) * 1024 * 1024\n    return int(t)\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|分析-逃逸分析": {
+  "task": "逃逸分析",
+  "unit": "分析-逃逸分析",
+  "code": "def escape_analysis(alloc, ops):\n    # 逃逸分析：对象是否逃逸函数（栈上分配可行性）\n    if 'return' in ops or 'store' in ops:\n        return 'escaped'\n    return 'local'\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-去虚拟化": {
+  "task": "去虚拟化",
+  "unit": "编译-去虚拟化",
+  "code": "def devirt(dispatch, known):\n    # 去虚拟化：已知单实现调用替换为直接调用（内联化前提）\n    out = []\n    for cls, method in dispatch:\n        if cls in known and len(known[cls]) == 1:\n            out.append(('DIRECT', known[cls][0]))\n        else:\n            out.append(('VIRTUAL', method))\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 3 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }
