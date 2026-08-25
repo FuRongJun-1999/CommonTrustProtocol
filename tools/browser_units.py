@@ -1737,6 +1737,75 @@ BROWSER_UNITS = {
         "params": [],
         "calibration": "对照：BarcodeDetector——条码/二维码检测与缓存",
     },
+    "浏览器-画中画": {
+        "task": "画中画",
+        "pattern": (
+            "def pip_ops(state, op):\n"
+            "    # 画中画：open 打开 / close 关闭 / active 状态（Picture-in-Picture）\n"
+            "    if op == 'open':\n"
+            "        state['pip'] = True\n"
+            "        return 'opened'\n"
+            "    if op == 'close':\n"
+            "        state['pip'] = False\n"
+            "        return 'closed'\n"
+            "    if op == 'active':\n"
+            "        return state.get('pip', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'open'), 'opened'),
+            (({}, 'close'), 'closed'),
+            (({}, 'active'), False),
+            (({'pip': True}, 'active'), True)],
+        "params": [],
+        "calibration": "对照：Picture-in-Picture——画中画窗口开关",
+    },
+    "浏览器-屏幕捕获": {
+        "task": "屏幕捕获",
+        "pattern": (
+            "def screen_capture(state, op, source=None):\n"
+            "    # 屏幕捕获：request 请求 / select 选源 / stop 停止（getDisplayMedia）\n"
+            "    if op == 'request':\n"
+            "        state['granted'] = True\n"
+            "        return 'granted'\n"
+            "    if op == 'select':\n"
+            "        if state.get('granted'):\n"
+            "            state['source'] = source\n"
+            "            return source\n"
+            "        return None\n"
+            "    if op == 'stop':\n"
+            "        state['source'] = None\n"
+            "        return 'stopped'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'request'), 'granted'),
+            (({'granted': True}, 'select', 'screen'), 'screen'),
+            (({}, 'select', 'screen'), None),
+            (({'source': 'screen'}, 'stop'), 'stopped')],
+        "params": [],
+        "calibration": "对照：getDisplayMedia——屏幕捕获授权/选源/停止",
+    },
+    "浏览器-文件系统访问": {
+        "task": "文件系统访问",
+        "pattern": (
+            "def fs_access(state, op, name=None, data=None):\n"
+            "    # 文件系统访问：open 打开 / write 写入 / read 读取（File System Access）\n"
+            "    if op == 'open':\n"
+            "        state.setdefault('files', {})[name] = data or ''\n"
+            "        return 'opened'\n"
+            "    if op == 'write':\n"
+            "        state.setdefault('files', {})[name] = data\n"
+            "        return 'written'\n"
+            "    if op == 'read':\n"
+            "        return state.get('files', {}).get(name)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'open', 'a.txt'), 'opened'),
+            (({}, 'write', 'a.txt', '内容'), 'written'),
+            (({'files': {'a.txt': '内容'}}, 'read', 'a.txt'), '内容'),
+            (({}, 'read', 'x.txt'), None)],
+        "params": [],
+        "calibration": "对照：File System Access——本地文件打开/写/读",
+    },
 }
 
 

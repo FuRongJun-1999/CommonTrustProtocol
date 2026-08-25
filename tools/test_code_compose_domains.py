@@ -6427,5 +6427,42 @@ except Exception as ex:
     check('㌖c 语音合成→语音识别→扫码端到端（speaking 你好 12345）',
           False, str(ex)[:60])
 
+# ㌗ 目标5 深化：浏览器能力（画中画/屏幕捕获/文件系统访问 经正式管线）
+b19_qs = {
+    "画中画": "写一个画中画单元（窗口开关）",
+    "屏幕捕获": "写一个屏幕捕获单元（选源共享）",
+    "文件系统访问": "写一个文件系统访问单元（File System 读写）",
+}
+b19_ok = 0
+for label, q in b19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b19_ok += 1
+    check(f'㌗ {label} 浏览器能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌗b 浏览器能力三单元全部生成', b19_ok == 3, f'{b19_ok}/3')
+
+# ㌗c 端到端：画中画→屏幕捕获→文件系统（opened granted 内容）
+r_pp = domain_route("写一个画中画单元（窗口开关）")
+r_sc = domain_route("写一个屏幕捕获单元（选源共享）")
+r_fa = domain_route("写一个文件系统访问单元（File System 读写）")
+try:
+    ns_pp, ns_sc, ns_fa = {}, {}, {}
+    exec(r_pp["code"], ns_pp)
+    exec(r_sc["code"], ns_sc)
+    exec(r_fa["code"], ns_fa)
+    pp = ns_pp["pip_ops"]({}, 'open')
+    st = {}
+    sc_g = ns_sc["screen_capture"](st, 'request')
+    sc = ns_sc["screen_capture"](st, 'select', 'screen')
+    fa = ns_fa["fs_access"]({'files': {'a.txt': '内容'}}, 'read', 'a.txt')
+    check('㌗c 画中画→屏幕捕获→文件系统端到端（opened granted/屏幕 内容）',
+          pp == 'opened' and sc_g == 'granted' and sc == 'screen' and fa == '内容',
+          f'pip={pp} cap={sc_g}/{sc} fs={fa}')
+except Exception as ex:
+    check('㌗c 画中画→屏幕捕获→文件系统端到端（opened granted/屏幕 内容）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
