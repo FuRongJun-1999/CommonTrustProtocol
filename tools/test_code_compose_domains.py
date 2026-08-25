@@ -6745,5 +6745,40 @@ except Exception as ex:
     check('㌟c 度序列→生成树→路径计数端到端（True 3 2）',
           False, str(ex)[:60])
 
+# ㌠ 目标4 深化：OS 机制（孤儿进程/内存碎片/多核均衡 经正式管线）
+o16_qs = {
+    "孤儿进程": "写一个孤儿进程单元（父亡收养）",
+    "内存碎片": "写一个内存碎片单元（空洞度量）",
+    "多核均衡": "写一个多核均衡单元（最小负载核）",
+}
+o16_ok = 0
+for label, q in o16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o16_ok += 1
+    check(f'㌠ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌠b OS机制三单元全部生成', o16_ok == 3, f'{o16_ok}/3')
+
+# ㌠c 端到端：孤儿进程→内存碎片→多核均衡（5 0.3 1）
+r_op = domain_route("写一个孤儿进程单元（父亡收养）")
+r_mf = domain_route("写一个内存碎片单元（空洞度量）")
+r_mc = domain_route("写一个多核均衡单元（最小负载核）")
+try:
+    ns_op, ns_mf, ns_mc = {}, {}, {}
+    exec(r_op["code"], ns_op)
+    exec(r_mf["code"], ns_mf)
+    exec(r_mc["code"], ns_mc)
+    op = ns_op["orphan_proc"]({}, 'adopt', 5)
+    mf = ns_mf["mem_frag"]({'holes': [10, 20], 'total': 100}, 'rate')
+    mc = ns_mc["multi_core"]({'cores': [3, 1]}, 'assign', 2)
+    check('㌠c 孤儿进程→内存碎片→多核均衡端到端（5 0.3 1）',
+          op == 5 and mf == 0.3 and mc == 1,
+          f'orphan={op} frag={mf} core={mc}')
+except Exception as ex:
+    check('㌠c 孤儿进程→内存碎片→多核均衡端到端（5 0.3 1）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

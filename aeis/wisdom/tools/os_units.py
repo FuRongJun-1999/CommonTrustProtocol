@@ -1986,6 +1986,78 @@ OS_UNITS = {
         "params": [],
         "calibration": "对照：定时器——节拍推进/已过时间/频率（HZ）",
     },
+    "进程-孤儿进程": {
+        "task": "孤儿进程",
+        "pattern": (
+            "def orphan_proc(state, op, pid=None):\n"
+            "    # 孤儿进程：adopt 收养 / orphaned 孤儿列表 / parent 查询（父亡子被 init 收养）\n"
+            "    if op == 'adopt':\n"
+            "        state.setdefault('adopted', []).append(pid)\n"
+            "        return pid\n"
+            "    if op == 'orphaned':\n"
+            "        return list(state.get('adopted', []))\n"
+            "    if op == 'parent':\n"
+            "        return state.get('parent', 1)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'adopt', 5), 5),
+            (({'adopted': [5]}, 'orphaned'), [5]),
+            (({}, 'parent'), 1),
+            (({'parent': 7}, 'parent'), 7)],
+        "params": [],
+        "calibration": "对照：孤儿进程——父亡子被 init（PID 1）收养",
+    },
+    "内存-内存碎片": {
+        "task": "内存碎片",
+        "pattern": (
+            "def mem_frag(state, op, hole=None):\n"
+            "    # 内存碎片：record 记录空洞 / rate 碎片率 / holes 空洞数（碎片化度量）\n"
+            "    if op == 'record':\n"
+            "        state.setdefault('holes', []).append(hole)\n"
+            "        return len(state['holes'])\n"
+            "    if op == 'rate':\n"
+            "        holes = state.get('holes', [])\n"
+            "        total = state.get('total', 1)\n"
+            "        return round(sum(holes) / total, 2)\n"
+            "    if op == 'holes':\n"
+            "        return len(state.get('holes', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'record', 10), 1),
+            (({'holes': [10, 20], 'total': 100}, 'rate'), 0.3),
+            (({}, 'holes'), 0),
+            (({'holes': [10]}, 'holes'), 1)],
+        "params": [],
+        "calibration": "对照：内存碎片——空洞记录与碎片率（碎片化度量）",
+    },
+    "调度-多核均衡": {
+        "task": "多核均衡",
+        "pattern": (
+            "def multi_core(state, op, load=None):\n"
+            "    # 多核均衡：assign 分核 / balance 均衡迁移 / loads 各核负载（SMP 负载均衡）\n"
+            "    if op == 'assign':\n"
+            "        cores = state.setdefault('cores', [])\n"
+            "        if not cores:\n"
+            "            cores.extend([0, 0])\n"
+            "        i = cores.index(min(cores))\n"
+            "        cores[i] += load\n"
+            "        return i\n"
+            "    if op == 'balance':\n"
+            "        cores = state.get('cores', [0, 0])\n"
+            "        if cores:\n"
+            "            return max(cores) - min(cores) <= 1\n"
+            "        return True\n"
+            "    if op == 'loads':\n"
+            "        return list(state.get('cores', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'assign', 3), 0),
+            (({'cores': [3, 1]}, 'assign', 2), 1),
+            (({'cores': [3, 3]}, 'balance'), True),
+            (({'cores': [5, 1]}, 'balance'), False)],
+        "params": [],
+        "calibration": "对照：SMP——多核负载均衡（最小负载核分配）",
+    },
 }
 
 
