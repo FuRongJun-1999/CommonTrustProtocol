@@ -39,6 +39,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 CACHE_FILE = os.path.join(HERE, "..", "data", "verify_cache.json")
+SAVINGS_LOG = os.path.join(HERE, "..", "data", "verify_savings.jsonl")
 DATA_DIR = os.path.join(HERE, "..", "data")
 
 
@@ -168,21 +169,58 @@ class VerifyResult:
 # （等价于「协议升级 → 相关缓存刷新」，GLM 建议的 protocol_version 落地）。
 VERIFIER_VERSION = 4
 _CACHE_VERSION_KEY = "_verifier_version"
+_STATS_KEY = "_stats"
+
+
+def estimate_tokens(text: str) -> int:
+    """确定性 token 估算（用于「减少的 LLM 输入」度量，非精确计费）。
+
+    中文混合内容：中文字符按 1.2 token/字（中文 1 字 ≈ 1-1.5 token），
+    其余（代码/英文/标点）按 0.3 token/字符（英文/代码 1 token ≈ 3-4 字符）。
+    """
+    cjk = sum(1 for ch in text if '\u4e00' <= ch <= '\u9fff')
+    other = len(text) - cjk
+    return int(cjk * 1.2 + other * 0.3)
+
+
+def _table_payload_chars() -> int:
+    """「整张表」内容量：六域单元库定义（pattern+cases）总字符数。
+
+    设计文档背景：原方案「每次把整张表塞进 LLM 上下文查一次」——
+    表 = 白箱单元库（规则/模式/样例），本地化后表不再输入 LLM。
+    """
+    from compiler_code_units import COMPILER_UNITS
+    from python_code_units import PYTHON_UNITS
+    from graph_db_units import GRAPH_UNITS
+    from os_units import OS_UNITS
+    from browser_units import BROWSER_UNITS
+    from net_units import NET_UNITS
+    total = 0
+    for units in (COMPILER_UNITS, PYTHON_UNITS, GRAPH_UNITS,
+                  OS_UNITS, BROWSER_UNITS, NET_UNITS):
+        for uid, u in units.items():
+            total += len(uid) + len(u.get("task", "")) + len(u.get("pattern", "")) \
+                     + len(str(u.get("cases", [])))
+    return total
 
 
 class VerifyCache:
     """校验结果本地缓存。相同指纹 → 零计算返回。
 
-    hits/misses 为进程内命中计数（token 归零的证据面：命中次数 × 每次
-    本该发生的 LLM 查表成本 = 本地化省下的成本）。
+    hits/misses 为进程内命中计数；「减少的 LLM 输入」以 append-only JSONL
+    审计日志持久化（data/verify_savings.jsonl，每行一次校验的输入度量）——
+    跨进程累计、可审计、可重放（复现证据）。
     """
 
-    def __init__(self, path: str = CACHE_FILE, version: int = VERIFIER_VERSION):
+    def __init__(self, path: str = CACHE_FILE, version: int = VERIFIER_VERSION,
+                 savings_log: Optional[str] = SAVINGS_LOG):
         self.path = path
         self.version = version
+        self.savings_log = savings_log
         self._data: Dict[str, Dict[str, Any]] = {}
         self.hits = 0
         self.misses = 0
+        self._table_chars: Optional[int] = None
         self._load()
 
     def _load(self) -> None:
@@ -196,6 +234,57 @@ class VerifyCache:
         if self._data.get(_CACHE_VERSION_KEY) != self.version:
             self._data = {_CACHE_VERSION_KEY: self.version}
             self._flush()
+
+    def record_input(self, payload_chars: int, hit: bool) -> None:
+        """记录一次经本地校验的输入度量（append-only 审计日志）。
+
+        每次校验（含缓存命中）都意味着：该内容（表 + 请求）不再输入 LLM →
+        省下的 token 计入日志。hit 标记是否为缓存命中（重复校验零计算）。
+        savings_log=None（隔离模式，如变异测试）时不写日志。
+        """
+        if not self.savings_log:
+            return
+        table = self._table_chars
+        if table is None:
+            try:
+                table = _table_payload_chars()
+            except Exception:
+                table = 0
+            self._table_chars = table
+        text = payload_chars + table
+        half = text // 2
+        tokens = estimate_tokens("中" * half + "x" * (text - half))
+        try:
+            os.makedirs(DATA_DIR, exist_ok=True)
+            with open(self.savings_log, "a", encoding="utf-8") as f:
+                f.write(json.dumps({
+                    "t": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "payload_chars": payload_chars, "table_chars": table,
+                    "saved_chars": text, "saved_tokens": tokens,
+                    "hit": bool(hit),
+                }, ensure_ascii=False) + "\n")
+        except Exception:
+            pass
+
+    def savings(self) -> Dict[str, Any]:
+        """跨进程累计：从审计日志聚合「减少的 LLM 输入」。"""
+        total_chars = total_tokens = hits = reqs = 0
+        try:
+            if os.path.exists(SAVINGS_LOG):
+                for line in open(SAVINGS_LOG, encoding="utf-8"):
+                    line = line.strip()
+                    if not line:
+                        continue
+                    d = json.loads(line)
+                    total_chars += d.get("saved_chars", 0)
+                    total_tokens += d.get("saved_tokens", 0)
+                    reqs += 1
+                    if d.get("hit"):
+                        hits += 1
+        except Exception:
+            pass
+        return {"requests": reqs, "hits": hits,
+                "saved_chars": total_chars, "saved_tokens": total_tokens}
 
     def get(self, fingerprint: str) -> Optional[VerifyResult]:
         entry = self._data.get(fingerprint)
@@ -258,6 +347,16 @@ class Verifier:
 
         # ① 缓存命中 → 直接返回
         cached = self.cache.get(fp)
+
+        # 输入度量：经本地校验的请求内容量（本应输入 LLM 的「表 + 请求」——
+        # 无论命中与否，走本地 = 不再输入 LLM = 省下的 token；append 审计日志）
+        try:
+            self.cache.record_input(len(req.task) + len(req.code)
+                                    + len(str(req.cases)) + len(req.unit_id),
+                                    hit=(cached is not None))
+        except Exception:
+            pass
+
         if cached is not None:
             return cached
 
@@ -743,8 +842,12 @@ def main() -> None:
 
     if args.cache_stats:
         stats = VerifyCache().stats()
+        sv = VerifyCache().savings()
         print(f"缓存统计: 共 {stats['total']} 条（通过 {stats['passed']} / 失败 {stats['failed']}）")
         print(f"命中计数: 本进程命中 {stats['hits']} / 未命中 {stats['misses']}（命中率 {stats['hit_rate']}%）")
+        print(f"审计日志: {sv['requests']} 次校验（缓存命中 {sv['hits']} 次）")
+        print(f"减少的 LLM 输入: 累计 {sv['saved_chars']:,} 字符"
+              f" ≈ {sv['saved_tokens']:,} token（表+请求内容经本地处理，不再输入 LLM）")
         print("（每次命中 = 一次本该发生的 LLM 查表 → 本地零计算返回）")
         return
 

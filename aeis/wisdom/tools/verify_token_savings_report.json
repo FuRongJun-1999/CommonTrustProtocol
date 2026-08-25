@@ -1,0 +1,14 @@
+{
+ "date": "2026-08-25 19:00:56",
+ "model": "本地校验器 Zero-LLM Verifier v4 + 审计日志度量",
+ "units_verified": 681,
+ "table_chars": 338434,
+ "whitebox_generated_chars": 235853,
+ "whitebox_generated_tokens_est": 82548,
+ "requests": 1362,
+ "cache_hits": 681,
+ "hit_rate": 50.0,
+ "saved_llm_input_chars": 461623976,
+ "saved_llm_input_tokens_est": 346217028,
+ "note": "每次校验省下的 LLM 输入 = 表（六域单元定义 338434 字符）+ 请求；本地化后表与请求均不再输入 LLM；token 为中文混合内容确定性估算"
+}

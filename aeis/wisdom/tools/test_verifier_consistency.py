@@ -11,7 +11,7 @@
 
 目标：reverse == 0 且 一致率（agree+directional 占比）≥ 99%。
 """
-import sys, io, ast, copy
+import sys, io, ast, copy, os, tempfile
 sys.stdout.reconfigure(encoding='utf-8')
 sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\tools')
 
@@ -106,7 +106,10 @@ def mutate_const_bump(code):
 MUTATORS = [('比较反转', mutate_cmp_flip), ('返回破坏', mutate_return_break),
             ('常量扰动', mutate_const_bump)]
 
-v = Verifier()
+# 隔离：变异代码多为故意破坏（大量失败条目），用独立缓存+无审计日志避免污染
+from verifier import VerifyCache
+_tmp = os.path.join(tempfile.mkdtemp(), 'cache.json')
+v = Verifier(cache=VerifyCache(path=_tmp, version=0, savings_log=None))
 agree = directional = reverse = total = 0
 reverse_detail = []
 

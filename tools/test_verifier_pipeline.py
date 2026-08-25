@@ -42,7 +42,7 @@ UNITS = [(d, uid, u) for d, units in DOMAINS for uid, u in units.items()]
 TOTAL = len(UNITS)
 
 tmp = os.path.join(tempfile.mkdtemp(), 'cache.json')
-v = Verifier(cache=__import__('verifier').VerifyCache(path=tmp))
+v = Verifier(cache=__import__('verifier').VerifyCache(path=tmp, savings_log=None))
 
 ok_all = 0
 for d, uid, u in UNITS:
@@ -56,7 +56,7 @@ check('②a 冷缓存：681 单元首轮全部通过', ok_all == TOTAL, f'{ok_al
 check('②b 冷缓存：首轮全未命中（misses=681）', s1['misses'] == TOTAL and s1['hits'] == 0,
       f"hits={s1['hits']} misses={s1['misses']}")
 
-v2 = Verifier(cache=__import__('verifier').VerifyCache(path=tmp))
+v2 = Verifier(cache=__import__('verifier').VerifyCache(path=tmp, savings_log=None))
 for d, uid, u in UNITS:
     req = VerifyRequest(task=u['task'], code=u['pattern'], unit_id=uid,
                         cases=list(u.get('cases', [])),
@@ -78,7 +78,7 @@ check('③ 域管线接入：681 单元全量经 _verify_with_verifier（兼容�
       ok3 == TOTAL, f'{ok3}/{TOTAL}')
 
 # ④ 边界扩展回归：新字符串/数学边界族不误判（681 全过，temp 缓存）
-v3 = Verifier(cache=__import__('verifier').VerifyCache(path=tmp))
+v3 = Verifier(cache=__import__('verifier').VerifyCache(path=tmp, savings_log=None))
 ok4 = 0
 for d, uid, u in UNITS:
     req = VerifyRequest(task=u['task'], code=u['pattern'], unit_id=uid,

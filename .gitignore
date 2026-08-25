@@ -7,6 +7,7 @@ logs/
 *.db-shm
 *.db-wal
 
-# 本地校验缓存（派生数据，可随时按 verifier 版本重建）
+# 本地校验缓存与原始审计日志（派生数据；token 节省快照报告 tools/verify_token_savings_report.json 入库）
 data/verify_cache.json
+data/verify_savings.jsonl
 
