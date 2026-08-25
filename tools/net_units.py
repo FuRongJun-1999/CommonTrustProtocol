@@ -1755,6 +1755,70 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：FEC 异或奇偶——校验块生成与缺块恢复",
     },
+    "网络-尽力交付": {
+        "task": "尽力交付",
+        "pattern": (
+            "def best_effort(state, op, seq=None):\n"
+            "    # 尽力交付：send 发送（无确认）/ drop 随机丢包模拟 / delivered 统计（UDP 语义）\n"
+            "    if op == 'send':\n"
+            "        state.setdefault('sent', []).append(seq)\n"
+            "        return 'sent'\n"
+            "    if op == 'drop':\n"
+            "        if seq in state.get('sent', []):\n"
+            "            state['sent'].remove(seq)\n"
+            "            return 'dropped'\n"
+            "        return None\n"
+            "    if op == 'delivered':\n"
+            "        return len(state.get('sent', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'send', 1), 'sent'),
+            (({'sent': [1]}, 'drop', 1), 'dropped'),
+            (({'sent': [1, 2]}, 'delivered'), 2),
+            (({'sent': [1]}, 'drop', 9), None)],
+        "params": [],
+        "calibration": "对照：UDP 尽力交付——无确认/可丢包（不可靠传输语义）",
+    },
+    "网络-带宽时延积": {
+        "task": "带宽时延积",
+        "pattern": (
+            "def bdp_calc(bandwidth, rtt):\n"
+            "    # 带宽时延积：带宽×RTT = 在途数据量（管道容量）\n"
+            "    return round(bandwidth * rtt, 2)\n"),
+        "cases": [
+            ((10.0, 0.1), 1.0),
+            ((100.0, 0.05), 5.0),
+            ((0.0, 1.0), 0.0)],
+        "params": [],
+        "calibration": "对照：BDP——带宽×RTT（TCP 窗口大小依据）",
+    },
+    "网络-多宿主": {
+        "task": "多宿主",
+        "pattern": (
+            "def multihoming(state, op, iface=None):\n"
+            "    # 多宿主：add 添加接口 / select 按序选择 / failover 故障切换（多接口主机）\n"
+            "    if op == 'add':\n"
+            "        state.setdefault('ifaces', []).append(iface)\n"
+            "        return iface\n"
+            "    if op == 'select':\n"
+            "        ifaces = state.get('ifaces', [])\n"
+            "        if not ifaces:\n"
+            "            return None\n"
+            "        idx = state.get('idx', 0) % len(ifaces)\n"
+            "        state['idx'] = idx + 1\n"
+            "        return ifaces[idx]\n"
+            "    if op == 'failover':\n"
+            "        ifaces = state.get('ifaces', [])\n"
+            "        return ifaces[0] if ifaces else None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'add', 'wlan0'), 'wlan0'),
+            (({'ifaces': ['eth0', 'wlan0']}, 'select'), 'eth0'),
+            (({'ifaces': ['eth0', 'wlan0'], 'idx': 1}, 'select'), 'wlan0'),
+            (({}, 'select'), None)],
+        "params": [],
+        "calibration": "对照：多宿主——多接口轮询选择与故障切换（multihoming）",
+    },
 }
 
 

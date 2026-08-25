@@ -5721,5 +5721,40 @@ except Exception as ex:
     check('㌂c 颜色→振动→混合端到端（(255,0,0) vibrating 128）',
           False, str(ex)[:60])
 
+# ㌃ 目标7 深化：网络传输（尽力交付/带宽时延积/多宿主 经正式管线）
+n19_qs = {
+    "尽力交付": "写一个尽力交付单元（UDP 语义）",
+    "带宽时延积": "写一个带宽时延积单元（管道容量）",
+    "多宿主": "写一个多宿主单元（接口轮询）",
+}
+n19_ok = 0
+for label, q in n19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n19_ok += 1
+    check(f'㌃ {label} 网络传输单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌃b 网络传输三单元全部生成', n19_ok == 3, f'{n19_ok}/3')
+
+# ㌃c 端到端：尽力交付→时延积→多宿主（sent 1.0 eth0）
+r_be = domain_route("写一个尽力交付单元（UDP 语义）")
+r_bp = domain_route("写一个带宽时延积单元（管道容量）")
+r_mh = domain_route("写一个多宿主单元（接口轮询）")
+try:
+    ns_be, ns_bp, ns_mh = {}, {}, {}
+    exec(r_be["code"], ns_be)
+    exec(r_bp["code"], ns_bp)
+    exec(r_mh["code"], ns_mh)
+    be = ns_be["best_effort"]({}, 'send', 1)
+    bp = ns_bp["bdp_calc"](10.0, 0.1)
+    mh = ns_mh["multihoming"]({'ifaces': ['eth0', 'wlan0']}, 'select')
+    check('㌃c 尽力交付→时延积→多宿主端到端（sent 1.0 eth0）',
+          be == 'sent' and bp == 1.0 and mh == 'eth0',
+          f'effort={be} bdp={bp} mh={mh}')
+except Exception as ex:
+    check('㌃c 尽力交付→时延积→多宿主端到端（sent 1.0 eth0）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
