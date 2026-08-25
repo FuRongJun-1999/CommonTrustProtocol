@@ -1,0 +1,75 @@
+{
+ "experiment": "不适用条件负面测试闭环（Kimi 建议 B）",
+ "parsed": 336,
+ "strong_contract": {
+  "n": 258,
+  "rejected": 249,
+  "rate": 0.9651
+ },
+ "total_reject_rate": 0.8125,
+ "drift_findings": [
+  {
+   "unit": "VM-条件跳转",
+   "cond": "stack 为空/非法时",
+   "param": "stack",
+   "got": "1"
+  },
+  {
+   "unit": "VM-条件空间",
+   "cond": "op 非 {自然, 道} 时",
+   "param": "op",
+   "got": "[]"
+  },
+  {
+   "unit": "工具-日期时间",
+   "cond": "month 越界（Gt）时",
+   "param": "month",
+   "got": "(-1, 12, 30)"
+  },
+  {
+   "unit": "工具-日期时间",
+   "cond": "month 越界（Lt）时",
+   "param": "month",
+   "got": "(-1, 12, 30)"
+  },
+  {
+   "unit": "工具-字符串对齐",
+   "cond": "align 非 {center, left, right} 时",
+   "param": "align",
+   "got": "0"
+  },
+  {
+   "unit": "工具-列表分块",
+   "cond": "size 越界（LtE）时",
+   "param": "size",
+   "got": "[]"
+  },
+  {
+   "unit": "工具-循环轮转",
+   "cond": "items 为空/非法时",
+   "param": "items",
+   "got": "[]"
+  },
+  {
+   "unit": "工具-最长公共前缀",
+   "cond": "words 为空/非法时",
+   "param": "words",
+   "got": ""
+  },
+  {
+   "unit": "图存储-事务",
+   "cond": "op 非 {begin, commit, rollback} 时",
+   "param": "op",
+   "got": "idle"
+  },
+  {
+   "unit": "图可视化-节点大小",
+   "cond": "adj 为空/非法时",
+   "param": "adj",
+   "got": "{}"
+  }
+ ],
+ "n_drift": 19,
+ "skipped_injected": 44,
+ "conclusion": "不适用条件=可执行反例契约（强契约 97% 拒绝）；19 处未拒绝=注释泛化草稿与实现语义差异（Kimi 风险1 注释-代码漂移实证）——honest 登记，不修改数字掩盖"
+}
