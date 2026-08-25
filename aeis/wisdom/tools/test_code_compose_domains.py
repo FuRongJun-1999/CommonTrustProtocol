@@ -5861,5 +5861,40 @@ except Exception as ex:
     check('㌆c 割点→独立集→桥端到端（[2] [0,2] [(2,3)]）',
           False, str(ex)[:60])
 
+# ㌇ 目标1 深化：P 线工具/数据结构（字符串哈希/跳表/时间格式化 经正式管线）
+p21_qs = {
+    "字符串哈希": "写一个字符串哈希单元（加权取模）",
+    "跳表": "写一个跳表单元（有序加速）",
+    "时间格式化": "写一个时间格式化单元（占位符替换）",
+}
+p21_ok = 0
+for label, q in p21_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p21_ok += 1
+    check(f'㌇ {label} P线工具/数据结构单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌇b P线工具/数据结构三单元全部生成', p21_ok == 3, f'{p21_ok}/3')
+
+# ㌇c 端到端：哈希→跳表→时间格式化（98 a 2024-03-05）
+r_sh = domain_route("写一个字符串哈希单元（加权取模）")
+r_sl = domain_route("写一个跳表单元（有序加速）")
+r_tf = domain_route("写一个时间格式化单元（占位符替换）")
+try:
+    ns_sh, ns_sl, ns_tf = {}, {}, {}
+    exec(r_sh["code"], ns_sh)
+    exec(r_sl["code"], ns_sl)
+    exec(r_tf["code"], ns_tf)
+    sh = ns_sh["str_hash"]('abc')
+    sl = ns_sl["skiplist_ops"]({1: 'a'}, 'get', 1)
+    tf = ns_tf["time_format"]({'year': 2024, 'month': 3, 'day': 5}, '%Y-%m-%d')
+    check('㌇c 哈希→跳表→时间格式化端到端（98 a 2024-03-05）',
+          sh == 98 and sl == 'a' and tf == '2024-03-05',
+          f'hash={sh} skiplist={sl} fmt={tf}')
+except Exception as ex:
+    check('㌇c 哈希→跳表→时间格式化端到端（98 a 2024-03-05）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

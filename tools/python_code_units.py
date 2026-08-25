@@ -1688,6 +1688,60 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：bytes——UTF-8 编码/解码（文本↔字节）",
     },
+    "工具-字符串哈希": {
+        "task": "字符串哈希",
+        "pattern": (
+            "def str_hash(text, mod=256):\n"
+            "    # 字符串哈希：逐字符加权累加取模（确定性哈希）\n"
+            "    h = 0\n"
+            "    for ch in text:\n"
+            "        h = (h * 31 + ord(ch)) % mod\n"
+            "    return h\n"),
+        "cases": [
+            ((chr(97) + chr(98) + chr(99),), 98),
+            ((chr(0),), 0),
+            ((chr(97), 256), 97)],
+        "params": [],
+        "calibration": "对照：字符串哈希——加权累加取模（确定性散列）",
+    },
+    "数据结构-跳表": {
+        "task": "跳表",
+        "pattern": (
+            "def skiplist_ops(state, op, key=None, value=None):\n"
+            "    # 跳表：put 插入 / get 查找 / levels 层数（有序结构加速）\n"
+            "    if op == 'put':\n"
+            "        state[key] = value\n"
+            "        return key\n"
+            "    if op == 'get':\n"
+            "        return state.get(key)\n"
+            "    if op == 'levels':\n"
+            "        return max(1, len(state) // 2)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'put', 1, 'a'), 1),
+            (({1: 'a'}, 'get', 1), 'a'),
+            (({}, 'get', 5), None),
+            (({1: 'a', 2: 'b', 3: 'c', 4: 'd'}, 'levels'), 2)],
+        "params": [],
+        "calibration": "对照：跳表——有序键插入/查找（多层索引加速语义）",
+    },
+    "工具-时间格式化": {
+        "task": "时间格式化",
+        "pattern": (
+            "def time_format(t, fmt):\n"
+            "    # 时间格式化：占位符替换（strftime 语义：%Y 年 %m 月 %d 日）\n"
+            "    out = fmt\n"
+            "    out = out.replace('%Y', str(t['year']))\n"
+            "    out = out.replace('%m', str(t['month']).zfill(2))\n"
+            "    out = out.replace('%d', str(t['day']).zfill(2))\n"
+            "    return out\n"),
+        "cases": [
+            (({'year': 2024, 'month': 3, 'day': 5}, '%Y-%m-%d'), '2024-03-05'),
+            (({'year': 1999, 'month': 12, 'day': 31}, '%Y/%m/%d'), '1999/12/31'),
+            (({'year': 2024, 'month': 1, 'day': 9}, '%Y-%m-%d'), '2024-01-09')],
+        "params": [],
+        "calibration": "对照：strftime——%Y/%m/%d 占位符时间格式化",
+    },
 }
 
 
