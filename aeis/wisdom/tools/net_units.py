@@ -1956,6 +1956,75 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：链路利用率——已用/容量采样（平均与峰值）",
     },
+    "网络-带宽分配": {
+        "task": "带宽分配",
+        "pattern": (
+            "def bw_alloc(total, weights):\n"
+            "    # 带宽分配：按权重比例分总带宽（公平分配）\n"
+            "    s = sum(weights.values())\n"
+            "    if s <= 0:\n"
+            "        return {k: 0 for k in weights}\n"
+            "    out = {}\n"
+            "    used = 0\n"
+            "    for k, w in weights.items():\n"
+            "        v = total * w / s\n"
+            "        out[k] = round(v, 2)\n"
+            "        used += v\n"
+            "    return out\n"),
+        "cases": [
+            ((100, {'a': 1, 'b': 1}), {'a': 50.0, 'b': 50.0}),
+            ((100, {'a': 3, 'b': 1}), {'a': 75.0, 'b': 25.0}),
+            ((100, {}), {}),
+            ((100, {'a': 0}), {'a': 0.0})],
+        "params": [],
+        "calibration": "对照：带宽分配——按权重比例公平分配（weighted sharing）",
+    },
+    "网络-连接迁移": {
+        "task": "连接迁移",
+        "pattern": (
+            "def conn_migrate(state, op, ep=None):\n"
+            "    # 连接迁移：migrate 换端点 / current 当前端点 / count 迁移次数（QUIC migration）\n"
+            "    if op == 'migrate':\n"
+            "        state['ep'] = ep\n"
+            "        state['count'] = state.get('count', 0) + 1\n"
+            "        return ep\n"
+            "    if op == 'current':\n"
+            "        return state.get('ep')\n"
+            "    if op == 'count':\n"
+            "        return state.get('count', 0)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'migrate', '10.0.0.2'), '10.0.0.2'),
+            (({}, 'current'), None),
+            (({'ep': '10.0.0.2', 'count': 1}, 'count'), 1),
+            (({'ep': '10.0.0.1'}, 'migrate', '10.0.0.3'), '10.0.0.3')],
+        "params": [],
+        "calibration": "对照：QUIC——连接迁移（端点切换不断连）",
+    },
+    "网络-重传统计": {
+        "task": "重传统计",
+        "pattern": (
+            "def retrans_stats(state, op, seq=None):\n"
+            "    # 重传统计：record 记录 / count 总数 / rate 重传率（可靠传输统计）\n"
+            "    if op == 'record':\n"
+            "        state.setdefault('retx', set()).add(seq)\n"
+            "        state['sent'] = state.get('sent', 0) + 1\n"
+            "        return 'recorded'\n"
+            "    if op == 'count':\n"
+            "        return len(state.get('retx', set()))\n"
+            "    if op == 'rate':\n"
+            "        sent = state.get('sent', 0)\n"
+            "        retx = len(state.get('retx', set()))\n"
+            "        return round(retx / sent, 2) if sent else 0.0\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'record', 1), 'recorded'),
+            (({'retx': {1, 2}}, 'count'), 2),
+            (({'sent': 10, 'retx': {1, 2}}, 'rate'), 0.2),
+            (({}, 'rate'), 0.0)],
+        "params": [],
+        "calibration": "对照：TCP 统计——重传统计与重传率（可靠传输）",
+    },
 }
 
 

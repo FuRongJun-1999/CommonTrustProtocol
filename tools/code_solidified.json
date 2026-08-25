@@ -5048,5 +5048,35 @@
   ],
   "source": "domain_solidified",
   "domain": "net"
+ },
+ "domain:net|网络-带宽分配": {
+  "task": "带宽分配",
+  "unit": "网络-带宽分配",
+  "code": "def bw_alloc(total, weights):\n    # 带宽分配：按权重比例分总带宽（公平分配）\n    s = sum(weights.values())\n    if s <= 0:\n        return {k: 0 for k in weights}\n    out = {}\n    used = 0\n    for k, w in weights.items():\n        v = total * w / s\n        out[k] = round(v, 2)\n        used += v\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-连接迁移": {
+  "task": "连接迁移",
+  "unit": "网络-连接迁移",
+  "code": "def conn_migrate(state, op, ep=None):\n    # 连接迁移：migrate 换端点 / current 当前端点 / count 迁移次数（QUIC migration）\n    if op == 'migrate':\n        state['ep'] = ep\n        state['count'] = state.get('count', 0) + 1\n        return ep\n    if op == 'current':\n        return state.get('ep')\n    if op == 'count':\n        return state.get('count', 0)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
+ },
+ "domain:net|网络-重传统计": {
+  "task": "重传统计",
+  "unit": "网络-重传统计",
+  "code": "def retrans_stats(state, op, seq=None):\n    # 重传统计：record 记录 / count 总数 / rate 重传率（可靠传输统计）\n    if op == 'record':\n        state.setdefault('retx', set()).add(seq)\n        state['sent'] = state.get('sent', 0) + 1\n        return 'recorded'\n    if op == 'count':\n        return len(state.get('retx', set()))\n    if op == 'rate':\n        sent = state.get('sent', 0)\n        retx = len(state.get('retx', set()))\n        return round(retx / sent, 2) if sent else 0.0\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "net"
  }
 }

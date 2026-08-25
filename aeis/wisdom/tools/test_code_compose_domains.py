@@ -6179,5 +6179,40 @@ except Exception as ex:
     check('㌏c 漏桶→调度→利用率端到端（True (\'a\',1) 0.5）',
           False, str(ex)[:60])
 
+# ㌐ 目标7 深化：网络机制（带宽分配/连接迁移/重传统计 经正式管线）
+n22_qs = {
+    "带宽分配": "写一个带宽分配单元（比例公平）",
+    "连接迁移": "写一个连接迁移单元（端点切换）",
+    "重传统计": "写一个重传统计单元（重传率）",
+}
+n22_ok = 0
+for label, q in n22_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n22_ok += 1
+    check(f'㌐ {label} 网络机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌐b 网络机制三单元全部生成', n22_ok == 3, f'{n22_ok}/3')
+
+# ㌐c 端到端：带宽分配→连接迁移→重传统计（{a:75,b:25} 10.0.0.2 0.2）
+r_bw = domain_route("写一个带宽分配单元（比例公平）")
+r_cm = domain_route("写一个连接迁移单元（端点切换）")
+r_rs = domain_route("写一个重传统计单元（重传率）")
+try:
+    ns_bw, ns_cm, ns_rs = {}, {}, {}
+    exec(r_bw["code"], ns_bw)
+    exec(r_cm["code"], ns_cm)
+    exec(r_rs["code"], ns_rs)
+    bw = ns_bw["bw_alloc"](100, {'a': 3, 'b': 1})
+    cm = ns_cm["conn_migrate"]({}, 'migrate', '10.0.0.2')
+    rs = ns_rs["retrans_stats"]({'sent': 10, 'retx': {1, 2}}, 'rate')
+    check('㌐c 带宽分配→连接迁移→重传统计端到端（{a:75,b:25} 10.0.0.2 0.2）',
+          bw == {'a': 75.0, 'b': 25.0} and cm == '10.0.0.2' and rs == 0.2,
+          f'bw={bw} mig={cm} retx={rs}')
+except Exception as ex:
+    check('㌐c 带宽分配→连接迁移→重传统计端到端（{a:75,b:25} 10.0.0.2 0.2）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
