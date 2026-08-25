@@ -2095,6 +2095,80 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：NetFlow——按采样率抽取数据包（sFlow/NetFlow）",
     },
+    "网络-时隙": {
+        "task": "时隙",
+        "pattern": (
+            "def tdma_slot(state, op, node=None, slot=None):\n"
+            "    # 时隙：assign 分配 / next 下一时隙 / owner 归属（TDMA 分时）\n"
+            "    if op == 'assign':\n"
+            "        state.setdefault('slots', {})[node] = slot\n"
+            "        return slot\n"
+            "    if op == 'next':\n"
+            "        n = state.get('n', 4)\n"
+            "        state['cur'] = (state.get('cur', 0) + 1) % n\n"
+            "        return state['cur']\n"
+            "    if op == 'owner':\n"
+            "        for k, v in state.get('slots', {}).items():\n"
+            "            if v == slot:\n"
+            "                return k\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'assign', 'n1', 0), 0),
+            (({}, 'next'), 1),
+            (({'slots': {'n1': 0}}, 'owner', None, 0), 'n1'),
+            (({'slots': {}}, 'owner', None, 3), None)],
+        "params": [],
+        "calibration": "对照：TDMA——时分多址时隙分配/轮转/归属",
+    },
+    "网络-跳频": {
+        "task": "跳频",
+        "pattern": (
+            "def freq_hop(state, op, seq=None):\n"
+            "    # 跳频：hop 下一频率 / current 当前 / pattern 序列（FHSS 抗干扰）\n"
+            "    if op == 'hop':\n"
+            "        pat = state.get('pattern', [2400, 2410, 2420])\n"
+            "        i = state.get('idx', 0)\n"
+            "        state['idx'] = (i + 1) % len(pat)\n"
+            "        state['freq'] = pat[state['idx']]\n"
+            "        return state['freq']\n"
+            "    if op == 'current':\n"
+            "        return state.get('freq', 2400)\n"
+            "    if op == 'pattern':\n"
+            "        return list(state.get('pattern', [2400, 2410, 2420]))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'hop'), 2410),
+            (({}, 'current'), 2400),
+            (({'freq': 2420}, 'current'), 2420),
+            (({}, 'pattern'), [2400, 2410, 2420])],
+        "params": [],
+        "calibration": "对照：FHSS——跳频序列（抗干扰/保密）",
+    },
+    "网络-误码率": {
+        "task": "误码率",
+        "pattern": (
+            "def ber_calc(state, op, errors=None, total=None):\n"
+            "    # 误码率：sample 采样 / ber 误码率 / snr 信噪比映射（链路质量）\n"
+            "    if op == 'sample':\n"
+            "        state['errors'] = errors\n"
+            "        state['total'] = total\n"
+            "        return round(errors / total, 6) if total else 0.0\n"
+            "    if op == 'ber':\n"
+            "        e = state.get('errors', 0)\n"
+            "        t = state.get('total', 1)\n"
+            "        return round(e / t, 6) if t else 0.0\n"
+            "    if op == 'snr':\n"
+            "        return round(10 * (1 - state.get('errors', 0) / max(state.get('total', 1), 1)), 1)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'sample', 1, 100), 0.01),
+            (({'errors': 2, 'total': 100}, 'ber'), 0.02),
+            (({}, 'ber'), 0.0),
+            (({'errors': 0, 'total': 10}, 'snr'), 10.0)],
+        "params": [],
+        "calibration": "对照：误码率——错误/总数与信噪比映射（链路质量）",
+    },
 }
 
 

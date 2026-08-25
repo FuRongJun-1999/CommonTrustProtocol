@@ -6921,5 +6921,40 @@ except Exception as ex:
     check('㌤c 支配集→弦图→标签计数端到端（[0] True {友:2,师:1}）',
           False, str(ex)[:60])
 
+# ㌥ 目标7 深化：链路机制（时隙/跳频/误码率 经正式管线）
+n24_qs = {
+    "时隙": "写一个时隙单元（TDMA 分时）",
+    "跳频": "写一个跳频单元（频率序列）",
+    "误码率": "写一个误码率单元（链路质量）",
+}
+n24_ok = 0
+for label, q in n24_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n24_ok += 1
+    check(f'㌥ {label} 链路机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌥b 链路机制三单元全部生成', n24_ok == 3, f'{n24_ok}/3')
+
+# ㌥c 端到端：时隙→跳频→误码率（1 2410 0.01）
+r_ts = domain_route("写一个时隙单元（TDMA 分时）")
+r_fh = domain_route("写一个跳频单元（频率序列）")
+r_br = domain_route("写一个误码率单元（链路质量）")
+try:
+    ns_ts, ns_fh, ns_br = {}, {}, {}
+    exec(r_ts["code"], ns_ts)
+    exec(r_fh["code"], ns_fh)
+    exec(r_br["code"], ns_br)
+    ts = ns_ts["tdma_slot"]({}, 'next')
+    fh = ns_fh["freq_hop"]({}, 'hop')
+    br = ns_br["ber_calc"]({}, 'sample', 1, 100)
+    check('㌥c 时隙→跳频→误码率端到端（1 2410 0.01）',
+          ts == 1 and fh == 2410 and br == 0.01,
+          f'slot={ts} hop={fh} ber={br}')
+except Exception as ex:
+    check('㌥c 时隙→跳频→误码率端到端（1 2410 0.01）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)
