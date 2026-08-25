@@ -7344,5 +7344,40 @@ except Exception as ex:
     check('㌰c 名实绑定→信任流分析→短路求值端到端（(True,2) 0.2 (True,True)）',
           False, str(ex)[:60])
 
+# ㌱ 目标2 深化：P 线语言机制（解包赋值/集合推导/切片赋值 经正式管线）
+p26_qs = {
+    "解包赋值": "写一个解包赋值单元（多重赋值）",
+    "集合推导": "写一个集合推导单元（去重构建）",
+    "切片赋值": "写一个切片赋值单元（列表写入）",
+}
+p26_ok = 0
+for label, q in p26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p26_ok += 1
+    check(f'㌱ {label} P线语言机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌱b P线语言机制三单元全部生成', p26_ok == 3, f'{p26_ok}/3')
+
+# ㌱c 端到端：解包赋值→集合推导→切片赋值（1 2 4 {2,4} [1,8,9,4,5]）
+r_ua = domain_route("写一个解包赋值单元（多重赋值）")
+r_sc2 = domain_route("写一个集合推导单元（去重构建）")
+r_sa = domain_route("写一个切片赋值单元（列表写入）")
+try:
+    ns_ua, ns_sc2, ns_sa = {}, {}, {}
+    exec(r_ua["code"], ns_ua)
+    exec(r_sc2["code"], ns_sc2)
+    exec(r_sa["code"], ns_sa)
+    ua = ns_ua["unpack_assign"](['a', 'b'], [1, 2])
+    sc2 = ns_sc2["set_comprehension"]([1, 2, 3, 4], lambda x: x % 2 == 0)
+    sa = ns_sa["slice_assign"]([1, 2, 3, 4, 5], 1, 3, [8, 9])
+    check('㌱c 解包赋值→集合推导→切片赋值端到端（{a:1,b:2} {2,4} [1,8,9,4,5]）',
+          ua == {'a': 1, 'b': 2} and sc2 == {2, 4} and sa == [1, 8, 9, 4, 5],
+          f'unpack={ua} set={sc2} slice={sa}')
+except Exception as ex:
+    check('㌱c 解包赋值→集合推导→切片赋值端到端（{a:1,b:2} {2,4} [1,8,9,4,5]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

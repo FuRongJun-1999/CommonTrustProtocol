@@ -6038,5 +6038,35 @@
   ],
   "source": "domain_solidified",
   "domain": "compiler"
+ },
+ "domain:pylang|求值-解包赋值": {
+  "task": "解包赋值",
+  "unit": "求值-解包赋值",
+  "code": "def unpack_assign(targets, values):\n    # 解包赋值：a, b = b, a 多重赋值/嵌套解包（P 线赋值机制）\n    out = {}\n    def walk(ts, vs):\n        for t, v in zip(ts, vs):\n            if isinstance(t, list):\n                walk(t, v)\n            else:\n                out[t] = v\n    walk(targets, values)\n    return out\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|推导式-集合推导": {
+  "task": "集合推导",
+  "unit": "推导式-集合推导",
+  "code": "def set_comprehension(items, cond=None):\n    # 集合推导：{x for x in items if cond(x)} 去重构建（P 线推导式机制）\n    if cond is None:\n        return set(items)\n    return {x for x in items if cond(x)}\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
+ },
+ "domain:pylang|语法-切片赋值": {
+  "task": "切片赋值",
+  "unit": "语法-切片赋值",
+  "code": "def slice_assign(arr, start, end, values):\n    # 切片赋值：a[start:end] = values 写入（P 线列表切片机制）\n    return arr[:start] + list(values) + arr[end:]\n",
+  "checks": [
+   "✔ 语法通过 | 样例 5 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "pylang"
  }
 }

@@ -2149,6 +2149,60 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Levenshtein——编辑距离（插删改最小次数）",
     },
+    "求值-解包赋值": {
+        "task": "解包赋值",
+        "pattern": (
+            "def unpack_assign(targets, values):\n"
+            "    # 解包赋值：a, b = b, a 多重赋值/嵌套解包（P 线赋值机制）\n"
+            "    out = {}\n"
+            "    def walk(ts, vs):\n"
+            "        for t, v in zip(ts, vs):\n"
+            "            if isinstance(t, list):\n"
+            "                walk(t, v)\n"
+            "            else:\n"
+            "                out[t] = v\n"
+            "    walk(targets, values)\n"
+            "    return out\n"),
+        "cases": [
+            ((['a', 'b'], [1, 2]), {'a': 1, 'b': 2}),
+            ((['a', 'b'], [2, 1]), {'a': 2, 'b': 1}),
+            ((['a', ['b', 'c']], [1, [2, 3]]), {'a': 1, 'b': 2, 'c': 3}),
+            ((['x'], [7]), {'x': 7}),
+            (([], []), {})],
+        "params": [],
+        "calibration": "对照：CPython 解包赋值（RHS 先求值后按目标逐层写入，嵌套列表递归解包）",
+    },
+    "推导式-集合推导": {
+        "task": "集合推导",
+        "pattern": (
+            "def set_comprehension(items, cond=None):\n"
+            "    # 集合推导：{x for x in items if cond(x)} 去重构建（P 线推导式机制）\n"
+            "    if cond is None:\n"
+            "        return set(items)\n"
+            "    return {x for x in items if cond(x)}\n"),
+        "cases": [
+            (([1, 2, 2, 3], None), {1, 2, 3}),
+            (([1, 2, 3, 4], lambda x: x % 2 == 0), {2, 4}),
+            (([], None), set()),
+            (([5, 5, 5], lambda x: x > 3), {5})],
+        "params": [],
+        "calibration": "对照：CPython 集合推导（{x for ...} 去重 + 条件过滤，与列表/字典推导同族）",
+    },
+    "语法-切片赋值": {
+        "task": "切片赋值",
+        "pattern": (
+            "def slice_assign(arr, start, end, values):\n"
+            "    # 切片赋值：a[start:end] = values 写入（P 线列表切片机制）\n"
+            "    return arr[:start] + list(values) + arr[end:]\n"),
+        "cases": [
+            (([1, 2, 3, 4, 5], 1, 3, [8, 9]), [1, 8, 9, 4, 5]),
+            (([1, 2, 3], 0, 1, [7]), [7, 2, 3]),
+            (([1, 2], 5, 5, [9]), [1, 2, 9]),
+            (([1, 2, 3], 1, 1, [9]), [1, 9, 2, 3]),
+            (([], 0, 0, [1, 2]), [1, 2])],
+        "params": [],
+        "calibration": "对照：CPython 切片赋值（a[start:end]=values 区间写入/插入/追加，与切片读取互补）",
+    },
 }
 
 
