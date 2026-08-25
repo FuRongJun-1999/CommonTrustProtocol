@@ -2,18 +2,18 @@
  "experiment": "条件扰动（GPT：条件 vs 语义相似度）",
  "method": "同主体相邻能力对，任务仅互换条件词（累积↔阈值检查、无权↔加权、列表↔字典）→ 观察路由归属是否按条件改变",
  "pairs": 3,
- "switched": 3,
- "switch_rate": 1.0,
+ "switched": 2,
+ "switch_rate": 0.6667,
  "details": [
   {
    "pair": "VM-信任累积 vs 校验-信任检查",
    "qa": "写一个进行累积处理信任值的代码单元",
    "qb": "写一个进行阈值检查处理信任值的代码单元",
-   "ra": "ACCEPT",
+   "ra": "BLINDSPOT",
    "rb": "ACCEPT",
-   "ua": "VM-信任累积",
+   "ua": "",
    "ub": "校验-信任检查",
-   "ok_a": true,
+   "ok_a": false,
    "ok_b": true
   },
   {

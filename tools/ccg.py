@@ -285,23 +285,32 @@ def _diff_condition(a: str, b: str, nodes, query: str = '') -> str:
     # 被碎片（「导式」=推导式尾巴）干扰 tie，task 名干净无碎片。
     ta, tb = nodes.get(a, {}).get('task', ''), nodes.get(b, {}).get('task', '')
     qb = _bigrams(query)
-    # 混合条件冲突（扰动实验 ②）：query 同时含两侧独有条件词
-    # （累积 与 门槛放行）→ 不强行选边 → BLINDSPOT 声明。
-    # task 名独有词 + head 独有词 都纳入（门槛/放行 在 head 不在 task 名）
+    # 混合条件冲突（扰动实验 ② + 递归协议化）：query 同时含两侧独有条件词
+    # （累积 与 门槛放行 / 检查 与 累积）→ 不强行选边 → BLINDSPOT 声明。
+    # task 名独有词 + head 独有词 都纳入（门槛/放行 在 head 不在 task 名）。
+    # 冲突判定：task 独有词任一侧命中即证据（权威名无碎片）；head 独有词
+    # 参与时先剔除「尾缀碎片」（「导式」= 共有词「推导」的尾扩展——列表推导式
+    # vs 字典推导 的「式」不对称碎片，见下方 _is_frag 注释）。
     da_t, db_t = _bigrams(ta) - _bigrams(tb), _bigrams(tb) - _bigrams(ta)
     da_h, db_h = _bigrams(ha) - _bigrams(hb), _bigrams(hb) - _bigrams(ha)
-    hit_at, hit_bt = len(qb & da_t), len(qb & db_t)
-    hit_ah, hit_bh = len(qb & da_h), len(qb & db_h)
-    # 并集去重（「字典」同时在 task 独有和 head 独有 → 只算一次，
-    # 否则同一证据重复计数造成假冲突）
-    hit_a, hit_b = len(qb & (da_t | da_h)), len(qb & (db_t | db_h))
-    # 混合条件冲突需多重证据：两侧都命中且总命中 ≥3。
-    # 单侧碎片（「导式」=推导式公共后缀的不对称碎片，1 个）不构成冲突；
-    # 真冲突（累积 + 门槛放行）至少一侧 ≥2。
-    if hit_a and hit_b and (hit_a + hit_b) >= 3:
+    common_h = _bigrams(ha) & _bigrams(hb)
+
+    def _is_frag(w):
+        # 尾缀碎片：w 是某共有 bigram 的尾扩展（推导 → 导式：u[1]==w[0]）
+        return any(len(u) == 2 and len(w) == 2 and u[1] == w[0]
+                   and u[0] != w[0] for u in common_h)
+
+    da_h2 = {w for w in da_h if not _is_frag(w)}
+    db_h2 = {w for w in db_h if not _is_frag(w)}
+    # 冲突证据：task 独有命中（权威名，无碎片）或 head 独有（已剔碎片）命中
+    ev_a = bool(qb & da_t) or bool(qb & da_h2)
+    ev_b = bool(qb & db_t) or bool(qb & db_h2)
+    if ev_a and ev_b:
         return '混合条件冲突'
     # 方向判定优先 task 权威名（干净无碎片：列表 vs 字典）；
     # task 无命中时退回 head 独有（碎片 tie 风险，但 task 命中优先已消除）
+    hit_at, hit_bt = len(qb & da_t), len(qb & db_t)
+    hit_ah, hit_bh = len(qb & da_h2), len(qb & db_h2)
     if hit_at or hit_bt:
         if hit_bt > hit_at:
             return (hb[:24] + '（而非 ' + ha[:12] + '）') if ha else hb[:24]
@@ -310,7 +319,7 @@ def _diff_condition(a: str, b: str, nodes, query: str = '') -> str:
         if hit_bh > hit_ah:
             return (hb[:24] + '（而非 ' + ha[:12] + '）') if ha else hb[:24]
         return (ha[:24] + '（而非 ' + hb[:12] + '）') if hb else ha[:24]
-    da, db = da_h, db_h
+    da, db = da_h2, db_h2
     # 任务方向：query 与哪侧独有词重叠更多 → 缺失条件指该侧
     hit_a, hit_b = len(qb & da), len(qb & db)
     prefer_b = (hit_b > hit_a and db) or (not hit_a and not hit_b and
@@ -338,53 +347,154 @@ def _word_df(nodes) -> dict:
     return df
 
 
-def route(question: str, nodes=None, top: int = 5, depth: int = 3) -> dict:
-    """四态递归路由（GPT：ACCEPT/REJECT/DEFER/BLINDSPOT + 缺失条件递归）。
+def _missing_struct(a: str, b: str, nodes, query: str = '') -> dict:
+    """结构化缺失条件（GPT 7.1：subject/cond_type/a_side/b_side/polarity）。
+
+    与 Missing Condition Accuracy 的条件结构 GT 同构（见协议 §5/§8.2）。
+    fingerprint 用于条件循环检测（递归要求已搜索过的缺失条件 → 终止）。
+    """
+    ha = nodes.get(a, {}).get('head', '')
+    hb = nodes.get(b, {}).get('head', '')
+    ta = nodes.get(a, {}).get('task', '')
+    tb = nodes.get(b, {}).get('task', '')
+    da_t, db_t = _bigrams(ta) - _bigrams(tb), _bigrams(tb) - _bigrams(ta)
+    da_h, db_h = _bigrams(ha) - _bigrams(hb), _bigrams(hb) - _bigrams(ha)
+    # text 独有词（第三层）：完整注释保留括号条件词（「无权图 BFS」——
+    # head 提取会剥括号 → 无权锚点丢失，方向误判 B 侧（递归协议化教训）
+    ta_ix, tb_ix = nodes.get(a, {}).get('index', {}).get('text', '') or ha, \
+                   nodes.get(b, {}).get('index', {}).get('text', '') or hb
+    da_x, db_x = _bigrams(ta_ix) - _bigrams(tb_ix), _bigrams(tb_ix) - _bigrams(ta_ix)
+    qb = _bigrams(query)
+    hit_at, hit_bt = len(qb & da_t), len(qb & db_t)
+    hit_ah, hit_bh = len(qb & da_h), len(qb & db_h)
+    hit_ax, hit_bx = len(qb & da_x), len(qb & db_x)
+    # 方向：task 权威名优先，head 次之，text 兜底（与 _diff_condition 同序）
+    if hit_at != hit_bt:
+        side = 'B' if hit_bt > hit_at else 'A'
+    elif hit_ah != hit_bh:
+        side = 'B' if hit_bh > hit_ah else 'A'
+    elif hit_ax != hit_bx:
+        side = 'B' if hit_bx > hit_ax else 'A'
+    else:
+        side = 'B' if len(db_t | db_h | db_x) > len(da_t | da_h | da_x) else 'A'
+
+    def cn(ws):
+        return sorted({w for w in ws
+                       if any('\u4e00' <= c <= '\u9fff' for c in w)})[:6]
+    a_side = cn(da_t | da_h)
+    b_side = cn(db_t | db_h)
+    # subject：query 与两侧共有词（主体：信任值/边权/容器…），无则取共有 head 词
+    common_h = _bigrams(ha) & _bigrams(hb)
+    subj = sorted(qb & common_h) or sorted(common_h)
+    subject = ''.join(subj)[:10] or (ta or '未知主体')
+    cond_type = f"{''.join(a_side[:2]) or '?'} vs {''.join(b_side[:2]) or '?'}"
+    polarity = 'A侧' if side == 'A' else 'B侧'
+    fingerprint = f"{subject}|{polarity}|{''.join(a_side[:2])}|{''.join(b_side[:2])}"
+    return {"subject": subject, "cond_type": cond_type,
+            "a_side": a_side, "b_side": b_side, "polarity": polarity,
+            "fingerprint": fingerprint, "a": a, "b": b}
+
+
+def route(question: str, nodes=None, top: int = 5, depth: int = 3,
+          _trace=None, _seen=None, _max_depth: int = None) -> dict:
+    """四态递归路由 v2（GPT 7.1 递归协议化）。
 
     ACCEPT：top1 分差显著 且 命中词数 ≥3 且 有效词（低 df 判别词）≥2。
     REJECT：任务与候选不适用条件冲突（search 已排除）。
     DEFER：top1/top2 分差小（邻域相关）→ 识别缺失条件 → 递归检索。
-    BLINDSPOT：递归到底仍无法归属（记录 任务/候选/缺失条件/路径——盲区声明）。
+    BLINDSPOT：递归到底仍无法归属（记录 任务/候选/缺失条件/路径）。
+    DEFER_EXHAUSTED（新）：递归终止保护触发——深度耗尽 / 条件循环 /
+      信息增益不足（递归每一轮必须让条件空间变小，否则终止）。
+    四保护（GPT §二）：max_depth（默认 3）/ 循环检测 / 信息增益门槛 / 递归预算。
     """
     nodes = nodes if nodes is not None else build_graph()
+    _max_depth = _max_depth if _max_depth is not None else depth
+    _trace = _trace if _trace is not None else []
+    _seen = _seen if _seen is not None else set()
     df = _word_df(nodes)
     hits = search(question, nodes, top=top)
     if not hits:
         return {"state": "BLINDSPOT", "reason": "无候选",
-                "path": [question[:30]]}
+                "path": [question[:30]], "trace": list(_trace),
+                "candidate_count": 0}
     top1 = hits[0]
     top2 = hits[1] if len(hits) > 1 else None
     gap = (top1[2][0] - top2[2][0]) if top2 else 99
+    cand_before = len(hits)
     # 有效词（低 df 判别词）——泛化词（功能/存在/检查 等多单元共现）不算
     meaningful = [w for w in top1[3] if df.get(w, 99) <= 11]
     if (gap >= 2 or top2 is None) and top1[2][0] >= 3 and len(meaningful) >= 2:
         return {"state": "ACCEPT", "unit": top1[0], "score": top1[2][0],
-                "path": [question[:30]]}
+                "path": [question[:30]], "trace": list(_trace),
+                "candidate_count": 1}
     # DEFER 前置：任务判别力不足（有效词 0）→ BLINDSPOT（盲区声明，
     # 不强行递归——「不存在的功能」仅泛化词命中，无真实邻域可递归）
     if not meaningful:
         return {"state": "BLINDSPOT",
                 "reason": "判别力不足（仅泛化词命中）",
                 "candidates": [h[0] for h in hits[:3]],
-                "path": [question[:30]]}
+                "path": [question[:30]], "trace": list(_trace),
+                "candidate_count": cand_before}
     # DEFER：候选邻域相关（top1/top2 分差小）→ 缺失条件方向对齐任务
     missing = _diff_condition(top1[0], top2[0], nodes, question)
+    mc = _missing_struct(top1[0], top2[0], nodes, question)
     # 混合条件冲突：任务同时含两侧独有条件词（累积+门槛放行）→ 盲区声明，
-    # 不强行选边（扰动实验 ②——条件冲突不该被递归掩盖）
-    if missing == '混合条件冲突':
+    # 不强行选边（扰动实验 ②——条件冲突不该被递归掩盖）。
+    # 跨候选检测：冲突对可能在 top1/top2 之外（top1=信任检查、top3=VM-信任累积）
+    # ——扫描 top3 两两对（递归协议化教训：只查 top1/top2 会漏冲突）
+    if missing == '混合条件冲突' or any(
+            _diff_condition(hits[i][0], hits[j][0], nodes, question)
+            == '混合条件冲突'
+            for i in range(min(3, len(hits)))
+            for j in range(i + 1, min(3, len(hits)))):
         return {"state": "BLINDSPOT", "reason": "混合条件冲突（任务同时含两侧独有条件）",
                 "candidates": [h[0] for h in hits[:3]],
-                "missing": missing, "path": [question[:30], f"缺:{missing}"]}
+                "missing": missing, "missing_struct": mc,
+                "path": [question[:30], f"缺:{missing}"],
+                "trace": list(_trace), "candidate_count": cand_before}
+    # 保护 ① 递归深度上限：剩余 depth ≤1 → 递归耗尽（DEFER_EXHAUSTED）
     if depth <= 1:
-        return {"state": "BLINDSPOT", "candidates": [h[0] for h in hits[:3]],
-                "missing": missing, "path": [question[:30], f"缺:{missing}"]}
+        return {"state": "DEFER_EXHAUSTED", "reason": "递归深度耗尽（max_depth 内未收敛）",
+                "candidates": [h[0] for h in hits[:3]],
+                "missing": missing, "missing_struct": mc,
+                "path": [question[:30], f"缺:{missing}"],
+                "trace": list(_trace), "candidate_count": cand_before}
+    # 保护 ② 条件循环检测：缺失条件已搜索过（fingerprint 命中）→ 不收敛
+    fp = mc['fingerprint']
+    if fp in _seen:
+        return {"state": "DEFER_EXHAUSTED", "reason": "条件循环（缺失条件已搜索过）",
+                "candidates": [h[0] for h in hits[:3]],
+                "missing": missing, "missing_struct": mc,
+                "path": [question[:30], f"缺:{missing}"],
+                "trace": list(_trace), "candidate_count": cand_before}
+    _seen = _seen | {fp}
     # 递归只带缺失侧描述（「（而非 …）」是另一侧，带入会重新引入噪声词
     # → 递归偏航——扰动实验教训）
     miss_side = missing.split('（而非')[0].split('(而非')[0].strip() or missing
     new_q = f"写一个{miss_side}的代码单元"
-    r = route(new_q, nodes, top, depth - 1)
+    r = route(new_q, nodes, top, depth - 1, _trace, _seen, _max_depth)
+    cand_after = r.get("candidate_count", cand_before)
+    gain = round((cand_before - cand_after) / cand_before, 3) if cand_before else 0.0
+    # 保护 ③ 信息增益门槛：递归后未 ACCEPT 且候选未收敛（gain ≤0）
+    # → 无效递归终止（每一轮必须让条件空间变小，否则不继续）
+    if r["state"] != "ACCEPT" and gain <= 0:
+        r = {"state": "DEFER_EXHAUSTED", "reason": "信息增益不足（候选未收敛）",
+             "candidates": [h[0] for h in hits[:3]],
+             "missing": missing, "missing_struct": mc,
+             "path": [question[:30], f"缺:{missing}"],
+             "trace": list(_trace), "candidate_count": cand_after}
     r["path"] = [question[:30], f"缺:{missing}"] + r.get("path", [])
     r["defer_from"] = [top1[0], top2[0]]
+    r["trace"] = _trace + [{
+        "depth": _max_depth - depth + 1,
+        "question": question[:30],
+        "state": "DEFER",
+        "missing_condition": mc,
+        "candidate_count_before": cand_before,
+        "candidate_count_after": cand_after,
+        "information_gain": gain,
+        "next_query": new_q[:40],
+    }]
     return r
 
 

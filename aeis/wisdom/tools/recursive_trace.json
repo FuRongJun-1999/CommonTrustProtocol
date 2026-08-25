@@ -1,0 +1,235 @@
+{
+ "experiment": "递归协议化（GPT 7.1）",
+ "rda": 1.0,
+ "direction_gt": [
+  {
+   "q": "写一个把多个证据的累积综合成一个信任值的代码单元",
+   "exp": "A",
+   "got": "A侧",
+   "subject": "任值信任",
+   "cond_type": "—信任累 vs ≥门任检",
+   "a_side": [
+    "—信",
+    "任累",
+    "值累",
+    "德—",
+    "积德",
+    "累积"
+   ],
+   "b_side": [
+    "≥门",
+    "任检",
+    "值≥",
+    "放行",
+    "查信",
+    "检查"
+   ],
+   "hit": true
+  },
+  {
+   "q": "写一个进行阈值检查处理信任值的代码单元",
+   "exp": "B",
+   "got": "B侧",
+   "subject": "任值信任",
+   "cond_type": "—信任累 vs ≥门任检",
+   "a_side": [
+    "—信",
+    "任累",
+    "值累",
+    "德—",
+    "积德",
+    "累积"
+   ],
+   "b_side": [
+    "≥门",
+    "任检",
+    "值≥",
+    "放行",
+    "查信",
+    "检查"
+   ],
+   "hit": true
+  },
+  {
+   "q": "写一个产生列表的推导式代码单元",
+   "exp": "A",
+   "got": "A侧",
+   "subject": "推导",
+   "cond_type": "列表导式 vs 值函典推",
+   "a_side": [
+    "列表",
+    "导式",
+    "式[",
+    "表推"
+   ],
+   "b_side": [
+    "值函",
+    "典推",
+    "函数",
+    "字典",
+    "导键",
+    "射建"
+   ],
+   "hit": true
+  },
+  {
+   "q": "写一个产生字典的推导式代码单元",
+   "exp": "B",
+   "got": "B侧",
+   "subject": "推导",
+   "cond_type": "列表导式 vs 值函典推",
+   "a_side": [
+    "列表",
+    "导式",
+    "式[",
+    "表推"
+   ],
+   "b_side": [
+    "值函",
+    "典推",
+    "函数",
+    "字典",
+    "导键",
+    "射建"
+   ],
+   "hit": true
+  },
+  {
+   "q": "写一个在无权图上求最短路径的代码单元",
+   "exp": "A",
+   "got": "A侧",
+   "subject": "最短短路路径",
+   "cond_type": "+前S逐 vs a贪加权",
+   "a_side": [
+    "+前",
+    "S逐",
+    "前驱",
+    "层扩",
+    "径B",
+    "扩散"
+   ],
+   "b_side": [
+    "a贪",
+    "加权",
+    "径D",
+    "权最",
+    "贪心"
+   ],
+   "hit": true
+  },
+  {
+   "q": "写一个在加权图上求最短路径的代码单元",
+   "exp": "B",
+   "got": "B侧",
+   "subject": "最短短路路径",
+   "cond_type": "+前S逐 vs a贪加权",
+   "a_side": [
+    "+前",
+    "S逐",
+    "前驱",
+    "层扩",
+    "径B",
+    "扩散"
+   ],
+   "b_side": [
+    "a贪",
+    "加权",
+    "径D",
+    "权最",
+    "贪心"
+   ],
+   "hit": true
+  }
+ ],
+ "routes": [
+  {
+   "q": "写一个遍历图找最短路径的代码单元",
+   "state": "ACCEPT",
+   "unit": "图遍历-最短路径",
+   "trace": [
+    {
+     "depth": 1,
+     "question": "写一个遍历图找最短路径的代码单元",
+     "state": "DEFER",
+     "missing_condition": {
+      "subject": "最短短路路径",
+      "cond_type": "a贪加权 vs +前S逐",
+      "a_side": [
+       "a贪",
+       "加权",
+       "径D",
+       "权最",
+       "贪心"
+      ],
+      "b_side": [
+       "+前",
+       "S逐",
+       "前驱",
+       "层扩",
+       "径B",
+       "扩散"
+      ],
+      "polarity": "B侧",
+      "fingerprint": "最短短路路径|B侧|a贪加权|+前S逐",
+      "a": "图遍历-加权最短",
+      "b": "图遍历-最短路径"
+     },
+     "candidate_count_before": 5,
+     "candidate_count_after": 1,
+     "information_gain": 0.8,
+     "next_query": "写一个最短路径 BFS 逐层扩散 + 前驱还原的代码单元"
+    }
+   ]
+  },
+  {
+   "q": "写一个处理信任相关功能的代码单元",
+   "state": "BLINDSPOT",
+   "unit": "",
+   "trace": []
+  },
+  {
+   "q": "写一个推导式映射的代码单元",
+   "state": "ACCEPT",
+   "unit": "推导式-字典推导",
+   "trace": [
+    {
+     "depth": 1,
+     "question": "写一个推导式映射的代码单元",
+     "state": "DEFER",
+     "missing_condition": {
+      "subject": "推导",
+      "cond_type": "列表导式 vs 值函典推",
+      "a_side": [
+       "列表",
+       "导式",
+       "式[",
+       "表推"
+      ],
+      "b_side": [
+       "值函",
+       "典推",
+       "函数",
+       "字典",
+       "导键",
+       "射建"
+      ],
+      "polarity": "A侧",
+      "fingerprint": "推导|A侧|列表导式|值函典推",
+      "a": "推导式-列表推导",
+      "b": "推导式-字典推导"
+     },
+     "candidate_count_before": 5,
+     "candidate_count_after": 1,
+     "information_gain": 0.8,
+     "next_query": "写一个字典推导 键值函数映射建字典的代码单元"
+    }
+   ]
+  }
+ ],
+ "metrics": {
+  "recursive_convergence_rate": 1.0,
+  "exhausted_rate": 0.0,
+  "mean_recursive_depth": 1.0,
+  "max_recursive_depth": 1
+ }
+}
