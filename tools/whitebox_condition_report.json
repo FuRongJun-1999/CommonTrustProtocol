@@ -1,0 +1,69 @@
+{
+ "condition_recognition": {
+  "condition_structure_accuracy": 1.0,
+  "condition_synonym_accuracy": 1.0,
+  "condition_boundary_accuracy": 1.0
+ },
+ "routing": {
+  "route_accuracy": 0.9896,
+  "accept_precision": 1.0,
+  "reject_precision": 1.0,
+  "defer_precision": 1.0,
+  "blindspot_precision": null,
+  "blindspot_recall": 48
+ },
+ "recursion": {
+  "missing_condition_accuracy": 1.0,
+  "recursive_direction_accuracy": 1.0,
+  "recursive_convergence_rate": 1.0,
+  "recursive_cycle_rate": 0.0,
+  "mean_recursive_depth": 1.0,
+  "max_recursive_depth": 1
+ },
+ "causal_control": {
+  "perturbation_flip_rate": 1.0,
+  "mixed_condition_blindspot_rate": true,
+  "candidate_invariance_rate": null,
+  "counterfactual_three_result_flip": 1.0
+ },
+ "execution": {
+  "plan_condition_completeness": 1.0,
+  "dry_run_pass_rate": 1.0,
+  "execution_success_rate": 1.0,
+  "result_verification_rate": 1.0,
+  "rollback_correctness": "执行失败时不固化（注入型诚实声明）",
+  "solidification_precision": "由 verifier 六层校验保障"
+ },
+ "end_to_end": {
+  "e2e_precision": 1.0,
+  "definition": "问题识别 ∧ 条件正确 ∧ 规则正确 ∧ 执行正确 ∧ 结果验证通过"
+ },
+ "sources": {
+  "reports": [
+   "ccg_ablation_report.json",
+   "ccg_adversarial2_report.json",
+   "ccg_adversarial_report.json",
+   "ccg_blindtest2_report.json",
+   "ccg_blindtest_report.json",
+   "ccg_boundary_report.json",
+   "ccg_eval2_report.json",
+   "ccg_eval_report.json",
+   "ccg_missing_report.json",
+   "ccg_perturb_report.json",
+   "counterfactual_report.json",
+   "crossdomain_report.json",
+   "execution_report.json",
+   "verify_token_savings_report.json",
+   "whitebox_boundary_report.json",
+   "whitebox_condition_report.json"
+  ],
+  "n": 16
+ },
+ "experiment_chain": [
+  "语义化注释 → 可索引性（盲测）→ 条件化 → 正向匹配 → 不适用条件负路由",
+  "→ 能力级互斥 → 四态路由 → 缺失条件反推 → 条件扰动 → 递归协议化",
+  "→ 执行计划三闸门 → 跨域组合 → 反事实三结果 → 理论收口"
+ ],
+ "theory": "在给定条件空间与存在约束下，智能系统通过递归缩小问题与可执行规则之间的信息差，直到获得可验证的执行路径；若条件不足、冲突或不可判定，则必须延迟（DEFER）、拒绝（REJECT）或声明盲区（BLINDSPOT）。",
+ "generated_at": "2026-08-25 23:35:34"
+}

@@ -487,11 +487,12 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
     # 排除停用/模板词（已在 _q_tokens 剔除）；只查中文词（英文标识符/变量
     # 名不参与条件空间判定——df=0 是正常（函数参数名等））
     # 伪造条件检测（GPT §7.4 6 类）：任务声称不存在的条件概念。
-    # 真伪造 = 连续未知 2-gram 段 ≥3：「超光速引擎」= 超光/光速/速引 3 段
-    # 连续未知（引擎 df>0 是真实概念「信任引擎」——伪造的是修饰词「超光速」）。
-    # 「产生列表」= 产生/生列 2 段未知（「列表」已知锚定）→ 非伪造。
-    # 阈值 3：普通动词短语（产生 X/创建 Y）最多 2 段跨界未知，伪造概念
-    # （超光速/量子纠缠/曲率引擎 类）至少 3 段连续未知。
+    # 真伪造 = 连续未知 2-gram 段 ≥3 且段内词无已知词锚定：
+    #   「超光速引擎」= 超光/光速/速引 3 段连续未知，无已知词贯穿
+    #   （引擎 df>0 是真实概念「信任引擎」——伪造的是修饰词「超光速」）。
+    # 动词短语豁免：「把序列映射成列表」的 列映/射成/成列 虽 3 段未知，
+    #   但每个词左右都邻接已知词（序列/映射/列表）——跨界词（动词短语）
+    #   特征；伪造修饰词（超光速）左右无已知词支撑。
     fabricated = []
     zero_w = sorted({w for w in qtoks
                      if df.get(w, 0) == 0
@@ -511,7 +512,18 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
                     seg.add(x)
                     changed = True
         used |= seg
-        if len(seg) >= 3:
+        if len(seg) < 3:
+            continue
+        # 段内每个词都邻接已知词（跨界词：左右端连向已知 2-gram）→ 动词
+        # 短语豁免；任一词无已知邻居 → 伪造修饰（超光速左端悬空）
+        all_anchored = True
+        for s in seg:
+            left_ok = any(k[1] == s[0] for k in qtoks if k not in zero_w)
+            right_ok = any(s[1] == k[0] for k in qtoks if k not in zero_w)
+            if not (left_ok or right_ok):
+                all_anchored = False
+                break
+        if not all_anchored:
             fabricated.extend(seg)
     if fabricated:
         return {"state": "BLINDSPOT", "reason": "伪造条件（任务条件词不在条件空间）",
