@@ -417,10 +417,55 @@ def route(question: str, nodes=None, top: int = 5, depth: int = 3,
         return {"state": "BLINDSPOT", "reason": "无候选",
                 "path": [question[:30]], "trace": list(_trace),
                 "candidate_count": 0}
+    # 任务内矛盾检测（GPT §四 C 类 + §7.4 反事实）：
+    # ① 词级矛盾：query 同时含反义条件对（无权+带权/加权、累积+阈值检查…）
+    # ② 候选冲突：query 同时命中候选能力词与能力级不适用条件词。
+    # 被 search 排除的候选（能力级互斥）不在 hits——但任务词内部矛盾
+    # 仍可识别（无权 BFS 求带权图 = 自相矛盾 → BLINDSPOT 不强行路由）。
+    _ANTI = [
+        # (正侧条件词, 负侧条件词)——真正的互斥反义对：
+        # 无权(BFS 侧) vs 带权/加权(Dijkstra 侧)
+        (("无权",), ("带权", "加权")),
+        # 累积 vs 阈值检查/门槛放行（信任引擎两侧）
+        (("累积",), ("阈值", "门槛")),
+        # 列表 vs 字典（推导式容器两侧）
+        (("列表",), ("字典",)),
+    ]
+    qtoks = _q_tokens(question)
+    cand_before = len(hits)
+    anti_hit = None
+    for pos, neg in _ANTI:
+        p_hit = any(any(w in t for w in pos) for t in qtoks)
+        n_hit = any(any(w in t for w in neg) for t in qtoks)
+        if p_hit and n_hit:
+            anti_hit = (pos, neg)
+            break
+    conflict_not = []
+    for h in hits[:3]:
+        uid = h[0]
+        nt = nodes[uid]['index'].get('not_tokens', set())
+        toks = nodes[uid]['index'].get('tokens', set())
+        overlap = sorted(qtoks & nt)
+        # 能力级不适用条件词：df 低判别词 且 非该单元自身索引词
+        # （「导式」∈ 集合推导 tokens=公共后缀碎片，非能力级边界；
+        #  「列表/表推」∉ tokens=真边界——集合推导不负责列表推导）
+        strong = [w for w in overlap
+                  if df.get(w, 99) <= 11
+                  and w not in ('不适用', '适用', '条件', '时返', '则不')
+                  and w not in toks]
+        if strong:
+            conflict_not.append({"unit": uid, "conflict_words": strong})
+    if anti_hit or conflict_not:
+        return {"state": "BLINDSPOT", "reason": "任务内矛盾（条件词冲突）",
+                "anti_pair": [list(anti_hit[0]) + list(anti_hit[1])]
+                if anti_hit else None,
+                "conflict": conflict_not,
+                "candidates": [h[0] for h in hits[:3]],
+                "path": [question[:30], f"矛盾:{anti_hit or conflict_not[:1]}"],
+                "trace": list(_trace), "candidate_count": cand_before}
     top1 = hits[0]
     top2 = hits[1] if len(hits) > 1 else None
     gap = (top1[2][0] - top2[2][0]) if top2 else 99
-    cand_before = len(hits)
     # 有效词（低 df 判别词）——泛化词（功能/存在/检查 等多单元共现）不算
     meaningful = [w for w in top1[3] if df.get(w, 99) <= 11]
     if (gap >= 2 or top2 is None) and top1[2][0] >= 3 and len(meaningful) >= 2:
