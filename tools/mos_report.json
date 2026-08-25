@@ -1,0 +1,88 @@
+{
+ "experiment": "MOS 元操作语法（Kimi 建议 1）",
+ "structure_extraction": "顺序调用",
+ "consistency_check": true,
+ "full_audit_rate": 0.9897,
+ "n_consistent": 674,
+ "n_total": 681,
+ "low_consistency_units": [
+  {
+   "uid": "词法-转义序列",
+   "rate": 0.0,
+   "declared": [
+    "1 nxt 分支处理",
+    "n",
+    "nxt",
+    "nxt ∈ {n",
+    "nxt 非 {n",
+    "t"
+   ]
+  },
+  {
+   "uid": "语法-优先级",
+   "rate": 0.0,
+   "declared": [
+    "+",
+    "-",
+    "/}",
+    "/} 时",
+    "Mini",
+    "Python"
+   ]
+  },
+  {
+   "uid": "求值-闭包",
+   "rate": 0.0,
+   "declared": [
+    "None",
+    "n",
+    "① 主体逻辑执行",
+    "参数 n 合法",
+    "输入不满足生效条件时返回 None/不执行"
+   ]
+  },
+  {
+   "uid": "闭包-延迟绑定",
+   "rate": 0.0,
+   "declared": [
+    "None",
+    "① 循环创建闭包 ② 循环后统一调用",
+    "无（演示函数——构造循环闭包列表）",
+    "输入不满足生效条件时返回 None/不执行"
+   ]
+  },
+  {
+   "uid": "生成器-yield",
+   "rate": 0.0,
+   "declared": [
+    "None",
+    "n",
+    "① 主体逻辑执行",
+    "参数 n 合法",
+    "输入不满足生效条件时返回 None/不执行"
+   ]
+  },
+  {
+   "uid": "语法-字典合并",
+   "rate": 0.0,
+   "declared": [
+    "None",
+    "① 主体逻辑执行",
+    "参数 输入 合法",
+    "输入不满足生效条件时返回 None/不执行"
+   ]
+  },
+  {
+   "uid": "工具-字典反转",
+   "rate": 0.0,
+   "declared": [
+    "None",
+    "d",
+    "① 主体逻辑执行",
+    "参数 d 合法",
+    "输入不满足生效条件时返回 None/不执行"
+   ]
+  }
+ ],
+ "conclusion": "四要素注释 → 机器可读 MOS 声明 + ast 实义一致性验证；99% 一致，低一致单元为符号类声明（n/t/优先级记号）非实现漂移——登记为已知边界"
+}

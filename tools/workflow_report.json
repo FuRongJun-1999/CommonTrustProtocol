@@ -1,0 +1,15 @@
+{
+ "experiment": "白箱能力工作流化（荣：仿 ComfyUI，§17）",
+ "topo_execution": true,
+ "dataflow_edge": true,
+ "cycle_detection": true,
+ "json_persist": true,
+ "cross_unit_chain": true,
+ "model": {
+  "node": "{class_type, inputs, capability_id}",
+  "edge": "inputs 引用 [上游node, idx]",
+  "execution": "拓扑排序 → 逐节点 → 结果缓存",
+  "persist": "工作流 JSON 保存/加载/复用"
+ },
+ "conclusion": "白箱能力 = 节点 + 边 + 工作流（ComfyUI 模型）——代码单元/路由/MOS 声明都是能力节点；工作流可保存/加载/复用；代码只是白箱能力的一个方向"
+}

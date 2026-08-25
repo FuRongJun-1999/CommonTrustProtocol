@@ -1,0 +1,49 @@
+{
+ "prompt": {
+  "n1": {
+   "class_type": "router",
+   "capability_id": null,
+   "inputs": {
+    "question": "写一个在无权图上求最短路径的代码单元"
+   }
+  },
+  "n2": {
+   "class_type": "code_unit",
+   "capability_id": "推导式-列表推导",
+   "inputs": {
+    "args": [
+     [
+      1,
+      2,
+      3
+     ],
+     "<fn>"
+    ]
+   }
+  },
+  "n3": {
+   "class_type": "mos_declare",
+   "capability_id": "推导式-列表推导",
+   "inputs": {}
+  }
+ },
+ "result_summary": {
+  "n1": {
+   "hits": "['图遍历-最短路径', '图遍历-加权最短', '图算法-图直径']"
+  },
+  "n2": {
+   "unit": "推导式-列表推导",
+   "result": "[2, 4, 6]"
+  },
+  "n3": {
+   "capability": "推导式-列表推导",
+   "condition_space": "{'requires': ['参数 items/transform 合法'], ",
+   "_raw": "{'生效条件': ['参数 items/transform 合法'], '子功能"
+  }
+ },
+ "order": [
+  "n1",
+  "n2",
+  "n3"
+ ]
+}
