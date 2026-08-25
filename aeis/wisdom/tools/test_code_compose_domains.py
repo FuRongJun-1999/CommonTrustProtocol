@@ -5826,5 +5826,40 @@ except Exception as ex:
     check('㌅c 基本块→支配树→中间表示端到端（2块 {0:{0}} [(\'=\',x,1,None)]）',
           False, str(ex)[:60])
 
+# ㌆ 目标6 深化：图算法（割点/独立集/桥检测 经正式管线）
+g30_qs = {
+    "割点": "写一个割点单元（移除不连通）",
+    "独立集": "写一个独立集单元（无邻接集合）",
+    "桥检测": "写一个桥检测单元（移除不连通边）",
+}
+g30_ok = 0
+for label, q in g30_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g30_ok += 1
+    check(f'㌆ {label} 图算法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌆b 图算法三单元全部生成', g30_ok == 3, f'{g30_ok}/3')
+
+# ㌆c 算法端到端：割点→独立集→桥（[2] [0,2] [(2,3)]）
+r_ap = domain_route("写一个割点单元（移除不连通）")
+r_is = domain_route("写一个独立集单元（无邻接集合）")
+r_be = domain_route("写一个桥检测单元（移除不连通边）")
+try:
+    ns_ap, ns_is, ns_be = {}, {}, {}
+    exec(r_ap["code"], ns_ap)
+    exec(r_is["code"], ns_is)
+    exec(r_be["code"], ns_be)
+    ap = ns_ap["articulation_points"]({0: [1, 2], 1: [0, 2], 2: [0, 1, 3], 3: [2]})
+    iset = ns_is["independent_set"]({0: [1], 1: [0, 2], 2: [1]})
+    be = ns_be["bridge_edges"]({0: [1, 2], 1: [0, 2], 2: [0, 1, 3], 3: [2]})
+    check('㌆c 割点→独立集→桥端到端（[2] [0,2] [(2,3)]）',
+          ap == [2] and iset == [0, 2] and be == [(2, 3)],
+          f'ap={ap} iset={iset} bridge={be}')
+except Exception as ex:
+    check('㌆c 割点→独立集→桥端到端（[2] [0,2] [(2,3)]）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

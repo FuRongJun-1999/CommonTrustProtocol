@@ -1997,6 +1997,97 @@ GRAPH_UNITS = {
         "params": [],
         "calibration": "对照：边索引——按属性键存/查/删边（图存储索引）",
     },
+    "图算法-割点": {
+        "task": "割点",
+        "pattern": (
+            "def articulation_points(adj):\n"
+            "    # 割点：移除后图不连通的顶点（Tarjan DFS low 值）\n"
+            "    n = len(adj)\n"
+            "    disc = {}\n"
+            "    low = {}\n"
+            "    time = [0]\n"
+            "    out = set()\n"
+            "    def dfs(u, parent):\n"
+            "        disc[u] = low[u] = time[0]\n"
+            "        time[0] += 1\n"
+            "        children = 0\n"
+            "        for v in adj.get(u, []):\n"
+            "            if v == parent:\n"
+            "                continue\n"
+            "            if v not in disc:\n"
+            "                children += 1\n"
+            "                dfs(v, u)\n"
+            "                low[u] = min(low[u], low[v])\n"
+            "                if parent is None and children > 1:\n"
+            "                    out.add(u)\n"
+            "                if parent is not None and low[v] >= disc[u]:\n"
+            "                    out.add(u)\n"
+            "            else:\n"
+            "                low[u] = min(low[u], disc[v])\n"
+            "    for u in adj:\n"
+            "        if u not in disc:\n"
+            "            dfs(u, None)\n"
+            "    return sorted(out)\n"),
+        "cases": [
+            (({0: [1, 2], 1: [0, 2], 2: [0, 1, 3], 3: [2]},), [2]),
+            (({0: [1], 1: [0]},), []),
+            (({0: [1, 2], 1: [0], 2: [0]},), [0])],
+        "params": [],
+        "calibration": "对照：Tarjan——割点（移除致不连通，low[v]>=disc[u]）",
+    },
+    "图算法-独立集": {
+        "task": "独立集",
+        "pattern": (
+            "def independent_set(adj):\n"
+            "    # 独立集：贪心取低度顶点（无邻接边——最大独立集近似）\n"
+            "    nodes = set(adj)\n"
+            "    out = []\n"
+            "    while nodes:\n"
+            "        u = min(nodes, key=lambda x: len(adj.get(x, [])))\n"
+            "        out.append(u)\n"
+            "        nodes.discard(u)\n"
+            "        nodes -= set(adj.get(u, []))\n"
+            "    return out\n"),
+        "cases": [
+            (({0: [1], 1: [0, 2], 2: [1]},), [0, 2]),
+            (({0: [1], 1: [0]},), [0]),
+            (({},), [])],
+        "params": [],
+        "calibration": "对照：最大独立集——贪心近似（无邻接边顶点集合）",
+    },
+    "图算法-桥检测": {
+        "task": "桥检测",
+        "pattern": (
+            "def bridge_edges(adj):\n"
+            "    # 桥检测：移除后不连通的边（Tarjan low 值判定）\n"
+            "    disc = {}\n"
+            "    low = {}\n"
+            "    time = [0]\n"
+            "    bridges = []\n"
+            "    def dfs(u, parent):\n"
+            "        disc[u] = low[u] = time[0]\n"
+            "        time[0] += 1\n"
+            "        for v in adj.get(u, []):\n"
+            "            if v == parent:\n"
+            "                continue\n"
+            "            if v not in disc:\n"
+            "                dfs(v, u)\n"
+            "                low[u] = min(low[u], low[v])\n"
+            "                if low[v] > disc[u]:\n"
+            "                    bridges.append((u, v))\n"
+            "            else:\n"
+            "                low[u] = min(low[u], disc[v])\n"
+            "    for u in adj:\n"
+            "        if u not in disc:\n"
+            "            dfs(u, None)\n"
+            "    return bridges\n"),
+        "cases": [
+            (({0: [1, 2], 1: [0, 2], 2: [0, 1, 3], 3: [2]},), [(2, 3)]),
+            (({0: [1], 1: [0]},), [(0, 1)]),
+            (({0: [1, 2], 1: [0, 2], 2: [0, 1]},), [])],
+        "params": [],
+        "calibration": "对照：Tarjan——桥（移除致不连通，low[v]>disc[u]）",
+    },
 }
 
 
