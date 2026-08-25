@@ -6073,5 +6073,40 @@ except Exception as ex:
     check('㌌c 对齐→去重→滑动均值端到端（  甲 [1,2,3] [1.5,2.5,3.5]）',
           False, str(ex)[:60])
 
+# ㌍ 目标2 深化：VM/分析/编译优化（数组操作/污点分析/边界检查消除 经正式管线）
+c23_qs = {
+    "数组操作": "写一个数组操作单元（索引读写）",
+    "污点分析": "写一个污点分析单元（数据流标记）",
+    "边界检查消除": "写一个边界检查消除单元（范围证明）",
+}
+c23_ok = 0
+for label, q in c23_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c23_ok += 1
+    check(f'㌍ {label} VM/分析/编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌍b VM/分析/编译优化三单元全部生成', c23_ok == 3, f'{c23_ok}/3')
+
+# ㌍c 端到端：数组→污点→边界检查（20 tainted eliminated）
+r_ao = domain_route("写一个数组操作单元（索引读写）")
+r_tp = domain_route("写一个污点分析单元（数据流标记）")
+r_be = domain_route("写一个边界检查消除单元（范围证明）")
+try:
+    ns_ao, ns_tp, ns_be = {}, {}, {}
+    exec(r_ao["code"], ns_ao)
+    exec(r_tp["code"], ns_tp)
+    exec(r_be["code"], ns_be)
+    ao = ns_ao["array_ops"]([10, 20], 'aget', 1)
+    tp = ns_tp["taint_prop"]({'taint': {'x'}}, 'propagate', 'y', 'x')
+    be = ns_be["bounds_elim"]({'safe': [('i', 0, 10)]}, 'eliminate', ('i', 0, 10))
+    check('㌍c 数组→污点→边界检查端到端（20 tainted eliminated）',
+          ao == 20 and tp == 'tainted' and be == 'eliminated',
+          f'arr={ao} taint={tp} bounds={be}')
+except Exception as ex:
+    check('㌍c 数组→污点→边界检查端到端（20 tainted eliminated）',
+          False, str(ex)[:60])
+
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

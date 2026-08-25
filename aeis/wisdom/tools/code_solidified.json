@@ -4958,5 +4958,35 @@
   ],
   "source": "domain_solidified",
   "domain": "pylang"
+ },
+ "domain:compiler|VM-数组操作": {
+  "task": "数组操作",
+  "unit": "VM-数组操作",
+  "code": "def array_ops(arr, op, idx=None, val=None):\n    # 数组操作：aget 索引读 / aset 索引写 / size 长度（数组 VM 指令）\n    if op == 'aget':\n        if 0 <= idx < len(arr):\n            return arr[idx]\n        return None\n    if op == 'aset':\n        if 0 <= idx < len(arr):\n            arr[idx] = val\n            return True\n        return False\n    if op == 'size':\n        return len(arr)\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|分析-污点分析": {
+  "task": "污点分析",
+  "unit": "分析-污点分析",
+  "code": "def taint_prop(state, op, var=None, source=None):\n    # 污点分析：mark 标记污点 / propagate 传播 / check 查询（安全数据流）\n    if op == 'mark':\n        state.setdefault('taint', set()).add(var)\n        return 'marked'\n    if op == 'propagate':\n        if source in state.get('taint', set()):\n            state.setdefault('taint', set()).add(var)\n            return 'tainted'\n        return 'clean'\n    if op == 'check':\n        return var in state.get('taint', set())\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
+ },
+ "domain:compiler|编译-边界检查消除": {
+  "task": "边界检查消除",
+  "unit": "编译-边界检查消除",
+  "code": "def bounds_elim(loops, op, info=None):\n    # 边界检查消除：prove 证明范围 / eliminate 消除检查 / keep 保留（循环不变边界）\n    if op == 'prove':\n        lo, hi, idx = info\n        return lo <= idx < hi\n    if op == 'eliminate':\n        if info in loops.get('safe', []):\n            return 'eliminated'\n        return 'kept'\n    return None\n",
+  "checks": [
+   "✔ 语法通过 | 样例 4 组全过"
+  ],
+  "source": "domain_solidified",
+  "domain": "compiler"
  }
 }

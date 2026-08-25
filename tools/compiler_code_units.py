@@ -2163,6 +2163,76 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：寄存器分配——活跃超限溢出处（spill）",
     },
+    "VM-数组操作": {
+        "task": "数组操作",
+        "pattern": (
+            "def array_ops(arr, op, idx=None, val=None):\n"
+            "    # 数组操作：aget 索引读 / aset 索引写 / size 长度（数组 VM 指令）\n"
+            "    if op == 'aget':\n"
+            "        if 0 <= idx < len(arr):\n"
+            "            return arr[idx]\n"
+            "        return None\n"
+            "    if op == 'aset':\n"
+            "        if 0 <= idx < len(arr):\n"
+            "            arr[idx] = val\n"
+            "            return True\n"
+            "        return False\n"
+            "    if op == 'size':\n"
+            "        return len(arr)\n"
+            "    return None\n"),
+        "cases": [
+            (([10, 20], 'aget', 1), 20),
+            (([10, 20], 'aget', 5), None),
+            (([10, 20], 'aset', 0, 99), True),
+            (([10, 20], 'size'), 2)],
+        "params": [],
+        "calibration": "对照：VM 数组——索引读写与越界保护（AGET/ASET 指令）",
+    },
+    "分析-污点分析": {
+        "task": "污点分析",
+        "pattern": (
+            "def taint_prop(state, op, var=None, source=None):\n"
+            "    # 污点分析：mark 标记污点 / propagate 传播 / check 查询（安全数据流）\n"
+            "    if op == 'mark':\n"
+            "        state.setdefault('taint', set()).add(var)\n"
+            "        return 'marked'\n"
+            "    if op == 'propagate':\n"
+            "        if source in state.get('taint', set()):\n"
+            "            state.setdefault('taint', set()).add(var)\n"
+            "            return 'tainted'\n"
+            "        return 'clean'\n"
+            "    if op == 'check':\n"
+            "        return var in state.get('taint', set())\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'mark', 'x'), 'marked'),
+            (({'taint': {'x'}}, 'propagate', 'y', 'x'), 'tainted'),
+            (({}, 'propagate', 'y', 'x'), 'clean'),
+            (({'taint': {'x'}}, 'check', 'x'), True)],
+        "params": [],
+        "calibration": "对照：静态分析——污点传播（标记/传播/查询）",
+    },
+    "编译-边界检查消除": {
+        "task": "边界检查消除",
+        "pattern": (
+            "def bounds_elim(loops, op, info=None):\n"
+            "    # 边界检查消除：prove 证明范围 / eliminate 消除检查 / keep 保留（循环不变边界）\n"
+            "    if op == 'prove':\n"
+            "        lo, hi, idx = info\n"
+            "        return lo <= idx < hi\n"
+            "    if op == 'eliminate':\n"
+            "        if info in loops.get('safe', []):\n"
+            "            return 'eliminated'\n"
+            "        return 'kept'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'prove', (0, 10, 5)), True),
+            (({}, 'prove', (0, 10, 15)), False),
+            (({'safe': [('i', 0, 10)]}, 'eliminate', ('i', 0, 10)), 'eliminated'),
+            (({'safe': []}, 'eliminate', ('i', 0, 10)), 'kept')],
+        "params": [],
+        "calibration": "对照：编译优化——边界检查消除（可证范围免检）",
+    },
 }
 
 
