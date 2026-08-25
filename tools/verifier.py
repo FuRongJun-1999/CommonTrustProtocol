@@ -683,15 +683,23 @@ def _cost_model(daily_tokens: float = 1.3e9, hit_rate: float = 0.999,
                 days: int = 30) -> None:
     """本地化成本对照模型（阶段 5 替换测算器）。
 
-    默认参数取自设计文档实测：昨日 13 亿 token、99.9% 缓存命中（重复查表校验）、
-    GLM 缓存命中价 2 元/百万。原方案：全部 token 经 LLM（命中按缓存价计费）；
-    本地化后：命中部分走本地磁盘（≈0 成本），仅未命中部分保留 LLM 按量兜底。
+    「原 LLM 校验环节」= 白箱自举的外部校准角色（LLM 查表校验）：白箱自举
+    总消耗 13 亿 token（用户实测），其中 99.9% 是重复查表校验（反复读同样
+    的单元/代码/规则表——即 LLM 缓存命中）。本地校验器（六层确定性规则 +
+    sha256 指纹缓存）接管后，这部分 token 归零；仅剩 0.1% 为真·新任务
+    （新单元设计/语义校准）保留 LLM 价值。
+
+    默认参数取自设计文档实测：13 亿 token/天、99.9% 缓存命中、GLM 缓存价
+    2 元/百万。原方案：全部 token 经 LLM（命中按缓存价计费）；
+    本地化后：命中部分走本地磁盘（≈0 成本），仅未命中部分保留 LLM 兜底。
     """
     per_m = 1e6
     orig = daily_tokens * (hit_rate * price_hit + (1 - hit_rate) * price_full) / per_m
     local = daily_tokens * (1 - hit_rate) * price_full / per_m
     saved = orig - local
-    print(f"=== 本地化成本对照（LLM 查表 → 本地校验缓存）===")
+    print(f"=== 本地化成本对照（LLM 查表校验 → 本地校验缓存）===")
+    print(f"背景: 白箱自举外部校准（LLM 查表校验）日消耗 {daily_tokens:.3g} token，"
+          f"其中 {hit_rate*100:.1f}% 为重复查表（缓存命中）")
     print(f"输入: 每日 token {daily_tokens:.3g} | 命中率 {hit_rate*100:.1f}% "
           f"| 命中价 {price_hit} 元/百万 | 未命中价 {price_full} 元/百万")
     print(f"原方案（LLM 缓存命中付费）: {orig:,.2f} 元/天 ≈ {orig*days:,.0f} 元/{days}天")
@@ -699,6 +707,9 @@ def _cost_model(daily_tokens: float = 1.3e9, hit_rate: float = 0.999,
           f"≈ {local*days:,.0f} 元/{days}天")
     print(f"节省: {saved:,.2f} 元/天 ≈ {saved*days:,.0f} 元/{days}天 "
           f"（省 {(100*saved/orig if orig else 0):.1f}%）")
+    print(f"对照: 白箱自举 {daily_tokens:.3g} token 中 "
+          f"{daily_tokens*hit_rate:.3g} token（{hit_rate*100:.1f}%）为重复查表校验，"
+          f"由 verifier 本地缓存接管后 token 归零")
     if hit_rate == 1.0:
         print("命中率 100% → 本地化后每日成本归零（磁盘 I/O 可忽略）")
 
