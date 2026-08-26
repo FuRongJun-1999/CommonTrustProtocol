@@ -1110,6 +1110,29 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
     # 3. 回答组装
     reply, honest = _assemble(message, hits, emotion)
 
+    # 3.5 v1.30（规范即机制 · 回答验证）：所有回答出口必须过 verify_answer 三层
+    # 校验（L1 自然语言格式 / L2 条件路由图来源 / L3 边界）。失败 → 拒绝输出
+    # 内部格式，替换为诚实声明（写错会被拒绝——机制，非人肉）。
+    try:
+        from verify_answer import verify_answer as _va
+        _vmeta = {"kind": "knowledge" if (hits and not honest) else
+                  ("honest" if honest else "default"),
+                  "hits": hits}
+        _vok, _vchecks = _va(reply, _vmeta)
+        if not _vok:
+            import traceback as _tb
+            _tb.print_exc() if False else None
+            _fail = "；".join(c for c in _vchecks if c.startswith("✗"))
+            # 记日志（stderr 便于排查），输出诚实声明
+            import sys as _sys
+            print(f"[verify_answer] 拒绝输出内部格式（{_fail}）问题={message[:30]}", file=_sys.stderr)
+            reply = ("（这条回答未能通过白箱回答验证——按白箱纪律，我不输出未经"
+                     "验证的内容。你可以换个问法，或我先记下来等我学会。）")
+            honest = True
+            hits = []
+    except Exception:
+        pass  # 验证器自身异常不阻塞回答（但不应发生）
+
     # 4. 会话记忆（简单记忆：同 session 最近 6 条）
     ctx = memory or {}
     ctx[session_id] = ctx.get(session_id, [])[-5:] + [message]
@@ -1292,13 +1315,14 @@ def _assemble(message, hits, emotion):
     else:
         parts.append(f"你说的这个，可以看「{name}」")
         daily = _reply_hit.get("daily")
-        if daily:
+        # v1.30 修复：daily 整卡（>300 字）不作为「打个比方」——内部格式不直出
+        if daily and len(daily) <= 300:
             parts.append(f"——打个比方：{daily}")
         else:
             try:
                 import semantic_translate as _st
                 daily2 = _st.decode_daily(_reply_hit.get("matched", [""])[0]) if _reply_hit.get("matched") else None
-                if daily2:
+                if daily2 and len(daily2) <= 300:
                     parts.append(f"——打个比方：{daily2}")
             except Exception:
                 pass
