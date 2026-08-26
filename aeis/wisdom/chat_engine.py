@@ -1262,7 +1262,10 @@ def _assemble(message, hits, emotion):
     # 确定性语义（「什么是数据压缩熵界」→ 熵界直答），优先于 hits 排序
     # ——否则被字面重叠的旧卡（热力学「熵」）抢答。
     direct = _reply_hit.get("direct_answer")
-    _from_daily = False  # v37b：REVERSE_DAILY 直答（确定性语义）不再附卡导航尾巴
+    # v1.37 修复：_from_daily 从命中卡读取（graph_retrieve 的 daily 兜底卡
+    # 带 _from_daily=True）——之前硬编码 False，daily 直答永远走「非 daily」
+    # 分支，条件空间/卡尾巴逻辑错位（F7 缺条件空间）
+    _from_daily = bool(_reply_hit.get("_from_daily"))
     try:
         import semantic_translate as _st
         _fp = _st.encode(message)
@@ -1341,8 +1344,9 @@ def _assemble(message, hits, emotion):
     if direct:
         direct = direct.rstrip("。！？!?")
         parts.append(f"{direct}。")
-        if not _from_daily:
-            parts.append(f"这个可以看「{name}」")
+        # v1.37 修复：daily 直答也附卡导航（name=翻译键名，F7 可追溯需要）
+        # ——不再跳过（之前 _from_daily 跳过卡导航导致 F7 缺导航）
+        parts.append(f"这个可以看「{name}」")
     else:
         parts.append(f"你说的这个，可以看「{name}」")
         daily = _reply_hit.get("daily")
