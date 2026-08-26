@@ -896,6 +896,17 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
         if message in NOISE_SHORT:
             return {"reply": "嗯嗯，我听着呢～想聊什么继续？", "hits": [],
                     "emotion": None, "honest": False, "chitchat": True}
+        # v1.43 回答域路由（意见请求域）：「你的意见/你觉得/穿什么/吃什么/
+        # 选哪个」是意见请求——主观建议，不该落知识检索（之前「我想听听你
+        # 的意见，今天穿什么好」答成小学数学卡）。走闲聊域：给出合理表达。
+        _OPINION_Q = ["你的意见", "你觉得", "你认为", "怎么看", "穿什么",
+                      "吃什么", "喝什么", "选哪个", "选什么", "哪个好",
+                      "建议", "推荐", "好不好", "行不行", "怎么办好"]
+        if any(w in message for w in _OPINION_Q):
+            _op_reply = _opinion_reply(message)
+            if _op_reply:
+                return {"reply": _op_reply, "hits": [], "emotion": None,
+                        "honest": False, "opinion": True, "chitchat": True}
 
     # 0.5 记忆询问（「刚才/记得/之前」→ 先查灵枢长期层，再查进程 dict）
     memory_words = ["刚才", "记得", "之前", "刚才说了", "刚才聊", "我说过",
@@ -1179,6 +1190,28 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
     return {"reply": reply, "hits": hits, "emotion": emotion,
             "honest": honest, "memory_tail": ctx.get(session_id, [])[-3:],
             "followups": followups, "conflict_links": conflict_links}
+
+
+def _opinion_reply(message):
+    """意见请求回应（v1.43 回答域路由）：主观建议域——不落知识检索。
+    合理表达：给出可行动的轻量建议（结合问题内容泛化回应）。
+    """
+    # 分类回应：按问题类型给轻量建议
+    if any(w in message for w in ["穿什么", "衣服", "穿搭", "穿着"]):
+        return ("穿什么舒服最重要——看天气和场合：出门办事穿得体大方，"
+                "在家放松怎么舒服怎么来。你按自己喜好来就好～")
+    if any(w in message for w in ["吃什么", "吃啥", "吃点什么", "做饭"]):
+        return ("吃什么看胃口和营养均衡——有菜有肉有主食，少油少盐。"
+                "想吃什么就做点简单的，别亏待自己～")
+    if any(w in message for w in ["选哪个", "选什么", "哪个好", "选择"]):
+        return ("选择没有绝对对错——看你的目标和条件：哪个更符合你的需求、"
+                "更可持续，就选哪个。别太纠结，先选一个试起来～")
+    if any(w in message for w in ["怎么办", "怎么处理", "好不好", "行不行"]):
+        return ("先别慌，把问题拆开看：是什么情况、能做什么、先做哪一步。"
+                "很多时候迈出第一步事情就顺了～")
+    # 通用意见回应
+    return ("我的意见是：先看你的真实需求和感受——适合你的才是最好的。"
+            "如果你愿意多说点具体情况，我可以帮你一起分析～")
 
 
 def _assemble_emotion_reply(message, emotion):
