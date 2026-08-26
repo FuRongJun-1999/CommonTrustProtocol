@@ -2802,7 +2802,32 @@ def graph_retrieve(dex, question, limit=10):
     合并：快速层 top-15 ∪ 神经层 top-10 → 统一融合分排序。
     """
     # 快速层：三路评分取 top-15
-    fast = dex.dex_respond(question, limit=15, translator=__import__(__name__))
+    # v1.30 修复（2026-08-26 · 条件路由图失配）：引擎 SpacetimeMemoryEngine 已无
+    # dex_respond（改名/重构为 semantic_search 等）→ 快速层三路评分永远失败，
+    # 条件路由图只剩神经层 → 检索质量大降（1000 集退化次因）。兼容适配：
+    # 有 dex_respond 用原逻辑；无则用 semantic_search（语义坐标+内容检索）转换。
+    fast = []
+    if hasattr(dex, "dex_respond"):
+        try:
+            fast = dex.dex_respond(question, limit=15, translator=__import__(__name__))
+        except Exception:
+            fast = []
+    if not fast:
+        try:
+            _hits = dex.semantic_search(question, limit=15)
+            for _node, _score in _hits:
+                _sa = getattr(_node, "state_attributes", None) or {}
+                _name = _sa.get("name") or getattr(_node, "name", None) or ""
+                if not _name:
+                    _c = (getattr(_node, "content", "") or "")
+                    _name = _c.split("\n")[0][:40] if _c else "未命名"
+                _dom = _sa.get("domain") or _sa.get("学科", "")
+                _edu = _sa.get("edu_level") or _sa.get("教育层级", "")
+                fast.append({"name": _name, "score": float(_score or 0),
+                            "matched": ["语义坐标"], "domain": _dom, "edu_level": _edu,
+                            "_node": _node})
+        except Exception:
+            fast = []
     # 神经层：索引独立召回（单字学科词/俗语等快速层漏检的语义）
     neural_map = {}
     neural_names = []

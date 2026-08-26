@@ -1035,7 +1035,14 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
         hits = _st.graph_retrieve(dex, message, limit=4)
     except Exception:
         try:
-            hits = dex.dex_respond(message, limit=4)
+            # v1.30 兼容：引擎无 dex_respond 时用 semantic_search
+            if hasattr(dex, "dex_respond"):
+                hits = dex.dex_respond(message, limit=4)
+            else:
+                _hits = dex.semantic_search(message, limit=4)
+                hits = [{"name": (getattr(n, "state_attributes", None) or {}).get("name") or str(n.id)[:20],
+                         "score": float(s or 0), "matched": ["语义坐标"]}
+                        for n, s in _hits]
         except Exception:
             hits = []
 
@@ -1136,55 +1143,13 @@ def _assemble(message, hits, emotion):
     if emotion and emotion.get("prefix"):
         parts.append(emotion["prefix"])
 
-    # v1.27（白箱自进化 round4）：确定性 fp 直答优先——REVERSE_DAILY 触发词
-    # 命中时，直答是人工校准的确定性语义，优先于 bge 近似检索（检索噪声/
-    # 记忆状态不应左右确定性直答——「拖到最后一刻」被小学英语卡压住 bug：
-    # 同问法不同调用路径结果不同）。提前到 hits 检查之前。
-    # v1.28（round15 收官）：条件词防护收窄——沸腾/沸点与气压已有完整直答，
-    # 高原/海拔/高压锅等不再拦截（否则「高原上水煮不熟饭」被拦到 bge 导航）；
-    # 仅保留无确定性直答的 潜水/深海 防护（防「大气压」吸管答案劫持历史 bug 回归）。
-    try:
-        import semantic_translate as _st
-        _fp = _st.encode(message)
-        _cond_guard = any(w in message for w in ("潜水", "深海"))
-        if not _cond_guard:
-            _long = [t for t in _fp if t in _st.REVERSE_DAILY]
-            # c14：去掉 len>=2 过滤——REVERSE_DAILY 本身是白名单，单字 key
-            # 仅 饿/波 两个，「什么是波」encode 产出『波』此前被 len>=2 过滤
-            # 致 fp 直答不触发（单字误伤由 encode 的 SINGLE_CHAR_EXCLUDE 负责）
-            if _long:
-                _present = [t for t in _long if t in message]
-                for _t in _long:
-                    if _t in _present:
-                        continue
-                    _triggers = list(_st.DOMAIN_SYNONYM_CLUSTERS.get(_t, [])) + \
-                        list(_st.SYNONYM_CLUSTERS.get(_t, []))
-                    for _tr in _triggers:
-                        if _tr not in message:
-                            continue
-                        if any(_tr in p for p in _present):
-                            continue
-                        if _t not in _present:
-                            _present.append(_t)
-                        break
-                _pool = _present if _present else _long
-                if _pool:
-                    def _fp_match_len(t):
-                        best = len(t) if t in message else 0
-                        _trs = list(_st.DOMAIN_SYNONYM_CLUSTERS.get(t, [])) + \
-                            list(_st.SYNONYM_CLUSTERS.get(t, []))
-                        for _tr in _trs:
-                            if _tr in message and len(_tr) > best:
-                                best = len(_tr)
-                        return best
-                    _dt = max(_pool, key=lambda t: (_fp_match_len(t), len(t),
-                                                    _fp.get(t, 0.0)))
-                    _fp_text = _st.REVERSE_DAILY[_dt]
-                    if _fp_text:
-                        parts.append(_fp_text.rstrip("。！？!?") + "。")
-                        return "".join(parts), False
-    except Exception:
-        pass
+    # v1.30 修复（2026-08-26 · 条件路由图规范）：移除 v1.27「REVERSE_DAILY 确定性
+    # fp 直答优先」预检——它绕过条件路由图（不经过 _cond_analysis 的子功能切换），
+    # 直接用关键词命中 REVERSE_DAILY 直出，且值被自主进化覆盖成整卡 → 整卡内部
+    # 格式直接当回答（1000 对话集退化根源）。
+    # 正确路径：条件分析（_cond_analysis）判定 nature → knowledge 走 graph_retrieve
+    # 条件路由图（四路融合 + 卡内递归 + 知识点级命中），REVERSE_DAILY 仅作为
+    # graph_retrieve 内部的「人话翻译层」（短人话 ≤300 字填 direct_answer）。
 
     if not hits:
         # v3（白箱自举）：组合引擎兜底——知识检索 miss 时，先试条件化单元
@@ -1313,13 +1278,10 @@ def _assemble(message, hits, emotion):
                         best = len(_tr)
                 return best
             _dt = max(_pool, key=lambda t: (_match_len(t), len(t), _fp.get(t, 0.0)))
-            # v1.30 修复（2026-08-26 · 1000 对话集退化）：REVERSE_DAILY 整卡
-            # （>300 字内部格式）不作为人话直答——走卡导航（条件路由图）。
-            _daily_v = _st.REVERSE_DAILY[_dt]
-            if _daily_v and len(_daily_v) <= 300:
-                direct = _daily_v
-                name = _dt
-                _from_daily = True
+            # v1.30 修复（2026-08-26 · 条件路由图规范）：此处移除 REVERSE_DAILY
+            # 对 direct 的覆盖——direct 由 graph_retrieve（条件路由图）决定
+            # （direct_answer 已是知识点级命中的结果）。REVERSE_DAILY 仅作
+            # graph_retrieve 内部的人话翻译层，不在 _assemble 二次覆盖。
     except Exception:
         pass
     if direct:
