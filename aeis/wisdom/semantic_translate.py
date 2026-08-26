@@ -2162,25 +2162,51 @@ REVERSE_DAILY = {
 # 运行时恢复：从整卡提取「总结：」段（末尾浓缩版）作为短人话，幂等执行。
 # 不修改源文件字面量——启动时一次性恢复，整卡内容仍保留在 REVERSE_DAILY_FULL。
 def _restore_daily_short():
-    """从 >300 字整卡提取总结段恢复短人话（幂等：只处理仍 >300 的键）。"""
+    """从 >300 字整卡提取总结段恢复短人话（幂等：只处理仍 >300 的键）。
+    v1.36 增强：提取后括号转义（「X（Y）」→「X，Y」——保留括号内信息，
+    否则总结段被删成名词列表；verify_answer L1 判括号密度>8% 为内部格式
+    泄漏，必须先转义）。"""
+    import re as _re
     _fixed = 0
+
+    def _unwrap(m):
+        return "，" + m.group(1).strip() + "，"
+
+    def _clean_seg(_s):
+        _c = _re.sub(r"（([^）]*)）", _unwrap, _s)
+        _c = _re.sub(r"\(([^)]*)\)", _unwrap, _c)
+        _c = _c.replace("（", "").replace("）", "").replace("(", "").replace(")", "")
+        _c = _re.sub(r"[，、；]{2,}", "，", _c)
+        _c = _re.sub(r"^[，、；:：\-—\s]+|[，、；:：\-—\s]+$", "", _c)
+        return _c.strip()
+
     for _k, _v in list(REVERSE_DAILY.items()):
-        if len(_v) <= 300:
-            continue
-        _seg = None
-        _idx = _v.rfind("总结")
-        if _idx >= 0:
-            _seg = _v[_idx:].lstrip("总结：:")
-            _seg = _seg.split("误区提醒")[0].strip()
-        if not _seg or len(_seg) > 300:
-            _idx2 = _v.find("的真相：")
-            if _idx2 >= 0:
-                _seg2 = _v[_idx2 + 4:].split("真相：")[0].strip()
-                if _seg2 and len(_seg2) <= 300:
-                    _seg = _seg2
-        if _seg and 0 < len(_seg) <= 300:
-            REVERSE_DAILY[_k] = _seg.strip()
-            _fixed += 1
+        if len(_v) > 300:
+            _seg = None
+            _idx = _v.rfind("总结")
+            if _idx >= 0:
+                _seg = _v[_idx:].lstrip("总结：:")
+                _seg = _seg.split("误区提醒")[0].strip()
+            if not _seg or len(_seg) > 300:
+                _idx2 = _v.find("的真相：")
+                if _idx2 >= 0:
+                    _seg2 = _v[_idx2 + 4:].split("真相：")[0].strip()
+                    if _seg2 and len(_seg2) <= 300:
+                        _seg = _seg2
+            if _seg and 0 < len(_seg) <= 300:
+                _clean = _clean_seg(_seg)
+                if _clean:
+                    REVERSE_DAILY[_k] = _clean
+                    _fixed += 1
+        else:
+            # 已恢复的键也做括号转义（v1.36 二次清理：第一次只剥离没转义，
+            # 把「热水洗澡」74字清成24字名词列表——信息丢损，需重转义）
+            _cur = _v
+            if "（" in _cur or "(" in _cur:
+                _c = _clean_seg(_cur)
+                if _c and len(_c) >= len(_cur) * 0.4:
+                    REVERSE_DAILY[_k] = _c
+                    _fixed += 1
     return _fixed
 
 

@@ -1358,10 +1358,14 @@ def _assemble(message, hits, emotion):
             except Exception:
                 pass
 
-    # 条件空间（白箱：什么条件下成立）——REVERSE_DAILY 直答不附卡尾巴
-    if _reply_hit.get("domain") and not _from_daily:
-        parts.append(f"（这条知识属于{_reply_hit['domain']}，"
-                     f"在{_reply_hit.get('edu_level') or '通用'}条件下成立）")
+    # 条件空间（白箱：什么条件下成立）——v1.36 修复：daily 直答也附条件
+    # 空间（domain=人话翻译表）——F7 可追溯要求 knowledge 回答带条件空间，
+    # 翻译表直答是确定性语义也应声明「通用条件下成立」（非绕过路径）。
+    if _reply_hit.get("domain") or _from_daily:
+        _d = _reply_hit.get("domain") or "人话翻译表（REVERSE_DAILY 确定性直答）"
+        _e = _reply_hit.get("edu_level") or "通用"
+        parts.append(f"（这条知识属于{_d}，"
+                     f"在{_e}条件下成立）")
 
     # 后续相关（最多再提 2 个）——REVERSE_DAILY 直答不附卡尾巴
     if len(hits) > 1 and not _from_daily:
