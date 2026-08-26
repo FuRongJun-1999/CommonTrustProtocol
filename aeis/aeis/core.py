@@ -99,7 +99,6 @@ class EdgeType(Enum):
     SPATIAL_CONNECTED = "spatial_connected"
     SIMILAR = "similar"
     OPPOSITE = "opposite"
-    APPLIES_TO = "applies_to"   # v1.16（条件节点化）：条件 → 知识 的适用关系
 
 class MemoryLayer(Enum):
     ANCHOR = "anchor"       # 不可遗忘
@@ -3923,10 +3922,28 @@ class SpacetimeMemoryEngine:
         # v1.28.1 修复（检索缺陷报告问题 3）：演练「无变化」时不落节点——
         # 原实现每次巩固无条件写入 [consolidation] 节点，同内容可重复数十次
         # 污染知识层稀释检索；仅当有实际动作（提升/降权/压缩标记）才记录。
-        if stats["rehearsed"] or stats["boosted"] or stats["degraded"] or stats["compressible"]:
+        # v1.30.1 修复（外部测试报告 · consolidation 日志无节制累积）：
+        # ①条件含恒真的 rehearsed（知识库有高重要度节点即恒 >0）→ 去掉，
+        #   仅 boosted/degraded/compressible 任一 >0 才落节点（报告建议）；
+        # ②演练（rehearsed）本质是「读取刷新」，不是知识变化——即使记录，
+        #   也不应写入知识层 nodes（污染检索/占 71% 知识库），改为落日志文件
+        #   （logs/consolidation.log），与知识层物理隔离。
+        import os as _os
+        if stats["boosted"] or stats["degraded"] or stats["compressible"]:
             self.add_perception(
-                f"[consolidation] 演练 {stats['rehearsed']} · 提升 {stats['boosted']} · 降权 {stats['degraded']} · 可压缩 {stats['compressible']}",
+                f"[consolidation] 提升 {stats['boosted']} · 降权 {stats['degraded']} · 可压缩 {stats['compressible']}",
                 importance=0.4, tags=["consolidation"])
+        else:
+            # 无实际动作：不写知识层；演练事实落日志文件（不污染检索）
+            try:
+                _log_dir = _os.path.join(_os.path.dirname(_os.path.dirname(
+                    _os.path.abspath(__file__))), "logs")
+                _os.makedirs(_log_dir, exist_ok=True)
+                with open(_os.path.join(_log_dir, "consolidation.log"), "a", encoding="utf-8") as _lf:
+                    _lf.write(f"[{__import__('time').strftime('%Y-%m-%d %H:%M:%S')}] "
+                              f"consolidation 无变化（演练 {stats['rehearsed']} · 提升 0 · 降权 0 · 可压缩 0）\n")
+            except Exception:
+                pass
         return stats
 
     def run_maintenance_cycle(self, decay_factor: float = 0.02) -> Dict:
