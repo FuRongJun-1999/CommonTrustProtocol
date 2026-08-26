@@ -2193,6 +2193,16 @@ def _restore_daily_short():
                     _seg2 = _v[_idx2 + 4:].split("真相：")[0].strip()
                     if _seg2 and len(_seg2) <= 300:
                         _seg = _seg2
+            # v1.44 修复（矛盾测试重测）：矛盾整卡（全职爸爸/婚前财产/婚恋
+            # 性别比）无「总结」段也无「的真相：」标记——格式是「…的矛盾
+            # ——[论证展开]…真相：①…⑥…核心：[浓缩结论]」。末尾「核心：」
+            # 段是手工浓缩人话（120-200 字），第三提取通道。
+            if not _seg or len(_seg) > 300:
+                _idx3 = _v.rfind("核心：")
+                if _idx3 >= 0:
+                    _seg3 = _v[_idx3 + 3:].strip()
+                    if _seg3 and len(_seg3) <= 300:
+                        _seg = _seg3
             if _seg and 0 < len(_seg) <= 300:
                 _clean = _clean_seg(_seg)
                 if _clean:
