@@ -1313,9 +1313,13 @@ def _assemble(message, hits, emotion):
                         best = len(_tr)
                 return best
             _dt = max(_pool, key=lambda t: (_match_len(t), len(t), _fp.get(t, 0.0)))
-            direct = _st.REVERSE_DAILY[_dt]
-            name = _dt
-            _from_daily = True
+            # v1.30 修复（2026-08-26 · 1000 对话集退化）：REVERSE_DAILY 整卡
+            # （>300 字内部格式）不作为人话直答——走卡导航（条件路由图）。
+            _daily_v = _st.REVERSE_DAILY[_dt]
+            if _daily_v and len(_daily_v) <= 300:
+                direct = _daily_v
+                name = _dt
+                _from_daily = True
     except Exception:
         pass
     if direct:
