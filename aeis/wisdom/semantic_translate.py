@@ -2915,9 +2915,11 @@ def card_route(dex, question, limit=5):
         if not q:
             return []
         # 从库中取带 comment 的 kp 节点（index 层——KCCS 注释即索引）
+        # v1.39：去掉 LIMIT（全库 2839 注释 kp 必须全扫——之前 LIMIT 500
+        # 漏掉 2000+ 个 kp，两阶段索引覆盖不全）
         rows = dex.store.conn.execute(
             "SELECT id, state_attributes, content FROM nodes "
-            "WHERE state_attributes LIKE '%\"comment\"%' LIMIT 500").fetchall()
+            "WHERE state_attributes LIKE '%\"comment\"%'").fetchall()
         scored = []
         for nid, sa_json, content in rows:
             try:
@@ -2930,23 +2932,40 @@ def card_route(dex, question, limit=5):
             # 负路由：不适用条件命中（字面包含）→ 排除
             if any(m in q for m in cm.get("不适用条件", [])):
                 continue
-            # 索引词：name + 生效条件 + 子功能 + 执行（剔除虚词二元组）
-            idx_text = " ".join([
-                cm.get("name", ""),
-                " ".join(cm.get("生效条件", [])),
-                " ".join(cm.get("子功能", [])),
-                cm.get("执行", ""),
-            ])
+            # v1.39 修复（全库注释后误配）：索引词只用【生效条件】——
+            # 之前用 name+生效+子功能+执行 全部文本，「两个重要极限」执行
+            # 文本含『三角』被「三角形内角和」误配（how 不是 when，词面
+            # 重叠不算条件满足——对齐 two_stage 的条件核对机制）。
             cond_text = " ".join(cm.get("生效条件", []))
-            toks = _card_bigrams(idx_text) - _CARD_STOP
-            cond_toks = _card_bigrams(cond_text) - _CARD_STOP
+            toks = _card_bigrams(cond_text) - _CARD_STOP
             q_toks = _card_q_tokens(q)
-            common = (q_toks & toks) | (q_toks & cond_toks)
+            common = q_toks & toks
+            # v1.39 字面通道（对齐 two_stage）：q_toks 空（「1+1等于几」）
+            # 或二元组不命中时，生效条件完整串与问题符号归一化子串匹配
+            # （「问1加1等于几」≈「1+1等于几」）
             if not common:
-                continue
+                _nm_core = (cm.get("name", "") or "").split("（")[0].strip()
+                _topic_hit = _nm_core and len(_nm_core) >= 2 and _nm_core in q
+                _literal = 0
+                if not _topic_hit:
+                    _q_norm = q.replace("+", "加").replace("＋", "加") \
+                        .replace("-", "减").replace("－", "减") \
+                        .replace("×", "乘").replace("÷", "除")
+                    for _c in cm.get("生效条件", []) or []:
+                        _cc = _c.replace("问", "").strip()
+                        if not _cc or len(_cc) < 4:
+                            continue
+                        _cn = _cc.replace("+", "加").replace("＋", "加") \
+                            .replace("-", "减").replace("－", "减") \
+                            .replace("×", "乘").replace("÷", "除")
+                        if _cn and (_cn in _q_norm or _q_norm in _cn):
+                            _literal = 2
+                            break
+                if not common and not _literal and not _topic_hit:
+                    continue
             # 精确词加分（非二元组）：问题直接含知识点名 → 强命中
             exact = 0
-            for w in [cm.get("name", "")] + cm.get("生效条件", []) + cm.get("子功能", []):
+            for w in [cm.get("name", "")] + cm.get("生效条件", []):
                 core = w.split("：")[0].split("（")[0].strip()
                 if len(core) >= 2 and core in q:
                     exact += 2
@@ -3060,7 +3079,7 @@ def two_stage_retrieve(dex, question, top_domains=3, limit=5):
     try:
         rows = dex.store.conn.execute(
             "SELECT state_attributes FROM nodes "
-            "WHERE state_attributes LIKE '%\"comment\"%' LIMIT 800").fetchall()
+            "WHERE state_attributes LIKE '%\"comment\"%'").fetchall()
         for (sa_json,) in rows:
             try:
                 sa = _json.loads(sa_json) if sa_json else {}
@@ -3091,22 +3110,23 @@ def two_stage_retrieve(dex, question, top_domains=3, limit=5):
             _cond_toks = _card_bigrams(_cond_text) - _CARD_STOP
             common = q_toks & _cond_toks
             # ③ 字面包含通道：生效条件完整串与问题子串匹配（「1加1等于几」
-            #    ≈ 问题，符号归一化）
+            #    ≈ 问题，符号归一化）。v1.39：始终评估（不只 common 空时）——
+            #    「什么是熵」common=1（是熵）但字面「什么是熵」完全命中生效
+            #    条件（条件充分强信号），应加分到 3 过门槛
             _literal = 0
-            if not common:
-                _q_norm = question.replace("+", "加").replace("＋", "加") \
+            _q_norm = question.replace("+", "加").replace("＋", "加") \
+                .replace("-", "减").replace("－", "减") \
+                .replace("×", "乘").replace("÷", "除")
+            for _c in _conds:
+                _c_clean = _c.replace("问", "").strip()
+                if not _c_clean or len(_c_clean) < 4:
+                    continue
+                _c_norm = _c_clean.replace("+", "加").replace("＋", "加") \
                     .replace("-", "减").replace("－", "减") \
                     .replace("×", "乘").replace("÷", "除")
-                for _c in _conds:
-                    _c_clean = _c.replace("问", "").strip()
-                    if not _c_clean or len(_c_clean) < 4:
-                        continue
-                    _c_norm = _c_clean.replace("+", "加").replace("＋", "加") \
-                        .replace("-", "减").replace("－", "减") \
-                        .replace("×", "乘").replace("÷", "除")
-                    if _c_norm and (_c_norm in _q_norm or _q_norm in _c_norm):
-                        _literal = max(_literal, 2)
-                        break
+                if _c_norm and (_c_norm in _q_norm or _q_norm in _c_norm):
+                    _literal = max(_literal, 2)
+                    break
             if not common and not _literal:
                 continue
             _match_n = len(common) + _literal
