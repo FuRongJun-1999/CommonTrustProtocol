@@ -3,8 +3,8 @@
  "seed": 20260828,
  "task_adj": {
   "n": 444,
-  "reject": 394,
-  "rate": 0.8874
+  "reject": 396,
+  "rate": 0.8919
  },
  "boundary": {
   "n": 6,
@@ -120,11 +120,6 @@
   },
   {
    "type": "task-adj",
-   "unit": "图监控-健康检查",
-   "adv": "图存储-一致性检查"
-  },
-  {
-   "type": "task-adj",
    "unit": "图存储-属性边",
    "adv": "图索引-属性索引"
   },
@@ -227,11 +222,6 @@
    "type": "task-adj",
    "unit": "网络-快速重传",
    "adv": "蜂群-超时重传"
-  },
-  {
-   "type": "task-adj",
-   "unit": "网络-QoS队列",
-   "adv": "网络-消息队列"
   },
   {
    "type": "task-adj",
