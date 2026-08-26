@@ -31,10 +31,11 @@ import sys
 import time
 from pathlib import Path
 
-# 锁定基准（2026-08-19 图谱补全后实测）：低于此值 = 回归，阻断发布
-# 注意：历史声称 80% 不可复现（图谱/代码已变），基准按当前真实成绩锁定
-LOCKED_MIN_SCORE = 0.40          # T1 正确率下限（当前 44%，留 4pp 容差）
-LOCKED_MIN_DIRECT = 0.50         # 直接回答率下限（非导航兜底比例）
+# 锁定基准（2026-08-26 白箱检索架构重构后实测 · 真实库 lingshu.db）：
+# 低于此值 = 回归，阻断发布。注意：历史声称 80% 不可复现（图谱/代码已变），
+# 基准按当前真实成绩锁定——T1 55.9% / 直接回答率 95.5%（留容差）
+LOCKED_MIN_SCORE = 0.50          # T1 正确率下限（当前 55.9%，留 5.9pp 容差）
+LOCKED_MIN_DIRECT = 0.85         # 直接回答率下限（当前 95.5%，留 10pp 容差）
 LOCKED_MIN_KNOWLEDGE_POINTS = 1000  # 知识点子图节点下限（证明学科卡已合入）
 
 HERE = Path(__file__).resolve().parent
