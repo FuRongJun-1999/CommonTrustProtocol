@@ -1260,7 +1260,7 @@ DOMAIN_SYNONYM_CLUSTERS = {
     "原子": ["原子", "什么是原子", "原子是什么", "原子是", "为什么原子",
         "原子的原理是什么", "没有原子会怎样", "没有原子怎么办", "原子有什么用"],
     "氧气": ["氧气", "什么是氧气", "氧气是", "缺氧", "吸氧", "氧气作用", "燃烧需要氧气", "氧气占", "呼吸困难"],
-    "三角形面积": ["三角形的面积", "三角形面积", "面积公式", "面积怎么算", "底乘高", "三角形", "面积", "底和高", "三角形面积是"],
+    "三角形面积": ["三角形的面积", "三角形面积", "面积公式", "面积怎么算", "底乘高", "底和高", "三角形面积是"],
     "诚实边界": ["什么是诚实边界", "诚实边界是什么", "诚实边界"],
     "bug": ["什么是bug", "bug是什么", "bug是", "bug"],
     "朋友吵架": ["朋友吵架", "吵架了怎么劝", "怎么劝", "劝朋友", "吵架怎么劝"],
@@ -3015,26 +3015,33 @@ def two_stage_retrieve(dex, question, top_domains=3, limit=5):
             _g = _domain_group(_d)
             if not _g:
                 continue
-            # 该 kp 的注释索引词 ∩ 问题实义词
-            idx_text = " ".join([cm.get("name", ""),
-                                 " ".join(cm.get("生效条件", [])),
-                                 " ".join(cm.get("子功能", [])),
-                                 cm.get("执行", "")])
-            toks = _card_bigrams(idx_text) - _CARD_STOP
-            common = q_toks & toks
-            # v1.34 修复（第七阶段 · 单定义注释粒度）：字面包含通道——
-            # q_toks 空时（「1+1等于几」全虚词）或二元组不命中时，
-            # 生效条件完整串与问题做子串匹配（「问1加1等于几」≈ 问题，
-            # 数字/符号差异由人工注释覆盖）。确定性注释命中 > 二元组噪声。
+            # v1.34 修复（荣：为什么匹配的时候又不看条件？又不核对条件？
+            # 代码能精确匹配是因为 CCG 核对条件——生效条件命中+不适用条件
+            # 负路由）。两阶段之前用全部注释文本做二元组匹配，跳过了条件
+            # 核对 → 「三角形内角和」误配「三角形面积」卡（面积卡文本含
+            # 『三角形』）。修复：
+            # ① 负路由：不适用条件命中（字面包含）→ 排除（对齐 ccg.search
+            #    not_tokens 负路由——REJECT 条件冲突的候选）
+            _neg = cm.get("不适用条件") or []
+            if any(_n and _n.replace("问", "") in question for _n in _neg):
+                continue
+            # ② 生效条件核对（对齐 CCG cond_tokens——问题命中生效条件才算
+            #    条件充分；不再用「执行/子功能」文本做索引——那是 how 不是
+            #    when，词面重叠不算条件满足）
+            _conds = cm.get("生效条件") or []
+            _cond_text = " ".join(_conds)
+            _cond_toks = _card_bigrams(_cond_text) - _CARD_STOP
+            common = q_toks & _cond_toks
+            # ③ 字面包含通道：生效条件完整串与问题子串匹配（「1加1等于几」
+            #    ≈ 问题，符号归一化）
             _literal = 0
             if not common:
-                # 符号归一化：+→加、-→减、×→乘、÷→除（保留数字语义）
                 _q_norm = question.replace("+", "加").replace("＋", "加") \
                     .replace("-", "减").replace("－", "减") \
                     .replace("×", "乘").replace("÷", "除")
-                for _c in cm.get("生效条件", []) or []:
+                for _c in _conds:
                     _c_clean = _c.replace("问", "").strip()
-                    if not _c_clean or len(_c_clean) < 2:
+                    if not _c_clean or len(_c_clean) < 4:
                         continue
                     _c_norm = _c_clean.replace("+", "加").replace("＋", "加") \
                         .replace("-", "减").replace("－", "减") \
@@ -3189,15 +3196,36 @@ def graph_retrieve(dex, question, limit=10):
     except Exception:
         fast = []
     # v1.34 修复（第七阶段 · 两阶段收敛）：two_stage 有人工注释命中
-    # （_card_hit=True，四要素注释=最终裁决）时直接返回——跳过后续
-    # 融合/递归/尾焦点洗牌（那些在「1+1等于几」把正确的加减法 kp 洗成
-    # 线性代数）。人工注释索引 > 字符串扫描 > bge 模糊（bge 已移除）。
-    if any(h.get("_card_hit") for h in fast):
-        _ts = [h for h in fast if h.get("_card_hit")]
+    # （_card_hit=True，四要素注释=最终裁决）且匹配分足够时直接返回——
+    # 置信门槛（对齐 CCG 判别词）：score≥2 或 卡名即问题主题词
+    # （「什么是分数」→分数卡名 in 问题=主题词，score=1 也应接受；
+    #  「水沸腾」→瑞利散射『大气』in 执行文本=泛词，score=1 拒绝）。
+    _ts = []
+    for h in fast:
+        if not h.get("_card_hit"):
+            continue
+        _sc = h.get("score") or 0
+        _nm = h.get("name") or ""
+        # 卡名主题词：去掉「（学科）」后缀后的卡名 in 问题（分数 in 什么是分数）
+        _nm_core = _nm.split("（")[0].strip()
+        _topic = _nm_core and _nm_core in question and len(_nm_core) >= 2
+        if _sc >= 2 or _topic:
+            _ts.append(h)
+    if _ts:
         return _ts[:limit]
+    fast = [h for h in fast if not (h.get("_card_hit") and (h.get("score") or 0) < 2
+                                    and not ((h.get("name") or "").split("（")[0].strip()
+                                             and (h.get("name") or "").split("（")[0].strip()
+                                             in question))]
     if not fast:
         try:
             fast = card_route(dex, question, limit=15)
+            # v1.34 修复：card_route 回落同样过置信门槛（score<2 的
+            # _card_hit 卡是泛词误配——「一天多少小时」→整数卡『数数』
+            # score=1；移除后回落翻译表/学科路由，REVERSE_DAILY 时间单位
+            # 卡给出正确「一天24小时」）
+            fast = [h for h in fast
+                    if not (h.get("_card_hit") and (h.get("score") or 0) < 2)]
         except Exception:
             fast = []
     if not fast and hasattr(dex, "dex_respond"):
