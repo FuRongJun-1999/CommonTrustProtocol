@@ -23,25 +23,33 @@
 
 ## 三、awesome-dsh-plugin 条目草稿
 
-**分类位置**：新增「AGI 架构探索」段（或并入 Tools 段顶部标注）
+**执行方式（2026-09 实勘修正）**：官方 README 由 `node scripts/generate-readme.mjs`
+**自动生成，禁止手工编辑**——列表数据在 `data/plugins/<owner>__<repo>.yml`。
+灵枢已有条目 `data/plugins/FuRongJun-1999__dsh-memory.yml`（原 `category: memory`）。
+新增分类需同步改 4 处：`scripts/lib/entries.mjs`（CAT_IDS+CAT_EMOJI）、
+`site/locales.mjs`（中英 categories）、`contributing.md`（生成器硬校验分类列表同步），
+然后重跑生成器 + `--check`。
 
-**条目**：
+**已落地条目**（PR #3272，`category: agi`）：
 ```markdown
-### AGI 架构探索
+### 🧭 AGI 架构探索
 
-- [FuRongJun-1999/dsh-memory](https://github.com/FuRongJun-1999/dsh-memory) -
-  白箱 AGI 架构探索平台：元认知（自我认知循环+理论完整性自指检查）·
-  持续学习（八步自迭代+自动运行）· 世界模型（条件空间+3061 节点知识图谱）·
-  自我改进（条件反射+自举锚点）· 零 LLM 代码生成（681 单元条件路由）·
-  中文编译器（智能论字节码 VM）
+- [FuRongJun-1999/dsh-memory](https://github.com/FuRongJun-1999/dsh-memory) —
+  白箱AGI架构探索：元认知（自我认知循环）、持续学习（知识飞轮）、世界模型
+  （条件空间+语义时空图）、自我改进（自举纪律）、零LLM白箱管线与可审计信任护栏。
 ```
+
+**描述纪律**：官方「描述必须属实，会被与代码核对」——只写 dsh-memory 仓库内
+可验证的能力，不写内部数字（681 单元/3061 节点/字节码 VM 在 dsh-memory 仓库
+无直接证据，故省略，留待仓库 README 佐证后再补）。
 
 ## 四、文档规划步骤
 
 1. **本文档**：分类定位 + 能力映射表（完成）
 2. **灵枢 README 更新**：顶部加「AGI 架构探索」定位段（现为「白箱智能
    研究平台」——对齐新分类）
-3. **PR 准备**：fork awesome-dsh-plugin → 新增分类段 + 条目 → PR
+3. **PR 提交**（完成）：fork → 改 YAML+3 基础设施文件 → 重跑生成器 →
+   `--check` 验证 → PR #3272（CI 全绿后合入）
 4. **dsh-memory README 同步**：description 补 AGI 核心功能关键词
 
 ## 五、风险与克制
