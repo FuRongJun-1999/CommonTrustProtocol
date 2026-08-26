@@ -27,6 +27,10 @@ CHITCHAT = [
     (["谢谢", "多谢"], "不客气！能帮上忙我就开心。"),
     (["再见", "拜拜", "晚安", "先下了", "明天见", "下次见", "回见", "下次聊"],
      "再见！下次来我还记得你。晚安的话做个好梦～"),
+    # v1.42 回答域路由：早安/下午好 等问候闲聊补全（之前「早安」走知识
+    # 检索 miss → 诚实声明，闲聊域没接住）
+    (["早安", "早上好", "早呀", "早晨", "早安呀"],
+     "早安！新的一天开始啦，祝你今天顺顺利利～"),
     (["随便问问", "随便", "没什么", "不知道问什么", "不懂", "想不起来了"], 
      "没关系，想到什么聊什么。或者你可以问我「水为什么烧开」「什么是熵」这种小问题试试。"),
     # 天气/近况闲聊（v1.16 · 1000 条测试：日常闲聊应自处理）
@@ -34,6 +38,14 @@ CHITCHAT = [
      "是啊，天气好的时候心情也跟着亮堂起来！出去走走晒晒太阳吧～"),
     (["天气不好", "阴天", "下雨了", "下雨天", "天气差", "天灰蒙蒙"], 
      "下雨天适合窝着听听音乐看看书，也是一种惬意～"),
+    # v1.42 回答域路由（闲聊域补全）：天气冷暖闲聊变体——之前「今天天气
+    # 真热」被知识检索误配高分子热性能（闲聊域被知识域污染）
+    (["天气真热", "好热", "太热了", "热死了", "真热", "天气热", "闷热"],
+     "天热多喝水、注意防暑，别在太阳底下待太久～"),
+    (["天气真冷", "好冷", "太冷了", "冷死了", "真冷", "天气冷"],
+     "天冷多穿点，注意保暖，别着凉了～"),
+    (["天气不错呀", "天气真好呀", "今天天气"], 
+     "是啊，天气好的时候心情也跟着亮堂起来！出去走走晒晒太阳吧～"),
     (["在干嘛", "干什么呢", "干嘛呢", "在忙什么"], 
      "我在陪着你呢，随时听你说～"),
     (["最近怎么样", "近况", "过得怎么样", "最近如何"], 
@@ -1115,9 +1127,18 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
     # 内部格式，替换为诚实声明（写错会被拒绝——机制，非人肉）。
     try:
         from verify_answer import verify_answer as _va
-        _vmeta = {"kind": "knowledge" if (hits and not honest) else
-                  ("honest" if honest else "default"),
-                  "hits": hits}
+        # v1.42 回答域路由：情感/闲聊是独立回答域——情感传 kind=emotion
+        # （LEGITIMATE_KINDS 已有），不要求知识卡导航；情感回应=共情表达。
+        _is_emotion_domain = bool(emotion and emotion.get("label") in INTIMATE_SAFE)
+        if _is_emotion_domain:
+            _vkind = "emotion"
+        elif hits and not honest:
+            _vkind = "knowledge"
+        elif honest:
+            _vkind = "honest"
+        else:
+            _vkind = "chitchat"
+        _vmeta = {"kind": _vkind, "hits": hits}
         _vok, _vchecks = _va(reply, _vmeta)
         if not _vok:
             import traceback as _tb
@@ -1160,11 +1181,47 @@ def chat(dex, message, session_id="default", memory=None, prefeed_fn=None,
             "followups": followups, "conflict_links": conflict_links}
 
 
+def _assemble_emotion_reply(message, emotion):
+    """情感回应（v1.42 回答域路由）：共情 + 合理表达情感——不附知识卡导航。
+
+    情感是独立回答域：回应方式是「共情 + 接纳 + 陪伴」，不是知识讲解。
+    从 REVERSE_DAILY/情感知识取一句合理表达（如果有），否则纯前缀即可。
+    """
+    try:
+        import semantic_translate as _st
+        _fp = _st.encode(message)
+        # 情感键的人话（REVERSE_DAILY：疲惫/低落/开心等键的短人话）
+        _emo_keys = ["疲惫", "难过", "低落", "开心", "焦虑", "孤独", "压力",
+                     "想家", "委屈", "放松", "紧张", "尴尬", "想念", "烦躁"]
+        for _k in _emo_keys:
+            _v = _st.REVERSE_DAILY.get(_k)
+            if _v and len(_v) <= 200:
+                return _v
+        # 无情感键：用问题关键词找情感卡内容（合理表达，不附导航）
+        _hits = _st.graph_retrieve(None, message, limit=3) if False else None
+    except Exception:
+        pass
+    return None
+
+
 def _assemble(message, hits, emotion):
     """组装回答：情感前缀 + 知识/诚实 + 人话版"""
     parts = []
     if emotion and emotion.get("prefix"):
         parts.append(emotion["prefix"])
+
+    # v1.42 回答域路由（荣：情感/闲聊是独立回答域——情感回应有情感的回应方式，
+    # 闲聊有闲聊的回应方式，合理表达情感就行，不附知识卡导航）。之前情感
+    # 检测后继续走知识检索 → 「今天有点累」答成「情绪影响身心健康…可以看
+    # 「政治」」——情感域被知识域污染。修复：emotion 时走纯情感分支。
+    if emotion and emotion.get("label") in INTIMATE_SAFE:
+        # 情感回应：共情 + 合理表达情感（不附知识导航/条件空间/相关卡）
+        _emo_daily = _assemble_emotion_reply(message, emotion)
+        if _emo_daily:
+            parts.append(_emo_daily)
+            return "".join(parts), False
+        # 无情感知识时：纯共情前缀即完整回应（合理表达情感）
+        return "".join(parts), False
 
     # v1.30 修复（2026-08-26 · 条件路由图规范）：移除 v1.27「REVERSE_DAILY 确定性
     # fp 直答优先」预检——它绕过条件路由图（不经过 _cond_analysis 的子功能切换），
