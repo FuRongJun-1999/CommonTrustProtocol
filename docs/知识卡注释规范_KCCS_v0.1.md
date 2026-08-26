@@ -1,0 +1,133 @@
+# 知识卡注释规范（KCCS v0.1 · Knowledge Card Comment Spec）
+
+> 状态：设计稿（荣 2026-08-26 指示：快速层实现错误——学科路由应提供「类似函数
+> 注释的说明」再索引，但注释未按现有严格注释规范书写）
+> 对齐参照：《代码条件路由图_CCG设计.md》（注释=图的索引）、《代码语义条件协议.md》
+> （四要素注释格式）、`tools/ccg.py::extract_comment_index`（注释→索引词机制）
+
+## 0. 问题定义：快速层为什么退化
+
+### 0.1 设计理论（应然）
+
+```
+问题 → 快速层（学科路由注释索引）
+       ├─ 学科路由 = 每张知识卡的「函数注释」：生效条件/子功能/执行/不适用条件
+       ├─ 索引 = 从注释提取条件词（对齐 CCG：tokens/cond_tokens/not_tokens）
+       ├─ 检索 = 问题条件词 → 注释索引词命中 → 学科卡定位
+       └─ 负路由 = 命中不适用条件 → 排除（不路由）
+→ 再卡内递归/神经层补足 → 融合
+```
+
+快速层理论定位：**确定性翻译优先**（俗语→规范词→学科卡），比 bge 模糊相似可靠。
+
+### 0.2 实际实现（实然，错误）
+
+| 层 | 应有 | 实有 |
+|---|---|---|
+| 知识卡注释 | 四要素（生效条件/子功能/执行/不适用条件） | **无**：state_attributes 仅 `{name, domain, level, edu_level, kind, source, kp_count}` |
+| 学科说明 | `meta.style`（"E2 初中：规律+条件"）+ `meta.coverage`（"12 单元：声/光/物态…"） | 有素材但**未提取成索引** |
+| domain 字段 | 可索引学科名（如"初中物理"） | "初中物理知识点内容（按骨架填充）"占位名，无语义 |
+| DOMAIN_ROUTE | 词→学科映射（注释） | 后半被自主进化覆盖成 1000 字整卡（碳中和/碳达峰…） |
+| 快速层 fallback | dex_respond 三路评分 | 引擎已无 dex_respond → semantic_search → radical_axis 把「是」映射 sun 场 → 固定噪声 |
+
+### 0.3 退化后果（F6 检索精度）
+
+- 「为什么天空是蓝色的？」→ 快速层固定噪声（离子/问候介绍/实时OS…neural=0）融合分
+  0.25-0.275 压过神经层真命中「光的色散」0.212 → 正确卡排第 5
+- 「什么是奇数？」→ 缺「奇数」卡（知识缺口）+ 噪声压真命中
+- 1000 集命中率 99%→79% 的检索侧次因
+
+## 1. 知识卡四要素注释规范
+
+### 1.1 格式（对齐 CCG 行 37-43 + 代码语义条件协议 §0）
+
+每张学科知识卡（subject_card）在 `state_attributes` 新增 `comment` 字段，格式：
+
+```json
+"comment": {
+  "name": "光的色散（初中物理）",
+  "生效条件": ["问光的三原色/色散/彩虹成因", "问白光分解为七色光", "E2 层级光学现象"],
+  "子功能": ["色散定义：白光经三棱镜分解", "三原色：红绿蓝", "彩虹成因：水滴色散"],
+  "执行": "白光经三棱镜折射分解为红橙黄绿蓝靛紫七色光；光的三原色是红绿蓝",
+  "不适用条件": ["问光的反射定律/折射定律/直线传播时", "问透镜成像时"]
+}
+```
+
+### 1.2 生成规则（零 LLM · 确定性）
+
+从源 json + 知识点名自动生成：
+
+| 要素 | 来源 | 规则 |
+|---|---|---|
+| name | 卡名 + 学科 | `{卡名}（{学科}）` |
+| 生效条件 | meta.coverage 单元词 + 知识点名 | 每个单元/知识点 → 「问{知识点名}时」；去口语虚词 |
+| 子功能 | 知识点名列表 | 每个知识点 → 「{知识点名}：{content 首句摘要}」 |
+| 执行 | meta.style + 卡 content | style 的规律类型 + 前 N 知识点摘要 |
+| 不适用条件 | 学科互斥推理 | 同域相邻卡的知识点名（如光的色散不适用→光的反射/折射） |
+
+> 生成初稿 → 人工精修（试点 5 张卡手工写，验证机制后再铺开自动生成）
+
+### 1.3 索引（对齐 ccg.py extract_comment_index）
+
+```python
+def extract_card_comment_index(comment: dict) -> dict:
+    """知识卡注释 → 索引词：{tokens, cond_tokens, not_tokens}"""
+    tokens     = bigrams(comment["name"] + " " + " ".join(comment["子功能"]))
+    cond_tokens = bigrams(" ".join(comment["生效条件"]))
+    not_tokens  = bigrams(" ".join(comment["不适用条件"]))  # 负路由
+```
+
+## 2. 快速层改用注释索引（card_route）
+
+```python
+def card_route(question, cards):
+    """快速层：问题条件词 → 知识卡注释索引命中（对齐 ccg.search）"""
+    q = bigrams(question) - STOP
+    scored = []
+    for card in cards:
+        idx = card["index"]
+        common = q & idx["tokens"] | q & idx["cond_tokens"]
+        if not common:
+            continue
+        not_hit = len(q & idx["not_tokens"])
+        if not_hit >= 2:
+            continue  # 不适用条件命中 → 排除（负路由）
+        scored.append((card, len(common), ...))
+    return sorted(scored, key=-score)[:top]
+```
+
+graph_retrieve 快速层顺序：`card_route（注释索引）→ dex_respond/semantic_search（现有）→ 融合`
+——注释命中 = 确定性翻译优先（card 有注释时替代 radical 噪声）。
+
+## 3. 试点：5 张卡（先验证机制）
+
+| # | 卡 | 学科 | 验证问题 | 预期 |
+|---|---|---|---|---|
+| 1 | 光的色散 | 初中物理 | 为什么天空是蓝色的？ | 快速层注释命中 → 不再靠神经层第 5 |
+| 2 | 细胞结构 | 生物学 | 什么是细胞？ | 对照：本已工作，不退化 |
+| 3 | 原子结构 | 物理/化学 | 原子是什么？ | 对照：本已工作，不退化 |
+| 4 | 奇偶数 | 小学数学 | 什么是奇数？ | 补知识卡 + 注释 → 从 BLINDSPOT 到命中 |
+| 5 | 光合作用 | 生物学 | 植物为什么能制造氧气？ | 新验证点 |
+
+## 4. 验证方法
+
+1. 5 卡注释写入 → 5 个验证问题 graph_retrieve 排序（正确卡必须进 top3）
+2. F-SPEC 全量 1000 题重评：F6 知识准确 vs 首评 0.500 提升
+3. 对照：细胞/原子（已工作）不退化
+4. 回归：verify_answer L2 来源校验（hits+卡导航）仍通过
+
+## 5. 落地步骤（白箱纪律）
+
+1. ✅ 本文档（设计 v0.1）
+2. 试点 5 卡：手工写四要素注释 → 写入 state_attributes.comment
+3. `card_route` 实现（复用 ccg.py bigrams/负路由机制）
+4. graph_retrieve 接入：card_route 优先于 semantic_search
+5. 5 问题验证 + F-SPEC 全量重评
+6. 清理 DOMAIN_ROUTE 后半整卡污染（对齐 consolidate 清理）
+7. 文档固化 + 五副本同步 + 提交推送
+
+## 6. 不做（后续）
+
+- 138 卡全量注释自动生成（试点验证后再铺开）
+- 注释漂移检测（对齐代码语义条件协议负面测试闭环）
+- 知识卡注释纳入 verify_answer L2 来源校验（试点后再接）
