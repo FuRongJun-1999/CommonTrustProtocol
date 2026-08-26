@@ -3386,7 +3386,13 @@ def graph_retrieve(dex, question, limit=10):
                 "珠峰", "珠穆朗玛", "高原", "山顶", "高压锅", "海拔",
                 "气压", "高压", "低压", "潜水", "深海")):
             _daily_v = REVERSE_DAILY.get(_dterm)
-            if _daily_v and len(_daily_v) <= 300:
+            # v1.44 修复（矛盾测试重测 · 2026-08-26）：矛盾键（_KEY_TO_CONFLICT
+            # 注册的实践智慧卡）值 320-388 字 >300 被过滤 → 自律/家务/催婚等
+            # 社会矛盾题 graph_retrieve miss → 诚实声明（旧基准 v1-v41 全绿
+            # 失守）。矛盾键是手工精写的矛盾分析（本质+三解，结构完整），
+            # 非整卡污染——放宽到 500 字；生活常识键仍 300 字（防整卡）。
+            _max_len = 500 if (_dterm in _KEY_TO_CONFLICT) else 300
+            if _daily_v and len(_daily_v) <= _max_len:
                 _daily_hit = {"name": _dterm, "score": 1.0, "matched": ["翻译"],
                               "direct_answer": _daily_v, "daily": _daily_v,
                               "domain": "", "edu_level": "通用",

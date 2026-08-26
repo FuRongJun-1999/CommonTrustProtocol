@@ -74,9 +74,13 @@ def verify_answer(reply: str, meta: dict | None = None) -> tuple[bool, list[str]
     if card:
         ok = False
         checks.append(f"✗ L1 内部格式泄漏：{card}")
-    if len(reply) > _MAX_LEN:
+    # v1.44 修复（矛盾测试重测）：矛盾实践智慧回答（自律→即时奖励vs延迟
+    # 满足、家务→公平感破裂）结构完整 320-500 字，300 字上限误伤。矛盾分析
+    # 是手工精写语义确定内容（非整卡 900-1200 字污染）——上限放宽到 500，
+    # 仍拦住整卡（900+ 字）。无需检测『矛盾』字样（回答可能不含该词）。
+    if len(reply) > 500:
         ok = False
-        checks.append(f"✗ L1 超长（{len(reply)}>{_MAX_LEN}，疑似整卡）")
+        checks.append(f"✗ L1 超长（{len(reply)}>500，疑似整卡）")
     else:
         checks.append(f"✓ L1 自然语言格式（{len(reply)}字）")
 
