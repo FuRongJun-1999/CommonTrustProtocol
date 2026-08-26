@@ -3923,27 +3923,26 @@ class SpacetimeMemoryEngine:
         # 原实现每次巩固无条件写入 [consolidation] 节点，同内容可重复数十次
         # 污染知识层稀释检索；仅当有实际动作（提升/降权/压缩标记）才记录。
         # v1.30.1 修复（外部测试报告 · consolidation 日志无节制累积）：
-        # ①条件含恒真的 rehearsed（知识库有高重要度节点即恒 >0）→ 去掉，
-        #   仅 boosted/degraded/compressible 任一 >0 才落节点（报告建议）；
+        # ①条件含恒真的 rehearsed（知识库有高重要度节点即恒 >0）→ 去掉；
         # ②演练（rehearsed）本质是「读取刷新」，不是知识变化——即使记录，
-        #   也不应写入知识层 nodes（污染检索/占 71% 知识库），改为落日志文件
-        #   （logs/consolidation.log），与知识层物理隔离。
+        #   也不应写入知识层 nodes（污染检索），改为落日志文件。
+        # v1.30.2 修复（F-SPEC 评审 · consolidation 残留）：v1.30.1 条件
+        #   「boosted/degraded/compressible 任一 >0 才写」仍不彻底——boosted
+        #   触发条件为 access_count % 10 == 0，真实运行中有访问即有节点跨过
+        #   10 的倍数被提升，「提升 N>0」几乎恒真 → 仍持续写知识层节点。
+        #   根治：consolidation 统计是内部维护元数据（演练/提升/降权/压缩
+        #   标记），一律不写知识层 nodes，无论有无动作都只落日志文件。
         import os as _os
-        if stats["boosted"] or stats["degraded"] or stats["compressible"]:
-            self.add_perception(
-                f"[consolidation] 提升 {stats['boosted']} · 降权 {stats['degraded']} · 可压缩 {stats['compressible']}",
-                importance=0.4, tags=["consolidation"])
-        else:
-            # 无实际动作：不写知识层；演练事实落日志文件（不污染检索）
-            try:
-                _log_dir = _os.path.join(_os.path.dirname(_os.path.dirname(
-                    _os.path.abspath(__file__))), "logs")
-                _os.makedirs(_log_dir, exist_ok=True)
-                with open(_os.path.join(_log_dir, "consolidation.log"), "a", encoding="utf-8") as _lf:
-                    _lf.write(f"[{__import__('time').strftime('%Y-%m-%d %H:%M:%S')}] "
-                              f"consolidation 无变化（演练 {stats['rehearsed']} · 提升 0 · 降权 0 · 可压缩 0）\n")
-            except Exception:
-                pass
+        try:
+            _log_dir = _os.path.join(_os.path.dirname(_os.path.dirname(
+                _os.path.abspath(__file__))), "logs")
+            _os.makedirs(_log_dir, exist_ok=True)
+            with open(_os.path.join(_log_dir, "consolidation.log"), "a", encoding="utf-8") as _lf:
+                _lf.write(f"[{__import__('time').strftime('%Y-%m-%d %H:%M:%S')}] "
+                          f"consolidation 演练 {stats['rehearsed']} · 提升 {stats['boosted']} · "
+                          f"降权 {stats['degraded']} · 可压缩 {stats['compressible']}\n")
+        except Exception:
+            pass
         return stats
 
     def run_maintenance_cycle(self, decay_factor: float = 0.02) -> Dict:

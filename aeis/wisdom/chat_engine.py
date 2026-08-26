@@ -1216,11 +1216,42 @@ def _assemble(message, hits, emotion):
     # 「动态规划vs贪心」对比卡 direct 正确但被空 direct 的「算法设计与
     # 分析」卡压住。改为取第一个有 direct_answer 的卡作为回复源，
     # 保证「先答再引」（direct 优先于卡导航）。
+    # v1.31 修复（F-SPEC F6 检索精度 · 复用现有条件识别机制）：
+    # 不用朴素二元组匹配——白箱自举已有更细化的判据：
+    #   classify_condition_space（学科域硬分类 + 歧义词前置消解独有条件隔离）
+    #   _extract_focus_words / _extract_tail_focus（问题焦点词提取）
+    #   _domain_matches（学科域过滤）
+    # 选卡规则：优先「direct_answer 包含问题焦点词」的卡（焦点词是问题实义
+    # 核心——「什么是细胞」焦点=细胞，「基本单位」由卡内容承载）。
+    # 多卡都有 direct_answer 时，取焦点词覆盖最高的（而非固定第一张）。
     _reply_hit = top
-    for h in hits:
-        if h.get("direct_answer"):
-            _reply_hit = h
-            break
+    try:
+        import semantic_translate as _st_f
+        _foci = _st_f._extract_focus_words(message) or _st_f._extract_tail_focus(message)
+        _best_focus_hit = -1
+        for h in hits:
+            if not h.get("direct_answer"):
+                continue
+            _da = h.get("direct_answer", "")
+            # 焦点词覆盖：问题焦点词出现在 direct_answer 中的比例
+            _hit_n = sum(1 for f in _foci if f in _da)
+            _ratio = _hit_n / max(1, len(_foci))
+            if _ratio > _best_focus_hit:
+                _best_focus_hit = _ratio
+                _reply_hit = h
+        # 焦点词全无覆盖时回退第一张有 direct_answer 的卡（保持基线行为）
+        if _best_focus_hit < 0:
+            _reply_hit = top
+            for h in hits:
+                if h.get("direct_answer"):
+                    _reply_hit = h
+                    break
+    except Exception:
+        _reply_hit = top
+        for h in hits:
+            if h.get("direct_answer"):
+                _reply_hit = h
+                break
     if _reply_hit is not top:
         name = _reply_hit.get("name", name)
         score = _reply_hit.get("score", score)

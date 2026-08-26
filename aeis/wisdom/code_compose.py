@@ -67,6 +67,44 @@ CODE_UNITS = {
         "cases": [([3, 1, 2], 3), ([7], 7), ([], None), ([-1, -5, -2], -1)],
         "params": ["fn"],
     },
+    "最大公约数": {
+        "task": "最大公约数",
+        "pattern": (
+            "def {fn}(a, b):\n"
+            "    while b:\n"
+            "        a, b = b, a % b\n"
+            "    return a\n"),
+        "cases": [((48, 36), 12), ((7, 5), 1), ((0, 5), 5), ((54, 24), 6)],
+        "params": ["fn"],
+    },
+    "斐波那契": {
+        "task": "斐波那契",
+        "pattern": (
+            "def {fn}(n):\n"
+            "    if n <= 0:\n"
+            "        return []\n"
+            "    fib = [0, 1]\n"
+            "    while len(fib) < n:\n"
+            "        fib.append(fib[-1] + fib[-2])\n"
+            "    return fib[:n]\n"),
+        "cases": [(1, [0]), (5, [0, 1, 1, 2, 3]), (10, [0, 1, 1, 2, 3, 5, 8, 13, 21, 34])],
+        "params": ["fn"],
+    },
+    "素数": {
+        "task": "素数",
+        "pattern": (
+            "def {fn}(n):\n"
+            "    if n < 2:\n"
+            "        return False\n"
+            "    i = 2\n"
+            "    while i * i <= n:\n"
+            "        if n % i == 0:\n"
+            "            return False\n"
+            "        i += 1\n"
+            "    return True\n"),
+        "cases": [(2, True), (3, True), (4, False), (17, True), (1, False), (0, False)],
+        "params": ["fn"],
+    },
     "反转列表": {
         "task": "反转",
         "pattern": (
@@ -96,6 +134,9 @@ TASK_KEYWORDS = {
     "最大": ["最大", "最大值", "最高的", "最大的数", "最多"],
     "反转": ["反转", "倒过来", "倒序", "反过来"],
     "求和": ["求和", "加起来", "总和", "相加", "累加"],
+    "最大公约数": ["最大公约数", "最大公因数", "公约数", "公因数", "gcd"],
+    "斐波那契": ["斐波那契", "fibonacci", "fib"],
+    "素数": ["素数", "质数", "是不是质数", "判断质数", "isprime", "prime"],
 }
 
 # ============ 四、多语言代码单元（第四阶段·代码深学：Rust / JavaScript） ============
