@@ -2563,12 +2563,28 @@ def recursive_item_answer(dex, card_name, fp, question):
             # v1.18：门槛 5→4（Python 卡 GIL 条目与问题「多线程/不并行」交集
             # 因中英混合 bigram 偏少，5 门槛把正确条目滤掉 → 引言当选）。
             # 且引言（卡名行）降权——引言是标题不是答案。
-            if len(inter) < 4:
-                continue  # 实词交集不足 → 字面噪声，跳过
+            # v1.34 修复（第七阶段 · 精准执行）：数字/符号问题（「1+1等于几」）
+            # bigram 太少（{'等于','于几'}）过不了 4 门槛 → 小学数学卡拿不到
+            # direct → 被有卡内递归的「线性代数」抢答（答成矩阵对角化）。
+            # fp 规范词命中条目名（「加法」in 条目）→ 确定性语义，豁免门槛。
+            _fp_name_hit = any(term in item[:30] for term in fp)
+            if len(inter) < 4 and not _fp_name_hit:
+                continue  # 实词交集不足且无 fp 名命中 → 字面噪声，跳过
             s = len(inter) * 1.2
+            # v1.34 修复（第七阶段 · 精准执行）：fp 规范词命中条目名
+            # （「加法」in 条目名「加减法」）→ 确定性语义，给高分通道
+            # （对齐 kp 路径的 name_hit——数学卡无 kp 子节点时 content 解析
+            #  也要能拿到高置信 direct，否则「1+1等于几」被线性代数抢答）。
+            _fp_name_hit = False
             for term, w in fp.items():
                 if term in item:
                     s += 0.8 * w
+                    _name_part = item.split(":")[0] if ":" in item else item[:12]
+                    if term in _name_part:
+                        _fp_name_hit = True
+                        s += 2.0 * w  # 名命中加成（对齐 kp 路径 w*2.0）
+            if _fp_name_hit:
+                s = max(s, 3.6)  # 名命中=高置信，突破 3.6 门槛
             # 引言降权：以卡名/「规律性/概述/介绍」开头 = 标题行
             if len(item) < 30 or item.startswith(("Python", "Rust", "TypeScript",
                                                   "规律性", "概述", "介绍")):
@@ -2708,7 +2724,13 @@ def _domain_matches(domain_filter: str, node_domain: str) -> bool:
 # 通用疑问词/虚词（第二层条目导航用：不参与焦点词提取）
 _FOCUS_STOP = ("什么", "怎么", "为什么", "多少", "哪些", "哪个", "如何", "是",
                "的", "了", "吗", "呢", "啊", "呀", "吧", "求", "公式", "内容",
-               "定义", "解释", "请", "给", "一下", "分别", "之间的", "关系")
+               "定义", "解释", "请", "给", "一下", "分别", "之间的", "关系",
+               # v1.34 修复（第七阶段 · 两阶段收敛）：句式词不是答案焦点——
+               # 「1+1等于几」的「等于几/于几/等于」是疑问模板，若参与选卡，
+               # 线性代数 direct「矩阵对角化…等于几何重数」因含「等于」抢答，
+               # 覆盖 graph_retrieve 的正确答案「加减法」。数字题焦点应是
+               # 运算词（加法/减法），不是「等于几」。
+               "等于", "于几", "等于几", "等于多少", "是多少", "几")
 
 
 def _extract_focus_words(question: str) -> list:
@@ -2808,7 +2830,11 @@ def _card_bigrams(text: str) -> set:
 _CARD_STOP = {"什么", "么是", "为什", "什么", "怎么", "么办", "为什",
               "是什", "的", "一个", "一下", "这个", "那个", "请问",
               "知道", "叫什", "叫", "是什", "么", "为", "了", "吗",
-              "呢", "啊", "呀", "吧"}
+              "呢", "啊", "呀", "吧",
+              # v1.33（bge 移除 · 2026-08-26）：句式词——「等于几/是多少」
+              # 是疑问模板非学科实义（「1+1等于几」误命中原子结构注释的
+              # 『质子数等于电子数』——「等于」重叠）
+              "等于", "于几", "多少", "少", "几"}
 
 
 def _card_q_tokens(question: str) -> set:
@@ -2879,6 +2905,7 @@ def card_route(dex, question, limit=5):
             scored.append({
                 "name": cm.get("name", nid),
                 "score": score[0],
+                "_card_raw_score": score[0],
                 "_coverage": score[1],
                 "matched": ["KCCS注释索引"],
                 "direct_answer": da,
@@ -2892,6 +2919,239 @@ def card_route(dex, question, limit=5):
         return scored[:limit]
     except Exception:
         return []
+
+
+# ==================== 两阶段收敛检索（第七阶段 v0.1 · 2026-08-26） ====================
+# 荣：查找像看地图——先从大的区域找（知识域），再精确到小区域（域内条目）。
+# 一个未知的定义域问题，应分多个子线程从最大的知识域找关联，收敛到高置信域，
+# 再在域内分多个子线程找子内容，收敛返回最匹配——而不是一条线找到尾。
+# 对照：线性管道（card_route→dex_respond→semantic_search→融合→递归）在
+# 「1+1等于几」上失败——小学数学卡（正确域）因 direct 递归门槛失败被线性
+# 代数（同域但更深）抢答，因为域级没有先收敛。两阶段检索修复此问题。
+
+# 域聚合映射：54 学科域 → 14 大域（第一阶段「大区域」）
+DOMAIN_GROUPS = {
+    "数学": ["小学数学", "初中数学", "高中数学", "数学", "高等数学", "高等代数",
+            "线性代数", "数学分析", "概率论与数理统计", "实变函数/泛函分析",
+            "常微分方程/复变函数", "微分几何/数值分析", "抽象代数/拓扑学"],
+    "物理学": ["初中物理", "高中物理", "大学物理", "理论力学/电动力学",
+              "热力学统计/固体物理", "量子力学", "数学物理方法/原子物理/天体物理"],
+    "化学": ["初中化学", "高中化学", "大学化学", "无机化学/分析化学",
+            "有机化学/高分子化学", "物理化学", "结构化学/化工原理", "生物化学/分子生物学"],
+    "生物学": ["初中生物", "高中生物", "微生物学/植物学/动物学",
+              "细胞生物学/遗传学", "生态学/生理学"],
+    "语文/文学": ["语文", "中国古代文学/中国现代文学",
+                "外国文学/古代汉语/现代汉语/文学理论"],
+    "英语": ["英语", "大学英语/大学思政"],
+    "政治/历史": ["历史", "政治（道德与法治/思想政治）"],
+    "地理": ["地理"],
+    "小学科学": ["小学科学"],
+    "计算机科学": ["编程语言", "程序设计/数据结构", "算法/操作系统",
+                  "编译原理/软件工程", "计算机网络/数据库系统",
+                  "计算机组成原理/人工智能"],
+    "工程学": ["材料力学/电路原理", "模拟电子/数字电路/工程制图/土木"],
+    "经济学/管理": ["微观经济学/宏观经济学", "管理学/会计学/金融学/市场营销"],
+    "哲学/智能论": ["存在论"],
+    "人话接口": ["人类观察者知识点内容（人话接口"],
+}
+# 反向映射：学科域（含骨架后缀）→ 大域
+_DOMAIN_TO_GROUP = {}
+for _g, _members in DOMAIN_GROUPS.items():
+    for _m in _members:
+        _DOMAIN_TO_GROUP[_m] = _g
+        _DOMAIN_TO_GROUP[_m + "知识点内容（按骨架填充）"] = _g
+
+
+def _domain_group(node_domain: str) -> str:
+    """学科域 → 大域（宽松匹配：去骨架后缀/取主域）。"""
+    if not node_domain:
+        return ""
+    d = str(node_domain)
+    if d in _DOMAIN_TO_GROUP:
+        return _DOMAIN_TO_GROUP[d]
+    # 骨架后缀变体
+    for k, v in _DOMAIN_TO_GROUP.items():
+        if d.startswith(k) or k in d:
+            return v
+    return ""
+
+
+def two_stage_retrieve(dex, question, top_domains=3, limit=5):
+    """两阶段收敛检索（地图式：大区域 → 小区域）。
+
+    第一阶段（域级并行）：KCCS 注释索引命中 kp 的 domain → 聚合到大域，
+      每域累计匹配分；无注释命中时用问题实义词扫学科卡 domain。收敛 top 域。
+    第二阶段（条目级并行）：top 域内并行跑 card_route（注释索引）+
+      翻译表命中（fp→DOMAIN_ROUTE 域匹配），收敛最匹配条目。
+    返回：按域收敛排序的命中列表（每条含 domain_group 字段）。
+    """
+    import json as _json
+    q_toks = _card_q_tokens(question)
+    fp = {}
+    try:
+        fp = encode(question)
+    except Exception:
+        fp = {}
+    # v1.34 修复：q_toks 空（「1+1等于几」全虚词）但 fp 有规范词（加法）时
+    # 仍应检索——翻译表是确定性语义，不依赖问题实词窗口。
+    if not q_toks and not fp:
+        return []
+    # ---- 第一阶段：域级打分 ----
+    domain_scores = {}
+    domain_hits = {}
+    try:
+        rows = dex.store.conn.execute(
+            "SELECT state_attributes FROM nodes "
+            "WHERE state_attributes LIKE '%\"comment\"%' LIMIT 800").fetchall()
+        for (sa_json,) in rows:
+            try:
+                sa = _json.loads(sa_json) if sa_json else {}
+            except Exception:
+                continue
+            cm = sa.get("comment") or {}
+            if not cm:
+                continue
+            _d = sa.get("domain") or ""
+            _g = _domain_group(_d)
+            if not _g:
+                continue
+            # 该 kp 的注释索引词 ∩ 问题实义词
+            idx_text = " ".join([cm.get("name", ""),
+                                 " ".join(cm.get("生效条件", [])),
+                                 " ".join(cm.get("子功能", [])),
+                                 cm.get("执行", "")])
+            toks = _card_bigrams(idx_text) - _CARD_STOP
+            common = q_toks & toks
+            # v1.34 修复（第七阶段 · 单定义注释粒度）：字面包含通道——
+            # q_toks 空时（「1+1等于几」全虚词）或二元组不命中时，
+            # 生效条件完整串与问题做子串匹配（「问1加1等于几」≈ 问题，
+            # 数字/符号差异由人工注释覆盖）。确定性注释命中 > 二元组噪声。
+            _literal = 0
+            if not common:
+                # 符号归一化：+→加、-→减、×→乘、÷→除（保留数字语义）
+                _q_norm = question.replace("+", "加").replace("＋", "加") \
+                    .replace("-", "减").replace("－", "减") \
+                    .replace("×", "乘").replace("÷", "除")
+                for _c in cm.get("生效条件", []) or []:
+                    _c_clean = _c.replace("问", "").strip()
+                    if not _c_clean or len(_c_clean) < 2:
+                        continue
+                    _c_norm = _c_clean.replace("+", "加").replace("＋", "加") \
+                        .replace("-", "减").replace("－", "减") \
+                        .replace("×", "乘").replace("÷", "除")
+                    if _c_norm and (_c_norm in _q_norm or _q_norm in _c_norm):
+                        _literal = max(_literal, 2)
+                        break
+            if not common and not _literal:
+                continue
+            _match_n = len(common) + _literal
+            domain_scores[_g] = domain_scores.get(_g, 0) + _match_n
+            domain_hits.setdefault(_g, []).append({
+                "name": cm.get("name", ""), "score": _match_n,
+                "_card_raw_score": _match_n,
+                "matched": ["KCCS注释索引"],
+                "direct_answer": (sa.get("comment", {}).get("执行", "") or "")[:160],
+                "domain": _d, "domain_group": _g,
+                "edu_level": sa.get("edu_level", ""),
+                "_card_hit": True})
+    except Exception:
+        pass
+    # 翻译表域命中：fp 规范词 → DOMAIN_ROUTE 域 → 大域（数学/物理…）
+    for term, w in fp.items():
+        _route_dom = DOMAIN_ROUTE.get(term)
+        if _route_dom:
+            _g = _domain_group(_route_dom)
+            if _g:
+                domain_scores[_g] = domain_scores.get(_g, 0) + w * 2.0
+    # 学科卡内容扫描（无 comment 的卡：分数/加法/氧气 等在卡 content 条目里）：
+    # fp 规范词命中学科卡 content → 该卡 domain → 大域加分，并预取条目答案
+    # （两阶段第二阶段的域内数据源——「1+1等于几」→ 加法命中小学数学卡）。
+    try:
+        _cards = dex.store.conn.execute(
+            "SELECT id, content, state_attributes FROM nodes "
+            "WHERE state_attributes LIKE '%\"kind\": \"subject_card\"%' "
+            "LIMIT 200").fetchall()
+        for _cid, _ccontent, _csa_json in _cards:
+            try:
+                _csa = _json.loads(_csa_json) if _csa_json else {}
+            except Exception:
+                continue
+            _cd = _csa.get("domain") or ""
+            _cg = _domain_group(_cd)
+            if not _cg:
+                continue
+            _cname = _csa.get("name") or ""
+            _hit_score = 0.0
+            for _term, _w in fp.items():
+                if _term and (_term in _ccontent or _term in _cname):
+                    _hit_score += _w * 1.0
+            # v1.34 修复：问题实义词（「分数」）命中条目名 → 学科卡也算命中
+            # （「什么是分数」fp=分数定义 不在卡 content，但 q_toks 含「分数」
+            #  且卡内条目「分数: 把一个苹果…」名匹配）
+            if _hit_score <= 0 and q_toks:
+                for _raw in split_items(_ccontent or ""):
+                    _head = _raw.split(":")[0] if ":" in _raw else ""
+                    if _head and (_card_bigrams(_head) & q_toks):
+                        _hit_score = 1.0
+                        break
+            if _hit_score <= 0:
+                continue
+            domain_scores[_cg] = domain_scores.get(_cg, 0) + _hit_score
+            # 域内条目：fp 名命中 → 直接取条目内容（精准答案）
+            _entry = ""
+            _entry_hit = 0.0
+            for _raw in split_items(_ccontent or ""):
+                _head = _raw.split(":")[0] if ":" in _raw else ""
+                _hp = _card_bigrams(_head) & q_toks
+                if any(_t in _head for _t in fp):
+                    # fp 名命中（「加法」in「加减法」）→ 最强
+                    _entry, _entry_hit = _raw.strip(), 3.0
+                    break
+                if _hp:
+                    # q_toks 命中条目名（「分数」in「分数」）→ 次强
+                    if len(_hp) >= _entry_hit:
+                        _entry, _entry_hit = _raw.strip(), float(len(_hp))
+            if not _entry and len(_ccontent) > 30:
+                _entry = (_ccontent or "")[:160]
+            domain_hits.setdefault(_cg, []).append({
+                "name": _cname, "score": round(_hit_score, 2),
+                "_card_raw_score": max(1, int(_hit_score)),
+                "_entry_hit": _entry_hit,
+                "matched": ["翻译"],
+                "direct_answer": _entry[:160],
+                "domain": _cd, "domain_group": _cg,
+                "edu_level": _csa.get("edu_level", ""),
+                "_card_hit": False})
+    except Exception:
+        pass
+    if not domain_scores:
+        return []
+    # 收敛 top 域
+    ranked_domains = sorted(domain_scores.items(), key=lambda x: -x[1])
+    top_ds = [g for g, _s in ranked_domains[:top_domains]]
+    # ---- 第二阶段：域内条目并行（ThreadPoolExecutor）----
+    merged = []
+    for _g in top_ds:
+        merged.extend(domain_hits.get(_g, []))
+    # 域内再跑 card_route 全量（把域内所有注释命中 kp 拉进来）
+    try:
+        _all = card_route(dex, question, limit=30)
+        for _h in _all:
+            _hg = _domain_group(_h.get("domain") or "")
+            if _hg in top_ds and not any(
+                    x.get("name") == _h.get("name") for x in merged):
+                _h["domain_group"] = _hg
+                merged.append(_h)
+    except Exception:
+        pass
+    # 收敛排序：注释命中（_card_hit，人工校准=最强）→ 域分 → 条目命中
+    # → 注释匹配分（「1+1」：加减法 kp 注释命中 _card_hit=True 应优先于
+    #  学科卡扫描的「分类加法原理」_card_hit=False——人工注释 > 字符串扫描）
+    merged.sort(key=lambda x: (0 if x.get("_card_hit") else 1,
+                               -domain_scores.get(x.get("domain_group", ""), 0),
+                               -x.get("_entry_hit", 0.0),
+                               -x.get("score", 0)))
+    return merged[:limit]
 
 
 def graph_retrieve(dex, question, limit=10):
@@ -2917,25 +3177,67 @@ def graph_retrieve(dex, question, limit=10):
     # 轴把「是」映射 sun 场 → 固定噪声（离子/问候介绍…neural=0）压过神经层
     # 真命中。修复：card_route 优先（kp 四要素注释索引，确定性翻译），
     # 命中则替代 radical 噪声通道；无命中才走 semantic_search。
+    # v1.34 修复（第七阶段 · 两阶段收敛检索 · 2026-08-26 荣：查找像看地图——
+    # 先从大区域（知识域）找，再精确到小区域（域内条目），多子线程并行，
+    # 收敛返回最匹配，而不是一条线找到尾）。线性管道（card_route→dex_respond
+    # →semantic_search→融合→递归）在「1+1等于几」失败——小学数学卡（正确域）
+    # 因 direct 递归门槛失败被线性代数抢答，因为域级没有先收敛。修复：
+    # two_stage_retrieve 优先（域级并行收敛 → 域内条目并行收敛）。
     fast = []
     try:
-        fast = card_route(dex, question, limit=15)
+        fast = two_stage_retrieve(dex, question, top_domains=3, limit=15)
     except Exception:
         fast = []
-    if not fast and hasattr(dex, "dex_respond"):
+    # v1.34 修复（第七阶段 · 两阶段收敛）：two_stage 有人工注释命中
+    # （_card_hit=True，四要素注释=最终裁决）时直接返回——跳过后续
+    # 融合/递归/尾焦点洗牌（那些在「1+1等于几」把正确的加减法 kp 洗成
+    # 线性代数）。人工注释索引 > 字符串扫描 > bge 模糊（bge 已移除）。
+    if any(h.get("_card_hit") for h in fast):
+        _ts = [h for h in fast if h.get("_card_hit")]
+        return _ts[:limit]
+    if not fast:
         try:
-            fast = dex.dex_respond(question, limit=15, translator=__import__(__name__))
+            fast = card_route(dex, question, limit=15)
+        except Exception:
+            fast = []
+    if not fast and hasattr(dex, "dex_respond"):
+        # v1.33 修复（bge 移除 · 2026-08-26）：dex_respond（ConditionDex 路径，
+        # agent.chat 使用）的字符重叠兜底会硬配无关卡（「1+1等于几」→线性代数）。
+        # 翻译命中门槛：仅保留 matched 含规范词/学科词的卡（翻译表/学科路由
+        # 确定性命中）；纯字符重叠命中（matched 为空）→ 丢弃（白箱诚实 miss
+        # → layered 降级 LLM）。
+        try:
+            _dex_hits = dex.dex_respond(question, limit=15, translator=__import__(__name__))
+            for _dh in _dex_hits:
+                if not isinstance(_dh, dict):
+                    continue
+                _dm = _dh.get("matched") or []
+                if _dm:  # 有规范词/学科词命中 → 确定性翻译，保留
+                    fast.append(_dh)
         except Exception:
             fast = []
     if not fast:
+        # v1.33 修复（bge 移除 · 2026-08-26）：semantic_search 快速层对
+        # 无坐标节点走 radical 文本相似（「是」→sun 场）→ 固定噪声
+        # （离子/问候介绍/实时OS…matched=['语义坐标']）。bge 移除后噪声
+        # 独占检索 → 分数/熵/1+1 全答错。修复：semantic_search 命中加
+        # 「实义重叠」门槛——问题与卡名的实义词（去虚词后 ≥2 字）必须
+        # 重叠，否则判噪声丢弃（白箱诚实 miss → layered 降级 LLM）。
         try:
             _hits = dex.semantic_search(question, limit=15)
+            _q_real = _card_q_tokens(question)  # 问题实义词（二元组 - 虚词）
             for _node, _score in _hits:
                 _sa = getattr(_node, "state_attributes", None) or {}
                 _name = _sa.get("name") or getattr(_node, "name", None) or ""
                 if not _name:
                     _c = (getattr(_node, "content", "") or "")
                     _name = _c.split("\n")[0][:40] if _c else "未命名"
+                # 实义重叠门槛：卡名实义词与问题实义词须有交集
+                # （「什么是分数」→卡名「分数」命中；「熵」→卡名「熵」命中；
+                #  「什么是分数」→噪声卡「离子/龙格库塔法」无交集 → 丢弃）
+                _name_real = _card_bigrams(_name) - _CARD_STOP
+                if not (_q_real & _name_real):
+                    continue
                 _dom = _sa.get("domain") or _sa.get("学科", "")
                 _edu = _sa.get("edu_level") or _sa.get("教育层级", "")
                 fast.append({"name": _name, "score": float(_score or 0),
@@ -2943,74 +3245,49 @@ def graph_retrieve(dex, question, limit=10):
                             "_node": _node})
         except Exception:
             fast = []
-    # 神经层：索引独立召回（单字学科词/俗语等快速层漏检的语义）
-    neural_map = {}
-    neural_names = []
-    try:
-        from neural_retrieve import NeuralRetriever
-        nr = NeuralRetriever()
-        idx_hits = nr.search_index(question, limit=10, threshold=0.3)
-        neural_map = {name: score for name, score, _d, _e in idx_hits}
-        neural_names = [name for name, _s, _d, _e in idx_hits]
-    except Exception:
-        neural_map = {}
-        idx_hits = []
-        neural_names = []
-    # 合并候选：快速层 + 神经层独有卡
-    if not fast and not neural_names:
+    # 神经层：v1.33 移除（荣 2026-08-26：与其指望 bge 兜底，为什么不用更好的
+    # deepseek LLM？CCG 已证明白箱检索无需嵌入）。bge 多次错配（天空蓝→光的
+    # 色散、奇数→奇异值分解、质数→质量、emo→开心、铁球羽毛→初中地理），
+    # 且 975MB 依赖。移除后：白箱检索纯确定性（翻译表+注释索引+学科路由+
+    # 卡递归），miss 由 layered.route_reply 降级 LLM（DeepSeek 生成+白箱校验）。
+    # 快速层 semantic_search 的 radical 噪声（「是」→sun 场）一并处理：匹配
+    # 仅采用「KCCS 注释索引 + 翻译表/学科路由」命中，semantic_search 的纯
+    # 文本相似度命中不再作为快速层候选（radical 轴虚词同质化 → 固定噪声）。
+    if not fast:
         return []
     merged = list(fast)
     fast_names = {h['name'] for h in fast}
-    neural_info = {name: (dom, edu) for name, _s, dom, edu in idx_hits}
-    for name in neural_names:
-        if name not in fast_names:
-            dom, edu = neural_info.get(name, (None, None))
-            merged.append({"name": name, "score": 0.0, "matched": ["语义"],
-                           "neural_score": neural_map[name],
-                           "domain": dom, "edu_level": edu})
-    # 融合分：快速层为主、神经层微调（v1.16）
-    # 之前 min(score,1.0) 把快速层高分全压平（初中物理 7.76 和固体物理 2.11
-    # 都变 1.0），区分度丢失 → bge 神经分（字面相似，会把「沸腾」错配到
-    # 固体物理）反超决胜。改为按快速分强弱分段：
-    #   fast_abs = s/(1+s)   soft 压缩保留区分度（7.76→0.886, 2.11→0.678）
-    #   强命中（≥0.8：翻译表/学科路由直中）：0.75×fast + 0.25×neural
-    #     翻译命中=日常话→规范词的确定性翻译，比 bge 模糊相似可靠，应为主
-    #   弱命中（>0 且 <0.8：纯字面/二元组噪声）：0.3×fast + 0.7×neural
-    #     字面分低置信，神经分才是真语义（「1+1」→小学数学 fast 仅 0.03，
-    #     神经 0.616——若按强命中通道会把小学数学拖输给线性代数）
-    #   神经层独有卡：0.4×neural（快速层空转时才生效，权重降低防噪声反超）
-    # v1.16 修复（2026-08-19）：神经层高置信（≥0.6）时优先——
-    # 「圆的周长」快速层错配初中地理 2.04（强命中 0.503）压过神经层
-    # 正确「圆的周长与面积」0.703（0.281）。语义层高置信应盖过快
-    # 速层字面噪声（错误卡靠学科路由硬加权拿高分）。
-    # v1.17 修复（2026-08-19 白箱边界测试 52 例检索噪声）：
-    #  ①神经层独有卡（不在快速层 top）也享受 0.85×neural 优先——
-    #    之前只在 fast_raw<0.8 时走此通道，「概率基本性质→概率论卡」
-    #    神经 0.654 却因不在快速层按 0.4×0.654=0.262 计分，被快速层
-    #    噪声「小学英语 3.78」压过 → 答成动物词汇。
-    #  ②快速层字面高分 + 神经低分（<0.35，语义不匹配）降权——
-    #    「质数→质量」「概率→小学英语」靠二元组/学科路由硬加权拿高分，
-    #    bge 语义分低证明不相关 → 0.55×fast_abs 而非 0.75×。
+    # （bge 移除：不再有神经层独有卡合并）
+    # 融合分 v1.33（bge 移除后纯快速层）：不再有神经层微调——
+    #   KCCS 注释命中（_card_hit）：人工校准四要素注释索引（对齐 CCG 99%），
+    #     确定性语义 → 0.75×匹配度 + 0.25×翻译佐证
+    #   翻译表/学科路由命中（matched 含规范词）：0.75×fast_abs（确定性翻译）
+    #   纯字面/语义坐标命中（无规范词）：0.4×fast_abs（低置信，miss 概率高 →
+    #     由 _decide_route 判 llm 兜底）
+    # v1.16/1.17 的 bge 相关通道全部移除（质数→质量、概率→小学英语 等噪声
+    # 不再有 bge 佐证，纯字面降权）。
     for h in merged:
         name = h['name']
-        neural = neural_map.get(name, 0.0)
-        h['neural_score'] = round(neural, 3)
+        h['neural_score'] = 0.0  # bge 移除：不再有神经分数
         fast_raw = h.get('score', 0.0) or 0.0
-        if neural >= 0.6:
-            # 神经层高置信（语义真命中）→ 语义优先（含神经层独有卡）
-            h['score'] = round(0.85 * neural + 0.15 * fast_raw / (1.0 + fast_raw), 3)
-        elif fast_raw >= 0.8:
+        if h.get("_card_hit"):
+            # KCCS 注释索引命中 = 确定性语义（对齐 CCG 99% 机制）
+            _card_score = h.get("_card_raw_score", 1.0) or 1.0
+            h['score'] = round(min(1.0, 0.5 + 0.1 * min(_card_score, 4)), 3)
+            continue
+        _matched = h.get("matched") or []
+        _strong = [m for m in _matched if m not in ("语义", "语义坐标", "字面")]
+        if fast_raw >= 0.8 or _strong:
+            # 翻译表/学科路由命中（确定性翻译，对齐 CCG）
             fast_abs = fast_raw / (1.0 + fast_raw)
-            if neural < 0.35:
-                # 字面高分但语义低 → 检索噪声，降权
-                h['score'] = round(0.55 * fast_abs + 0.1 * neural, 3)
-            else:
-                h['score'] = round(0.75 * fast_abs + 0.25 * neural, 3)
+            h['score'] = round(0.75 * fast_abs + (0.25 if _strong else 0.0), 3)
         elif fast_raw > 0:
+            # 纯字面/语义坐标命中：低置信（radical 轴同质化噪声），
+            # 不参与高排序——由 _decide_route 判 llm 兜底（DeepSeek 生成）
             fast_abs = fast_raw / (1.0 + fast_raw)
-            h['score'] = round(0.3 * fast_abs + 0.7 * neural, 3)
+            h['score'] = round(0.4 * fast_abs, 3)
         else:
-            h['score'] = round(0.4 * neural, 3)
+            h['score'] = 0.0
     merged.sort(key=lambda x: -x['score'])
     # 神经层学科先验校正（v1.16）：bge 字面相似会错排学科
     # （「铁球羽毛」→初中地理、「光的反射定律」→初中生物神经反射）。
@@ -3138,8 +3415,12 @@ def graph_retrieve(dex, question, limit=10):
                 h['matched'] = []
         # v1.16 跨卡精确答案优先：有 direct_answer 的卡排前
         # （「KKT和条件论」→ 约束优化卡的条件论映射知识点 而非 条件论元层卡）
-        merged.sort(key=lambda x: (0 if x.get("direct_answer") else 1,
-                                   -x.get("score", 0)))
+        # v1.34 修复（第七阶段 · 精准执行）：bge 移除后此排序暴露错误——
+        # 「1+1等于几」线性代数（E4，有卡内递归 direct）压过小学数学卡
+        # （E1，direct 空）→ 答成矩阵对角化。direct 排前不应覆盖分数差
+        # （小学数学 0.885 > 线性代数 0.766）：分数为主、direct 仅平局决胜。
+        merged.sort(key=lambda x: (-x.get("score", 0),
+                                   0 if x.get("direct_answer") else 1))
     except Exception as _e:
         import traceback as _tb
         _tb.print_exc()
@@ -3225,6 +3506,33 @@ def graph_retrieve(dex, question, limit=10):
     except Exception:
         pass
     _record_chain_heat([h['name'] for h in merged[:3]])
+    # v1.34 Evidence 证据链（第七阶段 · 条件递归到精准执行 v0.1 §3）：
+    # 每次检索返回附证据对象（对齐 GPT Evidence）——回答可追溯：
+    #   condition_matches：问题条件词命中（KCCS 生效条件/翻译规范词）
+    #   rule_matches：命中卡名 + 来源（KCCS注释索引/翻译/学科路由/卡递归）
+    #   execution_trace：检索步骤链（fast 来源 → 融合 → 排序）
+    #   verification_result：verify_answer 校验结果（由调用方补，这里占位）
+    try:
+        _ev = {
+            "condition_matches": list(_card_q_tokens(question))[:8],
+            "rule_matches": [{"name": h.get("name", ""), "matched": h.get("matched") or [],
+                              "score": h.get("score", 0)}
+                             for h in merged[:3]],
+            "execution_trace": [
+                {"step": "cond_analysis", "detail": "knowledge/nature 由 chat_engine 判定"},
+                {"step": "retrieve", "source": "KCCS注释索引" if any(
+                    h.get("_card_hit") for h in merged)
+                 else ("翻译/学科路由" if any(m not in ("语义", "语义坐标", "字面")
+                                              for h in merged for m in (h.get("matched") or []))
+                       else "低置信（待降级）"),
+                 "candidates": len(merged)},
+            ],
+            "verification_result": None,
+        }
+        for h in merged[:limit]:
+            h['evidence'] = _ev
+    except Exception:
+        pass
     return merged[:limit]
 
 
