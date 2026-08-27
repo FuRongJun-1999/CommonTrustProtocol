@@ -1,0 +1,18 @@
+{
+ "id": "snap-20260827-221440",
+ "intent": "闭环测试：构造退化样例",
+ "files": {
+  "D:\\Program Files\\2_ai\\CommonTrustProtocol\\aeis\\wisdom\\wisdom-book-cloud.db": {
+   "sha256": "e1bb669078b4dc6c",
+   "size": 8781824
+  },
+  "D:\\Program Files\\2_ai\\CommonTrustProtocol\\aeis\\wisdom\\code_solidified.json": {
+   "sha256": "73d0d30de4bd9442",
+   "size": 388379
+  },
+  "D:\\Program Files\\2_ai\\CommonTrustProtocol\\aeis\\wisdom\\mini_python.py": {
+   "sha256": "8b609678c4a40b93",
+   "size": 27536
+  }
+ }
+}

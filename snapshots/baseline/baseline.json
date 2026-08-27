@@ -1,0 +1,32 @@
+{
+ "ts": "2026-08-27 22:14:40",
+ "dims": {
+  "路由": {
+   "probe_score": 7,
+   "ok": true
+  },
+  "知识": {
+   "kp_total": 2853,
+   "kccs_complete": 2853,
+   "kccs_rate": 1.0,
+   "orphan_edges": 0,
+   "ok": true
+  },
+  "代码": {
+   "py_files": 71,
+   "syntax_bad": 0,
+   "hardcoded": 0,
+   "ok": true
+  },
+  "认知": {
+   "navigate_ok": true,
+   "detail": "depth=2 status=resolved",
+   "ok": true
+  },
+  "信息差收敛": {
+   "ok": true,
+   "note": "由 gap_trend 外部观测"
+  }
+ },
+ "all_ok": true
+}
