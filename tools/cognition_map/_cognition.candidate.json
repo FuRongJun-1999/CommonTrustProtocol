@@ -1,0 +1,161 @@
+{
+ "schema_version": 1,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "灵枢认知路由 · 「光的反射定律」· 判定=ACCEPT",
+  "quality_profile": "showcase",
+  "views": [
+   {
+    "id": "ops",
+    "label": "操作图层",
+    "focus": [
+     "q",
+     "cond",
+     "conv",
+     "ans"
+    ]
+   },
+   {
+    "id": "know",
+    "label": "知识图层",
+    "focus": [
+     "k0"
+    ]
+   }
+  ],
+  "viewBox": [
+   1000,
+   1510
+  ]
+ },
+ "lanes": [
+  {
+   "id": "intake",
+   "label": "问题入口"
+  },
+  {
+   "id": "route2",
+   "label": "收敛判定"
+  },
+  {
+   "id": "route",
+   "label": "条件识别与收敛"
+  },
+  {
+   "id": "kp",
+   "label": "知识点卡"
+  },
+  {
+   "id": "gap",
+   "label": "认知边界",
+   "variant": "exception"
+  },
+  {
+   "id": "kp0",
+   "label": "E2 卡"
+  },
+  {
+   "id": "kp1",
+   "label": "E2 卡"
+  },
+  {
+   "id": "verdict",
+   "label": "四态判定"
+  },
+  {
+   "id": "answer",
+   "label": "直答输出"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "q",
+   "lane": "intake",
+   "col": 0,
+   "type": "external",
+   "label": "光的反射定律"
+  },
+  {
+   "id": "cond",
+   "lane": "route2",
+   "col": 0,
+   "type": "backend",
+   "label": "条件识别",
+   "sublabel": "二元组×0"
+  },
+  {
+   "id": "conv",
+   "lane": "route",
+   "col": 0,
+   "type": "backend",
+   "label": "两阶段收敛",
+   "sublabel": "域=物理学 候选=2"
+  },
+  {
+   "id": "k0",
+   "lane": "kp0",
+   "col": 3,
+   "type": "database",
+   "label": "光的反射定律",
+   "sublabel": "KCCS注释索引 7"
+  },
+  {
+   "id": "k1",
+   "lane": "kp1",
+   "col": 3,
+   "type": "database",
+   "label": "光的反射",
+   "sublabel": "KCCS注释索引 5"
+  },
+  {
+   "id": "ans",
+   "lane": "verdict",
+   "col": 4,
+   "type": "backend",
+   "label": "资格满足",
+   "sublabel": "条件核对通过"
+  },
+  {
+   "id": "a_text",
+   "lane": "answer",
+   "col": 0,
+   "type": "database",
+   "label": "直答",
+   "sublabel": "光的反射定律：反射光"
+  }
+ ],
+ "edges": [
+  {
+   "from": "q",
+   "to": "cond",
+   "role": "main"
+  },
+  {
+   "from": "cond",
+   "to": "conv",
+   "role": "main"
+  },
+  {
+   "from": "conv",
+   "to": "k0",
+   "role": "main"
+  },
+  {
+   "from": "conv",
+   "to": "k1",
+   "role": "branch"
+  },
+  {
+   "from": "k0",
+   "to": "ans",
+   "role": "main"
+  }
+ ],
+ "mainPath": [
+  "q",
+  "cond",
+  "conv",
+  "k0",
+  "ans"
+ ]
+}

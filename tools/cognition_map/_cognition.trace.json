@@ -1,0 +1,19 @@
+{
+ "question": "光的反射定律是什么",
+ "verdict": "ACCEPT",
+ "schema": "cognition-v0",
+ "ops": [
+  "两阶段收敛"
+ ],
+ "hits": [
+  [
+   "光的反射定律（初中物理）",
+   7
+  ],
+  [
+   "光的反射（初中物理）",
+   5
+  ]
+ ],
+ "rejected_visible_at": "execution_trace 增强（挂账）"
+}
