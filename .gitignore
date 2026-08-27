@@ -7,6 +7,12 @@ logs/
 *.db-shm
 *.db-wal
 
+# 运行时产物（不入库：审计日志/备份/评估日志）
+**/audit_log/
+*.bak-*
+reports/*.log
+reports/f-eval*
+
 # 本地校验缓存与原始审计日志（派生数据；token 节省快照报告 tools/verify_token_savings_report.json 入库）
 data/verify_cache.json
 data/verify_savings.jsonl
