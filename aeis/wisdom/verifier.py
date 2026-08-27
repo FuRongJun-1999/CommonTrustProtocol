@@ -119,6 +119,7 @@ class VerifyRequest:
     expected_structure: Dict[str, Any] = field(default_factory=dict)  # 规范约束
 
     def __post_init__(self) -> None:
+        """深拷贝防污染 + 指纹预计算（外部原地修改会让指纹漂移·缓存错配——P0 纪律）。"""
         # 深拷贝可变字段——防止被校验代码原地修改污染外部共享对象
         self.cases = copy.deepcopy(self.cases)
         self.deps = list(self.deps)
@@ -214,6 +215,7 @@ class VerifyCache:
 
     def __init__(self, path: str = CACHE_FILE, version: int = VERIFIER_VERSION,
                  savings_log: Optional[str] = SAVINGS_LOG):
+        """组装：缓存句柄注入（默认新建；变异测试可传隔离缓存）。"""
         self.path = path
         self.version = version
         self.savings_log = savings_log
@@ -224,6 +226,7 @@ class VerifyCache:
         self._load()
 
     def _load(self) -> None:
+        """从磁盘回放缓存快照（版本不符整体作废防脏读）。"""
         try:
             if os.path.exists(self.path):
                 with open(self.path, "r", encoding="utf-8") as f:
@@ -318,6 +321,7 @@ class VerifyCache:
         self._flush()
 
     def _flush(self) -> None:
+        """内存态刷盘：原子覆盖保存缓存与度量。"""
         try:
             os.makedirs(DATA_DIR, exist_ok=True)
             with open(self.path, "w", encoding="utf-8") as f:
@@ -343,6 +347,7 @@ class Verifier:
     """本地校验器：六层校验链，零 LLM。"""
 
     def __init__(self, cache: Optional[VerifyCache] = None):
+        """组装：缓存句柄注入（默认新建；变异测试可传隔离缓存）。"""
         self.cache = cache or VerifyCache()
 
     # ---------- 主入口 ----------

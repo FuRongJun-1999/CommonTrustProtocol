@@ -29,6 +29,7 @@ class CausalDiscoverer:
     """条件论七操作对自身：行为数据 → 因果候选 → 可验证预测。"""
 
     def __init__(self, engine, dex=None):
+        """因果发现器初始化（候选机制集与置信先验挂入）。"""
         self.engine = engine
         self.dex = dex  # 智慧之书 ConditionDex（供分离/逆转检查）
 

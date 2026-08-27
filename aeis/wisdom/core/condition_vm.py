@@ -11,6 +11,7 @@ from enum import IntEnum
 
 
 class Opcode(IntEnum):
+    """智能论 VM 指令操作码枚举：PUSH_CONST·LOAD_NAME·STORE_NAME 等协议助记指令。"""
     PUSH_CONST = 0      # 压字面量
     LOAD_NAME = 1       # 符号表取值（以名举实·读）
     STORE_NAME = 2      # 符号表存值（以名举实·写）
@@ -46,6 +47,7 @@ class Opcode(IntEnum):
 class VMHalt(Exception):
     """止：正常停止（含 yield 让出——kind 区分）"""
     def __init__(self, kind="halt", state=None):
+        """停机帧构造：默认 halt，可携带终止状态快照。"""
         self.kind = kind
         self.state = state or {}
         super().__init__(f"VM {kind}")
@@ -55,6 +57,7 @@ class ConditionVM:
     """智能论字节码 VM：ip + 值栈 + 符号表 + 条件空间栈 + 信任值寄存器"""
 
     def __init__(self):
+        """VM 实例构造：状态立即复位至初始可执行态。"""
         self.reset()
 
     def reset(self, symbols=None, trust=0.0, condition_stack=None):
@@ -101,6 +104,7 @@ class ConditionVM:
                 "trace": self.trace if trace else None}
 
     def _truthy(self, v):
+        """真值判定：None·0·空串为假，其余真（对照 CPython）。"""
         return v is not None and v is not False and v != 0
 
     def _exec(self, op, arg):
@@ -202,6 +206,7 @@ class ConditionVM:
             raise ValueError(f"未知指令 {op}")
 
     def _state(self):
+        """采集 VM 状态快照（ip·栈·符号表）供审计与续跑。"""
         return {"trust": round(self.trust_value, 3),
                 "symbols": dict(self.symbols),
                 "condition_space": list(self.condition_stack),
@@ -262,6 +267,7 @@ def assemble(src):
 
 
 def _num(s):
+    """数值规整：含小数点转 float，否则 int（栈算术口径一致）。"""
     return float(s) if "." in s else int(s)
 
 

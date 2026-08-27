@@ -48,6 +48,7 @@ class WisdomMigrator:
                  subject_dir: Optional[str] = None,
                  causal_src: str = DEFAULT_CAUSAL,
                  backup: bool = True):
+        """迁移会话初始化：源库·目标库路径与游标准备。"""
         self.meta_src = meta_src
         self.dst = dst
         self.subject_dir = subject_dir or HERE
@@ -112,6 +113,7 @@ class WisdomMigrator:
 
     # ---------------- SUBJECT 层：51 学科卡 + 语言卡 ----------------
     def migrate_subject_cards(self) -> Dict:
+        """学科卡批量迁移：逐识别卡解析→按名去重→写入目标 nodes 表，返回 nodes·skipped·files 迁移统计。"""
         phase = {"nodes": 0, "skipped": 0, "files": 0, "sources": []}
         dst = sqlite3.connect(self.dst)
         dc = dst.cursor()
@@ -431,6 +433,7 @@ class WisdomMigrator:
     def run(self, meta: bool = True, subject: bool = True,
             causal: bool = True, stage: bool = True,
             meta_discipline: bool = True, persist: bool = True) -> Dict:
+        """执行完整迁移流水线：meta→学科卡→因果→阶段→纪律→持久化（各相由布尔开关独立启停）。"""
         if meta:
             self.migrate_meta()
         if subject:

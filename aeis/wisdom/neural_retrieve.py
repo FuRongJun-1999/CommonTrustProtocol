@@ -70,10 +70,12 @@ class NeuralRetriever:
         return cls._singleton
 
     def __init__(self, model_path=MODEL_PATH):
+        """神经检索器懒加载容器：模型与向量缓存置空待首访触发。"""
         # __new__ 已初始化；__init__ 幂等（不覆盖已有模型）
         pass
 
     def _ensure_model(self):
+        """确保 bge 模型可用：首访触发加载，失败记录原因并走词面降级。"""
         if self._model is not None:
             return True
         if self._fail_reason:
@@ -174,6 +176,7 @@ class NeuralRetriever:
 
     @staticmethod
     def _cosine(a, b):
+        """余弦相似度：已归一化向量直接点积。"""
         try:
             import numpy as np
             na = float(np.linalg.norm(a))

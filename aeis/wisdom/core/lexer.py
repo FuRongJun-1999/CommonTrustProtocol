@@ -112,6 +112,7 @@ class Token:
     column: int = 1
     
     def __repr__(self) -> str:
+        """Token 调试表示：类型·值·位置一行式。"""
         v = str(self.value)[:30]
         if len(str(self.value)) > 30:
             v += "..."
@@ -226,6 +227,7 @@ class Lexer:
     """
     
     def __init__(self, source: str):
+        """Token 构造：类型·字面值·行号列号。"""
         self.source = source
         self.pos = 0
         self.line = 1
@@ -389,6 +391,7 @@ class Lexer:
     # ---- 数字读取 ----
     
     def _peek_isdigit(self) -> bool:
+        """前瞻当前字符是否数字（多位数聚合判断）。"""
         return self.pos + 1 < len(self.source) and self.source[self.pos + 1].isdigit()
     
     def _read_number(self):
@@ -455,6 +458,7 @@ class Lexer:
     # ---- 注释跳过 ----
     
     def _skip_comment(self):
+        """跳过注释至本行结束。"""
         while self.pos < len(self.source) and self.source[self.pos] != "\n":
             self.pos += 1
     

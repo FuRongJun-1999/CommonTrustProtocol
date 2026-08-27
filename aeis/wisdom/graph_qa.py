@@ -39,6 +39,7 @@ class ConditionGraphQA:
     """条件图数据库问答：建图（真实条件单元库）→ 影响/关系/路径 查询"""
 
     def __init__(self, condition_units):
+        """图问答器初始化：挂载图存储与单元执行通道。"""
         self.units = _load_whitebox_units()
         self.graph = self.units["build"](condition_units)
 
@@ -93,6 +94,7 @@ class ConditionGraphQA:
         return None
 
     def _extract(self, q):
+        """条件与知识名提取：最长匹配优先（「光照」优于「光」——更具体者胜）。"""
         # 提取条件/知识名：最长匹配优先（光照 > 光——更具体）
         for name in sorted(self.graph.nodes, key=len, reverse=True):
             if name in q:

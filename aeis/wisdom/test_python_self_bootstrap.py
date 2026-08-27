@@ -11,6 +11,7 @@ from python_code_units import PYTHON_UNITS, route_python_unit
 
 pass_n = fail_n = 0
 def check(name, ok, detail=''):
+    """断言登记：通过/失败计数并打印结果行。"""
     global pass_n, fail_n
     if ok: pass_n += 1
     else: fail_n += 1

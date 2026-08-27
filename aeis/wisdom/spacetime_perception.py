@@ -16,6 +16,7 @@ class SpacetimePerception:
     """白箱感知通道：看见（stcnn）→ 记住（灵枢）→ 时空问答（零 LLM）"""
 
     def __init__(self, agent):
+        """时空感知器初始化。"""
         self.agent = agent
 
     def see(self, frames, label):

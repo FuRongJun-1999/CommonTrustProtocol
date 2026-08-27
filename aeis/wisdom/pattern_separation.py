@@ -29,6 +29,7 @@ SA_FIELDS = ("edu_level", "domain", "kind", "source")
 
 
 def _cs_dict(node):
+    """条件空间对象→可序列化字典（观测位·工具·时间窗·存在约束）。"""
     try:
         return json.loads(node.condition_space.to_json()) if node.condition_space else {}
     except Exception:
@@ -82,6 +83,7 @@ class PatternSeparation:
     """模式分离器：相似节点对 → 分离边（条件差异显式化）"""
 
     def __init__(self, engine):
+        """模式分离器初始化：挂载灵枢引擎引用。"""
         self.engine = engine
         self.store = engine.store
 
@@ -150,6 +152,7 @@ class PatternSeparation:
         return {"created": created, "updated": updated, "scanned": done}
 
     def _find_sep_edge(self, a_id, b_id):
+        """为相似节点对定位分离边候选：条件差异显式化的落点。"""
         try:
             for e in self.store.get_outgoing_edges(a_id):
                 if e.target_id == b_id and self._is_sep(e):

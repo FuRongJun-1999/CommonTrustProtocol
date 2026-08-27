@@ -26,6 +26,7 @@ DEFAULT_DB = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 
 
 def _nid(seed):
+    """确定性节点 id：种子串 sha256 前 12 位 + 毫秒时戳后缀。"""
     h = hashlib.sha256(seed.encode("utf-8")).hexdigest()[:12]
     return f"wis_{h}_{int(time.time() * 1000)}"
 
@@ -652,6 +653,7 @@ PROTOCOL_LAYERS = {"存在论": "L0", "条件论": "L1", "负反馈系统": "L2"
 
 class ConditionDex:
     def __init__(self, db_path=None, fresh=False):
+        """Dex 构造：复用或新建灵枢引擎，知识层为工作区。"""
         self.db_path = db_path or DEFAULT_DB
         d = os.path.dirname(self.db_path)
         if d and self.db_path != ":memory:":
@@ -961,6 +963,7 @@ class ConditionDex:
         return hits[:limit]
 
     def dex_combine(self, a_id, b_id):
+        """多条目组合对弈：联合条件卡下推演交叉增益（1+1>2 判定）。"""
         a = self.store.get_node(a_id)
         b = self.store.get_node(b_id)
         if a is None or b is None:
@@ -1210,6 +1213,7 @@ class ConditionDex:
     # 不判「K 是什么」，推「K 入图后会怎样」：锚定 → 正向展开 → 逆向失效 → 组合预测 → 候选路线集合
 
     def dex_predict(self, knowledge, horizon=2, limit=4, max_branches=3):
+        """预测主流程：前提抽取→条件卡→锚点沿因果边展开候选未来（horizon 限深）。"""
         premises = self._extract_premises(knowledge)
         card = self._condition_card(knowledge, premises)
         cand = self.store.search_content(knowledge, layers=[MemoryLayer.KNOWLEDGE],
@@ -1343,6 +1347,7 @@ class ConditionDex:
     # 输入：K（待分析知识）+ T（真实理论结论）→ 预测路线 vs 理论归属 命中/偏移判定 → 对照日志入观测层
 
     def dex_predict_compare(self, knowledge, theory, horizon=2, limit=4):
+        """对比式预测：同一前提下两条路线并排产出供评估对照。"""
         pred = self.dex_predict(knowledge, horizon=horizon, limit=limit)
 
         # T 的真实锚定（独立于预测的锚定，用同一检索机制）
@@ -2475,6 +2480,7 @@ class ConditionDex:
 
     @staticmethod
     def _overlap(a, b):
+        """二字组重合度：交集规模 ÷ 较小集合规模（0~1）。"""
         if not a or not b:
             return 0.0
         ka = set(a.lower())

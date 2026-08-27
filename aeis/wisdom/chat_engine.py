@@ -1419,6 +1419,7 @@ def _assemble(message, hits, emotion):
             # 命中。改为按「原文中最长触发短语长度」选——谁的具体触发词
             # 在原文里最长，谁代表真实意图（梯度下降 4字 > 梯度 2字）。
             def _match_len(t):
+                """最长匹配长度计算：关键词命中评分用（长词优先消歧）。"""
                 best = len(t) if t in message else 0
                 _trs = list(_st.DOMAIN_SYNONYM_CLUSTERS.get(t, [])) + \
                     list(_st.SYNONYM_CLUSTERS.get(t, []))

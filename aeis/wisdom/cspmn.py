@@ -47,6 +47,7 @@ class CSPMN:
     """条件空间并行匹配网络：子实例矩阵 + 匹配 + 路由 + 注入 + 深度决策。"""
 
     def __init__(self, index_path: str = INDEX_NPZ, backend: str = "auto"):
+        """CSPMN 并行匹配网络实例：后端(gpu/cpu/auto)·维度与信息差指标占位。"""
         self.index_path = index_path
         self.backend = backend
         self._vectors = None      # (N, D) float32 归一化

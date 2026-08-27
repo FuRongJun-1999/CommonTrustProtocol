@@ -11,6 +11,7 @@ from compiler_code_units import COMPILER_UNITS, route_compiler_unit
 
 pass_n = fail_n = 0
 def check(name, ok, detail=''):
+    """断言登记：通过/失败计数并打印 ✓✘ 结果行。"""
     global pass_n, fail_n
     if ok: pass_n += 1
     else: fail_n += 1
@@ -83,6 +84,7 @@ check('校准③ 任务识别', route_compiler_unit("实现条件跳转") == "VM
 
 # 校准④：端到端组装管线——白箱生成单元组装「中文程序 → 编译 → VM 执行」
 def _fn(uid):
+    """域桥接取函数：从 code_compose 命名空间安全取出目标函数。"""
     t = ast.parse(COMPILER_UNITS[uid]["pattern"])
     ns = {}
     exec(compile(t, "<u>", "exec"), ns)

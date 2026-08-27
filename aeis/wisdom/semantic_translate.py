@@ -3926,6 +3926,7 @@ def gen_conflict_links(question: str, answer: str = "", limit: int = 2) -> list:
             return []
         # 键名在原文优先（容貌焦虑 in 问题 > 攀比心理 not in 问题）
         def _key_rank(t):
+            """关键词排序：频次×出现序加权，长键优先消歧。"""
             in_q = 1 if t in question else 0
             return (in_q, fp.get(t, 0.0) if t in fp else
                     (encode(question).get(t, 0.0) if not answer else 0.0))

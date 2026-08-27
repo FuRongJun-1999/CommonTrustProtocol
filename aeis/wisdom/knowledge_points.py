@@ -38,6 +38,7 @@ class KnowledgePointSplitter:
     """知识卡 content → 知识点节点 + 卡⊃知识点 hierarchical 边"""
 
     def __init__(self, db_path: str = DEFAULT_DB):
+        """知识点库连接初始化（缺表自愈创建）。"""
         self.db_path = db_path
         self.conn = sqlite3.connect(db_path, timeout=15)
         self.conn.row_factory = sqlite3.Row

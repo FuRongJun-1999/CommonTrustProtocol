@@ -37,6 +37,7 @@ class Compiler:
     """AST → 字节码（标签回填）"""
 
     def __init__(self):
+        """编译器状态初始化：标签计数与函数表就绪。"""
         self.code = []
         self.labels = {}
         self.pending = []      # [(index, label)]
@@ -86,13 +87,16 @@ class Compiler:
 
     # ---- 标签 ----
     def _new_label(self):
+        """分配下一个唯一标签号（前向跳转目标占位）。"""
         self.label_count += 1
         return f"L{self.label_count}"
 
     def _place(self, label):
+        """登记标签的真实代码位置（回填前向跳转）。"""
         self.labels[label] = len(self.code)
 
     def _emit(self, op, arg=None):
+        """向代码段尾部发射一条目标指令。"""
         self.code.append((op, arg))
 
     def _resolve(self):
@@ -110,6 +114,7 @@ class Compiler:
 
     # ---- 语句 ----
     def _stmt(self, s):
+        """单条语句编译分派（赋值·输出·控制流）。"""
         if s is None:
             return
         if s.type == NodeType.BLOCK:
@@ -193,6 +198,7 @@ class Compiler:
             self.warnings.append(f"L{s.line} 指令 {op.name} 未接入 VM（诚实边界）")
 
     def _operand_value(self, node):
+        """操作数取值：常量直读或符号表查变量。"""
         if node.type == NodeType.LITERAL:
             return node.literal_value
         if node.type == NodeType.IDENTIFIER:
@@ -201,6 +207,7 @@ class Compiler:
 
     # ---- 表达式 ----
     def _expr(self, e):
+        """表达式递归下降编译：生成栈机求值指令序列。"""
         if e is None:
             self._emit(Opcode.PUSH_CONST, None)
             return

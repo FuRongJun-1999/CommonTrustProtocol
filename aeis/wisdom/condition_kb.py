@@ -37,6 +37,7 @@ class ConditionKB:
     """知识库条件化层：蒸馏骨架查询（条件词命中 → 规律片段）"""
 
     def __init__(self, json_path=_JSON):
+        """条件知识库初始化：骨架集与条件词表加载。"""
         self.skeletons = {}
         if os.path.exists(json_path):
             try:

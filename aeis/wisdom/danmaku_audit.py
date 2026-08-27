@@ -192,6 +192,7 @@ def audit(text, relation="public", designer_override=None):
 # 审计日志
 # ============================================================
 def _log_audit(entry):
+    """弹幕互动审计追加：时间戳·用户·动作链留痕。"""
     try:
         os.makedirs(os.path.dirname(AUDIT_LOG), exist_ok=True)
         data = []

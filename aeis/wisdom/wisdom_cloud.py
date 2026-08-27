@@ -28,6 +28,7 @@ CLOUD_DB = os.path.join(HERE, "wisdom-book-cloud.db")
 
 
 def _cs_from_dict(d):
+    """字典→ConditionSpace 还原（缺省字段落协议默认）。"""
     from aeis.core import ConditionSpace
     if not d:
         return _default_cs()
@@ -46,9 +47,11 @@ class DexHandler(BaseHTTPRequestHandler):
     cloud = None  # ConditionDex 实例（由 run_server 注入）
 
     def log_message(self, *args):
+        """静默访问日志：默认逐请求刷屏，覆写为空。"""
         pass
 
     def _send(self, obj, code=200):
+        """JSON 应答统一出口：编码·头·状态码收口。"""
         body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
         self.send_response(code)
         self.send_header("Content-Type", "application/json; charset=utf-8")
@@ -57,12 +60,14 @@ class DexHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def _read(self):
+        """读取请求体并按 UTF-8 JSON 解析。"""
         n = int(self.headers.get("Content-Length", 0))
         return json.loads(self.rfile.read(n).decode("utf-8"))
 
     # ---------------- GET ----------------
 
     def do_GET(self):
+        """GET 三路分发：UI 页面·状态 API·数据端点。"""
         path = self.path.split("?")[0]
         qs = {}
         if "?" in self.path:
@@ -112,6 +117,7 @@ class DexHandler(BaseHTTPRequestHandler):
     # ---------------- POST ----------------
 
     def do_POST(self):
+        """POST 分发：UTF-8 JSON 解析后按 path 派发（坏包 400）。"""
         try:
             body = self._read()
         except Exception:
@@ -147,6 +153,7 @@ class DexHandler(BaseHTTPRequestHandler):
     # ---------------- 实现 ----------------
 
     def _query(self, body):
+        """查询参数解析：query/domain/limit 三键归一。"""
         op = body.get("op", "")
         params = body.get("params") or {}
         d = self.cloud
@@ -304,6 +311,7 @@ class DexHandler(BaseHTTPRequestHandler):
                 "contribution_count": cnt}
 
     def _ledger(self, contributor=None):
+        """台账快照：近期变更记录列表直出。"""
         conn = self.cloud.store.conn
         if contributor:
             rows = conn.execute(

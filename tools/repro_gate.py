@@ -102,27 +102,47 @@ def run_t1_test() -> dict:
             "direct_rate": direct / n if n else 0}
 
 
-def check_replicas(running_db: str) -> dict:
-    """发布完整性 + 运行库健康度（《条件路由图_单源与可溯源规范_v1.0》§五.2 重构）：
+def _content_sig(db: str) -> tuple:
+    """知识内容的确定性签名：节点总数 + kp 条数 + 内容总长 + 最大创建时刻。
 
-    - 发布快照一致性：site-packages 安装份 ≡ 仓库唯一真源 aeis/wisdom/wisdom-book-cloud.db
-      （多副本互查口径已废——运行库是活体，不与快照做哈希对齐）
-    - 运行库健康度：独立检查（存在且非空），不做哈希等值
+    只聚合内容稳定列，刻意排除 access_count / last_access 等运行时易变
+    字段——活服务连库后的 set_meta 无害写入不再造成假阴性。
+    """
+    conn = sqlite3.connect(db)
+    try:
+        c = conn.cursor()
+        n_nodes = c.execute("SELECT COUNT(*) FROM nodes").fetchone()[0]
+        row = c.execute(
+            "SELECT COUNT(*), COALESCE(SUM(LENGTH(content)), 0), "
+            "COALESCE(MAX(created_at), 0) FROM nodes "
+            "WHERE tags LIKE '%knowledge_point%'").fetchone()
+        return (n_nodes, row[0], int(row[1] or 0), int(row[2] or 0))
+    finally:
+        conn.close()
+
+
+def check_replicas(running_db: str) -> dict:
+    """发布完整性（内容级语义一致）+ 运行库健康度。
+
+    单源规范 v1.0 §五.2：文件级哈希天生不可过——活服务连库后有 set_meta
+    无害写入字节必然漂移；比「知识内容签名」而非文件字节。运行库是活体，
+    只做健康检查不做等值。
     """
     repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     truth_snapshot = os.path.join(repo, "aeis", "wisdom", "wisdom-book-cloud.db")
     if not os.path.exists(truth_snapshot):
-        return {"truth_exists": False, "snapshot_match": False, "running_healthy": False}
-    h_truth = sha256(truth_snapshot)
+        return {"truth_exists": False, "snapshot_match": False,
+                "running_healthy": False}
     sp_snapshot = os.path.join(os.path.dirname(os.path.abspath(sys.executable)),
-                               "Lib", "site-packages", "wisdom", "wisdom-book-cloud.db")
-    if not os.path.exists(sp_snapshot):
-        # pip -e 开发态无安装份——视为一致（没有第二副本可漂移）
-        snapshot_match = True
+                               "Lib", "site-packages", "wisdom",
+                               "wisdom-book-cloud.db")
+    if os.path.exists(sp_snapshot):
+        snapshot_match = (_content_sig(truth_snapshot) == _content_sig(sp_snapshot))
     else:
-        snapshot_match = sha256(sp_snapshot) == h_truth
-    running_ok = bool(running_db) and os.path.exists(running_db) and \
-        os.path.getsize(running_db) > 4096
+        # pip -e 开发态无安装份——无第二副本可漂移
+        snapshot_match = True
+    running_ok = bool(running_db) and os.path.exists(running_db) and         os.path.getsize(running_db) > 4096
+    h_truth = sha256(truth_snapshot)
     return {"truth_hash": h_truth[:12], "truth_exists": True,
             "snapshot_match": snapshot_match, "running_healthy": running_ok}
 

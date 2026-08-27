@@ -118,6 +118,7 @@ class Symbol:
     source: str = "predefined"       # predefined | user_declared
 
     def __repr__(self) -> str:
+        """命名检查结果的调试一行式。"""
         return f"Symbol('{self.name}', {self.kind.value}, used={self.used})"
 
 
@@ -433,6 +434,7 @@ class NameChecker:
     """
 
     def __init__(self):
+        """检查上下文初始化（谓词表与白名单载入）。"""
         # 符号表 = 预定义符号 + 用户声明符号
         self.symbol_table: Dict[str, Symbol] = dict(PREDEFINED_SYMBOLS)
         self.errors: List[str] = []

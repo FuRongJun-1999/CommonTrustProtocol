@@ -36,6 +36,7 @@ class RouteMemory:
     """对话集经验路由：历史寻路路径记录 + 召回 + 验证门控。"""
 
     def __init__(self, path: str = DEFAULT_PATH, max_entries: int = 5000):
+        """路由记忆初始化：持久文件存在则恢复既有条目。"""
         self.path = path
         self.max_entries = max_entries
         self._entries = []      # [{q, q_fp, chain, verified, count, ts}]
@@ -44,6 +45,7 @@ class RouteMemory:
     # ---------------- 存储 ----------------
 
     def _load(self) -> None:
+        """从 JSON 文件读回历史路由记忆（缺失视为空白）。"""
         try:
             if os.path.exists(self.path):
                 with open(self.path, encoding="utf-8") as f:
@@ -52,6 +54,7 @@ class RouteMemory:
             self._entries = []
 
     def _save(self) -> None:
+        """路由记忆写回 JSON 文件（原子覆盖）。"""
         try:
             os.makedirs(os.path.dirname(self.path), exist_ok=True) \
                 if os.path.dirname(self.path) else None

@@ -56,6 +56,7 @@ def tokenize(src):
 # ============ 二、语法分析（递归下降，Python 优先级） ============
 class Parser:
     def __init__(self, tokens):
+        """解析器初始化：持有词元流与位置指针。"""
         self.tokens = tokens
         self.pos = 0
 
@@ -318,6 +319,7 @@ def eval_node(node, env=None):
 
 
 def _compare(op, a, b):
+    """比较运算统一求值：==·!=·<·> 四路分派（对照 CPython 类型提升）。"""
     return {"==": a == b, "!=": a != b, "<": a < b, ">": a > b,
             "<=": a <= b, ">=": a >= b}[op]
 
@@ -337,6 +339,7 @@ def eval_expr(src):
 class Env:
     """变量环境（P3：作用域链——局部 → 父环境）"""
     def __init__(self, parent=None):
+        """作用域帧构造：本地变量表 + 父链指向外层（链式查找）。"""
         self.vars = {}
         self.parent = parent
 
@@ -356,6 +359,7 @@ class Env:
 class ReturnSignal(Exception):
     """return 语句信号（P3）"""
     def __init__(self, value):
+        """常量值包装（字面量求值结果载体）。"""
         self.value = value
 
 
@@ -536,6 +540,7 @@ _CMP_VM = {"==": "CMP_EQ", "!=": "CMP_NE", "<": "CMP_LT", ">": "CMP_GT",
 class VM:
     """栈机执行（P5 雏形：算术/比较/逻辑短路/数据结构/调用）"""
     def __init__(self, env):
+        """VM 执行上下文：环境引用·操作数栈·调用帧序列。"""
         self.env = env
         self.stack = []
         self.frames = []  # 调用帧（P5 简化：函数调用直接执行 body）

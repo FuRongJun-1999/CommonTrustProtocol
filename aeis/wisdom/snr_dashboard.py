@@ -46,6 +46,7 @@ class SnrDashboard:
                  raw_bytes: float = DEFAULT_RAW_BYTES,
                  pure_bytes: float = DEFAULT_PURE_BYTES,
                  report_dir: Optional[str] = None):
+        """信噪比面板初始化：原始字节与纯知识字节统计挂入。"""
         self.engine = engine
         if dialogue_results is None:
             # 自动探测：同目录（knowledge-base 工作区）下的 1000 条测试结果

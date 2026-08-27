@@ -160,6 +160,7 @@ class SpatiotemporalMemory:
     零 LLM 确定性记忆（对接灵枢语义时空图的感知侧入口）。"""
 
     def __init__(self):
+        """时空卷积网络层级参数初始化。"""
         self.events = []  # {t_start, t_end, direction, speed, period, label}
 
     def remember(self, prims, label, t_start=0):

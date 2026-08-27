@@ -23,6 +23,7 @@ from typing import Dict, List
 
 
 def _cs_dict(node):
+    """条件空间→字典（与 pattern_separation 同一口径）。"""
     try:
         return json.loads(node.condition_space.to_json()) if node.condition_space else {}
     except Exception:
@@ -33,6 +34,7 @@ class SceneReconstruction:
     """情景重构器：线索 → 重建场景（条件空间驱动 · 诚实标注）"""
 
     def __init__(self, engine):
+        """情景重构器初始化（H4：重构非回放显式标注）。"""
         self.engine = engine
         self.store = engine.store
 

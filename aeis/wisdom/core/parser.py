@@ -72,6 +72,7 @@ class ASTNode:
             self.children.append(child)
     
     def __repr__(self) -> str:
+        """AST 节点调试表示：类型与子节点概览。"""
         return f"ASTNode({self.type.name}, value={self.value!r}, children={len(self.children)})"
 
 
@@ -79,6 +80,7 @@ class ASTNode:
 class ProgramNode(ASTNode):
     """程序根节点"""
     def __init__(self, line: int = 1, column: int = 1):
+        """构造 ProgramNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.PROGRAM, line, column)
         self.statements: List[ASTNode] = []
     
@@ -93,6 +95,7 @@ class ProgramNode(ASTNode):
 class WenyueNode(ASTNode):
     """问曰节点"""
     def __init__(self, question: str, line: int = 1, column: int = 1):
+        """构造 WenyueNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.WENYUE, line, column)
         self.question = question
         self.value = question
@@ -102,6 +105,7 @@ class WenyueNode(ASTNode):
 class DayueNode(ASTNode):
     """答曰节点"""
     def __init__(self, answer: str, line: int = 1, column: int = 1):
+        """构造 DayueNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.DAYUE, line, column)
         self.answer = answer
         self.value = answer
@@ -111,6 +115,7 @@ class DayueNode(ASTNode):
 class ShuyueNode(ASTNode):
     """术曰节点"""
     def __init__(self, line: int = 1, column: int = 1):
+        """构造 ShuyueNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.SHUYUE, line, column)
         self.steps: List['StepNode'] = []
     
@@ -124,6 +129,7 @@ class ShuyueNode(ASTNode):
 class StepNode(ASTNode):
     """步骤节点"""
     def __init__(self, step_num: int, statement: ASTNode, line: int = 1, column: int = 1):
+        """构造 StepNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.STEP, line, column)
         self.step_num = step_num
         self.statement = statement
@@ -135,6 +141,7 @@ class ConditionStmtNode(ASTNode):
     """条件语句：若 [条件] 则 [操作] [否则 [操作]]（body 可为语句列表）"""
     def __init__(self, condition: ASTNode, then_body, else_body=None,
                  line: int = 1, column: int = 1):
+        """构造 ConditionStmtNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.CONDITION_STMT, line, column)
         self.condition = condition
         self.then_body = then_body
@@ -149,6 +156,7 @@ class ConditionStmtNode(ASTNode):
 class LoopStmtNode(ASTNode):
     """循环语句：当 [条件] 执行 [操作]（while 语义，body 可为语句列表）"""
     def __init__(self, condition: ASTNode, body, line: int = 1, column: int = 1):
+        """构造 LoopStmtNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.LOOP_STMT, line, column)
         self.condition = condition
         self.body = body
@@ -160,6 +168,7 @@ class LoopStmtNode(ASTNode):
 class BlockNode(ASTNode):
     """语句块：多条顺序执行的语句（循环体/条件体多语句支持）"""
     def __init__(self, statements, line: int = 1, column: int = 1):
+        """构造 BlockNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.BLOCK, line, column)
         self.statements = statements
         for s in statements:
@@ -170,6 +179,7 @@ class BlockNode(ASTNode):
 class FuncDefNode(ASTNode):
     """函数定义：定义 名（参数）：语句（body 可为语句列表）"""
     def __init__(self, name: str, params: List[str], body, line: int = 1, column: int = 1):
+        """构造 FuncDefNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.FUNC_DEF, line, column)
         self.name = name
         self.params = params
@@ -181,6 +191,7 @@ class FuncDefNode(ASTNode):
 class ReturnStmtNode(ASTNode):
     """返回语句：返回 [表达式]"""
     def __init__(self, value: Optional[ASTNode], line: int = 1, column: int = 1):
+        """构造 ReturnStmtNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.RETURN_STMT, line, column)
         self.value = value
         if value:
@@ -191,6 +202,7 @@ class ReturnStmtNode(ASTNode):
 class CallExprNode(ASTNode):
     """函数调用：名（参数1，参数2）"""
     def __init__(self, name: str, args: List[ASTNode], line: int = 1, column: int = 1):
+        """构造 CallExprNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.CALL_EXPR, line, column)
         self.name = name
         self.args = args
@@ -203,6 +215,7 @@ class InstructionStmtNode(ASTNode):
     """指令语句：道德经助记符 + 操作数"""
     def __init__(self, instruction: TokenType, operands: List[ASTNode] = None,
                  line: int = 1, column: int = 1):
+        """构造 InstructionStmtNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.INSTRUCTION_STMT, line, column)
         self.instruction = instruction
         self.operands = operands or []
@@ -214,6 +227,7 @@ class InstructionStmtNode(ASTNode):
 class AssignStmtNode(ASTNode):
     """赋值语句：标识符 = 值"""
     def __init__(self, target: str, value: ASTNode, line: int = 1, column: int = 1):
+        """构造 AssignStmtNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.ASSIGN_STMT, line, column)
         self.target = target
         self.value_node = value
@@ -225,6 +239,7 @@ class BinaryExprNode(ASTNode):
     """二元表达式：左 操作符 右"""
     def __init__(self, left: ASTNode, operator: str, right: ASTNode,
                  line: int = 1, column: int = 1):
+        """构造 BinaryExprNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.BINARY_EXPR, line, column)
         self.left = left
         self.operator = operator
@@ -238,6 +253,7 @@ class ComparisonNode(ASTNode):
     """比较表达式"""
     def __init__(self, left: ASTNode, op: str, right: ASTNode,
                  line: int = 1, column: int = 1):
+        """构造 ComparisonNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.COMPARISON, line, column)
         self.left = left
         self.op = op
@@ -250,6 +266,7 @@ class ComparisonNode(ASTNode):
 class IdentifierNode(ASTNode):
     """标识符"""
     def __init__(self, name: str, line: int = 1, column: int = 1):
+        """构造 IdentifierNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.IDENTIFIER, line, column)
         self.name = name
         self.value = name
@@ -260,6 +277,7 @@ class LiteralNode(ASTNode):
     """字面量"""
     def __init__(self, value: Union[str, float, int], literal_type: str,
                  line: int = 1, column: int = 1):
+        """构造 LiteralNode：绑定本节点的声明字段与子结构。"""
         super().__init__(NodeType.LITERAL, line, column)
         self.literal_value = value
         self.literal_type = literal_type  # "number", "string"
@@ -284,6 +302,7 @@ class Parser:
     }
     
     def __init__(self, tokens: List[Token], errors: List[str] = None):
+        """构造 Parser：绑定本节点的声明字段与子结构。"""
         self.tokens = tokens
         self.pos = 0
         self.errors: List[str] = errors or []
@@ -918,11 +937,13 @@ class Parser:
     # ---- 辅助方法 ----
     
     def _is_at_end(self) -> bool:
+        """指针越界探测：True=已消费全部 token。"""
         return self.pos >= len(self.tokens) or (
             self.current_token is not None and self.current_token.type == TokenType.EOF
         )
     
     def _advance(self) -> Optional[Token]:
+        """消费当前 token 并前进一格。"""
         if self.pos < len(self.tokens) - 1:
             self.pos += 1
             self.current_token = self.tokens[self.pos]
@@ -938,6 +959,7 @@ class Parser:
         return None
     
     def _match(self, *types: TokenType) -> bool:
+        """类型相符即消费返回 True，否则 False。"""
         if self.current_token and self.current_token.type in types:
             self._advance()
             return True
