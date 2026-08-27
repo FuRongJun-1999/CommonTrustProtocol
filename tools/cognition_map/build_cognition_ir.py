@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import os
 import shutil
 import subprocess
@@ -72,7 +73,10 @@ def routes_to_cognition_ir(question: str, routes: list) -> dict:
         }
         if r.get("edu_level"):
             node["tag"] = r["edu_level"]
-            node["edu_level"] = r["edu_level"]
+            # schema 契约：edu_level 仅接受 E1-E5；库内其他口径（如「通用」）
+            # 只作 tag 展示，不进条件空间声明字段
+            if re.fullmatch(r"E[1-5]", str(r["edu_level"])):
+                node["edu_level"] = r["edu_level"]
         if i == 0 and r.get("direct_answer"):
             node["direct_answer"] = r["direct_answer"][:200]
         nodes.append(node)
