@@ -150,14 +150,8 @@ def run_channel_b(llm_generate=None, max_tasks=5):
     for item in queue[:max_tasks]:
         task = item.get("task", "")
         code = item.get("code", "")
-        cases_raw = item.get("cases", [])
-        # 展平外层嵌套（[[(inp,exp),...]] → [(inp,exp),...]）
-        cases = []
-        for c_group in cases_raw:
-            if isinstance(c_group, list):
-                cases.extend(c_group)
-            else:
-                cases.append(c_group)
+        cases = item.get("cases", [])
+        # cases 格式：[[inp, exp], ...]——每个 case 是 [input, expected] 对
         if not code or not cases:
             continue
         stats["generated"] += 1
@@ -183,9 +177,14 @@ def run_channel_b(llm_generate=None, max_tasks=5):
         fn = ns[fname]
         all_pass = True
         for case in cases:
-            inp, exp = case
+            inp_raw, exp = case[0], case[1]
+            import inspect as _insp
             try:
-                got = fn(*inp) if isinstance(inp, tuple) else fn(inp)
+                _np = len(_insp.signature(fn).parameters) if callable(fn) else 1
+                if _np > 1 and isinstance(inp_raw, (list, tuple)):
+                    got = fn(*inp_raw)
+                else:
+                    got = fn(inp_raw)
                 if got != exp:
                     all_pass = False
                     break

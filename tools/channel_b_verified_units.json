@@ -12,5 +12,26 @@
   "ok": true,
   "fingerprint": "e8bc9fb3e6422533",
   "ts": "2026-08-28 05:25"
+ },
+ "task:计数排序": {
+  "task": "计数排序",
+  "code": "def counting_sort(arr):\n    \"\"\"计数排序：非负整数排序（计数→累加→回写），返回升序新列表。\n    生效条件：arr 全为非负整数。子功能：O(n+k) 线性排序。\n    执行：计数→累加→逆序回写。不适用条件：含负数或浮点数。\"\"\"\n    if not arr:\n        return []\n    max_val = max(arr)\n    counts = [0] * (max_val + 1)\n    for x in arr:\n        counts[x] += 1\n    result = []\n    for val in range(max_val + 1):\n        result.extend([val] * counts[val])\n    return result",
+  "ok": true,
+  "fingerprint": "607e11280182071f",
+  "ts": "2026-08-28 05:45"
+ },
+ "task:去重保序": {
+  "task": "去重保序",
+  "code": "def dedupe(arr):\n    \"\"\"去重保序：保留首次出现顺序去重，返回新列表。\n    生效条件：arr 为可哈希元素列表。子功能：线性去重。\n    执行：seen 集合判重 + 顺序遍历。不适用条件：元素不可哈希。\"\"\"\n    seen = set()\n    result = []\n    for x in arr:\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return result",
+  "ok": true,
+  "fingerprint": "91dca30f2ef9ac6e",
+  "ts": "2026-08-28 05:45"
+ },
+ "task:堆排序": {
+  "task": "堆排序",
+  "code": "def heap_sort(arr):\n    \"\"\"堆排序：建最大堆→逐个弹出堆顶→升序新列表。\n    生效条件：arr 为可比较元素列表。\n    子功能：升序排序（非稳定）。\n    执行：建堆 O(n) + n 次 sift-down O(log n)。\n    不适用条件：需要稳定排序时用归并排序。\"\"\"\n    result = list(arr)\n    n = len(result)\n\n    def _sift_down(i, size):\n        largest = i\n        left, right = 2 * i + 1, 2 * i + 2\n        if left < size and result[left] > result[largest]:\n            largest = left\n        if right < size and result[right] > result[largest]:\n            largest = right\n        if largest != i:\n            result[i], result[largest] = result[largest], result[i]\n            _sift_down(largest, size)\n\n    for i in range(n // 2 - 1, -1, -1):\n        _sift_down(i, n)\n    for end in range(n - 1, 0, -1):\n        result[0], result[end] = result[end], result[0]\n        _sift_down(0, end)\n    return result",
+  "ok": true,
+  "fingerprint": "8dfc1a4f4b1fc5e3",
+  "ts": "2026-08-28 05:47"
  }
 }
