@@ -4,6 +4,8 @@ __pycache__/
 venv/
 .venv/
 *.egg-info/
+build/
+dist/*.tar.gz
 
 # 模型与数据（体积大，按需下载）
 models/
