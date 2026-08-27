@@ -1,0 +1,5 @@
+{"round": "bootstrap", "gaps": 12, "patches_applied": 0, "patches_verified": 0, "patches_failed": 12, "persisted_files": 0, "ts": "2026-08-28 04:35:01"}
+{"round": "bootstrap", "gaps": 12, "patches_applied": 0, "patches_verified": 0, "patches_failed": 12, "persisted_files": 0, "ts": "2026-08-28 04:35:38"}
+{"round": "bootstrap", "gaps": 8, "patches_applied": 0, "patches_verified": 0, "patches_failed": 8, "persisted_files": 0, "ts": "2026-08-28 04:36:45"}
+{"round": "scan", "result": "no_gaps", "ts": "2026-08-28 04:38:13"}
+{"round": "scan", "result": "no_gaps", "ts": "2026-08-28 04:41:43"}

@@ -341,16 +341,59 @@ def detect_domain(question):
     命中计数优先（「CSS级联+样式优先级」= browser 3 词 > pylang 1 词），
     平局取最长关键词（「路由表」len3 > 「路由」len2）；
     空格归一化（「JSON 序列化」→「JSON序列化」——与关键词连写对齐）"""
-    best, best_cnt, best_len = None, 0, 0
+    best = None
+    best_cnt_h = best_cnt_d = best_len = best_uid_bonus = 0
     q_compact = question.replace(" ", "")
+    # 双层计分制（T1 缺口根治 v2）：跨域共享词（校验/序列化/审计日志）靠
+    # 手工表无法消歧——引入 uid 完整串强信号（单元名含于问题 = +100），
+    # 手工表词命中 = 常规分；两类分数独立累加后统一排序。
+    q_hits = {}
     for domain, kws in DOMAIN_KEYWORDS.items():
-        # set 去重：同词重复出现（如 os「校验」×2）不虚高计数
-        hit = list({k for k in kws if k in question or k in q_compact})
-        if not hit:
+        hit = {k for k in kws if k in question or k in q_compact}
+        if hit:
+            q_hits[domain] = hit
+    unit_pool = {}
+    for domain, units in DOMAIN_UNITS.items():
+        pool = set()
+        uid_full = set()
+        for uid, u in units.items():
+            uid_n = uid.replace("-", "")
+            pool.add(uid)
+            pool.update(uid.replace("-", "").split())
+            pool.add(u.get("task", ""))
+            pool.update(t for t in (u.get("triggers") or []) if t)
+            # uid 完整串（含连字符原样与去连字符形态）强信号
+            if uid in question or uid in q_compact:
+                uid_full.add(uid)
+            elif uid_n and (uid_n in q_compact):
+                uid_full.add(uid)
+        pool.discard("")
+        unit_pool[domain] = (pool, uid_full)
+    all_domains = sorted(set(DOMAIN_KEYWORDS) | set(DOMAIN_UNITS))
+    for domain in all_domains:
+        cnt_h = cnt_d = max_len = uid_bonus = 0
+        # 手工表（人工维护强信号）：命中数与最长词都参与竞争
+        hit = q_hits.get(domain, set())
+        if hit:
+            cnt_h = len(hit)
+            max_len = max(len(k) for k in hit)
+        # 动态池（白箱自举自动扩展）：仅新增词计 cnt_d，**不抬 max_len**
+        # ——自动词是弱信号，只加数量分，防止子串词翻盘人工词
+        pool, uid_full = unit_pool.get(domain, (set(), set()))
+        if pool:
+            hit2 = {k for k in pool if k in question or k in q_compact}
+            cnt_d = len(hit2 - hit)
+            if uid_full:
+                uid_bonus = 100
+                max_len = max(max_len, max(len(u2) for u2 in uid_full))
+        if cnt_h == 0 and cnt_d == 0 and uid_bonus == 0:
             continue
-        cnt, max_len = len(hit), max(len(k) for k in hit)
-        if cnt > best_cnt or (cnt == best_cnt and max_len > best_len):
-            best, best_cnt, best_len = domain, cnt, max_len
+        score_tuple = (uid_bonus, cnt_h, cnt_d, max_len)
+        best_tuple = (best_uid_bonus, best_cnt_h, best_cnt_d, best_len)
+        # 确定性：sorted 遍历序固定；平局保持先到者（≥ 已含于 > 语义，
+        # 此处仅 > 判定——平局不翻转，消除 PYTHONHASHSEED 非确定性波动）
+        if score_tuple > best_tuple:
+            best, best_cnt_h, best_cnt_d, best_len, best_uid_bonus =                 domain, cnt_h, cnt_d, max_len, uid_bonus
     return best
 
 

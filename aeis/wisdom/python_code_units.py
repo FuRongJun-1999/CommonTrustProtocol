@@ -1296,6 +1296,7 @@ PYTHON_UNITS = {
         "calibration": "对照：Python filter（条件筛选元素）",
     },
     "工具-归约": {
+        "triggers": ["归约", "累积聚合"],
         "task": "归约",
         "pattern": (
             "def reduce_accum(items, fn, initial):\n"
@@ -2547,6 +2548,7 @@ PYTHON_UNITS = {
         "calibration": "对照：itertools.pairwise——相邻元素对",
     },
     "工具-打乱": {
+        "triggers": ["打乱", "种子重排"],
         "task": "打乱",
         "pattern": (
             "def shuffle_seq(seq, seed=7):\n"
