@@ -667,12 +667,14 @@ class ConditionDex:
         self._by_name = {}
 
     def close(self):
+        """关闭底层灵枢引擎与存储连接。"""
         self.engine.close()
 
     # ---- 写入 ----
 
     def add_entry(self, name, domain, claim, cs, level=2, status="pending",
                   response=None, tags=None, card2=None, tier=None, tests=None):
+        """录入知识条目：name/domain/claim + 条件空间 cs → 感知节点写入知识层（打 domain:/level:/status: 标签）。"""
         node = self.engine.add_perception(
             claim, modality="text", condition_space=cs,
             importance=min(0.95, 0.6 + 0.1 * level),
@@ -694,6 +696,7 @@ class ConditionDex:
         return node.id
 
     def add_relation(self, a_name, b_name, kind, note="", confidence=0.8):
+        """在两个命名条目间建边：kind 映射 EdgeType（默认 SIMILAR），note 写入存在约束，confidence 为边置信度。"""
         et = getattr(EdgeType, kind.upper(), EdgeType.SIMILAR)
         cond = _default_cs()
         cond.existence_constraint = note or cond.existence_constraint
@@ -723,6 +726,7 @@ class ConditionDex:
     # ---- 七操作 ----
 
     def dex_status(self, node_id):
+        """单条目状态卡：id/name/domain/level/status/tier 属性视图。"""
         n = self.store.get_node(node_id)
         if n is None:
             return {"error": "not_found"}
@@ -742,6 +746,7 @@ class ConditionDex:
                                  self.store.get_incoming_edges(n.id)]}
 
     def dex_cs(self, code):
+        """按条件空间代号模糊匹配（cs: 标签），列出知识层节点的条件空间快照。"""
         out = []
         for n in self.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=200):
             if any(f"cs:" in t and code.lower() in t.lower() for t in n.tags):
@@ -974,6 +979,7 @@ class ConditionDex:
                 "judgment": "剥离条件空间后，主张仍只是文本——有效性必须依赖条件空间声明（0.0.1 信息条件性）"}
 
     def dex_invert(self, node_id, condition=None):
+        """反题查询：沿 OPPOSITE 边列出该条目的对立面（矛盾对弈用）。"""
         n = self.store.get_node(node_id)
         if n is None:
             return {"error": "not_found"}
@@ -998,6 +1004,7 @@ class ConditionDex:
                 "opposite_relations": opposite}
 
     def dex_cycle(self, node_id, max_steps=12):
+        """沿出边步进追踪，检测因果链循环回路（max_steps 步数上限）。"""
         n = self.store.get_node(node_id)
         if n is None:
             return {"error": "not_found"}

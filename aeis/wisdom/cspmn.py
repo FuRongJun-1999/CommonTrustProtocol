@@ -243,6 +243,7 @@ class CSPMN:
     # ---------------- 状态 ----------------
 
     def info(self) -> dict:
+        """实例概况：子实例数/维度/后端(GPU·CPU·unloaded)/信息差 d_norm 与缺口趋势。"""
         if self._vectors is None:
             return {"sub_instances": 0, "dim": 0, "backend": "unloaded",
                     "requested": self.backend, "load_error": self._load_error,

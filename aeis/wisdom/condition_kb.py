@@ -78,6 +78,7 @@ class ConditionKB:
                 "rule": rule, "overlap": best_overlap}
 
     def stats(self):
+        """骨架与条件词库规模快照：skeletons 数 + CONDITION_WORDS 词数。"""
         return {"skeletons": len(self.skeletons),
                 "condition_words": len(CONDITION_WORDS)}
 

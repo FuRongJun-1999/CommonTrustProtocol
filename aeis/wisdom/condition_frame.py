@@ -43,6 +43,7 @@ class ConditionFrame:
     def __init__(self, text, conditions=None, structure=None,
                  dominant=None, verified=False, fallback=None,
                  segments=None):
+        """条件帧：文本片段 + 条件列表 + 结构标记 + 主方向 + 校验态（fallback 为降级文本）。"""
         self.text = text
         self.conditions = conditions or []   # [{space,type,evidence,role}]
         self.structure = structure            # concession/negative/direct/emotion/self/knowledge/none
@@ -52,6 +53,7 @@ class ConditionFrame:
         self.segments = segments or {}        # 原始分段 {pre, post}（消费端用）
 
     def to_dict(self):
+        """序列化为摘要字典（text 截断至 40 字符防刷屏）。"""
         return {
             "text": self.text[:40],
             "conditions": self.conditions,

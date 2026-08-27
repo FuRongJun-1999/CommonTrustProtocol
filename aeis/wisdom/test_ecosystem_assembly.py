@@ -106,7 +106,7 @@ res = ns_vm['vm_run_loop'](loop_code, {'i': 0, 's': 0})
 print(f'  ⑤ 中文循环语义: 链节点数 0..{len(sp)-1} 累积和 s={res["symbols"]["s"]}')
 
 # ⑦ 真实中文编译器输出贯穿全链：gcd(48,36)=12 → 网络传输 → 内存 → 图存储 → 可视化
-sys.path.insert(0, r'D:\Program Files\2_ai\protocol-compiler')
+sys.path.insert(0, __import__('os').environ.get('AEIS_PROTOCOL_COMPILER') or __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.dirname(__import__('os').path.abspath(__file__))), __import__('os').pardir, 'protocol-compiler'))
 from core.compiler import compile_source as pc_compile
 from core.condition_vm import ConditionVM
 src_gcd = '''

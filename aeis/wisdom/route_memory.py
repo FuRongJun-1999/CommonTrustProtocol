@@ -230,10 +230,12 @@ class RouteMemory:
     # ---------------- 状态 ----------------
 
     def info(self) -> dict:
+        """路由记忆概况：总条数/已验证数/持久化路径。"""
         verified = sum(1 for e in self._entries if e.get("verified"))
         return {"entries": len(self._entries), "verified": verified,
                 "path": self.path}
 
     def clear(self) -> None:
+        """清空全部路由记忆并立即保存。"""
         self._entries = []
         self._save()

@@ -243,7 +243,9 @@ if r9b["ok"]:
 # 校准⑩：对接 protocol-compiler 真实 lexer/parser（同一源码 → 白箱编译 → VM 执行）
 import sys as _sys
 import os as _os
-_pc = r'D:\Program Files\2_ai\protocol-compiler'
+_pc = os.environ.get('AEIS_PROTOCOL_COMPILER') or os.path.join(
+    _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),
+    _os.pardir, 'protocol-compiler')
 if _os.path.isdir(_pc) and _pc not in _sys.path:
     _sys.path.insert(0, _pc)
 bridge_token = _fn("对接-协议词法")

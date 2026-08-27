@@ -67,6 +67,7 @@ class ASTNode:
     attributes: dict = field(default_factory=dict)
     
     def add_child(self, child: 'ASTNode'):
+        """追加子节点（None 直接忽略）。"""
         if child is not None:
             self.children.append(child)
     
@@ -82,6 +83,7 @@ class ProgramNode(ASTNode):
         self.statements: List[ASTNode] = []
     
     def add_statement(self, stmt: ASTNode):
+        """追加语句并同时挂入子树。"""
         if stmt is not None:
             self.statements.append(stmt)
             self.add_child(stmt)
@@ -113,6 +115,7 @@ class ShuyueNode(ASTNode):
         self.steps: List['StepNode'] = []
     
     def add_step(self, step: 'StepNode'):
+        """追加步骤节点并挂入子树。"""
         self.steps.append(step)
         self.add_child(step)
 

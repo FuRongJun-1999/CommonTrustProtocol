@@ -215,6 +215,7 @@ class KnowledgePointSplitter:
         return scored[:limit]
 
     def close(self):
+        """关闭数据库连接。"""
         self.conn.close()
 
 

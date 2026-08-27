@@ -39,6 +39,7 @@ class Opcode(IntEnum):
 
     @classmethod
     def names(cls):
+        """枚举名→值映射表。"""
         return {m.name: m.value for m in cls}
 
 
@@ -57,6 +58,7 @@ class ConditionVM:
         self.reset()
 
     def reset(self, symbols=None, trust=0.0, condition_stack=None):
+        """重置执行状态：指令指针/栈/符号表/条件栈归零重来。"""
         self.ip = 0
         self.stack = []
         self.symbols = dict(symbols or {})   # 名实对应（以名举实）

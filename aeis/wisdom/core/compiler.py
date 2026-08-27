@@ -46,6 +46,7 @@ class Compiler:
         self.funcs = {}        # 函数名 → (入口ip, 参数名列表)
 
     def compile(self, ast):
+        """编译 AST：函数定义先登记标签，语句逐条生成目标码。"""
         # 第一遍：收集函数定义（入口标签 + 参数）
         for stmt in ast.statements:
             if stmt.type == NodeType.FUNC_DEF:

@@ -292,6 +292,7 @@ class VerifyCache:
                 "saved_chars": total_chars, "saved_tokens": total_tokens}
 
     def get(self, fingerprint: str) -> Optional[VerifyResult]:
+        """按指纹取缓存校验结果：命中计 hits 并标记 cached=True；未命中计 misses 返回 None。"""
         entry = self._data.get(fingerprint)
         if entry is None:
             self.misses += 1
@@ -305,6 +306,7 @@ class VerifyCache:
         return r
 
     def put(self, result: VerifyResult) -> None:
+        """写入指纹→结果映射并落盘持久化（附版本键防跨版本脏读）。"""
         self._data[result.fingerprint] = {
             "ok": result.ok,
             "checks": result.checks,
@@ -324,6 +326,7 @@ class VerifyCache:
             pass
 
     def stats(self) -> Dict[str, Any]:
+        """聚合统计：条目总数、通过数、命中率（hits/(hits+misses)）。"""
         entries = {k: v for k, v in self._data.items() if k != _CACHE_VERSION_KEY}
         n = len(entries)
         n_pass = sum(1 for v in entries.values() if v.get("ok"))
@@ -344,6 +347,9 @@ class Verifier:
 
     # ---------- 主入口 ----------
     def verify(self, req: VerifyRequest) -> VerifyResult:
+        """六层校验入口：深拷贝请求→算指纹→命中直返；未命中逐层校验并记录 token 节省度量。
+        
+                （深拷贝防调用方原地修改污染指纹空间——见 P0 修复记录。）"""
         # 不可变快照：verify 内部运行样例可能原地修改输入（如排序
         # arr[j], arr[j+1] = ...），必须深拷贝防止污染原始 req 对象
         # （否则同一 req 第二次校验指纹变化，缓存失效）

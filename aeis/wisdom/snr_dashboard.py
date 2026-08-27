@@ -59,6 +59,7 @@ class SnrDashboard:
 
     # ---------- ① 压缩信噪比 ----------
     def compression_snr(self) -> Dict:
+        """压缩信噪比口径：raw_bytes/pure_bytes 比值报告。"""
         ratio = (self.raw_bytes / self.pure_bytes) if self.pure_bytes > 0 else 0.0
         return {"raw_bytes": self.raw_bytes, "pure_bytes": self.pure_bytes,
                 "ratio": round(ratio, 1)}

@@ -212,8 +212,10 @@ class NeuralRetriever:
         return scored[:limit]
 
     def available(self):
+        """探针：bge 模型是否就绪（懒加载成功即 True）。"""
         return self._ensure_model()
 
     def fail_reason(self):
+        """加载失败原因回读（available=False 时用于诊断降级原因）。"""
         self._ensure_model()
         return self._fail_reason

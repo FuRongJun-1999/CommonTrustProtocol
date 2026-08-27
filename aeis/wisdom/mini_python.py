@@ -60,14 +60,17 @@ class Parser:
         self.pos = 0
 
     def peek(self):
+        """前瞻：返回当前 token 类型但不消费。"""
         return self.tokens[self.pos]
 
     def advance(self):
+        """前进：消费并返回当前 token。"""
         t = self.tokens[self.pos]
         self.pos += 1
         return t
 
     def match(self, *texts):
+        """尝试匹配：类型相符即消费返回 True，否则 False。"""
         t = self.peek()
         if t[1] in texts:
             return self.advance()
@@ -95,23 +98,27 @@ class Parser:
         return node
 
     def or_expr(self):
+        """or 链：短路求值（左真返左，否则续右）——对照 CPython 语义。"""
         node = self.and_expr()
         while self.match("or"):
             node = ("or", node, self.and_expr())
         return node
 
     def and_expr(self):
+        """and 链：短路求值（左假返假，否则续右）。"""
         node = self.not_expr()
         while self.match("and"):
             node = ("and", node, self.not_expr())
         return node
 
     def not_expr(self):
+        """not 一元表达式求值。"""
         if self.match("not"):
             return ("not", self.not_expr())
         return self.comparison()
 
     def comparison(self):
+        """比较链：== != < <= > >= 双目比较。"""
         node = self.arith()
         while True:
             t = self.peek()
@@ -122,6 +129,7 @@ class Parser:
                 return node
 
     def arith(self):
+        """加减项：+ - 左结合。"""
         node = self.term()
         while True:
             t = self.peek()
@@ -132,6 +140,7 @@ class Parser:
                 return node
 
     def term(self):
+        """乘除项：* / // % 左结合。"""
         node = self.factor()
         while True:
             t = self.peek()
@@ -142,18 +151,21 @@ class Parser:
                 return node
 
     def factor(self):
+        """一元因子：- 负号 / not 前缀。"""
         if self.peek()[1] in ("-", "+"):
             op = self.advance()[1]
             return (op, self.factor())  # 一元负号在外层：-2**2 = -(2**2)
         return self.power()
 
     def power(self):
+        """幂运算：** 右结合。"""
         node = self.atom()
         if self.match("**"):
             return ("**", node, self.factor())  # 右结合
         return node
 
     def atom(self):
+        """原子项：数字/字符串/名称/括号表达式/[列表]/字典字面量。"""
         t = self.peek()
         if t[0] == "NUMBER":
             self.advance()
@@ -218,6 +230,7 @@ class Parser:
 
 # ============ 三、求值（对照 CPython 行为） ============
 def is_truthy(v):
+    """真值判定：对照 CPython 规则（None/0/空容器为假）。"""
     return v is not None and v is not False and v != 0
 
 
@@ -328,6 +341,7 @@ class Env:
         self.parent = parent
 
     def get(self, name):
+        """变量读取：沿父作用域链向上查找，未定义抛 NameError。"""
         if name in self.vars:
             return self.vars[name]
         if self.parent:
@@ -335,6 +349,7 @@ class Env:
         raise MiniPyError(f"NameError: name '{name}' is not defined")
 
     def set(self, name, value):
+        """变量赋值绑定到当前作用域。"""
         self.vars[name] = value
 
 
@@ -526,6 +541,7 @@ class VM:
         self.frames = []  # 调用帧（P5 简化：函数调用直接执行 body）
 
     def run(self, code, max_steps=100000):
+        """字节码 VM 执行主循环：取指分派，max_steps 上限防死循环。"""
         ip = 0
         while ip < len(code) and max_steps > 0:
             op, arg = code[ip]

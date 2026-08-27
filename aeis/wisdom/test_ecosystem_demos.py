@@ -46,7 +46,7 @@ except Exception as e:
 
 # 目标2b 中文编译器：递归函数（真实 protocol-compiler 编译执行）
 try:
-    sys.path.insert(0, r'D:\Program Files\2_ai\protocol-compiler')
+    sys.path.insert(0, __import__('os').environ.get('AEIS_PROTOCOL_COMPILER') or __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.dirname(__import__('os').path.abspath(__file__))), __import__('os').pardir, 'protocol-compiler'))
     from core.compiler import compile_source
     from core.condition_vm import ConditionVM
     src_fac = '''
