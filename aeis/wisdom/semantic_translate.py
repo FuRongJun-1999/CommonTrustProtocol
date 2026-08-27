@@ -2952,9 +2952,12 @@ def card_route(dex, question, limit=5):
             cm = sa.get("comment") or {}
             if not cm:
                 continue
-            # 负路由：不适用条件命中（字面包含）→ 排除
-            if any(m in q for m in cm.get("不适用条件", [])):
+            # 负路由计票制（T2 · 2026-08-28）：不适用条件命中 ≥2 → REJECT 排除
+            #（条件冲突明确）；==1 → 疑似巧合子串，降权不排除
+            _neg_hits = sum(1 for m in cm.get("不适用条件", []) if m and m.replace("问", "") in q)
+            if _neg_hits >= 2:
                 continue
+            _neg_penalty = 2.0 if _neg_hits == 1 else 0.0
             # v1.39 修复（全库注释后误配）：索引词只用【生效条件】——
             # 之前用 name+生效+子功能+执行 全部文本，「两个重要极限」执行
             # 文本含『三角』被「三角形内角和」误配（how 不是 when，词面
@@ -3129,8 +3132,11 @@ def two_stage_retrieve(dex, question, top_domains=3, limit=5):
             # ① 负路由：不适用条件命中（字面包含）→ 排除（对齐 ccg.search
             #    not_tokens 负路由——REJECT 条件冲突的候选）
             _neg = cm.get("不适用条件") or []
-            if any(_n and _n.replace("问", "") in question for _n in _neg):
+            # 负路由计票制（T2）：≥2 排除，==1 降权继续
+            _neg_hits_2 = sum(1 for _n in _neg if _n and _n.replace("问", "") in question)
+            if _neg_hits_2 >= 2:
                 continue
+            _neg_single = (_neg_hits_2 == 1)
             # ② 生效条件核对（对齐 CCG cond_tokens——问题命中生效条件才算
             #    条件充分；不再用「执行/子功能」文本做索引——那是 how 不是
             #    when，词面重叠不算条件满足）
