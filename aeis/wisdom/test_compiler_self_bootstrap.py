@@ -4,9 +4,9 @@
   L1 语法（ast.parse）→ L2 样例（args→期望断言运行）→ L3 边界（空/极端）
 → 外部校准：语义对照（智能论语义基准）+ 集成（生成代码组装 VM 执行）
 """
-import sys, ast
+import sys, os, ast
 sys.stdout.reconfigure(encoding='utf-8')
-sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\tools')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from compiler_code_units import COMPILER_UNITS, route_compiler_unit
 
 pass_n = fail_n = 0

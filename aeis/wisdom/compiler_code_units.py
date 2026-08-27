@@ -13,6 +13,10 @@ COMPILER_UNITS = {
         "task": "条件跳转",
         "pattern": (
             "def exec_jump_if_false(stack, ip, target):\n"
+"    # 生效条件：参数 stack/ip/target 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：stack 为空/非法时（隐式盲区：返回默认值 1 = 未知行为——不适用）\n"
             "    # 若…则…否则：栈顶为假则跳转（智能论条件语句的 VM 语义）\n"
             "    if not stack:\n"
             "        return ip + 1\n"
@@ -27,7 +31,11 @@ COMPILER_UNITS = {
         "task": "信任累积",
         "pattern": (
             "def accumulate_trust(trust, amount):\n"
-            "    # 德：信任值累积（信任引擎内建语义）\n"
+            "    # 信任累积（德）：德——信任值累积（信任引擎内建语义）\n"
+            "    # 生效条件：trust/amount 为数值（信任值 0-1 区间）\n"
+            "    # 子功能：① 信任值相加 ② 三位小数归整\n"
+            "    # 执行：round(trust + amount, 3)\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    return round(trust + amount, 3)\n"),
         "cases": [((0.0, 0.5), 0.5), ((0.3, 0.5), 0.8), ((0.7, 0.0), 0.7)],
         "params": [],
@@ -37,6 +45,10 @@ COMPILER_UNITS = {
         "task": "条件空间",
         "pattern": (
             "def condition_space_op(space_stack, op, name):\n"
+"    # 生效条件：op ∈ {自然, 道}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：op 非 {自然, 道} 时（隐式盲区：返回默认值 [] = 未知行为——不适用）\n"
             "    # 道：创建协议路径（条件空间栈压入）；自然：恢复默认（弹栈到根）\n"
             "    if op == '道':\n"
             "        space_stack.append({'name': name})\n"
@@ -53,7 +65,11 @@ COMPILER_UNITS = {
         "task": "编译条件",
         "pattern": (
             "def compile_condition(cond_instrs, then_instrs, else_instrs):\n"
-            "    # 若…则…否则 → JUMP_IF_FALSE + JUMP（AST→字节码）\n"
+            "    # 条件跳转编译（若则编译·条件语句编译）：若…则…否则 → JUMP_IF_FALSE + JUMP（跳转指令，AST→字节码）\n"
+            "    # 生效条件：cond_instrs/then_instrs/else_instrs 为指令列表（条件/真分支/假分支字节码）\n"
+            "    # 子功能：① 拼接条件指令 ② 假跳转至 else ③ 真分支尾跳至结束\n"
+            "    # 执行：JUMP_IF_FALSE（条件假跳）+ JUMP（跳过 else）\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    code = []\n"
             "    code.extend(cond_instrs)\n"
             "    else_lbl = len(code) + 1 + len(then_instrs) + 1\n"
@@ -74,7 +90,11 @@ COMPILER_UNITS = {
         "task": "循环编译",
         "pattern": (
             "def compile_loop(cond_instrs, body_instrs):\n"
-            "    # 当…执行 → 条件 + JUMP_IF_FALSE 跳出 + 循环体 + JUMP 回条件\n"
+            "    # 循环编译（while 编译）：当…执行 → 条件 + JUMP_IF_FALSE 跳出 + 循环体 + JUMP 回条件\n"
+            "    # 生效条件：cond_instrs/body_instrs 为指令列表（条件字节码/循环体字节码）\n"
+            "    # 子功能：① 拼接条件指令 ② 假跳转至循环后 ③ 体尾回跳条件\n"
+            "    # 执行：JUMP_IF_FALSE 跳出 + JUMP 回跳形成循环（while 语义）\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # （while 语义：条件为假即退出，回跳形成循环）\n"
             "    code = []\n"
             "    code.extend(cond_instrs)\n"
@@ -97,6 +117,10 @@ COMPILER_UNITS = {
         "task": "循环执行",
         "pattern": (
             "def vm_run_loop(code, symbols=None, max_steps=1000):\n"
+"    # 生效条件：op ∈ {ADD, CMP_LT, JUMP, JUMP_IF_FALSE, LOAD, PUSH, STORE, SUB}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：op 非 {ADD, CMP_LT, JUMP, JUMP_IF_FALSE, LOAD, PUSH, STORE, SUB} 时\n"
             "    # 智能论 VM 循环执行：算术(ADD/SUB)+比较+回跳；步数上限防死循环\n"
             "    ip, stack = 0, []\n"
             "    symbols = dict(symbols or {})\n"
@@ -159,6 +183,10 @@ COMPILER_UNITS = {
         "task": "函数定义",
         "pattern": (
             "def compile_func_def(name, params, body_instrs):\n"
+"    # 生效条件：参数 name/params/body_instrs 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 定义 名（参数）：语句 → 函数体后置 + RETURN（入口=函数体起点）\n"
             "    # 返回 (skip_jump, entry_ip, body)：调用方拼接 JUMP 跳过 + 函数体\n"
             "    body = list(body_instrs)\n"
@@ -176,6 +204,10 @@ COMPILER_UNITS = {
         "task": "函数调用",
         "pattern": (
             "def call_func(call_stack, symbols, params, args, entry_ip, ret_ip):\n"
+"    # 生效条件：参数 call_stack/symbols/params/args/entry_ip/ret_ip 合法\n"
+"    # 子功能：① 调用 zip；② 调用 dict\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # CALL 语义：保存调用帧(返回地址+符号表) → 参数绑定(遮蔽全局) → 跳入口\n"
             "    call_stack.append((ret_ip, dict(symbols)))\n"
             "    for pname, pval in zip(params, args):\n"
@@ -189,6 +221,10 @@ COMPILER_UNITS = {
         "task": "递归调用",
         "pattern": (
             "def compile_recursive(name, params, cond_instrs, then_ret, else_expr_instrs):\n"
+"    # 生效条件：参数 name/params/cond_instrs/then_ret/else_expr_instrs 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 递归函数：若 基条件 则 返回 基值，否则 返回 表达式（含自身调用）\n"
             "    # 组装为函数体字节码（CALL 自身由调用方回填入口）\n"
             "    body = []\n"
@@ -213,7 +249,11 @@ COMPILER_UNITS = {
         "task": "编译赋值",
         "pattern": (
             "def compile_assign(value_instrs, name):\n"
-            "    # 赋值 → 值指令 + STORE_NAME（以名举实：名实写入）\n"
+            "    # 赋值编译（名实写入）：赋值 → 值指令 + STORE_NAME（以名举实：名实写入）\n"
+            "    # 生效条件：value_instrs 为计算值的指令列表；name 为赋值目标名\n"
+            "    # 子功能：① 拼接值指令 ② 追加名写入指令\n"
+            "    # 执行：值指令 + STORE_NAME（名实绑定语义）\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    code = list(value_instrs)\n"
             "    code.append(('STORE_NAME', name))\n"
             "    return code\n"),
@@ -225,7 +265,11 @@ COMPILER_UNITS = {
         "task": "道德经词法",
         "pattern": (
             "def instr_token(word):\n"
-            "    # 道德经助记符 → 指令 Token（剥离尾部标点；未接入 VM 的指令诚实返回 None）\n"
+            "    # 道德经助记符（词法）：道德经助记符 → 指令 Token（剥离尾部标点；未接入 VM 的指令诚实返回 None）\n"
+            "    # 生效条件：word 为道德经助记符文本（道/德/自然/无为/止/知足）\n"
+            "    # 子功能：① 剥离尾部标点 ② 助记符查映射表 ③ 未收录返回 None\n"
+            "    # 执行：rstrip 标点 + dict.get，命中返指令码\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    m = {'道': 'DAO', '德': 'DE', '自然': 'ZIRAN', '无为': 'WUWEI',\n"
             "         '止': 'ZHI', '知足': 'ZHIZU'}\n"
             "    return m.get((word or '').rstrip('。；;，,'))\n"),
@@ -238,7 +282,11 @@ COMPILER_UNITS = {
         "task": "九章算术",
         "pattern": (
             "def structure_token(text):\n"
-            "    # 九章算术结构：问曰/答曰/术曰 → (TokenType, 原文)\n"
+            "    # 九章算术结构（词法）：问曰/答曰/术曰 → (TokenType, 原文)\n"
+            "    # 生效条件：text 以九章算术结构词（问曰/答曰/术曰）开头\n"
+            "    # 子功能：① 结构词前缀匹配 ② 命中返回类型标记 ③ 未命中返 None\n"
+            "    # 执行：顺序匹配三个结构词，命中即返 (词_STRUCT, 词)\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    for kw in ('问曰', '答曰', '术曰'):\n"
             "        if text.startswith(kw):\n"
             "            return (kw + '_STRUCT', kw)\n"
@@ -254,6 +302,10 @@ COMPILER_UNITS = {
         "task": "名实校验",
         "pattern": (
             "def check_names(required, declared):\n"
+"    # 生效条件：参数 required/declared 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 以名举实：要求的符号必须已声明（墨辩静态检查）\n"
             "    return [s for s in required if s not in declared]\n"),
         "cases": [((["a"], {"a": 1, "b": 2}), []),
@@ -266,7 +318,11 @@ COMPILER_UNITS = {
         "task": "执行循环",
         "pattern": (
             "def vm_run(code, symbols=None, trust=0.0, cond_stack=None):\n"
-            "    # 智能论 VM 执行循环：ip 顺序执行；止/无为 = 控制流信号；名实不符报错\n"
+            "    # 虚拟机（VM·智能论）执行循环：字节码指令 ip 顺序执行；止/无为 = 控制流信号；名实不符报错\n"
+            "    # 生效条件：code 为指令列表；symbols 为符号表；trust 为初始信任值\n"
+            "    # 子功能：① 按 ip 取指执行 ② 控制流信号处理 ③ 名实校验拦截\n"
+            "    # 执行：循环取指分派，止/无为跳转，名实不符报错\n"
+"    # 不适用条件：op 非 {DAO, DE, JUMP, JUMP_IF_FALSE, LOAD, PUSH, STORE, WUWEI, ZHI, ZHIZU, ZIRAN} 时\n"
             "    ip, stack = 0, []\n"
             "    symbols = dict(symbols or {})\n"
             "    cond_stack = list(cond_stack or [])\n"
@@ -333,6 +389,10 @@ COMPILER_UNITS = {
         "task": "编译指令",
         "pattern": (
             "def compile_instr(kind, operand=None):\n"
+"    # 生效条件：kind ∈ {DAO, DE}\n"
+"    # 子功能：1 kind 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：kind 非 {DAO, DE} 时\n"
             "    # 道德经指令 AST → VM 指令（未接入 VM 的指令诚实返回 None）\n"
             "    if kind == 'DAO':\n"
             "        return ('DAO', operand or '无名路径')\n"
@@ -346,10 +406,14 @@ COMPILER_UNITS = {
         "params": [],
         "calibration": "对照：INSTRUCTION_MAP（道→create_path 等；未接入指令诚实边界）",
     },
-    "校验-条件空间类型": {
-        "task": "条件空间类型",
+    "校验-条件空间符号类型": {
+        "task": "条件空间符号类型",
         "pattern": (
             "def check_condition_types(conditions, symbol_types):\n"
+"    # 生效条件：参数 conditions/symbol_types 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 条件空间=类型系统：条件声明中的符号必须已定义类型（编译期静态检查）\n"
             "    # conditions: [{'space': '伴侣', 'symbol': '情感权重', 'type': '数值'}]\n"
             "    return [c for c in conditions\n"
@@ -367,7 +431,11 @@ COMPILER_UNITS = {
         "task": "中文程序词法",
         "pattern": (
             "def lex_line(line):\n"
-            "    # 中文程序行 → (kind, payload)；九章算术结构/条件/指令/步骤识别\n"
+            "    # 中文程序词法（词法分析）：中文程序行 → (kind, payload)；九章算术结构/条件/指令/步骤识别\n"
+            "    # 生效条件：line 为中文程序源码行\n"
+            "    # 子功能：① 九章算术结构识别 ② 条件/指令/步骤分类 ③ 提取载荷\n"
+            "    # 执行：前缀匹配 + 分类返回 (kind, payload)\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    line = line.strip()\n"
             "    if not line or line.startswith('#'):\n"
             "        return None\n"
@@ -407,6 +475,10 @@ COMPILER_UNITS = {
         "task": "编译程序",
         "pattern": (
             "def compile_program(statements, compile_instr=None, compile_condition=None):\n"
+"    # 生效条件：kind ∈ {COND, INSTR, 术曰, 止}；s.replace 可用\n"
+"    # 子功能：1 kind 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：kind 非 {COND, INSTR, 术曰, 止} 时\n"
             "    # 程序语句列表 → 字节码（术曰=作用域；条件=跳转；指令=道德经；止=停止）\n"
             "    def _num(v):\n"
             "        if v is None:\n"
@@ -448,6 +520,10 @@ COMPILER_UNITS = {
         "task": "条件空间存在",
         "pattern": (
             "def check_condition_spaces(used_spaces, declared_spaces):\n"
+"    # 生效条件：参数 used_spaces/declared_spaces 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 条件空间=类型系统：使用的条件空间必须已声明（编译期拦截未声明空间）\n"
             "    return [s for s in used_spaces if s not in declared_spaces]\n"),
         "cases": [((["伴侣", "高原"], {"伴侣", "高原"}), []),
@@ -461,6 +537,10 @@ COMPILER_UNITS = {
         "task": "编译管线",
         "pattern": (
             "def compile_pipeline(statements, symbol_types, declared_spaces):\n"
+"    # 生效条件：kind ∈ {COND}；_re.search 可用；m.group 可用\n"
+"    # 子功能：1 kind 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：kind 非 {COND} 时\n"
             "    # 编译管线（C2 语义：静态检查→字节码）——名实 + 条件空间类型 + 存在性\n"
             "    errors = []\n"
             "    for st in statements:\n"
@@ -496,7 +576,11 @@ COMPILER_UNITS = {
         "task": "类型推断",
         "pattern": (
             "def infer_types(statements):\n"
-            "    # 编译期类型推断：从赋值推断符号类型，条件空间声明登记空间类型\n"
+            "    # 类型推断（编译期）：从赋值推断符号类型，条件空间声明登记空间类型\n"
+            "    # 生效条件：statements 为语句列表（assign/条件空间声明）\n"
+            "    # 子功能：① 赋值推导类型 ② 条件空间登记 ③ 冲突标记混合类型\n"
+            "    # 执行：逐语句分派，冲突赋值 → 类型标记'混合'（编译期拦截候选）\n"
+"    # 不适用条件：kind 非 {COND, assign} 时\n"
             "    # 冲突赋值 → 类型标记'混合'（编译期拦截候选）\n"
             "    import re as _re\n"
             "    types, spaces = {}, {}\n"
@@ -535,6 +619,10 @@ COMPILER_UNITS = {
         "task": "类型检查",
         "pattern": (
             "def compile_typed(statements, infer_fn=None):\n"
+"    # 生效条件：t ∈ {混合}；_re.findall 可用\n"
+"    # 子功能：1 t 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：t 非 {混合} 时\n"
             "    # 类型检查编译：先类型推断 → 未推断/混合类型符号使用 → 编译期拦截\n"
             "    # infer_fn 注入（组装白箱单元：分析-类型推断）\n"
             "    import re as _re\n"
@@ -571,6 +659,10 @@ COMPILER_UNITS = {
         "task": "完整编译",
         "pattern": (
             "def compile_full(source, declared_spaces=None):\n"
+"    # 生效条件：kw ∈ {知足}；source.splitlines 可用；line.strip 可用\n"
+"    # 子功能：1 kw 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：kw 非 {知足} 时\n"
             "    # 白箱版 pc compile 单入口：中文源码 → 字节码\n"
             "    # 流程：逐行词法 → 静态检查（条件空间存在性/类型）→ 编译指令\n"
             "    import re as _re\n"
@@ -671,6 +763,10 @@ COMPILER_UNITS = {
         "task": "条件求值",
         "pattern": (
             "def eval_condition(cond_text, symbols):\n"
+"    # 生效条件：right_s.strip 可用；left_s.strip 可用\n"
+"    # 子功能：① 调用 float\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 中文条件表达式求值：左值 比较词 右值（比较词：大于/小于/等于/不等于/不小于/不大于）\n"
             "    ops = {'不小于': '>=', '不大于': '<=', '大于': '>', '小于': '<',\n"
             "           '等于': '==', '不等于': '!='}\n"
@@ -699,6 +795,10 @@ COMPILER_UNITS = {
         "task": "协议词法对接",
         "pattern": (
             "def bridge_token(token_name):\n"
+"    # 生效条件：参数 token_name 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # protocol-compiler TokenType → 白箱指令名（真实词法对接校准基准）\n"
             "    m = {'DAO': 'DAO', 'DE': 'DE', 'ZIRAN': 'ZIRAN', 'WUWEI': 'WUWEI',\n"
             "         'ZHI': 'ZHI', 'ZHIZU': 'ZHIZU', 'RUO': 'COND_START',\n"
@@ -716,7 +816,11 @@ COMPILER_UNITS = {
         "task": "字节码序列化",
         "pattern": (
             "def serialize(code):\n"
-            "    # 指令列表 → .pbc 字节串（原生编译产物：op字符串+arg编码）\n"
+            "    # 字节码序列化（.pbc 编码）：指令列表 → .pbc 字节串（原生编译产物：op字符串+arg编码）\n"
+            "    # 生效条件：code 为 (op, arg) 指令列表；arg 为 int/str/None\n"
+            "    # 子功能：① op 定长前缀编码 ② arg 类型分派编码 ③ 拼装字节串\n"
+            "    # 执行：struct.pack 前缀长度 + utf-8 op + arg 按类型编码\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    import struct\n"
             "    out = bytearray()\n"
             "    for op, arg in code:\n"
@@ -748,6 +852,10 @@ COMPILER_UNITS = {
         "task": "字节码反序列化",
         "pattern": (
             "def deserialize(data):\n"
+"    # 生效条件：struct.unpack_from 可用\n"
+"    # 子功能：① 调用 len；② 调用 ValueError；③ 调用 str\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # .pbc 字节串 → 指令列表（原生编译加载）\n"
             "    import struct\n"
             "    code, i = [], 0\n"
@@ -783,7 +891,11 @@ COMPILER_UNITS = {
         "task": "VM单步",
         "pattern": (
             "def step_exec(code, ip, stack=None, symbols=None, trust=0.0, cond=None):\n"
-            "    # VM 单步：执行一条指令 → (next_ip, 新状态)；止/无为返回 halt；越界返回 None\n"
+            "    # VM 单步（调试器单步）：执行一条指令 → (next_ip, 新状态)；止/无为返回 halt；越界返回 None\n"
+            "    # 生效条件：code 为指令列表；ip 为当前指令指针\n"
+            "    # 子功能：① 取当前指令 ② 分派执行 ③ 返回下一状态\n"
+            "    # 执行：按 op 分派，止/无为→halt，越界→None\n"
+"    # 不适用条件：op 非 {DAO, DE, LOAD, PUSH, STORE, WUWEI, ZHI, ZHIZU, ZIRAN} 时\n"
             "    if ip >= len(code):\n"
             "        return None\n"
             "    op, arg = code[ip]\n"
@@ -831,7 +943,11 @@ COMPILER_UNITS = {
         "task": "字节码转储",
         "pattern": (
             "def dump_bytecode(code):\n"
-            "    # 字节码 → 可读指令列表（地址+指令+参数——分析器输出）\n"
+            "    # 字节码转储（可读转储）：字节码 → 可读指令列表（地址+指令+参数——分析器输出）\n"
+            "    # 生效条件：code 为指令列表（op, arg）\n"
+            "    # 子功能：① 逐指令编号 ② 格式化指令行\n"
+            "    # 执行：enumerate 生成 (地址, op, arg) 行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    return [f'{i:4d}  {op:14s} {arg}' for i, (op, arg) in enumerate(code)]\n"),
         "cases": [(([("DE", 0.3), ("ZHI", None)],),
                   ['   0  DE             0.3', '   1  ZHI            None'])],
@@ -842,6 +958,10 @@ COMPILER_UNITS = {
         "task": "注释剥离",
         "pattern": (
             "def strip_comments(src):\n"
+"    # 生效条件：src.splitlines 可用；line.find 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 注释剥离：# 行注释 / 井号中文注释（词法预处理）\n"
             "    lines = []\n"
             "    for line in src.splitlines():\n"
@@ -858,7 +978,11 @@ COMPILER_UNITS = {
         "task": "逻辑表达式",
         "pattern": (
             "def compile_logic(left_instrs, op, right_instrs):\n"
-            "    # 逻辑表达式：且/或 → 短路跳转字节码（AND/OR 语义）\n"
+            "    # 逻辑表达式编译（短路编译）：且/或 → 短路跳转字节码（AND/OR 语义）\n"
+            "    # 生效条件：op ∈ {且, 或}；left/right 为指令列表\n"
+            "    # 子功能：① 拼接左指令 ② 短路跳转 ③ 拼接右指令\n"
+            "    # 执行：且→JUMP_IF_FALSE、或→JUMP_IF_TRUE（左短路）\n"
+"    # 不适用条件：op 非 {且} 时\n"
             "    code = list(left_instrs)\n"
             "    if op == '且':\n"
             "        code.append(('JUMP_IF_FALSE', 0))  # 左假短路\n"
@@ -878,6 +1002,10 @@ COMPILER_UNITS = {
         "task": "链式比较",
         "pattern": (
             "def compile_chain(cmp1, cmp2):\n"
+"    # 生效条件：参数 cmp1/cmp2 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 链式比较：a < b < c → 比较1 且 比较2（AND 组合）\n"
             "    code = list(cmp1)\n"
             "    code.append(('JUMP_IF_FALSE', 0))  # 第一比较假 → 短路\n"
@@ -895,6 +1023,10 @@ COMPILER_UNITS = {
         "task": "常量折叠",
         "pattern": (
             "def fold_constants(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 常量折叠：PUSH 常量 + 算术 → 立即结果（编译期求值优化）\n"
             "    out, i = [], 0\n"
             "    while i < len(instrs):\n"
@@ -922,6 +1054,10 @@ COMPILER_UNITS = {
         "task": "死代码消除",
         "pattern": (
             "def dead_code_elim(code):\n"
+"    # 生效条件：op ∈ {JUMP}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
+"    # 不适用条件：op 非 {JUMP} 时\n"
             "    # 死代码消除：不可达指令（无条件 JUMP 之后）删除\n"
             "    live = []\n"
             "    reachable = True\n"
@@ -942,6 +1078,10 @@ COMPILER_UNITS = {
         "task": "寄存器分配",
         "pattern": (
             "def reg_alloc(vars_used):\n"
+"    # 生效条件：参数 vars_used 合法\n"
+"    # 子功能：① 调用 len；② 调用 str\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 寄存器分配：变量 → 寄存器（无冲突复用，溢出计数）\n"
             "    regs = {}\n"
             "    spills = 0\n"
@@ -964,6 +1104,10 @@ COMPILER_UNITS = {
         "task": "闭包捕获分析",
         "pattern": (
             "def analyze_free_vars(func_refs, params, outer_vars):\n"
+"    # 生效条件：参数 func_refs/params/outer_vars 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 闭包捕获分析：函数体引用 且 非参数 且 外层可见 = 自由变量\n"
             "    # （词法作用域：内层函数用到的外层名字 → 需捕获为 cell；保持源码引用顺序）\n"
             "    return [r for r in func_refs\n"
@@ -978,6 +1122,10 @@ COMPILER_UNITS = {
         "task": "闭包创建",
         "pattern": (
             "def make_closure(func_body, free_names, captured_values):\n"
+"    # 生效条件：参数 func_body/free_names/captured_values 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 闭包创建：函数体 + 捕获映射（自由变量→当前值）→ 闭包对象\n"
             "    # （知 + 所见环境；未捕获到的名字不入环境）\n"
             "    return {'body': list(func_body),\n"
@@ -995,6 +1143,10 @@ COMPILER_UNITS = {
         "task": "闭包调用",
         "pattern": (
             "def call_closure(closure, params, args):\n"
+"    # 生效条件：参数 closure/params/args 合法\n"
+"    # 子功能：① 调用 dict；② 调用 zip\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 闭包调用：捕获环境 + 参数绑定 → 执行环境\n"
             "    # （词法父作用域可见 + 当前参数；参数遮蔽捕获变量）\n"
             "    env = dict(closure['env'])\n"
@@ -1012,6 +1164,10 @@ COMPILER_UNITS = {
         "task": "断点",
         "pattern": (
             "def breakpoint_hit(breaks, ip, enable=None):\n"
+"    # 生效条件：breaks.discard 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 断点：enable=True 登记 / False 清除 / None 查询命中（调试器暂停点）\n"
             "    if enable is True:\n"
             "        breaks.add(ip)\n"
@@ -1032,6 +1188,10 @@ COMPILER_UNITS = {
         "task": "调用栈回溯",
         "pattern": (
             "def traceback_chain(call_stack, error_frame):\n"
+"    # 生效条件：参数 call_stack/error_frame 合法\n"
+"    # 子功能：① 调用 reversed\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 调用栈回溯：出错帧 + 调用链（最新→最旧）——调试器栈回溯语义\n"
             "    chain = [error_frame]\n"
             "    chain.extend(reversed(call_stack))\n"
@@ -1046,6 +1206,10 @@ COMPILER_UNITS = {
         "task": "变量监视",
         "pattern": (
             "def watch_eval(expr, symbols):\n"
+"    # 生效条件：参数 expr/symbols 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 变量监视：监视名在符号表求值（未知名 → None）——调试器监视窗\n"
             "    return symbols.get(expr)\n"),
         "cases": [((("甲", {"甲": 3}), 3)),
@@ -1058,6 +1222,10 @@ COMPILER_UNITS = {
         "task": "内联展开",
         "pattern": (
             "def inline_small(funcs, name, call_site):\n"
+"    # 生效条件：参数 funcs/name/call_site 合法\n"
+"    # 子功能：① 调用 list；② 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 内联展开：小函数（指令数 ≤ 3）调用处直接展开（减少调用开销）\n"
             "    body = funcs.get(name)\n"
             "    if body is None or len(body) > 3:\n"
@@ -1074,6 +1242,10 @@ COMPILER_UNITS = {
         "task": "循环展开",
         "pattern": (
             "def loop_unroll(body, times, max_unroll=3):\n"
+"    # 生效条件：参数 body/times/max_unroll 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 循环展开：循环体复制 times 次（减少回跳，阈值上限防代码膨胀）\n"
             "    if times > max_unroll or times <= 0:\n"
             "        return list(body)\n"
@@ -1089,6 +1261,10 @@ COMPILER_UNITS = {
         "task": "尾调用优化",
         "pattern": (
             "def tail_call_opt(body):\n"
+"    # 生效条件：参数 body 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 尾调用优化：末尾调用指令 → 跳转指令（尾递归转循环，栈安全）\n"
             "    if body and body[-1][0] == 'CALL':\n"
             "        return list(body[:-1]) + [('JUMP', body[-1][1])]\n"
@@ -1104,6 +1280,10 @@ COMPILER_UNITS = {
         "task": "文件头校验",
         "pattern": (
             "def pbc_header_check(header, version):\n"
+"    # 生效条件：参数 header/version 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # .pbc 文件头：魔数 + 版本兼容（C3 原生编译文件格式）\n"
             "    if header.get('magic') != 'PBC1':\n"
             "        return 'bad_magic'\n"
@@ -1120,6 +1300,10 @@ COMPILER_UNITS = {
         "task": "完整性校验",
         "pattern": (
             "def pbc_checksum(data, expected):\n"
+"    # 生效条件：参数 data/expected 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # .pbc 完整性：异或校验和验证（检测字节损坏）\n"
             "    calc = 0\n"
             "    for b in data:\n"
@@ -1135,6 +1319,10 @@ COMPILER_UNITS = {
         "task": "紧凑编码",
         "pattern": (
             "def varint_codec(n_or_bytes, mode):\n"
+"    # 生效条件：mode ∈ {decode, encode}\n"
+"    # 子功能：1 mode 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：b 越界（Lt）时；mode 非 {decode, encode} 时\n"
             "    # 紧凑编码：encode 变长整数 / decode 还原（7 位一组，小整数省字节）\n"
             "    if mode == 'encode':\n"
             "        out = []\n"
@@ -1164,6 +1352,10 @@ COMPILER_UNITS = {
         "task": "圈复杂度",
         "pattern": (
             "def cyclomatic_complexity(code):\n"
+"    # 生效条件：参数 code 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 圈复杂度：判定节点数 + 1（if/while 分支——代码复杂度度量）\n"
             "    decisions = 0\n"
             "    for op, _ in code:\n"
@@ -1182,6 +1374,10 @@ COMPILER_UNITS = {
         "task": "活跃变量",
         "pattern": (
             "def dead_var_detect(defs, uses):\n"
+"    # 生效条件：参数 defs/uses 合法\n"
+"    # 子功能：① 调用 any\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 活跃变量：定义后未被使用 → 死变量（死代码消除依据）\n"
             "    dead = []\n"
             "    for var, def_line in defs:\n"
@@ -1198,6 +1394,10 @@ COMPILER_UNITS = {
         "task": "调用图",
         "pattern": (
             "def call_graph(funcs):\n"
+"    # 生效条件：参数 funcs 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 调用图：函数 → 被调函数集合（调用关系图构建）\n"
             "    graph = {}\n"
             "    for fn, calls in funcs:\n"
@@ -1214,6 +1414,10 @@ COMPILER_UNITS = {
         "task": "字符串字面量",
         "pattern": (
             "def lex_string(src, i):\n"
+"    # 生效条件：参数 src/i 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 字符串字面量：引号内解析（支持反斜杠转义）→ (token, 新位置)\n"
             "    if src[i] != '\"':\n"
             "        return None, i\n"
@@ -1239,6 +1443,10 @@ COMPILER_UNITS = {
         "task": "数字字面量",
         "pattern": (
             "def lex_number(src, i):\n"
+"    # 生效条件：参数 src/i 合法\n"
+"    # 子功能：① 调用 len；② 调用 int；③ 调用 float\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 数字字面量：整数/浮点/十六进制解析 → (token, 新位置)\n"
             "    if src[i] == '0' and i + 1 < len(src) and src[i + 1] in 'xX':\n"
             "        j = i + 2\n"
@@ -1262,6 +1470,10 @@ COMPILER_UNITS = {
         "task": "数组字面量",
         "pattern": (
             "def parse_array(tokens, i):\n"
+"    # 生效条件：参数 tokens/i 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 数组字面量：'[' 元素列表 ']' 解析（逗号分隔）→ (list, 新位置)\n"
             "    if tokens[i] != '[':\n"
             "        return None, i\n"
@@ -1282,6 +1494,10 @@ COMPILER_UNITS = {
         "task": "作用域分析",
         "pattern": (
             "def scope_lookup(scopes, name):\n"
+"    # 生效条件：参数 scopes/name 合法\n"
+"    # 子功能：① 调用 reversed\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 作用域分析：嵌套作用域由内向外查找（变量遮蔽语义）\n"
             "    for scope in reversed(scopes):\n"
             "        if name in scope:\n"
@@ -1298,6 +1514,10 @@ COMPILER_UNITS = {
         "task": "常量传播",
         "pattern": (
             "def const_propagate(instrs, consts):\n"
+"    # 生效条件：参数 instrs/consts 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 常量传播：常量变量替换为字面量（编译期代入）\n"
             "    out = []\n"
             "    for op, arg in instrs:\n"
@@ -1317,6 +1537,10 @@ COMPILER_UNITS = {
         "task": "指令重排",
         "pattern": (
             "def reorder_instrs(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 指令重排：PUSH 常量提前（无关指令乱序——减少停顿）\n"
             "    pushes = [i for i in instrs if i[0] == 'PUSH']\n"
             "    rest = [i for i in instrs if i[0] != 'PUSH']\n"
@@ -1332,6 +1556,10 @@ COMPILER_UNITS = {
         "task": "引用计数",
         "pattern": (
             "def refcount_ops(refs, op, obj=None):\n"
+"    # 生效条件：op ∈ {dec, inc}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {dec, inc} 时\n"
             "    # 引用计数：inc/dec 增减引用，归零回收（GC 语义）\n"
             "    if op == 'inc':\n"
             "        refs[obj] = refs.get(obj, 0) + 1\n"
@@ -1354,6 +1582,10 @@ COMPILER_UNITS = {
         "task": "指令剖析",
         "pattern": (
             "def instr_profile(code):\n"
+"    # 生效条件：参数 code 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 指令剖析：指令类型频次统计（profiling——热点定位）\n"
             "    freq = {}\n"
             "    for op, _ in code:\n"
@@ -1370,6 +1602,10 @@ COMPILER_UNITS = {
         "task": "栈保护",
         "pattern": (
             "def stack_push_guard(stack, limit, value):\n"
+"    # 生效条件：参数 stack/limit/value 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 栈保护：压栈前检查深度（防栈溢出——递归深度控制）\n"
             "    if len(stack) >= limit:\n"
             "        return 'overflow'\n"
@@ -1386,6 +1622,10 @@ COMPILER_UNITS = {
         "task": "名实一致",
         "pattern": (
             "def ming_shi_check(refs, bindings):\n"
+"    # 生效条件：参数 refs/bindings 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 名实校验：名称引用须有绑定实体（以名举实——墨辩语义）\n"
             "    return [r for r in refs if r not in bindings]\n"),
         "cases": [((['甲', '乙'], {'甲': 1, '乙': 2}), []),
@@ -1398,6 +1638,10 @@ COMPILER_UNITS = {
         "task": "类型转换",
         "pattern": (
             "def type_convert(value, from_type, to_type, rules):\n"
+"    # 生效条件：参数 value/from_type/to_type/rules 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 类型转换：按规则隐式/显式转换（数值↔文本——转换规则表）\n"
             "    if (from_type, to_type) in rules:\n"
             "        return rules[(from_type, to_type)](value)\n"
@@ -1412,6 +1656,10 @@ COMPILER_UNITS = {
         "task": "数据流分析",
         "pattern": (
             "def def_use_chain(defs, uses):\n"
+"    # 生效条件：参数 defs/uses 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 数据流分析：def-use 链（定义→使用点连接——数据流路径）\n"
             "    chain = []\n"
             "    for var, def_line in defs:\n"
@@ -1430,6 +1678,10 @@ COMPILER_UNITS = {
         "task": "三元表达式",
         "pattern": (
             "def ternary_compile(cond, then_expr, else_expr):\n"
+"    # 生效条件：参数 cond/then_expr/else_expr 合法\n"
+"    # 子功能：① 调用 list；② 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 三元表达式：条件 ? 真值 : 假值 → 条件跳转字节码\n"
             "    code = list(cond)\n"
             "    else_lbl = len(code) + 1 + len(then_expr) + 1\n"
@@ -1449,6 +1701,10 @@ COMPILER_UNITS = {
         "task": "复合赋值",
         "pattern": (
             "def compound_assign(op, name, expr):\n"
+"    # 生效条件：参数 op/name/expr 合法\n"
+"    # 子功能：① 调用 list\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 复合赋值：甲 += 表达式 → LOAD 甲 + 表达式 + 运算 + STORE 甲\n"
             "    ops = {'+=': 'ADD', '-=': 'SUB', '*=': 'MUL'}\n"
             "    return [('LOAD', name)] + list(expr) + \\\n"
@@ -1466,6 +1722,10 @@ COMPILER_UNITS = {
         "task": "位运算",
         "pattern": (
             "def bitwise_op(a, b, op):\n"
+"    # 生效条件：op ∈ {and, not, or, xor}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {and, not, or, xor} 时\n"
             "    # 位运算：按位与/或/异或/取反（bitwise 操作符）\n"
             "    if op == 'and':\n"
             "        return a & b\n"
@@ -1487,6 +1747,10 @@ COMPILER_UNITS = {
         "task": "标识符解析",
         "pattern": (
             "def lex_ident(src, i):\n"
+"    # 生效条件：参数 src/i 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 标识符解析：CJK/字母/下划线开头，后接字母数字下划线\n"
             "    if not (src[i].isalpha() or src[i] == '_'):\n"
             "        return None, i\n"
@@ -1505,6 +1769,10 @@ COMPILER_UNITS = {
         "task": "操作符解析",
         "pattern": (
             "def lex_op(src, i):\n"
+"    # 生效条件：参数 src/i 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 操作符解析：多字符操作符优先（>= <= == != 先匹配双字符）\n"
             "    two = src[i:i + 2]\n"
             "    if two in ('>=', '<=', '==', '!='):\n"
@@ -1523,6 +1791,10 @@ COMPILER_UNITS = {
         "task": "函数签名",
         "pattern": (
             "def parse_signature(params_str):\n"
+"    # 生效条件：params_str.strip 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：params_str 为空/非法时\n"
             "    # 函数签名解析：参数列表（逗号分隔，默认值剥离）→ 参数名列表\n"
             "    params_str = params_str.strip()\n"
             "    if not params_str:\n"
@@ -1538,6 +1810,10 @@ COMPILER_UNITS = {
         "task": "栈操作",
         "pattern": (
             "def stack_ops(stack, op):\n"
+"    # 生效条件：op ∈ {DUP, SWAP}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：stack 为空/非法时；op 非 {DUP, SWAP} 时\n"
             "    # 栈操作：DUP 复制栈顶 / SWAP 交换栈顶两元素（栈指令）\n"
             "    if op == 'DUP':\n"
             "        if not stack:\n"
@@ -1561,6 +1837,10 @@ COMPILER_UNITS = {
         "task": "算术执行",
         "pattern": (
             "def arith_exec(stack, op):\n"
+"    # 生效条件：op ∈ {ADD, DIV, MUL, SUB}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {ADD, DIV, MUL, SUB} 时\n"
             "    # 算术执行：弹出两操作数执行 ADD/SUB/MUL/DIV（栈机算术指令）\n"
             "    if len(stack) < 2:\n"
             "        return None\n"
@@ -1589,6 +1869,10 @@ COMPILER_UNITS = {
         "task": "比较执行",
         "pattern": (
             "def cmp_exec(stack, op):\n"
+"    # 生效条件：op ∈ {EQ, GT, LT}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {EQ, GT, LT} 时\n"
             "    # 比较执行：弹出两操作数比较 LT/GT/EQ（栈机比较指令→布尔）\n"
             "    if len(stack) < 2:\n"
             "        return None\n"
@@ -1615,6 +1899,10 @@ COMPILER_UNITS = {
         "task": "信任检查",
         "pattern": (
             "def trust_check(trust, threshold):\n"
+"    # 生效条件：参数 trust/threshold 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 信任检查：信任值 ≥ 门槛 放行（智能论信任作为运行时语义）\n"
             "    return 'pass' if trust >= threshold else 'fail'\n"),
         "cases": [((0.8, 0.7), 'pass'),
@@ -1627,6 +1915,10 @@ COMPILER_UNITS = {
         "task": "信息差追踪",
         "pattern": (
             "def info_gap_track(events, op, gap=None, node=None):\n"
+"    # 生效条件：op ∈ {latest, max, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：events 为空/非法时；op 非 {latest, max, record} 时\n"
             "    # 信息差追踪：record 记录节点信息差 / max 最大 / latest 最新\n"
             "    if op == 'record':\n"
             "        events.append({'node': node, 'gap': gap})\n"
@@ -1650,6 +1942,10 @@ COMPILER_UNITS = {
         "task": "条件空间类型",
         "pattern": (
             "def space_type_check(declared, used):\n"
+"    # 生效条件：参数 declared/used 合法\n"
+"    # 子功能：① 调用 sorted；② 调用 set\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 条件空间类型：使用须在已声明空间内（条件空间=类型系统语义）\n"
             "    return ([] if set(used) <= set(declared)\n"
             "            else sorted(set(used) - set(declared)))\n"),
@@ -1663,6 +1959,10 @@ COMPILER_UNITS = {
         "task": "条件断点",
         "pattern": (
             "def cond_breakpoint(breaks, op, addr=None, cond=None, env=None):\n"
+"    # 生效条件：op ∈ {hit, set}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {hit, set} 时\n"
             "    # 条件断点：set 设置条件 / hit 命中（条件满足才停）\n"
             "    if op == 'set':\n"
             "        breaks[addr] = cond\n"
@@ -1686,6 +1986,10 @@ COMPILER_UNITS = {
         "task": "调用计数",
         "pattern": (
             "def call_counter(stats, op, func=None):\n"
+"    # 生效条件：op ∈ {count, report}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {count, report} 时\n"
             "    # 调用计数：count 记录调用 / report 报告（profiler 调用次数）\n"
             "    if op == 'count':\n"
             "        stats[func] = stats.get(func, 0) + 1\n"
@@ -1703,6 +2007,10 @@ COMPILER_UNITS = {
         "task": "覆盖率",
         "pattern": (
             "def coverage_track(covered, op, addr=None, total=None):\n"
+"    # 生效条件：op ∈ {mark, report}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：total 为空/非法时；op 非 {mark, report} 时\n"
             "    # 覆盖率：mark 标记执行 / report 报告（指令覆盖百分比）\n"
             "    if op == 'mark':\n"
             "        covered.add(addr)\n"
@@ -1722,6 +2030,10 @@ COMPILER_UNITS = {
         "task": "窥孔优化",
         "pattern": (
             "def peephole_opt(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 窥孔优化：PUSH 0 + ADD → 弹出（冗余指令模式替换）\n"
             "    out = []\n"
             "    i = 0\n"
@@ -1745,6 +2057,10 @@ COMPILER_UNITS = {
         "task": "指令融合",
         "pattern": (
             "def fuse_load_store(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 指令融合：LOAD x + STORE x → MOV（复制指令融合）\n"
             "    out = []\n"
             "    i = 0\n"
@@ -1769,6 +2085,10 @@ COMPILER_UNITS = {
         "task": "循环不变式",
         "pattern": (
             "def loop_invariant(body, invariant_ops):\n"
+"    # 生效条件：参数 body/invariant_ops 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 循环不变式：不变指令外提（循环外计算一次）\n"
             "    loop_part = []\n"
             "    hoisted = []\n"
@@ -1784,6 +2104,899 @@ COMPILER_UNITS = {
                   (([], ('PUSH',)), ([], []))],
         "params": [],
         "calibration": "对照：编译优化——循环不变式外提（循环外计算）",
+    },
+    "语法-字典字面量": {
+        "task": "字典字面量",
+        "pattern": (
+            "def parse_dict(tokens, i):\n"
+"    # 生效条件：参数 tokens/i 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 字典字面量：'{' 键:值 '}' 解析（冒号分隔键值对）\n"
+            "    if tokens[i] != '{':\n"
+            "        return None, i\n"
+            "    d = {}\n"
+            "    i += 1\n"
+            "    while i < len(tokens) and tokens[i] != '}':\n"
+            "        k = tokens[i]\n"
+            "        i += 2\n"
+            "        v = tokens[i]\n"
+            "        d[k] = v\n"
+            "        i += 1\n"
+            "        if i < len(tokens) and tokens[i] == ',':\n"
+            "            i += 1\n"
+            "    return d, i + 1\n"),
+        "cases": [((['{', '甲', ':', 1, '}'], 0), ({'甲': 1}, 5)),
+                  ((['{', '}'], 0), ({}, 2)),
+                  ((['x'], 0), (None, 0))],
+        "params": [],
+        "calibration": "对照：语法——字典字面量（{键:值} 键值对解析）",
+    },
+    "语法-元组解析": {
+        "task": "元组解析",
+        "pattern": (
+            "def parse_tuple(tokens, i):\n"
+"    # 生效条件：参数 tokens/i 合法\n"
+"    # 子功能：① 调用 tuple；② 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 元组解析：'(' 元素 ')' 解析（逗号分隔——元组字面量）\n"
+            "    if tokens[i] != '(':\n"
+            "        return None, i\n"
+            "    items = []\n"
+            "    i += 1\n"
+            "    while i < len(tokens) and tokens[i] != ')':\n"
+            "        if tokens[i] != ',':\n"
+            "            items.append(tokens[i])\n"
+            "        i += 1\n"
+            "    return tuple(items), i + 1\n"),
+        "cases": [((['(', 1, ',', 2, ')'], 0), ((1, 2), 5)),
+                  ((['(', ')'], 0), ((), 2)),
+                  ((['x'], 0), (None, 0))],
+        "params": [],
+        "calibration": "对照：语法——元组字面量（(元素,元素) 解析）",
+    },
+    "词法-转义序列": {
+        "task": "转义序列",
+        "pattern": (
+            "def unescape(text):\n"
+"    # 生效条件：nxt ∈ {n, t}\n"
+"    # 子功能：1 nxt 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：nxt 非 {n, t} 时\n"
+            "    # 转义序列：反斜杠n 反斜杠t 反斜杠引号 解码（字符串转义处理）\n"
+            "    out = []\n"
+            "    i = 0\n"
+            "    while i < len(text):\n"
+            "        if text[i] == '\\\\' and i + 1 < len(text):\n"
+            "            nxt = text[i + 1]\n"
+            "            if nxt == 'n':\n"
+            "                out.append(chr(10))\n"
+            "            elif nxt == 't':\n"
+            "                out.append(chr(9))\n"
+            "            elif nxt == chr(34):\n"
+            "                out.append(chr(34))\n"
+            "            else:\n"
+            "                out.append(nxt)\n"
+            "            i += 2\n"
+            "        else:\n"
+            "            out.append(text[i])\n"
+            "            i += 1\n"
+            "    return ''.join(out)\n"),
+        "cases": [
+            (('a\\nb',), 'a' + chr(10) + 'b'),
+            (('a\\"b',), 'a' + chr(34) + 'b'),
+            (('abc',), 'abc')],
+        "params": [],
+        "calibration": "对照：词法——转义序列（反斜杠n反斜杠t反斜杠引号 解码）",
+    },
+    "语法-布尔字面量": {
+        "task": "布尔字面量",
+        "pattern": (
+            "def parse_bool(token):\n"
+"    # 生效条件：token ∈ {假, 真}\n"
+"    # 子功能：1 token 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：token 非 {假, 真} 时\n"
+            "    # 布尔字面量：真/假 → True/False（布尔值解析）\n"
+            "    if token == '真':\n"
+            "        return (True, 1)\n"
+            "    if token == '假':\n"
+            "        return (False, 1)\n"
+            "    return (None, 0)\n"),
+        "cases": [(('真',), (True, 1)),
+                  (('假',), (False, 1)),
+                  (('x',), (None, 0))],
+        "params": [],
+        "calibration": "对照：词法——布尔字面量（真/假→True/False）",
+    },
+    "语法-空值字面量": {
+        "task": "空值字面量",
+        "pattern": (
+            "def parse_null(token):\n"
+"    # 生效条件：参数 token 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 空值字面量：无/空 → None（空值解析）\n"
+            "    if token in ('无', '空'):\n"
+            "        return (None, 1)\n"
+            "    return (None, 0)\n"),
+        "cases": [(('无',), (None, 1)),
+                  (('空',), (None, 1)),
+                  (('x',), (None, 0))],
+        "params": [],
+        "calibration": "对照：词法——空值字面量（无/空→None）",
+    },
+    "词法-行号跟踪": {
+        "task": "行号跟踪",
+        "pattern": (
+            "def track_lines(src):\n"
+"    # 生效条件：参数 src 合法\n"
+"    # 子功能：① 调用 enumerate；② 调用 chr\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 行号跟踪：源码按行拆 token 并附行号（定位调试用）\n"
+            "    out = []\n"
+            "    for i, line in enumerate(src.split(chr(10)), 1):\n"
+            "        for tok in line.split():\n"
+            "            out.append((tok, i))\n"
+            "    return out\n"),
+        "cases": [
+            (('甲 乙\n丙',), [('甲', 1), ('乙', 1), ('丙', 2)]),
+            (('',), []),
+            (('单行',), [('单行', 1)])],
+        "params": [],
+        "calibration": "对照：词法——行号跟踪（token 附行号，调试定位）",
+    },
+    "词法-关键字识别": {
+        "task": "关键字识别",
+        "pattern": (
+            "def keyword_check(word, keywords):\n"
+"    # 生效条件：参数 word/keywords 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 关键字识别：命中关键字表返回 (KW, 词) 否则 None（词法分类）\n"
+            "    if word in keywords:\n"
+            "        return ('KW', word)\n"
+            "    return None\n"),
+        "cases": [
+            (('若', ('若', '则', '否则')), ('KW', '若')),
+            (('x', ('若', '则')), None),
+            (('若', ()), None)],
+        "params": [],
+        "calibration": "对照：词法——关键字表命中分类（KW token）",
+    },
+    "编译-常量池": {
+        "task": "常量池",
+        "pattern": (
+            "def literal_pool(pool, op, value=None):\n"
+"    # 生效条件：op ∈ {add, get, size}；pool.index 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {add, get, size} 时\n"
+            "    # 常量池：add 去重登记 / get 取索引 / size 池大小（字面量去重）\n"
+            "    if op == 'add':\n"
+            "        if value not in pool:\n"
+            "            pool.append(value)\n"
+            "        return pool.index(value)\n"
+            "    if op == 'get':\n"
+            "        return pool[value] if 0 <= value < len(pool) else None\n"
+            "    if op == 'size':\n"
+            "        return len(pool)\n"
+            "    return None\n"),
+        "cases": [
+            (([], 'add', 42), 0),
+            (([42], 'add', 42), 0),
+            (([42, 7], 'get', 1), 7),
+            (([42], 'size'), 1)],
+        "params": [],
+        "calibration": "对照：编译——常量池字面量去重（LDC 索引引用）",
+    },
+    "语法-语句分隔": {
+        "task": "语句分隔",
+        "pattern": (
+            "def split_statements(src):\n"
+"    # 生效条件：s.strip 可用\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 语句分隔：按分号拆分多语句（语句序列解析）\n"
+            "    return [s.strip() for s in src.split(';') if s.strip()]\n"),
+        "cases": [
+            (('甲 = 1;乙 = 2',), ['甲 = 1', '乙 = 2']),
+            (('单语句',), ['单语句']),
+            (('',), []),
+            (('甲=1;;乙=2',), ['甲=1', '乙=2'])],
+        "params": [],
+        "calibration": "对照：语法——分号语句分隔（多语句序列）",
+    },
+    "VM-异常处理": {
+        "task": "异常处理",
+        "pattern": (
+            "def vm_exception(state, op, etype=None):\n"
+"    # 生效条件：op ∈ {clear, handler, raise}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {clear, handler, raise} 时\n"
+            "    # VM 异常处理：raise 抛异常 / handler 查处理表 / clear 清除（异常跳转）\n"
+            "    if op == 'raise':\n"
+            "        state['exc'] = etype\n"
+            "        return etype\n"
+            "    if op == 'handler':\n"
+            "        table = state.get('table', {})\n"
+            "        return table.get(state.get('exc'), None)\n"
+            "    if op == 'clear':\n"
+            "        state['exc'] = None\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'raise', '除零'), '除零'),
+            (({'exc': '除零', 'table': {'除零': 10}}, 'handler'), 10),
+            (({'exc': '未知', 'table': {'除零': 10}}, 'handler'), None),
+            (({'exc': '除零'}, 'clear'), None)],
+        "params": [],
+        "calibration": "对照：VM 异常——异常类型抛出与处理表跳转（try/except 语义）",
+    },
+    "编译-表达式树": {
+        "task": "表达式树",
+        "pattern": (
+            "def build_expr_tree(tokens, pos=0):\n"
+"    # 生效条件：tok ∈ {(, )}\n"
+"    # 子功能：1 tok 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
+"    # 不适用条件：tok 非 {(, )} 时\n"
+            "    # 表达式树：中缀 token → 嵌套树（AST 节点构建）\n"
+            "    stack = []\n"
+            "    for tok in tokens:\n"
+            "        if tok == '(':\n"
+            "            continue\n"
+            "        if tok == ')':\n"
+            "            right = stack.pop()\n"
+            "            op = stack.pop()\n"
+            "            left = stack.pop()\n"
+            "            stack.append((op, left, right))\n"
+            "        else:\n"
+            "            stack.append(tok)\n"
+            "    return stack[0] if stack else None\n"),
+        "cases": [
+            ((['(', 'a', '+', 'b', ')'],), ('+', 'a', 'b')),
+            ((['(', 'a', '+', '(', 'b', '*', 'c', ')', ')'],),
+             ('+', 'a', ('*', 'b', 'c'))),
+            (([],), None)],
+        "params": [],
+        "calibration": "对照：语法——中缀表达式 → 嵌套树（AST 构建）",
+    },
+    "分析-栈深度分析": {
+        "task": "栈深度分析",
+        "pattern": (
+            "def stack_depth(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 max\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 栈深度分析：模拟指令流求最大栈深（编译期栈大小）\n"
+            "    depth = 0\n"
+            "    mx = 0\n"
+            "    for ins in instrs:\n"
+            "        if ins[0] == 'PUSH':\n"
+            "            depth += 1\n"
+            "        elif ins[0] in ('POP', 'STORE'):\n"
+            "            depth = max(0, depth - 1)\n"
+            "        mx = max(mx, depth)\n"
+            "    return mx\n"),
+        "cases": [
+            (([('PUSH', 1), ('PUSH', 2), ('ADD', None)],), 2),
+            (([('PUSH', 1), ('POP', None)],), 1),
+            (([],), 0)],
+        "params": [],
+        "calibration": "对照：编译期分析——指令流最大栈深度（VM 栈帧大小）",
+    },
+    "分析-基本块": {
+        "task": "基本块",
+        "pattern": (
+            "def basic_blocks(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 基本块：按跳转目标/跳转指令切分（控制流线性段）\n"
+            "    blocks = []\n"
+            "    cur = []\n"
+            "    for ins in instrs:\n"
+            "        cur.append(ins)\n"
+            "        if ins[0] in ('JUMP', 'JUMP_IF_FALSE', 'RETURN'):\n"
+            "            blocks.append(cur)\n"
+            "            cur = []\n"
+            "    if cur:\n"
+            "        blocks.append(cur)\n"
+            "    return blocks\n"),
+        "cases": [
+            (([('PUSH', 1), ('RETURN', None), ('PUSH', 2)],), [[('PUSH', 1), ('RETURN', None)], [('PUSH', 2)]]),
+            (([('PUSH', 1)],), [[('PUSH', 1)]]),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：CFG 分析——基本块划分（跳转为界）",
+    },
+    "编译-支配树": {
+        "task": "支配树",
+        "pattern": (
+            "def dominator_tree(adj, entry):\n"
+"    # 生效条件：set.intersection 可用\n"
+"    # 子功能：① 调用 list；② 调用 set\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：preds 为空/非法时\n"
+            "    # 支配树：入口可达必经节点（支配关系——必经点）\n"
+            "    nodes = list(adj)\n"
+            "    dom = {n: set(nodes) for n in nodes}\n"
+            "    dom[entry] = {entry}\n"
+            "    changed = True\n"
+            "    while changed:\n"
+            "        changed = False\n"
+            "        for n in nodes:\n"
+            "            if n == entry:\n"
+            "                continue\n"
+            "            preds = [p for p in nodes if n in adj.get(p, [])]\n"
+            "            if not preds:\n"
+            "                continue\n"
+            "            new = {n} | set.intersection(*(dom[p] for p in preds))\n"
+            "            if new != dom[n]:\n"
+            "                dom[n] = new\n"
+            "                changed = True\n"
+            "    return dom\n"),
+        "cases": [
+            (({0: [1, 2], 1: [3], 2: [3], 3: []}, 0),
+             {0: {0}, 1: {0, 1}, 2: {0, 2}, 3: {0, 3}}),
+            (({0: [1], 1: []}, 0), {0: {0}, 1: {0, 1}}),
+            (({0: []}, 0), {0: {0}})],
+        "params": [],
+        "calibration": "对照：支配树——必经节点集合（迭代数据流）",
+    },
+    "编译-中间表示": {
+        "task": "中间表示",
+        "pattern": (
+            "def to_ir(expr, op):\n"
+"    # 生效条件：op ∈ {assign, binary}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {assign, binary} 时\n"
+            "    # 中间表示：表达式 → 三地址码（IR 生成）\n"
+            "    if op == 'assign':\n"
+            "        return [('=', expr[0], expr[1], None)]\n"
+            "    if op == 'binary':\n"
+            "        a, b, o = expr\n"
+            "        return [('t1', '=', a, None), ('t2', '=', b, None),\n"
+            "                (o, 't1', 't2', 't3')]\n"
+            "    return None\n"),
+        "cases": [
+            ((('x', 1), 'assign'), [('=', 'x', 1, None)]),
+            ((('a', 'b', '+'), 'binary'), [('t1', '=', 'a', None), ('t2', '=', 'b', None), ('+', 't1', 't2', 't3')]),
+            ((('x', 0), 'assign'), [('=', 'x', 0, None)])],
+        "params": [],
+        "calibration": "对照：三地址码——IR 中间表示（赋值/二元运算）",
+    },
+    "分析-循环检测": {
+        "task": "循环检测",
+        "pattern": (
+            "def cycle_detect(adj):\n"
+"    # 生效条件：参数 adj 合法\n"
+"    # 子功能：① 调用 dfs\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 循环检测：DFS 三色标记（灰=在栈，回灰边即环）\n"
+            "    WHITE, GRAY, BLACK = 0, 1, 2\n"
+            "    color = {}\n"
+            "    def dfs(u):\n"
+            "        # 深度优先：标记灰后探邻接，遇灰回边判环\n"
+            "        color[u] = GRAY\n"
+            "        for v in adj.get(u, []):\n"
+            "            if color.get(v) == GRAY:\n"
+            "                return True\n"
+            "            if color.get(v, WHITE) == WHITE and dfs(v):\n"
+            "                return True\n"
+            "        color[u] = BLACK\n"
+            "        return False\n"
+            "    for u in adj:\n"
+            "        if color.get(u, WHITE) == WHITE and dfs(u):\n"
+            "            return True\n"
+            "    return False\n"),
+        "cases": [
+            (({0: [1], 1: [0]},), True),
+            (({0: [1], 1: [2], 2: []},), False),
+            (({0: [1], 1: [2], 2: [0]},), True)],
+        "params": [],
+        "calibration": "对照：图分析——DFS 三色循环检测（回灰边即环）",
+    },
+    "编译-指令调度": {
+        "task": "指令调度",
+        "pattern": (
+            "def schedule_insn(instrs):\n"
+"    # 生效条件：arg.startswith 可用\n"
+"    # 子功能：① 调用 set；② 调用 isinstance；③ 调用 any\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 指令调度：无依赖指令前移（乱序发射——减少停顿）\n"
+            "    deps = set()\n"
+            "    for ins in instrs:\n"
+            "        for arg in ins[1:]:\n"
+            "            if isinstance(arg, str) and arg.startswith('t'):\n"
+            "                deps.add(arg)\n"
+            "    early = [i for i in instrs if not any(a in deps for a in i[1:] if isinstance(a, str))]\n"
+            "    rest = [i for i in instrs if i not in early]\n"
+            "    return early + rest\n"),
+        "cases": [
+            (([('t1', '=', 'a'), ('t2', '=', 'b'), ('+', 't1', 't2')],),
+             [('t1', '=', 'a'), ('t2', '=', 'b'), ('+', 't1', 't2')]),
+            (([('+', 't1', 't2'), ('t1', '=', 'a')],),
+             [('t1', '=', 'a'), ('+', 't1', 't2')]),
+            (([('t1', '=', 'a')],), [('t1', '=', 'a')])],
+        "params": [],
+        "calibration": "对照：编译优化——指令调度（依赖无关前移）",
+    },
+    "编译-寄存器溢出": {
+        "task": "寄存器溢出",
+        "pattern": (
+            "def spill_regs(active, regs):\n"
+"    # 生效条件：参数 active/regs 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 寄存器溢出：活跃变量超寄存器数 → 溢出处（spill 内存）\n"
+            "    if len(active) <= regs:\n"
+            "        return []\n"
+            "    # 溢出最远使用（简化：溢出最后活跃者）\n"
+            "    return active[regs:]\n"),
+        "cases": [
+            ((['a', 'b'], 2), []),
+            ((['a', 'b', 'c'], 2), ['c']),
+            ((['a'], 0), ['a']),
+            (([], 2), [])],
+        "params": [],
+        "calibration": "对照：寄存器分配——活跃超限溢出处（spill）",
+    },
+    "VM-数组操作": {
+        "task": "数组操作",
+        "pattern": (
+            "def array_ops(arr, op, idx=None, val=None):\n"
+"    # 生效条件：op ∈ {aget, aset, size}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {aget, aset, size} 时\n"
+            "    # 数组操作：aget 索引读 / aset 索引写 / size 长度（数组 VM 指令）\n"
+            "    if op == 'aget':\n"
+            "        if 0 <= idx < len(arr):\n"
+            "            return arr[idx]\n"
+            "        return None\n"
+            "    if op == 'aset':\n"
+            "        if 0 <= idx < len(arr):\n"
+            "            arr[idx] = val\n"
+            "            return True\n"
+            "        return False\n"
+            "    if op == 'size':\n"
+            "        return len(arr)\n"
+            "    return None\n"),
+        "cases": [
+            (([10, 20], 'aget', 1), 20),
+            (([10, 20], 'aget', 5), None),
+            (([10, 20], 'aset', 0, 99), True),
+            (([10, 20], 'size'), 2)],
+        "params": [],
+        "calibration": "对照：VM 数组——索引读写与越界保护（AGET/ASET 指令）",
+    },
+    "分析-污点分析": {
+        "task": "污点分析",
+        "pattern": (
+            "def taint_prop(state, op, var=None, source=None):\n"
+"    # 生效条件：op ∈ {check, mark, propagate}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {check, mark, propagate} 时\n"
+            "    # 污点分析：mark 标记污点 / propagate 传播 / check 查询（安全数据流）\n"
+            "    if op == 'mark':\n"
+            "        state.setdefault('taint', set()).add(var)\n"
+            "        return 'marked'\n"
+            "    if op == 'propagate':\n"
+            "        if source in state.get('taint', set()):\n"
+            "            state.setdefault('taint', set()).add(var)\n"
+            "            return 'tainted'\n"
+            "        return 'clean'\n"
+            "    if op == 'check':\n"
+            "        return var in state.get('taint', set())\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'mark', 'x'), 'marked'),
+            (({'taint': {'x'}}, 'propagate', 'y', 'x'), 'tainted'),
+            (({}, 'propagate', 'y', 'x'), 'clean'),
+            (({'taint': {'x'}}, 'check', 'x'), True)],
+        "params": [],
+        "calibration": "对照：静态分析——污点传播（标记/传播/查询）",
+    },
+    "编译-边界检查消除": {
+        "task": "边界检查消除",
+        "pattern": (
+            "def bounds_elim(loops, op, info=None):\n"
+"    # 生效条件：op ∈ {eliminate, prove}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {eliminate, prove} 时\n"
+            "    # 边界检查消除：prove 证明范围 / eliminate 消除检查 / keep 保留（循环不变边界）\n"
+            "    if op == 'prove':\n"
+            "        lo, hi, idx = info\n"
+            "        return lo <= idx < hi\n"
+            "    if op == 'eliminate':\n"
+            "        if info in loops.get('safe', []):\n"
+            "            return 'eliminated'\n"
+            "        return 'kept'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'prove', (0, 10, 5)), True),
+            (({}, 'prove', (0, 10, 15)), False),
+            (({'safe': [('i', 0, 10)]}, 'eliminate', ('i', 0, 10)), 'eliminated'),
+            (({'safe': []}, 'eliminate', ('i', 0, 10)), 'kept')],
+        "params": [],
+        "calibration": "对照：编译优化——边界检查消除（可证范围免检）",
+    },
+    "词法-字符类别": {
+        "task": "字符类别",
+        "pattern": (
+            "def char_class(ch):\n"
+"    # 生效条件：ch.isalpha 可用；ch.isdigit 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 字符类别：字母/数字/空白/其他（词法分类基础）\n"
+            "    if ch.isalpha():\n"
+            "        return 'letter'\n"
+            "    if ch.isdigit():\n"
+            "        return 'digit'\n"
+            "    if ch.isspace():\n"
+            "        return 'space'\n"
+            "    return 'other'\n"),
+        "cases": [
+            ((chr(97),), 'letter'),
+            ((chr(49),), 'digit'),
+            ((chr(32),), 'space'),
+            ((chr(43),), 'other')],
+        "params": [],
+        "calibration": "对照：词法——字符类别判定（字母/数字/空白/其他）",
+    },
+    "语法-括号匹配": {
+        "task": "括号匹配",
+        "pattern": (
+            "def bracket_balance(text):\n"
+"    # 生效条件：参数 text 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 括号匹配：栈配对校验（()[]{} 嵌套平衡）\n"
+            "    pairs = {')': '(', ']': '[', '}': '{'}\n"
+            "    stack = []\n"
+            "    for ch in text:\n"
+            "        if ch in '([{':\n"
+            "            stack.append(ch)\n"
+            "        elif ch in ')]}':\n"
+            "            if not stack or stack.pop() != pairs[ch]:\n"
+            "                return False\n"
+            "    return len(stack) == 0\n"),
+        "cases": [
+            ((chr(40) + chr(41),), True),
+            ((chr(40) + chr(91) + chr(93) + chr(41),), True),
+            ((chr(40) + chr(93),), False),
+            ((chr(40),), False)],
+        "params": [],
+        "calibration": "对照：语法——括号配对平衡（嵌套校验）",
+    },
+    "编译-指令选择": {
+        "task": "指令选择",
+        "pattern": (
+            "def insn_select(ir):\n"
+"    # 生效条件：参数 ir 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 指令选择：IR 操作 → 目标指令（模式匹配翻译）\n"
+            "    table = {'+': 'ADD', '-': 'SUB', '*': 'MUL', '/': 'DIV', '=': 'MOV'}\n"
+            "    return [table.get(op, 'NOP') for op in ir]\n"),
+        "cases": [
+            ((chr(43) + chr(45) + chr(42),), ['ADD', 'SUB', 'MUL']),
+            ((chr(61),), ['MOV']),
+            ((chr(37),), ['NOP'])],
+        "params": [],
+        "calibration": "对照：编译后端——IR 操作到目标指令映射（指令选择）",
+    },
+    "分析-循环开销": {
+        "task": "循环开销",
+        "pattern": (
+            "def loop_cost(body, trips):\n"
+"    # 生效条件：参数 body/trips 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 循环开销：循环体指令数 × 迭代次数（热循环估算）\n"
+            "    return len(body) * trips\n"),
+        "cases": [
+            (([1, 2, 3], 10), 30),
+            (([], 100), 0),
+            (([1], 0), 0)],
+        "params": [],
+        "calibration": "对照：分析——循环代价估算（体长×趟数）",
+    },
+    "编译-字符串拼接": {
+        "task": "字符串拼接",
+        "pattern": (
+            "def concat_fold(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 len；② 调用 isinstance\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 字符串拼接优化：相邻常量串拼接折叠（concat 合并）\n"
+            "    out = []\n"
+            "    i = 0\n"
+            "    while i < len(instrs):\n"
+            "        if (i + 1 < len(instrs) and instrs[i][0] == 'PUSH'\n"
+            "                and isinstance(instrs[i][1], str)\n"
+            "                and instrs[i + 1] == ('CONCAT', None)):\n"
+            "            nxt = instrs[i + 2] if i + 2 < len(instrs) else None\n"
+            "            if nxt and nxt[0] == 'PUSH' and isinstance(nxt[1], str):\n"
+            "                out.append(('PUSH', instrs[i][1] + nxt[1]))\n"
+            "                i += 3\n"
+            "                continue\n"
+            "        out.append(instrs[i])\n"
+            "        i += 1\n"
+            "    return out\n"),
+        "cases": [
+            (([('PUSH', '甲'), ('CONCAT', None), ('PUSH', '乙')],),
+             [('PUSH', '甲乙')]),
+            (([('PUSH', '甲')],), [('PUSH', '甲')]),
+            (([('PUSH', 1), ('CONCAT', None), ('PUSH', '乙')],),
+             [('PUSH', 1), ('CONCAT', None), ('PUSH', '乙')])],
+        "params": [],
+        "calibration": "对照：编译优化——相邻常量串 CONCAT 折叠（拼接合并）",
+    },
+    "字节码-指令大小": {
+        "task": "指令大小",
+        "pattern": (
+            "def insn_size(instrs):\n"
+"    # 生效条件：参数 instrs 合法\n"
+"    # 子功能：① 调用 sum\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 指令大小：每条指令编码字节数（紧凑字节码尺寸）\n"
+            "    sizes = {op: 1 for op in ('PUSH', 'STORE', 'LOAD', 'JUMP', 'ADD')}\n"
+            "    return sum(sizes.get(ins[0], 1) for ins in instrs)\n"),
+        "cases": [
+            (([('PUSH', 1), ('ADD', None)],), 2),
+            (([],), 0),
+            (([('NOP', None)],), 1)],
+        "params": [],
+        "calibration": "对照：字节码——指令编码尺寸（紧凑性度量）",
+    },
+    "分析-控制流图": {
+        "task": "控制流图",
+        "pattern": (
+            "def build_cfg(blocks, jumps):\n"
+"    # 生效条件：参数 blocks/jumps 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 控制流图：基本块间跳转关系（CFG 边构建）\n"
+            "    cfg = {b: [] for b in blocks}\n"
+            "    for src, dst in jumps:\n"
+            "        cfg.setdefault(src, []).append(dst)\n"
+            "    return cfg\n"),
+        "cases": [
+            ((['B0', 'B1'], [('B0', 'B1')]), {'B0': ['B1'], 'B1': []}),
+            ((['B0'], []), {'B0': []}),
+            (([], []), {})],
+        "params": [],
+        "calibration": "对照：CFG——基本块跳转边构建（控制流图）",
+    },
+    "编译-内联缓存": {
+        "task": "内联缓存",
+        "pattern": (
+            "def inline_cache(state, op, cls=None, target=None):\n"
+"    # 生效条件：op ∈ {learn, lookup, miss}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {learn, lookup, miss} 时\n"
+            "    # 内联缓存：learn 学习 / lookup 命中 / miss 未命中（多态内联缓存）\n"
+            "    if op == 'learn':\n"
+            "        state.setdefault('cache', {})[cls] = target\n"
+            "        return 'learned'\n"
+            "    if op == 'lookup':\n"
+            "        return state.get('cache', {}).get(cls)\n"
+            "    if op == 'miss':\n"
+            "        state['misses'] = state.get('misses', 0) + 1\n"
+            "        return state['misses']\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'learn', '甲', 'f'), 'learned'),
+            (({'cache': {'甲': 'f'}}, 'lookup', '甲'), 'f'),
+            (({}, 'lookup', '乙'), None),
+            (({}, 'miss'), 1)],
+        "params": [],
+        "calibration": "对照：多态内联缓存——类→方法学习/命中/未命中",
+    },
+    "编译-寄存器着色": {
+        "task": "寄存器着色",
+        "pattern": (
+            "def reg_color(intervals, regs):\n"
+"    # 生效条件：参数 intervals/regs 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 寄存器着色：活跃区间贪心分配（冲突图着色）\n"
+            "    assign = {}\n"
+            "    for var, (start, end) in intervals:\n"
+            "        used = {assign[v] for v, (s, e) in intervals\n"
+            "                if v in assign and not (e <= start or s >= end)}\n"
+            "        r = 0\n"
+            "        while r in used and r < regs:\n"
+            "            r += 1\n"
+            "        assign[var] = r if r < regs else None\n"
+            "    return assign\n"),
+        "cases": [
+            (((('a', (0, 2)), ('b', (1, 3))), 2), {'a': 0, 'b': 1}),
+            (((('a', (0, 1)), ('b', (2, 3))), 2), {'a': 0, 'b': 0}),
+            (((('a', (0, 2)), ('b', (1, 2))), 1), {'a': 0, 'b': None})],
+        "params": [],
+        "calibration": "对照：寄存器分配——活跃区间冲突着色（贪心）",
+    },
+    "词法-数字后缀": {
+        "task": "数字后缀",
+        "pattern": (
+            "def num_suffix(text):\n"
+"    # 生效条件：text.lower 可用；t.startswith 可用\n"
+"    # 子功能：① 调用 int\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 数字后缀：解析 0x 十六进制/0b 二进制/后缀 k/m（字面量变体）\n"
+            "    t = text.lower()\n"
+            "    if t.startswith('0x'):\n"
+            "        return int(t[2:], 16)\n"
+            "    if t.startswith('0b'):\n"
+            "        return int(t[2:], 2)\n"
+            "    if t.endswith('k'):\n"
+            "        return int(t[:-1]) * 1024\n"
+            "    if t.endswith('m'):\n"
+            "        return int(t[:-1]) * 1024 * 1024\n"
+            "    return int(t)\n"),
+        "cases": [
+            ((chr(48) + chr(120) + chr(102) + chr(102),), 255),
+            ((chr(48) + chr(98) + chr(49) + chr(48) + chr(49),), 5),
+            ((chr(50) + chr(107),), 2048),
+            ((chr(49) + chr(48),), 10)],
+        "params": [],
+        "calibration": "对照：词法——数字字面量后缀（0x/0b/k/m）",
+    },
+    "分析-逃逸分析": {
+        "task": "逃逸分析",
+        "pattern": (
+            "def escape_analysis(alloc, ops):\n"
+"    # 生效条件：参数 alloc/ops 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 逃逸分析：对象是否逃逸函数（栈上分配可行性）\n"
+            "    if 'return' in ops or 'store' in ops:\n"
+            "        return 'escaped'\n"
+            "    return 'local'\n"),
+        "cases": [
+            ((chr(97), ['use', 'return']), 'escaped'),
+            ((chr(97), ['use', 'store']), 'escaped'),
+            ((chr(97), ['use', 'pass']), 'local'),
+            ((chr(97), []), 'local')],
+        "params": [],
+        "calibration": "对照：逃逸分析——返回/存储即逃逸（栈分配优化）",
+    },
+    "编译-去虚拟化": {
+        "task": "去虚拟化",
+        "pattern": (
+            "def devirt(dispatch, known):\n"
+"    # 生效条件：参数 dispatch/known 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 去虚拟化：已知单实现调用替换为直接调用（内联化前提）\n"
+            "    out = []\n"
+            "    for cls, method in dispatch:\n"
+            "        if cls in known and len(known[cls]) == 1:\n"
+            "            out.append(('DIRECT', known[cls][0]))\n"
+            "        else:\n"
+            "            out.append(('VIRTUAL', method))\n"
+            "    return out\n"),
+        "cases": [
+            (((('甲', 'f'),), {'甲': ['fa']}), [('DIRECT', 'fa')]),
+            (((('甲', 'f'), ('乙', 'g')), {'甲': ['fa', 'fb'], '乙': ['gb']}),
+             [('VIRTUAL', 'f'), ('DIRECT', 'gb')]),
+            (((('甲', 'f'),), {}), [('VIRTUAL', 'f')])],
+        "params": [],
+        "calibration": "对照：去虚拟化——单实现类调用改直接调用",
+    },
+    "编译-名实绑定": {
+        "task": "名实绑定",
+        "pattern": (
+            "def resolve_binding(scope_stack, name):\n"
+            "    # 名实绑定（以名举实）：从内层到外层查找名的绑定（名实校验编译期版）\n"
+            "    # 生效条件：scope_stack 为作用域栈（内层在前）；name 为待查符号名\n"
+            "    # 子功能：① 逆序遍历作用域 ② 命中即返回绑定 ③ 全未命中返回未绑定\n"
+            "    # 执行：reversed 逐层 dict 查键，内层遮蔽外层\n"
+            "    # 不适用条件：name 为空串时直接未绑定；本函数不修改作用域栈内容\n"
+            "    for scope in reversed(scope_stack):\n"
+            "        if name in scope:\n"
+            "            return (True, scope[name])\n"
+            "    return (False, None)\n"),
+        "cases": [
+            (([{"x": 1}], "x"), (True, 1)),
+            (([{"x": 1}, {"y": 2}], "y"), (True, 2)),
+            (([{"x": 1}, {"x": 2}], "x"), (True, 2)),
+            (([{"x": 1}], "z"), (False, None)),
+            (([], "a"), (False, None))],
+        "params": [],
+        "calibration": "对照：以名举实（v0.2 名实校验）编译期绑定——作用域链逐层查找，内层遮蔽外层；未绑定→(False, None)",
+    },
+    "编译-信任流分析": {
+        "task": "信任流分析",
+        "pattern": (
+            "def trust_flow(expr, env):\n"
+            "    # 信任流分析（信任传播）：德——编译期信任传播（与=取min，或=取max，非=1-t，名=查env，字面量=1.0）\n"
+            "    # 生效条件：expr 为表达式树（tuple 操作节点/字符串名/字面量）；env 为名→信任值映射\n"
+            "    # 子功能：① 操作节点递归传播 ② 名称查 env ③ 字面量视为完全可信\n"
+            "    # 执行：AND=min / OR=max / NOT=1-t 递归归约\n"
+            "    # 不适用条件：env 中未收录的名称按不可信（0.0）处理；不修改 env 内容\n"
+            "    if isinstance(expr, tuple):\n"
+            "        op = expr[0]\n"
+            "        if op == \"AND\":\n"
+            "            return min(trust_flow(expr[1], env), trust_flow(expr[2], env))\n"
+            "        if op == \"OR\":\n"
+            "            return max(trust_flow(expr[1], env), trust_flow(expr[2], env))\n"
+            "        if op == \"NOT\":\n"
+            "            return round(1.0 - trust_flow(expr[1], env), 3)\n"
+            "    if isinstance(expr, str):\n"
+            "        return env.get(expr, 0.0)\n"
+            "    return 1.0\n"),
+        "cases": [
+            ((("AND", "x", "y"), {"x": 0.8, "y": 0.6}), 0.6),
+            ((("OR", "x", "y"), {"x": 0.8, "y": 0.6}), 0.8),
+            ((("NOT", "x"), {"x": 0.8}), 0.2),
+            (("z", {"z": 0.9}), 0.9),
+            (("u", {"x": 0.8}), 0.0),
+            ((42, {}), 1.0),
+            ((("AND", ("NOT", "x"), "y"), {"x": 0.8, "y": 0.5}), 0.2)],
+        "params": [],
+        "calibration": "对照：德=信任累积（v0.2 信任语义）的编译期数据流——与取min、或取max、非取补；字面量完全可信、未收录名不可信",
+    },
+    "VM-短路求值": {
+        "task": "短路求值",
+        "pattern": (
+            "def vm_short_circuit(left, op, right):\n"
+            "    # 短路求值（短路逻辑）：与=左假不求右，或=左真不求右（VM 逻辑执行语义）\n"
+            "    # 生效条件：op ∈ {且, 或}；left/right 为操作数值\n"
+            "    # 子功能：① 且/或短路判定 ② 需要时求右值 ③ 返回 (结果, 右是否求值)\n"
+            "    # 执行：且左假直返 False、或左真直返 True——右侧仅必要时求值\n"
+"    # 不适用条件：left 为空/非法时；op 非 {且, 或} 时\n"
+            "    # 返回 (结果, 右操作数是否被求值)\n"
+            "    if op == '且':\n"
+            "        if not left:\n"
+            "            return (False, False)\n"
+            "        return (bool(right), True)\n"
+            "    if op == '或':\n"
+            "        if left:\n"
+            "            return (True, False)\n"
+            "        return (bool(right), True)\n"
+            "    return (None, False)\n"),
+        "cases": [
+            ((0, '且', 5), (False, False)),
+            ((1, '且', 5), (True, True)),
+            ((1, '且', 0), (False, True)),
+            ((1, '或', 5), (True, False)),
+            ((0, '或', 5), (True, True)),
+            ((0, '或', 0), (False, True)),
+            ((1, '异或', 5), (None, False))],
+        "params": [],
+        "calibration": "对照：逻辑表达式（v0.2 短路跳转字节码）的 VM 执行端——与/或短路，右侧仅必要时求值",
     },
 }
 

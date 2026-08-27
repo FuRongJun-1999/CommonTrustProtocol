@@ -3,9 +3,10 @@
 四套域单元库（编译器/语言机制/图数据库/操作系统）接入 code_compose 正式管线：
   域识别 → 单元匹配 → 模板填充 → verify_code 三层自校验 → 固化 JSON → 固化直出
 验证：①四域组合生成+自校验 ②域识别 ③固化 ④固化直出 ⑤未识别诚实回落"""
-import sys, os, json
+import sys
+import os, os, json
 sys.stdout.reconfigure(encoding='utf-8')
-sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\tools')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from code_compose import (domain_route, domain_solidify, detect_domain,
                           compose_domain_code, CODE_SOLIDIFIED, _SOL_FILE)
 
@@ -1976,7 +1977,7 @@ except Exception as ex:
 g12_qs = {
     "指标统计": "写一个图指标统计单元（节点边密度）",
     "健康检查": "写一个图健康检查单元（连通判定）",
-    "度分布": "写一个图度分布单元（出度直方图）",
+    "度分布": "写一个图度分布单元（出度计数）",
 }
 g12_ok = 0
 for label, q in g12_qs.items():
@@ -1991,7 +1992,7 @@ check('㊛b 图监控三单元全部生成', g12_ok == 3, f'{g12_ok}/3')
 # ㊛c 端到端：指标→健康→度分布（规模→连通→结构）
 r_gm = domain_route("写一个图指标统计单元（节点边密度）")
 r_hc = domain_route("写一个图健康检查单元（连通判定）")
-r_dd = domain_route("写一个图度分布单元（出度直方图）")
+r_dd = domain_route("写一个图度分布单元（出度计数）")
 r_g = domain_route("写一个图存储单元（节点和边）")
 ns_g12 = {}
 exec(r_g["code"], ns_g12)
@@ -4895,6 +4896,2631 @@ try:
           f'back={cb} trust={ta} audit={al}')
 except Exception as ex:
     check('㋫c 回溯→聚合→审计端到端（[缺氧,高温] 0.8 [u2写]）', False, str(ex)[:60])
+
+# ㋬ 目标2 深化：词法/语法收官（字典字面量/元组解析/转义序列/条件空间符号类型 经正式管线）
+c17_qs = {
+    "字典字面量": "写一个字典字面量单元（键值对解析）",
+    "元组解析": "写一个元组解析单元（逗号分隔）",
+    "转义序列": "写一个转义序列单元（字符串转义）",
+    "条件空间符号类型": "写一个条件空间符号类型单元（符号类型检查）",
+}
+c17_ok = 0
+for label, q in c17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c17_ok += 1
+    check(f'㋬ {label} 词法/语法收官单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋬b 词法/语法收官四单元全部生成', c17_ok == 4, f'{c17_ok}/4')
+
+# ㋬c 收官端到端：字典→元组→转义→符号类型（{'甲':1} (1,2) 换行 [未定义量]）
+r_pd = domain_route("写一个字典字面量单元（键值对解析）")
+r_pt = domain_route("写一个元组解析单元（逗号分隔）")
+r_ue = domain_route("写一个转义序列单元（字符串转义）")
+r_ct = domain_route("写一个条件空间符号类型单元（符号类型检查）")
+try:
+    ns_pd, ns_pt, ns_ue, ns_ct = {}, {}, {}, {}
+    exec(r_pd["code"], ns_pd)
+    exec(r_pt["code"], ns_pt)
+    exec(r_ue["code"], ns_ue)
+    exec(r_ct["code"], ns_ct)
+    pd = ns_pd["parse_dict"](['{', '甲', ':', 1, '}'], 0)
+    pt = ns_pt["parse_tuple"](['(', 1, ',', 2, ')'], 0)
+    ue = ns_ue["unescape"]('a\\nb')
+    ct = ns_ct["check_condition_types"](
+        [{'space': '伴侣', 'symbol': '未定义量', 'type': '数值'}],
+        {'情感权重': '数值'})
+    check('㋬c 字典→元组→转义→符号类型端到端（{甲:1} (1,2) 换行 [未定义量]）',
+          pd == ({'甲': 1}, 5) and pt == ((1, 2), 5)
+          and ue == 'a\nb' and ct == [{'space': '伴侣', 'symbol': '未定义量',
+                                       'type': '数值'}],
+          f'dict={pd} tuple={pt} unesc={ue!r} ct={ct}')
+except Exception as ex:
+    check('㋬c 字典→元组→转义→符号类型端到端（{甲:1} (1,2) 换行 [未定义量]）',
+          False, str(ex)[:60])
+
+# ㋭ 目标1 深化：P 线机制族（链表/进制转换/异常链 经正式管线）
+p14_qs = {
+    "链表": "写一个链表单元（节点链）",
+    "进制转换": "写一个进制转换单元（进制互转）",
+    "异常链": "写一个异常链单元（原因保留）",
+}
+p14_ok = 0
+for label, q in p14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p14_ok += 1
+    check(f'㋭ {label} P线机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋭b P线机制三单元全部生成', p14_ok == 3, f'{p14_ok}/3')
+
+# ㋭c 机制端到端：链表→进制→异常链（[1,2] 含2 'ff'255 外层←内层）
+r_ll = domain_route("写一个链表单元（节点链）")
+r_bc = domain_route("写一个进制转换单元（进制互转）")
+r_ec = domain_route("写一个异常链单元（原因保留）")
+try:
+    ns_ll, ns_bc, ns_ec = {}, {}, {}
+    exec(r_ll["code"], ns_ll)
+    exec(r_bc["code"], ns_bc)
+    exec(r_ec["code"], ns_ec)
+    head = ns_ll["linked_list_ops"]([1, 2], 'build')
+    tr = ns_ll["linked_list_ops"](head, 'traverse')
+    ct = ns_ll["linked_list_ops"](head, 'contains', 2)
+    hx = ns_bc["base_convert"](255, 16, True)
+    bx = ns_bc["base_convert"]('ff', 16, False)
+    ec = ns_ec["exception_chain"]('外层', '内层')
+    check('㋭c 链表→进制→异常链端到端（[1,2] 含2 ff 255 外层←内层）',
+          tr == [1, 2] and ct is True and hx == 'ff' and bx == 255
+          and ec == ('ValueError', '外层', '内层'),
+          f'tr={tr} ct={ct} hx={hx} bx={bx} ec={ec}')
+except Exception as ex:
+    check('㋭c 链表→进制→异常链端到端（[1,2] 含2 ff 255 外层←内层）',
+          False, str(ex)[:60])
+
+# ㋮ 目标5 深化：浏览器机制（CORS检查/文本排版/剪贴板 经正式管线）
+b10_qs = {
+    "CORS检查": "写一个 CORS 检查单元（跨域资源共享）",
+    "文本排版": "写一个文本排版单元（宽度换行）",
+    "剪贴板": "写一个剪贴板单元（复制粘贴）",
+}
+b10_ok = 0
+for label, q in b10_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b10_ok += 1
+    check(f'㋮ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋮b 浏览器机制三单元全部生成', b10_ok == 3, f'{b10_ok}/3')
+
+# ㋮c 机制端到端：CORS→文本→剪贴板（same-origin [ab,cd] 你好）
+r_cr = domain_route("写一个 CORS 检查单元（跨域资源共享）")
+r_tw = domain_route("写一个文本排版单元（宽度换行）")
+r_cp = domain_route("写一个剪贴板单元（复制粘贴）")
+try:
+    ns_cr, ns_tw, ns_cp = {}, {}, {}
+    exec(r_cr["code"], ns_cr)
+    exec(r_tw["code"], ns_tw)
+    exec(r_cp["code"], ns_cp)
+    cr = ns_cr["cors_check"]('https://a.com', 'https://a.com')
+    tw = ns_tw["text_wrap"]('abcd', 2)
+    cp = ns_cp["clipboard_ops"]({}, 'copy', '你好')
+    cpr = ns_cp["clipboard_ops"]({'text': '你好'}, 'paste')
+    check('㋮c CORS→文本→剪贴板端到端（same-origin [ab,cd] 你好）',
+          cr == 'same-origin' and tw == ['ab', 'cd'] and cp == 'copied'
+          and cpr == '你好',
+          f'cors={cr} wrap={tw} copy={cp} paste={cpr}')
+except Exception as ex:
+    check('㋮c CORS→文本→剪贴板端到端（same-origin [ab,cd] 你好）',
+          False, str(ex)[:60])
+
+# ㋯ 目标7 深化：网络层机制（DHCP租约/ARP解析/ICMP探测 经正式管线）
+n15_qs = {
+    "DHCP租约": "写一个 DHCP 租约单元（地址分配）",
+    "ARP解析": "写一个 ARP 解析单元（地址解析）",
+    "ICMP探测": "写一个 ICMP 探测单元（Ping 往返）",
+}
+n15_ok = 0
+for label, q in n15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n15_ok += 1
+    check(f'㋯ {label} 网络层机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋯b 网络层机制三单元全部生成', n15_ok == 3, f'{n15_ok}/3')
+
+# ㋯c 机制端到端：DHCP→ARP→ICMP（10.0.0.1 aa:bb 可达）
+r_dl = domain_route("写一个 DHCP 租约单元（地址分配）")
+r_ar = domain_route("写一个 ARP 解析单元（地址解析）")
+r_ip = domain_route("写一个 ICMP 探测单元（Ping 往返）")
+try:
+    ns_dl, ns_ar, ns_ip = {}, {}, {}
+    exec(r_dl["code"], ns_dl)
+    exec(r_ar["code"], ns_ar)
+    exec(r_ip["code"], ns_ip)
+    dl = ns_dl["dhcp_lease"]({'10.0.0.1': 'free', '10.0.0.2': 'free'}, 'offer', 'aa:bb')
+    ar = ns_ar["arp_resolve"]({'10.0.0.1': 'aa:bb'}, 'lookup', '10.0.0.1')
+    ip = ns_ip["icmp_probe"]([], 'reply', '10.0.0.1', 50)
+    check('㋯c DHCP→ARP→ICMP端到端（10.0.0.1 aa:bb 可达）',
+          dl == '10.0.0.1' and ar == 'aa:bb' and ip == '10.0.0.1',
+          f'lease={dl} arp={ar} ping={ip}')
+except Exception as ex:
+    check('㋯c DHCP→ARP→ICMP端到端（10.0.0.1 aa:bb 可达）',
+          False, str(ex)[:60])
+
+# ㋰ 目标6 深化：图算法/查询（强连通分量/二分匹配/可达性判定 经正式管线）
+g27_qs = {
+    "强连通分量": "写一个强连通分量单元（Kosaraju）",
+    "二分匹配": "写一个二分匹配单元（最大匹配）",
+    "可达性判定": "写一个可达性判定单元（BFS 传导）",
+}
+g27_ok = 0
+for label, q in g27_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g27_ok += 1
+    check(f'㋰ {label} 图算法/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋰b 图算法/查询三单元全部生成', g27_ok == 3, f'{g27_ok}/3')
+
+# ㋰c 算法端到端：SCC→匹配→可达（[[3],[1,2,0]] 3 True）
+r_sc = domain_route("写一个强连通分量单元（Kosaraju）")
+r_bm = domain_route("写一个二分匹配单元（最大匹配）")
+r_rb = domain_route("写一个可达性判定单元（BFS 传导）")
+try:
+    ns_sc, ns_bm, ns_rb = {}, {}, {}
+    exec(r_sc["code"], ns_sc)
+    exec(r_bm["code"], ns_bm)
+    exec(r_rb["code"], ns_rb)
+    sc = ns_sc["scc_kosaraju"]({0: [1], 1: [2], 2: [0], 3: [3]})
+    bm = ns_bm["bipartite_matching"]({0: ['a', 'b'], 1: ['b'], 2: ['c']}, [0, 1, 2])
+    rb = ns_rb["reachable"]({0: [1], 1: [2]}, 0, 2)
+    check('㋰c SCC→匹配→可达端到端（[[3],[1,2,0]] 3 True）',
+          sc == [[3], [1, 2, 0]] and bm == 3 and rb is True,
+          f'scc={sc} match={bm} reach={rb}')
+except Exception as ex:
+    check('㋰c SCC→匹配→可达端到端（[[3],[1,2,0]] 3 True）',
+          False, str(ex)[:60])
+
+# ㋱ 目标1 深化：P 线数据结构/语法（二叉树/迭代工具/字典合并 经正式管线）
+p15_qs = {
+    "二叉树": "写一个二叉树单元（中序遍历）",
+    "迭代工具": "写一个迭代工具单元（chain 拼接）",
+    "字典合并": "写一个字典合并单元（后者覆盖）",
+}
+p15_ok = 0
+for label, q in p15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p15_ok += 1
+    check(f'㋱ {label} P线数据结构/语法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋱b P线数据结构/语法三单元全部生成', p15_ok == 3, f'{p15_ok}/3')
+
+# ㋱c 数据结构端到端：二叉树→迭代→合并（[1,2,3] [1,2,3] 后者覆盖）
+r_bt = domain_route("写一个二叉树单元（中序遍历）")
+r_iu = domain_route("写一个迭代工具单元（chain 拼接）")
+r_dm = domain_route("写一个字典合并单元（后者覆盖）")
+try:
+    ns_bt, ns_iu, ns_dm = {}, {}, {}
+    exec(r_bt["code"], ns_bt)
+    exec(r_iu["code"], ns_iu)
+    exec(r_dm["code"], ns_dm)
+    root = ns_bt["btree_ops"]([3, 1, 2], 'build')
+    io = ns_bt["btree_ops"](root, 'inorder')
+    ch = ns_iu["iter_utils"]([[1, 2], [3]], 'chain')
+    dm = ns_dm["dict_merge"]({'a': 1}, {'a': 2})
+    check('㋱c 二叉树→迭代→合并端到端（[1,2,3] [1,2,3] {a:2}）',
+          io == [1, 2, 3] and ch == [1, 2, 3] and dm == {'a': 2},
+          f'in={io} chain={ch} merge={dm}')
+except Exception as ex:
+    check('㋱c 二叉树→迭代→合并端到端（[1,2,3] [1,2,3] {a:2}）',
+          False, str(ex)[:60])
+
+# ㋲ 目标5 深化：浏览器机制（沙箱隔离/滚动容器/在线状态 经正式管线）
+b11_qs = {
+    "沙箱隔离": "写一个沙箱隔离单元（权限裁剪）",
+    "滚动容器": "写一个滚动容器单元（视口滚动）",
+    "在线状态": "写一个在线状态单元（网络监测）",
+}
+b11_ok = 0
+for label, q in b11_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b11_ok += 1
+    check(f'㋲ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋲b 浏览器机制三单元全部生成', b11_ok == 3, f'{b11_ok}/3')
+
+# ㋲c 机制端到端：沙箱→滚动→在线（granted True 200 offline）
+r_sb = domain_route("写一个沙箱隔离单元（权限裁剪）")
+r_sc = domain_route("写一个滚动容器单元（视口滚动）")
+r_os = domain_route("写一个在线状态单元（网络监测）")
+try:
+    ns_sb, ns_sc, ns_os = {}, {}, {}
+    exec(r_sb["code"], ns_sb)
+    exec(r_sc["code"], ns_sc)
+    exec(r_os["code"], ns_os)
+    caps = set()
+    g = ns_sb["sandbox_perms"](caps, 'grant', 'allow-scripts')
+    ck = ns_sb["sandbox_perms"](caps, 'check', 'allow-scripts')
+    pos = ns_sc["scroll_container"]({}, 'scroll', 200)
+    os_ev = ns_os["online_state"]([], 'set', False)
+    check('㋲c 沙箱→滚动→在线端到端（granted True 200 offline）',
+          g == 'granted' and ck is True and pos == 200 and os_ev == 'offline',
+          f'sand={g}/{ck} pos={pos} online={os_ev}')
+except Exception as ex:
+    check('㋲c 沙箱→滚动→在线端到端（granted True 200 offline）',
+          False, str(ex)[:60])
+
+# ㋳ 目标2 深化：词法/语法字面量（布尔/空值/行号跟踪 经正式管线）
+c18_qs = {
+    "布尔字面量": "写一个布尔字面量单元（真/假）",
+    "空值字面量": "写一个空值字面量单元（无/空）",
+    "行号跟踪": "写一个行号跟踪单元（定位调试）",
+}
+c18_ok = 0
+for label, q in c18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c18_ok += 1
+    check(f'㋳ {label} 词法/语法字面量单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋳b 词法/语法字面量三单元全部生成', c18_ok == 3, f'{c18_ok}/3')
+
+# ㋳c 字面量端到端：布尔→空值→行号（(True,1) (None,1) [(甲,1),(丙,2)]）
+r_bl = domain_route("写一个布尔字面量单元（真/假）")
+r_nl = domain_route("写一个空值字面量单元（无/空）")
+r_tl = domain_route("写一个行号跟踪单元（定位调试）")
+try:
+    ns_bl, ns_nl, ns_tl = {}, {}, {}
+    exec(r_bl["code"], ns_bl)
+    exec(r_nl["code"], ns_nl)
+    exec(r_tl["code"], ns_tl)
+    bl = ns_bl["parse_bool"]('真')
+    nl = ns_nl["parse_null"]('无')
+    tl = ns_tl["track_lines"]('甲 乙\n丙')
+    check('㋳c 布尔→空值→行号端到端（(True,1) (None,1) [(甲,1),(乙,1),(丙,2)]）',
+          bl == (True, 1) and nl == (None, 1)
+          and tl == [('甲', 1), ('乙', 1), ('丙', 2)],
+          f'bool={bl} null={nl} lines={tl}')
+except Exception as ex:
+    check('㋳c 布尔→空值→行号端到端（(True,1) (None,1) [(甲,1),(乙,1),(丙,2)]）',
+          False, str(ex)[:60])
+
+# ㋴ 目标1 深化：P 线机制族（最小堆/函数缓存/异步生成器 经正式管线）
+p16_qs = {
+    "最小堆": "写一个最小堆单元（堆机制）",
+    "函数缓存": "写一个函数缓存单元（缓存命中）",
+    "异步生成器": "写一个异步生成器单元（逐值产出）",
+}
+p16_ok = 0
+for label, q in p16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p16_ok += 1
+    check(f'㋴ {label} P线机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋴b P线机制三单元全部生成', p16_ok == 3, f'{p16_ok}/3')
+
+# ㋴c 机制端到端：堆→缓存→异步生成器（0 (42,False) 0）
+r_hp = domain_route("写一个最小堆单元（堆机制）")
+r_fc = domain_route("写一个函数缓存单元（缓存命中）")
+r_ag = domain_route("写一个异步生成器单元（逐值产出）")
+try:
+    ns_hp, ns_fc, ns_ag = {}, {}, {}
+    exec(r_hp["code"], ns_hp)
+    exec(r_fc["code"], ns_fc)
+    exec(r_ag["code"], ns_ag)
+    hp = ns_hp["heap_ops"]([3, 1, 2], 'push', 0)
+    fc = ns_fc["cached_value"]({}, 'k', lambda: 42)
+    ag = ns_ag["async_gen_ops"]({'n': 3}, 'next')
+    check('㋴c 堆→缓存→异步端到端（0 (42,False) 0）',
+          hp == 0 and fc == (42, False) and ag == 0,
+          f'heap={hp} cache={fc} agen={ag}')
+except Exception as ex:
+    check('㋴c 堆→缓存→异步端到端（0 (42,False) 0）',
+          False, str(ex)[:60])
+
+# ㋵ 目标7 深化：网络工程（广播风暴/心跳保活/报文重排序 经正式管线）
+n16_qs = {
+    "广播风暴": "写一个广播风暴单元（风暴抑制）",
+    "心跳保活": "写一个心跳保活单元（连接保活）",
+    "报文重排序": "写一个报文重排序单元（按序递交）",
+}
+n16_ok = 0
+for label, q in n16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n16_ok += 1
+    check(f'㋵ {label} 网络工程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋵b 网络工程三单元全部生成', n16_ok == 3, f'{n16_ok}/3')
+
+# ㋵c 工程端到端：风暴→保活→重排（True True [a,b]）
+r_sc = domain_route("写一个广播风暴单元（风暴抑制）")
+r_ka = domain_route("写一个心跳保活单元（连接保活）")
+r_rb = domain_route("写一个报文重排序单元（按序递交）")
+try:
+    ns_sc, ns_ka, ns_rb = {}, {}, {}
+    exec(r_sc["code"], ns_sc)
+    exec(r_ka["code"], ns_ka)
+    exec(r_rb["code"], ns_rb)
+    st = {'p1': 150, 'limit': 100}
+    sc = ns_sc["storm_control"](st, 'block', 'p1')
+    ka = ns_ka["keepalive"]({'last': 100}, 'alive', 120)
+    rb = ns_rb["reorder_buffer"]({'buf': {1: 'a', 2: 'b'}, 'next': 1}, 'flush')
+    check('㋵c 风暴→保活→重排端到端（True True [a,b]）',
+          sc is True and ka is True and rb == ['a', 'b'],
+          f'storm={sc} alive={ka} reorder={rb}')
+except Exception as ex:
+    check('㋵c 风暴→保活→重排端到端（True True [a,b]）',
+          False, str(ex)[:60])
+
+# ㋶ 目标6 深化：图算法（传递闭包/图着色/最小割 经正式管线）
+g28_qs = {
+    "传递闭包": "写一个传递闭包单元（可达矩阵）",
+    "图着色": "写一个图着色单元（顶点着色）",
+    "最小割": "写一个最小割单元（割容量）",
+}
+g28_ok = 0
+for label, q in g28_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g28_ok += 1
+    check(f'㋶ {label} 图算法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋶b 图算法三单元全部生成', g28_ok == 3, f'{g28_ok}/3')
+
+# ㋶c 算法端到端：闭包→着色→最小割（对角True {0:0,1:1,2:0} 4）
+r_tc = domain_route("写一个传递闭包单元（可达矩阵）")
+r_gc = domain_route("写一个图着色单元（顶点着色）")
+r_mc = domain_route("写一个最小割单元（割容量）")
+try:
+    ns_tc, ns_gc, ns_mc = {}, {}, {}
+    exec(r_tc["code"], ns_tc)
+    exec(r_gc["code"], ns_gc)
+    exec(r_mc["code"], ns_mc)
+    tc = ns_tc["transitive_closure"]({0: [1], 1: [2]}, 3)
+    gc = ns_gc["greedy_coloring"]({0: [1], 1: [0, 2], 2: [1]})
+    mc = ns_mc["min_cut"]({0: {1: 3, 2: 2}, 1: {3: 2}, 2: {3: 4}}, 0, 3)
+    check('㋶c 闭包→着色→最小割端到端（对角True {0:0,1:1,2:0} 4）',
+          tc == [[True, True, True], [False, True, True], [False, False, True]]
+          and gc == {0: 0, 1: 1, 2: 0} and mc == 4,
+          f'tc={tc} gc={gc} mc={mc}')
+except Exception as ex:
+    check('㋶c 闭包→着色→最小割端到端（对角True {0:0,1:1,2:0} 4）',
+          False, str(ex)[:60])
+
+# ㋷ 目标5 深化：浏览器机制（命中测试/标签页通信/页面可见性 经正式管线）
+b12_qs = {
+    "命中测试": "写一个命中测试单元（点击命中）",
+    "标签页通信": "写一个标签页通信单元（跨标签广播）",
+    "页面可见性": "写一个页面可见性单元（隐藏切换）",
+}
+b12_ok = 0
+for label, q in b12_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b12_ok += 1
+    check(f'㋷ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋷b 浏览器机制三单元全部生成', b12_ok == 3, f'{b12_ok}/3')
+
+# ㋷c 机制端到端：命中→标签页→可见性（甲 sent hidden）
+r_ht = domain_route("写一个命中测试单元（点击命中）")
+r_tc = domain_route("写一个标签页通信单元（跨标签广播）")
+r_vi = domain_route("写一个页面可见性单元（隐藏切换）")
+try:
+    ns_ht, ns_tc, ns_vi = {}, {}, {}
+    exec(r_ht["code"], ns_ht)
+    exec(r_tc["code"], ns_tc)
+    exec(r_vi["code"], ns_vi)
+    ht = ns_ht["hit_test"](((0, 0, 10, 10, '甲'), (20, 20, 30, 30, '乙')), 5, 5)
+    tc = ns_tc["tab_channel"]({}, 'post', 'hi')
+    vi = ns_vi["visibility"]({}, 'set', 'hidden')
+    check('㋷c 命中→标签页→可见性端到端（甲 sent hidden）',
+          ht == '甲' and tc == 'sent' and vi == 'hidden',
+          f'hit={ht} chan={tc} vis={vi}')
+except Exception as ex:
+    check('㋷c 命中→标签页→可见性端到端（甲 sent hidden）',
+          False, str(ex)[:60])
+
+# ㋸ 目标1 深化：P 线工具/元编程（切片操作/矩阵运算/类装饰器 经正式管线）
+p17_qs = {
+    "切片操作": "写一个切片操作单元（区间截取）",
+    "矩阵运算": "写一个矩阵运算单元（矩阵乘）",
+    "类装饰器": "写一个类装饰器单元（类增强）",
+}
+p17_ok = 0
+for label, q in p17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p17_ok += 1
+    check(f'㋸ {label} P线工具/元编程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋸b P线工具/元编程三单元全部生成', p17_ok == 3, f'{p17_ok}/3')
+
+# ㋸c 工具端到端：切片→矩阵→类装饰（[1,2,3] [[6,8],[10,12]] 宠物）
+r_sl = domain_route("写一个切片操作单元（区间截取）")
+r_mx = domain_route("写一个矩阵运算单元（矩阵乘）")
+r_cd = domain_route("写一个类装饰器单元（类增强）")
+try:
+    ns_sl, ns_mx, ns_cd = {}, {}, {}
+    exec(r_sl["code"], ns_sl)
+    exec(r_mx["code"], ns_mx)
+    exec(r_cd["code"], ns_cd)
+    sl = ns_sl["slice_ops"]([0, 1, 2, 3, 4], 1, 4)
+    mx = ns_mx["matrix_ops"]([[1, 2], [3, 4]], [[5, 6], [7, 8]], 'add')
+    cd = ns_cd["class_decorator"](type('狗', (), {}), '宠物')
+    check('㋸c 切片→矩阵→类装饰端到端（[1,2,3] [[6,8],[10,12]] 宠物）',
+          sl == [1, 2, 3] and mx == [[6, 8], [10, 12]] and cd == '宠物',
+          f'slice={sl} mat={mx} decor={cd}')
+except Exception as ex:
+    check('㋸c 切片→矩阵→类装饰端到端（[1,2,3] [[6,8],[10,12]] 宠物）',
+          False, str(ex)[:60])
+
+# ㋹ 目标7 深化：链路/路由（CSMA退避/路由收敛/链路预算 经正式管线）
+n17_qs = {
+    "CSMA退避": "写一个 CSMA 退避单元（碰撞退避）",
+    "路由收敛": "写一个路由收敛单元（收敛判定）",
+    "链路预算": "写一个链路预算单元（RSSI 分级）",
+}
+n17_ok = 0
+for label, q in n17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n17_ok += 1
+    check(f'㋹ {label} 链路/路由单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋹b 链路/路由三单元全部生成', n17_ok == 3, f'{n17_ok}/3')
+
+# ㋹c 端到端：CSMA→收敛→链路（8 converged good）
+r_cb = domain_route("写一个 CSMA 退避单元（碰撞退避）")
+r_rc = domain_route("写一个路由收敛单元（收敛判定）")
+r_lb = domain_route("写一个链路预算单元（RSSI 分级）")
+try:
+    ns_cb, ns_rc, ns_lb = {}, {}, {}
+    exec(r_cb["code"], ns_cb)
+    exec(r_rc["code"], ns_rc)
+    exec(r_lb["code"], ns_lb)
+    cb = ns_cb["csma_backoff"]({'n': 3}, 'wait')
+    rc = ns_rc["route_converge"]({}, 'converge')
+    lb = ns_lb["link_budget"]({'rssi': -65}, 'quality')
+    check('㋹c CSMA→收敛→链路端到端（8 converged good）',
+          cb == 8 and rc == 'converged' and lb == 'good',
+          f'backoff={cb} conv={rc} link={lb}')
+except Exception as ex:
+    check('㋹c CSMA→收敛→链路端到端（8 converged good）',
+          False, str(ex)[:60])
+
+# ㋺ 目标5 深化：浏览器机制（像素光栅化/触控手势/设备方向 经正式管线）
+b13_qs = {
+    "像素光栅化": "写一个像素光栅化单元（画布填色）",
+    "触控手势": "写一个触控手势单元（手势识别）",
+    "设备方向": "写一个设备方向单元（角度记录）",
+}
+b13_ok = 0
+for label, q in b13_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b13_ok += 1
+    check(f'㋺ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋺b 浏览器机制三单元全部生成', b13_ok == 3, f'{b13_ok}/3')
+
+# ㋺c 机制端到端：像素→触控→方向（True (10,5) 竖屏）
+r_rz = domain_route("写一个像素光栅化单元（画布填色）")
+r_gs = domain_route("写一个触控手势单元（手势识别）")
+r_do = domain_route("写一个设备方向单元（角度记录）")
+try:
+    ns_rz, ns_gs, ns_do = {}, {}, {}
+    exec(r_rz["code"], ns_rz)
+    exec(r_gs["code"], ns_gs)
+    exec(r_do["code"], ns_do)
+    rz = ns_rz["rasterize"]([['.', '.'], ['.', '.']], 1, 0, '#')
+    gs = ns_gs["gesture_ops"]({}, 'pan', (0, 0), (10, 5))
+    do = ns_do["device_orient"]({'beta': 10}, 'portrait')
+    check('㋺c 像素→触控→方向端到端（True (10,5) 竖屏）',
+          rz is True and gs == (10, 5) and do is True,
+          f'raster={rz} gest={gs} orient={do}')
+except Exception as ex:
+    check('㋺c 像素→触控→方向端到端（True (10,5) 竖屏）',
+          False, str(ex)[:60])
+
+# ㋻ 目标2 深化：词法/编译/语法（关键字识别/常量池/语句分隔 经正式管线）
+c19_qs = {
+    "关键字识别": "写一个关键字识别单元（词法分类）",
+    "常量池": "写一个常量池单元（字面量去重）",
+    "语句分隔": "写一个语句分隔单元（分号拆分）",
+}
+c19_ok = 0
+for label, q in c19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c19_ok += 1
+    check(f'㋻ {label} 词法/编译/语法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋻b 词法/编译/语法三单元全部生成', c19_ok == 3, f'{c19_ok}/3')
+
+# ㋻c 端到端：关键字→常量池→语句分隔（('KW','若') 0 [甲=1,乙=2]）
+r_kw = domain_route("写一个关键字识别单元（词法分类）")
+r_lp = domain_route("写一个常量池单元（字面量去重）")
+r_ss = domain_route("写一个语句分隔单元（分号拆分）")
+try:
+    ns_kw, ns_lp, ns_ss = {}, {}, {}
+    exec(r_kw["code"], ns_kw)
+    exec(r_lp["code"], ns_lp)
+    exec(r_ss["code"], ns_ss)
+    kw = ns_kw["keyword_check"]('若', ('若', '则', '否则'))
+    lp = ns_lp["literal_pool"]([], 'add', 42)
+    ss = ns_ss["split_statements"]('甲 = 1;乙 = 2')
+    check('㋻c 关键字→常量池→语句分隔端到端（(\'KW\',\'若\') 0 [甲=1,乙=2]）',
+          kw == ('KW', '若') and lp == 0 and ss == ['甲 = 1', '乙 = 2'],
+          f'kw={kw} pool={lp} stmts={ss}')
+except Exception as ex:
+    check('㋻c 关键字→常量池→语句分隔端到端（(\'KW\',\'若\') 0 [甲=1,乙=2]）',
+          False, str(ex)[:60])
+
+# ㋼ 目标6 深化：图算法/存储（聚类系数/介数中心性/边索引 经正式管线）
+g29_qs = {
+    "聚类系数": "写一个聚类系数单元（局部闭合度）",
+    "介数中心性": "写一个介数中心性单元（桥梁节点）",
+    "边索引": "写一个边索引单元（属性查边）",
+}
+g29_ok = 0
+for label, q in g29_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g29_ok += 1
+    check(f'㋼ {label} 图算法/存储单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋼b 图算法/存储三单元全部生成', g29_ok == 3, f'{g29_ok}/3')
+
+# ㋼c 端到端：聚类→介数→边索引（1.0 {1:1.0} friend）
+r_cc = domain_route("写一个聚类系数单元（局部闭合度）")
+r_bw = domain_route("写一个介数中心性单元（桥梁节点）")
+r_ei = domain_route("写一个边索引单元（属性查边）")
+try:
+    ns_cc, ns_bw, ns_ei = {}, {}, {}
+    exec(r_cc["code"], ns_cc)
+    exec(r_bw["code"], ns_bw)
+    exec(r_ei["code"], ns_ei)
+    cc = ns_cc["clustering_coef"]({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 0)
+    bw = ns_bw["betweenness"]({0: [1], 1: [0, 2], 2: [1]})
+    ei = ns_ei["edge_index"]({}, 'put', 'friend', ('a', 'b'))
+    check('㋼c 聚类→介数→边索引端到端（1.0 {0:0.0,1:1.0,2:0.0} friend）',
+          cc == 1.0 and bw == {0: 0.0, 1: 1.0, 2: 0.0} and ei == 'friend',
+          f'cc={cc} bw={bw} edge={ei}')
+except Exception as ex:
+    check('㋼c 聚类→介数→边索引端到端（1.0 {0:0.0,1:1.0,2:0.0} friend）',
+          False, str(ex)[:60])
+
+# ㋽ 目标1 深化：P 线数据结构/工具（默认字典/排列组合/二分查找 经正式管线）
+p18_qs = {
+    "默认字典": "写一个默认字典单元（缺失键默认）",
+    "排列组合": "写一个排列组合单元（有序无序选取）",
+    "二分查找": "写一个二分查找单元（折半定位）",
+}
+p18_ok = 0
+for label, q in p18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p18_ok += 1
+    check(f'㋽ {label} P线数据结构/工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋽b P线数据结构/工具三单元全部生成', p18_ok == 3, f'{p18_ok}/3')
+
+# ㋽c 端到端：默认字典→排列组合→二分查找（0 [(1,2),(2,1)] 2）
+r_dd = domain_route("写一个默认字典单元（缺失键默认）")
+r_pc = domain_route("写一个排列组合单元（有序无序选取）")
+r_bs = domain_route("写一个二分查找单元（折半定位）")
+try:
+    ns_dd, ns_pc, ns_bs = {}, {}, {}
+    exec(r_dd["code"], ns_dd)
+    exec(r_pc["code"], ns_pc)
+    exec(r_bs["code"], ns_bs)
+    dd = ns_dd["default_dict"]({}, 'a', 0)
+    pc = ns_pc["permute_combine"]([1, 2], 2, 'permutations')
+    bs = ns_bs["binary_search"]([1, 3, 5, 7, 9], 5)
+    check('㋽c 默认字典→排列组合→二分查找端到端（0 [(1,2),(2,1)] 2）',
+          dd == 0 and pc == [(1, 2), (2, 1)] and bs == 2,
+          f'def={dd} perm={pc} bs={bs}')
+except Exception as ex:
+    check('㋽c 默认字典→排列组合→二分查找端到端（0 [(1,2),(2,1)] 2）',
+          False, str(ex)[:60])
+
+# ㋾ 目标5 深化：浏览器机制（渐变填充/网络信息/字体加载 经正式管线）
+b14_qs = {
+    "渐变填充": "写一个渐变填充单元（色停插值）",
+    "网络信息": "写一个网络信息单元（effectiveType 记录）",
+    "字体加载": "写一个字体加载单元（回退切换）",
+}
+b14_ok = 0
+for label, q in b14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b14_ok += 1
+    check(f'㋾ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋾b 浏览器机制三单元全部生成', b14_ok == 3, f'{b14_ok}/3')
+
+# ㋾c 机制端到端：渐变→网络信息→字体（(128,0,128) 4g loaded）
+r_gf = domain_route("写一个渐变填充单元（色停插值）")
+r_ni = domain_route("写一个网络信息单元（effectiveType 记录）")
+r_fl = domain_route("写一个字体加载单元（回退切换）")
+try:
+    ns_gf, ns_ni, ns_fl = {}, {}, {}
+    exec(r_gf["code"], ns_gf)
+    exec(r_ni["code"], ns_ni)
+    exec(r_fl["code"], ns_fl)
+    gf = ns_gf["gradient_fill"](((0.0, (255, 0, 0)), (1.0, (0, 0, 255))), 0.5)
+    ni = ns_ni["network_info"]({}, 'set', '4g')
+    fl = ns_fl["font_load"]({'f1': 'loading'}, 'swap', 'f1')
+    check('㋾c 渐变→网络信息→字体端到端（(128,0,128) 4g loaded）',
+          gf == (128, 0, 128) and ni == '4g' and fl == 'loaded',
+          f'grad={gf} net={ni} font={fl}')
+except Exception as ex:
+    check('㋾c 渐变→网络信息→字体端到端（(128,0,128) 4g loaded）',
+          False, str(ex)[:60])
+
+# ㋿ 目标7 深化：网络可靠/同步（NTP同步/报文分片/前向纠错 经正式管线）
+n18_qs = {
+    "NTP同步": "写一个 NTP 同步单元（时间偏移）",
+    "报文分片": "写一个报文分片单元（MTU 切分）",
+    "前向纠错": "写一个前向纠错单元（异或恢复）",
+}
+n18_ok = 0
+for label, q in n18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n18_ok += 1
+    check(f'㋿ {label} 网络可靠/同步单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㋿b 网络可靠/同步三单元全部生成', n18_ok == 3, f'{n18_ok}/3')
+
+# ㋿c 端到端：NTP→分片→纠错（15.0 [ab,cd] 3）
+r_nt = domain_route("写一个 NTP 同步单元（时间偏移）")
+r_pf = domain_route("写一个报文分片单元（MTU 切分）")
+r_fe = domain_route("写一个前向纠错单元（异或恢复）")
+try:
+    ns_nt, ns_pf, ns_fe = {}, {}, {}
+    exec(r_nt["code"], ns_nt)
+    exec(r_pf["code"], ns_pf)
+    exec(r_fe["code"], ns_fe)
+    nt = ns_nt["ntp_sync"]({}, 'offset', 100, 110, 130)
+    pf = ns_pf["packet_frag"]({}, 'fragment', 'abcd', 2)
+    fe = ns_fe["fec_recover"]([1, 2, 0], 'recover', 2)
+    check('㋿c NTP→分片→纠错端到端（15.0 [ab,cd] 3）',
+          nt == 15.0 and pf == ['ab', 'cd'] and fe == 3,
+          f'ntp={nt} frag={pf} fec={fe}')
+except Exception as ex:
+    check('㋿c NTP→分片→纠错端到端（15.0 [ab,cd] 3）',
+          False, str(ex)[:60])
+
+# ㌀ 目标1 深化：P 线推导/异步/工具（字典推导/异步队列/模板渲染 经正式管线）
+p19_qs = {
+    "字典推导": "写一个字典推导单元（键值映射）",
+    "异步队列": "写一个异步队列单元（FIFO 出入队）",
+    "模板渲染": "写一个模板渲染单元（$ 占位符）",
+}
+p19_ok = 0
+for label, q in p19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p19_ok += 1
+    check(f'㌀ {label} P线推导/异步/工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌀b P线推导/异步/工具三单元全部生成', p19_ok == 3, f'{p19_ok}/3')
+
+# ㌀c 端到端：字典推导→异步队列→模板渲染（{甲:1} a 你好 甲）
+r_dc = domain_route("写一个字典推导单元（键值映射）")
+r_aq = domain_route("写一个异步队列单元（FIFO 出入队）")
+r_tr = domain_route("写一个模板渲染单元（$ 占位符）")
+try:
+    ns_dc, ns_aq, ns_tr = {}, {}, {}
+    exec(r_dc["code"], ns_dc)
+    exec(r_aq["code"], ns_aq)
+    exec(r_tr["code"], ns_tr)
+    dc = ns_dc["dict_comp"](['甲', '乙'], lambda x: x, lambda x: len(x))
+    aq = ns_aq["async_queue"](['a', 'b'], 'get')
+    tr = ns_tr["render_template"]('你好 $名', {'名': '甲'})
+    check('㌀c 字典推导→异步队列→模板渲染端到端（{甲:1,乙:1} a 你好 甲）',
+          dc == {'甲': 1, '乙': 1} and aq == 'a' and tr == '你好 甲',
+          f'dict={dc} aq={aq} tmpl={tr}')
+except Exception as ex:
+    check('㌀c 字典推导→异步队列→模板渲染端到端（{甲:1,乙:1} a 你好 甲）',
+          False, str(ex)[:60])
+
+# ㌁ 目标2 深化：VM/编译/分析（异常处理/表达式树/栈深度分析 经正式管线）
+c20_qs = {
+    "异常处理": "写一个异常处理单元（处理表跳转）",
+    "表达式树": "写一个表达式树单元（AST 构建）",
+    "栈深度分析": "写一个栈深度分析单元（最大栈深）",
+}
+c20_ok = 0
+for label, q in c20_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c20_ok += 1
+    check(f'㌁ {label} VM/编译/分析单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌁b VM/编译/分析三单元全部生成', c20_ok == 3, f'{c20_ok}/3')
+
+# ㌁c 端到端：异常→表达式树→栈深度（10 ('+','a','b') 2）
+r_vx = domain_route("写一个异常处理单元（处理表跳转）")
+r_et = domain_route("写一个表达式树单元（AST 构建）")
+r_sd = domain_route("写一个栈深度分析单元（最大栈深）")
+try:
+    ns_vx, ns_et, ns_sd = {}, {}, {}
+    exec(r_vx["code"], ns_vx)
+    exec(r_et["code"], ns_et)
+    exec(r_sd["code"], ns_sd)
+    vx = ns_vx["vm_exception"]({'exc': '除零', 'table': {'除零': 10}}, 'handler')
+    et = ns_et["build_expr_tree"](['(', 'a', '+', 'b', ')'])
+    sd = ns_sd["stack_depth"]([('PUSH', 1), ('PUSH', 2), ('ADD', None)])
+    check('㌁c 异常→表达式树→栈深度端到端（10 (\'+\',\'a\',\'b\') 2）',
+          vx == 10 and et == ('+', 'a', 'b') and sd == 2,
+          f'exc={vx} tree={et} depth={sd}')
+except Exception as ex:
+    check('㌁c 异常→表达式树→栈深度端到端（10 (\'+\',\'a\',\'b\') 2）',
+          False, str(ex)[:60])
+
+# ㌂ 目标5 深化：浏览器机制（颜色转换/振动反馈/混合模式 经正式管线）
+b15_qs = {
+    "颜色转换": "写一个颜色转换单元（hex 互转）",
+    "振动反馈": "写一个振动反馈单元（振动控制）",
+    "混合模式": "写一个混合模式单元（通道计算）",
+}
+b15_ok = 0
+for label, q in b15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b15_ok += 1
+    check(f'㌂ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌂b 浏览器机制三单元全部生成', b15_ok == 3, f'{b15_ok}/3')
+
+# ㌂c 机制端到端：颜色→振动→混合（(255,0,0) vibrating 128）
+r_cv = domain_route("写一个颜色转换单元（hex 互转）")
+r_vb = domain_route("写一个振动反馈单元（振动控制）")
+r_bm = domain_route("写一个混合模式单元（通道计算）")
+try:
+    ns_cv, ns_vb, ns_bm = {}, {}, {}
+    exec(r_cv["code"], ns_cv)
+    exec(r_vb["code"], ns_vb)
+    exec(r_bm["code"], ns_bm)
+    cv = ns_cv["color_convert"]('#ff0000', 'hex2rgb')
+    vb = ns_vb["vibrate"]({}, 'start', [100, 50])
+    bm = ns_bm["blend_mode"](255, 128, 'multiply')
+    check('㌂c 颜色→振动→混合端到端（(255,0,0) vibrating 128）',
+          cv == (255, 0, 0) and vb == 'vibrating' and bm == 128,
+          f'color={cv} vib={vb} blend={bm}')
+except Exception as ex:
+    check('㌂c 颜色→振动→混合端到端（(255,0,0) vibrating 128）',
+          False, str(ex)[:60])
+
+# ㌃ 目标7 深化：网络传输（尽力交付/带宽时延积/多宿主 经正式管线）
+n19_qs = {
+    "尽力交付": "写一个尽力交付单元（UDP 语义）",
+    "带宽时延积": "写一个带宽时延积单元（管道容量）",
+    "多宿主": "写一个多宿主单元（接口轮询）",
+}
+n19_ok = 0
+for label, q in n19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n19_ok += 1
+    check(f'㌃ {label} 网络传输单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌃b 网络传输三单元全部生成', n19_ok == 3, f'{n19_ok}/3')
+
+# ㌃c 端到端：尽力交付→时延积→多宿主（sent 1.0 eth0）
+r_be = domain_route("写一个尽力交付单元（UDP 语义）")
+r_bp = domain_route("写一个带宽时延积单元（管道容量）")
+r_mh = domain_route("写一个多宿主单元（接口轮询）")
+try:
+    ns_be, ns_bp, ns_mh = {}, {}, {}
+    exec(r_be["code"], ns_be)
+    exec(r_bp["code"], ns_bp)
+    exec(r_mh["code"], ns_mh)
+    be = ns_be["best_effort"]({}, 'send', 1)
+    bp = ns_bp["bdp_calc"](10.0, 0.1)
+    mh = ns_mh["multihoming"]({'ifaces': ['eth0', 'wlan0']}, 'select')
+    check('㌃c 尽力交付→时延积→多宿主端到端（sent 1.0 eth0）',
+          be == 'sent' and bp == 1.0 and mh == 'eth0',
+          f'effort={be} bdp={bp} mh={mh}')
+except Exception as ex:
+    check('㌃c 尽力交付→时延积→多宿主端到端（sent 1.0 eth0）',
+          False, str(ex)[:60])
+
+# ㌄ 目标1 深化：P 线数据结构/工具（有序字典/随机采样/字节编解码 经正式管线）
+p20_qs = {
+    "有序字典": "写一个有序字典单元（插入序）",
+    "随机采样": "写一个随机采样单元（无重复取样）",
+    "字节编解码": "写一个字节编解码单元（UTF-8 互转）",
+}
+p20_ok = 0
+for label, q in p20_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p20_ok += 1
+    check(f'㌄ {label} P线数据结构/工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌄b P线数据结构/工具三单元全部生成', p20_ok == 3, f'{p20_ok}/3')
+
+# ㌄c 端到端：有序字典→随机采样→字节编解码（[a,b] [1,3] b'甲'）
+r_od = domain_route("写一个有序字典单元（插入序）")
+r_rs = domain_route("写一个随机采样单元（无重复取样）")
+r_bc = domain_route("写一个字节编解码单元（UTF-8 互转）")
+try:
+    ns_od, ns_rs, ns_bc = {}, {}, {}
+    exec(r_od["code"], ns_od)
+    exec(r_rs["code"], ns_rs)
+    exec(r_bc["code"], ns_bc)
+    od = ns_od["ordered_dict"]({'a': 1, 'b': 2}, 'order')
+    rs = ns_rs["random_sample"]([1, 2, 3, 4], 2)
+    bc = ns_bc["bytes_codec"]('甲', 'encode')
+    check('㌄c 有序字典→随机采样→字节端到端（[a,b] [1,3] b 甲）',
+          od == ['a', 'b'] and rs == [1, 3] and bc == '甲'.encode('utf-8'),
+          f'order={od} sample={rs} bytes={bc}')
+except Exception as ex:
+    check('㌄c 有序字典→随机采样→字节端到端（[a,b] [1,3] b 甲）',
+          False, str(ex)[:60])
+
+# ㌅ 目标2 深化：分析/编译（基本块/支配树/中间表示 经正式管线）
+c21_qs = {
+    "基本块": "写一个基本块单元（跳转切分）",
+    "支配树": "写一个支配树单元（必经节点）",
+    "中间表示": "写一个中间表示单元（三地址码）",
+}
+c21_ok = 0
+for label, q in c21_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c21_ok += 1
+    check(f'㌅ {label} 分析/编译单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌅b 分析/编译三单元全部生成', c21_ok == 3, f'{c21_ok}/3')
+
+# ㌅c 端到端：基本块→支配树→中间表示（2块 {0:{0}} [('=',x,1,None)]）
+r_bb = domain_route("写一个基本块单元（跳转切分）")
+r_dm = domain_route("写一个支配树单元（必经节点）")
+r_ir = domain_route("写一个中间表示单元（三地址码）")
+try:
+    ns_bb, ns_dm, ns_ir = {}, {}, {}
+    exec(r_bb["code"], ns_bb)
+    exec(r_dm["code"], ns_dm)
+    exec(r_ir["code"], ns_ir)
+    bb = ns_bb["basic_blocks"]([('PUSH', 1), ('RETURN', None), ('PUSH', 2)])
+    dm = ns_dm["dominator_tree"]({0: []}, 0)
+    ir = ns_ir["to_ir"](('x', 1), 'assign')
+    check('㌅c 基本块→支配树→中间表示端到端（2块 {0:{0}} [(\'=\',x,1,None)]）',
+          len(bb) == 2 and dm == {0: {0}} and ir == [('=', 'x', 1, None)],
+          f'blocks={bb} dom={dm} ir={ir}')
+except Exception as ex:
+    check('㌅c 基本块→支配树→中间表示端到端（2块 {0:{0}} [(\'=\',x,1,None)]）',
+          False, str(ex)[:60])
+
+# ㌆ 目标6 深化：图算法（割点/独立集/桥检测 经正式管线）
+g30_qs = {
+    "割点": "写一个割点单元（移除不连通）",
+    "独立集": "写一个独立集单元（无邻接集合）",
+    "桥检测": "写一个桥检测单元（移除不连通边）",
+}
+g30_ok = 0
+for label, q in g30_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g30_ok += 1
+    check(f'㌆ {label} 图算法单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌆b 图算法三单元全部生成', g30_ok == 3, f'{g30_ok}/3')
+
+# ㌆c 算法端到端：割点→独立集→桥（[2] [0,2] [(2,3)]）
+r_ap = domain_route("写一个割点单元（移除不连通）")
+r_is = domain_route("写一个独立集单元（无邻接集合）")
+r_be = domain_route("写一个桥检测单元（移除不连通边）")
+try:
+    ns_ap, ns_is, ns_be = {}, {}, {}
+    exec(r_ap["code"], ns_ap)
+    exec(r_is["code"], ns_is)
+    exec(r_be["code"], ns_be)
+    ap = ns_ap["articulation_points"]({0: [1, 2], 1: [0, 2], 2: [0, 1, 3], 3: [2]})
+    iset = ns_is["independent_set"]({0: [1], 1: [0, 2], 2: [1]})
+    be = ns_be["bridge_edges"]({0: [1, 2], 1: [0, 2], 2: [0, 1, 3], 3: [2]})
+    check('㌆c 割点→独立集→桥端到端（[2] [0,2] [(2,3)]）',
+          ap == [2] and iset == [0, 2] and be == [(2, 3)],
+          f'ap={ap} iset={iset} bridge={be}')
+except Exception as ex:
+    check('㌆c 割点→独立集→桥端到端（[2] [0,2] [(2,3)]）',
+          False, str(ex)[:60])
+
+# ㌇ 目标1 深化：P 线工具/数据结构（字符串哈希/跳表/时间格式化 经正式管线）
+p21_qs = {
+    "字符串哈希": "写一个字符串哈希单元（加权取模）",
+    "跳表": "写一个跳表单元（有序加速）",
+    "时间格式化": "写一个时间格式化单元（占位符替换）",
+}
+p21_ok = 0
+for label, q in p21_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p21_ok += 1
+    check(f'㌇ {label} P线工具/数据结构单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌇b P线工具/数据结构三单元全部生成', p21_ok == 3, f'{p21_ok}/3')
+
+# ㌇c 端到端：哈希→跳表→时间格式化（98 a 2024-03-05）
+r_sh = domain_route("写一个字符串哈希单元（加权取模）")
+r_sl = domain_route("写一个跳表单元（有序加速）")
+r_tf = domain_route("写一个时间格式化单元（占位符替换）")
+try:
+    ns_sh, ns_sl, ns_tf = {}, {}, {}
+    exec(r_sh["code"], ns_sh)
+    exec(r_sl["code"], ns_sl)
+    exec(r_tf["code"], ns_tf)
+    sh = ns_sh["str_hash"]('abc')
+    sl = ns_sl["skiplist_ops"]({1: 'a'}, 'get', 1)
+    tf = ns_tf["time_format"]({'year': 2024, 'month': 3, 'day': 5}, '%Y-%m-%d')
+    check('㌇c 哈希→跳表→时间格式化端到端（98 a 2024-03-05）',
+          sh == 98 and sl == 'a' and tf == '2024-03-05',
+          f'hash={sh} skiplist={sl} fmt={tf}')
+except Exception as ex:
+    check('㌇c 哈希→跳表→时间格式化端到端（98 a 2024-03-05）',
+          False, str(ex)[:60])
+
+# ㌈ 目标2 深化：分析/编译优化（循环检测/指令调度/寄存器溢出 经正式管线）
+c22_qs = {
+    "循环检测": "写一个循环检测单元（三色标记）",
+    "指令调度": "写一个指令调度单元（依赖前移）",
+    "寄存器溢出": "写一个寄存器溢出单元（活跃超限）",
+}
+c22_ok = 0
+for label, q in c22_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c22_ok += 1
+    check(f'㌈ {label} 分析/编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌈b 分析/编译优化三单元全部生成', c22_ok == 3, f'{c22_ok}/3')
+
+# ㌈c 端到端：循环检测→指令调度→寄存器溢出（True 前移 [c]）
+r_cd = domain_route("写一个循环检测单元（三色标记）")
+r_is = domain_route("写一个指令调度单元（依赖前移）")
+r_sp = domain_route("写一个寄存器溢出单元（活跃超限）")
+try:
+    ns_cd, ns_is, ns_sp = {}, {}, {}
+    exec(r_cd["code"], ns_cd)
+    exec(r_is["code"], ns_is)
+    exec(r_sp["code"], ns_sp)
+    cd = ns_cd["cycle_detect"]({0: [1], 1: [0]})
+    isd = ns_is["schedule_insn"]([('+', 't1', 't2'), ('t1', '=', 'a')])
+    sp = ns_sp["spill_regs"](['a', 'b', 'c'], 2)
+    check('㌈c 循环检测→指令调度→溢出端到端（True 前移 [c]）',
+          cd is True and isd == [('t1', '=', 'a'), ('+', 't1', 't2')]
+          and sp == ['c'],
+          f'cycle={cd} sched={isd} spill={sp}')
+except Exception as ex:
+    check('㌈c 循环检测→指令调度→溢出端到端（True 前移 [c]）',
+          False, str(ex)[:60])
+
+# ㌉ 目标5 深化：浏览器机制（边框圆角/屏幕方向/空闲调度 经正式管线）
+b16_qs = {
+    "边框圆角": "写一个边框圆角单元（内点判定）",
+    "屏幕方向": "写一个屏幕方向单元（锁定切换）",
+    "空闲调度": "写一个空闲调度单元（低优先任务）",
+}
+b16_ok = 0
+for label, q in b16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b16_ok += 1
+    check(f'㌉ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌉b 浏览器机制三单元全部生成', b16_ok == 3, f'{b16_ok}/3')
+
+# ㌉c 机制端到端：圆角→屏幕方向→空闲调度（True locked executed）
+r_br = domain_route("写一个边框圆角单元（内点判定）")
+r_so = domain_route("写一个屏幕方向单元（锁定切换）")
+r_is = domain_route("写一个空闲调度单元（低优先任务）")
+try:
+    ns_br, ns_so, ns_is = {}, {}, {}
+    exec(r_br["code"], ns_br)
+    exec(r_so["code"], ns_so)
+    exec(r_is["code"], ns_is)
+    br = ns_br["border_radius"]((0, 0, 10, 10), 2, (5, 5))
+    so = ns_so["screen_orient"]({}, 'lock', 'landscape')
+    isd = ns_is["idle_schedule"]({'pending': 1}, 'run')
+    check('㌉c 圆角→屏幕方向→空闲调度端到端（True locked executed）',
+          br is True and so == 'locked' and isd == 'executed',
+          f'radius={br} orient={so} idle={isd}')
+except Exception as ex:
+    check('㌉c 圆角→屏幕方向→空闲调度端到端（True locked executed）',
+          False, str(ex)[:60])
+
+# ㌊ 目标7 深化：网络机制（RTT平滑/路由汇聚/序列号回绕 经正式管线）
+n20_qs = {
+    "RTT平滑": "写一个 RTT 平滑单元（EWMA 估值）",
+    "路由汇聚": "写一个路由汇聚单元（前缀合成）",
+    "序列号回绕": "写一个序列号回绕单元（TCP 序号）",
+}
+n20_ok = 0
+for label, q in n20_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n20_ok += 1
+    check(f'㌊ {label} 网络机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌊b 网络机制三单元全部生成', n20_ok == 3, f'{n20_ok}/3')
+
+# ㌊c 端到端：RTT→汇聚→回绕（112.5 192.168.0.0/16 True）
+r_rs = domain_route("写一个 RTT 平滑单元（EWMA 估值）")
+r_ru = domain_route("写一个路由汇聚单元（前缀合成）")
+r_sw = domain_route("写一个序列号回绕单元（TCP 序号）")
+try:
+    ns_rs, ns_ru, ns_sw = {}, {}, {}
+    exec(r_rs["code"], ns_rs)
+    exec(r_ru["code"], ns_ru)
+    exec(r_sw["code"], ns_sw)
+    rs = ns_rs["rtt_smooth"]({'rtt': 100.0}, 'sample', 200.0)
+    ru = ns_ru["route_summary"](['192.168.1.0/24', '192.168.2.0/24'])
+    sw = ns_sw["seq_wrap"]({}, 'compare', (1, 6), 8)
+    check('㌊c RTT→汇聚→回绕端到端（112.5 [192.168.0.0/16] True）',
+          rs == 112.5 and ru == ['192.168.0.0/16'] and sw is True,
+          f'rtt={rs} summary={ru} wrap={sw}')
+except Exception as ex:
+    check('㌊c RTT→汇聚→回绕端到端（112.5 [192.168.0.0/16] True）',
+          False, str(ex)[:60])
+
+# ㌋ 目标6 深化：图查询/算法/可视化（游标遍历/路径规划/节点大小 经正式管线）
+g31_qs = {
+    "游标遍历": "写一个游标遍历单元（分页遍历）",
+    "路径规划": "写一个路径规划单元（A* 搜索）",
+    "节点大小": "写一个节点大小单元（度映射）",
+}
+g31_ok = 0
+for label, q in g31_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g31_ok += 1
+    check(f'㌋ {label} 图查询/算法/可视化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌋b 图查询/算法/可视化三单元全部生成', g31_ok == 3, f'{g31_ok}/3')
+
+# ㌋c 端到端：游标→路径规划→节点大小（a [0,1,3] {0:4,1:20,2:4}）
+r_cs = domain_route("写一个游标遍历单元（分页遍历）")
+r_ps = domain_route("写一个路径规划单元（A* 搜索）")
+r_ns = domain_route("写一个节点大小单元（度映射）")
+try:
+    ns_cs, ns_ps, ns_ns = {}, {}, {}
+    exec(r_cs["code"], ns_cs)
+    exec(r_ps["code"], ns_ps)
+    exec(r_ns["code"], ns_ns)
+    cs = ns_cs["cursor_traverse"]({'nodes': ['a', 'b']}, 'next')
+    ps = ns_ps["a_star"]({0: [(1, 1), (2, 4)], 1: [(3, 1)], 2: [(3, 1)], 3: []},
+                         0, 3, lambda n: 0)
+    ns = ns_ns["node_size"]({0: [1], 1: [0, 2], 2: [1]})
+    check('㌋c 游标→路径规划→节点大小端到端（a [0,1,3] {0:4,1:20,2:4}）',
+          cs == 'a' and ps == [0, 1, 3] and ns == {0: 4, 1: 20, 2: 4},
+          f'cur={cs} plan={ps} size={ns}')
+except Exception as ex:
+    check('㌋c 游标→路径规划→节点大小端到端（a [0,1,3] {0:4,1:20,2:4}）',
+          False, str(ex)[:60])
+
+# ㌌ 目标1 深化：P 线工具（字符串对齐/顺序去重/滑动均值 经正式管线）
+p22_qs = {
+    "字符串对齐": "写一个字符串对齐单元（填充对齐）",
+    "顺序去重": "写一个顺序去重单元（保序去重）",
+    "滑动均值": "写一个滑动均值单元（窗口平滑）",
+}
+p22_ok = 0
+for label, q in p22_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p22_ok += 1
+    check(f'㌌ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌌b P线工具三单元全部生成', p22_ok == 3, f'{p22_ok}/3')
+
+# ㌌c 端到端：对齐→去重→滑动均值（  甲 [1,2,3] [1.5,2.5,3.5]）
+r_sa = domain_route("写一个字符串对齐单元（填充对齐）")
+r_dd = domain_route("写一个顺序去重单元（保序去重）")
+r_ma = domain_route("写一个滑动均值单元（窗口平滑）")
+try:
+    ns_sa, ns_dd, ns_ma = {}, {}, {}
+    exec(r_sa["code"], ns_sa)
+    exec(r_dd["code"], ns_dd)
+    exec(r_ma["code"], ns_ma)
+    sa = ns_sa["str_align"]('甲', 3, 'right')
+    dd = ns_dd["dedup_keep"]([1, 2, 1, 3, 2])
+    ma = ns_ma["moving_avg"]([1, 2, 3, 4], 2)
+    check('㌌c 对齐→去重→滑动均值端到端（  甲 [1,2,3] [1.5,2.5,3.5]）',
+          sa == '  甲' and dd == [1, 2, 3] and ma == [1.5, 2.5, 3.5],
+          f'align={sa} dedup={dd} avg={ma}')
+except Exception as ex:
+    check('㌌c 对齐→去重→滑动均值端到端（  甲 [1,2,3] [1.5,2.5,3.5]）',
+          False, str(ex)[:60])
+
+# ㌍ 目标2 深化：VM/分析/编译优化（数组操作/污点分析/边界检查消除 经正式管线）
+c23_qs = {
+    "数组操作": "写一个数组操作单元（索引读写）",
+    "污点分析": "写一个污点分析单元（数据流标记）",
+    "边界检查消除": "写一个边界检查消除单元（范围证明）",
+}
+c23_ok = 0
+for label, q in c23_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c23_ok += 1
+    check(f'㌍ {label} VM/分析/编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌍b VM/分析/编译优化三单元全部生成', c23_ok == 3, f'{c23_ok}/3')
+
+# ㌍c 端到端：数组→污点→边界检查（20 tainted eliminated）
+r_ao = domain_route("写一个数组操作单元（索引读写）")
+r_tp = domain_route("写一个污点分析单元（数据流标记）")
+r_be = domain_route("写一个边界检查消除单元（范围证明）")
+try:
+    ns_ao, ns_tp, ns_be = {}, {}, {}
+    exec(r_ao["code"], ns_ao)
+    exec(r_tp["code"], ns_tp)
+    exec(r_be["code"], ns_be)
+    ao = ns_ao["array_ops"]([10, 20], 'aget', 1)
+    tp = ns_tp["taint_prop"]({'taint': {'x'}}, 'propagate', 'y', 'x')
+    be = ns_be["bounds_elim"]({'safe': [('i', 0, 10)]}, 'eliminate', ('i', 0, 10))
+    check('㌍c 数组→污点→边界检查端到端（20 tainted eliminated）',
+          ao == 20 and tp == 'tainted' and be == 'eliminated',
+          f'arr={ao} taint={tp} bounds={be}')
+except Exception as ex:
+    check('㌍c 数组→污点→边界检查端到端（20 tainted eliminated）',
+          False, str(ex)[:60])
+
+# ㌎ 目标6 深化：图算法/查询（最大团/旅行商/标签约束 经正式管线）
+g32_qs = {
+    "最大团": "写一个最大团单元（完全子图）",
+    "旅行商": "写一个旅行商单元（最近邻环游）",
+    "标签约束": "写一个标签约束单元（边标签路径）",
+}
+g32_ok = 0
+for label, q in g32_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g32_ok += 1
+    check(f'㌎ {label} 图算法/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌎b 图算法/查询三单元全部生成', g32_ok == 3, f'{g32_ok}/3')
+
+# ㌎c 端到端：最大团→旅行商→标签约束（[0,1,2] [0,1,2] [(0,1),(1,3)]）
+r_mc = domain_route("写一个最大团单元（完全子图）")
+r_tp = domain_route("写一个旅行商单元（最近邻环游）")
+r_lp = domain_route("写一个标签约束单元（边标签路径）")
+try:
+    ns_mc, ns_tp, ns_lp = {}, {}, {}
+    exec(r_mc["code"], ns_mc)
+    exec(r_tp["code"], ns_tp)
+    exec(r_lp["code"], ns_lp)
+    mc = ns_mc["max_clique"]({0: [1, 2], 1: [0, 2], 2: [0, 1]})
+    tp = ns_tp["tsp_greedy"]({0: [(1, 1), (2, 5)], 1: [(0, 1), (2, 2)], 2: [(0, 5), (1, 2)]})
+    lp = ns_lp["label_path"]({0: [(1, '友'), (2, '师')], 1: [(3, '友')], 2: [(3, '亲')], 3: []},
+                             0, 3, {}, '友')
+    check('㌎c 最大团→旅行商→标签约束端到端（[0,1,2] [0,1,2] [(0,1),(1,3)]）',
+          mc == [0, 1, 2] and tp == [0, 1, 2] and lp == [(0, 1), (1, 3)],
+          f'clique={mc} tsp={tp} label={lp}')
+except Exception as ex:
+    check('㌎c 最大团→旅行商→标签约束端到端（[0,1,2] [0,1,2] [(0,1),(1,3)]）',
+          False, str(ex)[:60])
+
+# ㌏ 目标7 深化：网络工程（漏桶限流/报文调度/链路利用率 经正式管线）
+n21_qs = {
+    "漏桶限流": "写一个漏桶限流单元（匀速漏出）",
+    "报文调度": "写一个报文调度单元（加权公平）",
+    "链路利用率": "写一个链路利用率单元（占用采样）",
+}
+n21_ok = 0
+for label, q in n21_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n21_ok += 1
+    check(f'㌏ {label} 网络工程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌏b 网络工程三单元全部生成', n21_ok == 3, f'{n21_ok}/3')
+
+# ㌏c 端到端：漏桶→调度→利用率（True ('a',1) 0.5）
+r_lb = domain_route("写一个漏桶限流单元（匀速漏出）")
+r_wf = domain_route("写一个报文调度单元（加权公平）")
+r_lu = domain_route("写一个链路利用率单元（占用采样）")
+try:
+    ns_lb, ns_wf, ns_lu = {}, {}, {}
+    exec(r_lb["code"], ns_lb)
+    exec(r_wf["code"], ns_wf)
+    exec(r_lu["code"], ns_lu)
+    lb = ns_lb["leaky_bucket"]({'size': 2}, 'fill')
+    wf = ns_wf["wfq_schedule"]({'a': [1], 'b': [2]}, 'dequeue', {'a': 3, 'b': 1})
+    lu = ns_lu["link_util"]({}, 'sample', 50, 100)
+    check('㌏c 漏桶→调度→利用率端到端（True (\'a\',1) 0.5）',
+          lb is True and wf == ('a', 1) and lu == 0.5,
+          f'leak={lb} wfq={wf} util={lu}')
+except Exception as ex:
+    check('㌏c 漏桶→调度→利用率端到端（True (\'a\',1) 0.5）',
+          False, str(ex)[:60])
+
+# ㌐ 目标7 深化：网络机制（带宽分配/连接迁移/重传统计 经正式管线）
+n22_qs = {
+    "带宽分配": "写一个带宽分配单元（比例公平）",
+    "连接迁移": "写一个连接迁移单元（端点切换）",
+    "重传统计": "写一个重传统计单元（重传率）",
+}
+n22_ok = 0
+for label, q in n22_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n22_ok += 1
+    check(f'㌐ {label} 网络机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌐b 网络机制三单元全部生成', n22_ok == 3, f'{n22_ok}/3')
+
+# ㌐c 端到端：带宽分配→连接迁移→重传统计（{a:75,b:25} 10.0.0.2 0.2）
+r_bw = domain_route("写一个带宽分配单元（比例公平）")
+r_cm = domain_route("写一个连接迁移单元（端点切换）")
+r_rs = domain_route("写一个重传统计单元（重传率）")
+try:
+    ns_bw, ns_cm, ns_rs = {}, {}, {}
+    exec(r_bw["code"], ns_bw)
+    exec(r_cm["code"], ns_cm)
+    exec(r_rs["code"], ns_rs)
+    bw = ns_bw["bw_alloc"](100, {'a': 3, 'b': 1})
+    cm = ns_cm["conn_migrate"]({}, 'migrate', '10.0.0.2')
+    rs = ns_rs["retrans_stats"]({'sent': 10, 'retx': {1, 2}}, 'rate')
+    check('㌐c 带宽分配→连接迁移→重传统计端到端（{a:75,b:25} 10.0.0.2 0.2）',
+          bw == {'a': 75.0, 'b': 25.0} and cm == '10.0.0.2' and rs == 0.2,
+          f'bw={bw} mig={cm} retx={rs}')
+except Exception as ex:
+    check('㌐c 带宽分配→连接迁移→重传统计端到端（{a:75,b:25} 10.0.0.2 0.2）',
+          False, str(ex)[:60])
+
+# ㌑ 目标1 深化：P 线工具（行程压缩/位掩码/众数统计 经正式管线）
+p23_qs = {
+    "行程压缩": "写一个行程压缩单元（RLE 编解码）",
+    "位掩码": "写一个位掩码单元（位标志操作）",
+    "众数统计": "写一个众数统计单元（最频繁元素）",
+}
+p23_ok = 0
+for label, q in p23_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p23_ok += 1
+    check(f'㌑ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌑b P线工具三单元全部生成', p23_ok == 3, f'{p23_ok}/3')
+
+# ㌑c 端到端：行程→位掩码→众数（[(\'a\',3),(\'b\',2)] 4 2）
+r_rl = domain_route("写一个行程压缩单元（RLE 编解码）")
+r_bm = domain_route("写一个位掩码单元（位标志操作）")
+r_mc = domain_route("写一个众数统计单元（最频繁元素）")
+try:
+    ns_rl, ns_bm, ns_mc = {}, {}, {}
+    exec(r_rl["code"], ns_rl)
+    exec(r_bm["code"], ns_bm)
+    exec(r_mc["code"], ns_mc)
+    rl = ns_rl["rle_codec"]('aaabbc', 'encode')
+    bm = ns_bm["bitmask_ops"](0, 'set', 2)
+    mc = ns_mc["mode_count"]([1, 2, 2, 3])
+    check('㌑c 行程→位掩码→众数端到端（[(\'a\',3),(\'b\',2),(\'c\',1)] 4 2）',
+          rl == [('a', 3), ('b', 2), ('c', 1)] and bm == 4 and mc == 2,
+          f'rle={rl} mask={bm} mode={mc}')
+except Exception as ex:
+    check('㌑c 行程→位掩码→众数端到端（[(\'a\',3),(\'b\',2),(\'c\',1)] 4 2）',
+          False, str(ex)[:60])
+
+# ㌒ 目标1 深化：P 线工具（分位数/文本分词/笛卡尔积 经正式管线）
+p24_qs = {
+    "分位数": "写一个分位数单元（百分位插值）",
+    "文本分词": "写一个文本分词单元（token 分割）",
+    "笛卡尔积": "写一个笛卡尔积单元（全组合）",
+}
+p24_ok = 0
+for label, q in p24_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p24_ok += 1
+    check(f'㌒ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌒b P线工具三单元全部生成', p24_ok == 3, f'{p24_ok}/3')
+
+# ㌒c 端到端：分位数→文本分词→笛卡尔积（2.5 [hello,world] [(1,a),(1,b),(2,a),(2,b)]）
+r_pc = domain_route("写一个分位数单元（百分位插值）")
+r_tk = domain_route("写一个文本分词单元（token 分割）")
+r_cp = domain_route("写一个笛卡尔积单元（全组合）")
+try:
+    ns_pc, ns_tk, ns_cp = {}, {}, {}
+    exec(r_pc["code"], ns_pc)
+    exec(r_tk["code"], ns_tk)
+    exec(r_cp["code"], ns_cp)
+    pc = ns_pc["percentile"]([1, 2, 3, 4], 50)
+    tk = ns_tk["tokenize_text"]('Hello, World!')
+    cp = ns_cp["cartesian_product"]([1, 2], ['a', 'b'])
+    check('㌒c 分位数→分词→笛卡尔积端到端（2.5 [hello,world] 4组合）',
+          pc == 2.5 and tk == ['hello', 'world']
+          and cp == [(1, 'a'), (1, 'b'), (2, 'a'), (2, 'b')],
+          f'pctl={pc} tok={tk} cart={cp}')
+except Exception as ex:
+    check('㌒c 分位数→分词→笛卡尔积端到端（2.5 [hello,world] 4组合）',
+          False, str(ex)[:60])
+
+# ㌓ 目标5 深化：浏览器能力（摄像头/蓝牙扫描/传感器 经正式管线）
+b17_qs = {
+    "摄像头": "写一个摄像头单元（媒体流启停）",
+    "蓝牙扫描": "写一个蓝牙扫描单元（设备发现）",
+    "传感器": "写一个传感器单元（读数记录）",
+}
+b17_ok = 0
+for label, q in b17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b17_ok += 1
+    check(f'㌓ {label} 浏览器能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌓b 浏览器能力三单元全部生成', b17_ok == 3, f'{b17_ok}/3')
+
+# ㌓c 端到端：摄像头→蓝牙→传感器（live connected 1.5）
+r_cm = domain_route("写一个摄像头单元（媒体流启停）")
+r_bs = domain_route("写一个蓝牙扫描单元（设备发现）")
+r_sn = domain_route("写一个传感器单元（读数记录）")
+try:
+    ns_cm, ns_bs, ns_sn = {}, {}, {}
+    exec(r_cm["code"], ns_cm)
+    exec(r_bs["code"], ns_bs)
+    exec(r_sn["code"], ns_sn)
+    st = {}
+    cm_req = ns_cm["camera_ops"](st, 'request')
+    cm = ns_cm["camera_ops"](st, 'start')
+    bs = ns_bs["bluetooth_scan"]({'devices': ['d1']}, 'connect', 'd1')
+    sn = ns_sn["sensor_ops"]({'x': [1.0, 2.0]}, 'avg', 'x')
+    check('㌓c 摄像头→蓝牙→传感器端到端（granted/live connected 1.5）',
+          cm_req == 'granted' and cm == 'live' and bs == 'connected' and sn == 1.5,
+          f'cam={cm_req}/{cm} bt={bs} sens={sn}')
+except Exception as ex:
+    check('㌓c 摄像头→蓝牙→传感器端到端（granted/live connected 1.5）',
+          False, str(ex)[:60])
+
+# ㌔ 目标4 深化：OS 机制（优先级继承/内存池/稀疏文件 经正式管线）
+o14_qs = {
+    "优先级继承": "写一个优先级继承单元（持锁提权）",
+    "内存池": "写一个内存池单元（固定块分配）",
+    "稀疏文件": "写一个稀疏文件单元（空洞零填充）",
+}
+o14_ok = 0
+for label, q in o14_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o14_ok += 1
+    check(f'㌔ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌔b OS机制三单元全部生成', o14_ok == 3, f'{o14_ok}/3')
+
+# ㌔c 端到端：优先级继承→内存池→稀疏文件（8 2 abc）
+r_pi = domain_route("写一个优先级继承单元（持锁提权）")
+r_pl = domain_route("写一个内存池单元（固定块分配）")
+r_sf = domain_route("写一个稀疏文件单元（空洞零填充）")
+try:
+    ns_pi, ns_pl, ns_sf = {}, {}, {}
+    exec(r_pi["code"], ns_pi)
+    exec(r_pl["code"], ns_pl)
+    exec(r_sf["code"], ns_sf)
+    pi = ns_pi["prio_inherit"]({'orig': 2, 'waiting': 8}, 'inherit')
+    pl = ns_pl["pool_alloc"]({'free': [1, 2]}, 'alloc', None)
+    sf = ns_sf["sparse_file"]({'blocks': {10: 'abc'}}, 'read', 10, 'abc')
+    check('㌔c 优先级继承→内存池→稀疏文件端到端（8 2 abc）',
+          pi == 8 and pl == 2 and sf == 'abc',
+          f'prio={pi} pool={pl} sparse={sf}')
+except Exception as ex:
+    check('㌔c 优先级继承→内存池→稀疏文件端到端（8 2 abc）',
+          False, str(ex)[:60])
+
+# ㌕ 目标4 深化：OS 机制（碎片整理/段式管理/时钟节拍 经正式管线）
+o15_qs = {
+    "碎片整理": "写一个碎片整理单元（空洞压实）",
+    "段式管理": "写一个段式管理单元（基址限长）",
+    "时钟节拍": "写一个时钟节拍单元（定时器推进）",
+}
+o15_ok = 0
+for label, q in o15_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o15_ok += 1
+    check(f'㌕ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌕b OS机制三单元全部生成', o15_ok == 3, f'{o15_ok}/3')
+
+# ㌕c 端到端：碎片整理→段式→时钟（[a,b] 130 2.0）
+r_dg = domain_route("写一个碎片整理单元（空洞压实）")
+r_sg = domain_route("写一个段式管理单元（基址限长）")
+r_tk = domain_route("写一个时钟节拍单元（定时器推进）")
+try:
+    ns_dg, ns_sg, ns_tk = {}, {}, {}
+    exec(r_dg["code"], ns_dg)
+    exec(r_sg["code"], ns_sg)
+    exec(r_tk["code"], ns_tk)
+    dg = ns_dg["defrag"](['a', None, 'b'], 'compact')
+    sg = ns_sg["segment_map"]({'segs': {'code': (100, 50)}}, 'access', 'code', 30)
+    tk = ns_tk["timer_tick"]({'t': 200, 'hz': 100}, 'elapsed')
+    check('㌕c 碎片整理→段式→时钟端到端（[a,b] 130 2.0）',
+          dg == ['a', 'b'] and sg == 130 and tk == 2.0,
+          f'defrag={dg} seg={sg} tick={tk}')
+except Exception as ex:
+    check('㌕c 碎片整理→段式→时钟端到端（[a,b] 130 2.0）',
+          False, str(ex)[:60])
+
+# ㌖ 目标5 深化：浏览器能力（语音合成/语音识别/扫码 经正式管线）
+b18_qs = {
+    "语音合成": "写一个语音合成单元（文本朗读）",
+    "语音识别": "写一个语音识别单元（识别结果）",
+    "扫码": "写一个扫码单元（条码检测）",
+}
+b18_ok = 0
+for label, q in b18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b18_ok += 1
+    check(f'㌖ {label} 浏览器能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌖b 浏览器能力三单元全部生成', b18_ok == 3, f'{b18_ok}/3')
+
+# ㌖c 端到端：语音合成→语音识别→扫码（speaking 你好 12345）
+r_ss = domain_route("写一个语音合成单元（文本朗读）")
+r_sr = domain_route("写一个语音识别单元（识别结果）")
+r_bs = domain_route("写一个扫码单元（条码检测）")
+try:
+    ns_ss, ns_sr, ns_bs = {}, {}, {}
+    exec(r_ss["code"], ns_ss)
+    exec(r_sr["code"], ns_sr)
+    exec(r_bs["code"], ns_bs)
+    ss = ns_ss["speech_synth"]({}, 'speak', '你好')
+    sr = ns_sr["speech_recog"]({}, 'result', '你好')
+    bs = ns_bs["barcode_scan"]({}, 'scan', '12345')
+    check('㌖c 语音合成→语音识别→扫码端到端（speaking 你好 12345）',
+          ss == 'speaking' and sr == '你好' and bs == '12345',
+          f'synth={ss} recog={sr} scan={bs}')
+except Exception as ex:
+    check('㌖c 语音合成→语音识别→扫码端到端（speaking 你好 12345）',
+          False, str(ex)[:60])
+
+# ㌗ 目标5 深化：浏览器能力（画中画/屏幕捕获/文件系统访问 经正式管线）
+b19_qs = {
+    "画中画": "写一个画中画单元（窗口开关）",
+    "屏幕捕获": "写一个屏幕捕获单元（选源共享）",
+    "文件系统访问": "写一个文件系统访问单元（File System 读写）",
+}
+b19_ok = 0
+for label, q in b19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b19_ok += 1
+    check(f'㌗ {label} 浏览器能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌗b 浏览器能力三单元全部生成', b19_ok == 3, f'{b19_ok}/3')
+
+# ㌗c 端到端：画中画→屏幕捕获→文件系统（opened granted 内容）
+r_pp = domain_route("写一个画中画单元（窗口开关）")
+r_sc = domain_route("写一个屏幕捕获单元（选源共享）")
+r_fa = domain_route("写一个文件系统访问单元（File System 读写）")
+try:
+    ns_pp, ns_sc, ns_fa = {}, {}, {}
+    exec(r_pp["code"], ns_pp)
+    exec(r_sc["code"], ns_sc)
+    exec(r_fa["code"], ns_fa)
+    pp = ns_pp["pip_ops"]({}, 'open')
+    st = {}
+    sc_g = ns_sc["screen_capture"](st, 'request')
+    sc = ns_sc["screen_capture"](st, 'select', 'screen')
+    fa = ns_fa["fs_access"]({'files': {'a.txt': '内容'}}, 'read', 'a.txt')
+    check('㌗c 画中画→屏幕捕获→文件系统端到端（opened granted/屏幕 内容）',
+          pp == 'opened' and sc_g == 'granted' and sc == 'screen' and fa == '内容',
+          f'pip={pp} cap={sc_g}/{sc} fs={fa}')
+except Exception as ex:
+    check('㌗c 画中画→屏幕捕获→文件系统端到端（opened granted/屏幕 内容）',
+          False, str(ex)[:60])
+
+# ㌘ 目标5 深化：浏览器能力（网页共享/唤醒锁/窗口管理 经正式管线）
+b20_qs = {
+    "网页共享": "写一个网页共享单元（内容分享）",
+    "唤醒锁": "写一个唤醒锁单元（屏幕保持）",
+    "窗口管理": "写一个窗口管理单元（多窗口操作）",
+}
+b20_ok = 0
+for label, q in b20_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b20_ok += 1
+    check(f'㌘ {label} 浏览器能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌘b 浏览器能力三单元全部生成', b20_ok == 3, f'{b20_ok}/3')
+
+# ㌘c 端到端：网页共享→唤醒锁→窗口管理（shared held moved）
+r_ws = domain_route("写一个网页共享单元（内容分享）")
+r_wl = domain_route("写一个唤醒锁单元（屏幕保持）")
+r_wm = domain_route("写一个窗口管理单元（多窗口操作）")
+try:
+    ns_ws, ns_wl, ns_wm = {}, {}, {}
+    exec(r_ws["code"], ns_ws)
+    exec(r_wl["code"], ns_wl)
+    exec(r_wm["code"], ns_wm)
+    ws = ns_ws["web_share"]({}, 'share', {'title': 't'})
+    wl = ns_wl["wake_lock"]({}, 'request')
+    wm = ns_wm["window_mgmt"]({'wins': {'w1': {'x': 0, 'y': 0}}}, 'move', 'w1')
+    check('㌘c 网页共享→唤醒锁→窗口管理端到端（shared held moved）',
+          ws == 'shared' and wl == 'held' and wm == 'moved',
+          f'share={ws} wake={wl} win={wm}')
+except Exception as ex:
+    check('㌘c 网页共享→唤醒锁→窗口管理端到端（shared held moved）',
+          False, str(ex)[:60])
+
+# ㌙ 目标5 深化：浏览器 AI 能力（翻译/语言检测/文本摘要 经正式管线）
+b21_qs = {
+    "翻译": "写一个翻译单元（文本翻译）",
+    "语言检测": "写一个语言检测单元（语种识别）",
+    "文本摘要": "写一个文本摘要单元（要点提取）",
+}
+b21_ok = 0
+for label, q in b21_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b21_ok += 1
+    check(f'㌙ {label} 浏览器AI能力单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌙b 浏览器AI能力三单元全部生成', b21_ok == 3, f'{b21_ok}/3')
+
+# ㌙c 端到端：翻译→语言检测→摘要（en:你好 zh 截断）
+r_tr = domain_route("写一个翻译单元（文本翻译）")
+r_ld = domain_route("写一个语言检测单元（语种识别）")
+r_sm = domain_route("写一个文本摘要单元（要点提取）")
+try:
+    ns_tr, ns_ld, ns_sm = {}, {}, {}
+    exec(r_tr["code"], ns_tr)
+    exec(r_ld["code"], ns_ld)
+    exec(r_sm["code"], ns_sm)
+    tr = ns_tr["translate_api"]({}, 'translate', '你好', 'en')
+    ld = ns_ld["lang_detect"]({}, 'detect', '你好世界')
+    sm = ns_sm["summarizer"]({}, 'summarize', '短')
+    check('㌙c 翻译→语言检测→摘要端到端（en:你好 zh 短）',
+          tr == 'en:你好' and ld == 'zh' and sm == '短',
+          f'trans={tr} detect={ld} sum={sm}')
+except Exception as ex:
+    check('㌙c 翻译→语言检测→摘要端到端（en:你好 zh 短）',
+          False, str(ex)[:60])
+
+# ㌚ 目标5 深化：浏览器 API（联系人/形状检测/存储配额 经正式管线）
+b22_qs = {
+    "联系人": "写一个联系人单元（选择列表）",
+    "形状检测": "写一个形状检测单元（人脸条码）",
+    "存储配额": "写一个存储配额单元（用量估算）",
+}
+b22_ok = 0
+for label, q in b22_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b22_ok += 1
+    check(f'㌚ {label} 浏览器API单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌚b 浏览器API三单元全部生成', b22_ok == 3, f'{b22_ok}/3')
+
+# ㌚c 端到端：联系人→形状检测→存储配额（张三 detected 50.0）
+r_cp = domain_route("写一个联系人单元（选择列表）")
+r_sd = domain_route("写一个形状检测单元（人脸条码）")
+r_sq = domain_route("写一个存储配额单元（用量估算）")
+try:
+    ns_cp, ns_sd, ns_sq = {}, {}, {}
+    exec(r_cp["code"], ns_cp)
+    exec(r_sd["code"], ns_sd)
+    exec(r_sq["code"], ns_sq)
+    cp = ns_cp["contact_pick"]({}, 'pick', '张三')
+    sd = ns_sd["shape_detect"]({}, 'detect', 'face', 2)
+    sq = ns_sq["storage_quota"]({'used': 50, 'quota': 100}, 'percent')
+    check('㌚c 联系人→形状检测→存储配额端到端（张三 detected 50.0）',
+          cp == '张三' and sd == 'detected' and sq == 50.0,
+          f'contact={cp} shape={sd} quota={sq}')
+except Exception as ex:
+    check('㌚c 联系人→形状检测→存储配额端到端（张三 detected 50.0）',
+          False, str(ex)[:60])
+
+# ㌛ 目标5 深化：浏览器 AI（内置聊天/图像生成/提示词 经正式管线）
+b23_qs = {
+    "内置聊天": "写一个内置聊天单元（对话回复）",
+    "图像生成": "写一个图像生成单元（文本生图）",
+    "提示词": "写一个提示词单元（读写清除）",
+}
+b23_ok = 0
+for label, q in b23_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b23_ok += 1
+    check(f'㌛ {label} 浏览器AI单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌛b 浏览器AI三单元全部生成', b23_ok == 3, f'{b23_ok}/3')
+
+# ㌛c 端到端：内置聊天→图像生成→提示词（你好！ generated 你好）
+r_ac = domain_route("写一个内置聊天单元（对话回复）")
+r_ig = domain_route("写一个图像生成单元（文本生图）")
+r_pa = domain_route("写一个提示词单元（读写清除）")
+try:
+    ns_ac, ns_ig, ns_pa = {}, {}, {}
+    exec(r_ac["code"], ns_ac)
+    exec(r_ig["code"], ns_ig)
+    exec(r_pa["code"], ns_pa)
+    ac = ns_ac["ai_chat"]({}, 'send', '你好', '你好！')
+    ig = ns_ig["image_gen"]({}, 'generate', '山水画')
+    pa = ns_pa["prompt_api"]({'prompts': {'greet': '你好'}}, 'get', 'greet')
+    check('㌛c 内置聊天→图像生成→提示词端到端（你好！ generated 你好）',
+          ac == '你好！' and ig == 'generated' and pa == '你好',
+          f'chat={ac} img={ig} prompt={pa}')
+except Exception as ex:
+    check('㌛c 内置聊天→图像生成→提示词端到端（你好！ generated 你好）',
+          False, str(ex)[:60])
+
+# ㌜ 目标5 深化：浏览器 API（游戏手柄/虚拟键盘/音频上下文 经正式管线）
+b24_qs = {
+    "游戏手柄": "写一个游戏手柄单元（按键摇杆）",
+    "虚拟键盘": "写一个虚拟键盘单元（显隐切换）",
+    "音频上下文": "写一个音频上下文单元（振荡器）",
+}
+b24_ok = 0
+for label, q in b24_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b24_ok += 1
+    check(f'㌜ {label} 浏览器API单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌜b 浏览器API三单元全部生成', b24_ok == 3, f'{b24_ok}/3')
+
+# ㌜c 端到端：手柄→键盘→音频（connected shown 440）
+r_gp = domain_route("写一个游戏手柄单元（按键摇杆）")
+r_vk = domain_route("写一个虚拟键盘单元（显隐切换）")
+r_ac = domain_route("写一个音频上下文单元（振荡器）")
+try:
+    ns_gp, ns_vk, ns_ac = {}, {}, {}
+    exec(r_gp["code"], ns_gp)
+    exec(r_vk["code"], ns_vk)
+    exec(r_ac["code"], ns_ac)
+    gp = ns_gp["gamepad_ops"]({}, 'connect')
+    vk = ns_vk["vkeyboard"]({}, 'show')
+    ac = ns_ac["audio_ctx"]({}, 'osc', 440)
+    check('㌜c 手柄→键盘→音频端到端（connected shown 440）',
+          gp == 'connected' and vk == 'shown' and ac == 440,
+          f'pad={gp} vk={vk} audio={ac}')
+except Exception as ex:
+    check('㌜c 手柄→键盘→音频端到端（connected shown 440）',
+          False, str(ex)[:60])
+
+# ㌝ 目标2 深化：词法/语法/后端（字符类别/括号匹配/指令选择 经正式管线）
+c24_qs = {
+    "字符类别": "写一个字符类别单元（词法分类）",
+    "括号匹配": "写一个括号匹配单元（嵌套平衡）",
+    "指令选择": "写一个指令选择单元（IR 映射）",
+}
+c24_ok = 0
+for label, q in c24_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c24_ok += 1
+    check(f'㌝ {label} 词法/语法/后端单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌝b 词法/语法/后端三单元全部生成', c24_ok == 3, f'{c24_ok}/3')
+
+# ㌝c 端到端：字符类别→括号匹配→指令选择（letter True [ADD,SUB,MUL]）
+r_cc = domain_route("写一个字符类别单元（词法分类）")
+r_bb = domain_route("写一个括号匹配单元（嵌套平衡）")
+r_is = domain_route("写一个指令选择单元（IR 映射）")
+try:
+    ns_cc, ns_bb, ns_is = {}, {}, {}
+    exec(r_cc["code"], ns_cc)
+    exec(r_bb["code"], ns_bb)
+    exec(r_is["code"], ns_is)
+    cc = ns_cc["char_class"]('a')
+    bb = ns_bb["bracket_balance"]('([)]')
+    isd = ns_is["insn_select"]('+-*')
+    check('㌝c 字符类别→括号匹配→指令选择端到端（letter False [ADD,SUB,MUL]）',
+          cc == 'letter' and bb is False and isd == ['ADD', 'SUB', 'MUL'],
+          f'class={cc} balance={bb} sel={isd}')
+except Exception as ex:
+    check('㌝c 字符类别→括号匹配→指令选择端到端（letter False [ADD,SUB,MUL]）',
+          False, str(ex)[:60])
+
+# ㌞ 目标1 深化：P 线工具（列表分块/嵌套扁平化/循环轮转 经正式管线）
+p25_qs = {
+    "列表分块": "写一个列表分块单元（分批处理）",
+    "嵌套扁平化": "写一个嵌套扁平化单元（递归展开）",
+    "循环轮转": "写一个循环轮转单元（右移旋转）",
+}
+p25_ok = 0
+for label, q in p25_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p25_ok += 1
+    check(f'㌞ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌞b P线工具三单元全部生成', p25_ok == 3, f'{p25_ok}/3')
+
+# ㌞c 端到端：分块→扁平化→轮转（[[1,2],[3,4],[5]] [1,2,3,4] [4,1,2,3]）
+r_ck = domain_route("写一个列表分块单元（分批处理）")
+r_fl = domain_route("写一个嵌套扁平化单元（递归展开）")
+r_rt = domain_route("写一个循环轮转单元（右移旋转）")
+try:
+    ns_ck, ns_fl, ns_rt = {}, {}, {}
+    exec(r_ck["code"], ns_ck)
+    exec(r_fl["code"], ns_fl)
+    exec(r_rt["code"], ns_rt)
+    ck = ns_ck["chunk_list"]([1, 2, 3, 4, 5], 2)
+    fl = ns_fl["flatten"]([[1, 2], [3, [4]]])
+    rt = ns_rt["rotate"]([1, 2, 3, 4], 1)
+    check('㌞c 分块→扁平化→轮转端到端（[[1,2],[3,4],[5]] [1,2,3,4] [4,1,2,3]）',
+          ck == [[1, 2], [3, 4], [5]] and fl == [1, 2, 3, 4]
+          and rt == [4, 1, 2, 3],
+          f'chunk={ck} flat={fl} rot={rt}')
+except Exception as ex:
+    check('㌞c 分块→扁平化→轮转端到端（[[1,2],[3,4],[5]] [1,2,3,4] [4,1,2,3]）',
+          False, str(ex)[:60])
+
+# ㌟ 目标6 深化：图算法/查询（度序列/生成树计数/路径计数 经正式管线）
+g33_qs = {
+    "度序列": "写一个度序列单元（可图化判定）",
+    "生成树计数": "写一个生成树计数单元（矩阵树）",
+    "路径计数": "写一个路径计数单元（简单路径）",
+}
+g33_ok = 0
+for label, q in g33_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g33_ok += 1
+    check(f'㌟ {label} 图算法/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌟b 图算法/查询三单元全部生成', g33_ok == 3, f'{g33_ok}/3')
+
+# ㌟c 端到端：度序列→生成树→路径计数（True 3 2）
+r_ds = domain_route("写一个度序列单元（可图化判定）")
+r_st = domain_route("写一个生成树计数单元（矩阵树）")
+r_cp = domain_route("写一个路径计数单元（简单路径）")
+try:
+    ns_ds, ns_st, ns_cp = {}, {}, {}
+    exec(r_ds["code"], ns_ds)
+    exec(r_st["code"], ns_st)
+    exec(r_cp["code"], ns_cp)
+    ds = ns_ds["graphic_sequence"]([3, 3, 3, 3])
+    st = ns_st["spanning_trees"]({0: [1, 2], 1: [0, 2], 2: [0, 1]})
+    cp = ns_cp["count_paths"]({0: [1, 2], 1: [2], 2: []}, 0, 2, 4)
+    check('㌟c 度序列→生成树→路径计数端到端（True 3 2）',
+          ds is True and st == 3 and cp == 2,
+          f'graphic={ds} trees={st} paths={cp}')
+except Exception as ex:
+    check('㌟c 度序列→生成树→路径计数端到端（True 3 2）',
+          False, str(ex)[:60])
+
+# ㌠ 目标4 深化：OS 机制（孤儿进程/内存碎片/多核均衡 经正式管线）
+o16_qs = {
+    "孤儿进程": "写一个孤儿进程单元（父亡收养）",
+    "内存碎片": "写一个内存碎片单元（空洞度量）",
+    "多核均衡": "写一个多核均衡单元（最小负载核）",
+}
+o16_ok = 0
+for label, q in o16_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o16_ok += 1
+    check(f'㌠ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌠b OS机制三单元全部生成', o16_ok == 3, f'{o16_ok}/3')
+
+# ㌠c 端到端：孤儿进程→内存碎片→多核均衡（5 0.3 1）
+r_op = domain_route("写一个孤儿进程单元（父亡收养）")
+r_mf = domain_route("写一个内存碎片单元（空洞度量）")
+r_mc = domain_route("写一个多核均衡单元（最小负载核）")
+try:
+    ns_op, ns_mf, ns_mc = {}, {}, {}
+    exec(r_op["code"], ns_op)
+    exec(r_mf["code"], ns_mf)
+    exec(r_mc["code"], ns_mc)
+    op = ns_op["orphan_proc"]({}, 'adopt', 5)
+    mf = ns_mf["mem_frag"]({'holes': [10, 20], 'total': 100}, 'rate')
+    mc = ns_mc["multi_core"]({'cores': [3, 1]}, 'assign', 2)
+    check('㌠c 孤儿进程→内存碎片→多核均衡端到端（5 0.3 1）',
+          op == 5 and mf == 0.3 and mc == 1,
+          f'orphan={op} frag={mf} core={mc}')
+except Exception as ex:
+    check('㌠c 孤儿进程→内存碎片→多核均衡端到端（5 0.3 1）',
+          False, str(ex)[:60])
+
+# ㌡ 目标7 深化：网络管理（路由衰减/流分类/数据包采样 经正式管线）
+n23_qs = {
+    "路由衰减": "写一个路由衰减单元（抖动抑制）",
+    "流分类": "写一个流分类单元（端口识别）",
+    "数据包采样": "写一个数据包采样单元（按率抽取）",
+}
+n23_ok = 0
+for label, q in n23_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n23_ok += 1
+    check(f'㌡ {label} 网络管理单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌡b 网络管理三单元全部生成', n23_ok == 3, f'{n23_ok}/3')
+
+# ㌡c 端到端：路由衰减→流分类→数据包采样（True web True）
+r_rd = domain_route("写一个路由衰减单元（抖动抑制）")
+r_fc = domain_route("写一个流分类单元（端口识别）")
+r_ps = domain_route("写一个数据包采样单元（按率抽取）")
+try:
+    ns_rd, ns_fc, ns_ps = {}, {}, {}
+    exec(r_rd["code"], ns_rd)
+    exec(r_fc["code"], ns_fc)
+    exec(r_ps["code"], ns_ps)
+    rd = ns_rd["route_damp"]({'flaps': {'r1': 5}}, 'damped', 'r1', 4)
+    fc = ns_fc["flow_class"]({}, 'classify', {'port': 80})
+    ps = ns_ps["pkt_sampling"]({}, 'sample', 1)
+    check('㌡c 路由衰减→流分类→采样端到端（True web True）',
+          rd is True and fc == 'web' and ps is True,
+          f'damp={rd} cls={fc} samp={ps}')
+except Exception as ex:
+    check('㌡c 路由衰减→流分类→采样端到端（True web True）',
+          False, str(ex)[:60])
+
+# ㌢ 目标2 深化：分析/编译/字节码（循环开销/字符串拼接/指令大小 经正式管线）
+c25_qs = {
+    "循环开销": "写一个循环开销单元（热循环估算）",
+    "字符串拼接": "写一个字符串拼接单元（折叠合并）",
+    "指令大小": "写一个指令大小单元（编码尺寸）",
+}
+c25_ok = 0
+for label, q in c25_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c25_ok += 1
+    check(f'㌢ {label} 分析/编译/字节码单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌢b 分析/编译/字节码三单元全部生成', c25_ok == 3, f'{c25_ok}/3')
+
+# ㌢c 端到端：循环开销→字符串拼接→指令大小（30 [('PUSH','甲乙')] 2）
+r_lc = domain_route("写一个循环开销单元（热循环估算）")
+r_cf = domain_route("写一个字符串拼接单元（折叠合并）")
+r_is = domain_route("写一个指令大小单元（编码尺寸）")
+try:
+    ns_lc, ns_cf, ns_is = {}, {}, {}
+    exec(r_lc["code"], ns_lc)
+    exec(r_cf["code"], ns_cf)
+    exec(r_is["code"], ns_is)
+    lc = ns_lc["loop_cost"]([1, 2, 3], 10)
+    cf = ns_cf["concat_fold"]([('PUSH', '甲'), ('CONCAT', None), ('PUSH', '乙')])
+    isd = ns_is["insn_size"]([('PUSH', 1), ('ADD', None)])
+    check('㌢c 循环开销→拼接→指令大小端到端（30 [(\'PUSH\',\'甲乙\')] 2）',
+          lc == 30 and cf == [('PUSH', '甲乙')] and isd == 2,
+          f'cost={lc} concat={cf} size={isd}')
+except Exception as ex:
+    check('㌢c 循环开销→拼接→指令大小端到端（30 [(\'PUSH\',\'甲乙\')] 2）',
+          False, str(ex)[:60])
+
+# ㌣ 目标1 深化：P 线工具（字典反转/直方图/峰值检测 经正式管线）
+p26_qs = {
+    "字典反转": "写一个字典反转单元（键值互换）",
+    "直方图": "写一个直方图单元（分桶计数）",
+    "峰值检测": "写一个峰值检测单元（局部极大）",
+}
+p26_ok = 0
+for label, q in p26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p26_ok += 1
+    check(f'㌣ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌣b P线工具三单元全部生成', p26_ok == 3, f'{p26_ok}/3')
+
+# ㌣c 端到端：字典反转→直方图→峰值检测（{1:[a],2:[b]} [2,2,2] [(1,3),(3,5)]）
+r_id = domain_route("写一个字典反转单元（键值互换）")
+r_hg = domain_route("写一个直方图单元（分桶计数）")
+r_pd = domain_route("写一个峰值检测单元（局部极大）")
+try:
+    ns_id, ns_hg, ns_pd = {}, {}, {}
+    exec(r_id["code"], ns_id)
+    exec(r_hg["code"], ns_hg)
+    exec(r_pd["code"], ns_pd)
+    idv = ns_id["invert_dict"]({'a': 1, 'b': 2})
+    hg = ns_hg["histogram"]([0, 1, 2, 3, 4, 5], 3)
+    pd = ns_pd["peak_detect"]([1, 3, 2, 5, 4])
+    check('㌣c 字典反转→直方图→峰值检测端到端（{1:[a],2:[b]} [2,2,2] [(1,3),(3,5)]）',
+          idv == {1: ['a'], 2: ['b']} and hg == [2, 2, 2]
+          and pd == [(1, 3), (3, 5)],
+          f'inv={idv} hist={hg} peak={pd}')
+except Exception as ex:
+    check('㌣c 字典反转→直方图→峰值检测端到端（{1:[a],2:[b]} [2,2,2] [(1,3),(3,5)]）',
+          False, str(ex)[:60])
+
+# ㌤ 目标6 深化：图算法/查询（支配集/弦图判定/标签计数 经正式管线）
+g34_qs = {
+    "支配集": "写一个支配集单元（覆盖近似）",
+    "弦图判定": "写一个弦图判定单元（无弦环）",
+    "标签计数": "写一个标签计数单元（边标签聚合）",
+}
+g34_ok = 0
+for label, q in g34_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g34_ok += 1
+    check(f'㌤ {label} 图算法/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌤b 图算法/查询三单元全部生成', g34_ok == 3, f'{g34_ok}/3')
+
+# ㌤c 端到端：支配集→弦图→标签计数（[0] True {友:2,师:1}）
+r_ds = domain_route("写一个支配集单元（覆盖近似）")
+r_ch = domain_route("写一个弦图判定单元（无弦环）")
+r_lc = domain_route("写一个标签计数单元（边标签聚合）")
+try:
+    ns_ds, ns_ch, ns_lc = {}, {}, {}
+    exec(r_ds["code"], ns_ds)
+    exec(r_ch["code"], ns_ch)
+    exec(r_lc["code"], ns_lc)
+    ds = ns_ds["dominating_set"]({0: [1], 1: [0]})
+    ch = ns_ch["chordal_check"]({0: [1, 2], 1: [0, 2], 2: [0, 1]})
+    lc = ns_lc["label_count"]({0: [(1, '友'), (2, '师')], 1: [(2, '友')]}, ['友', '师'])
+    check('㌤c 支配集→弦图→标签计数端到端（[0] True {友:2,师:1}）',
+          ds == [0] and ch is True and lc == {'友': 2, '师': 1},
+          f'dom={ds} chordal={ch} labels={lc}')
+except Exception as ex:
+    check('㌤c 支配集→弦图→标签计数端到端（[0] True {友:2,师:1}）',
+          False, str(ex)[:60])
+
+# ㌥ 目标7 深化：链路机制（时隙/跳频/误码率 经正式管线）
+n24_qs = {
+    "时隙": "写一个时隙单元（TDMA 分时）",
+    "跳频": "写一个跳频单元（频率序列）",
+    "误码率": "写一个误码率单元（链路质量）",
+}
+n24_ok = 0
+for label, q in n24_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n24_ok += 1
+    check(f'㌥ {label} 链路机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌥b 链路机制三单元全部生成', n24_ok == 3, f'{n24_ok}/3')
+
+# ㌥c 端到端：时隙→跳频→误码率（1 2410 0.01）
+r_ts = domain_route("写一个时隙单元（TDMA 分时）")
+r_fh = domain_route("写一个跳频单元（频率序列）")
+r_br = domain_route("写一个误码率单元（链路质量）")
+try:
+    ns_ts, ns_fh, ns_br = {}, {}, {}
+    exec(r_ts["code"], ns_ts)
+    exec(r_fh["code"], ns_fh)
+    exec(r_br["code"], ns_br)
+    ts = ns_ts["tdma_slot"]({}, 'next')
+    fh = ns_fh["freq_hop"]({}, 'hop')
+    br = ns_br["ber_calc"]({}, 'sample', 1, 100)
+    check('㌥c 时隙→跳频→误码率端到端（1 2410 0.01）',
+          ts == 1 and fh == 2410 and br == 0.01,
+          f'slot={ts} hop={fh} ber={br}')
+except Exception as ex:
+    check('㌥c 时隙→跳频→误码率端到端（1 2410 0.01）',
+          False, str(ex)[:60])
+
+# ㌦ 目标2 深化：分析/编译优化（控制流图/内联缓存/寄存器着色 经正式管线）
+c26_qs = {
+    "控制流图": "写一个控制流图单元（跳转边）",
+    "内联缓存": "写一个内联缓存单元（多态命中）",
+    "寄存器着色": "写一个寄存器着色单元（冲突分配）",
+}
+c26_ok = 0
+for label, q in c26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c26_ok += 1
+    check(f'㌦ {label} 分析/编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌦b 分析/编译优化三单元全部生成', c26_ok == 3, f'{c26_ok}/3')
+
+# ㌦c 端到端：控制流图→内联缓存→寄存器着色（{B0:[B1],B1:[]} f {a:0,b:1}）
+r_cg = domain_route("写一个控制流图单元（跳转边）")
+r_ic = domain_route("写一个内联缓存单元（多态命中）")
+r_rc = domain_route("写一个寄存器着色单元（冲突分配）")
+try:
+    ns_cg, ns_ic, ns_rc = {}, {}, {}
+    exec(r_cg["code"], ns_cg)
+    exec(r_ic["code"], ns_ic)
+    exec(r_rc["code"], ns_rc)
+    cg = ns_cg["build_cfg"](['B0', 'B1'], [('B0', 'B1')])
+    ic = ns_ic["inline_cache"]({'cache': {'甲': 'f'}}, 'lookup', '甲')
+    rc = ns_rc["reg_color"]((('a', (0, 2)), ('b', (1, 3))), 2)
+    check('㌦c 控制流图→内联缓存→寄存器着色端到端（{B0:[B1],B1:[]} f {a:0,b:1}）',
+          cg == {'B0': ['B1'], 'B1': []} and ic == 'f'
+          and rc == {'a': 0, 'b': 1},
+          f'cfg={cg} cache={ic} color={rc}')
+except Exception as ex:
+    check('㌦c 控制流图→内联缓存→寄存器着色端到端（{B0:[B1],B1:[]} f {a:0,b:1}）',
+          False, str(ex)[:60])
+
+# ㌧ 目标1 深化：P 线工具（累加器/成对迭代/打乱 经正式管线）
+p27_qs = {
+    "累加器": "写一个累加器单元（前缀累积）",
+    "成对迭代": "写一个成对迭代单元（相邻对）",
+    "打乱": "写一个打乱单元（种子重排）",
+}
+p27_ok = 0
+for label, q in p27_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p27_ok += 1
+    check(f'㌧ {label} P线工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌧b P线工具三单元全部生成', p27_ok == 3, f'{p27_ok}/3')
+
+# ㌧c 端到端：累加器→成对迭代→打乱（[1,3,6,10] [(1,2),(2,3)] [2,3,4,1]）
+r_ac = domain_route("写一个累加器单元（前缀累积）")
+r_pw = domain_route("写一个成对迭代单元（相邻对）")
+r_sh = domain_route("写一个打乱单元（种子重排）")
+try:
+    ns_ac, ns_pw, ns_sh = {}, {}, {}
+    exec(r_ac["code"], ns_ac)
+    exec(r_pw["code"], ns_pw)
+    exec(r_sh["code"], ns_sh)
+    ac = ns_ac["accumulate"]([1, 2, 3, 4])
+    pw = ns_pw["pairwise"]([1, 2, 3])
+    sh = ns_sh["shuffle_seq"]([1, 2, 3, 4], 7)
+    check('㌧c 累加器→成对迭代→打乱端到端（[1,3,6,10] [(1,2),(2,3)] [2,3,4,1]）',
+          ac == [1, 3, 6, 10] and pw == [(1, 2), (2, 3)]
+          and sh == [2, 3, 4, 1],
+          f'acc={ac} pair={pw} shuf={sh}')
+except Exception as ex:
+    check('㌧c 累加器→成对迭代→打乱端到端（[1,3,6,10] [(1,2),(2,3)] [2,3,4,1]）',
+          False, str(ex)[:60])
+
+# ㌨ 目标4 深化：OS 机制（僵尸进程/内存热插拔/文件系统日志 经正式管线）
+o17_qs = {
+    "僵尸进程": "写一个僵尸进程单元（回收管理）",
+    "内存热插拔": "写一个内存热插拔单元（节点上下线）",
+    "文件系统日志": "写一个文件系统日志单元（journal 重放）",
+}
+o17_ok = 0
+for label, q in o17_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o17_ok += 1
+    check(f'㌨ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌨b OS机制三单元全部生成', o17_ok == 3, f'{o17_ok}/3')
+
+# ㌨c 端到端：僵尸进程→热插拔→日志（zombie online [写条目]）
+r_zp = domain_route("写一个僵尸进程单元（回收管理）")
+r_mh = domain_route("写一个内存热插拔单元（节点上下线）")
+r_jl = domain_route("写一个文件系统日志单元（journal 重放）")
+try:
+    ns_zp, ns_mh, ns_jl = {}, {}, {}
+    exec(r_zp["code"], ns_zp)
+    exec(r_mh["code"], ns_mh)
+    exec(r_jl["code"], ns_jl)
+    zp = ns_zp["zombie_proc"]({}, 'exit', 3)
+    mh = ns_mh["mem_hotplug"]({}, 'online', 'n0', 16)
+    jl = ns_jl["journal"]({'journal': [('write', 'a')]}, 'replay')
+    check('㌨c 僵尸进程→热插拔→日志端到端（zombie online [(\'write\',\'a\')]）',
+          zp == 'zombie' and mh == 'online' and jl == [('write', 'a')],
+          f'zombie={zp} hotplug={mh} journal={jl}')
+except Exception as ex:
+    check('㌨c 僵尸进程→热插拔→日志端到端（zombie online [(\'write\',\'a\')]）',
+          False, str(ex)[:60])
+
+# ㌩ 目标6 深化：图算法/存储/查询（汉密尔顿路径/图差分/双层邻居 经正式管线）
+g35_qs = {
+    "汉密尔顿路径": "写一个汉密尔顿路径单元（每点一次）",
+    "图差分": "写一个图差分单元（边增减）",
+    "双层邻居": "写一个双层邻居单元（二阶邻域）",
+}
+g35_ok = 0
+for label, q in g35_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g35_ok += 1
+    check(f'㌩ {label} 图算法/存储/查询单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌩b 图算法/存储/查询三单元全部生成', g35_ok == 3, f'{g35_ok}/3')
+
+# ㌩c 端到端：汉密尔顿→图差分→双层邻居（[0,1,2] added/removed [2]）
+r_hm = domain_route("写一个汉密尔顿路径单元（每点一次）")
+r_gd = domain_route("写一个图差分单元（边增减）")
+r_th = domain_route("写一个双层邻居单元（二阶邻域）")
+try:
+    ns_hm, ns_gd, ns_th = {}, {}, {}
+    exec(r_hm["code"], ns_hm)
+    exec(r_gd["code"], ns_gd)
+    exec(r_th["code"], ns_th)
+    hm = ns_hm["hamiltonian"]({0: [1], 1: [0, 2], 2: [1]})
+    gd = ns_gd["graph_diff"]({0: [1]}, {0: [1, 2], 2: []})
+    th = ns_th["two_hop"]({0: [1], 1: [0, 2], 2: [1]}, 0)
+    check('㌩c 汉密尔顿→图差分→双层邻居端到端（[0,1,2] added(0,2) [2]）',
+          hm == [0, 1, 2] and gd == {'added': [(0, 2)], 'removed': []}
+          and th == [2],
+          f'ham={hm} diff={gd} twohop={th}')
+except Exception as ex:
+    check('㌩c 汉密尔顿→图差分→双层邻居端到端（[0,1,2] added(0,2) [2]）',
+          False, str(ex)[:60])
+
+# ㌪ 目标7 深化：网络机制（拓扑发现/路径备份/数据去重 经正式管线）
+n25_qs = {
+    "拓扑发现": "写一个拓扑发现单元（链路探测）",
+    "路径备份": "写一个路径备份单元（FRR 快速切换）",
+    "数据去重": "写一个数据去重单元（指纹识别）",
+}
+n25_ok = 0
+for label, q in n25_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n25_ok += 1
+    check(f'㌪ {label} 网络机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌪b 网络机制三单元全部生成', n25_ok == 3, f'{n25_ok}/3')
+
+# ㌪c 端到端：拓扑发现→路径备份→数据去重（found switched True）
+r_td = domain_route("写一个拓扑发现单元（链路探测）")
+r_pb = domain_route("写一个路径备份单元（FRR 快速切换）")
+r_dd = domain_route("写一个数据去重单元（指纹识别）")
+try:
+    ns_td, ns_pb, ns_dd = {}, {}, {}
+    exec(r_td["code"], ns_td)
+    exec(r_pb["code"], ns_pb)
+    exec(r_dd["code"], ns_dd)
+    td = ns_td["topo_discover"]({}, 'probe', 'n1', 'n2')
+    pb = ns_pb["path_backup"]({'primary': 'r1', 'backup': 'r2', 'active': 'r1'}, 'failover')
+    dd = ns_dd["payload_dedup"]({'seen': {294}}, 'dedup', 'abc')
+    check('㌪c 拓扑发现→路径备份→数据去重端到端（found switched True）',
+          td == 'found' and pb == 'switched' and dd is True,
+          f'topo={td} backup={pb} dedup={dd}')
+except Exception as ex:
+    check('㌪c 拓扑发现→路径备份→数据去重端到端（found switched True）',
+          False, str(ex)[:60])
+
+# ㌫ 目标2 深化：词法/分析/编译优化（数字后缀/逃逸分析/去虚拟化 经正式管线）
+c27_qs = {
+    "数字后缀": "写一个数字后缀单元（字面量变体）",
+    "逃逸分析": "写一个逃逸分析单元（栈分配）",
+    "去虚拟化": "写一个去虚拟化单元（devirtualize 直调）",
+}
+c27_ok = 0
+for label, q in c27_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c27_ok += 1
+    check(f'㌫ {label} 词法/分析/编译优化单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌫b 词法/分析/编译优化三单元全部生成', c27_ok == 3, f'{c27_ok}/3')
+
+# ㌫c 端到端：数字后缀→逃逸分析→去虚拟化（255 escaped DIRECT）
+r_ns = domain_route("写一个数字后缀单元（字面量变体）")
+r_ea = domain_route("写一个逃逸分析单元（栈分配）")
+r_dv = domain_route("写一个去虚拟化单元（devirtualize 直调）")
+try:
+    ns_ns, ns_ea, ns_dv = {}, {}, {}
+    exec(r_ns["code"], ns_ns)
+    exec(r_ea["code"], ns_ea)
+    exec(r_dv["code"], ns_dv)
+    ns = ns_ns["num_suffix"]('0xff')
+    ea = ns_ea["escape_analysis"]('a', ['use', 'return'])
+    dv = ns_dv["devirt"]((('甲', 'f'),), {'甲': ['fa']})
+    check('㌫c 数字后缀→逃逸分析→去虚拟化端到端（255 escaped DIRECT）',
+          ns == 255 and ea == 'escaped' and dv == [('DIRECT', 'fa')],
+          f'suffix={ns} escape={ea} devirt={dv}')
+except Exception as ex:
+    check('㌫c 数字后缀→逃逸分析→去虚拟化端到端（255 escaped DIRECT）',
+          False, str(ex)[:60])
+
+# ㌬ 目标1 深化：P 线数据结构/工具（并查集/最长公共前缀/编辑距离 经正式管线）
+p28_qs = {
+    "并查集": "写一个并查集单元（不相交集）",
+    "最长公共前缀": "写一个最长公共前缀单元（LCP）",
+    "编辑距离": "写一个编辑距离单元（Levenshtein）",
+}
+p28_ok = 0
+for label, q in p28_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p28_ok += 1
+    check(f'㌬ {label} P线数据结构/工具单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌬b P线数据结构/工具三单元全部生成', p28_ok == 3, f'{p28_ok}/3')
+
+# ㌬c 端到端：并查集→LCP→编辑距离（1 fl 3）
+r_uf = domain_route("写一个并查集单元（不相交集）")
+r_cp = domain_route("写一个最长公共前缀单元（LCP）")
+r_ed = domain_route("写一个编辑距离单元（Levenshtein）")
+try:
+    ns_uf, ns_cp, ns_ed = {}, {}, {}
+    exec(r_uf["code"], ns_uf)
+    exec(r_cp["code"], ns_cp)
+    exec(r_ed["code"], ns_ed)
+    uf = ns_uf["union_find"]({}, 'union', 1, 2)
+    cp = ns_cp["common_prefix"](['flower', 'flow', 'flight'])
+    ed = ns_ed["edit_distance"]('kitten', 'sitting')
+    check('㌬c 并查集→LCP→编辑距离端到端（1 fl 3）',
+          uf == 1 and cp == 'fl' and ed == 3,
+          f'uf={uf} lcp={cp} dist={ed}')
+except Exception as ex:
+    check('㌬c 并查集→LCP→编辑距离端到端（1 fl 3）',
+          False, str(ex)[:60])
+
+# ㌭ 目标4 深化：OS 机制（进程组/页缓存/亲和性 经正式管线）
+o18_qs = {
+    "进程组": "写一个进程组单元（作业控制）",
+    "页缓存": "写一个页缓存单元（文件缓存）",
+    "亲和性": "写一个亲和性单元（CPU 绑定）",
+}
+o18_ok = 0
+for label, q in o18_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o18_ok += 1
+    check(f'㌭ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌭b OS机制三单元全部生成', o18_ok == 3, f'{o18_ok}/3')
+
+# ㌭c 端到端：进程组→页缓存→亲和性（1 A 2）
+r_pg = domain_route("写一个进程组单元（作业控制）")
+r_pc = domain_route("写一个页缓存单元（文件缓存）")
+r_ca = domain_route("写一个亲和性单元（CPU 绑定）")
+try:
+    ns_pg, ns_pc, ns_ca = {}, {}, {}
+    exec(r_pg["code"], ns_pg)
+    exec(r_pc["code"], ns_pc)
+    exec(r_ca["code"], ns_ca)
+    pg = ns_pg["proc_group"]({}, 'join', 1, 101)
+    pc = ns_pc["page_cache"]({'cache': {1: 'A'}}, 'get', 1)
+    ca = ns_ca["cpu_affinity"]({}, 'set', 101, 2)
+    check('㌭c 进程组→页缓存→亲和性端到端（1 A 2）',
+          pg == 1 and pc == 'A' and ca == 2,
+          f'pg={pg} cache={pc} aff={ca}')
+except Exception as ex:
+    check('㌭c 进程组→页缓存→亲和性端到端（1 A 2）',
+          False, str(ex)[:60])
+
+# ㌮ 目标6 深化：图算法/存储（树重心/最大割/图规范化 经正式管线）
+g36_qs = {
+    "树重心": "写一个树重心单元（平衡分割）",
+    "最大割": "写一个最大割单元（跨割边）",
+    "图规范化": "写一个图规范化单元（排序签名）",
+}
+g36_ok = 0
+for label, q in g36_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g36_ok += 1
+    check(f'㌮ {label} 图算法/存储单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌮b 图算法/存储三单元全部生成', g36_ok == 3, f'{g36_ok}/3')
+
+# ㌮c 端到端：树重心→最大割→规范化（[1] 2 (2,[(0,1)])）
+r_tc = domain_route("写一个树重心单元（平衡分割）")
+r_mc = domain_route("写一个最大割单元（跨割边）")
+r_gc = domain_route("写一个图规范化单元（排序签名）")
+try:
+    ns_tc, ns_mc, ns_gc = {}, {}, {}
+    exec(r_tc["code"], ns_tc)
+    exec(r_mc["code"], ns_mc)
+    exec(r_gc["code"], ns_gc)
+    tc = ns_tc["tree_centroid"]({0: [1], 1: [0, 2], 2: [1]})
+    mc = ns_mc["max_cut"]({0: [1, 2], 1: [0], 2: [0]})
+    gc = ns_gc["graph_canonical"]({0: [1], 1: [0]})
+    check('㌮c 树重心→最大割→规范化端到端（[1] 2 (2,[(0,1)])）',
+          tc == [1] and mc == 2 and gc == (2, [(0, 1)]),
+          f'cent={tc} cut={mc} canon={gc}')
+except Exception as ex:
+    check('㌮c 树重心→最大割→规范化端到端（[1] 2 (2,[(0,1)])）',
+          False, str(ex)[:60])
+
+# ㌯ 目标7 深化：网络工程（网关/端口镜像/包过滤 经正式管线）
+n26_qs = {
+    "网关": "写一个网关单元（默认出口转发）",
+    "端口镜像": "写一个端口镜像单元（SPAN 监控）",
+    "包过滤": "写一个包过滤单元（五元组过滤）",
+}
+n26_ok = 0
+for label, q in n26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n26_ok += 1
+    check(f'㌯ {label} 网络工程单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌯b 网络工程三单元全部生成', n26_ok == 3, f'{n26_ok}/3')
+
+# ㌯c 端到端：网关→端口镜像→包过滤（gw1 enabled block）
+r_gw = domain_route("写一个网关单元（默认出口转发）")
+r_pm = domain_route("写一个端口镜像单元（SPAN 监控）")
+r_pf = domain_route("写一个包过滤单元（五元组过滤）")
+try:
+    ns_gw, ns_pm, ns_pf = {}, {}, {}
+    exec(r_gw["code"], ns_gw)
+    exec(r_pm["code"], ns_pm)
+    exec(r_pf["code"], ns_pf)
+    gw = ns_gw["gateway"]({'table': {'10.0.0.0/8': 'gw1'}}, 'route', '10.1.0.5')
+    pm = ns_pm["port_mirror"]({}, 'enable', 'p1', 'p9')
+    pf = ns_pf["packet_filter"]({'rules': [('1.1.1.1', 80, 'block')]}, 'filter', ('1.1.1.1', 80))
+    check('㌯c 网关→端口镜像→包过滤端到端（gw1 enabled block）',
+          gw == 'gw1' and pm == 'enabled' and pf == 'block',
+          f'gw={gw} mirror={pm} filter={pf}')
+except Exception as ex:
+    check('㌯c 网关→端口镜像→包过滤端到端（gw1 enabled block）',
+          False, str(ex)[:60])
+
+# ㌰ 目标1 深化：中文编译器（名实绑定/信任流分析/短路求值 经正式管线）
+c37_qs = {
+    "名实绑定": "写一个编译名实绑定单元（以名举实）",
+    "信任流分析": "写一个信任流分析单元（编译期数据流）",
+    "短路求值": "写一个VM短路求值单元（逻辑语义）",
+}
+c37_ok = 0
+for label, q in c37_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        c37_ok += 1
+    check(f'㌰ {label} 编译器单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌰b 编译器三单元全部生成', c37_ok == 3, f'{c37_ok}/3')
+
+# ㌰c 端到端：名实绑定→信任流分析→短路求值（(True,2) 0.2 (True,True)）
+r_nb = domain_route("写一个编译名实绑定单元（以名举实）")
+r_tf = domain_route("写一个信任流分析单元（编译期数据流）")
+r_sc = domain_route("写一个VM短路求值单元（逻辑语义）")
+try:
+    ns_nb, ns_tf, ns_sc = {}, {}, {}
+    exec(r_nb["code"], ns_nb)
+    exec(r_tf["code"], ns_tf)
+    exec(r_sc["code"], ns_sc)
+    nb = ns_nb["resolve_binding"]([{"x": 1}, {"x": 2}], "x")
+    tf = ns_tf["trust_flow"](("NOT", "x"), {"x": 0.8})
+    sc = ns_sc["vm_short_circuit"](0, "或", 5)
+    check('㌰c 名实绑定→信任流分析→短路求值端到端（(True,2) 0.2 (True,True)）',
+          nb == (True, 2) and tf == 0.2 and sc == (True, True),
+          f'bind={nb} trust={tf} sc={sc}')
+except Exception as ex:
+    check('㌰c 名实绑定→信任流分析→短路求值端到端（(True,2) 0.2 (True,True)）',
+          False, str(ex)[:60])
+
+# ㌱ 目标2 深化：P 线语言机制（解包赋值/集合推导/切片赋值 经正式管线）
+p26_qs = {
+    "解包赋值": "写一个解包赋值单元（多重赋值）",
+    "集合推导": "写一个集合推导单元（去重构建）",
+    "切片赋值": "写一个切片赋值单元（列表写入）",
+}
+p26_ok = 0
+for label, q in p26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        p26_ok += 1
+    check(f'㌱ {label} P线语言机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌱b P线语言机制三单元全部生成', p26_ok == 3, f'{p26_ok}/3')
+
+# ㌱c 端到端：解包赋值→集合推导→切片赋值（1 2 4 {2,4} [1,8,9,4,5]）
+r_ua = domain_route("写一个解包赋值单元（多重赋值）")
+r_sc2 = domain_route("写一个集合推导单元（去重构建）")
+r_sa = domain_route("写一个切片赋值单元（列表写入）")
+try:
+    ns_ua, ns_sc2, ns_sa = {}, {}, {}
+    exec(r_ua["code"], ns_ua)
+    exec(r_sc2["code"], ns_sc2)
+    exec(r_sa["code"], ns_sa)
+    ua = ns_ua["unpack_assign"](['a', 'b'], [1, 2])
+    sc2 = ns_sc2["set_comprehension"]([1, 2, 3, 4], lambda x: x % 2 == 0)
+    sa = ns_sa["slice_assign"]([1, 2, 3, 4, 5], 1, 3, [8, 9])
+    check('㌱c 解包赋值→集合推导→切片赋值端到端（{a:1,b:2} {2,4} [1,8,9,4,5]）',
+          ua == {'a': 1, 'b': 2} and sc2 == {2, 4} and sa == [1, 8, 9, 4, 5],
+          f'unpack={ua} set={sc2} slice={sa}')
+except Exception as ex:
+    check('㌱c 解包赋值→集合推导→切片赋值端到端（{a:1,b:2} {2,4} [1,8,9,4,5]）',
+          False, str(ex)[:60])
+
+# ㌲ 目标6 深化：图算法/条件路由（顶点覆盖/最近公共祖先/条件分解 经正式管线）
+g37_qs = {
+    "顶点覆盖": "写一个顶点覆盖单元（边端点选取）",
+    "最近公共祖先": "写一个最近公共祖先单元（树上查询）",
+    "条件分解": "写一个条件分解单元（合取拆分）",
+}
+g37_ok = 0
+for label, q in g37_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        g37_ok += 1
+    check(f'㌲ {label} 图算法/条件路由单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌲b 图算法/条件路由三单元全部生成', g37_ok == 3, f'{g37_ok}/3')
+
+# ㌲c 端到端：顶点覆盖→LCA→条件分解（[0,1] 0 [a,b,c]）
+r_vc = domain_route("写一个顶点覆盖单元（边端点选取）")
+r_lca = domain_route("写一个最近公共祖先单元（树上查询）")
+r_cs = domain_route("写一个条件分解单元（合取拆分）")
+try:
+    ns_vc, ns_lca, ns_cs = {}, {}, {}
+    exec(r_vc["code"], ns_vc)
+    exec(r_lca["code"], ns_lca)
+    exec(r_cs["code"], ns_cs)
+    vc = ns_vc["vertex_cover"](((0, 1), (0, 2), (1, 2)))
+    lca = ns_lca["lca"]({0: 0, 1: 0, 2: 0, 3: 1, 4: 1, 5: 2},
+                        {0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2}, 3, 5)
+    cs = ns_cs["condition_split"](('AND', ('AND', 'a', 'b'), 'c'))
+    check('㌲c 顶点覆盖→LCA→条件分解端到端（[0,1] 0 [a,b,c]）',
+          vc == [0, 1] and lca == 0 and cs == ['a', 'b', 'c'],
+          f'cover={vc} lca={lca} split={cs}')
+except Exception as ex:
+    check('㌲c 顶点覆盖→LCA→条件分解端到端（[0,1] 0 [a,b,c]）',
+          False, str(ex)[:60])
+
+# ㌳ 目标4 深化：OS 机制（软中断/工作窃取/模块加载 经正式管线）
+o19_qs = {
+    "软中断": "写一个软中断单元（延迟工作）",
+    "工作窃取": "写一个工作窃取单元（空闲核均衡）",
+    "模块加载": "写一个模块加载单元（依赖注册）",
+}
+o19_ok = 0
+for label, q in o19_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        o19_ok += 1
+    check(f'㌳ {label} OS机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌳b OS机制三单元全部生成', o19_ok == 3, f'{o19_ok}/3')
+
+# ㌳c 端到端：软中断→工作窃取→模块加载（2 [(1,定时器),(2,网卡)] ok）
+r_si = domain_route("写一个软中断单元（延迟工作）")
+r_ws = domain_route("写一个工作窃取单元（空闲核均衡）")
+r_ml = domain_route("写一个模块加载单元（依赖注册）")
+try:
+    ns_si, ns_ws, ns_ml = {}, {}, {}
+    exec(r_si["code"], ns_si)
+    exec(r_ws["code"], ns_ws)
+    exec(r_ml["code"], ns_ml)
+    si = ns_si["softirq"]([(2, '网卡')], 'defer', (1, '定时器'))
+    ws = ns_ws["work_steal"]([[1, 2], [], [3, 4, 5]], 1)
+    ml = ns_ml["module_load"]({'net': 'loaded'}, 'fs', ['net'])
+    check('㌳c 软中断→工作窃取→模块加载端到端（2 [[1,2],[3],[4,5]] ok）',
+          si == 2 and ws == [[1, 2], [3], [4, 5]] and ml == 'ok',
+          f'softirq={si} steal={ws} mod={ml}')
+except Exception as ex:
+    check('㌳c 软中断→工作窃取→模块加载端到端（2 [[1,2],[3],[4,5]] ok）',
+          False, str(ex)[:60])
+
+# ㌴ 目标5 深化：浏览器机制（事件委托/弹窗拦截/混合内容 经正式管线）
+b26_qs = {
+    "事件委托": "写一个事件委托单元（祖先分派）",
+    "弹窗拦截": "写一个弹窗拦截单元（用户手势）",
+    "混合内容": "写一个混合内容拦截单元（安全策略）",
+}
+b26_ok = 0
+for label, q in b26_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        b26_ok += 1
+    check(f'㌴ {label} 浏览器机制单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌴b 浏览器机制三单元全部生成', b26_ok == 3, f'{b26_ok}/3')
+
+# ㌴c 端到端：事件委托→弹窗拦截→混合内容（clicked blocked blocked）
+r_ed = domain_route("写一个事件委托单元（祖先分派）")
+r_pb = domain_route("写一个弹窗拦截单元（用户手势）")
+r_mc = domain_route("写一个混合内容拦截单元（安全策略）")
+try:
+    ns_ed, ns_pb, ns_mc = {}, {}, {}
+    exec(r_ed["code"], ns_ed)
+    exec(r_pb["code"], ns_pb)
+    exec(r_mc["code"], ns_mc)
+    ed = ns_ed["event_delegate"]({('btn', 'click'): lambda e: 'clicked'},
+                                 {'target': 'btn', 'type': 'click'})
+    pb = ns_pb["popup_block"](True, False, [])
+    mc = ns_mc["mixed_content"]('https', 'http')
+    check('㌴c 事件委托→弹窗拦截→混合内容端到端（clicked blocked blocked）',
+          ed == 'clicked' and pb == 'blocked' and mc == 'blocked',
+          f'delegate={ed} popup={pb} mixed={mc}')
+except Exception as ex:
+    check('㌴c 事件委托→弹窗拦截→混合内容端到端（clicked blocked blocked）',
+          False, str(ex)[:60])
+
+# ㌵ 目标7 收官：网络协议（帧解析/MAC学习/证书校验 经正式管线）
+n27_qs = {
+    "帧解析": "写一个帧解析单元（报文解码）",
+    "MAC学习": "写一个MAC学习单元（交换机转发）",
+    "证书校验": "写一个证书校验单元（有效期检查）",
+}
+n27_ok = 0
+for label, q in n27_qs.items():
+    r = domain_route(q)
+    if r.get("ok") and r.get("code") and "def " in r.get("code", ""):
+        n27_ok += 1
+    check(f'㌵ {label} 网络协议单元经正式管线',
+          r.get("ok") and "def " in r.get("code", ""),
+          f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
+check('㌵b 网络协议三单元全部生成', n27_ok == 3, f'{n27_ok}/3')
+
+# ㌵c 端到端：帧解析→MAC学习→证书校验（(1,1,2,hi) p1 valid）
+r_wf = domain_route("写一个帧解析单元（报文解码）")
+r_ml2 = domain_route("写一个MAC学习单元（交换机转发）")
+r_cv = domain_route("写一个证书校验单元（有效期检查）")
+try:
+    ns_wf, ns_ml2, ns_cv = {}, {}, {}
+    exec(r_wf["code"], ns_wf)
+    exec(r_ml2["code"], ns_ml2)
+    exec(r_cv["code"], ns_cv)
+    wf = ns_wf["ws_frame_parse"](bytes([0x81, 0x02]) + b'hi')
+    ml2 = ns_ml2["mac_learn"]({'aa': 'p1'}, 'p1', 'aa', 'lookup')
+    cv = ns_cv["cert_verify"]({'not_before': 100, 'not_after': 200}, 150)
+    check('㌵c 帧解析→MAC学习→证书校验端到端（(1,1,2,hi) p1 valid）',
+          wf == (1, 1, 2, 'hi') and ml2 == 'p1' and cv == 'valid',
+          f'frame={wf} mac={ml2} cert={cv}')
+except Exception as ex:
+    check('㌵c 帧解析→MAC学习→证书校验端到端（(1,1,2,hi) p1 valid）',
+          False, str(ex)[:60])
 
 print(f'\n=== 白箱自举正式管线（域接管）: {pass_n}/{pass_n + fail_n} 通过 ===')
 sys.exit(0 if fail_n == 0 else 1)

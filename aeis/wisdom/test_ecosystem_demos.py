@@ -3,8 +3,9 @@
 每个终极目标 = 白箱单元组装成可运行 demo（域内全链路），验证生态完整。
 """
 import sys
+import os
 sys.stdout.reconfigure(encoding='utf-8')
-sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\tools')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from code_compose import domain_route
 
 pass_n = fail_n = 0

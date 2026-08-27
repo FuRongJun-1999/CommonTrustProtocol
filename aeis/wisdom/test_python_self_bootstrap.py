@@ -3,9 +3,10 @@
 流程：语言机制单元库 → 白箱生成（模板填充）→ 三层自校验（L1 语法/L2 样例）
 → 外部校准（对照 CPython 行为 + 校准参考 mini_python.py）
 """
-import sys, ast
+import sys
+import os, ast
 sys.stdout.reconfigure(encoding='utf-8')
-sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\tools')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from python_code_units import PYTHON_UNITS, route_python_unit
 
 pass_n = fail_n = 0

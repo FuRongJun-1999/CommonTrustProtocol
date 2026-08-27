@@ -12,6 +12,10 @@ NET_UNITS = {
         "task": "IP分片",
         "pattern": (
             "def ip_fragment(packet_size, mtu):\n"
+"    # 生效条件：math.ceil 可用\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # IP 分片：包大小 + MTU → 分片数（每片含 20B IP 头）\n"
             "    import math\n"
             "    if packet_size <= mtu:\n"
@@ -29,6 +33,10 @@ NET_UNITS = {
         "pattern": (
             "def tcp_handshake(states):\n"
             "    # TCP 三次握手：CLOSED → SYN → SYN-ACK → ESTABLISHED\n"
+            "    # 生效条件：states 为事件序列（SYN/SYN-ACK/ACK 等）\n"
+            "    # 子功能：① 状态机迁移 ② 非法事件忽略 ③ 到达 ESTABLISHED 判定\n"
+            "    # 执行：状态转移表逐事件推进\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    state = 'CLOSED'\n"
             "    for ev in states:\n"
             "        if state == 'CLOSED' and ev == 'SYN':\n"
@@ -46,6 +54,10 @@ NET_UNITS = {
         "task": "校验和",
         "pattern": (
             "def checksum(data):\n"
+"    # 生效条件：参数 data 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：total 越界（Gt）时\n"
             "    # UDP 校验和（简化）：16 位和进位折叠 → 取反\n"
             "    total = 0\n"
             "    for b in data:\n"
@@ -63,6 +75,10 @@ NET_UNITS = {
         "task": "局域网发现",
         "pattern": (
             "def discover(devices, heartbeat_ttl=3):\n"
+"    # 生效条件：参数 devices/heartbeat_ttl 合法\n"
+"    # 子功能：① 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 局域网发现：设备表+心跳 → 在线设备（心跳超时剔除）\n"
             "    online = []\n"
             "    for dev in devices:\n"
@@ -79,9 +95,14 @@ NET_UNITS = {
         "task": "蜂群中继",
         "pattern": (
             "def swarm_relay(neighbors, source, message=None):\n"
+"    # 生效条件：参数 neighbors/source/message 合法\n"
+"    # 子功能：① 调用 set；② 调用 relay；③ 调用 sorted\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 蜂群消息：源节点 → 邻居递归中继（seen 防回环）\n"
             "    delivered = set()\n"
             "    def relay(node, seen):\n"
+            "        # 递归中继：未访问则记录并继续转发给邻居（去重防回环）\n"
             "        if node in seen:\n"
             "            return\n"
             "        seen.add(node)\n"
@@ -100,6 +121,10 @@ NET_UNITS = {
         "task": "消息去重",
         "pattern": (
             "def dedup(messages, seen_ids):\n"
+"    # 生效条件：参数 messages/seen_ids 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 蜂群消息去重：已见 ID 跳过，新 ID 投递（防重复传播）\n"
             "    new = []\n"
             "    for msg in messages:\n"
@@ -117,6 +142,10 @@ NET_UNITS = {
         "task": "路由表",
         "pattern": (
             "def route_table_update(table, node, next_hop):\n"
+"    # 生效条件：参数 table/node/next_hop 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 路由表：节点 → 下一跳 维护（更新/查询）\n"
             "    if next_hop is not None:\n"
             "        table[node] = next_hop\n"
@@ -131,6 +160,10 @@ NET_UNITS = {
         "task": "超时重传",
         "pattern": (
             "def retransmit(packets, ack_ids, max_tries=3):\n"
+"    # 生效条件：参数 packets/ack_ids/max_tries 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 蜂群可靠传输：未确认包超时重传（超过重试上限放弃）\n"
             "    need = []\n"
             "    for p in packets:\n"
@@ -151,6 +184,10 @@ NET_UNITS = {
         "task": "停等协议",
         "pattern": (
             "def stop_and_wait(send_packets, ack_all=True):\n"
+"    # 生效条件：参数 send_packets/ack_all 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：ack_all 为空/非法时\n"
             "    # 停等协议：发送→等确认→再发下一个（ack_all=False 首包后停止）\n"
             "    sent = []\n"
             "    for p in send_packets:\n"
@@ -168,6 +205,10 @@ NET_UNITS = {
         "task": "消息分帧",
         "pattern": (
             "def frame_decode(buf, delim=b'\\r\\n'):\n"
+"    # 生效条件：buf.find 可用\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：idx 越界（Lt）时\n"
             "    # 蜂群会话层：字节流按分隔符分帧（粘包/半包处理）\n"
             "    frames = []\n"
             "    while True:\n"
@@ -187,6 +228,10 @@ NET_UNITS = {
         "task": "会话状态",
         "pattern": (
             "def session_step(session, event):\n"
+"    # 生效条件：参数 session/event 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 蜂群会话状态机：LISTEN→SYN_SENT→ESTABLISHED（确认）→CLOSED（结束）\n"
             "    s = session.get('state', 'LISTEN')\n"
             "    if s == 'LISTEN' and event == 'SYN':\n"
@@ -207,7 +252,11 @@ NET_UNITS = {
         "task": "滑动窗口",
         "pattern": (
             "def sliding_window(base, next_seq, window_size, ack):\n"
-            "    # TCP 滑动窗口：收到 ack 后窗口前移（可发送序号 = [next_seq, base+win)）\n"
+            "    # TCP 滑动窗口（滑动窗口协议）：收到 ack 后窗口前移（可发送序号 = [next_seq, base+win)）\n"
+            "    # 生效条件：base=已确认序号；next_seq=下一待发；ack=收到的确认\n"
+            "    # 子功能：① ack 前进基准 ② 待发序号同步 ③ 返回可发送窗口\n"
+            "    # 执行：ack > base 则前移；next_seq 落后则推进（滑动窗口语义）\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # base=已确认序号 next_seq=下一待发 ack=收到的确认\n"
             "    if ack > base:\n"
             "        base = ack\n"
@@ -228,6 +277,10 @@ NET_UNITS = {
         "task": "累积确认",
         "pattern": (
             "def cum_ack(received, seq):\n"
+"    # 生效条件：参数 received/seq 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # TCP 累积确认：收到乱序包不确认，连续序列推进 ack（收到 3 则 1,2,3 都确认）\n"
             "    received.add(seq)\n"
             "    ack = 0\n"
@@ -245,6 +298,10 @@ NET_UNITS = {
         "task": "拥塞控制",
         "pattern": (
             "def slow_start(cwnd, ssthresh, acked, lost):\n"
+"    # 生效条件：参数 cwnd/ssthresh/acked/lost 合法\n"
+"    # 子功能：① 调用 max；② 调用 min\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # TCP 拥塞控制：慢启动（cwnd 每 RTT 翻倍）→ 阈值后拥塞避免（线性+1）\n"
             "    # cwnd=拥塞窗口 ssthresh=慢启动阈值 acked=本 RTT 确认数 lost=是否丢包\n"
             "    if lost:\n"
@@ -265,6 +322,10 @@ NET_UNITS = {
         "task": "CIDR子网",
         "pattern": (
             "def cidr_network(ip, prefix):\n"
+"    # 生效条件：参数 ip/prefix 合法\n"
+"    # 子功能：① 调用 int；② 调用 to_ip；③ 调用 max\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # IP 子网计算：IP + 前缀长度 → 网络地址/广播地址/主机数\n"
             "    parts = [int(x) for x in ip.split('.')]\n"
             "    mask_int = (0xFFFFFFFF << (32 - prefix)) & 0xFFFFFFFF\n"
@@ -272,6 +333,7 @@ NET_UNITS = {
             "    net_int = ip_int & mask_int\n"
             "    bcast_int = net_int | (~mask_int & 0xFFFFFFFF)\n"
             "    def to_ip(v):\n"
+            "        # 整数转点分十进制 IP 字符串\n"
             "        return '.'.join(str((v >> s) & 0xFF) for s in (24, 16, 8, 0))\n"
             "    return {'network': to_ip(net_int), 'broadcast': to_ip(bcast_int),\n"
             "            'hosts': max(0, (1 << (32 - prefix)) - 2)}\n"),
@@ -288,6 +350,10 @@ NET_UNITS = {
         "task": "距离矢量",
         "pattern": (
             "def distance_vector(routes, neighbor, neighbor_routes):\n"
+"    # 生效条件：参数 routes/neighbor/neighbor_routes 合法\n"
+"    # 子功能：① 调用 dict\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 距离矢量路由（RIP）：收到邻居路由表 → 合并（距离+1，取最短）\n"
             "    for dst, dist in neighbor_routes.items():\n"
             "        nd = dist + 1\n"
@@ -305,6 +371,10 @@ NET_UNITS = {
         "task": "NAT转换",
         "pattern": (
             "def nat_translate(table, src_ip, src_port, pub_ip):\n"
+"    # 生效条件：参数 table/src_ip/src_port/pub_ip 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # NAT：内网地址→公网地址（端口映射表；已映射复用端口）\n"
             "    key = (src_ip, src_port)\n"
             "    if key in table:\n"
@@ -327,6 +397,10 @@ NET_UNITS = {
         "task": "DNS解析",
         "pattern": (
             "def dns_resolve(cache, domain):\n"
+"    # 生效条件：参数 cache/domain 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # DNS 解析：域名→IP（缓存命中直返；未命中模拟查询 8.8.8.8）\n"
             "    if domain in cache:\n"
             "        return cache[domain], 'cache'\n"
@@ -343,6 +417,10 @@ NET_UNITS = {
         "task": "HTTP状态码",
         "pattern": (
             "def http_status_class(code):\n"
+"    # 生效条件：参数 code 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # HTTP 状态码分类：2xx 成功/3xx 重定向/4xx 客户端错/5xx 服务端错\n"
             "    if 200 <= code < 300:\n"
             "        return '成功'\n"
@@ -362,6 +440,10 @@ NET_UNITS = {
         "task": "负载均衡",
         "pattern": (
             "def load_balance(servers, request_id):\n"
+"    # 生效条件：参数 servers/request_id 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：servers 为空/非法时\n"
             "    # 负载均衡：轮询调度（请求 → 服务器轮转分配）\n"
             "    if not servers:\n"
             "        return None\n"
@@ -376,6 +458,10 @@ NET_UNITS = {
         "task": "WebSocket握手",
         "pattern": (
             "def ws_handshake(headers):\n"
+"    # 生效条件：参数 headers 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # WebSocket 握手：HTTP Upgrade: websocket → 101 切换协议\n"
             "    upgrade = headers.get('Upgrade', '').lower()\n"
             "    key_ok = 'Sec-WebSocket-Key' in headers\n"
@@ -393,6 +479,10 @@ NET_UNITS = {
         "task": "帧封装",
         "pattern": (
             "def ws_frame(opcode, payload):\n"
+"    # 生效条件：参数 opcode/payload 合法\n"
+"    # 子功能：① 调用 len；② 调用 bytes\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：n 越界（Lt）时\n"
             "    # WebSocket 帧：首字节(FIN+opcode) + 长度 + 负载（RFC 6455 简化）\n"
             "    fin_opcode = 0x80 | opcode   # FIN=1 + 4bit opcode\n"
             "    n = len(payload)\n"
@@ -409,6 +499,10 @@ NET_UNITS = {
         "task": "流式传输",
         "pattern": (
             "def chunked_encode(data, size=4):\n"
+"    # 生效条件：chunk.decode 可用\n"
+"    # 子功能：① 调用 range；② 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 流式分块传输：数据切块 + 长度前缀（HTTP chunked 语义）\n"
             "    out = []\n"
             "    for i in range(0, len(data), size):\n"
@@ -425,6 +519,10 @@ NET_UNITS = {
         "task": "多路复用",
         "pattern": (
             "def stream_mux(streams):\n"
+"    # 生效条件：参数 streams 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # HTTP/2 多路复用：多流帧交错（流 ID + 数据 → 单连接混合帧）\n"
             "    frames = []\n"
             "    for sid, data in streams:\n"
@@ -440,6 +538,10 @@ NET_UNITS = {
         "task": "连接池",
         "pattern": (
             "def conn_pool(pool, op, host=None):\n"
+"    # 生效条件：op ∈ {get, put}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {get, put} 时\n"
             "    # 连接池：获取复用/归还/新建（上限控制，避免频繁建连）\n"
             "    if op == 'get':\n"
             "        if pool.get(host):\n"
@@ -459,6 +561,10 @@ NET_UNITS = {
         "task": "QUIC握手",
         "pattern": (
             "def quic_handshake(cache, client):\n"
+"    # 生效条件：参数 cache/client 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # QUIC：0-RTT 快速握手（缓存会话 → 首次往返即发数据）\n"
             "    if client in cache:\n"
             "        return '0-RTT', cache[client]\n"
@@ -473,6 +579,10 @@ NET_UNITS = {
         "task": "BGP路径选择",
         "pattern": (
             "def bgp_select(routes):\n"
+"    # 生效条件：参数 routes 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # BGP 路径选择：AS 路径最短优先（选路决策属性）\n"
             "    best = None\n"
             "    for r in routes:\n"
@@ -491,6 +601,10 @@ NET_UNITS = {
         "task": "Anycast",
         "pattern": (
             "def anycast_select(servers, client_loc):\n"
+"    # 生效条件：参数 servers/client_loc 合法\n"
+"    # 子功能：① 调用 min；② 调用 abs\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：servers 为空/非法时\n"
             "    # Anycast：同一 IP 多节点 → 选最近（就近接入语义）\n"
             "    if not servers:\n"
             "        return None\n"
@@ -507,6 +621,10 @@ NET_UNITS = {
         "task": "CRC校验",
         "pattern": (
             "def crc16(data):\n"
+"    # 生效条件：参数 data 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # CRC-16 校验：多项式 0x8005（数据完整性——传输错误检测）\n"
             "    crc = 0\n"
             "    for b in data:\n"
@@ -527,6 +645,10 @@ NET_UNITS = {
         "task": "IPv6地址",
         "pattern": (
             "def ipv6_parse(addr):\n"
+"    # 生效条件：参数 addr 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # IPv6 解析：压缩形式展开 + 分组（:: 零压缩还原）\n"
             "    if '::' in addr:\n"
             "        left, right = addr.split('::')\n"
@@ -547,6 +669,10 @@ NET_UNITS = {
         "task": "隧道封装",
         "pattern": (
             "def tunnel_encap(inner, outer_src, outer_dst):\n"
+"    # 生效条件：参数 inner/outer_src/outer_dst 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 隧道：内层包 + 外层头（IP-in-IP 封装——跨网络传输）\n"
             "    return {'outer': (outer_src, outer_dst), 'inner': inner}\n"
             "def tunnel_decap(pkt):\n"
@@ -561,6 +687,10 @@ NET_UNITS = {
         "task": "VLAN划分",
         "pattern": (
             "def vlan_tag(frame, vlan_id):\n"
+"    # 生效条件：参数 frame/vlan_id 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # VLAN：802.1Q 标签（4 字节——TPID+TCI 含 VID 12bit）\n"
             "    tci = vlan_id & 0xFFF\n"
             "    return ('0x8100', tci)\n"),
@@ -574,6 +704,10 @@ NET_UNITS = {
         "task": "MQTT发布订阅",
         "pattern": (
             "def mqtt_broker(broker, op, topic=None, payload=None, client=None):\n"
+"    # 生效条件：op ∈ {publish, subscribe}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {publish, subscribe} 时\n"
             "    # MQTT：发布/订阅（主题路由——客户端订阅主题收消息）\n"
             "    if op == 'subscribe':\n"
             "        broker.setdefault(topic, set()).add(client)\n"
@@ -592,6 +726,10 @@ NET_UNITS = {
         "task": "物联网遥测",
         "pattern": (
             "def iot_telemetry(devices, device, reading):\n"
+"    # 生效条件：参数 devices/device/reading 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # IoT 遥测：传感器读数上报（设备 → 平台数据流）\n"
             "    devices.setdefault(device, []).append(reading)\n"
             "    return len(devices[device])\n"),
@@ -605,6 +743,10 @@ NET_UNITS = {
         "task": "消息队列",
         "pattern": (
             "def msg_queue(q, op, item=None):\n"
+"    # 生效条件：op ∈ {dequeue, enqueue}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：q 为空/非法时；op 非 {dequeue, enqueue} 时\n"
             "    # 消息队列：入队/出队（FIFO 生产消费解耦）\n"
             "    if op == 'enqueue':\n"
             "        q.append(item)\n"
@@ -624,6 +766,10 @@ NET_UNITS = {
         "task": "CDN缓存",
         "pattern": (
             "def cdn_cache(edges, content, url):\n"
+"    # 生效条件：参数 edges/content/url 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # CDN：边缘节点缓存（内容就近分发——回源/命中）\n"
             "    edge = edges[0] if edges else None\n"
             "    if edge is None:\n"
@@ -643,6 +789,10 @@ NET_UNITS = {
         "task": "边缘计算",
         "pattern": (
             "def edge_compute(nodes, task, data):\n"
+"    # 生效条件：参数 nodes/task/data 合法\n"
+"    # 子功能：① 调用 min\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：nodes 为空/非法时（隐式盲区：返回默认值 ('cloud', 0) = 未知行为——不适用）\n"
             "    # 边缘计算：任务分发到就近节点处理（延迟降低语义）\n"
             "    if not nodes:\n"
             "        return ('cloud', task)\n"
@@ -658,6 +808,10 @@ NET_UNITS = {
         "task": "内容路由",
         "pattern": (
             "def content_route(table, url):\n"
+"    # 生效条件：url.startswith 可用\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 内容路由：URL 前缀 → 后端节点（按内容寻址）\n"
             "    best = None\n"
             "    for prefix, node in table.items():\n"
@@ -675,6 +829,10 @@ NET_UNITS = {
         "task": "流量统计",
         "pattern": (
             "def traffic_stats(flows):\n"
+"    # 生效条件：参数 flows 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 流量统计：每流字节/包汇总（流量分析）\n"
             "    stats = {}\n"
             "    for f in flows:\n"
@@ -694,6 +852,10 @@ NET_UNITS = {
         "task": "延迟测量",
         "pattern": (
             "def rtt_stats(samples):\n"
+"    # 生效条件：参数 samples 合法\n"
+"    # 子功能：① 调用 round；② 调用 min；③ 调用 max\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：samples 为空/非法时（隐式盲区：返回默认值 {'avg': 0.0, 'min': 0, 'max':  = 未知行为——不适用）\n"
             "    # RTT 测量：延迟样本 → 平均/最小/最大（链路质量）\n"
             "    if not samples:\n"
             "        return {'avg': 0.0, 'min': 0, 'max': 0}\n"
@@ -708,6 +870,10 @@ NET_UNITS = {
         "task": "异常检测",
         "pattern": (
             "def anomaly_detect(traffic, threshold):\n"
+"    # 生效条件：参数 traffic/threshold 合法\n"
+"    # 子功能：① 条件判定 ② 结果处理\n"
+"    # 执行：循环迭代\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 异常检测：流量突增（超过阈值 → 告警）\n"
             "    alerts = []\n"
             "    for t in traffic:\n"
@@ -724,7 +890,11 @@ NET_UNITS = {
         "task": "报文解析",
         "pattern": (
             "def parse_ip(packet):\n"
-            "    # IP 报文解析：头部字段（版本/协议/源/目的）\n"
+            "    # 报文解析（IP 数据包解析）：头部字段（版本/协议/源/目的）\n"
+            "    # 生效条件：packet 为 IP 报文字节（≥20 字节头部）\n"
+            "    # 子功能：① 版本/协议提取 ② 源地址提取 ③ 目的地址提取\n"
+            "    # 执行：按字节偏移位运算 + 点分十进制拼接\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    ver = packet[0] >> 4\n"
             "    proto = packet[9]\n"
             "    src = '.'.join(str(b) for b in packet[12:16])\n"
@@ -741,6 +911,10 @@ NET_UNITS = {
         "task": "抓包分析",
         "pattern": (
             "def capture_stats(captures):\n"
+"    # 生效条件：参数 captures 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 抓包分析：包计数/协议分布（pcap 统计语义）\n"
             "    total = len(captures)\n"
             "    by_proto = {}\n"
@@ -757,6 +931,10 @@ NET_UNITS = {
         "task": "协议解码",
         "pattern": (
             "def hex_decode(hex_str):\n"
+"    # 生效条件：bytes.fromhex 可用\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 协议解码：十六进制 → 字节串（抓包数据解码）\n"
             "    return bytes.fromhex(hex_str)\n"),
         "cases": [(('48656c6c6f',), b'Hello'),
@@ -769,6 +947,10 @@ NET_UNITS = {
         "task": "令牌桶",
         "pattern": (
             "def token_bucket(tokens, capacity, rate, elapsed):\n"
+"    # 生效条件：参数 tokens/capacity/rate/elapsed 合法\n"
+"    # 子功能：① 调用 min\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 令牌桶限速：按速率补令牌（上限 capacity）——流量整形\n"
             "    return min(capacity, tokens + rate * elapsed)\n"),
         "cases": [((0, 10, 2, 3), 6),
@@ -781,6 +963,10 @@ NET_UNITS = {
         "task": "服务发现",
         "pattern": (
             "def service_discover(registry, op, service=None, addr=None, ttl=0, now=0):\n"
+"    # 生效条件：op ∈ {discover, heartbeat, register}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {discover, heartbeat, register} 时\n"
             "    # 服务发现：注册 / 心跳续期 / 发现（健康节点，过期剔除）\n"
             "    if op == 'register':\n"
             "        registry[service] = {'addr': addr, 'expire': now + ttl}\n"
@@ -807,6 +993,10 @@ NET_UNITS = {
         "task": "加密握手",
         "pattern": (
             "def tls_handshake(state, op):\n"
+"    # 生效条件：op ∈ {exchange, finish, hello}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {exchange, finish, hello} 时\n"
             "    # 加密传输：TLS 简化握手状态机（问候→密钥交换→完成→安全通道）\n"
             "    if op == 'hello':\n"
             "        state['phase'] = 'hello'\n"
@@ -839,6 +1029,10 @@ NET_UNITS = {
         "task": "慢启动",
         "pattern": (
             "def slow_start(cwnd, ssthresh, rtts):\n"
+"    # 生效条件：参数 cwnd/ssthresh/rtts 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 慢启动：每 RTT 拥塞窗口翻倍（指数增长），达阈值转拥塞避免（线性）\n"
             "    for _ in range(rtts):\n"
             "        if cwnd < ssthresh:\n"
@@ -857,6 +1051,10 @@ NET_UNITS = {
         "task": "快速重传",
         "pattern": (
             "def fast_retransmit(dup_acks, threshold=3):\n"
+"    # 生效条件：参数 dup_acks/threshold 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 快速重传：重复 ACK 达阈值立即重传（不等超时——快速恢复）\n"
             "    return dup_acks >= threshold\n"),
         "cases": [((2, 3), False),
@@ -870,6 +1068,10 @@ NET_UNITS = {
         "task": "选择性确认",
         "pattern": (
             "def sack_missing(received, expected):\n"
+"    # 生效条件：参数 received/expected 合法\n"
+"    # 子功能：① 调用 range\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 选择性确认：已收段 vs 期望序列 → 缺失段（SACK——只重传缺失）\n"
             "    return [i for i in range(1, expected + 1) if i not in received]\n"),
         "cases": [(({1, 2, 4}, 5), [3, 5]),
@@ -882,6 +1084,10 @@ NET_UNITS = {
         "task": "端口转发",
         "pattern": (
             "def port_forward(table, op, ext_port=None, int_host=None, int_port=None):\n"
+"    # 生效条件：op ∈ {add, lookup, remove}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {add, lookup, remove} 时\n"
             "    # 端口转发：add 映射 / lookup 查询 / remove 删除（外网端口→内网）\n"
             "    if op == 'add':\n"
             "        table[ext_port] = (int_host, int_port)\n"
@@ -903,6 +1109,10 @@ NET_UNITS = {
         "task": "QoS队列",
         "pattern": (
             "def qos_queue(queues, op, flow=None, priority=None):\n"
+"    # 生效条件：op ∈ {classify, dequeue, enqueue}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
+"    # 不适用条件：op 非 {classify, dequeue, enqueue} 时\n"
             "    # QoS 队列：classify 流量分类 / enqueue 按优先级入队 / dequeue 高优先先出\n"
             "    if op == 'classify':\n"
             "        return 'high' if priority and priority >= 3 else 'low'\n"
@@ -929,6 +1139,10 @@ NET_UNITS = {
         "task": "链路聚合",
         "pattern": (
             "def link_aggregation(links, op, link_id=None, data=None):\n"
+"    # 生效条件：op ∈ {add, fail, send}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：up 为空/非法时；op 非 {add, fail, send} 时\n"
             "    # 链路聚合：add 加链路 / send 选最少链路分发（负载均衡）/ fail 故障切换\n"
             "    if op == 'add':\n"
             "        links.append({'id': link_id, 'up': True, 'sent': 0})\n"
@@ -960,6 +1174,10 @@ NET_UNITS = {
         "task": "滑动窗口限流",
         "pattern": (
             "def rate_limit(requests, window, limit):\n"
+"    # 生效条件：参数 requests/window/limit 合法\n"
+"    # 子功能：① 调用 enumerate；② 调用 sum\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 滑动窗口限流：窗口内请求数 ≤ 上限（时间戳窗口滑动）\n"
             "    out = []\n"
             "    for i, ts in enumerate(requests):\n"
@@ -978,6 +1196,10 @@ NET_UNITS = {
         "task": "反向代理",
         "pattern": (
             "def reverse_proxy(backends, op, backend_id=None):\n"
+"    # 生效条件：op ∈ {fail, recover, route}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：healthy 为空/非法时；op 非 {fail, recover, route} 时\n"
             "    # 反向代理：route 轮询转发（客户端不知后端）/ fail 摘除 / recover 恢复\n"
             "    if op == 'route':\n"
             "        healthy = [i for i, b in enumerate(backends) if b.get('up', True)]\n"
@@ -1007,6 +1229,10 @@ NET_UNITS = {
         "task": "组播",
         "pattern": (
             "def multicast_group(groups, op, group=None, member=None, msg=None):\n"
+"    # 生效条件：op ∈ {join, leave, send}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {join, leave, send} 时\n"
             "    # 组播：join 加入组 / leave 离开 / send 组内广播（成员管理）\n"
             "    if op == 'join':\n"
             "        groups.setdefault(group, []).append(member)\n"
@@ -1031,6 +1257,10 @@ NET_UNITS = {
         "task": "Reno拥塞控制",
         "pattern": (
             "def reno_phase(state, event, cwnd=None):\n"
+"    # 生效条件：event ∈ {ack, loss}\n"
+"    # 子功能：1 event 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：event 非 {ack, loss} 时\n"
             "    # Reno 拥塞控制：ack 慢启动翻倍/拥塞避免线性，loss 快速恢复（阈值减半）\n"
             "    if event == 'loss':\n"
             "        state['ssthresh'] = max((cwnd or state.get('cwnd', 1)) // 2, 1)\n"
@@ -1055,6 +1285,10 @@ NET_UNITS = {
         "task": "RTO退避",
         "pattern": (
             "def rto_backoff(rto, losses):\n"
+"    # 生效条件：参数 rto/losses 合法\n"
+"    # 子功能：① 主体逻辑执行\n"
+"    # 执行：顺序执行\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # RTO 重传超时：指数退避（每次超时翻倍——避免拥塞加剧）\n"
             "    return rto * (2 ** losses)\n"),
         "cases": [((1.0, 0), 1.0),
@@ -1067,6 +1301,10 @@ NET_UNITS = {
         "task": "吞吐量测量",
         "pattern": (
             "def throughput(data_bytes, seconds):\n"
+"    # 生效条件：参数 data_bytes/seconds 合法\n"
+"    # 子功能：① 调用 round\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 吞吐量测量：字节数 / 时间（单位 KB/s）\n"
             "    return round(data_bytes / 1024 / seconds, 3) if seconds else 0.0\n"),
         "cases": [((10240, 10), 1.0),
@@ -1079,6 +1317,10 @@ NET_UNITS = {
         "task": "链路状态路由",
         "pattern": (
             "def link_state_routing(graph, source):\n"
+"    # 生效条件：unvisited.discard 可用\n"
+"    # 子功能：① 调用 set；② 调用 min；③ 调用 float\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 链路状态路由：Dijkstra 最短路径树（OSPF 全拓扑计算）\n"
             "    dist = {source: 0}\n"
             "    prev = {}\n"
@@ -1106,6 +1348,10 @@ NET_UNITS = {
         "task": "策略路由",
         "pattern": (
             "def policy_routing(policies, op, flow=None, policy_name=None):\n"
+"    # 生效条件：op ∈ {add, match}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：op 非 {add, match} 时\n"
             "    # 策略路由：add 注册策略 / match 按流量特征匹配（源地址/类型）\n"
             "    if op == 'add':\n"
             "        policies[policy_name] = flow\n"
@@ -1128,6 +1374,10 @@ NET_UNITS = {
         "task": "多径传输",
         "pattern": (
             "def multipath_send(paths, op, subflow=None, data=None):\n"
+"    # 生效条件：op ∈ {add, send, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：paths 为空/非法时；op 非 {add, send, stats} 时\n"
             "    # 多径传输：MPTCP 多子流并行（add 加子流 / send 选最少 / stats 汇总）\n"
             "    if op == 'add':\n"
             "        paths[subflow] = {'sent': 0}\n"
@@ -1154,6 +1404,10 @@ NET_UNITS = {
         "task": "访问令牌",
         "pattern": (
             "def token_ops(tokens, op, token=None, user=None, ttl=0, now=0):\n"
+"    # 生效条件：op ∈ {issue, revoke, verify}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {issue, revoke, verify} 时\n"
             "    # 访问令牌：issue 签发 / verify 校验（未过期且有效）/ revoke 吊销\n"
             "    if op == 'issue':\n"
             "        tokens[token] = {'user': user, 'expire': now + ttl,\n"
@@ -1185,6 +1439,10 @@ NET_UNITS = {
         "task": "压缩传输",
         "pattern": (
             "def compress_transfer(data, mode):\n"
+"    # 生效条件：mode ∈ {compress, decompress}\n"
+"    # 子功能：1 mode 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：mode 非 {compress, decompress} 时\n"
             "    # 压缩传输：compress 行程编码（RLE 重复段）/ decompress 还原\n"
             "    if mode == 'compress':\n"
             "        out = []\n"
@@ -1209,6 +1467,10 @@ NET_UNITS = {
         "task": "会话亲和",
         "pattern": (
             "def sticky_session(backends, op, session=None, backend_id=None):\n"
+"    # 生效条件：op ∈ {bind, route}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {bind, route} 时\n"
             "    # 会话亲和：bind 绑定会话到后端 / route 同会话同后端（sticky session）\n"
             "    if op == 'bind':\n"
             "        backends[session] = backend_id\n"
@@ -1226,6 +1488,10 @@ NET_UNITS = {
         "task": "链路加密",
         "pattern": (
             "def link_encrypt(frames, op, frame=None, key=7):\n"
+"    # 生效条件：op ∈ {decrypt, encrypt}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {decrypt, encrypt} 时\n"
             "    # 链路加密：encrypt 帧加密（异或密钥）/ decrypt 解密（MACsec 链路层）\n"
             "    if op == 'encrypt':\n"
             "        frames[frame] = ''.join(chr(ord(c) ^ key) for c in frame)\n"
@@ -1246,6 +1512,10 @@ NET_UNITS = {
         "task": "流量镜像",
         "pattern": (
             "def port_mirror(monitor, op, src_port=None, dst_port=None, packet=None):\n"
+"    # 生效条件：op ∈ {capture, mirror, route}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {capture, mirror, route} 时\n"
             "    # 流量镜像：mirror 镜像源到目标 / capture 采集 / route 转发（SPAN）\n"
             "    if op == 'mirror':\n"
             "        monitor[src_port] = dst_port\n"
@@ -1267,6 +1537,10 @@ NET_UNITS = {
         "task": "网络切片",
         "pattern": (
             "def network_slice(slices, op, name=None, bw=None, flow=None):\n"
+"    # 生效条件：op ∈ {admit, create}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {admit, create} 时\n"
             "    # 网络切片：create 创建 / admit 带宽准入（按服务隔离网络资源）\n"
             "    if op == 'create':\n"
             "        slices[name] = {'bw': bw, 'used': 0}\n"
@@ -1293,6 +1567,10 @@ NET_UNITS = {
         "task": "分块传输",
         "pattern": (
             "def chunked_transfer(op, data=None, chunk_size=0):\n"
+"    # 生效条件：op ∈ {decode, encode}；data.index 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：op 非 {decode, encode} 时\n"
             "    # 分块传输：encode 分块编码（每块十六进制长度）/ decode 还原\n"
             "    if op == 'encode':\n"
             "        chunks = [data[i:i + chunk_size]\n"
@@ -1322,6 +1600,10 @@ NET_UNITS = {
         "task": "HTTP重定向",
         "pattern": (
             "def http_redirect(op, status=None, location=None, max_hops=5):\n"
+"    # 生效条件：op ∈ {follow}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
+"    # 不适用条件：op 非 {follow} 时\n"
             "    # HTTP 重定向：follow 跟随 3xx（location 链，超跳数返回 None）\n"
             "    if op == 'follow':\n"
             "        hops = 0\n"
@@ -1342,6 +1624,10 @@ NET_UNITS = {
         "task": "内容协商",
         "pattern": (
             "def content_negotiation(accept, available, op='match'):\n"
+"    # 生效条件：op ∈ {match}；a.strip 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
+"    # 不适用条件：op 非 {match} 时\n"
             "    # 内容协商：Accept 头匹配可用类型（按序——最佳匹配）\n"
             "    if op == 'match':\n"
             "        for a in accept.split(','):\n"
@@ -1362,6 +1648,10 @@ NET_UNITS = {
         "task": "路径MTU发现",
         "pattern": (
             "def pmtu_discover(state, op, size=None, too_large=None):\n"
+"    # 生效条件：op ∈ {current, probe, result}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {current, probe, result} 时\n"
             "    # 路径 MTU 发现：probe 探测 / result 过大减 8 / current 当前值（PMTUD）\n"
             "    if op == 'probe':\n"
             "        state['mtu'] = size\n"
@@ -1385,6 +1675,10 @@ NET_UNITS = {
         "task": "端口扫描检测",
         "pattern": (
             "def scan_detect(conns, op, src=None, dst=None):\n"
+"    # 生效条件：op ∈ {check, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {check, record} 时\n"
             "    # 端口扫描检测：record 记录连接 / check 检测（多端口快速尝试→扫描）\n"
             "    if op == 'record':\n"
             "        conns.setdefault(src, []).append(dst)\n"
@@ -1407,6 +1701,10 @@ NET_UNITS = {
         "task": "会话超时",
         "pattern": (
             "def session_timeout(sessions, op, session=None, now=None, timeout=30):\n"
+"    # 生效条件：op ∈ {activity, check}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {activity, check} 时\n"
             "    # 会话超时：activity 更新活跃 / check 检查（空闲超时断开）\n"
             "    if op == 'activity':\n"
             "        sessions[session] = now\n"
@@ -1428,6 +1726,10 @@ NET_UNITS = {
         "task": "消息路由",
         "pattern": (
             "def msg_routing(routes, op, topic=None, queue=None):\n"
+"    # 生效条件：op ∈ {bind, route}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {bind, route} 时\n"
             "    # 消息路由：bind 绑定主题到队列 / route 路由（主题→队列）\n"
             "    if op == 'bind':\n"
             "        routes.setdefault(topic, []).append(queue)\n"
@@ -1446,6 +1748,10 @@ NET_UNITS = {
         "task": "API限流",
         "pattern": (
             "def api_rate_limit(state, op, user=None, quota=0):\n"
+"    # 生效条件：op ∈ {check, use}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {check, use} 时\n"
             "    # API 限流：use 消耗配额 / check 检查（每用户配额）\n"
             "    if op == 'use':\n"
             "        state[user] = state.get(user, quota) - 1\n"
@@ -1464,6 +1770,10 @@ NET_UNITS = {
         "task": "数据序列化",
         "pattern": (
             "def proto_encode(fields, values):\n"
+"    # 生效条件：参数 fields/values 合法\n"
+"    # 子功能：① 调用 enumerate\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
             "    # 数据序列化：字段表+值 → 紧凑编码（protobuf 简化——字段序号+类型+值）\n"
             "    out = []\n"
             "    for i, (name, typ) in enumerate(fields):\n"
@@ -1478,6 +1788,1061 @@ NET_UNITS = {
                    [(1, 'int', 5)])],
         "params": [],
         "calibration": "对照：protobuf 序列化——字段序号+类型+值紧凑编码",
+    },
+    "网络-DHCP租约": {
+        "task": "DHCP租约",
+        "pattern": (
+            "def dhcp_lease(pool, op, mac=None, ttl=3600):\n"
+"    # 生效条件：op ∈ {offer, release, renew}；state ∈ {free}\n"
+"    # 子功能：① op 分支处理；2 state 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：op 非 {offer, release, renew} 时；state 非 {free} 时\n"
+            "    # DHCP：offer 分配/释放 / renew 续租（IP 地址租约管理）\n"
+            "    if op == 'offer':\n"
+            "        for ip, state in pool.items():\n"
+            "            if state == 'free':\n"
+            "                pool[ip] = {'mac': mac, 'ttl': ttl}\n"
+            "                return ip\n"
+            "        return None\n"
+            "    if op == 'renew':\n"
+            "        for ip, state in pool.items():\n"
+            "            if isinstance(state, dict) and state.get('mac') == mac:\n"
+            "                state['ttl'] = ttl\n"
+            "                return ip\n"
+            "        return None\n"
+            "    if op == 'release':\n"
+            "        for ip, state in pool.items():\n"
+            "            if isinstance(state, dict) and state.get('mac') == mac:\n"
+            "                pool[ip] = 'free'\n"
+            "                return 'released'\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [
+            (({'10.0.0.1': 'free', '10.0.0.2': 'free'}, 'offer', 'aa:bb'), '10.0.0.1'),
+            (({'10.0.0.1': {'mac': 'aa:bb', 'ttl': 3600}}, 'renew', 'aa:bb', 7200), '10.0.0.1'),
+            (({'10.0.0.1': {'mac': 'aa:bb', 'ttl': 3600}}, 'release', 'aa:bb'), 'released'),
+            (({'10.0.0.1': {'mac': 'cc', 'ttl': 3600}}, 'offer', 'aa:bb'), None)],
+        "params": [],
+        "calibration": "对照：DHCP 协议——地址租约 offer/renew/release 生命周期",
+    },
+    "网络-ARP解析": {
+        "task": "ARP解析",
+        "pattern": (
+            "def arp_resolve(table, op, ip=None, mac=None):\n"
+"    # 生效条件：op ∈ {flush, learn, lookup}；table.clear 可用\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {flush, learn, lookup} 时\n"
+            "    # ARP：lookup IP→MAC / learn 学习缓存 / flush 清空（地址解析）\n"
+            "    if op == 'lookup':\n"
+            "        return table.get(ip)\n"
+            "    if op == 'learn':\n"
+            "        table[ip] = mac\n"
+            "        return mac\n"
+            "    if op == 'flush':\n"
+            "        table.clear()\n"
+            "        return 'flushed'\n"
+            "    return None\n"),
+        "cases": [(({'10.0.0.1': 'aa:bb', '10.0.0.2': 'cc:dd'}, 'lookup', '10.0.0.1'), 'aa:bb'),
+                  (({}, 'learn', '10.0.0.5', 'ee:ff'), 'ee:ff'),
+                  (({}, 'lookup', '10.0.0.9'), None),
+                  (({'10.0.0.1': 'aa:bb'}, 'flush'), 'flushed')],
+        "params": [],
+        "calibration": "对照：ARP 协议——IP→MAC 地址解析（查询/学习/清空缓存）",
+    },
+    "网络-ICMP探测": {
+        "task": "ICMP探测",
+        "pattern": (
+            "def icmp_probe(results, op, target=None, rtt=None):\n"
+"    # 生效条件：op ∈ {ping, reply, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {ping, reply, stats} 时\n"
+            "    # ICMP：ping 记录往返 / reply 可达判定 / stats 汇总（探测协议）\n"
+            "    if op == 'ping':\n"
+            "        results.append({'target': target, 'rtt': rtt})\n"
+            "        return 'sent'\n"
+            "    if op == 'reply':\n"
+            "        return target if rtt is not None and rtt < 1000 else None\n"
+            "    if op == 'stats':\n"
+            "        return len(results)\n"
+            "    return None\n"),
+        "cases": [(([], 'ping', '10.0.0.1', 42), 'sent'),
+                  (([], 'reply', '10.0.0.1', 50), '10.0.0.1'),
+                  (([], 'reply', '10.0.0.1', 1500), None),
+                  ((['x'], 'stats'), 1)],
+        "params": [],
+        "calibration": "对照：ICMP Echo——ping 往返测量与可达性判定（RTT 阈值）",
+    },
+    "网络-广播风暴": {
+        "task": "广播风暴",
+        "pattern": (
+            "def storm_control(state, op, port=None):\n"
+"    # 生效条件：op ∈ {block, count, rate}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {block, count, rate} 时\n"
+            "    # 广播风暴：count 计数 / rate 速率 / block 超阈阻塞（风暴抑制）\n"
+            "    if op == 'count':\n"
+            "        state[port] = state.get(port, 0) + 1\n"
+            "        return state[port]\n"
+            "    if op == 'rate':\n"
+            "        return state.get(port, 0)\n"
+            "    if op == 'block':\n"
+            "        return state.get(port, 0) > state.get('limit', 100)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'count', 'p1'), 1),
+            (({'p1': 5}, 'rate', 'p1'), 5),
+            (({'p1': 150, 'limit': 100}, 'block', 'p1'), True),
+            (({'p1': 50, 'limit': 100}, 'block', 'p1'), False)],
+        "params": [],
+        "calibration": "对照：广播风暴抑制——计数/速率/超阈阻塞（环路风暴防护）",
+    },
+    "网络-心跳保活": {
+        "task": "心跳保活",
+        "pattern": (
+            "def keepalive(state, op, now=None):\n"
+"    # 生效条件：op ∈ {alive, beat, reset}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {alive, beat, reset} 时\n"
+            "    # 心跳保活：beat 记录心跳 / alive 超时判定 / reset 重置（连接保活）\n"
+            "    if op == 'beat':\n"
+            "        state['last'] = now\n"
+            "        return now\n"
+            "    if op == 'alive':\n"
+            "        return now - state.get('last', now) <= state.get('timeout', 30)\n"
+            "    if op == 'reset':\n"
+            "        state['last'] = None\n"
+            "        return 'reset'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'beat', 100), 100),
+            (({'last': 100}, 'alive', 120), True),
+            (({'last': 100}, 'alive', 200), False),
+            (({}, 'reset'), 'reset')],
+        "params": [],
+        "calibration": "对照：TCP keepalive——心跳记录/超时判定（连接保活）",
+    },
+    "网络-报文重排序": {
+        "task": "报文重排序",
+        "pattern": (
+            "def reorder_buffer(state, op, seq=None, data=None):\n"
+"    # 生效条件：op ∈ {flush, put}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：op 非 {flush, put} 时\n"
+            "    # 报文重排序：put 乱序存入 / flush 按序取出（重排缓冲）\n"
+            "    if op == 'put':\n"
+            "        state.setdefault('buf', {})[seq] = data\n"
+            "        return len(state['buf'])\n"
+            "    if op == 'flush':\n"
+            "        out = []\n"
+            "        nxt = state.get('next', 0)\n"
+            "        while nxt in state.get('buf', {}):\n"
+            "            out.append(state['buf'].pop(nxt))\n"
+            "            nxt += 1\n"
+            "        state['next'] = nxt\n"
+            "        return out\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'put', 3, 'c'), 1),
+            (({'buf': {1: 'a', 2: 'b'}, 'next': 1}, 'flush'), ['a', 'b']),
+            (({'buf': {}, 'next': 0}, 'flush'), []),
+            (({'buf': {5: 'e'}, 'next': 1}, 'flush'), [])],
+        "params": [],
+        "calibration": "对照：TCP 乱序重排——按序号缓冲并按序递交（reordering）",
+    },
+    "网络-CSMA退避": {
+        "task": "CSMA退避",
+        "pattern": (
+            "def csma_backoff(state, op, attempt=None):\n"
+"    # 生效条件：op ∈ {collision, reset, wait}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {collision, reset, wait} 时\n"
+            "    # CSMA 退避：collision 碰撞计数 / wait 指数退避等待 / reset 重传成功清零（以太网）\n"
+            "    if op == 'collision':\n"
+            "        state['n'] = state.get('n', 0) + 1\n"
+            "        return state['n']\n"
+            "    if op == 'wait':\n"
+            "        n = state.get('n', 0)\n"
+            "        return min(2 ** n, 1024)\n"
+            "    if op == 'reset':\n"
+            "        state['n'] = 0\n"
+            "        return 0\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'collision'), 1),
+            (({'n': 3}, 'wait'), 8),
+            (({'n': 12}, 'wait'), 1024),
+            (({'n': 5}, 'reset'), 0)],
+        "params": [],
+        "calibration": "对照：CSMA/CD——碰撞指数退避（2^n 上限 1024，重传清零）",
+    },
+    "网络-路由收敛": {
+        "task": "路由收敛",
+        "pattern": (
+            "def route_converge(routes, op, src=None, change=None):\n"
+"    # 生效条件：op ∈ {converge, stable, update}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {converge, stable, update} 时\n"
+            "    # 路由收敛：update 链路变化 / converge 传播收敛 / stable 是否稳定（路由协议收敛）\n"
+            "    if op == 'update':\n"
+            "        routes['dirty'] = True\n"
+            "        routes.setdefault('changes', []).append((src, change))\n"
+            "        return 'updated'\n"
+            "    if op == 'converge':\n"
+            "        routes['dirty'] = False\n"
+            "        return 'converged'\n"
+            "    if op == 'stable':\n"
+            "        return not routes.get('dirty', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'update', 'A', 'down'), 'updated'),
+            (({}, 'converge'), 'converged'),
+            (({'dirty': True}, 'stable'), False),
+            (({'dirty': False}, 'stable'), True)],
+        "params": [],
+        "calibration": "对照：路由协议收敛——链路变化传播至全网稳定（收敛判定）",
+    },
+    "网络-链路预算": {
+        "task": "链路预算",
+        "pattern": (
+            "def link_budget(state, op, rssi=None):\n"
+"    # 生效条件：op ∈ {distance, measure, quality}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {distance, measure, quality} 时\n"
+            "    # 链路预算：measure 记录 RSSI / quality 信号质量分级 / distance 距离估算（蓝牙）\n"
+            "    if op == 'measure':\n"
+            "        state['rssi'] = rssi\n"
+            "        return rssi\n"
+            "    if op == 'quality':\n"
+            "        r = state.get('rssi', -100)\n"
+            "        if r >= -50:\n"
+            "            return 'excellent'\n"
+            "        if r >= -70:\n"
+            "            return 'good'\n"
+            "        if r >= -85:\n"
+            "            return 'fair'\n"
+            "        return 'poor'\n"
+            "    if op == 'distance':\n"
+            "        r = state.get('rssi', -100)\n"
+            "        return round(10 ** ((r - -40) / -20), 1)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'measure', -55), -55),
+            (({'rssi': -45}, 'quality'), 'excellent'),
+            (({'rssi': -75}, 'quality'), 'fair'),
+            (({'rssi': -60}, 'distance'), 10.0)],
+        "params": [],
+        "calibration": "对照：蓝牙 RSSI——信号质量分级与距离估算（链路预算）",
+    },
+    "网络-NTP同步": {
+        "task": "NTP同步",
+        "pattern": (
+            "def ntp_sync(state, op, t1=None, t2=None, t3=None):\n"
+"    # 生效条件：op ∈ {offset, roundtrip}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {offset, roundtrip} 时\n"
+            "    # NTP 同步：offset 时间偏移 / roundtrip 往返时延（时间同步协议）\n"
+            "    if op == 'offset':\n"
+            "        # 客户端 t1 发送，服务器 t2 收到 t3 回，客户端 t4 接收——简化两戳\n"
+            "        return round(((t2 - t1) + (t3 - t2)) / 2, 2)\n"
+            "    if op == 'roundtrip':\n"
+            "        return round((t3 - t1) - (t2 - t1), 2)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'offset', 100, 110, 130), 15.0),
+            (({}, 'roundtrip', 100, 110, 130), 20.0),
+            (({}, 'offset', 100, 100, 100), 0.0)],
+        "params": [],
+        "calibration": "对照：NTP——时间偏移与往返时延计算（时间同步）",
+    },
+    "网络-报文分片": {
+        "task": "报文分片",
+        "pattern": (
+            "def packet_frag(state, op, data=None, mtu=None):\n"
+"    # 生效条件：op ∈ {fragment, reassemble}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {fragment, reassemble} 时\n"
+            "    # 报文分片：fragment 按 MTU 切分 / reassemble 按序号重组（IPv4 分片）\n"
+            "    if op == 'fragment':\n"
+            "        return [data[i:i + mtu] for i in range(0, len(data), mtu)]\n"
+            "    if op == 'reassemble':\n"
+            "        return ''.join(frag[1] for frag in sorted(data, key=lambda f: f[0]))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'fragment', 'abcdef', 3), ['abc', 'def']),
+            (({}, 'fragment', 'abcd', 2), ['ab', 'cd']),
+            (({}, 'reassemble', [(1, 'b'), (0, 'a')]), 'ab')],
+        "params": [],
+        "calibration": "对照：IPv4 分片——按 MTU 切分与按偏移重组",
+    },
+    "网络-前向纠错": {
+        "task": "前向纠错",
+        "pattern": (
+            "def fec_recover(blocks, op, idx=None):\n"
+"    # 生效条件：op ∈ {parity, recover}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：op 非 {parity, recover} 时\n"
+            "    # 前向纠错：parity 异或校验块 / recover 缺块恢复（FEC 奇偶恢复）\n"
+            "    if op == 'parity':\n"
+            "        out = 0\n"
+            "        for b in blocks:\n"
+            "            out ^= b\n"
+            "        return out\n"
+            "    if op == 'recover':\n"
+            "        # blocks 含校验块于末尾；缺 idx 块用其余异或恢复\n"
+            "        out = 0\n"
+            "        for i, b in enumerate(blocks):\n"
+            "            if i != idx:\n"
+            "                out ^= b\n"
+            "        return out\n"
+            "    return None\n"),
+        "cases": [
+            (([1, 2, 3], 'parity'), 0),
+            (([1, 2, 0], 'recover', 2), 3),
+            (([5, 0], 'recover', 1), 5)],
+        "params": [],
+        "calibration": "对照：FEC 异或奇偶——校验块生成与缺块恢复",
+    },
+    "网络-尽力交付": {
+        "task": "尽力交付",
+        "pattern": (
+            "def best_effort(state, op, seq=None):\n"
+"    # 生效条件：op ∈ {delivered, drop, send}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {delivered, drop, send} 时\n"
+            "    # 尽力交付：send 发送（无确认）/ drop 随机丢包模拟 / delivered 统计（UDP 语义）\n"
+            "    if op == 'send':\n"
+            "        state.setdefault('sent', []).append(seq)\n"
+            "        return 'sent'\n"
+            "    if op == 'drop':\n"
+            "        if seq in state.get('sent', []):\n"
+            "            state['sent'].remove(seq)\n"
+            "            return 'dropped'\n"
+            "        return None\n"
+            "    if op == 'delivered':\n"
+            "        return len(state.get('sent', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'send', 1), 'sent'),
+            (({'sent': [1]}, 'drop', 1), 'dropped'),
+            (({'sent': [1, 2]}, 'delivered'), 2),
+            (({'sent': [1]}, 'drop', 9), None)],
+        "params": [],
+        "calibration": "对照：UDP 尽力交付——无确认/可丢包（不可靠传输语义）",
+    },
+    "网络-带宽时延积": {
+        "task": "带宽时延积",
+        "pattern": (
+            "def bdp_calc(bandwidth, rtt):\n"
+"    # 生效条件：参数 bandwidth/rtt 合法\n"
+"    # 子功能：① 调用 round\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    # 带宽时延积：带宽×RTT = 在途数据量（管道容量）\n"
+            "    return round(bandwidth * rtt, 2)\n"),
+        "cases": [
+            ((10.0, 0.1), 1.0),
+            ((100.0, 0.05), 5.0),
+            ((0.0, 1.0), 0.0)],
+        "params": [],
+        "calibration": "对照：BDP——带宽×RTT（TCP 窗口大小依据）",
+    },
+    "网络-多宿主": {
+        "task": "多宿主",
+        "pattern": (
+            "def multihoming(state, op, iface=None):\n"
+"    # 生效条件：op ∈ {add, failover, select}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：ifaces 为空/非法时；op 非 {add, failover, select} 时\n"
+            "    # 多宿主：add 添加接口 / select 按序选择 / failover 故障切换（多接口主机）\n"
+            "    if op == 'add':\n"
+            "        state.setdefault('ifaces', []).append(iface)\n"
+            "        return iface\n"
+            "    if op == 'select':\n"
+            "        ifaces = state.get('ifaces', [])\n"
+            "        if not ifaces:\n"
+            "            return None\n"
+            "        idx = state.get('idx', 0) % len(ifaces)\n"
+            "        state['idx'] = idx + 1\n"
+            "        return ifaces[idx]\n"
+            "    if op == 'failover':\n"
+            "        ifaces = state.get('ifaces', [])\n"
+            "        return ifaces[0] if ifaces else None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'add', 'wlan0'), 'wlan0'),
+            (({'ifaces': ['eth0', 'wlan0']}, 'select'), 'eth0'),
+            (({'ifaces': ['eth0', 'wlan0'], 'idx': 1}, 'select'), 'wlan0'),
+            (({}, 'select'), None)],
+        "params": [],
+        "calibration": "对照：多宿主——多接口轮询选择与故障切换（multihoming）",
+    },
+    "网络-RTT平滑": {
+        "task": "RTT平滑",
+        "pattern": (
+            "def rtt_smooth(state, op, sample=None, alpha=0.125):\n"
+"    # 生效条件：op ∈ {get, sample}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {get, sample} 时\n"
+            "    # RTT 平滑：sample 加权更新 / get 当前估值（EWMA 指数加权）\n"
+            "    if op == 'sample':\n"
+            "        prev = state.get('rtt', sample)\n"
+            "        state['rtt'] = round((1 - alpha) * prev + alpha * sample, 2)\n"
+            "        return state['rtt']\n"
+            "    if op == 'get':\n"
+            "        return state.get('rtt', 0.0)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'sample', 100.0), 100.0),
+            (({'rtt': 100.0}, 'sample', 200.0), 112.5),
+            (({}, 'get'), 0.0),
+            (({'rtt': 80.0}, 'get'), 80.0)],
+        "params": [],
+        "calibration": "对照：TCP RTT——EWMA 加权平滑估值（α=0.125）",
+    },
+    "网络-路由汇聚": {
+        "task": "路由汇聚",
+        "pattern": (
+            "def route_summary(routes):\n"
+"    # 生效条件：参数 routes 合法\n"
+"    # 子功能：① 调用 len\n"
+"    # 执行：顺序调用\n"
+"    # 不适用条件：routes 为空/非法时（隐式盲区：返回默认值 [] = 未知行为——不适用）\n"
+            "    # 路由汇聚：同网段路由合成 CIDR 汇总（前两段公共）\n"
+            "    if not routes:\n"
+            "        return []\n"
+            "    segs = [r.split('.') for r in routes]\n"
+            "    if not segs or len(segs[0]) < 2:\n"
+            "        return []\n"
+            "    return [segs[0][0] + '.' + segs[0][1] + '.0.0/16']\n"),
+        "cases": [
+            ((['192.168.1.0/24', '192.168.2.0/24'],), ['192.168.0.0/16']),
+            ((['10.1.0.0/16', '10.1.1.0/24'],), ['10.1.0.0/16']),
+            (([],), [])],
+        "params": [],
+        "calibration": "对照：路由汇聚——CIDR 汇总（最长公共前缀合成）",
+    },
+    "网络-序列号回绕": {
+        "task": "序列号回绕",
+        "pattern": (
+            "def seq_wrap(state, op, seq=None, space=2 ** 32):\n"
+"    # 生效条件：op ∈ {compare, next, wrap}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {compare, next, wrap} 时\n"
+            "    # 序列号回绕：next 推进 / compare 回绕比较 / wrap 是否已回绕（TCP seq）\n"
+            "    if op == 'next':\n"
+            "        cur = state.get('seq', 0)\n"
+            "        nxt = (cur + 1) % space\n"
+            "        state['seq'] = nxt\n"
+            "        if nxt < cur:\n"
+            "            state['wrapped'] = True\n"
+            "        return nxt\n"
+            "    if op == 'compare':\n"
+            "        a, b = seq\n"
+            "        return (a - b) % space < space // 2\n"
+            "    if op == 'wrap':\n"
+            "        return state.get('wrapped', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'next', None, 4), 1),
+            (({'seq': 3}, 'next', None, 4), 0),
+            (({}, 'compare', (1, 6), 8), True),
+            (({}, 'compare', (6, 1), 8), False),
+            (({'wrapped': True}, 'wrap'), True)],
+        "params": [],
+        "calibration": "对照：TCP 序列号——回绕推进/回绕比较（2^32 空间）",
+    },
+    "网络-漏桶限流": {
+        "task": "漏桶限流",
+        "pattern": (
+            "def leaky_bucket(state, op, size=None, rate=None):\n"
+"    # 生效条件：op ∈ {accept, fill, leak}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {accept, fill, leak} 时\n"
+            "    # 漏桶限流：fill 灌桶 / leak 匀速漏 / accept 是否接受（平滑流量）\n"
+            "    if op == 'fill':\n"
+            "        cur = state.get('level', 0)\n"
+            "        if cur + 1 <= state.get('size', size):\n"
+            "            state['level'] = cur + 1\n"
+            "            return True\n"
+            "        return False\n"
+            "    if op == 'leak':\n"
+            "        cur = state.get('level', 0)\n"
+            "        state['level'] = max(0, cur - state.get('rate', rate))\n"
+            "        return state['level']\n"
+            "    if op == 'accept':\n"
+            "        return state.get('level', 0) < state.get('size', size)\n"
+            "    return None\n"),
+        "cases": [
+            (({'size': 2}, 'fill'), True),
+            (({'size': 1, 'level': 1}, 'fill'), False),
+            (({'level': 5, 'rate': 2}, 'leak'), 3),
+            (({'size': 2, 'level': 1}, 'accept'), True)],
+        "params": [],
+        "calibration": "对照：漏桶——匀速漏出平滑流量（灌桶/漏/接受判定）",
+    },
+    "网络-报文调度": {
+        "task": "报文调度",
+        "pattern": (
+            "def wfq_schedule(queues, op, weights=None):\n"
+"    # 生效条件：op ∈ {dequeue, enqueue}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {dequeue, enqueue} 时\n"
+            "    # 报文调度：dequeue 按权重选队列 / enqueue 入队 / weights 查询（WFQ 加权公平）\n"
+            "    if op == 'enqueue':\n"
+            "        return queues\n"
+            "    if op == 'dequeue':\n"
+            "        w = weights or {k: 1 for k in queues}\n"
+            "        best = max(queues, key=lambda k: w.get(k, 1) if queues[k] else -1)\n"
+            "        if queues[best]:\n"
+            "            return best, queues[best].pop(0)\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [
+            (({'a': [1], 'b': [2]}, 'enqueue'), {'a': [1], 'b': [2]}),
+            (({'a': [1], 'b': [2]}, 'dequeue', {'a': 3, 'b': 1}), ('a', 1)),
+            (({'a': [], 'b': [2]}, 'dequeue', {'a': 3, 'b': 1}), ('b', 2)),
+            (({'a': []}, 'dequeue', {'a': 1}), None)],
+        "params": [],
+        "calibration": "对照：WFQ——加权公平队列调度（按权重选队出队）",
+    },
+    "网络-链路利用率": {
+        "task": "链路利用率",
+        "pattern": (
+            "def link_util(state, op, used=None, capacity=None):\n"
+"    # 生效条件：op ∈ {peak, sample, util}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {peak, sample, util} 时\n"
+            "    # 链路利用率：sample 记录 / util 当前利用率 / peak 峰值（链路占用）\n"
+            "    if op == 'sample':\n"
+            "        u = used / capacity if capacity else 0.0\n"
+            "        state.setdefault('samples', []).append(round(u, 2))\n"
+            "        return round(u, 2)\n"
+            "    if op == 'util':\n"
+            "        s = state.get('samples', [])\n"
+            "        return round(sum(s) / len(s), 2) if s else 0.0\n"
+            "    if op == 'peak':\n"
+            "        s = state.get('samples', [])\n"
+            "        return max(s) if s else 0.0\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'sample', 50, 100), 0.5),
+            (({}, 'sample', 0, 100), 0.0),
+            (({'samples': [0.5, 0.7]}, 'util'), 0.6),
+            (({'samples': [0.5, 0.9]}, 'peak'), 0.9)],
+        "params": [],
+        "calibration": "对照：链路利用率——已用/容量采样（平均与峰值）",
+    },
+    "网络-带宽分配": {
+        "task": "带宽分配",
+        "pattern": (
+            "def bw_alloc(total, weights):\n"
+"    # 生效条件：参数 total/weights 合法\n"
+"    # 子功能：① 调用 sum；② 调用 round\n"
+"    # 执行：循环迭代；顺序调用\n"
+"    # 不适用条件：s 越界（LtE）时\n"
+            "    # 带宽分配：按权重比例分总带宽（公平分配）\n"
+            "    s = sum(weights.values())\n"
+            "    if s <= 0:\n"
+            "        return {k: 0 for k in weights}\n"
+            "    out = {}\n"
+            "    used = 0\n"
+            "    for k, w in weights.items():\n"
+            "        v = total * w / s\n"
+            "        out[k] = round(v, 2)\n"
+            "        used += v\n"
+            "    return out\n"),
+        "cases": [
+            ((100, {'a': 1, 'b': 1}), {'a': 50.0, 'b': 50.0}),
+            ((100, {'a': 3, 'b': 1}), {'a': 75.0, 'b': 25.0}),
+            ((100, {}), {}),
+            ((100, {'a': 0}), {'a': 0.0})],
+        "params": [],
+        "calibration": "对照：带宽分配——按权重比例公平分配（weighted sharing）",
+    },
+    "网络-连接迁移": {
+        "task": "连接迁移",
+        "pattern": (
+            "def conn_migrate(state, op, ep=None):\n"
+"    # 生效条件：op ∈ {count, current, migrate}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {count, current, migrate} 时\n"
+            "    # 连接迁移：migrate 换端点 / current 当前端点 / count 迁移次数（QUIC migration）\n"
+            "    if op == 'migrate':\n"
+            "        state['ep'] = ep\n"
+            "        state['count'] = state.get('count', 0) + 1\n"
+            "        return ep\n"
+            "    if op == 'current':\n"
+            "        return state.get('ep')\n"
+            "    if op == 'count':\n"
+            "        return state.get('count', 0)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'migrate', '10.0.0.2'), '10.0.0.2'),
+            (({}, 'current'), None),
+            (({'ep': '10.0.0.2', 'count': 1}, 'count'), 1),
+            (({'ep': '10.0.0.1'}, 'migrate', '10.0.0.3'), '10.0.0.3')],
+        "params": [],
+        "calibration": "对照：QUIC——连接迁移（端点切换不断连）",
+    },
+    "网络-重传统计": {
+        "task": "重传统计",
+        "pattern": (
+            "def retrans_stats(state, op, seq=None):\n"
+"    # 生效条件：op ∈ {count, rate, record}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {count, rate, record} 时\n"
+            "    # 重传统计：record 记录 / count 总数 / rate 重传率（可靠传输统计）\n"
+            "    if op == 'record':\n"
+            "        state.setdefault('retx', set()).add(seq)\n"
+            "        state['sent'] = state.get('sent', 0) + 1\n"
+            "        return 'recorded'\n"
+            "    if op == 'count':\n"
+            "        return len(state.get('retx', set()))\n"
+            "    if op == 'rate':\n"
+            "        sent = state.get('sent', 0)\n"
+            "        retx = len(state.get('retx', set()))\n"
+            "        return round(retx / sent, 2) if sent else 0.0\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'record', 1), 'recorded'),
+            (({'retx': {1, 2}}, 'count'), 2),
+            (({'sent': 10, 'retx': {1, 2}}, 'rate'), 0.2),
+            (({}, 'rate'), 0.0)],
+        "params": [],
+        "calibration": "对照：TCP 统计——重传统计与重传率（可靠传输）",
+    },
+    "网络-路由衰减": {
+        "task": "路由衰减",
+        "pattern": (
+            "def route_damp(state, op, route=None, flappy=None):\n"
+"    # 生效条件：op ∈ {damped, record, reset}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {damped, record, reset} 时\n"
+            "    # 路由衰减：record 记录抖动 / damped 是否抑制 / reset 重置（BGP damping）\n"
+            "    if op == 'record':\n"
+            "        state.setdefault('flaps', {})[route] = state.get('flaps', {}).get(route, 0) + 1\n"
+            "        return state['flaps'][route]\n"
+            "    if op == 'damped':\n"
+            "        return state.get('flaps', {}).get(route, 0) >= flappy\n"
+            "    if op == 'reset':\n"
+            "        state.setdefault('flaps', {})[route] = 0\n"
+            "        return 'reset'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'record', 'r1'), 1),
+            (({'flaps': {'r1': 5}}, 'damped', 'r1', 4), True),
+            (({'flaps': {'r1': 2}}, 'damped', 'r1', 4), False),
+            (({'flaps': {'r1': 5}}, 'reset', 'r1'), 'reset')],
+        "params": [],
+        "calibration": "对照：BGP damping——路由抖动抑制（阈值衰减）",
+    },
+    "网络-流分类": {
+        "task": "流分类",
+        "pattern": (
+            "def flow_class(state, op, pkt=None):\n"
+"    # 生效条件：op ∈ {classify, reset, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {classify, reset, stats} 时\n"
+            "    # 流分类：classify 分类 / stats 统计 / reset 清空（流量识别）\n"
+            "    if op == 'classify':\n"
+            "        port = pkt.get('port', 0)\n"
+            "        cls = 'web' if port == 80 else 'mail' if port == 25 else 'other'\n"
+            "        state.setdefault('counts', {})[cls] = state.get('counts', {}).get(cls, 0) + 1\n"
+            "        return cls\n"
+            "    if op == 'stats':\n"
+            "        return dict(state.get('counts', {}))\n"
+            "    if op == 'reset':\n"
+            "        state['counts'] = {}\n"
+            "        return 'reset'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'classify', {'port': 80}), 'web'),
+            (({}, 'classify', {'port': 25}), 'mail'),
+            (({'counts': {'web': 2}}, 'stats'), {'web': 2}),
+            (({'counts': {'web': 1}}, 'reset'), 'reset')],
+        "params": [],
+        "calibration": "对照：流量识别——按端口分类（web/mail/other）",
+    },
+    "网络-数据包采样": {
+        "task": "数据包采样",
+        "pattern": (
+            "def pkt_sampling(state, op, pkt=None):\n"
+"    # 生效条件：op ∈ {count, rate, sample}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {count, rate, sample} 时\n"
+            "    # 数据包采样：sample 按率采样 / rate 采样率 / count 已采（流量采样）\n"
+            "    if op == 'sample':\n"
+            "        rate = state.get('rate', 1)\n"
+            "        if pkt % rate == 0:\n"
+            "            state['count'] = state.get('count', 0) + 1\n"
+            "            return True\n"
+            "        return False\n"
+            "    if op == 'rate':\n"
+            "        return state.get('rate', 1)\n"
+            "    if op == 'count':\n"
+            "        return state.get('count', 0)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'sample', 1), True),
+            (({'rate': 2}, 'sample', 3), False),
+            (({'rate': 2}, 'rate'), 2),
+            (({'count': 5}, 'count'), 5)],
+        "params": [],
+        "calibration": "对照：NetFlow——按采样率抽取数据包（sFlow/NetFlow）",
+    },
+    "网络-时隙": {
+        "task": "时隙",
+        "pattern": (
+            "def tdma_slot(state, op, node=None, slot=None):\n"
+"    # 生效条件：op ∈ {assign, next, owner}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代\n"
+"    # 不适用条件：op 非 {assign, next, owner} 时\n"
+            "    # 时隙：assign 分配 / next 下一时隙 / owner 归属（TDMA 分时）\n"
+            "    if op == 'assign':\n"
+            "        state.setdefault('slots', {})[node] = slot\n"
+            "        return slot\n"
+            "    if op == 'next':\n"
+            "        n = state.get('n', 4)\n"
+            "        state['cur'] = (state.get('cur', 0) + 1) % n\n"
+            "        return state['cur']\n"
+            "    if op == 'owner':\n"
+            "        for k, v in state.get('slots', {}).items():\n"
+            "            if v == slot:\n"
+            "                return k\n"
+            "        return None\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'assign', 'n1', 0), 0),
+            (({}, 'next'), 1),
+            (({'slots': {'n1': 0}}, 'owner', None, 0), 'n1'),
+            (({'slots': {}}, 'owner', None, 3), None)],
+        "params": [],
+        "calibration": "对照：TDMA——时分多址时隙分配/轮转/归属",
+    },
+    "网络-跳频": {
+        "task": "跳频",
+        "pattern": (
+            "def freq_hop(state, op, seq=None):\n"
+"    # 生效条件：op ∈ {current, hop, pattern}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {current, hop, pattern} 时\n"
+            "    # 跳频：hop 下一频率 / current 当前 / pattern 序列（FHSS 抗干扰）\n"
+            "    if op == 'hop':\n"
+            "        pat = state.get('pattern', [2400, 2410, 2420])\n"
+            "        i = state.get('idx', 0)\n"
+            "        state['idx'] = (i + 1) % len(pat)\n"
+            "        state['freq'] = pat[state['idx']]\n"
+            "        return state['freq']\n"
+            "    if op == 'current':\n"
+            "        return state.get('freq', 2400)\n"
+            "    if op == 'pattern':\n"
+            "        return list(state.get('pattern', [2400, 2410, 2420]))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'hop'), 2410),
+            (({}, 'current'), 2400),
+            (({'freq': 2420}, 'current'), 2420),
+            (({}, 'pattern'), [2400, 2410, 2420])],
+        "params": [],
+        "calibration": "对照：FHSS——跳频序列（抗干扰/保密）",
+    },
+    "网络-误码率": {
+        "task": "误码率",
+        "pattern": (
+            "def ber_calc(state, op, errors=None, total=None):\n"
+"    # 生效条件：op ∈ {ber, sample, snr}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {ber, sample, snr} 时\n"
+            "    # 误码率：sample 采样 / ber 误码率 / snr 信噪比映射（链路质量）\n"
+            "    if op == 'sample':\n"
+            "        state['errors'] = errors\n"
+            "        state['total'] = total\n"
+            "        return round(errors / total, 6) if total else 0.0\n"
+            "    if op == 'ber':\n"
+            "        e = state.get('errors', 0)\n"
+            "        t = state.get('total', 1)\n"
+            "        return round(e / t, 6) if t else 0.0\n"
+            "    if op == 'snr':\n"
+            "        return round(10 * (1 - state.get('errors', 0) / max(state.get('total', 1), 1)), 1)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'sample', 1, 100), 0.01),
+            (({'errors': 2, 'total': 100}, 'ber'), 0.02),
+            (({}, 'ber'), 0.0),
+            (({'errors': 0, 'total': 10}, 'snr'), 10.0)],
+        "params": [],
+        "calibration": "对照：误码率——错误/总数与信噪比映射（链路质量）",
+    },
+    "网络-拓扑发现": {
+        "task": "拓扑发现",
+        "pattern": (
+            "def topo_discover(state, op, node=None, neighbor=None):\n"
+"    # 生效条件：op ∈ {link, neighbors, probe}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {link, neighbors, probe} 时\n"
+            "    # 拓扑发现：probe 探测 / link 记录 / neighbors 邻居表（LLDP/拓扑感知）\n"
+            "    if op == 'probe':\n"
+            "        state.setdefault('links', set()).add((node, neighbor))\n"
+            "        return 'found'\n"
+            "    if op == 'link':\n"
+            "        return sorted(state.get('links', set()))\n"
+            "    if op == 'neighbors':\n"
+            "        return sorted(b for a, b in state.get('links', set()) if a == node)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'probe', 'n1', 'n2'), 'found'),
+            (({'links': {('n1', 'n2')}}, 'link'), [('n1', 'n2')]),
+            (({}, 'link'), []),
+            (({'links': {('n1', 'n2')}}, 'neighbors', 'n1'), ['n2'])],
+        "params": [],
+        "calibration": "对照：拓扑发现——链路探测与邻居表（LLDP）",
+    },
+    "网络-路径备份": {
+        "task": "路径备份",
+        "pattern": (
+            "def path_backup(state, op, route=None, backup=None):\n"
+"    # 生效条件：op ∈ {active, assign, failover}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {active, assign, failover} 时\n"
+            "    # 路径备份：assign 指定 / active 激活 / failover 主路故障切换（FRR）\n"
+            "    if op == 'assign':\n"
+            "        state['primary'] = route\n"
+            "        state['backup'] = backup\n"
+            "        state['active'] = route\n"
+            "        return 'assigned'\n"
+            "    if op == 'active':\n"
+            "        return state.get('active')\n"
+            "    if op == 'failover':\n"
+            "        if state.get('active') == state.get('primary'):\n"
+            "            state['active'] = state.get('backup')\n"
+            "            return 'switched'\n"
+            "        return 'noop'\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'assign', 'r1', 'r2'), 'assigned'),
+            (({'active': 'r1'}, 'active'), 'r1'),
+            (({'primary': 'r1', 'backup': 'r2', 'active': 'r1'}, 'failover'), 'switched'),
+            (({'primary': 'r1', 'backup': 'r2', 'active': 'r2'}, 'failover'), 'noop')],
+        "params": [],
+        "calibration": "对照：FRR——主备路径故障切换（快速重路由）",
+    },
+    "网络-数据去重": {
+        "task": "数据去重",
+        "pattern": (
+            "def payload_dedup(state, op, data=None):\n"
+"    # 生效条件：op ∈ {dedup, hash, store}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；顺序调用\n"
+"    # 不适用条件：op 非 {dedup, hash, store} 时\n"
+            "    # 数据去重：hash 指纹 / store 存储 / dedup 是否重复（网络级去重）\n"
+            "    if op == 'hash':\n"
+            "        return sum(ord(c) for c in data) % 997\n"
+            "    if op == 'store':\n"
+            "        h = sum(ord(c) for c in data) % 997\n"
+            "        state.setdefault('seen', set()).add(h)\n"
+            "        return 'stored'\n"
+            "    if op == 'dedup':\n"
+            "        h = sum(ord(c) for c in data) % 997\n"
+            "        return h in state.get('seen', set())\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'hash', 'abc'), 294),
+            (({}, 'store', 'abc'), 'stored'),
+            (({'seen': {294}}, 'dedup', 'abc'), True),
+            (({}, 'dedup', 'abc'), False)],
+        "params": [],
+        "calibration": "对照：网络去重——指纹识别重复载荷（dedup）",
+    },
+    "网络-网关": {
+        "task": "网关",
+        "pattern": (
+            "def gateway(state, op, dest=None):\n"
+"    # 生效条件：op ∈ {default, route, table}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：op 非 {default, route, table} 时\n"
+            "    # 网关：route 转发 / default 默认网关 / table 路由表（网络出口）\n"
+            "    if op == 'route':\n"
+            "        table = state.get('table', {})\n"
+            "        if dest in table:\n"
+            "            return table[dest]\n"
+            "        for prefix, gw in table.items():\n"
+            "            mask = int(prefix.split('/')[1]) if '/' in prefix else 32\n"
+            "            p = prefix.split('/')[0]\n"
+            "            d = dest\n"
+            "            if mask <= 8 and d.split('.')[0] == p.split('.')[0]:\n"
+            "                return gw\n"
+            "            if mask <= 16 and d.split('.')[:2] == p.split('.')[:2]:\n"
+            "                return gw\n"
+            "        return state.get('default')\n"
+            "    if op == 'default':\n"
+            "        return state.get('default')\n"
+            "    if op == 'table':\n"
+            "        return dict(state.get('table', {}))\n"
+            "    return None\n"),
+        "cases": [
+            (({'table': {'10.0.0.0/8': 'gw1'}}, 'route', '10.1.0.5'), 'gw1'),
+            (({'default': 'gw0'}, 'route', '8.8.8.8'), 'gw0'),
+            (({}, 'default'), None),
+            (({'table': {'a': 'b'}}, 'table'), {'a': 'b'})],
+        "params": [],
+        "calibration": "对照：网关——路由转发/默认出口/路由表",
+    },
+    "网络-端口镜像": {
+        "task": "端口镜像",
+        "pattern": (
+            "def port_mirror(state, op, src=None, dst=None):\n"
+"    # 生效条件：op ∈ {active, enable, mirror}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派\n"
+"    # 不适用条件：op 非 {active, enable, mirror} 时\n"
+            "    # 端口镜像：enable 启用 / mirror 复制 / active 状态（SPAN 监控）\n"
+            "    if op == 'enable':\n"
+            "        state['src'] = src\n"
+            "        state['dst'] = dst\n"
+            "        state['active'] = True\n"
+            "        return 'enabled'\n"
+            "    if op == 'mirror':\n"
+            "        return (state.get('src'), state.get('dst')) if state.get('active') else None\n"
+            "    if op == 'active':\n"
+            "        return state.get('active', False)\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'enable', 'p1', 'p9'), 'enabled'),
+            (({'active': True, 'src': 'p1', 'dst': 'p9'}, 'mirror'), ('p1', 'p9')),
+            (({}, 'mirror'), None),
+            (({}, 'active'), False)],
+        "params": [],
+        "calibration": "对照：SPAN——端口流量镜像到监控口（抓包）",
+    },
+    "网络-包过滤": {
+        "task": "包过滤",
+        "pattern": (
+            "def packet_filter(state, op, pkt=None):\n"
+"    # 生效条件：op ∈ {filter, rules, stats}\n"
+"    # 子功能：① op 分支处理\n"
+"    # 执行：按 op 分派；循环迭代；顺序调用\n"
+"    # 不适用条件：op 非 {filter, rules, stats} 时\n"
+            "    # 包过滤：rules 规则 / filter 过滤 / stats 统计（ACL 包过滤）\n"
+            "    if op == 'rules':\n"
+            "        state.setdefault('rules', []).append(pkt)\n"
+            "        return len(state['rules'])\n"
+            "    if op == 'filter':\n"
+            "        for r in state.get('rules', []):\n"
+            "            if r[0] == pkt[0] and r[1] == pkt[1]:\n"
+            "                return r[2]\n"
+            "        return 'allow'\n"
+            "    if op == 'stats':\n"
+            "        return len(state.get('rules', []))\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'rules', ('1.1.1.1', 80, 'block')), 1),
+            (({'rules': [('1.1.1.1', 80, 'block')]}, 'filter', ('1.1.1.1', 80)), 'block'),
+            (({}, 'filter', ('2.2.2.2', 80)), 'allow'),
+            (({'rules': [('a', 1, 'b')]}, 'stats'), 1)],
+        "params": [],
+        "calibration": "对照：ACL——按五元组规则过滤（允许/拒绝）",
+    },
+    "网络-帧解析": {
+        "task": "帧解析",
+        "pattern": (
+            "def ws_frame_parse(frame):\n"
+            "    # WebSocket 帧解析（帧解析）：FIN/opcode/长度/载荷（RFC 6455 解码——帧封装的逆）\n"
+            "    # 生效条件：frame 为 RFC 6455 帧字节（首字节 FIN+opcode，次字节长度）\n"
+            "    # 子功能：① 解析 FIN/opcode ② 解析长度（含 126/127 扩展）③ 截取载荷解码\n"
+            "    # 执行：位运算取首字节 + 定长/扩展长度读法 + utf-8 解码\n"
+            "    # 不适用条件：frame 非法（长度不足 2 字节）时越界抛错；掩码帧未处理\n"
+            "    fin = (frame[0] >> 7) & 1\n"
+            "    opcode = frame[0] & 0x0F\n"
+            "    n = frame[1] & 0x7F\n"
+            "    off = 2\n"
+            "    if n == 126:\n"
+            "        n = int.from_bytes(frame[2:4], 'big')\n"
+            "        off = 4\n"
+            "    elif n == 127:\n"
+            "        n = int.from_bytes(frame[4:12], 'big')\n"
+            "        off = 10\n"
+            "    return (fin, opcode, n, frame[off:off + n].decode('utf-8', 'replace'))\n"),
+        "cases": [
+            ((bytes([0x81, 0x02]) + b'hi',), (1, 1, 2, 'hi')),
+            ((bytes([0x89, 0x00]),), (1, 9, 0, '')),
+            ((bytes([0x81, 126]) + (300).to_bytes(2, 'big') + b'a' * 300,),
+             (1, 1, 300, 'a' * 300)),
+            ((bytes([0x82, 0x01]) + b'\x00',), (1, 2, 1, '\x00'))],
+        "params": [],
+        "calibration": "对照：RFC 6455——WebSocket 帧解码（FIN/opcode/长度/载荷，与帧封装 ws_frame 互逆）",
+    },
+    "网络-MAC学习": {
+        "task": "MAC学习",
+        "pattern": (
+            "def mac_learn(table, port, mac, action):\n"
+            "    # MAC 学习（MAC地址学习）：交换机按源 MAC 记录端口，未知目标泛洪（转发决策基础）\n"
+            "    # 生效条件：action ∈ {learn, lookup}；table 为 MAC→端口 映射\n"
+            "    # 子功能：① learn 记录源 MAC 端口 ② lookup 查询转发端口 ③ 未知泛洪\n"
+            "    # 执行：learn 写表；lookup 命中返端口、未命中返 flood\n"
+"    # 不适用条件：action 非 {learn, lookup} 时\n"
+            "    if action == 'learn':\n"
+            "        table[mac] = port\n"
+            "        return 'learned'\n"
+            "    if action == 'lookup':\n"
+            "        return table.get(mac, 'flood')\n"
+            "    return None\n"),
+        "cases": [
+            (({}, 'p1', 'aa', 'learn'), 'learned'),
+            (({'aa': 'p1'}, 'p1', 'aa', 'lookup'), 'p1'),
+            (({'aa': 'p1'}, 'p1', 'bb', 'lookup'), 'flood'),
+            (({'aa': 'p1'}, 'p2', 'aa', 'learn'), 'learned'),
+            (({}, 'p1', 'aa', 'unknown'), None)],
+        "params": [],
+        "calibration": "对照：交换机 MAC 学习——源 MAC 记端口，未知目标泛洪，学习可更新端口",
+    },
+    "网络-证书校验": {
+        "task": "证书校验",
+        "pattern": (
+            "def cert_verify(cert, now):\n"
+            "    # 证书校验（证书有效期校验）：有效期时间窗检查（TLS 信任链第一步）\n"
+            "    # 生效条件：cert 含 not_before/not_after；now 为当前时间戳\n"
+            "    # 子功能：① 时间窗边界比较 ② 越界判过期 ③ 窗内判有效\n"
+            "    # 执行：now < not_before 或 now > not_after → expired（fail-closed）\n"
+"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
+            "    if now < cert.get('not_before', 0) or now > cert.get('not_after', 0):\n"
+            "        return 'expired'\n"
+            "    return 'valid'\n"),
+        "cases": [
+            (({'not_before': 100, 'not_after': 200}, 150), 'valid'),
+            (({'not_before': 100, 'not_after': 200}, 50), 'expired'),
+            (({'not_before': 100, 'not_after': 200}, 250), 'expired'),
+            (({}, 150), 'expired')],
+        "params": [],
+        "calibration": "对照：X.509 证书有效期校验——not_before/not_after 时间窗判定",
     },
 }
 

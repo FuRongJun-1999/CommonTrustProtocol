@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """第七阶段: 7 终极目标 × 7 初级复现 生态盘点 + 跨域组装验证"""
-import sys, io, re
+import sys
+import os, io, re
 sys.stdout.reconfigure(encoding='utf-8')
 
-TOOLS = r'D:\Program Files\2_ai\CommonTrustProtocol\tools'
+TOOLS = os.path.dirname(os.path.abspath(__file__))
 MODS = [
     ('compiler', 'compiler_code_units.py'),
     ('pylang', 'python_code_units.py'),

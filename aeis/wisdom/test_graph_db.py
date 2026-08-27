@@ -3,9 +3,10 @@
 流程：图数据库单元库 → 白箱生成 → 三层自校验（L1 语法/L2 样例）
 → 外部校准（组装：单元互相调用 + 对照条件路由图语义）
 """
-import sys, ast
+import sys
+import os, ast
 sys.stdout.reconfigure(encoding='utf-8')
-sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\tools')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from graph_db_units import GRAPH_UNITS, route_graph_unit
 
 pass_n = fail_n = 0
