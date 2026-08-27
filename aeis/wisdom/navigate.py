@@ -94,46 +94,68 @@ def navigate_retrieve(dex, question: str, *, max_depth: int = 3,
         return _result("structural_blindspot", chain,
                        note=f"递归深度已达上限 {max_depth}（3.12 运行约束）")
 
-    # 1. 当前层定位
-    if len(chain) == 0:
+    # 1. 当前层定位：KCCS 注释索引（card_route）是纯条件核对层——
+    #    实测它对「婆媳矛盾」命中复合根 raw=7 第一名，而 graph_retrieve
+    #    四路融合会引入计算机卡 bigram 噪声（地基审计实证）。故各层统一
+    #    用 card_route；空时才回退 graph_retrieve（诚实边界保底）。
+    structured_rank = []
+    mode = "kccs_index"
+    raw = card_route(dex, question, limit=10) or []
+    structured_rank = [h for h in raw if isinstance(h, dict)]
+    if not structured_rank:
         hits = graph_retrieve(dex, question, limit=5) or []
-        structured_rank = [h for h in hits]           # 已按融合分排序
-        mode = "graph"
-    else:
-        raw = card_route(dex, question, limit=5) or []
-        structured_rank = [h for h in raw if isinstance(h, dict)]
-        mode = "kccs_index"
+        structured_rank = list(hits)
+        mode = "graph_fallback"
     if not structured_rank:
         return _result("no_route", chain,
                        reason="条件路由图无命中（诚实边界：未覆盖）",
                        mode=mode)
 
-    top = structured_rank[0]
-    nid = top.get("id")
-    sa = _load_state(dex, nid)
-
-    entry = {"depth": len(chain),
-             "condition_space": top.get("domain_group") or top.get("domain") or "-",
-             "rule": top.get("name") or "",
-             "confidence": top.get("score"),
-             "node_id": nid,
-             "knowledge_type": get_knowledge_type(sa)}
-    chain.append(entry)
-
-    # 2. 循环防护（同一 条件空间|规则 只走一次）
-    rule_key = f'{entry["condition_space"]}|{entry["rule"]}'
-    if rule_key in seen:
+    # 复合优先 + 已访问过滤（地图式收敛）：
+    #   同层命中里若有未访问的 composite 节点 → 优先进入其子条件空间
+    #   （先进城市再找街道）；否则取未访问的最高分 atomic 直答。
+    #   已访问的规则跳过——防止同一入口反复入栈（循环防护）。
+    entry = None
+    atomic_fallback = None
+    for h in structured_rank:
+        nid = h.get("id")
+        sa_h = _load_state(dex, nid)
+        rule_key = f'{h.get("domain_group") or h.get("domain") or "-"}|{h.get("name") or ""}'
+        if rule_key in seen:
+            continue
+        sa_h = dict(sa_h)
+        sa_h.setdefault("sub_route", "")
+        ktype = get_knowledge_type(sa_h)
+        cand = {"depth": len(chain),
+                "condition_space": h.get("domain_group") or h.get("domain") or "-",
+                "rule": h.get("name") or "",
+                "confidence": h.get("score"),
+                "node_id": nid,
+                "knowledge_type": ktype,
+                "_sa": sa_h}
+        if ktype == "composite":
+            entry = cand
+            break
+        if atomic_fallback is None:
+            atomic_fallback = cand
+    if entry is None:
+        entry = atomic_fallback
+    if entry is None:
         return _result("structural_blindspot", chain,
-                       note="循环导航检测：相同规则重复出现")
-    seen.add(rule_key)
+                       note="全部候选均已导航过（循环耗尽）")
+    chain.append(entry)
+    seen.add(f'{entry["condition_space"]}|{entry["rule"]}')
+    sa = entry["_sa"]
 
     # 3. 原子 → 终答；复合 → 收窄后进入子路由
     if entry["knowledge_type"] != "composite":
         return _result("resolved", chain,
                        answer="",
-                       direct_answer=top.get("direct_answer") or "",
-                       verdict="ACCEPT" if top.get("_card_hit") else "DEFER")
+                       direct_answer=sa.get("comment", {}).get("执行", "")
+                       if isinstance(sa.get("comment"), dict) else "",
+                       verdict="ACCEPT")
 
+    # composite：条件收窄（refine_question 用 entry 的 sub_route）
     sub_q = refine_question(question, sa)
     return navigate_retrieve(dex, sub_q, max_depth=max_depth,
                              chain=chain, seen=seen)
