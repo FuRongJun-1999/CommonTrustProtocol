@@ -18,7 +18,7 @@ class MiniPyError(Exception):
 _TOKEN_RE = [
     ("STR", r"'[^']*'|\"[^\"]*\""),
     ("NUMBER", r"\d+\.\d+|\d+"),
-    ("OP", r"\*\*|//|==|!=|<=|>=|[+\-*/%<>()=,\[\]{}:]"),
+    ("OP", r"\*\*|//|==|!=|<=|>=|\+=|-=|\*=|/=|[+\-*/%<>()=,\[\]{}:.]"),
     ("KEY", r"and|or|not|True|False|None|if|elif|else|while|def|return"),
     ("NAME", r"[A-Za-z_]\w*"),
     ("WS", r"\s+"),
@@ -174,8 +174,20 @@ class Parser:
         if t[0] == "STRING":  # P5：字符串字面量
             self.advance()
             return ("str", t[1])
-        if t[0] == "NAME":  # 变量/函数调用（P3）
+        if t[0] == "NAME":  # 变量/函数调用/方法链（P3 + T4 后缀统一）
             self.advance()
+            node = ("name", t[1])
+            while self.peek()[1] in (".", "["):  # 后缀链：.attr / [idx]
+                if self.match("."):
+                    attr = self.advance()
+                    if attr[0] != "NAME":
+                        raise SyntaxError(f"语法错误：'.' 后应为属性名，得到 '{attr[1]}'")
+                    node = ("attr", node, attr[1])
+                else:
+                    self.advance()
+                    key = self.or_expr()
+                    self.expect("]")
+                    node = ("index", node, key)
             if self.peek()[1] == "(":
                 self.advance()
                 args = []
@@ -184,9 +196,10 @@ class Parser:
                     while self.match(","):
                         args.append(self.or_expr())
                 self.expect(")")
-                node = ("call", t[1], args)
-            else:
-                node = ("name", t[1])
+                if node[0] == "attr":  # obj.method(args) → 方法调用节点
+                    node = ("method", node[1], node[2], args)
+                else:
+                    node = ("call", t[1], args)
             return self._maybe_index(node)
         if t[1] == "[":
             self.advance()
@@ -287,6 +300,22 @@ def eval_node(node, env=None):
         return eval_node(node[1], env) % b
     if kind == "**":
         return eval_node(node[1], env) ** eval_node(node[2], env)
+    if kind == "attr":  # T4：属性/方法访问（白名单内才放行）
+        obj = eval_node(node[1], env)
+        if node[2] not in _METHOD_WHITELIST:
+            raise MiniPyError(f"方法不在白名单: .{node[2]}（允许: {sorted(_METHOD_WHITELIST)}）")
+        if not hasattr(obj, node[2]):
+            raise MiniPyError(f"对象无该方法: {type(obj).__name__}.{node[2]}")
+        return getattr(obj, node[2])
+    if kind == "method":  # T4：obj.method(args) 调用（白名单校验）
+        obj = eval_node(node[1], env)
+        if node[2] not in _METHOD_WHITELIST:
+            raise MiniPyError(f"方法不在白名单: .{node[2]}（允许: {sorted(_METHOD_WHITELIST)}）")
+        m = getattr(obj, node[2], None)
+        if not callable(m):
+            raise MiniPyError(f"不可调用: {type(obj).__name__}.{node[2]}")
+        args = [eval_node(a, env) for a in node[3]]
+        return m(*args)
     if kind == "call":  # 函数调用（P3：局部作用域 + 参数绑定 + return 捕获）
         try:
             f = env.get(node[1])
@@ -351,6 +380,9 @@ _BUILTINS = {
     "print": print,
 }
 
+# 方法白名单（T4·str 方法族起步：任务书规范 upper/split）
+_METHOD_WHITELIST = {"upper", "split"}
+
 
 class Env:
     """变量环境（P3：作用域链——局部 → 父环境）"""
@@ -379,6 +411,12 @@ class ReturnSignal(Exception):
         self.value = value
 
 
+# T4：复合赋值符（模块级预编译）
+_AUG_RE = re.compile(r"(\w+)\s*(\+=|-=|\*=|/=)\s*(.+)$")
+# T4：普通赋值行首形态（变量名 + 单个 =，排除 ==/<=/>=/!= 与字符串内等号）
+_ASSIGN_RE = re.compile(r"([A-Za-z_]\w*)\s*=(?!=)")
+
+
 def parse_program(src):
     """源码 → 语句树（缩进决定嵌套）"""
     lines = []
@@ -401,11 +439,16 @@ def parse_program(src):
         return stmts
 
     def _parse_line(code, build, idx):
-        # 赋值
-        if "=" in code and not code.startswith(("if ", "while ", "elif ", "else")):
-            name, expr = code.split("=", 1)
-            return ("assign", name.strip(),
-                    Parser(tokenize(expr)).parse())
+        # T4：复合赋值 += -= *= /=（先于 = 检测，避免 "x += 1" 被 split("=",1) 误拆）
+        m_aug = _AUG_RE.match(code)
+        if m_aug:
+            return ("aug_assign", m_aug.group(1), m_aug.group(2),
+                    Parser(tokenize(m_aug.group(3))).parse())
+        # 赋值（T4 修正：行首 \w+= 形态判定——字符串内等号/"=="不再误判为赋值）
+        m_assign = _ASSIGN_RE.match(code)
+        if m_assign:
+            return ("assign", m_assign.group(1),
+                    Parser(tokenize(code[m_assign.end():])).parse())
         # if/elif/else
         if code.startswith("def "):
             import re as _re
@@ -456,6 +499,20 @@ def exec_stmt(stmt, env):
     kind = stmt[0]
     if kind == "assign":
         env.set(stmt[1], eval_node(stmt[2], env))
+    elif kind == "aug_assign":  # T4：x op= e → x = x op e（/= 除零对齐 / 语义）
+        cur = env.get(stmt[1])
+        rhs = eval_node(stmt[3], env)
+        op = stmt[2]
+        if op == "+=":
+            env.set(stmt[1], cur + rhs)
+        elif op == "-=":
+            env.set(stmt[1], cur - rhs)
+        elif op == "*=":
+            env.set(stmt[1], cur * rhs)
+        else:
+            if rhs == 0:
+                raise MiniPyError("ZeroDivisionError: division by zero")
+            env.set(stmt[1], cur / rhs)
     elif kind == "funcdef":
         # 函数对象 = 参数 + body + 定义环境（P4 闭包基础）
         env.set(stmt[1], ("func", stmt[2], stmt[3], env))
@@ -564,6 +621,14 @@ def compile_expr(node):
         code.extend(right)
         code[jmp_idx] = (jmp, len(code))  # 短路目标 = 程序末尾（栈顶左值保留）
         return code
+    if kind == "attr":  # T4：VM 同步支持（双路对照）
+        return compile_expr(node[1]) + [("GET_ATTR", node[2])]
+    if kind == "method":  # T4：obj + args → CALL_METHOD(方法名, 参数数)
+        code = compile_expr(node[1])
+        for a in node[3]:
+            code.extend(compile_expr(a))
+        code.append(("CALL_METHOD", (node[2], len(node[3]))))
+        return code
     if kind == "call":
         code = [("LOAD_NAME", node[1])]
         for a in node[2]:
@@ -667,6 +732,25 @@ class VM:
                     self.stack.append(None)
                 except ReturnSignal as rs:
                     self.stack.append(rs.value)
+            elif op == "GET_ATTR":  # T4
+                obj = self.stack.pop()
+                if arg not in _METHOD_WHITELIST:
+                    raise MiniPyError(f"方法不在白名单: .{arg}（允许: {sorted(_METHOD_WHITELIST)}）")
+                if not hasattr(obj, arg):
+                    raise MiniPyError(f"对象无该方法: {type(obj).__name__}.{arg}")
+                self.stack.append(getattr(obj, arg))
+            elif op == "CALL_METHOD":  # T4：arg=(方法名, 参数数)
+                mname, n = arg
+                args = self.stack[len(self.stack) - n:] if n else []
+                if n:
+                    self.stack = self.stack[:-n]
+                obj = self.stack.pop()
+                if mname not in _METHOD_WHITELIST:
+                    raise MiniPyError(f"方法不在白名单: .{mname}（允许: {sorted(_METHOD_WHITELIST)}）")
+                m = getattr(obj, mname, None)
+                if not callable(m):
+                    raise MiniPyError(f"不可调用: {type(obj).__name__}.{mname}")
+                self.stack.append(m(*args))
             else:
                 raise MiniPyError(f"未知指令: {op}")
         return self.stack[-1] if self.stack else None
