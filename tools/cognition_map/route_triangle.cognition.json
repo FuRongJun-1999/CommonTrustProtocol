@@ -81,15 +81,14 @@
    "lane": "e2",
    "col": 0,
    "type": "database",
-   "label": "E2 · 0.547"
+   "label": "三角形·7"
   },
   {
    "id": "gap_card",
    "lane": "gap",
    "col": 0,
    "type": "external",
-   "label": "kp 未命中",
-   "sublabel": "E1/E3 同分 · 二元组碎片"
+   "label": "已修复"
   }
  ],
  "edges": [
@@ -112,8 +111,8 @@
   {
    "from": "cand1",
    "to": "gap_card",
-   "role": "error",
-   "label": "二元组碎片: 角形|内角|三角"
+   "role": "branch",
+   "label": "score=7 主命中"
   }
  ],
  "mainPath": [

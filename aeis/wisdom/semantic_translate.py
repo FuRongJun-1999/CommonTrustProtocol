@@ -3017,7 +3017,13 @@ def card_route(dex, question, limit=5):
             })
         scored.sort(key=lambda x: (-x["score"], -x["_coverage"]))
         return scored[:limit]
-    except Exception:
+    except Exception as _exc:
+        # P0 修复（2026-08-27 · 地基审计）：单条坏数据曾把整层注释索引静默
+        # 清零（「睡不着」kp 的 comment 结构错误 → AttributeError → 全弃），
+        # 下游退化为骨架卡同分并列、_card_hit=false。改为记日志 + 返回已累计。
+        import sys as _sys
+        print(f"[card_route] 注释索引扫描中断：{type(_exc).__name__}: {_exc}",
+              file=_sys.stderr)
         return []
 
 
