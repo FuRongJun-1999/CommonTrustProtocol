@@ -17,3 +17,4 @@ reports/f-eval*
 data/verify_cache.json
 data/verify_savings.jsonl
 
+snapshots/
