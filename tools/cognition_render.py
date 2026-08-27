@@ -129,9 +129,6 @@ def build_cognition(question: str, routes: list, db_path: str | None):
 def deliver(doc: dict, trace: dict, out_html: str) -> bool:
     workdir = os.path.dirname(os.path.abspath(out_html)) or "."
     cand = os.path.join(workdir, "_cognition.candidate.json")
-    # CognitionTrace v0 侧车：认知过程证据与渲染物分离（严格 schema 不收额外字段）
-    json.dump(trace, open(os.path.join(workdir, "_cognition.trace.json"), "w",
-                          encoding="utf-8"), ensure_ascii=False, indent=1)
     json.dump(doc, open(cand, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     binp = ARCHIFY_BIN
     node = shutil.which("node") or "node"
@@ -155,6 +152,8 @@ def main() -> int:
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    from knowledge_fingerprint import path_fingerprint, graph_fingerprint
     sys.path.insert(0, os.path.join(ROOT, "aeis", "wisdom"))
     from wisdom_book import ConditionDex
     from semantic_translate import graph_retrieve
@@ -167,6 +166,19 @@ def main() -> int:
         dex.close()
 
     doc, trace = build_cognition(args.question, routes, db)
+    route_names = [r.get("name", "") for r in hits if True] if (hits := [
+        x for x in routes]) else []
+    rank_order = [r.get("name", "") for r in routes[:5]]
+    top_direct = (routes[0] or {}).get("direct_answer", "") if routes else ""
+    pfp = path_fingerprint(args.question,
+                           [r.get("name", "") for r in routes],
+                           [],
+                           top_direct,
+                           [r.get("name", "") for r in routes[:5]])
+    gfp = graph_fingerprint(db)
+    trace["path_fingerprint"] = pfp
+    trace["graph_snapshot"] = {"fingerprint": gfp["graph_fingerprint"][:16],
+                               "nodes": gfp["nodes"], "edges": gfp["edges"]}
     out = args.out or os.path.join(ROOT, "tools", "cognition_map", "latest_cognition.html")
     json.dump(trace, open(os.path.join(os.path.dirname(os.path.abspath(out)), "_cognition.trace.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     ok = deliver(doc, trace, out)

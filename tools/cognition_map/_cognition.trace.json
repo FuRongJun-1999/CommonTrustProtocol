@@ -15,5 +15,11 @@
    5
   ]
  ],
- "rejected_visible_at": "execution_trace 增强（挂账）"
+ "rejected_visible_at": "execution_trace 增强（挂账）",
+ "path_fingerprint": "be6bc83cc9f63cd6fa97f33bd39b48b7828cdac77db4413a36414fd5d56a342c",
+ "graph_snapshot": {
+  "fingerprint": "a5139cde15f9f43f",
+  "nodes": 3048,
+  "edges": 2948
+ }
 }
