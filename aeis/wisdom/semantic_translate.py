@@ -3148,6 +3148,11 @@ def two_stage_retrieve(dex, question, top_domains=3, limit=5):
                 .replace("×", "乘").replace("÷", "除")
             for _c in _conds:
                 _c_clean = _c.replace("问", "").strip()
+                # v0.2 KCCS 自洽公理（T1 缺口根治）：短条件与问题等值/包含时
+                # 同享字面满分——此前 len<4 跳过使短生效条件永远低分被挤出
+                if len(_c_clean) >= 2 and _q_norm and (_q_norm == _c_clean or _c_clean in _q_norm):
+                    _literal = max(_literal, 6)
+                    break
                 if not _c_clean or len(_c_clean) < 4:
                     continue
                 _c_norm = _c_clean.replace("+", "加").replace("＋", "加") \

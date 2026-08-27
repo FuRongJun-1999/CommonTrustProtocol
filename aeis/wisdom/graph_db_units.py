@@ -1073,6 +1073,7 @@ GRAPH_UNITS = {
         "calibration": "对照：图监控——健康检查（全图连通无孤立节点）",
     },
     "图监控-度分布": {
+        "triggers": ["出度直方图", "度分布", "出度"],
         "task": "度分布",
         "pattern": (
             "def degree_distribution(graph):\n"
