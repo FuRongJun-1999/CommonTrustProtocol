@@ -69,6 +69,8 @@ class DexHandler(BaseHTTPRequestHandler):
             qs = urllib.parse.parse_qs(self.path.split("?", 1)[1])
         if path in ("/", "/ui", "/index.html", "/ui/index.html", "/wisdom_ui.html"):
             self._send_html()
+        elif path in ("/chat", "/chat.html", "/chat/index.html"):
+            self._send_chat_html()
         elif path == "/dex/status":
             self._send(self._status())
         elif path == "/dex/ledger":
@@ -76,6 +78,21 @@ class DexHandler(BaseHTTPRequestHandler):
             self._send(self._ledger(c))
         else:
             self._send({"error": "not_found"}, 404)
+
+    def _send_chat_html(self):
+        """普通人对话界面（H5 聊天式 · 第一智能入口）"""
+        html_path = os.path.join(HERE, "chat.html")
+        try:
+            with open(html_path, "r", encoding="utf-8") as f:
+                body = f.read().encode("utf-8")
+        except OSError:
+            self._send({"error": "chat_ui_not_found"}, 404)
+            return
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
     def _send_html(self):
         """人类学习/搜索界面（零依赖单页）"""
@@ -101,12 +118,31 @@ class DexHandler(BaseHTTPRequestHandler):
             self._send({"error": "bad_json"}, 400)
             return
         path = self.path.split("?")[0]
-        if path == "/dex/query":
+        if path == "/chat":
+            self._send(self._chat(body))
+        elif path == "/dex/query":
             self._send(self._query(body))
         elif path == "/dex/upload":
             self._send(self._upload(body))
         else:
             self._send({"error": "not_found"}, 404)
+
+    # ---------------- 普通人对话 ----------------
+
+    def _chat(self, body):
+        """普通人对话端点：人话检索 + 情感 + 记忆 + 诚实边界（chat_engine）
+        记忆挂在 cloud 实例上（handler 每请求新建，cloud 是单例 → 跨请求共享）"""
+        try:
+            import chat_engine as _ce
+            cloud = self.cloud
+            if not hasattr(cloud, "_chat_memory"):
+                cloud._chat_memory = {}
+            return _ce.chat(cloud, body.get("message", ""),
+                            session_id=body.get("session_id", "default"),
+                            memory=cloud._chat_memory)
+        except Exception as e:
+            return {"error": f"chat_failed: {e}", "reply": "我暂时没反应过来，稍等再试？",
+                    "hits": [], "emotion": None}
 
     # ---------------- 实现 ----------------
 
@@ -118,7 +154,14 @@ class DexHandler(BaseHTTPRequestHandler):
             if op == "filter":
                 return {"op": op, "results": d.dex_filter(**params)}
             if op == "respond":
-                return {"op": op, "results": d.dex_respond(params.get("condition", ""))}
+                # 知识翻译体系全链路（四路融合：语义指纹+学科路由+二元组+神经索引）
+                try:
+                    import semantic_translate as _st
+                    results = _st.graph_retrieve(d, params.get("condition", ""), limit=8)
+                    return {"op": op, "results": results}
+                except Exception:
+                    return {"op": op, "results": d.dex_respond(
+                        params.get("condition", ""))}
             if op == "status_node":
                 return {"op": op, "results": d.dex_status(params.get("node_id", ""))}
             if op == "cs":
@@ -175,6 +218,52 @@ class DexHandler(BaseHTTPRequestHandler):
             if op == "standard_battle":
                 return {"op": op, "results": d.dex_standard_battle(
                     params.get("a", ""), params.get("b", ""))}
+            if op == "impact":
+                return {"op": op, "results": d.dex_impact(
+                    params.get("node_id", ""),
+                    max_depth=int(params.get("max_depth", 3)))}
+            if op == "chain":
+                return {"op": op, "results": d.dex_chain(
+                    params.get("node_id", ""),
+                    max_depth=int(params.get("max_depth", 5)))}
+            if op == "verify":
+                return {"op": op, "results": d.dex_verify(
+                    params.get("node_id", ""))}
+            if op == "hot_paths":
+                import os as _os
+                hp = os.path.join(HERE, 'audit_log', 'chain_heat.json')
+                if _os.path.exists(hp):
+                    import json as _json
+                    with open(hp, encoding='utf-8') as _f:
+                        data = _json.load(_f)
+                    chains = {k: v for k, v in data.items() if '→' in k}
+                    singles = {k.replace('单卡:', ''): v
+                               for k, v in data.items() if k.startswith('单卡:')}
+                    return {"op": op, "results": {
+                        "chains": sorted(chains.items(),
+                                         key=lambda x: -x[1])[:10],
+                        "singles": sorted(singles.items(),
+                                          key=lambda x: -x[1])[:10],
+                        "total": sum(singles.values())}}
+                return {"op": op, "results": {"chains": [], "singles": [],
+                                              "total": 0}}
+            if op == "audit_danmaku":
+                # 直播弹幕审核（三层判定：词表→信任上下文→终裁）
+                try:
+                    import danmaku_audit as _da
+                    return {"op": op, "results": _da.audit(
+                        params.get("text", ""))}
+                except Exception:
+                    return {"op": op, "error": "danmaku_audit 模块不可用"}
+            if op == "audit_log_recent":
+                import os as _os
+                import json as _json
+                log = os.path.join(HERE, 'audit_log', 'danmaku_audit.json')
+                if _os.path.exists(log):
+                    with open(log, encoding='utf-8') as _f:
+                        data = _json.load(_f)
+                    return {"op": op, "results": data[-10:]}
+                return {"op": op, "results": []}
             return {"op": op, "error": "unknown_op"}
         except Exception as e:
             return {"op": op, "error": str(e)}
@@ -245,17 +334,121 @@ class DexHandler(BaseHTTPRequestHandler):
                 "domains": domains, "contributions": contrib}
 
 
+SEED_CARDS_DIR = os.path.join(os.path.dirname(HERE), "seed_knowledge", "wisdom_cards")
+
+
+def _parse_card_md(path):
+    """解析卡 md → (name, domain, edu, kp_dict)。"""
+    import re as _re
+    with open(path, encoding="utf-8") as f:
+        text = f.read()
+    name = os.path.basename(path).replace("·知识综述.md", "").replace(".md", "")
+    domain = None
+    m = _re.search(r'^- \*\*领域\*\*: (.+)$', text, _re.M)
+    if m:
+        domain = m.group(1).strip()
+    edu = None
+    m = _re.search(r'^- \*\*教育层级\*\*: (E\d)', text, _re.M)
+    if m:
+        edu = m.group(1).strip()
+    kp_start = text.find("## 知识点内容（按骨架填充）")
+    kps = []
+    if kp_start >= 0:
+        kp_end = len(text)
+        nxt = text.find("\n## ", kp_start + 10)
+        if nxt >= 0:
+            kp_end = nxt
+        seg = text[kp_start:kp_end]
+        cur = None
+        for ln in seg.split("\n"):
+            s = ln.strip()
+            if s.startswith("### "):
+                cur = s[4:].strip()
+                kps.append([cur, []])
+            elif cur and s and not s.startswith("#"):
+                kps[-1][1].append(s)
+    else:
+        # 旧格式兼容：知识分层（### E2/E3/E4 各节）→ 每节一句
+        kp_start = text.find("## 知识分层")
+        if kp_start >= 0:
+            kp_end = len(text)
+            nxt = text.find("\n## ", kp_start + 10)
+            if nxt >= 0:
+                kp_end = nxt
+            seg = text[kp_start:kp_end]
+            cur = None
+            for ln in seg.split("\n"):
+                s = ln.strip()
+                if s.startswith("### "):
+                    cur = s[4:].strip()
+                    kps.append([cur, []])
+                elif cur and s and not s.startswith("#"):
+                    kps[-1][1].append(s)
+    kp_dict = {k[0]: " ".join(k[1]) for k in kps if k[1]}
+    return name, domain, edu, kp_dict
+
+
+def _seed_cards(dex):
+    """从本地打包的卡源重建知识卡（首启种子，离线可用）。返回新增数。"""
+    from aeis.core import MemoryLayer, ConditionSpace
+    existing = {n.state_attributes.get("name")
+                for n in dex.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=500)
+                if n.state_attributes.get("name")}
+    added = 0
+    if not os.path.isdir(SEED_CARDS_DIR):
+        return 0
+    for fn in sorted(os.listdir(SEED_CARDS_DIR)):
+        if not fn.endswith(".md"):
+            continue
+        path = os.path.join(SEED_CARDS_DIR, fn)
+        name, domain, edu, kps = _parse_card_md(path)
+        if not kps or name in existing:
+            continue
+        first_kp = next(iter(kps))
+        claim = (f"{name}（知识卡源 {len(kps)} 知识点）——{kps[first_kp][:60]}……")
+        cs = ConditionSpace(
+            observation_position=f"{name} 外部观测位",
+            observation_tool="知识卡源种子",
+            time_window=(0.0, 9999999999.0),
+            existence_constraint="通用现象/规律不受版权保护，开源非盈利知识库")
+        response = {
+            "trigger": f"涉及{name}议题（如：{'、'.join(list(kps)[:10])}）",
+            "action": f"以{name}知识点回应",
+        }
+        level = {"E1": 1, "E2": 2, "E3": 3, "E4": 4, "E5": 5}.get(edu, 2)
+        nid = dex.add_entry(name, domain or "未分类", claim, cs,
+                            level=level, status="verified", response=response)
+        node = dex.store.get_node(nid)
+        node.state_attributes["edu_level"] = edu
+        node.state_attributes["source_kind"] = "card_seed"
+        node.content = claim + "\n" + "\n".join(
+            f"{i+1}. {v}" for i, v in enumerate(kps.values()))
+        dex.store.add_node(node)
+        added += 1
+    return added
+
+
 def run_server(port=0, db_path=None):
-    """启动 mock 云（daemon 线程）。port=0 → 自动分配空闲端口。返回 (server, dex)。"""
+    """启动智慧之书云（daemon 线程）。port=0 → 自动分配空闲端口。
+
+    知识库策略：保留已有库（不删除）；缺卡时从本地种子重建（首启）。
+    """
     db = db_path or CLOUD_DB
-    if os.path.exists(db):
-        os.remove(db)  # v0 mock：每次全新
-    dex = ConditionDex(db_path=db, fresh=True)
-    dex.seed_base()
+    if os.path.exists(db) and os.path.getsize(db) < 1024:
+        os.remove(db)  # 空壳库（<1KB）重建
+    if not os.path.exists(db):
+        dex = ConditionDex(db_path=db, fresh=True)
+        dex.seed_base()
+    else:
+        dex = ConditionDex(db_path=db, fresh=False)
     dex.store.conn.execute(
         "CREATE TABLE IF NOT EXISTS contributions ("
         "entry_id TEXT PRIMARY KEY, contributor TEXT, verified_by TEXT, "
         "verified_at REAL, weight REAL)")
+    added = _seed_cards(dex)
+    if added:
+        dex.store.conn.commit()
+        print(f"[seed] 首启重建 {added} 张知识卡（本地种子）")
     dex.store.conn.commit()
 
     DexHandler.cloud = dex
