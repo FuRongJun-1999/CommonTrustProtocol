@@ -542,7 +542,8 @@ def main() -> None:
     ap.add_argument("--port", type=int, default=int(os.environ.get("ROLEPLAY_WEB_PORT", "8793")))
     ap.add_argument("--data-dir", default=os.environ.get(
         "AEIS_ROLEPLAY_DATA",
-        r"D:\Program Files\2_ai\knowledge-base\roleplay_data"))
+        os.path.join(os.path.dirname(os.path.abspath(__file__)),
+        os.pardir, "wisdom", "roleplay_data")))
     ap.add_argument("--host", default=os.environ.get("ROLEPLAY_HOST", "127.0.0.1"))
     args = ap.parse_args()
 

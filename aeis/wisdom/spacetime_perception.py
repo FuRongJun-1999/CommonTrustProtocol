@@ -95,7 +95,7 @@ class SpacetimePerception:
 
 
 if __name__ == "__main__":
-    sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\aeis')
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'aeis'))
     from aeis.api import Agent
 
     print("=== 白箱感知通道：看见→记住→时空问答（零 LLM） ===\n")

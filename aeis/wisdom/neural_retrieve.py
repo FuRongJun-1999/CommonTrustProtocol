@@ -20,7 +20,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # 相对路径 + 随包目录），最后才落到作者本机路径。
 _AEIS_BGE_DEFAULT = os.environ.get(
     'AEIS_BGE_PATH',
-    r'D:\Program Files\2_ai\CommonTrustProtocol\aeis\models\bge-small-zh-v1.5')
+    os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        'models', 'bge-small-zh-v1.5'))
 def _probe_bge_path():
     """探测 bge 模型目录：环境变量（显式指定即用，不探测）>
     仓库相对 > 随包相对 > 本机默认。"""

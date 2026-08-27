@@ -35,7 +35,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 # 默认路径（可参数覆盖）
-DEFAULT_META_SRC = r"D:\Program Files\2_ai\lingshu-wisdom\wisdom\wisdom-book-cloud.db"
+DEFAULT_META_SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wisdom-book-cloud.db")
 DEFAULT_DST = r"C:\Users\FuRongJun\.dsh\profiles\web\data\lingshu.db"
 DEFAULT_CAUSAL = os.path.join(HERE, "causal_edge_candidates.json")
 

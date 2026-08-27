@@ -16,7 +16,9 @@ import re
 import sys
 import time
 
-sys.path.insert(0, r'D:\Program Files\2_ai\knowledge-base')
+_WDIR = os.path.dirname(os.path.abspath(__file__))
+if _WDIR not in sys.path:
+    sys.path.insert(0, _WDIR)
 
 # ---------------- 闲聊/无实义检测 ----------------
 # v1.16 修复：'hi' 子串会误匹配 shipped/archived 等英文词
@@ -554,7 +556,7 @@ def _detect_emotion_semantic(message):
     global EMOTION_PROTO_VEC
     try:
         import numpy as _np
-        sys.path.insert(0, r'D:\Program Files\2_ai\knowledge-base')
+        # 单源规范：neural_retrieve 与本模块同目录解析
         from neural_retrieve import NeuralRetriever
         nr = NeuralRetriever()
         if EMOTION_PROTO_VEC is None:
@@ -1496,9 +1498,8 @@ def self_test(dex):
 
 
 if __name__ == "__main__":
-    sys.path.insert(0, r'D:\Program Files\1_ai')
     from wisdom_book import ConditionDex
-    dex = ConditionDex(db_path=r'D:\Program Files\1_ai\lingshu-wisdom\wisdom\wisdom-book-cloud.db',
+    dex = ConditionDex(db_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'wisdom-book-cloud.db'),
                        fresh=False)
     self_test(dex)
     dex.close()

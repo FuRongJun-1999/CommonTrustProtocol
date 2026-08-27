@@ -109,7 +109,7 @@ flowchart TD
 
 ```bash
 # 方式 A：本地 wheel（完整自包含发布版，知识库随包分发）
-pip install aeis/dist/aeis-0.4.0-py3-none-any.whl
+pip install aeis/dist/aeis-0.4.1-py3-none-any.whl
 
 # 方式 B：从主仓库可编辑安装（开发）
 pip install -e aeis/     # Python 3.10+

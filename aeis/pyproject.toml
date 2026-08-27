@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aeis"
-version = "0.4.0"
+version = "0.4.1"
 description = "灵枢 AEIS — Agent Engineering Implementation Specification：基于智能论 v3.3 的智能体工程实现规范库（五层记忆 · 知识飞轮 · 生命周期 · 白箱智慧模块 · MCP）"
 readme = "README.md"
 requires-python = ">=3.9"

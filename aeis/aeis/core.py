@@ -4099,9 +4099,11 @@ class SpacetimeMemoryEngine:
         检索时命中相似节点会附「这两个的区别」提示——细化条件得到精确知识。"""
         try:
             import sys as _s
-            _kb = r'D:\Program Files\2_ai\knowledge-base'
-            if _kb not in _s.path:
-                _s.path.insert(0, _kb)
+            # 单源规范：模块随 wisdom 包分发，锚点=本包上级的 wisdom/（禁止外部副本路径）
+            _wdir = os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), "wisdom")
+            if _wdir not in _s.path:
+                _s.path.insert(0, _wdir)
             from pattern_separation import PatternSeparation
             ps = PatternSeparation(self)
             return ps.scan(limit=limit)
@@ -4116,9 +4118,11 @@ class SpacetimeMemoryEngine:
         不代表真实发生的过去就是如此（0.0.3 局部不可知）。"""
         try:
             import sys as _s
-            _kb = r'D:\Program Files\2_ai\knowledge-base'
-            if _kb not in _s.path:
-                _s.path.insert(0, _kb)
+            # 单源规范：模块随 wisdom 包分发，锚点=本包上级的 wisdom/（禁止外部副本路径）
+            _wdir = os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), "wisdom")
+            if _wdir not in _s.path:
+                _s.path.insert(0, _wdir)
             from scene_reconstruction import SceneReconstruction
             sr = SceneReconstruction(self)
             return sr.reconstruct(clue, depth=depth, max_nodes=max_nodes)

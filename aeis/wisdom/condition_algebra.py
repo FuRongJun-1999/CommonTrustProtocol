@@ -75,7 +75,7 @@ def chain_rule_propagate(J, conditions, start_condition, max_steps=3):
 
 if __name__ == "__main__":
     import sys as _sys
-    _sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\tools')
+    # 单源规范：模块同目录解析，无需外部路径注入
     import compose_engine as ce
 
     print("=== 条件代数工程化：影响雅可比图（零 LLM） ===\n")

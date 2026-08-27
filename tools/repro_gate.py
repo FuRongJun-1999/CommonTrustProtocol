@@ -102,25 +102,38 @@ def run_t1_test() -> dict:
             "direct_rate": direct / n if n else 0}
 
 
-def check_replicas(wisdom_db: str) -> dict:
-    """副本一致性：site-packages/CTP/1_ai/3_ai 图谱哈希一致。"""
-    h = sha256(wisdom_db)
-    replicas = [
-        r"D:\Program Files\2_ai\CommonTrustProtocol\aeis\wisdom\wisdom-book-cloud.db",
-        r"D:\Program Files\3_ai\lingshu-wisdom\wisdom\wisdom-book-cloud.db",
-    ]
-    ok = True
-    for rp in replicas:
-        if os.path.exists(rp) and sha256(rp) != h:
-            ok = False
-    return {"hash": h[:12], "replicas_match": ok}
+def check_replicas(running_db: str) -> dict:
+    """发布完整性 + 运行库健康度（《条件路由图_单源与可溯源规范_v1.0》§五.2 重构）：
+
+    - 发布快照一致性：site-packages 安装份 ≡ 仓库唯一真源 aeis/wisdom/wisdom-book-cloud.db
+      （多副本互查口径已废——运行库是活体，不与快照做哈希对齐）
+    - 运行库健康度：独立检查（存在且非空），不做哈希等值
+    """
+    repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    truth_snapshot = os.path.join(repo, "aeis", "wisdom", "wisdom-book-cloud.db")
+    if not os.path.exists(truth_snapshot):
+        return {"truth_exists": False, "snapshot_match": False, "running_healthy": False}
+    h_truth = sha256(truth_snapshot)
+    sp_snapshot = os.path.join(os.path.dirname(os.path.abspath(sys.executable)),
+                               "Lib", "site-packages", "wisdom", "wisdom-book-cloud.db")
+    if not os.path.exists(sp_snapshot):
+        # pip -e 开发态无安装份——视为一致（没有第二副本可漂移）
+        snapshot_match = True
+    else:
+        snapshot_match = sha256(sp_snapshot) == h_truth
+    running_ok = bool(running_db) and os.path.exists(running_db) and \
+        os.path.getsize(running_db) > 4096
+    return {"truth_hash": h_truth[:12], "truth_exists": True,
+            "snapshot_match": snapshot_match, "running_healthy": running_ok}
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="可复现纪律校验（发布闸门）")
     ap.add_argument("--record", action="store_true", help="记录当前基准（更新锁定值）")
     ap.add_argument("--quick", action="store_true", help="只查图谱完整性")
-    ap.add_argument("--db", default=r"C:\Users\FuRongJun\AppData\Local\Programs\Python\Python310\lib\site-packages\wisdom\wisdom-book-cloud.db")
+    ap.add_argument("--db", default=os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "aeis", "wisdom", "wisdom-book-cloud.db"))
     args = ap.parse_args()
 
     print("=== 可复现纪律校验 REPRO-GATE-001 ===\n")
@@ -133,11 +146,13 @@ def main() -> int:
 
     # 2. 副本一致性
     rep = check_replicas(args.db)
-    print(f"[2] 副本一致性: hash={rep['hash']} 各副本一致={'✓' if rep['replicas_match'] else '✗'}")
+    print(f"[2] 发布完整性: 真源快照={rep.get('truth_hash', '缺失')} "
+          f"安装份一致={'✓' if rep['snapshot_match'] else '✗'} "
+          f"运行库健康={'✓' if rep['running_healthy'] else '✗'}")
 
     if args.quick:
         print("\n（快速模式：未跑测试）")
-        return 0 if (g_ok and rep["replicas_match"]) else 1
+        return 0 if (g_ok and rep["snapshot_match"] and rep["running_healthy"]) else 1
 
     # 3. T1 测试（完整或记录模式）
     print("\n[3] T1 知识测试（110 题）…")
@@ -165,10 +180,10 @@ def main() -> int:
     direct_ok = t["direct_rate"] >= LOCKED_MIN_DIRECT
     print(f"\n=== 判定 ===")
     print(f"  图谱完整性: {'✓' if g_ok else '✗'}")
-    print(f"  副本一致: {'✓' if rep['replicas_match'] else '✗'}")
+    print(f"  安装份一致: {'✓' if rep['snapshot_match'] else '✗'} | 运行库健康: {'✓' if rep['running_healthy'] else '✗'}")
     print(f"  正确率 ≥{LOCKED_MIN_SCORE*100:.0f}%: {'✓' if acc_ok else '✗'} ({t['accuracy']*100:.1f}%)")
     print(f"  直接回答率 ≥{LOCKED_MIN_DIRECT*100:.0f}%: {'✓' if direct_ok else '✗'} ({t['direct_rate']*100:.1f}%)")
-    passed = g_ok and rep["replicas_match"] and acc_ok and direct_ok
+    passed = g_ok and rep["snapshot_match"] and rep["running_healthy"] and acc_ok and direct_ok
     print(f"\n{'✓ 通过——可发布' if passed else '✗ 未通过——禁止发布（先补全图谱/修检索）'}")
     return 0 if passed else 1
 
