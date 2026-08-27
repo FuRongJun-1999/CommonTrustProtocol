@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aeis"
-version = "0.3.0"
-description = "灵枢 AEIS — Agent Engineering Implementation Specification：基于智能论 v3.2 的智能体工程实现规范库（五层记忆 · 知识飞轮 · 生命周期 · MCP）"
+version = "0.4.0"
+description = "灵枢 AEIS — Agent Engineering Implementation Specification：基于智能论 v3.3 的智能体工程实现规范库（五层记忆 · 知识飞轮 · 生命周期 · 白箱智慧模块 · MCP）"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
@@ -41,6 +41,10 @@ runtime = [
 aeis-mcp = "aeis.mcp.server:main"
 
 [tool.setuptools.packages.find]
-# 自动发现所有子包（body/mcp/security/swarm 及未来新增），避免逐一手写遗漏。
-# 显式手写 packages 曾漏 body/security/swarm → 干净安装缺失模块，import 报错。
-include = ["aeis", "aeis.*"]
+# 自动发现所有子包（body/mcp/security/swarm/harness/wisdom/seed_knowledge 及未来新增），
+# 避免逐一手写遗漏。显式手写 packages 曾漏 body/security/swarm → 干净安装缺失模块，import 报错。
+include = ["aeis", "aeis.*", "harness", "harness.*", "wisdom", "wisdom.*", "seed_knowledge", "seed_knowledge.*"]
+
+[tool.setuptools.package-data]
+"wisdom" = ["*.html", "*.db", "*.json", "*.npz"]
+"seed_knowledge" = ["*.md", "wisdom_cards/*.md"]
