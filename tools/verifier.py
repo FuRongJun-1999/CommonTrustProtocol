@@ -267,11 +267,16 @@ class VerifyCache:
             pass
 
     def savings(self) -> Dict[str, Any]:
-        """跨进程累计：从审计日志聚合「减少的 LLM 输入」。"""
+        """跨进程累计：从审计日志聚合「减少的 LLM 输入」。
+
+        读 self.savings_log（与写入同源）——此前误读模块常量 SAVINGS_LOG，
+        自定义 savings_log 路径时写入 A 聚合读 B，聚合恒 0（issue #4 审计发现）。
+        """
         total_chars = total_tokens = hits = reqs = 0
+        log = self.savings_log
         try:
-            if os.path.exists(SAVINGS_LOG):
-                for line in open(SAVINGS_LOG, encoding="utf-8"):
+            if log and os.path.exists(log):
+                for line in open(log, encoding="utf-8"):
                     line = line.strip()
                     if not line:
                         continue
