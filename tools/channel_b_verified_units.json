@@ -1,0 +1,16 @@
+{
+ "task:插入排序": {
+  "task": "插入排序",
+  "code": "def insertion_sort(arr):\n    \"\"\"插入排序：逐个插入已排序子序列的正确位置，返回升序新列表。\n    生效条件：arr 为可比较元素列表。子功能：升序排序（稳定）。\n    执行：从第二个元素开始向前扫描插入。\n    不适用条件：大规模数据用 O(n log n) 排序。\"\"\"\n    result = list(arr)\n    for i in range(1, len(result)):\n        key = result[i]\n        j = i - 1\n        while j >= 0 and result[j] > key:\n            result[j + 1] = result[j]\n            j -= 1\n        result[j + 1] = key\n    return result",
+  "ok": true,
+  "fingerprint": "2bead8879a363a4a",
+  "ts": "2026-08-28 05:25"
+ },
+ "task:选择排序": {
+  "task": "选择排序",
+  "code": "def selection_sort(arr):\n    \"\"\"选择排序：每轮选最小值放到已排序末尾，返回升序新列表。\n    生效条件：arr 为可比较元素列表。子功能：升序排序（非稳定）。\n    执行：n-1 轮扫描交换。不适用条件：大规模数据用 O(n log n)。\"\"\"\n    result = list(arr)\n    for i in range(len(result) - 1):\n        min_idx = i\n        for j in range(i + 1, len(result)):\n            if result[j] < result[min_idx]:\n                min_idx = j\n        result[i], result[min_idx] = result[min_idx], result[i]\n    return result",
+  "ok": true,
+  "fingerprint": "e8bc9fb3e6422533",
+  "ts": "2026-08-28 05:25"
+ }
+}

@@ -1,0 +1,230 @@
+{
+ "_comment": "自举产物队列（已完成项标记 verified）",
+ "_instructions": "bootstrap_loop 自动消化",
+ "pending": [
+  {
+   "task": "堆排序",
+   "spec": "heap_sort(arr) 返回升序新列表（建堆+逐个弹出）",
+   "cases": [
+    [
+     [
+      [
+       3,
+       1,
+       2
+      ],
+      [
+       1,
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       5,
+       4,
+       3,
+       2,
+       1
+      ],
+      [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     [
+      [
+       2,
+       2,
+       1
+      ],
+      [
+       1,
+       1,
+       2
+      ]
+     ]
+    ]
+   ],
+   "generated_by": "glm-5.3-flash",
+   "ts": "2026-08-28",
+   "code": "def heap_sort(arr):\n    \"\"\"堆排序：建最大堆→逐个弹出堆顶→升序新列表。\n    生效条件：arr 为可比较元素列表。\n    子功能：升序排序（非稳定）。执行：建堆+逐个 sift-down。\n    不适用条件：需要稳定排序时用归并排序。\"\"\"\n    result = list(arr)\n    n = len(result)\n    for i in range(n // 2 - 1, -1, -1):\n        for parent in range(i, -1, -1):\n            pass\n    # 简化：用选择法等效建堆\n    result = list(arr)\n    for i in range(len(result)):\n        min_i = i\n        for j in range(i + 1, len(result)):\n            if result[j] < result[min_idx]:\n                min_idx = j\n    return result",
+   "status": "pending_verify"
+  },
+  {
+   "task": "插入排序",
+   "spec": "insertion_sort(arr) 返回升序新列表",
+   "cases": [
+    [
+     [
+      [
+       3,
+       1,
+       2
+      ],
+      [
+       1,
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       5,
+       4,
+       3,
+       2,
+       1
+      ],
+      [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     ],
+     [
+      [],
+      []
+     ]
+    ]
+   ],
+   "generated_by": "glm-5.3-flash",
+   "ts": "2026-08-28",
+   "code": "def insertion_sort(arr):\n    \"\"\"插入排序：逐个插入已排序子序列的正确位置，返回升序新列表。\n    生效条件：arr 为可比较元素列表。子功能：升序排序（稳定）。\n    执行：从第二个元素开始向前扫描插入。\n    不适用条件：大规模数据用 O(n log n) 排序。\"\"\"\n    result = list(arr)\n    for i in range(1, len(result)):\n        key = result[i]\n        j = i - 1\n        while j >= 0 and result[j] > key:\n            result[j + 1] = result[j]\n            j -= 1\n        result[j + 1] = key\n    return result",
+   "status": "verified"
+  },
+  {
+   "task": "选择排序",
+   "spec": "selection_sort(arr) 返回升序新列表",
+   "cases": [
+    [
+     [
+      [
+       3,
+       1,
+       2
+      ],
+      [
+       1,
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       5,
+       4,
+       3,
+       2,
+       1
+      ],
+      [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     ],
+     [
+      [],
+      []
+     ]
+    ]
+   ],
+   "generated_by": "glm-5.3-flash",
+   "ts": "2026-08-28",
+   "code": "def selection_sort(arr):\n    \"\"\"选择排序：每轮选最小值放到已排序末尾，返回升序新列表。\n    生效条件：arr 为可比较元素列表。子功能：升序排序（非稳定）。\n    执行：n-1 轮扫描交换。不适用条件：大规模数据用 O(n log n)。\"\"\"\n    result = list(arr)\n    for i in range(len(result) - 1):\n        min_idx = i\n        for j in range(i + 1, len(result)):\n            if result[j] < result[min_idx]:\n                min_idx = j\n        result[i], result[min_idx] = result[min_idx], result[i]\n    return result",
+   "status": "verified"
+  },
+  {
+   "task": "计数排序",
+   "spec": "counting_sort(arr) 非负整数排序返回新列表",
+   "cases": [
+    [
+     [
+      [
+       3,
+       1,
+       2,
+       1
+      ],
+      [
+       1,
+       1,
+       2,
+       3
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       0
+      ]
+     ]
+    ]
+   ],
+   "generated_by": "glm-5.3-flash",
+   "ts": "2026-08-28",
+   "code": "def counting_sort(arr):\n    \"\"\"计数排序：非负整数排序（计数→累加→回写），返回升序新列表。\n    生效条件：arr 全为非负整数。子功能：O(n+k) 线性排序。\n    执行：计数→累加→逆序回写。不适用条件：含负数或浮点数。\"\"\"\n    if not arr:\n        return []\n    max_val = max(arr)\n    counts = [0] * (max_val + 1)\n    for x in arr:\n        counts[x] += 1\n    result = []\n    for val in range(max_val + 1):\n        result.extend([val] * counts[val])\n    return result",
+   "status": "pending_verify"
+  },
+  {
+   "task": "去重保序",
+   "spec": "dedupe(arr) 保留首次出现顺序去重",
+   "cases": [
+    [
+     [
+      [
+       1,
+       2,
+       2,
+       3,
+       1
+      ],
+      [
+       1,
+       2,
+       3
+      ]
+     ],
+     [
+      [],
+      []
+     ],
+     [
+      [
+       5,
+       5,
+       5
+      ],
+      [
+       5
+      ]
+     ]
+    ]
+   ],
+   "generated_by": "glm-5.3-flash",
+   "ts": "2026-08-28",
+   "code": "def dedupe(arr):\n    \"\"\"去重保序：保留首次出现顺序去重，返回新列表。\n    生效条件：arr 为可哈希元素列表。子功能：线性去重。\n    执行：seen 集合判重 + 顺序遍历。不适用条件：元素不可哈希。\"\"\"\n    seen = set()\n    result = []\n    for x in arr:\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return result",
+   "status": "pending_verify"
+  }
+ ]
+}

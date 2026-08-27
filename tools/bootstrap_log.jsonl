@@ -5,3 +5,10 @@
 {"round": "scan", "result": "no_gaps", "ts": "2026-08-28 04:41:43"}
 {"round": "scan", "result": "no_gaps", "ts": "2026-08-28 04:48:56"}
 {"round": "scan", "result": "no_gaps", "ts": "2026-08-28 04:58:58"}
+{"round": "scan", "result": "no_gaps", "ts": "2026-08-28 05:09:00"}
+{"round": "scan", "result": "no_gaps", "ts": "2026-08-28 05:19:02"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"error": "too many values to unpack (expected 2)"}, "ts": "2026-08-28 05:22:34"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"error": "name 'key' is not defined"}, "ts": "2026-08-28 05:22:59"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"error": "name 'key' is not defined"}, "ts": "2026-08-28 05:23:18"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"error": "local variable 'task_desc' referenced before assignment"}, "ts": "2026-08-28 05:25:15"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 3, "passed": 2, "failed": 1, "source": "queue"}, "ts": "2026-08-28 05:25:52"}
