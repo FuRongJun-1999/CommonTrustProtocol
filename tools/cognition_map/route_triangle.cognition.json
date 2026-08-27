@@ -1,0 +1,124 @@
+{
+ "schema_version": 1,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "灵枢条件路由 ·「三角形内角和是多少」真实检索（2026-08-27）",
+  "quality_profile": "showcase",
+  "output": "tools/cognition_map/route_triangle_rendered.html",
+  "views": [
+   {
+    "id": "main",
+    "label": "主路由路径",
+    "focus": [
+     "q",
+     "cond",
+     "retrieve",
+     "cand1"
+    ]
+   },
+   {
+    "id": "diagnosis",
+    "label": "缺口诊断",
+    "focus": [
+     "retrieve",
+     "gap_card"
+    ],
+    "note": "骨架层同分并列、知识点级未下钻"
+   }
+  ],
+  "viewBox": [
+   900,
+   720
+  ]
+ },
+ "lanes": [
+  {
+   "id": "intake",
+   "label": "问题入口"
+  },
+  {
+   "id": "route2",
+   "label": "条件判定"
+  },
+  {
+   "id": "route",
+   "label": "两阶段收敛"
+  },
+  {
+   "id": "e2",
+   "label": "初中数学 E2"
+  },
+  {
+   "id": "gap",
+   "label": "路由缺口诊断",
+   "variant": "exception"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "q",
+   "lane": "intake",
+   "col": 0,
+   "type": "external",
+   "label": "三角内角和"
+  },
+  {
+   "id": "cond",
+   "lane": "route2",
+   "col": 0,
+   "type": "backend",
+   "label": "条件分析"
+  },
+  {
+   "id": "retrieve",
+   "lane": "route",
+   "col": 0,
+   "type": "backend",
+   "label": "两阶段收敛"
+  },
+  {
+   "id": "cand1",
+   "lane": "e2",
+   "col": 0,
+   "type": "database",
+   "label": "E2 · 0.547"
+  },
+  {
+   "id": "gap_card",
+   "lane": "gap",
+   "col": 0,
+   "type": "external",
+   "label": "kp 未命中",
+   "sublabel": "E1/E3 同分 · 二元组碎片"
+  }
+ ],
+ "edges": [
+  {
+   "from": "q",
+   "to": "cond",
+   "role": "main"
+  },
+  {
+   "from": "cond",
+   "to": "retrieve",
+   "role": "main"
+  },
+  {
+   "from": "retrieve",
+   "to": "cand1",
+   "role": "branch",
+   "label": "_card_hit=False"
+  },
+  {
+   "from": "cand1",
+   "to": "gap_card",
+   "role": "error",
+   "label": "二元组碎片: 角形|内角|三角"
+  }
+ ],
+ "mainPath": [
+  "q",
+  "cond",
+  "retrieve"
+ ]
+}
