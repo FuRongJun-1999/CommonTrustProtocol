@@ -106,10 +106,18 @@ flowchart TD
 无边界约束的开放域探索（局部不可知 0.0.3）
 
 ### 安装
+
 ```bash
+# 方式 A：本地 wheel（完整自包含发布版，知识库随包分发）
+pip install aeis/dist/aeis-0.4.0-py3-none-any.whl
+
+# 方式 B：从主仓库可编辑安装（开发）
 pip install -e aeis/     # Python 3.10+
+
 aeis-mcp                  # 启动 MCP server（stdio JSON-RPC，73 工具）
 ```
+
+> **aeis-0.4.0 完整自包含单包**（10.2MB / 343 条目）：灵枢核心（aeis）+ 白箱智慧模块（wisdom，含 2846 个 KCCS 注释知识点 + 学科知识库）+ 三入口（harness）+ 种子知识（seed_knowledge，智能论 3.3 + 116 学科卡）。安装即得完整大脑，无需另装知识库。
 
 ### 基准（可复现 · 2026-08-26 全量重测 · repro_gate.py 锁定）
 
