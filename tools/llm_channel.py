@@ -89,14 +89,25 @@ def generate_code(task_desc: str, provider: str = "auto",
         if not key:
             continue
         try:
-            req = urllib.request.Request(
-                base.rstrip("/") + "/chat/completions",
-                data=json.dumps({
+            if pname == "glm":
+                # glm-5.3-flash 为常开思考模型（不支持 disabled，仅 low/high/max）：
+                # thinking=low 控制思考链长度；max_tokens 需覆盖 reasoning+答案
+                payload = {
+                    "model": model or "glm-5.3-flash",
+                    "max_tokens": max(max_tokens, 2000),
+                    "thinking": {"type": "low"},
+                    "messages": [{"role": "user", "content": SPEC_PROMPT + task_desc}],
+                }
+            else:
+                payload = {
                     "model": model or ("deepseek-chat" if pname == "deepseek"
                                        else "glm-4.6-flash"),
                     "max_tokens": max_tokens,
                     "messages": [{"role": "user", "content": SPEC_PROMPT + task_desc}],
-                }).encode(),
+                }
+            req = urllib.request.Request(
+                base.rstrip("/") + "/chat/completions",
+                data=json.dumps(payload).encode(),
                 headers={"Content-Type": "application/json",
                          "Authorization": f"Bearer {key}"})
             with urllib.request.urlopen(req, timeout=120) as resp:
