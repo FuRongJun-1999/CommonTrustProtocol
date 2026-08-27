@@ -15,14 +15,14 @@ import os
 import sys
 import time
 
-AEIS_COPY = r"D:\Program Files\1_ai\AEIS-copy"
-if AEIS_COPY not in sys.path:
-    sys.path.insert(0, AEIS_COPY)
+# 正源即自身所在目录（aeis/wisdom/）；不注入任何外部副本路径——
+# 副本一律经显式 db_path 传入，防跨副本污染（第二阶段审查 2026-08-27）
 
 from aeis.core import (SpacetimeMemoryEngine, ConditionSpace, EdgeType,  # noqa: E402
                        MemoryLayer, Role, STNode, STEdge)
 
-DEFAULT_DB = r"D:\Program Files\1_ai\wisdom-book\wisdom-book.db"
+DEFAULT_DB = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          "wisdom-book-cloud.db")
 
 
 def _nid(seed):
