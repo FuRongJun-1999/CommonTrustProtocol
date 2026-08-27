@@ -334,6 +334,27 @@ def _tools():
                                         "timeout_ms": {"type": "number"},
                                         "workspace": {"type": "string"}},
                          "required": ["command"]}},
+        {"name": "lingshu_sensor_report",
+         "description": "自修改安全闭环·信息差传感器：五维结构质量信号（路由/知识/代码/认知/信息差收敛）扫描。自修改前先查基线，rescan 对比退化即拦截。",
+         "inputSchema": {"type": "object",
+                         "properties": {"db": {"type": "string",
+                                               "description": "知识库路径（缺省=发布快照库）"}}}},
+        {"name": "lingshu_vitality_report",
+         "description": "自修改安全闭环·维生状态：心跳（引擎/知识库/导航探针）/自修改影响面/回滚能力/维生判定（ALIVE·AT_RISK·CRITICAL）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"db": {"type": "string"}}}},
+        {"name": "lingshu_auto_snapshot",
+         "description": "自修改安全闭环·前置快照：任何自修改前自动快照知识库/固化单元/代码目标文件（附 sha256 指纹与修改意图），返回快照 id。",
+         "inputSchema": {"type": "object",
+                         "properties": {"intent": {"type": "string",
+                                                    "description": "修改意图（为什么改/影响面）"}},
+                         "required": ["intent"]}},
+        {"name": "lingshu_rollback",
+         "description": "自修改安全闭环·一键回滚：校验快照指纹后恢复全部目标文件到快照态（快照被改可检出）。撤销永远一条命令。",
+         "inputSchema": {"type": "object",
+                         "properties": {"snapshot_id": {"type": "string",
+                                                         "description": "lingshu_auto_snapshot 返回的快照 id"}},
+                         "required": ["snapshot_id"]}},
         {"name": "action_log",
          "description": "P0-1 行为日志（最近 N 条）：引擎自己做了什么的记录面。",
          "inputSchema": {"type": "object",
@@ -745,6 +766,26 @@ class AEISServer:
                                        workspace=a.get("workspace", ""))
             return {"content": [{"type": "text", "text": _dump(result)}],
                     "isError": result.get("status") != "ok"}
+        if name == "lingshu_sensor_report":
+            from ..selfmod import sensor_scan
+            return {"content": [{"type": "text",
+                                 "text": _dump(sensor_scan(a.get("db") or None))}],
+                    "isError": False}
+        if name == "lingshu_vitality_report":
+            from ..selfmod import vitality_report
+            return {"content": [{"type": "text",
+                                 "text": _dump(vitality_report(a.get("db") or None))}],
+                    "isError": False}
+        if name == "lingshu_auto_snapshot":
+            from ..selfmod import auto_snapshot
+            return {"content": [{"type": "text",
+                                 "text": _dump(auto_snapshot(a.get("intent", "") or "自修改"))}],
+                    "isError": False}
+        if name == "lingshu_rollback":
+            from ..selfmod import rollback
+            res = rollback(a.get("snapshot_id", "") or "")
+            return {"content": [{"type": "text", "text": _dump(res)}],
+                    "isError": not res.get("ok", False)}
         if name == "action_log":
             return {"content": [{"type": "text", "text": _dump(agent.action_log(limit=a.get("limit", 50)))}], "isError": False}
         if name == "cognition":
