@@ -118,6 +118,10 @@ def key_hit(answer: str, key_facts: list[str]) -> bool:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=30, help="匹配测试题数（取前 n）")
+    ap.add_argument("--threshold", type=int, default=5,
+                    help="白箱直答的 score 阈值（T8 二轮实验 3 vs 5）")
+    ap.add_argument("--a-only", action="store_true",
+                    help="只跑 A 组（B 组复用上轮 token_ab_report.json）")
     args = ap.parse_args()
     qs = QUESTIONS[:args.n]
 
@@ -140,7 +144,7 @@ def main() -> int:
         routes = card_route(dex, q, limit=3)
         top = routes[0] if routes else None
         a_answer, a_usage, a_mode = "", {"prompt": 0, "completion": 0}, "miss"
-        if top and top.get("_card_hit") and top.get("score", 0) >= 5:
+        if top and top.get("_card_hit") and top.get("score", 0) >= args.threshold:
             a_answer = top.get("direct_answer") or ""
             a_mode = "whitebox"          # 条件命中直答：0 LLM token
             stats["A"]["whitebox"] += 1
@@ -154,16 +158,28 @@ def main() -> int:
             stats["A"]["judged"] += 1
             stats["A"]["correct"] += key_hit(a_answer, key_facts)
 
-        # ---- B 组：主仓库显式描述 ----
-        b_answer, b_usage = llm_call(REPO_DESCRIPTION, q)
-        b_tok = b_usage["prompt"] + b_usage["completion"]
-        stats["B"]["llm_tokens"] += b_tok
-        if key_facts:
-            stats["B"]["judged"] += 1
-            stats["B"]["correct"] += key_hit(b_answer, key_facts)
+        # ---- B 组：主仓库显式描述（--a-only 时复用上轮数据）----
+        if args.a_only:
+            prev = json.load(open(os.path.join(HERE, "token_ab_report.json"),
+                                  encoding="utf-8"))["rows"]
+            b_tok = prev[len(rows)]["b_tok"]
+            stats["B"]["llm_tokens"] += b_tok
+        else:
+            b_answer, b_usage = llm_call(REPO_DESCRIPTION, q)
+            b_tok = b_usage["prompt"] + b_usage["completion"]
+            stats["B"]["llm_tokens"] += b_tok
+            if key_facts:
+                stats["B"]["judged"] += 1
+                stats["B"]["correct"] += key_hit(b_answer, key_facts)
 
         rows.append({"q": q, "a_mode": a_mode, "a_tok": a_tok, "b_tok": b_tok,
                      "whitebox_answer": a_answer[:40]})
+        # 判定伪影显式化：直答题 key_hit 单列（压缩表达 vs 长答案词）
+        if a_mode == "whitebox" and key_facts:
+            stats.setdefault("A_whitebox_judge",
+                             {"judged": 0, "correct": 0})
+            stats["A_whitebox_judge"]["judged"] += 1
+            stats["A_whitebox_judge"]["correct"] += key_hit(a_answer, key_facts)
         print(f"[{a_mode:<8}] {q[:16]:<18} A={a_tok:>5} tok  B={b_tok:>5} tok")
 
     dex.close()
