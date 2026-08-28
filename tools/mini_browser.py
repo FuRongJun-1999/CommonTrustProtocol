@@ -96,6 +96,56 @@ def resolve_url(base: str, href: str) -> str:
     return root + "/" + "/".join(stack)
 
 
+class Browser:
+    """F5 导航（历史栈后退）+ F6 页面缓存（第三批 2026-08-28）。
+
+    白箱口径：历史栈与缓存都是显式数据结构——历史 = 已访问页序列，
+    缓存 = URL → 页面字典，命中与否由请求计数外部可验证。
+    """
+
+    def __init__(self) -> None:
+        self.history: list = []      # F5：后退栈（visit 链）
+        self.current: dict | None = None
+        self.cache: dict = {}        # F6：URL → page
+
+    def visit(self, url: str, use_cache: bool = True) -> dict:
+        """访问页面：缓存命中则不发起请求（F6）；刷新用 use_cache=False。"""
+        if use_cache and url in self.cache:
+            self.current = self.cache[url]
+            return self.current
+        resp = http_get(url)
+        page = extract(resp["body"])
+        page["url"] = url
+        page["status"] = resp["status"]
+        if self.current is not None and self.current["url"] != url:
+            self.history.append(self.current)
+        self.current = page
+        self.cache[url] = page
+        return page
+
+    def refresh(self) -> dict:
+        """F6 显式刷新：绕过缓存重新请求当前页。"""
+        if self.current is None:
+            raise BrowserError("无当前页可刷新")
+        return self.visit(self.current["url"], use_cache=False)
+
+    def back(self) -> dict:
+        """F5 后退：弹出历史栈顶为当前页。"""
+        if not self.history:
+            raise BrowserError("无历史可后退")
+        self.current = self.history.pop()
+        return self.current
+
+    def follow(self, n: int) -> dict:
+        """F5 跟随第 n 个链接（1 起）：相对 URL 先经 resolve_url。"""
+        if self.current is None:
+            raise BrowserError("无当前页，无法跟随链接")
+        if not (1 <= n <= len(self.current["links"])):
+            raise BrowserError(f"链接编号越界: {n}（共 {len(self.current['links'])} 个）")
+        href, _ = self.current["links"][n - 1]
+        return self.visit(resolve_url(self.current["url"], href))
+
+
 _DEFAULT_PORTS = {"http": 80, "https": 443}
 
 
