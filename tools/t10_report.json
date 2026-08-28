@@ -1,0 +1,173 @@
+{
+ "projects": [
+  {
+   "name": "订单状态机",
+   "domain": "规则密集",
+   "A": {
+    "name": "订单状态机",
+    "group": "A",
+    "tokens": 1263,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "why": ""
+     }
+    ]
+   },
+   "B": {
+    "name": "订单状态机",
+    "group": "B",
+    "tokens": 538,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "why": ""
+     }
+    ]
+   }
+  },
+  {
+   "name": "日历推算",
+   "domain": "规则密集",
+   "A": {
+    "name": "日历推算",
+    "group": "A",
+    "tokens": 2182,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "why": ""
+     }
+    ]
+   },
+   "B": {
+    "name": "日历推算",
+    "group": "B",
+    "tokens": 474,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "why": ""
+     }
+    ]
+   }
+  },
+  {
+   "name": "账单聚合",
+   "domain": "多组件",
+   "A": {
+    "name": "账单聚合",
+    "group": "A",
+    "tokens": 2485,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "why": ""
+     }
+    ]
+   },
+   "B": {
+    "name": "账单聚合",
+    "group": "B",
+    "tokens": 705,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "why": ""
+     }
+    ]
+   }
+  },
+  {
+   "name": "编译器组合程序",
+   "domain": "中文编译器",
+   "A": {
+    "name": "编译器组合程序",
+    "group": "A",
+    "tokens": 8277,
+    "rounds": 4,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": false,
+      "why": "测试异常: import sys\nsys.path.insert(0, r'D:\\Program Files\\2_ai\\protoc → KeyError: 'program_text'"
+     },
+     {
+      "round": 2,
+      "ok": false,
+      "why": "断言失败: import sys\nsys.path.insert(0, r'D:\\Program Files\\2_ai\\protocol-compiler')\nfrom core.compiler import compile_source"
+     },
+     {
+      "round": 3,
+      "ok": false,
+      "why": "测试异常: import sys\nsys.path.insert(0, r'D:\\Program Files\\2_ai\\protoc → KeyError: 'program_text'"
+     },
+     {
+      "round": 4,
+      "ok": true,
+      "why": ""
+     }
+    ]
+   },
+   "B": {
+    "name": "编译器组合程序",
+    "group": "B",
+    "tokens": 10802,
+    "rounds": 5,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": false,
+      "why": "测试异常: import sys\nsys.path.insert(0, r'D:\\Program Files\\2_ai\\protoc → KeyError: 'program_text'"
+     },
+     {
+      "round": 2,
+      "ok": false,
+      "why": "测试异常: import sys\nsys.path.insert(0, r'D:\\Program Files\\2_ai\\protoc → KeyError: 'program_text'"
+     },
+     {
+      "round": 3,
+      "ok": false,
+      "why": "测试异常: import sys\nsys.path.insert(0, r'D:\\Program Files\\2_ai\\protoc → KeyError: 'program_text'"
+     },
+     {
+      "round": 4,
+      "ok": false,
+      "why": "测试异常: import sys\nsys.path.insert(0, r'D:\\Program Files\\2_ai\\protoc → KeyError: 'program_text'"
+     },
+     {
+      "round": 5,
+      "ok": true,
+      "why": ""
+     }
+    ]
+   }
+  }
+ ],
+ "totals": {
+  "A": 14207,
+  "B": 12519,
+  "A_pass": 4,
+  "B_pass": 4
+ }
+}

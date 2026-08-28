@@ -1,0 +1,173 @@
+{
+ "裸LLM": [
+  {
+   "pass": true,
+   "rounds": 1,
+   "prompt": 289,
+   "completion": 649,
+   "reasoning": 633,
+   "visible": 16,
+   "total": 938,
+   "rounds_log": [
+    {
+     "round": 1,
+     "prompt": 289,
+     "comp": 649,
+     "reasoning": 633,
+     "visible": 16,
+     "status": "通过",
+     "detail": "「结果」=11.0 ✓",
+     "program": "结果 = 3 加 4 乘 2；止。"
+    }
+   ],
+   "program": "结果 = 3 加 4 乘 2；止。",
+   "task": "1",
+   "name": "算术优先级",
+   "complexity": "simple",
+   "expected": 11.0
+  },
+  {
+   "pass": true,
+   "rounds": 1,
+   "prompt": 375,
+   "completion": 2487,
+   "reasoning": 2371,
+   "visible": 116,
+   "total": 2862,
+   "rounds_log": [
+    {
+     "round": 1,
+     "prompt": 375,
+     "comp": 2487,
+     "reasoning": 2371,
+     "visible": 116,
+     "status": "通过",
+     "detail": "「结果」=7.0 ✓",
+     "program": "定义 汉诺（n）：若 n 等于 1，则 返回 1，否则 返回 汉诺（n 减 1） 加 汉诺（n 减 1） 加 1；结果 = 汉诺（3）；止。"
+    }
+   ],
+   "program": "定义 汉诺（n）：若 n 等于 1，则 返回 1，否则 返回 汉诺（n 减 1） 加 汉诺（n 减 1） 加 1；结果 = 汉诺（3）；止。",
+   "task": "2",
+   "name": "汉诺双递归",
+   "complexity": "medium",
+   "expected": 7.0
+  },
+  {
+   "pass": true,
+   "rounds": 2,
+   "prompt": 1270,
+   "completion": 1310,
+   "reasoning": 1057,
+   "visible": 253,
+   "total": 2580,
+   "rounds_log": [
+    {
+     "round": 1,
+     "prompt": 487,
+     "comp": 942,
+     "reasoning": 746,
+     "visible": 196,
+     "status": "编译错",
+     "detail": "L4:C13 未知字符: '「' (U+300C)；L4:C16 未知字符: '」' (U+300D)；L5:C13 未知字符: '「' (U+300C)",
+     "program": "定义 阶乘（n）：若 n 小于 2，则 返回 1，否则 返回 n 乘 阶乘（n 减 1）；结果 = 阶乘（5）止。\n\n**说明（辨别过时/错误信息）：**\n- 采纳骨架：条件必须含「否则」分支 → 忽略同事笔记（“不需要否则”错误）\n- 采纳骨架：函数定义用「定义」关键字、无「递归」前缀要求 → 忽略旧版手册（“递归”关键字过时）\n- 若/否则两分支均以 返回 结束，覆盖全部情况，函数体即止，未追加多余顶层 返回\n- 全程序单行，以「；」分隔语句，「止。」结束，阶乘（5）= 120 存入「结果」"
+    },
+    {
+     "round": 2,
+     "prompt": 783,
+     "comp": 368,
+     "reasoning": 311,
+     "visible": 57,
+     "status": "通过",
+     "detail": "「结果」=120.0 ✓",
+     "program": "定义 阶乘（n）：若 n 小于 2，则 返回 1，否则 返回 n 乘 阶乘（n 减 1）；结果 = 阶乘（5）止。"
+    }
+   ],
+   "program": "定义 阶乘（n）：若 n 小于 2，则 返回 1，否则 返回 n 乘 阶乘（n 减 1）；结果 = 阶乘（5）止。",
+   "task": "3",
+   "name": "递归阶乘",
+   "complexity": "complex",
+   "expected": 120.0
+  }
+ ],
+ "灵枢+白箱": [
+  {
+   "pass": true,
+   "rounds": 1,
+   "prompt": 401,
+   "completion": 2025,
+   "reasoning": 2000,
+   "visible": 25,
+   "total": 2426,
+   "rounds_log": [
+    {
+     "round": 1,
+     "prompt": 401,
+     "comp": 2025,
+     "reasoning": 2000,
+     "visible": 25,
+     "status": "通过",
+     "detail": "「结果」=11.0 ✓",
+     "program": "x = 4 乘 2；结果 = 3 加 x；止。"
+    }
+   ],
+   "program": "x = 4 乘 2；结果 = 3 加 x；止。",
+   "task": "1",
+   "name": "算术优先级",
+   "complexity": "simple",
+   "expected": 11.0
+  },
+  {
+   "pass": true,
+   "rounds": 1,
+   "prompt": 617,
+   "completion": 4230,
+   "reasoning": 4076,
+   "visible": 154,
+   "total": 4847,
+   "rounds_log": [
+    {
+     "round": 1,
+     "prompt": 617,
+     "comp": 4230,
+     "reasoning": 4076,
+     "visible": 154,
+     "status": "通过",
+     "detail": "「结果」=7.0 ✓",
+     "program": "定义 汉诺（n）：若 n 等于 1，则 返回 1，否则 返回 汉诺（n 减 1） 加 汉诺（n 减 1） 加 1；结果 = 汉诺（3）；止。"
+    }
+   ],
+   "program": "定义 汉诺（n）：若 n 等于 1，则 返回 1，否则 返回 汉诺（n 减 1） 加 汉诺（n 减 1） 加 1；结果 = 汉诺（3）；止。",
+   "task": "2",
+   "name": "汉诺双递归",
+   "complexity": "medium",
+   "expected": 7.0
+  },
+  {
+   "pass": true,
+   "rounds": 1,
+   "prompt": 527,
+   "completion": 4213,
+   "reasoning": 4067,
+   "visible": 146,
+   "total": 4740,
+   "rounds_log": [
+    {
+     "round": 1,
+     "prompt": 527,
+     "comp": 4213,
+     "reasoning": 4067,
+     "visible": 146,
+     "status": "通过",
+     "detail": "「结果」=120.0 ✓",
+     "program": "定义 阶乘（n）：若 n 等于 0，则 返回 1，否则 返回 n 乘 阶乘（n 减 1）；结果 = 阶乘（5）；止。"
+    }
+   ],
+   "program": "定义 阶乘（n）：若 n 等于 0，则 返回 1，否则 返回 n 乘 阶乘（n 减 1）；结果 = 阶乘（5）；止。",
+   "task": "3",
+   "name": "递归阶乘",
+   "complexity": "complex",
+   "expected": 120.0
+  }
+ ],
+ "engine": "glm-5.3-flash"
+}
