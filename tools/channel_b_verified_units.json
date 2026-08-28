@@ -79,5 +79,19 @@
   "ok": true,
   "fingerprint": "95416be12ada9b51",
   "ts": "2026-08-28 11:44"
+ },
+ "task:字符串重复": {
+  "task": "字符串重复",
+  "code": "def mini_repeat(s, n):\n    # 生效条件：s 为字符串；n 为非负整数\n    # 子功能：① n<=0 返回空串；② 循环累加 n 份\n    # 执行：循环迭代；顺序拼接\n    # 不适用条件：非整数 n 不在本单元范围；不用内建 * 重复\n    out = ''\n    for _ in range(n):\n        out += s\n    return out",
+  "ok": true,
+  "fingerprint": "994e1cbe387aad3f",
+  "ts": "2026-08-28 11:52"
+ },
+ "task:去首尾空白": {
+  "task": "去首尾空白",
+  "code": "def mini_strip(s):\n    # 生效条件：s 为字符串\n    # 子功能：① 定位首个非空白；② 定位末个非空白；③ 切片返回\n    # 执行：顺序扫描；切片\n    # 不适用条件：只去首尾，不去中间空白；不用内建 strip\n    ws = ' \\t\\n\\r'\n    start = 0\n    while start < len(s) and s[start] in ws:\n        start += 1\n    end = len(s)\n    while end > start and s[end - 1] in ws:\n        end -= 1\n    return s[start:end]",
+  "ok": true,
+  "fingerprint": "0856e84fac73d0ed",
+  "ts": "2026-08-28 11:53"
  }
 }

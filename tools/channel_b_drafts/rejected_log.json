@@ -4,5 +4,11 @@
   "layer": "queue_verifier",
   "why": "cases 物理验证未过",
   "ts": "2026-08-28 11:42"
+ },
+ {
+  "task": "去首尾空白",
+  "layer": "queue_verifier",
+  "why": "cases 物理验证未过",
+  "ts": "2026-08-28 11:52"
  }
 ]

@@ -185,7 +185,13 @@ def run_channel_b(llm_generate=None, max_tasks=5):
             import inspect as _insp
             try:
                 _np = len(_insp.signature(fn).parameters) if callable(fn) else 1
-                if _np > 1 and isinstance(inp_raw, (list, tuple)):
+                _declared = item.get("nargs")
+                # 展开判定：签名 >1 参数自动展开；单参函数但生成侧标注
+                # nargs>1（如 arr 类参数）也展开——字符串单参不被误展开
+                if (_np > 1 or (_declared is not None and _declared > 1)) \
+                        and isinstance(inp_raw, (list, tuple)):
+                    got = fn(*inp_raw)
+                elif isinstance(inp_raw, list) and _np == 1 and _declared == 1:
                     got = fn(*inp_raw)
                 else:
                     got = fn(inp_raw)
