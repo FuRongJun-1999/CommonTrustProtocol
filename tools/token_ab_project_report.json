@@ -4,13 +4,13 @@
    "name": "传输协议选择器",
    "domain": "计算机网络",
    "A": {
-    "tokens": 4945,
-    "attempts": 3,
+    "tokens": 2479,
+    "attempts": 1,
     "passed": true
    },
    "B": {
-    "tokens": 1937,
-    "attempts": 3,
+    "tokens": 554,
+    "attempts": 1,
     "passed": true
    }
   },
@@ -18,12 +18,12 @@
    "name": "图度分布统计器",
    "domain": "数据结构·图",
    "A": {
-    "tokens": 7808,
+    "tokens": 11256,
     "attempts": 5,
     "passed": false
    },
    "B": {
-    "tokens": 6928,
+    "tokens": 8405,
     "attempts": 5,
     "passed": false
    }
@@ -32,13 +32,13 @@
    "name": "插入排序模块",
    "domain": "排序算法",
    "A": {
-    "tokens": 3824,
-    "attempts": 4,
+    "tokens": 1724,
+    "attempts": 1,
     "passed": true
    },
    "B": {
-    "tokens": 1382,
-    "attempts": 2,
+    "tokens": 256,
+    "attempts": 1,
     "passed": true
    }
   },
@@ -46,13 +46,13 @@
    "name": "CSV 字段处理",
    "domain": "字符串处理",
    "A": {
-    "tokens": 3026,
-    "attempts": 2,
+    "tokens": 3307,
+    "attempts": 1,
     "passed": true
    },
    "B": {
-    "tokens": 1648,
-    "attempts": 2,
+    "tokens": 1530,
+    "attempts": 1,
     "passed": true
    }
   },
@@ -60,33 +60,33 @@
    "name": "租房预算计算器",
    "domain": "生活·租房",
    "A": {
-    "tokens": 3029,
-    "attempts": 4,
+    "tokens": 1435,
+    "attempts": 1,
     "passed": true
    },
    "B": {
-    "tokens": 2097,
-    "attempts": 5,
-    "passed": false
+    "tokens": 225,
+    "attempts": 1,
+    "passed": true
    }
   },
   {
    "name": "夜醒应对协议",
    "domain": "健康·睡眠",
    "A": {
-    "tokens": 3675,
-    "attempts": 5,
-    "passed": false
+    "tokens": 1629,
+    "attempts": 1,
+    "passed": true
    },
    "B": {
-    "tokens": 1699,
-    "attempts": 5,
-    "passed": false
+    "tokens": 370,
+    "attempts": 1,
+    "passed": true
    }
   }
  ],
  "totals": {
-  "A": 26307,
-  "B": 15691
+  "A": 21830,
+  "B": 11340
  }
 }
