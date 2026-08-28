@@ -3,83 +3,102 @@
  "_instructions": "bootstrap_loop 自动消化",
  "pending": [
   {
-   "task": "中段掩码",
-   "spec": "mask_middle(s, keep=2) 保留首尾 keep 字符，中间以 * 替代（手机号/邮箱脱敏常用）",
+   "task": "二分查找",
+   "spec": "binary_search(arr, target) 在升序列表中查找 target，返回索引或 -1",
    "cases": [
     [
      [
-      "13812345678",
-      3
+      [
+       1,
+       3,
+       5,
+       7,
+       9
+      ],
+      5
      ],
-     "138*****678"
+     2
     ],
     [
      [
-      "ab"
+      [
+       1,
+       3,
+       5,
+       7,
+       9
+      ],
+      4
      ],
-     "ab"
+     -1
     ],
     [
      [
-      "abcdef",
-      6
+      [],
+      1
      ],
-     "abcdef"
+     -1
     ],
     [
      [
-      "",
-      2
+      [
+       5
+      ],
+      5
      ],
-     ""
+     0
     ]
    ],
    "generated_by": "glm-5.3-flash-zcode",
-   "ts": "2026-08-28 18:46",
-   "code": "def mask_middle(s, keep=2):\n    # 生效条件：s 为字符串；keep 为保留首尾的字符数（非负整数）\n    # 子功能：① 长度 <= 2*keep 原样返回；② 否则保留首尾 keep 字符，中间以 * 替代\n    # 执行：切片拼接\n    # 不适用条件：非字符串输入不在本单元范围；不用正则\n    if len(s) <= 2 * keep:\n        return s\n    return s[:keep] + '*' * (len(s) - 2 * keep) + s[-keep:]",
+   "ts": "2026-08-28 21:24",
+   "code": "def binary_search(arr, target):\n    # 生效条件：arr 为升序排列的数值列表；target 为查找目标\n    # 子功能：① 双指针夹逼 ② 中位比较 ③ 找到返回索引\n    # 执行：循环迭代（lo/hi 收缩）\n    # 不适用条件：未排序列表结果不可靠（前置条件违背）；返回 -1 表示不存在\n    lo, hi = 0, len(arr) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1",
    "status": "verified"
   },
   {
-   "task": "数值钳位",
-   "spec": "clamp(v, lo, hi) 将 v 限制在 [lo, hi] 区间（lo <= hi 前置）",
+   "task": "冒泡排序",
+   "spec": "bubble_sort(arr) 返回升序新列表（相邻比较交换，不修改原列表）",
    "cases": [
     [
      [
-      5,
+      3,
       1,
-      10
+      2
      ],
-     5
+     [
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     [],
+     []
     ],
     [
      [
-      -3,
-      1,
-      10
+      2,
+      2,
+      1
      ],
-     1
+     [
+      1,
+      2,
+      2
+     ]
     ],
     [
      [
-      15,
-      1,
-      10
+      1
      ],
-     10
-    ],
-    [
      [
-      7,
-      7,
-      7
-     ],
-     7
+      1
+     ]
     ]
    ],
    "generated_by": "glm-5.3-flash-zcode",
-   "ts": "2026-08-28 18:46",
-   "code": "def clamp(v, lo, hi):\n    # 生效条件：v/lo/hi 为可比较数值且 lo <= hi\n    # 子功能：① v < lo 返回 lo；② v > hi 返回 hi；③ 否则返回 v\n    # 执行：条件分派\n    # 不适用条件：lo > hi 时行为未定义（前置条件违背）；不用内建 min/max 组合\n    if v < lo:\n        return lo\n    if v > hi:\n        return hi\n    return v",
-   "status": "verified"
+   "ts": "2026-08-28 21:24",
+   "code": "def bubble_sort(arr):\n    # 生效条件：arr 为数值列表\n    # 子功能：① 相邻比较交换 ② 每轮冒出最大值到尾部 ③ 返回新列表\n    # 执行：双重循环迭代\n    # 不适用条件：不修改原列表（返回新列表）；大列表效率低（O(n²)）\n    result = list(arr)\n    n = len(result)\n    for i in range(n - 1):\n        for j in range(n - 1 - i):\n            if result[j] > result[j + 1]:\n                result[j], result[j + 1] = result[j + 1], result[j]\n    return result",
+   "status": "failed"
   }
  ]
 }
