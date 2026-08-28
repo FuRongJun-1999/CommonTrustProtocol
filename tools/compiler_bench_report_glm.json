@@ -1,0 +1,188 @@
+{
+ "engine": "glm-5.3-flash",
+ "tasks": [
+  {
+   "A": {
+    "name": "递归阶乘",
+    "group": "A",
+    "tokens": 457,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=120.0",
+      "code": "定义 阶乘（n）：若 n 小于 2，则 返回 1，否则 返回 n 乘 阶乘（n 减 1）；结果 = 阶乘（5）；止。"
+     }
+    ]
+   },
+   "B": {
+    "name": "递归阶乘",
+    "group": "B",
+    "tokens": 2371,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=120.0",
+      "code": "定义 阶乘（n）：若 n 小于 2，则 返回 1，否则 返回 n 乘 阶乘（n 减 1）；结果 = 阶乘（5）；止。"
+     }
+    ]
+   }
+  },
+  {
+   "A": {
+    "name": "递归累加",
+    "group": "A",
+    "tokens": 500,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=15.0",
+      "code": "定义 累加（n）：若 n 等于 1，则 返回 1，否则 返回 n 加 累加（n 减 1）；结果 = 累加（5）；止。"
+     }
+    ]
+   },
+   "B": {
+    "name": "递归累加",
+    "group": "B",
+    "tokens": 1839,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=15.0",
+      "code": "定义 累加（n）：若 n 等于 1，则 返回 1，否则 返回 n 加 累加（n 减 1）；结果 = 累加（5）；止。"
+     }
+    ]
+   }
+  },
+  {
+   "A": {
+    "name": "算术优先级",
+    "group": "A",
+    "tokens": 1879,
+    "rounds": 2,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": false,
+      "diag": "运行错",
+      "detail": "IndexError: pop from empty list",
+      "code": "定义 计算（甲，乙，丙）：\n部分 = 乙 乘 丙；\n结果 = 计算（3，4，2）；\n止。"
+     },
+     {
+      "round": 2,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=11.0",
+      "code": "结果 = 3 加 （4 乘 2）；止。"
+     }
+    ]
+   },
+   "B": {
+    "name": "算术优先级",
+    "group": "B",
+    "tokens": 2598,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=11.0",
+      "code": "结果 = 3 加 4 乘 2；止。"
+     }
+    ]
+   }
+  },
+  {
+   "A": {
+    "name": "条件判断",
+    "group": "A",
+    "tokens": 487,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=1.0",
+      "code": "若 5 大于 3，则 结果 = 1，否则 结果 = 0；止。"
+     }
+    ]
+   },
+   "B": {
+    "name": "条件判断",
+    "group": "B",
+    "tokens": 2553,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=1.0",
+      "code": "若 5 大于 3，则 结果 = 1，否则 结果 = 0；止。"
+     }
+    ]
+   }
+  },
+  {
+   "A": {
+    "name": "双递归斐波那契",
+    "group": "A",
+    "tokens": 748,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=8.0",
+      "code": "定义 斐波那契（n）：若 n 小于 2，则 返回 n，否则 返回 斐波那契（n 减 1）加 斐波那契（n 减 2）；结果 = 斐波那契（6）；止。"
+     }
+    ]
+   },
+   "B": {
+    "name": "双递归斐波那契",
+    "group": "B",
+    "tokens": 1560,
+    "rounds": 1,
+    "passed": true,
+    "rounds_log": [
+     {
+      "round": 1,
+      "ok": true,
+      "diag": "pass",
+      "detail": "结果=8.0",
+      "code": "定义 斐波那契（n）：若 n 小于 2，则 返回 n，否则 返回 斐波那契（n 减 1）加 斐波那契（n 减 2）；结果 = 斐波那契（6）；止。"
+     }
+    ]
+   }
+  }
+ ],
+ "totals": {
+  "A": 4071,
+  "B": 10921,
+  "A_pass": 5,
+  "B_pass": 5
+ }
+}
