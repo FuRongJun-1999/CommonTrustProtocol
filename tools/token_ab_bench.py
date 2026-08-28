@@ -153,8 +153,13 @@ def main() -> int:
         else:
             # 兜底软注入（T8 三杠杆之三）：未命中直答时把相近卡摘要作为
             # 参考上下文——「全景事实」由卡提供，减少模型枚举
+            # 相关门控：top1 score≥2（弱相关以上）才注入——无相近卡时
+            # 注入无关 hints 反增输入 token（黑洞题小样本 -202 教训）
+            _top_score = (routes[0] or {}).get("score", 0) if routes else 0
             hints = [f"- {h.get('name')}: {(h.get('direct_answer') or '')[:60]}"
-                     for h in (routes or [])[:3] if h.get("direct_answer")]
+                     for h in (routes or [])[:3]
+                     if h.get("direct_answer")] \
+                if _top_score >= 2 else []
             soft = ("\n知识库最相近参考（未必是答案，仅供定位）：\n" + "\n".join(hints)) if hints else ""
             a_answer, a_usage = llm_call("你是灵枢助手。简洁准确回答。" + soft, q)
             a_mode = "fallback"
