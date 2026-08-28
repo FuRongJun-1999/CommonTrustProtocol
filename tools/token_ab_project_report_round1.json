@@ -1,0 +1,92 @@
+{
+ "projects": [
+  {
+   "name": "传输协议选择器",
+   "domain": "计算机网络",
+   "A": {
+    "tokens": 6084,
+    "attempts": 5,
+    "passed": false
+   },
+   "B": {
+    "tokens": 2999,
+    "attempts": 5,
+    "passed": false
+   }
+  },
+  {
+   "name": "图度分布统计器",
+   "domain": "数据结构·图",
+   "A": {
+    "tokens": 10404,
+    "attempts": 5,
+    "passed": false
+   },
+   "B": {
+    "tokens": 8940,
+    "attempts": 5,
+    "passed": false
+   }
+  },
+  {
+   "name": "插入排序模块",
+   "domain": "排序算法",
+   "A": {
+    "tokens": 4464,
+    "attempts": 5,
+    "passed": false
+   },
+   "B": {
+    "tokens": 1496,
+    "attempts": 2,
+    "passed": true
+   }
+  },
+  {
+   "name": "CSV 字段处理",
+   "domain": "字符串处理",
+   "A": {
+    "tokens": 3089,
+    "attempts": 2,
+    "passed": true
+   },
+   "B": {
+    "tokens": 4859,
+    "attempts": 5,
+    "passed": true
+   }
+  },
+  {
+   "name": "租房预算计算器",
+   "domain": "生活·租房",
+   "A": {
+    "tokens": 3608,
+    "attempts": 5,
+    "passed": true
+   },
+   "B": {
+    "tokens": 1976,
+    "attempts": 5,
+    "passed": true
+   }
+  },
+  {
+   "name": "夜醒应对协议",
+   "domain": "健康·睡眠",
+   "A": {
+    "tokens": 3475,
+    "attempts": 5,
+    "passed": false
+   },
+   "B": {
+    "tokens": 1630,
+    "attempts": 5,
+    "passed": false
+   }
+  }
+ ],
+ "totals": {
+  "A": 31124,
+  "B": 21900
+ }
+}

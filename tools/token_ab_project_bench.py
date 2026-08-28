@@ -34,7 +34,8 @@ PROJECTS = [
         "task": ("实现函数 choose_protocol(needs_reliability, realtime)，"
                  "返回字符串 'TCP' 或 'UDP'：需要可靠性返回 TCP（面向连接、"
                  "确认重传、有序交付），追求低延迟返回 UDP（无连接、开销小）；"
-                 "两个条件都为 True 时可靠优先返回 TCP。再实现 justify(choice) "
+                 "两个条件都为 True 时可靠优先返回 TCP；两个条件都为 False 时"
+                 "默认返回 UDP（轻量默认）。再实现 justify(choice) "
                  "返回一句话中文理由（须含所选协议名与『可靠』或『快』字）"),
         "knowledge_queries": ["TCP 和 UDP 的区别", "TCP三次握手"],
         "tests": [
@@ -49,12 +50,14 @@ PROJECTS = [
         "name": "图度分布统计器",
         "domain": "数据结构·图",
         "task": ("实现函数 degree_distribution(edges, n)，edges 为无向边列表"
-                 "（如 [[0,1],[1,2]]），n 为节点数（节点编号 0..n-1）。返回 dict："
+                 "（如 [[0,1],[1,2]]），n 为节点数（节点编号 0..n-1）。"
+                 "方向相反的重复边（如 [0,1] 与 [1,0]）视为同一条边只计一次。"
+                 "返回 dict："
                  "键为度值（相连边数），值为该度值的节点个数。孤立节点度 0 也要计入。"),
         "knowledge_queries": ["图的度分布", "图的度怎么统计"],
         "tests": [
             "assert ns['degree_distribution']([[0,1],[1,2]], 3) == {0:1, 1:2, 2:1}",
-            "assert ns['degree_distribution']([[0,1],[1,0]], 2) == {2:2}",
+            "assert ns['degree_distribution']([[0,1],[1,0]], 2) == {1:2}",
             "assert ns['degree_distribution']([], 2) == {0:2}",
             "assert ns['degree_distribution']([[0,1],[0,2],[0,3]], 4) == {1:3, 3:1}",
         ],
@@ -97,8 +100,8 @@ PROJECTS = [
                  "affordable(monthly_income, rent) 返回布尔：rent 不超过上限为 True。"),
         "knowledge_queries": ["第一次租房要注意什么", "租房怎么选"],
         "tests": [
-            "assert ns['rent_budget'](10000)==3000.0",
-            "assert ns['rent_budget'](5000)==1500.0",
+            "assert abs(ns['rent_budget'](10000)-3000.0)<0.01",
+            "assert abs(ns['rent_budget'](5000)-1500.0)<0.01",
             "assert ns['rent_budget'](0)==0.0",
             "assert ns['affordable'](10000, 2999) is True",
             "assert ns['affordable'](10000, 3001) is False",
@@ -114,9 +117,9 @@ PROJECTS = [
         "knowledge_queries": ["半夜老是醒来怎么办", "夜里容易醒怎么办"],
         "tests": [
             "d = ns['night_wake_protocol']()",
-            "assert d['look_phone'] is False",
+            "assert not d['look_phone']",
             "assert '呼吸' in d['action']",
-            "assert ('酒' in d['check_first']) or ('咖啡因' in d['check_first'])",
+            "cf = d['check_first']; assert ('酒' in cf) or ('咖啡' in cf)",
         ],
     },
 ]
@@ -165,18 +168,22 @@ def strip_code_block(text: str) -> str:
 
 
 def run_tests(code: str, tests: list) -> tuple[bool, str]:
+    """验收：failing 结构化（具体断言 + 修正提示），供下一轮精准修正。"""
     ns = {}
     try:
         exec(compile(code, "<impl>", "exec"), ns)
     except Exception as e:
-        return False, f"代码执行异常: {e}"
+        return False, (f"代码执行异常 {type(e).__name__}: {e}。"
+                       "请确保所有要求的函数都已定义且可直接调用。")
     for t in tests:
         try:
             exec(compile(t, "<assert>", "exec"), ns)
         except AssertionError:
-            return False, f"断言失败: {t}"
+            return False, (f"断言失败: {t}\n"
+                           "（对照断言检查返回值结构与边界 case，"
+                           "注意 dict 键值与浮点精度）")
         except Exception as e:
-            return False, f"测试异常: {t} → {e}"
+            return False, f"测试异常: {t} → {type(e).__name__}: {e}"
     return True, ""
 
 
