@@ -17,6 +17,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, "aeis", "wisdom"))
 
+from semantic_translate import card_route  # noqa: E402（run_group 直接引用）
+
 MAX_ATTEMPTS = 8
 
 PROJECTS = [
@@ -194,7 +196,6 @@ def run_group(group: str, proj: dict, dex) -> dict:
 
 def main() -> int:
     from wisdom_book import ConditionDex
-    from semantic_translate import card_route
 
     if not os.environ.get("BIGMODEL_API_KEY"):
         print("BIGMODEL_API_KEY 未设置", file=sys.stderr)
