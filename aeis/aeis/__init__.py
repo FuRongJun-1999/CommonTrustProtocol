@@ -108,7 +108,7 @@ from .self_cognition import SelfCognitionEngine
 from .vision import VisionProvider, YOLOVisionProvider, NullVisionProvider, create_vision_provider
 from .knowledge import ingest_text, ingest_file, ingest_url
 
-__version__ = "0.3.1"
+__version__ = "0.4.3"
 ENGINE_VERSION = "v1.15.0"
 PROTOCOL = "智能论 v3.2"
 DISTILL_STANDARD_VERSION = _flywheel.FlywheelEngine.DISTILL_STANDARD_VERSION
