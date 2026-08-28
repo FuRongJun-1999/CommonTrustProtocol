@@ -77,6 +77,85 @@
    "ts": "2026-08-28 16:03",
    "code": "def mini_endswith(s, suffix):\n    # 生效条件：s/suffix 均为字符串\n    # 子功能：① 空后缀返 True；② 从尾部对齐逐位比对；③ 不匹配返 False\n    # 执行：循环迭代；条件分派\n    # 不适用条件：多后缀元组形式不在本单元范围；不用内建 endswith\n    if len(suffix) > len(s):\n        return False\n    offset = len(s) - len(suffix)\n    for i in range(len(suffix)):\n        if s[offset + i] != suffix[i]:\n            return False\n    return True",
    "status": "verified"
+  },
+  {
+   "task": "中段掩码",
+   "spec": "mask_middle(s, keep=2) 保留首尾 keep 字符，中间以 * 替代（手机号/邮箱脱敏常用）",
+   "cases": [
+    [
+     [
+      "13812345678",
+      3
+     ],
+     "138*****678"
+    ],
+    [
+     [
+      "ab"
+     ],
+     "ab"
+    ],
+    [
+     [
+      "abcdef",
+      6
+     ],
+     "abcdef"
+    ],
+    [
+     [
+      "",
+      2
+     ],
+     ""
+    ]
+   ],
+   "generated_by": "glm-5.3-flash-zcode",
+   "ts": "2026-08-28 18:46",
+   "code": "def mask_middle(s, keep=2):\n    # 生效条件：s 为字符串；keep 为保留首尾的字符数（非负整数）\n    # 子功能：① 长度 <= 2*keep 原样返回；② 否则保留首尾 keep 字符，中间以 * 替代\n    # 执行：切片拼接\n    # 不适用条件：非字符串输入不在本单元范围；不用正则\n    if len(s) <= 2 * keep:\n        return s\n    return s[:keep] + '*' * (len(s) - 2 * keep) + s[-keep:]",
+   "status": "pending"
+  },
+  {
+   "task": "数值钳位",
+   "spec": "clamp(v, lo, hi) 将 v 限制在 [lo, hi] 区间（lo <= hi 前置）",
+   "cases": [
+    [
+     [
+      5,
+      1,
+      10
+     ],
+     5
+    ],
+    [
+     [
+      -3,
+      1,
+      10
+     ],
+     1
+    ],
+    [
+     [
+      15,
+      1,
+      10
+     ],
+     10
+    ],
+    [
+     [
+      7,
+      7,
+      7
+     ],
+     7
+    ]
+   ],
+   "generated_by": "glm-5.3-flash-zcode",
+   "ts": "2026-08-28 18:46",
+   "code": "def clamp(v, lo, hi):\n    # 生效条件：v/lo/hi 为可比较数值且 lo <= hi\n    # 子功能：① v < lo 返回 lo；② v > hi 返回 hi；③ 否则返回 v\n    # 执行：条件分派\n    # 不适用条件：lo > hi 时行为未定义（前置条件违背）；不用内建 min/max 组合\n    if v < lo:\n        return lo\n    if v > hi:\n        return hi\n    return v",
+   "status": "pending"
   }
  ]
 }
