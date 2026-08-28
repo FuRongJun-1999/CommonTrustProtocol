@@ -1,161 +1,166 @@
 {
  "schema_version": 1,
- "diagram_type": "workflow",
+ "diagram_type": "cognition",
  "meta": {
-  "title": "灵枢认知路由 · 「光的反射定律」· 判定=ACCEPT",
+  "title": "灵枢认知路由 · 三角形内角和是多少",
+  "locale": "zh-CN",
+  "subtitle": "条件路由图 · 认知语义一等公民",
+  "question": "三角形内角和是多少",
+  "verdict": "resolved",
   "quality_profile": "showcase",
-  "views": [
-   {
-    "id": "ops",
-    "label": "操作图层",
-    "focus": [
-     "q",
-     "cond",
-     "conv",
-     "ans"
-    ]
-   },
-   {
-    "id": "know",
-    "label": "知识图层",
-    "focus": [
-     "k0"
-    ]
-   }
-  ],
   "viewBox": [
-   1000,
-   1510
+   720,
+   800
   ]
  },
  "lanes": [
   {
-   "id": "intake",
+   "id": "subjectLane",
    "label": "问题入口"
   },
   {
-   "id": "route2",
-   "label": "收敛判定"
+   "id": "lane0",
+   "label": "数学",
+   "variant": "normal"
   },
   {
-   "id": "route",
-   "label": "条件识别与收敛"
+   "id": "lane1",
+   "label": "数学",
+   "variant": "normal"
   },
   {
-   "id": "kp",
-   "label": "知识点卡"
+   "id": "lane2",
+   "label": "数学",
+   "variant": "normal"
   },
   {
-   "id": "gap",
-   "label": "认知边界",
-   "variant": "exception"
-  },
-  {
-   "id": "kp0",
-   "label": "E2 卡"
-  },
-  {
-   "id": "kp1",
-   "label": "E2 卡"
-  },
-  {
-   "id": "verdict",
-   "label": "四态判定"
-  },
-  {
-   "id": "answer",
-   "label": "直答输出"
+   "id": "lane3",
+   "label": "数学",
+   "variant": "normal"
   }
  ],
  "nodes": [
   {
    "id": "q",
-   "lane": "intake",
+   "lane": "subjectLane",
    "col": 0,
-   "type": "external",
-   "label": "光的反射定律"
+   "kind": "subject",
+   "verdict": "accept",
+   "label": "三角形内角和",
+   "confidence": 1
   },
   {
-   "id": "cond",
-   "lane": "route2",
-   "col": 0,
-   "type": "backend",
-   "label": "条件识别",
-   "sublabel": "二元组×0"
+   "id": "c0",
+   "lane": "lane0",
+   "col": 1,
+   "kind": "atomic",
+   "verdict": "accept",
+   "label": "三角形",
+   "sublabel": "score 11",
+   "card_hit": true,
+   "confidence": 1.0,
+   "tag": "E2",
+   "edu_level": "E2",
+   "direct_answer": "三角形内角和是180度；任意两边之和大于第三边；一个外角等于不相邻的两个内角之和"
   },
   {
-   "id": "conv",
-   "lane": "route",
-   "col": 0,
-   "type": "backend",
-   "label": "两阶段收敛",
-   "sublabel": "域=物理学 候选=2"
+   "id": "c1",
+   "lane": "lane1",
+   "col": 1,
+   "kind": "atomic",
+   "verdict": "branch",
+   "label": "三角形分类",
+   "sublabel": "score 8",
+   "card_hit": true,
+   "confidence": 0.73,
+   "tag": "E1",
+   "edu_level": "E1"
   },
   {
-   "id": "k0",
-   "lane": "kp0",
-   "col": 3,
-   "type": "database",
-   "label": "光的反射定律",
-   "sublabel": "KCCS注释索引 7"
+   "id": "c2",
+   "lane": "lane2",
+   "col": 1,
+   "kind": "atomic",
+   "verdict": "branch",
+   "label": "三角形面积",
+   "sublabel": "score 8",
+   "card_hit": true,
+   "confidence": 0.73,
+   "tag": "E1",
+   "edu_level": "E1"
   },
   {
-   "id": "k1",
-   "lane": "kp1",
-   "col": 3,
-   "type": "database",
-   "label": "光的反射",
-   "sublabel": "KCCS注释索引 5"
-  },
-  {
-   "id": "ans",
-   "lane": "verdict",
-   "col": 4,
-   "type": "backend",
-   "label": "资格满足",
-   "sublabel": "条件核对通过"
-  },
-  {
-   "id": "a_text",
-   "lane": "answer",
-   "col": 0,
-   "type": "database",
-   "label": "直答",
-   "sublabel": "光的反射定律：反射光"
+   "id": "c3",
+   "lane": "lane3",
+   "col": 1,
+   "kind": "atomic",
+   "verdict": "branch",
+   "label": "相似三角形",
+   "sublabel": "score 2",
+   "card_hit": true,
+   "confidence": 0.18,
+   "tag": "E2",
+   "edu_level": "E2"
   }
  ],
  "edges": [
   {
    "from": "q",
-   "to": "cond",
-   "role": "main"
+   "to": "c0",
+   "role": "main",
+   "width": 3.0,
+   "label": "1.00",
+   "labelAt": [
+    156,
+    156
+   ]
   },
   {
-   "from": "cond",
-   "to": "conv",
-   "role": "main"
+   "from": "q",
+   "to": "c1",
+   "role": "branch",
+   "width": 2.33,
+   "label": "0.73",
+   "labelAt": [
+    108,
+    208
+   ]
   },
   {
-   "from": "conv",
-   "to": "k0",
-   "role": "main"
+   "from": "q",
+   "to": "c2",
+   "role": "branch",
+   "width": 2.33,
+   "label": "0.73",
+   "labelAt": [
+    156,
+    275
+   ]
   },
   {
-   "from": "conv",
-   "to": "k1",
-   "role": "branch"
-  },
-  {
-   "from": "k0",
-   "to": "ans",
-   "role": "main"
+   "from": "q",
+   "to": "c3",
+   "role": "branch",
+   "width": 0.95,
+   "label": "0.18",
+   "labelAt": [
+    108,
+    357
+   ]
   }
  ],
  "mainPath": [
   "q",
-  "cond",
-  "conv",
-  "k0",
-  "ans"
+  "c0"
+ ],
+ "cards": [
+  {
+   "dot": "emerald",
+   "title": "可溯源性",
+   "items": [
+    "判定 = resolved（top 卡 card_hit=true）",
+    "两阶段收敛候选 8 条，低分分支显式可见"
+   ]
+  }
  ]
 }

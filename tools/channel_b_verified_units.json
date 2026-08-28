@@ -121,5 +121,19 @@
   "ok": true,
   "fingerprint": "7f4b08b86bbf8262",
   "ts": "2026-08-28 18:51"
+ },
+ "task:二分查找": {
+  "task": "二分查找",
+  "code": "def binary_search(arr, target):\n    # 生效条件：arr 为升序排列的数值列表；target 为查找目标\n    # 子功能：① 双指针夹逼 ② 中位比较 ③ 找到返回索引\n    # 执行：循环迭代（lo/hi 收缩）\n    # 不适用条件：未排序列表结果不可靠（前置条件违背）；返回 -1 表示不存在\n    lo, hi = 0, len(arr) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1",
+  "ok": true,
+  "fingerprint": "d1f026b3a912a794",
+  "ts": "2026-08-28 21:28"
+ },
+ "task:冒泡排序": {
+  "task": "冒泡排序",
+  "code": "def bubble_sort(arr):\n    # 生效条件：arr 为数值列表\n    # 子功能：① 相邻比较交换 ② 每轮冒出最大值到尾部 ③ 返回新列表\n    # 执行：双重循环迭代\n    # 不适用条件：不修改原列表（返回新列表）；大列表效率低（O(n²)）\n    result = list(arr)\n    n = len(result)\n    for i in range(n - 1):\n        for j in range(n - 1 - i):\n            if result[j] > result[j + 1]:\n                result[j], result[j + 1] = result[j + 1], result[j]\n    return result",
+  "ok": true,
+  "fingerprint": "1ba5ad8390fa88c0",
+  "ts": "2026-08-28 21:40"
  }
 }

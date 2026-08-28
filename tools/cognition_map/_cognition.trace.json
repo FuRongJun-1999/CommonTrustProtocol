@@ -1,25 +1,32 @@
 {
- "question": "光的反射定律是什么",
+ "question": "三角形内角和是多少",
  "verdict": "ACCEPT",
- "schema": "cognition-v0",
+ "schema": "cognition-v1-native",
+ "diagram_type": "cognition",
  "ops": [
-  "两阶段收敛"
+  "question-banner",
+  "conditional-narrowing",
+  "verdict"
  ],
  "hits": [
   [
-   "光的反射定律（初中物理）",
-   7
+   "三角形（初中数学）",
+   11
   ],
   [
-   "光的反射（初中物理）",
-   5
+   "三角形分类（小学数学）",
+   8
+  ],
+  [
+   "三角形面积（小学数学）",
+   8
   ]
  ],
- "rejected_visible_at": "execution_trace 增强（挂账）",
- "path_fingerprint": "be6bc83cc9f63cd6fa97f33bd39b48b7828cdac77db4413a36414fd5d56a342c",
+ "rejected_visible_at": "cognition 原生类型（reject verdict/role 天然可见）",
+ "path_fingerprint": "3197178d01696bf2db5d8b68cb147ad58207cc653f3af90d8a3332e15c67b239",
  "graph_snapshot": {
-  "fingerprint": "a5139cde15f9f43f",
-  "nodes": 3048,
+  "fingerprint": "866f6aec3da6713c",
+  "nodes": 3064,
   "edges": 2948
  }
 }
