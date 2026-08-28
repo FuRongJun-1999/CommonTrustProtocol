@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "灵枢插件功能使用教学 · 条件路由图",
+    "locale": "zh-CN",
+    "subtitle": "77 工具 · 想做什么 → 找对应泳道 → 走条件边到功能（流程图 = 认知图 = 条件路由图）",
+    "quality_profile": "showcase",
+    "viewBox": [1180, 1500],
+    "legend": {
+      "mode": "all"
+    },
+    "views": [
+      {
+        "id": "main",
+        "label": "全部使用路径",
+        "focus": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10"]
+      },
+      {
+        "id": "mem",
+        "label": "记忆域",
+        "focus": ["q1", "q2", "n_remember", "n_recall", "n_export"]
+      },
+      {
+        "id": "kb",
+        "label": "知识/智慧之书",
+        "focus": ["q7", "q3", "q4", "q5", "n_kb_in", "n_kb_distill", "n_learn", "n_wb_chat", "n_wb_verify", "n_wb_analyze", "n_kb_search"]
+      },
+      {
+        "id": "cog",
+        "label": "认知/维生",
+        "focus": ["q6", "q8", "q9", "q10", "n_cog", "n_calib", "n_rp", "n_sustain", "n_proto", "n_metric"]
+      }
+    ]
+  },
+  "components": [
+    { "id": "q1", "type": "external", "label": "记住信息", "pos": [60, 120], "size": [100, 48] },
+    { "id": "q2", "type": "external", "label": "找回记忆", "pos": [60, 250], "size": [100, 48] },
+    { "id": "q7", "type": "external", "label": "喂知识", "pos": [60, 380], "size": [100, 48] },
+    { "id": "q3", "type": "external", "label": "问知识", "pos": [60, 510], "size": [100, 48] },
+    { "id": "q4", "type": "external", "label": "验证说法", "pos": [60, 640], "size": [100, 48] },
+    { "id": "q5", "type": "external", "label": "跨学科分析", "pos": [60, 770], "size": [100, 48] },
+    { "id": "q6", "type": "external", "label": "反思校准", "pos": [60, 900], "size": [100, 48] },
+    { "id": "q8", "type": "external", "label": "角色扮演", "pos": [60, 1030], "size": [100, 48] },
+    { "id": "q9", "type": "external", "label": "健康备份", "pos": [60, 1160], "size": [100, 48] },
+    { "id": "q10", "type": "external", "label": "因果预测", "pos": [60, 1290], "size": [100, 48] },
+
+    { "id": "n_remember", "type": "database", "label": "记住", "sublabel": "remember·add_context·prefeed·longterm_snapshot", "pos": [330, 120], "size": [230, 56] },
+    { "id": "n_recall", "type": "database", "label": "找回", "sublabel": "recall·search·timeline·session_recall·reconstruct_scene", "pos": [330, 250], "size": [230, 56] },
+    { "id": "n_export", "type": "backend", "label": "备份迁移", "sublabel": "export·self_check", "pos": [640, 125], "size": [150, 56] },
+
+    { "id": "n_kb_in", "type": "backend", "label": "摄入知识", "sublabel": "ingest_text·ingest_url·ingest_file", "pos": [330, 380], "size": [200, 56] },
+    { "id": "n_kb_distill", "type": "backend", "label": "蒸馏合成", "sublabel": "induce·distill·promote_memories", "pos": [610, 380], "size": [190, 56] },
+    { "id": "n_learn", "type": "backend", "label": "盲区学习", "sublabel": "learn·blindspots", "pos": [880, 380], "size": [120, 56] },
+
+    { "id": "n_wb_chat", "type": "backend", "label": "白箱问答", "sublabel": "wisdom_chat·wisdom_respond（白箱优先）", "pos": [330, 510], "size": [220, 56] },
+    { "id": "n_kb_search", "type": "database", "label": "检索知识", "sublabel": "search·think", "pos": [640, 515], "size": [120, 56] },
+
+    { "id": "n_wb_verify", "type": "backend", "label": "验证说法", "sublabel": "wisdom_verify·wisdom_trust_judge（互维双通道）", "pos": [330, 640], "size": [220, 56] },
+    { "id": "n_wb_analyze", "type": "backend", "label": "组合分析", "sublabel": "wisdom_analyze·wisdom_compose", "pos": [330, 770], "size": [180, 56] },
+
+    { "id": "n_cog", "type": "backend", "label": "递归反思", "sublabel": "recursive_reflect·cognition·preflight", "pos": [330, 900], "size": [200, 56] },
+    { "id": "n_calib", "type": "backend", "label": "可靠性校准", "sublabel": "self_reliability·prediction_feedback·emotional_bias", "pos": [640, 905], "size": [200, 56] },
+    { "id": "n_rp", "type": "backend", "label": "角色扮演", "sublabel": "roleplay_chat（自我锚点+价值观）", "pos": [330, 1030], "size": [180, 56] },
+
+    { "id": "n_sustain", "type": "security", "label": "维生快照", "sublabel": "vitality_report·sensor_report·auto_snapshot·rollback", "pos": [330, 1160], "size": [220, 56] },
+    { "id": "n_metric", "type": "backend", "label": "飞轮度量", "sublabel": "flywheel_metrics·gap_trend·transfer_test", "pos": [640, 1165], "size": [190, 56] },
+    { "id": "n_proto", "type": "security", "label": "白箱协议", "sublabel": "condition_space_operate·reason·predict_routes", "pos": [330, 1290], "size": [220, 56] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "记忆域 · 记住/找回/备份", "wraps": ["q1", "q2", "n_remember", "n_recall", "n_export"] },
+    { "kind": "region", "label": "知识域 · 摄入/蒸馏/学习", "wraps": ["q7", "n_kb_in", "n_kb_distill", "n_learn"] },
+    { "kind": "region", "label": "智慧之书 · 问答/检索/验证/分析（白箱优先）", "wraps": ["q3", "q4", "q5", "n_wb_chat", "n_kb_search", "n_wb_verify", "n_wb_analyze"] },
+    { "kind": "region", "label": "认知域 · 反思/校准/扮演", "wraps": ["q6", "q8", "n_cog", "n_calib", "n_rp"] },
+    { "kind": "region", "label": "自维持 · 维生/协议/度量", "wraps": ["q9", "q10", "n_sustain", "n_proto", "n_metric"] }
+  ],
+  "connections": [
+    { "id": "e1", "from": "q1", "to": "n_remember", "label": "长期记住", "variant": "emphasis", "width": 2.2 },
+    { "id": "e2", "from": "q1", "to": "n_export", "label": "备份迁移", "variant": "dashed",
+      "fromSide": "top", "toSide": "top",
+      "via": [[110, 85], [560, 85], [715, 85], [715, 125]], "labelAt": [400, 72] },
+    { "id": "e3", "from": "q2", "to": "n_recall", "label": "时间线/模糊", "variant": "emphasis", "width": 2.0 },
+    { "id": "e4", "from": "q7", "to": "n_kb_in", "label": "摄入消化", "variant": "emphasis", "width": 2.0 },
+    { "id": "e5", "from": "q7", "to": "n_kb_distill", "label": "蒸馏", "variant": "default",
+      "fromSide": "right", "toSide": "right",
+      "via": [[200, 404], [200, 100], [850, 100], [850, 408], [830, 408]], "labelAt": [740, 250] },
+    { "id": "e6", "from": "q7", "to": "n_learn", "label": "盲区探索", "variant": "default",
+      "fromSide": "bottom", "toSide": "bottom",
+      "via": [[110, 460], [850, 460], [940, 460], [940, 436]], "labelAt": [430, 448] },
+    { "id": "e7", "from": "q3", "to": "n_wb_chat", "label": "白箱优先", "variant": "emphasis", "width": 2.5 },
+    { "id": "e7b", "from": "n_wb_chat", "to": "n_kb_search", "label": "未命中回落", "variant": "dashed" },
+    { "id": "e9", "from": "q4", "to": "n_wb_verify", "label": "条件论判定", "variant": "emphasis", "width": 2.2 },
+    { "id": "e10", "from": "q5", "to": "n_wb_analyze", "label": "跨学科收敛", "variant": "default" },
+    { "id": "e11", "from": "q6", "to": "n_cog", "label": "行为↔价值观", "variant": "default" },
+    { "id": "e12", "from": "q6", "to": "n_calib", "label": "预测校准", "variant": "default",
+      "fromSide": "bottom", "toSide": "bottom",
+      "via": [[110, 980], [600, 980], [740, 980], [740, 961]], "labelAt": [430, 968] },
+    { "id": "e13", "from": "q8", "to": "n_rp", "label": "扮演论", "variant": "default" },
+    { "id": "e14", "from": "q9", "to": "n_sustain", "label": "先快照", "variant": "default" },
+    { "id": "e15", "from": "q9", "to": "n_metric", "label": "度量", "variant": "default",
+      "fromSide": "bottom", "toSide": "bottom",
+      "via": [[110, 1240], [900, 1240], [735, 1240], [735, 1221]], "labelAt": [500, 1228] },
+    { "id": "e16", "from": "q10", "to": "n_proto", "label": "条件空间", "variant": "default" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "使用心法：白箱优先",
+      "items": [
+        "知识问答 100% 白箱处理（零 LLM），LLM 只做外部校验——可解释可追溯",
+        "问知识走 wisdom_chat；要判定真伪走 wisdom_verify（互维双通道）",
+        "查记忆走 recall/search；写记忆走 remember/add_context"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "条件路由原则",
+      "items": [
+        "每个功能都有生效条件：符合条件才调用（recall 适合模糊回忆，search 适合精确检索）",
+        "图上的每条边 = 一个使用条件——找不到路径时用 service_info 看协议实例身份",
+        "自修改（快照/回滚）必须先 sensor_report 查基线，退化即拦截"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "入门三步",
+      "items": [
+        "① 装：pip 装 aeis wheel + dsh plugin add @furongjun1999/dsh-memory",
+        "② 试：问知识问题（wisdom_chat 白箱答）→ 说『记住这个』（remember）",
+        "③ 深：recursive_reflect 反思 → flywheel_metrics 度量 → vitality_report 维生巡检"
+      ]
+    }
+  ]
+}
