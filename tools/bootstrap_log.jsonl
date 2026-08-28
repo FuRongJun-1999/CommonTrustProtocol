@@ -166,3 +166,8 @@
 {"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-08-29 03:45:17"}
 {"round": "csre_rebuild", "units": 2908, "vocab": 5526, "ts": "2026-08-29 03:45:17"}
 {"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-08-29 03:55:44"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 2, "passed": 0, "failed": 2, "source": "queue"}, "ts": "2026-08-29 04:05:46"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-08-29 04:16:12"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-08-29 04:26:42"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-08-29 04:37:12"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-08-29 04:47:39"}
