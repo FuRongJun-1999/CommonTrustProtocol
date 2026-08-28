@@ -101,6 +101,11 @@ class Node:
         self.peers: dict[str, list[str]] = {}   # HELLO 收敛的对端能力表
         self.blindspots: list[str] = []         # 对端 BLINDSPOT 记录（不重试猜测）
         self.log: list[dict] = []               # 全部收发消息（可追溯）
+        # 批次 2：互验证闭环
+        self.handlers: dict[str, object] = {}   # capability → 执行函数
+        self.granted: set[tuple[str, str]] = set()  # (peer, capability) 已 ACCEPT
+        self.verifier: object = None            # 己方验证基底：output → (pass, evidence)
+        self.adopted: list[dict] = []           # ADOPTED 固化登记
 
     def poll(self) -> None:
         """处理收件箱中的 HELLO（能力表收敛）。异步消息的同步收敛点。"""
@@ -136,8 +141,49 @@ class Node:
         self._remote_side = remote
         remote._remote_side = self
 
+    def register_handler(self, capability: str, fn, verifier=None) -> None:
+        """注册能力执行函数（+可选验证基底说明）。"""
+        self.handlers[capability] = fn
+        if verifier:
+            self.capabilities.append(capability)
+
+    def request_and_execute(self, peer: str, capability: str, input_data,
+                            verifier) -> dict:
+        """V-M1.4/1.5：协商→TASK→RESULT→VERDICT→ADOPTED 完整闭环。
+
+        白箱纪律：①资格先于执行（未 ACCEPT 不发 TASK）；②自验证不采信
+        （verifier 是 A 的己方基底，裁决 B 的产出）。
+        """
+        reply = self.query_capability(peer, capability)
+        if reply["verdict"] != "ACCEPT":
+            raise ProtocolError(
+                f"资格不足：{peer} 对 {capability} 判定 {reply['verdict']}——TASK 禁止发送")
+        self.granted.add((peer, capability))
+        task = make_msg("TASK", self.id, peer,
+                        {"capability": capability, "input": input_data})
+        self.bus.send(task)
+        self.log.append(task)
+        self._remote_side.handle_bus()          # B 执行并回 RESULT
+        for msg in self.bus.recv(self.id):
+            self.log.append(msg)
+            if msg["type"] == "RESULT" and msg.get("reply_to") == task["id"]:
+                output = msg["payload"]["output"]
+                passed, evidence = verifier(output)   # 己方基底裁决（互验证）
+                vd = make_msg("VERDICT", self.id, peer,
+                              {"pass": passed, "evidence": evidence},
+                              reply_to=msg["id"])
+                self.bus.send(vd)
+                self.log.append(vd)
+                self._remote_side.handle_bus()    # B 登记 ADOPTED
+                self.poll()                        # A 收 B 的 ADOPTED 确认
+                if passed:
+                    self.adopted.append({"verdict_id": vd["id"],
+                                         "peer": peer, "output": output})
+                return {"output": output, "pass": passed, "evidence": evidence}
+        raise ProtocolError("TASK 无 RESULT 回复（协议死锁）")
+
     def handle_bus(self) -> None:
-        """处理收件箱中可响应的请求（CAP_QUERY→CAP_REPLY 四态裁决）。"""
+        """处理收件箱请求：CAP_QUERY 四态裁决 / TASK 执行 / VERDICT 固化。"""
         for msg in self.bus.recv(self.id):
             self.log.append(msg)
             if msg["type"] == "CAP_QUERY":
@@ -150,6 +196,22 @@ class Node:
                 self.bus.send(make_msg("CAP_REPLY", self.id, msg["from"],
                                        {"verdict": verdict, "reason": reason},
                                        reply_to=msg["id"]))
+            elif msg["type"] == "TASK":
+                cap = msg["payload"]["capability"]
+                if (msg["from"], cap) not in self.granted and cap not in self.capabilities:
+                    raise ProtocolError(f"资格违规：{msg['from']} 未协商即 TASK（{cap}）")
+                if cap not in self.handlers:
+                    raise ProtocolError(f"无执行器: {cap}")
+                output = self.handlers[cap](msg["payload"]["input"])
+                self.bus.send(make_msg("RESULT", self.id, msg["from"],
+                                       {"output": output,
+                                        "basis": f"{self.id} 以 {cap} 执行器计算"},
+                                       reply_to=msg["id"]))
+            elif msg["type"] == "VERDICT":
+                if msg["payload"]["pass"]:
+                    self.adopted.append({"verdict_id": msg["id"],
+                                         "peer": msg["from"],
+                                         "reply_to": msg.get("reply_to")})
 
 
 if __name__ == "__main__":
