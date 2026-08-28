@@ -2750,6 +2750,19 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": '对照：mini_python.py str 方法白名单 upper（CPython str.upper ASCII 子集）',
     },
+    '蜂群-服务发现': {
+        "task": '蜂群服务发现',
+        "triggers": ["服务发现", "服务查询", "能力发现", "find_service"],
+        "pattern": "def find_service(nodes, capability):\n    # 生效条件：nodes 为 (节点名, 能力列表) 序列；capability 为字符串\n    # 子功能：① 遍历节点注册表；② 能力成员精确判定；③ 命中节点收集\n    # 执行：循环迭代；条件分派\n    # 不适用条件：模糊匹配/发现延迟/负载均衡选择不在本单元范围（精确匹配口径）\n    hits = []\n    for name, caps in nodes:\n        if capability in caps:\n            hits.append(name)\n    return hits",
+        "cases": [
+            (((('节点A', ('时间同步', '文件共享')), ('节点B', ('时间同步',))), '时间同步'), ['节点A', '节点B']),
+            (((('节点A', ('时间同步',)), ('节点B', ('文件共享',))), '文件共享'), ['节点B']),
+            (((('节点A', ('时间同步',)),), '存储'), []),
+            (((), '时间同步'), []),
+        ],
+        "params": [],
+        "calibration": '对照：蓝牙互联网条件卡 F4 服务发现专项（T11 完整版条件卡_其余六目标 目标 7）——蜂群注册表精确匹配口径',
+    },
 }
 
 
