@@ -55,6 +55,81 @@
    "ts": "2026-08-28",
    "code": "def heap_sort(arr):\n    \"\"\"堆排序：建最大堆→逐个弹出堆顶→升序新列表。\n    生效条件：arr 为可比较元素列表。\n    子功能：升序排序（非稳定）。\n    执行：建堆 O(n) + n 次 sift-down O(log n)。\n    不适用条件：需要稳定排序时用归并排序。\"\"\"\n    result = list(arr)\n    n = len(result)\n\n    def _sift_down(i, size):\n        largest = i\n        left, right = 2 * i + 1, 2 * i + 2\n        if left < size and result[left] > result[largest]:\n            largest = left\n        if right < size and result[right] > result[largest]:\n            largest = right\n        if largest != i:\n            result[i], result[largest] = result[largest], result[i]\n            _sift_down(largest, size)\n\n    for i in range(n // 2 - 1, -1, -1):\n        _sift_down(i, n)\n    for end in range(n - 1, 0, -1):\n        result[0], result[end] = result[end], result[0]\n        _sift_down(0, end)\n    return result",
    "status": "verified"
+  },
+  {
+   "task": "子串判定",
+   "spec": "mini_contains(hay, needle) 判定 hay 是否含子串 needle（手写滑动窗口，不用内建 in）",
+   "cases": [
+    [
+     [
+      "hello",
+      "ell"
+     ],
+     true
+    ],
+    [
+     [
+      "hello",
+      "xyz"
+     ],
+     false
+    ],
+    [
+     [
+      "abc",
+      ""
+     ],
+     true
+    ],
+    [
+     [
+      "abcabc",
+      "cab"
+     ],
+     true
+    ]
+   ],
+   "generated_by": "glm-5.3-flash-zcode",
+   "ts": "2026-08-28 09:35",
+   "code": "def mini_contains(hay, needle):\n    # 生效条件：hay/needle 均为字符串\n    # 子功能：① 空针返 True；② 滑动窗口逐位比对；③ 不命中返 False\n    # 执行：循环迭代；条件分派\n    # 不适用条件：正则/模糊匹配不在本单元范围；不用内建 in\n    if not needle:\n        return True\n    if len(needle) > len(hay):\n        return False\n    for i in range(len(hay) - len(needle) + 1):\n        ok = True\n        for j in range(len(needle)):\n            if hay[i + j] != needle[j]:\n                ok = False\n                break\n        if ok:\n            return True\n    return False",
+   "status": "pending"
+  },
+  {
+   "task": "列表串接",
+   "spec": "mini_join(parts, sep) 以 sep 串联字符串列表（手写，不用内建 join）",
+   "cases": [
+    [
+     [
+      [
+       "a",
+       "b",
+       "c"
+      ],
+      ","
+     ],
+     "a,b,c"
+    ],
+    [
+     [
+      [],
+      ","
+     ],
+     ""
+    ],
+    [
+     [
+      [
+       "x"
+      ],
+      "-"
+     ],
+     "x"
+    ]
+   ],
+   "generated_by": "glm-5.3-flash-zcode",
+   "ts": "2026-08-28 09:35",
+   "code": "def mini_join(parts, sep):\n    # 生效条件：parts 为字符串列表；sep 为字符串分隔符\n    # 子功能：① 空表返空串；② 单元素直返；③ 多元素以 sep 串联\n    # 执行：循环迭代；顺序拼接\n    # 不适用条件：非字符串元素/生成器不在本单元范围；不用内建 join\n    if not parts:\n        return ''\n    out = parts[0]\n    for x in parts[1:]:\n        out += sep + x\n    return out",
+   "status": "pending"
   }
  ]
 }
