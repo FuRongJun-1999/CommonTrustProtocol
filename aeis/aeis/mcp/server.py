@@ -66,6 +66,34 @@ def _serialize(obj):
     return obj
 
 
+_CODE_TEST_RUNNER = """import json
+ns = {}
+res = []
+setup_err = None
+try:
+    with open('impl.py', encoding='utf-8') as f:
+        code = f.read()
+    exec(compile(code, 'impl.py', 'exec'), ns)
+    ns['ns'] = ns
+except Exception as e:
+    setup_err = type(e).__name__ + ': ' + str(e)
+with open('tests.json', encoding='utf-8') as f:
+    tests = json.load(f)
+for t in tests:
+    if setup_err:
+        res.append({'test': t, 'ok': False, 'error': '代码加载失败 ' + setup_err})
+        continue
+    try:
+        exec(compile(t, '<assert>', 'exec'), ns)
+        res.append({'test': t, 'ok': True, 'error': None})
+    except AssertionError:
+        res.append({'test': t, 'ok': False, 'error': '断言失败'})
+    except Exception as e:
+        res.append({'test': t, 'ok': False, 'error': type(e).__name__ + ': ' + str(e)})
+print(json.dumps({'results': res}, ensure_ascii=False))
+"""
+
+
 def _dump(obj) -> str:
     return json.dumps(_serialize(obj), ensure_ascii=False, default=str)
 
@@ -334,6 +362,13 @@ def _tools():
                                         "timeout_ms": {"type": "number"},
                                         "workspace": {"type": "string"}},
                          "required": ["command"]}},
+        {"name": "code_test",
+         "description": "结构化代码测试（M2.2 物理基底裁决工具化）：code 在隔离临时目录+python -I+timeout 下执行，tests 逐条断言返回结果。输入 {code, tests[], timeout_s?=10（上限 60）}。返回 {status, passed, results[{test,ok,error}], stderr}。安全边界：本机信任域（与 run_command 同域，非对外服务）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"code": {"type": "string"},
+                                        "tests": {"type": "array", "items": {"type": "string"}},
+                                        "timeout_s": {"type": "integer"}},
+                         "required": ["code", "tests"]}},
         {"name": "lingshu_sensor_report",
          "description": "自修改安全闭环·信息差传感器：五维结构质量信号（路由/知识/代码/认知/信息差收敛）扫描。自修改前先查基线，rescan 对比退化即拦截。",
          "inputSchema": {"type": "object",
@@ -766,6 +801,37 @@ class AEISServer:
                                        workspace=a.get("workspace", ""))
             return {"content": [{"type": "text", "text": _dump(result)}],
                     "isError": result.get("status") != "ok"}
+        if name == "code_test":
+            import tempfile
+            code = a.get("code", "")
+            tests = a.get("tests", [])
+            timeout_s = min(int(a.get("timeout_s", 10)), 60)
+            with tempfile.TemporaryDirectory() as td:
+                with open(os.path.join(td, "impl.py"), "w", encoding="utf-8") as f:
+                    f.write(code)
+                with open(os.path.join(td, "tests.json"), "w", encoding="utf-8") as f:
+                    json.dump(tests, f, ensure_ascii=False)
+                rp = os.path.join(td, "runner.py")
+                with open(rp, "w", encoding="utf-8") as f:
+                    f.write(_CODE_TEST_RUNNER)
+                try:
+                    r = subprocess.run([sys.executable, "-I", rp], cwd=td,
+                                       capture_output=True, text=True,
+                                       encoding="utf-8", errors="replace",
+                                       timeout=timeout_s)
+                    payload = json.loads(r.stdout) if r.stdout.strip() else {"results": []}
+                    results = payload.get("results", [])
+                    passed = bool(results) and all(x["ok"] for x in results)
+                    result = {"status": "ok", "passed": passed,
+                              "results": results, "stderr": (r.stderr or "")[-300:]}
+                except subprocess.TimeoutExpired:
+                    result = {"status": "ok", "passed": False, "results": [],
+                              "stderr": f"执行超时（>{timeout_s}s）"}
+                except json.JSONDecodeError:
+                    result = {"status": "ok", "passed": False, "results": [],
+                              "stderr": (r.stderr or "runner 输出异常")[-300:]}
+            return {"content": [{"type": "text", "text": _dump(result)}],
+                    "isError": False}
         if name == "lingshu_sensor_report":
             from ..selfmod import sensor_scan
             return {"content": [{"type": "text",
