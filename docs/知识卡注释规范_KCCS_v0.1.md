@@ -167,3 +167,54 @@ graph_retrieve 快速层顺序：`card_route（注释索引）→ dex_respond/se
 
 端到端 13 题：熵/数据库/递归/多项式整除/矩阵分解/伴随矩阵/天空蓝/奇数/
 1+1/细胞/分数/光速/三角形内角和——全部条件路由图命中 + 单定义注释导航。
+
+---
+
+## 8. KCCS v0.2：新增「触发词」要素（2026-08-29 · lingshu-skills 验证回写）
+
+> 来源：lingshu-skills（`aeis/skills/`，Agent Plugins 688 技能）MCP 打通验证通过
+> （YAML frontmatter 解析 688/688 + Verification 物理执行 3/3）后，把**触发词工程化**
+> 回写 KCCS。借鉴 sci-agent（K-Dense 163 技能）的 description 触发词列表实践。
+
+### 8.1 为什么需要触发词（与「生效条件」的区别）
+
+| 要素 | 回答的问题 | 例子（编译-递归）|
+|---|---|---|
+| **触发词**（新增）| **检索面入口**：什么词/场景/代码触发这个知识 | 递归调用/递归函数/阶乘/斐波那契/终止条件/基例/compile_recursive |
+| 生效条件 | **前提约束**：什么条件下可执行（when）| 参数合法；AST 为 FUNC_DEF 且含自身调用 |
+| 子功能 | 内部结构 | 组装字节码/登记入口/校验终止条件 |
+| 执行 | 机制/步骤 | 若则体内 RETURN；入口=函数体起点 |
+| 不适用条件 | 什么条件下不可用（负路由）| 非递归/循环（LOOP_STMT）/无终止条件 |
+
+**触发词是检索面的第一入口**——问题条件词 → 触发词命中 → 定位候选 → 再核对生效条件/负路由。
+生效条件是「能不能用」（执行前核对），触发词是「该不该找」（检索时命中）——两者分工。
+
+### 8.2 触发词格式（对齐 lingshu-skills description 生成 + sci-agent 实践）
+
+```
+"触发词": [
+  "递归调用", "递归函数", "阶乘", "斐波那契", "终止条件", "基例",   # 用户可能说的词
+  "compile_recursive", "Compiler.funcs", "CALL 回填",               # 代码/API 触发
+  "定义函数+自调用"                                                  # 场景/模式
+]
+```
+
+来源（确定性零 LLM，对齐 lingshu-skills 导出器）：
+- task / uid（单元任务名）
+- calibration 关键实体（「递归」「RETURN」「阶乘」）
+- pattern 特有注释的语义词
+- 代码导入/API 名（供代码上下文触发）
+
+### 8.3 索引作用（对齐 card_route）
+
+```python
+tokens = bigrams(name + " " + " ".join(触发词))       # 检索面含触发词
+cond_tokens = bigrams(" ".join(生效条件))              # 资格核对
+not_tokens = bigrams(" ".join(不适用条件))             # 负路由
+```
+
+### 8.4 与 lingshu-skills 的双向回写
+
+- **KCCS → skills**：单元库补「触发词」注释 → 导出器生成 SKILL description 触发词列表（更工程化）
+- **skills → KCCS**：导出验证中发现的触发词改进（sci-agent 的显式词表实践）回写 KCCS 规范
+- 闭环：知识卡/单元注释五要素（name/触发词/生效条件/子功能/执行/不适用条件）→ 条件路由图精确化（战略 #1）

@@ -1,0 +1,11 @@
+{
+  "yaml_parsable": 688,
+  "kccs_present": 688,
+  "not_applicable": 688,
+  "verification_executed": [
+    "compile-recursive",
+    "compile-assign",
+    "compile-if-then"
+  ],
+  "gate": true
+}
