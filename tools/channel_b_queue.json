@@ -36,6 +36,82 @@
    "code": "def mini_strip(s):\n    # 生效条件：s 为字符串\n    # 子功能：① 定位首个非空白；② 定位末个非空白；③ 切片返回\n    # 执行：顺序扫描；切片\n    # 不适用条件：只去首尾，不去中间空白；不用内建 strip\n    ws = ' \\t\\n\\r'\n    start = 0\n    while start < len(s) and s[start] in ws:\n        start += 1\n    end = len(s)\n    while end > start and s[end - 1] in ws:\n        end -= 1\n    return s[start:end]",
    "status": "verified",
    "nargs": 1
+  },
+  {
+   "task": "前缀判定",
+   "spec": "mini_startswith(s, prefix) 判定 s 是否以 prefix 开头（手写逐位比对，不用内建 startswith）",
+   "cases": [
+    [
+     [
+      "hello",
+      "he"
+     ],
+     true
+    ],
+    [
+     [
+      "hello",
+      "lo"
+     ],
+     false
+    ],
+    [
+     [
+      "hello",
+      ""
+     ],
+     true
+    ],
+    [
+     [
+      "he",
+      "hello"
+     ],
+     false
+    ]
+   ],
+   "generated_by": "glm-5.3-flash-zcode",
+   "ts": "2026-08-28 16:03",
+   "code": "def mini_startswith(s, prefix):\n    # 生效条件：s/prefix 均为字符串\n    # 子功能：① 空前缀返 True；② 逐位比对前 len(prefix) 字符；③ 不匹配返 False\n    # 执行：循环迭代；条件分派\n    # 不适用条件：任意位置子串匹配（用 mini_contains）；不用内建 startswith\n    if len(prefix) > len(s):\n        return False\n    for i in range(len(prefix)):\n        if s[i] != prefix[i]:\n            return False\n    return True",
+   "status": "pending"
+  },
+  {
+   "task": "后缀判定",
+   "spec": "mini_endswith(s, suffix) 判定 s 是否以 suffix 结尾（手写尾部对齐比对，不用内建 endswith）",
+   "cases": [
+    [
+     [
+      "hello",
+      "lo"
+     ],
+     true
+    ],
+    [
+     [
+      "hello",
+      "he"
+     ],
+     false
+    ],
+    [
+     [
+      "hello",
+      ""
+     ],
+     true
+    ],
+    [
+     [
+      "go",
+      "go"
+     ],
+     true
+    ]
+   ],
+   "generated_by": "glm-5.3-flash-zcode",
+   "ts": "2026-08-28 16:03",
+   "code": "def mini_endswith(s, suffix):\n    # 生效条件：s/suffix 均为字符串\n    # 子功能：① 空后缀返 True；② 从尾部对齐逐位比对；③ 不匹配返 False\n    # 执行：循环迭代；条件分派\n    # 不适用条件：多后缀元组形式不在本单元范围；不用内建 endswith\n    if len(suffix) > len(s):\n        return False\n    offset = len(s) - len(suffix)\n    for i in range(len(suffix)):\n        if s[offset + i] != suffix[i]:\n            return False\n    return True",
+   "status": "pending"
   }
  ]
 }
