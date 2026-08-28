@@ -42,6 +42,7 @@ def _load_creds():
 
 
 def _get_agent():
+    """懒加载全局 Agent 单例：首次调用才构造灵枢 Agent，避免模块导入期建连接。"""
     global _agent
     if _agent is None:
         from aeis.api import Agent

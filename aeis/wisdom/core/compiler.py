@@ -100,6 +100,7 @@ class Compiler:
         self.code.append((op, arg))
 
     def _resolve(self):
+        """回填跳转标签：pending 指令按标签表解析目标地址，未定义标签报语法错误。"""
         for idx, label in self.pending:
             if label not in self.labels:
                 raise SyntaxError(f"未定义标签 {label}")
@@ -170,6 +171,7 @@ class Compiler:
 
     # ---- 道德经指令 ----
     def _instr(self, s):
+        """单语句指令发射：按中文关键字（道/德等）分派生成对应操作码与操作数。"""
         op = s.instruction
         operands = s.operands
         val = self._operand_value(operands[0]) if operands else None

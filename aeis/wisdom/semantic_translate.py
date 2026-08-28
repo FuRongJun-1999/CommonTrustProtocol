@@ -2170,9 +2170,11 @@ def _restore_daily_short():
     _fixed = 0
 
     def _unwrap(m):
+        """括号内容替换：以「，」包裹保留原语义，供段清洗时防信息丢失。"""
         return "，" + m.group(1).strip() + "，"
 
     def _clean_seg(_s):
+        """段清洗：去中英文括号并剥首尾标点空白，归并连续顿号逗号。"""
         _c = _re.sub(r"（([^）]*)）", _unwrap, _s)
         _c = _re.sub(r"\(([^)]*)\)", _unwrap, _c)
         _c = _c.replace("（", "").replace("）", "").replace("(", "").replace(")", "")

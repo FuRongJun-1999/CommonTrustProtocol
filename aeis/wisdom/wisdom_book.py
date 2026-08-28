@@ -32,6 +32,7 @@ def _nid(seed):
 
 
 def _default_cs():
+    """默认条件空间：智慧之书的观测位置/工具/存在约束声明（只声称条件化有效性）。"""
     return ConditionSpace(
         observation_position="智慧之书·条件论知识图谱",
         observation_tool="条件论七操作 + 语义时空图检索",
@@ -1865,6 +1866,7 @@ class ConditionDex:
         return premises
 
     def _condition_card(self, text, premises):
+        """从前提集构造条件卡：识别群体范畴/度量定义/比较结构等类型并抽取度量词。"""
         has_group = any(p["type"] == "群体范畴" for p in premises)
         has_measure = any(p["type"] == "度量定义" for p in premises)
         has_cmp = any(p["type"] == "比较结构" for p in premises)
@@ -1893,16 +1895,19 @@ class ConditionDex:
         return card
 
     def _t_identify(self, premises):
+        """识别操作测试：列出当前前提已识别的类型与缺省说明。"""
         return {"status": "缺口" if premises else "ok",
                 "found": [p["type"] for p in premises],
                 "detail": [f"{p['type']}：{p['缺省']}" for p in premises]}
 
     def _t_declare(self, card):
+        """声明操作测试：扫描条件卡中未声明的项并汇总缺口。"""
         gaps = [k for k, v in card.items() if "未" in str(v) or "未声明" in str(v)]
         return {"status": "gap" if gaps else "ok",
                 "card": card, "gaps": gaps}
 
     def _t_switch(self, text, premises):
+        """切换操作测试：群体/比较结构切换到个体空间时给出失效空间警示。"""
         if any(p["type"] in ("群体范畴", "比较结构") for p in premises):
             return {"status": "失效空间",
                     "note": "群体层面的统计主张切换到个体空间后失去预测力（群体均值不对个体下结论）；"
@@ -1910,6 +1915,7 @@ class ConditionDex:
         return {"status": "ok", "note": "未识别群体/比较结构，切换操作无新增信息"}
 
     def _t_combine(self, text, premises):
+        """组合操作测试：存在复合度量时要求按领域子空间分解验证。"""
         if any(p["type"] == "度量定义" for p in premises):
             return {"status": "需分解",
                     "note": "单一度量掩盖子领域差异：主张需按领域子空间分解后逐域验证（组合操作），"
@@ -1917,11 +1923,13 @@ class ConditionDex:
         return {"status": "ok", "note": "无复合度量，组合操作无新增信息"}
 
     def _t_separate(self, text, premises):
+        """分离操作测试：缺控制变量时声明剥离预设后无法判断混淆效应。"""
         return {"status": "gap",
                 "note": "未提供控制变量（教育/文化/机会等混淆变量）；剥离预设条件后"
                         "剩余结构是否自洽无法判断——观察到的差异可能是混淆变量的效应"}
 
     def _t_invert(self, text, premises):
+        """反转操作测试：因果声称需排除逆向因果与第三变量，比较结构需补充证据。"""
         if any(p["type"] == "因果声称" for p in premises):
             return {"status": "需证据",
                     "note": "因果方向非唯一：需排除逆向因果与第三变量；"
@@ -1933,11 +1941,13 @@ class ConditionDex:
         return {"status": "ok", "note": "无因果/比较结构，逆转操作无新增信息"}
 
     def _t_cycle(self, text, premises):
+        """循环操作测试：要求完整观测周期（测→干预均等→再测）作为闭合判据。"""
         return {"status": "需证据",
                 "note": "需完整观测周期（测→干预均等条件→再测）：若条件均等后差异不返回，"
                         "则结论不闭合——循环测试是结构稳定的最终判据"}
 
     def _verdict(self, knowledge, premises, card, tests):
+        """七测汇总裁决：按缺口/需证据/通过计数与无条件声称给出最终验证状态。"""
         n_gap = sum(1 for t in tests.values() if t["status"] in ("gap", "缺口"))
         n_need = sum(1 for t in tests.values() if t["status"] == "需证据")
         n_ok = sum(1 for t in tests.values() if t["status"] == "ok")
@@ -2098,6 +2108,7 @@ class ConditionDex:
     }
 
     def _moves(self, entry):
+        """条目条件检验招式：MOVES 表优先，缺省以不可约起点自动生成一条检验。"""
         name = entry.state_attributes.get("name")
         if name in self.MOVES:
             return self.MOVES[name]

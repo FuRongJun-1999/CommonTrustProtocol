@@ -439,6 +439,7 @@ def parse_program(src):
         return stmts
 
     def _parse_line(code, build, idx):
+        """缩进块内单行语句解析：按复合赋值/赋值/def/return/if/for/while 分派为语句树节点。"""
         # T4：复合赋值 += -= *= /=（先于 = 检测，避免 "x += 1" 被 split("=",1) 误拆）
         m_aug = _AUG_RE.match(code)
         if m_aug:

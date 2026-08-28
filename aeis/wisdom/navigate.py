@@ -30,6 +30,7 @@ def get_sub_route(state_attributes) -> str:
 
 
 def _canonical(obj) -> str:
+    """导航链规范化：字符串去空白、字典按键排序递归处理，保证指纹计算稳定。"""
     def norm(x):
         if isinstance(x, str):
             return x.strip()
@@ -56,6 +57,7 @@ def refine_question(question: str, parent_sa: dict) -> str:
 
 
 def _load_state(dex, node_id):
+    """从 dex 或其 engine 链上定位 store，读取节点 state_attributes（缺失返回空表）。"""
     if not node_id:
         return {}
     store = getattr(dex, "store", None)
@@ -67,6 +69,7 @@ def _load_state(dex, node_id):
 
 
 def _result(status: str, chain: list, **extra) -> dict:
+    """组装导航返回结构：状态、导航链文本、chain 指纹、实际深度，并合并扩展字段。"""
     out = {"status": status,
            "navigation": "→".join(c["rule"] for c in chain),
            "chain": chain,

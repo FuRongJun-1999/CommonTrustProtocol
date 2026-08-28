@@ -1447,6 +1447,7 @@ def coverage_report():
     """核心常识域覆盖率（判定④：条件单元覆盖率 ≥80%）
     统计：核心常识现象被条件单元覆盖（单元名/方向/域/条件 规范化匹配）"""
     def _norm(s):
+        """组合键归一化：剥去连字符、「与」与空格，消除组合枚举的表面书写差异。"""
         return str(s).replace("-", "").replace("与", "").replace(" ", "")
     units = CONDITION_UNITS
     covered = []

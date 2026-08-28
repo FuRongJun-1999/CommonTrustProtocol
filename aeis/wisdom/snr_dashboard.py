@@ -135,6 +135,7 @@ class SnrDashboard:
 
     # ---------- 趋势（对比上次报告） ----------
     def _trend(self, cur: Dict) -> Dict:
+        """趋势对比：读上一份信噪报告作基线，无基线时返回首跑标注。"""
         prev_path = os.path.join(self.report_dir, self.REPORT_NAME)
         if not os.path.exists(prev_path):
             return {"note": "首次运行，无基线"}
@@ -154,6 +155,7 @@ class SnrDashboard:
     # ---------- 瓶颈建议（规则式） ----------
     @staticmethod
     def _bottleneck(cur: Dict) -> List[str]:
+        """瓶颈建议：按注入质量率、图谱信噪比等指标阈值生成改进建议清单。"""
         advice = []
         iq = cur.get("inject_quality")
         if iq is not None and iq < 0.7:

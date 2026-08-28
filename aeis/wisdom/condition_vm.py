@@ -100,6 +100,7 @@ class ConditionVM:
         return v is not None and v is not False and v != 0
 
     def _exec(self, op, arg):
+        """VM 取指分派单步：按操作码执行 PUSH_CONST/LOAD_NAME 等；未声明名抛「名实不符」（以名举实）。"""
         if op == Opcode.PUSH_CONST:
             self.stack.append(arg)
         elif op == Opcode.LOAD_NAME:

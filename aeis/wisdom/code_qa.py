@@ -31,6 +31,7 @@ def _extract_funcs(question, units):
 
 
 def _classify(q):
+    """问题意图分类：按关键词命中分派问型（并行/影响/依赖等），决定 QA 检索的回答路径。"""
     if any(w in q for w in ("能并行", "同时测", "并行测试", "一起测")):
         return "并行"
     if any(w in q for w in ("改", "影响", "波及", "连累", "改动")):

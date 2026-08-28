@@ -405,6 +405,7 @@ def compose_domain_code(question, domain=None, unit_id=None):
     units = DOMAIN_UNITS.get(domain, {})
     # 单元匹配：uid/task 拆词（"编译-指令"→[编译,指令]）+ 原文（最长优先）
     def _unit_kws(u, uid):
+        """单元级触发词聚合：triggers 表优先，拼接 uid/task 及其连字符词元拆解（T1 自举数据层）。"""
         # v0.2 T1（自举数据层）：单元级 triggers 触发词——
         # 缺口检测器（route_gap_audit）白箱自举产出的增强数据
         triggers = [t for t in (u.get("triggers") or []) if t]

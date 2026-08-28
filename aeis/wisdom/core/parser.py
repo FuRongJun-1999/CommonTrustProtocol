@@ -966,6 +966,7 @@ class Parser:
         return False
     
     def _consume(self, token_type: TokenType, message: str) -> Optional[Token]:
+        """消费当前 token：类型相符即前进返回，否则带行列定位报错。"""
         if self.current_token and self.current_token.type == token_type:
             token = self.current_token
             self._advance()

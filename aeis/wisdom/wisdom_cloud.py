@@ -276,6 +276,7 @@ class DexHandler(BaseHTTPRequestHandler):
             return {"op": op, "error": str(e)}
 
     def _upload(self, body):
+        """云端上传处理：verified 状态与验证轨迹完整性闸门，不符即拒绝并说明原因。"""
         entry = body.get("entry") or {}
         contributor = body.get("contributor", "anonymous")
         # ---- 上传闸门：verified 且验证轨迹完整 ----
@@ -326,6 +327,7 @@ class DexHandler(BaseHTTPRequestHandler):
              "verified_at": r[3], "weight": r[4]} for r in rows]}
 
     def _status(self):
+        """云库状态统计：知识层节点总量与 verified 占比汇总。"""
         from aeis.core import MemoryLayer
         d = self.cloud
         nodes = d.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=1000)

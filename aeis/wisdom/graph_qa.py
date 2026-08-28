@@ -14,6 +14,7 @@ def _load_whitebox_units():
     from graph_db_units import GRAPH_UNITS
 
     def _exec_unit(uid):
+        """编译执行图单元 pattern 源码，返回其命名空间供函数体调用。"""
         tree = ast.parse(GRAPH_UNITS[uid]["pattern"])
         ns = {}
         exec(compile(tree, "<unit>", "exec"), ns)
@@ -22,6 +23,7 @@ def _load_whitebox_units():
     graph_cls = _exec_unit("图存储-节点边")["Graph"]
 
     def _fn(uid):
+        """取单元命名空间并注入 Graph 类，支持白箱单元之间互相组装。"""
         ns = _exec_unit(uid)
         ns["Graph"] = graph_cls  # 注入 Graph（白箱单元互相组装）
         return ns
@@ -85,6 +87,7 @@ class ConditionGraphQA:
         return {"ok": False, "type": qtype, "reply": "（未识别问题类型）"}
 
     def _classify(self, q):
+        """图问题意图分类：按关键词命中分派问型（影响/关系/路径等）。"""
         if any(w in q for w in ("影响哪些", "涉及哪些", "影响什么", "怎么影响")):
             return "影响"
         if any(w in q for w in ("有关系", "有关吗", "能到", "关联")):
