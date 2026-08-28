@@ -136,15 +136,19 @@ def run_channel_b(llm_generate=None, max_tasks=5):
     queue = []
     if os.path.exists(queue_path):
         qd = json.load(open(queue_path, encoding="utf-8"))
-        queue = [t for t in qd.get("pending", []) if t.get("status") != "verified"]
+        queue = [t for t in qd.get("pending", [])
+                 if t.get("status") not in ("verified", "failed")]
 
     if not queue and llm_generate:
         stats["source"] = "llm_api"
-        # LLM API 通道（需要 key）
+        # LLM API 通道（需要 key）。2026-08-28 修复：无 cases 的生成条目
+        # 无法物理验证却会写回 pending 永久占位（not cases: continue）——
+        # 卡死队列且顶掉人工条目。必须有 cases 才入队。
         for task_desc in ["堆排序", "二分查找", "快速排序"]:
             r = llm_generate(f"实现 {task_desc}")
-            if r.get("ok"):
-                queue.append({"task": task_desc, "code": r["code"]})
+            if r.get("ok") and r.get("cases"):
+                queue.append({"task": task_desc, "code": r["code"],
+                              "cases": r["cases"]})
 
     v = Verifier()
     for item in queue[:max_tasks]:
@@ -201,6 +205,16 @@ def run_channel_b(llm_generate=None, max_tasks=5):
             item["status"] = "verified"
         else:
             stats["failed"] += 1
+            item["status"] = "failed"
+            _rej = os.path.join(HERE, "channel_b_drafts", "rejected_log.json")
+            os.makedirs(os.path.dirname(_rej), exist_ok=True)
+            _rej_list = json.load(open(_rej, encoding="utf-8")) \
+                if os.path.exists(_rej) else []
+            _rej_list.append({"task": task, "layer": "queue_verifier",
+                              "why": "cases 物理验证未过",
+                              "ts": time.strftime("%Y-%m-%d %H:%M")})
+            json.dump(_rej_list, open(_rej, "w", encoding="utf-8"),
+                      ensure_ascii=False, indent=1)
 
     if queue:
         qd = {"_comment": "自举产物队列（已完成项标记 verified）",

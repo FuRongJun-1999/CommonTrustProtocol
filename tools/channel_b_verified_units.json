@@ -65,5 +65,19 @@
   "fingerprint": "be5a3ec6fa9e9258",
   "channel": "DeepSeek子通道初稿",
   "ts": "2026-08-28 06:30"
+ },
+ "task:子串判定": {
+  "task": "子串判定",
+  "code": "def mini_contains(hay, needle):\n    # 生效条件：hay/needle 均为字符串\n    # 子功能：① 空针返 True；② 滑动窗口逐位比对；③ 不命中返 False\n    # 执行：循环迭代；条件分派\n    # 不适用条件：正则/模糊匹配不在本单元范围；不用内建 in\n    if not needle:\n        return True\n    if len(needle) > len(hay):\n        return False\n    for i in range(len(hay) - len(needle) + 1):\n        ok = True\n        for j in range(len(needle)):\n            if hay[i + j] != needle[j]:\n                ok = False\n                break\n        if ok:\n            return True\n    return False",
+  "ok": true,
+  "fingerprint": "4227ab9bd83150e7",
+  "ts": "2026-08-28 11:42"
+ },
+ "task:列表串接": {
+  "task": "列表串接",
+  "code": "def mini_join(parts, sep):\n    # 生效条件：parts 为字符串列表；sep 为字符串分隔符\n    # 子功能：① 空表返空串；② 单元素直返；③ 多元素以 sep 串联\n    # 执行：循环迭代；顺序拼接\n    # 不适用条件：非字符串元素/生成器不在本单元范围；不用内建 join\n    if not parts:\n        return ''\n    out = parts[0]\n    for x in parts[1:]:\n        out += sep + x\n    return out",
+  "ok": true,
+  "fingerprint": "95416be12ada9b51",
+  "ts": "2026-08-28 11:44"
  }
 }
