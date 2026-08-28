@@ -21,6 +21,7 @@ SUITE = [
     ("M1 真实接入联调彩排（跨进程）", "test_swarm_rehearsal.py"),
     ("语言栈 V-P1~P4", "test_mini_python_vp.py"),
     ("语言栈 T4 增强族", "test_mini_python_t4.py"),
+    ("语言栈 P 线自举单元库", os.path.join("..", "aeis", "wisdom", "test_python_self_bootstrap.py")),
     ("编译器管线", "test_mini_compiler.py"),
     ("浏览器 F1/F2", "test_mini_browser_v1.py"),
     ("浏览器 F3/F4", "test_mini_browser_v2.py"),
