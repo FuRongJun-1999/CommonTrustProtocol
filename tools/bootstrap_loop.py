@@ -251,4 +251,56 @@ def run_once(channel_b=False, max_patches=20):
 
 
 def main():
-    im
+    """长期循环：--interval 秒一轮 run_once，异常留痕不中断。
+
+    （2026-08-28 修复：函数体曾截断为残行 `im`——重启进程 NameError
+     短命退出且静默；本轮补全并加轮次异常留痕。）"""
+    import argparse
+    import time as _time
+
+    ap = argparse.ArgumentParser(description="白箱自举后台循环")
+    ap.add_argument("--interval", type=int, default=600)
+    ap.add_argument("--channel-b", action="store_true")
+    args = ap.parse_args()
+
+    log_event({"round": "loop_start", "interval": args.interval,
+               "channel_b": args.channel_b,
+               "ts": _time.strftime("%Y-%m-%d %H:%M:%S")})
+    last_kp_fp = None
+    while True:
+        try:
+            run_once(channel_b=args.channel_b)
+        except Exception as e:
+            log_event({"round": "loop_error", "error": str(e)[:200],
+                       "ts": _time.strftime("%Y-%m-%d %H:%M:%S")})
+        # CSRE 索引新鲜度（T7 · 2026-08-28）：kp 卡指纹变化才重建，
+        # 快照过期会让 L1 词向量对新知识卡零向量
+        try:
+            import sqlite3 as _sq
+            import hashlib as _hl
+            db_path = os.path.join(WISDOM, "wisdom-book-cloud.db")
+            conn = _sq.connect(db_path)
+            kp_cnt, kp_max = conn.execute(
+                "SELECT COUNT(*), COALESCE(MAX(created_at), 0) FROM nodes "
+                "WHERE tags LIKE '%knowledge_point%'").fetchone()
+            conn.close()
+            kp_fp = _hl.sha256(f"{kp_cnt}:{kp_max}".encode()).hexdigest()[:12]
+            if kp_fp != last_kp_fp:
+                if last_kp_fp is not None:
+                    from csre import Csre
+                    _c = Csre(db_path)
+                    _st = _c.build_index()
+                    _c.save_index()
+                    log_event({"round": "csre_rebuild",
+                               "units": _st.get("units"),
+                               "vocab": _st.get("vocab"),
+                               "ts": _time.strftime("%Y-%m-%d %H:%M:%S")})
+                last_kp_fp = kp_fp
+        except Exception as e:
+            log_event({"round": "csre_rebuild_error", "error": str(e)[:200],
+                       "ts": _time.strftime("%Y-%m-%d %H:%M:%S")})
+        _time.sleep(args.interval)
+
+
+if __name__ == "__main__":
+    main()
