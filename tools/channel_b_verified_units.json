@@ -93,5 +93,19 @@
   "ok": true,
   "fingerprint": "0856e84fac73d0ed",
   "ts": "2026-08-28 11:53"
+ },
+ "task:前缀判定": {
+  "task": "前缀判定",
+  "code": "def mini_startswith(s, prefix):\n    # 生效条件：s/prefix 均为字符串\n    # 子功能：① 空前缀返 True；② 逐位比对前 len(prefix) 字符；③ 不匹配返 False\n    # 执行：循环迭代；条件分派\n    # 不适用条件：任意位置子串匹配（用 mini_contains）；不用内建 startswith\n    if len(prefix) > len(s):\n        return False\n    for i in range(len(prefix)):\n        if s[i] != prefix[i]:\n            return False\n    return True",
+  "ok": true,
+  "fingerprint": "8103961bfc0a0af1",
+  "ts": "2026-08-28 16:14"
+ },
+ "task:后缀判定": {
+  "task": "后缀判定",
+  "code": "def mini_endswith(s, suffix):\n    # 生效条件：s/suffix 均为字符串\n    # 子功能：① 空后缀返 True；② 从尾部对齐逐位比对；③ 不匹配返 False\n    # 执行：循环迭代；条件分派\n    # 不适用条件：多后缀元组形式不在本单元范围；不用内建 endswith\n    if len(suffix) > len(s):\n        return False\n    offset = len(s) - len(suffix)\n    for i in range(len(suffix)):\n        if s[offset + i] != suffix[i]:\n            return False\n    return True",
+  "ok": true,
+  "fingerprint": "56cf1d91b312b366",
+  "ts": "2026-08-28 16:14"
  }
 }
