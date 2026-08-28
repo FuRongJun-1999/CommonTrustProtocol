@@ -158,15 +158,27 @@ class Parser:
         return self.comparison()
 
     def comparison(self):
-        """比较链：== != < <= > >= 双目比较。"""
+        """比较链：== != < <= > >= in / not in（V-P4）双目比较。"""
         node = self.arith()
         while True:
             t = self.peek()
             if t[1] in ("==", "!=", "<", ">", "<=", ">="):
                 self.advance()
                 node = (t[1], node, self.arith())
+            elif t[1] == "in":  # V-P4：成员运算符（in 为 NAME token）
+                self.advance()
+                node = ("in", node, self.arith())
+            elif t[1] == "not" and self._peek_is_in():  # not in（KEY token）
+                self.advance()
+                self.advance()  # 消费 in
+                node = ("not in", node, self.arith())
             else:
                 return node
+
+    def _peek_is_in(self):
+        """后视：not 后是否跟 in（not in 运算符，区别于逻辑 not 前缀）。"""
+        nxt = self.tokens[self.pos + 1] if self.pos + 1 < len(self.tokens) else None
+        return nxt is not None and nxt[1] == "in"
 
     def arith(self):
         """加减项：+ - 左结合。"""
@@ -292,7 +304,7 @@ def eval_node(node, env=None):
         return eval_node(node[2], env) if is_truthy(a) else a
     if kind == "not":
         return not is_truthy(eval_node(node[1], env))
-    if kind in ("==", "!=", "<", ">", "<=", ">="):
+    if kind in ("==", "!=", "<", ">", "<=", ">=", "in", "not in"):
         return _compare(kind, eval_node(node[1], env), eval_node(node[2], env))
     if kind in ("-", "+") and len(node) == 2:  # 一元（先于二元判断）
         v = eval_node(node[1], env)
@@ -376,7 +388,11 @@ def eval_node(node, env=None):
 
 
 def _compare(op, a, b):
-    """比较运算统一求值：==·!=·<·> 四路分派（对照 CPython 类型提升）。"""
+    """比较运算统一求值：==·!=·<·>·in·not in 分派（对照 CPython 类型提升）。"""
+    if op == "in":  # V-P4：成员运算（str/list/tuple/dict 原生语义）
+        return a in b
+    if op == "not in":
+        return a not in b
     return {"==": a == b, "!=": a != b, "<": a < b, ">": a > b,
             "<=": a <= b, ">=": a >= b}[op]
 
@@ -647,7 +663,7 @@ def compile_expr(node):
         code = compile_expr(node[1]) + compile_expr(node[2])
         code.append((_ARITH_VM[kind], None))
         return code
-    if kind in ("==", "!=", "<", ">", "<=", ">="):
+    if kind in ("==", "!=", "<", ">", "<=", ">=", "in", "not in"):
         code = compile_expr(node[1]) + compile_expr(node[2])
         code.append((_CMP_VM[kind], None))
         return code
@@ -684,7 +700,8 @@ def compile_expr(node):
 _ARITH_VM = {"+": "ADD", "-": "SUB", "*": "MUL", "/": "DIV",
              "//": "FLOOR", "%": "MOD", "**": "POW"}
 _CMP_VM = {"==": "CMP_EQ", "!=": "CMP_NE", "<": "CMP_LT", ">": "CMP_GT",
-           "<=": "CMP_LE", ">=": "CMP_GE"}
+           "<=": "CMP_LE", ">=": "CMP_GE",
+           "in": "CMP_IN", "not in": "CMP_NOT_IN"}  # V-P4
 
 
 class VM:
@@ -757,7 +774,7 @@ class VM:
             elif op.startswith("CMP_"):
                 b, a = self.stack.pop(), self.stack.pop()
                 _cmp_map = {"EQ": "==", "NE": "!=", "LT": "<", "GT": ">",
-                            "LE": "<=", "GE": ">="}
+                            "LE": "<=", "GE": ">=", "IN": "in", "NOT_IN": "not in"}
                 self.stack.append(_compare(_cmp_map[op[4:]], a, b))
             elif op == "JUMP_IF_TRUE":
                 if is_truthy(self.stack[-1]):

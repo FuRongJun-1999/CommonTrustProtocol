@@ -124,7 +124,16 @@ try:
 except (MiniPyError, TypeError):
     check("V-P3 join 非字符串元素报错", True)
 
-# 白名单边界显式：contains 确认不可用（in 运算符为 V-P4 挂账）
+# ============ V-P4（部分落地 2026-08-28）：in / not in 成员运算符 ============
+check("V-P4 in str", eval_expr("'ell' in 'hello'") is True)
+check("V-P4 in list", eval_expr("2 in [1, 2, 3]") is True)
+check("V-P4 not in", eval_expr("9 not in [1, 2, 3]") is True)
+check("V-P4 in dict 键", eval_expr("'a' in {'a': 1}") is True)
+check("V-P4 VM 双路", eval_expr_vm("9 not in [1, 2, 3]") is True)
+env = run_program("words = ['ab', 'cd']\ncount = 0\nfor w in words:\n    if 'a' in w:\n        count += 1\nresult = count")
+check("V-P4 程序级成员判断", env.get("result") == 1, f"got {env.get('result')!r}")
+
+# 白名单边界显式：contains 确认不可用（str 无 .contains，须走 in 运算符）
 try:
     eval_expr("'a'.contains('a')")
     check("V-P3 白名单边界（contains 拒绝）", False, "未抛异常")
