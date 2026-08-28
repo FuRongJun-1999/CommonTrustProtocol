@@ -2726,6 +2726,30 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：CPython 切片赋值（a[start:end]=values 区间写入/插入/追加，与切片读取互补）",
     },
+    '复合赋值-执行内核': {
+        "task": '复合赋值求值',
+        "triggers": ["复合赋值", "+=", "aug_assign"],
+        "pattern": "def mini_aug_apply(cur, op, rhs):\n    # 生效条件：op 为 '+=' '-=' '*=' '/=' 之一；rhs 与 cur 类型相容\n    # 子功能：① 四值分派；② '/=' 零除报错；③ 字符串 '+=' 拼接\n    # 执行：条件分派；算术求值\n    # 不适用条件：未知 op 抛 ValueError；下标/属性目标不在本单元范围\n    if op == '+=':\n        return cur + rhs\n    if op == '-=':\n        return cur - rhs\n    if op == '*=':\n        return cur * rhs\n    if op == '/=':\n        if rhs == 0:\n            raise ValueError('division by zero')\n        return cur / rhs\n    raise ValueError('unknown op')",
+        "cases": [((1, '+=', 2), 3), ((10, '/=', 4), 2.5), (('a', '+=', 'b'), 'ab'), ((3, '-=', 5), -2), ((3, '*=', 4), 12)],
+        "params": [],
+        "calibration": '对照：mini_python.py aug_assign 语句内核（CPython += 真除/零除语义）',
+    },
+    '字符串-切分': {
+        "task": '字符串切分',
+        "triggers": ["字符串切分", "split"],
+        "pattern": "def mini_split(s, sep):\n    # 生效条件：s 为字符串；sep 为单字符分隔符\n    # 子功能：① 线性扫描；② 保留空段；③ 缺分隔符返回原串\n    # 执行：循环迭代；顺序追加\n    # 不适用条件：多字符分隔符/正则语义/maxsplit 不在本单元范围\n    if sep not in s:\n        return [s]\n    parts = []\n    buf = ''\n    for ch in s:\n        if ch == sep:\n            parts.append(buf)\n            buf = ''\n        else:\n            buf += ch\n    parts.append(buf)\n    return parts",
+        "cases": [(('a,b,c', ','), ['a', 'b', 'c']), (('a,,b', ','), ['a', '', 'b']), (('abc', ','), ['abc']), (('', ','), ['']), (('a;b;c', ';'), ['a', 'b', 'c'])],
+        "params": [],
+        "calibration": '对照：mini_python.py str 方法白名单 split（str.split 基础版，保留空段）',
+    },
+    '字符串-大写': {
+        "task": '字符串大写',
+        "triggers": ["字符串大写", "upper", "大写"],
+        "pattern": "def mini_upper(s):\n    # 生效条件：s 为字符串\n    # 子功能：① 逐字符判定 a-z；② ASCII 偏移转大写；③ 非小写原样保留\n    # 执行：循环迭代；条件分派\n    # 不适用条件：非 ASCII 字母（中文等）不在本单元范围，原样保留\n    out = ''\n    for ch in s:\n        if 'a' <= ch <= 'z':\n            out += chr(ord(ch) - 32)\n        else:\n            out += ch\n    return out",
+        "cases": [('hello', 'HELLO'), ('aBc1!', 'ABC1!'), ('', ''), ('中文abc', '中文ABC')],
+        "params": [],
+        "calibration": '对照：mini_python.py str 方法白名单 upper（CPython str.upper ASCII 子集）',
+    },
 }
 
 
