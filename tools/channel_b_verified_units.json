@@ -107,5 +107,19 @@
   "ok": true,
   "fingerprint": "56cf1d91b312b366",
   "ts": "2026-08-28 16:14"
+ },
+ "task:中段掩码": {
+  "task": "中段掩码",
+  "code": "def mask_middle(s, keep=2):\n    # 生效条件：s 为字符串；keep 为保留首尾的字符数（非负整数）\n    # 子功能：① 长度 <= 2*keep 原样返回；② 否则保留首尾 keep 字符，中间以 * 替代\n    # 执行：切片拼接\n    # 不适用条件：非字符串输入不在本单元范围；不用正则\n    if len(s) <= 2 * keep:\n        return s\n    return s[:keep] + '*' * (len(s) - 2 * keep) + s[-keep:]",
+  "ok": true,
+  "fingerprint": "68975a7188d8c99b",
+  "ts": "2026-08-28 18:51"
+ },
+ "task:数值钳位": {
+  "task": "数值钳位",
+  "code": "def clamp(v, lo, hi):\n    # 生效条件：v/lo/hi 为可比较数值且 lo <= hi\n    # 子功能：① v < lo 返回 lo；② v > hi 返回 hi；③ 否则返回 v\n    # 执行：条件分派\n    # 不适用条件：lo > hi 时行为未定义（前置条件违背）；不用内建 min/max 组合\n    if v < lo:\n        return lo\n    if v > hi:\n        return hi\n    return v",
+  "ok": true,
+  "fingerprint": "7f4b08b86bbf8262",
+  "ts": "2026-08-28 18:51"
  }
 }
