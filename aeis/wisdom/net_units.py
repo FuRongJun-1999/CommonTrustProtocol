@@ -2844,6 +2844,35 @@ NET_UNITS = {
         "params": [],
         "calibration": "对照：X.509 证书有效期校验——not_before/not_after 时间窗判定",
     },
+
+    "蜂群-配对信任": {
+        "task": "配对信任",
+        "pattern": (
+            "def swarm_pair(devices, op, device_id=None):\n"
+            "    # 生效条件：devices 为设备 dict（id → {'paired': bool, 'trust': int}）；\n"
+            "    #          op ∈ {pair, unpair, check}；device_id 配对/解对时必填\n"
+            "    # 子功能：① pair 信任建立（trust=1）② unpair 撤销 ③ check 查询\n"
+            "    # 执行：状态机分派（配对信任链：未配对→已配对，撤销反向）\n"
+            "    # 不适用条件：重复配对已配对设备返回原状态（幂等）\n"
+            "    devices.setdefault(device_id, {'paired': False, 'trust': 0})\n"
+            "    dev = devices[device_id]\n"
+            "    if op == 'pair':\n"
+            "        dev['paired'] = True\n"
+            "        dev['trust'] = 1\n"
+            "    elif op == 'unpair':\n"
+            "        dev['paired'] = False\n"
+            "        dev['trust'] = 0\n"
+            "    return dev['paired']\n"
+        ),
+        "cases": [
+            [[{'id': 1, 'paired': False, 'trust': 0}, 'pair', 1], True],
+            [[{'id': 1, 'paired': True, 'trust': 1}, 'unpair', 1], False],
+            [[{'id': 1, 'paired': False, 'trust': 0}, 'check', 1], False],
+        ],
+        "params": ["devices", "op", "device_id"],
+        "calibration": "对照：蓝牙配对——信任建立/撤销/查询三操作，配对即信任=1（蜂群信任链基例）",
+    },
+
 }
 
 
