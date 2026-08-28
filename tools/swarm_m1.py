@@ -20,7 +20,8 @@ import os
 import time
 import uuid
 
-MSG_TYPES = {"HELLO", "CAP_QUERY", "CAP_REPLY", "TASK", "RESULT", "VERDICT", "ADOPTED"}
+MSG_TYPES = {"HELLO", "CAP_QUERY", "CAP_REPLY", "TASK", "RESULT", "VERDICT", "ADOPTED",
+             "KNOW_OFFER", "KNOW_REQUEST", "KNOW_GIVE"}  # M2：知识增量同步三消息
 _VERDICTS = {"ACCEPT", "REJECT", "DEFER", "BLINDSPOT"}
 
 
@@ -59,6 +60,11 @@ def validate_msg(msg: dict) -> None:
                                 f"（允许: {sorted(_VERDICTS)}）")
         if "reason" not in msg["payload"]:
             raise ProtocolError("CAP_REPLY 缺 reason（裁决须可解释）")
+    if msg["type"] in ("KNOW_OFFER", "KNOW_REQUEST"):
+        if not isinstance(msg["payload"].get("entries"), list):
+            raise ProtocolError(f"{msg['type']} 缺 entries 列表")
+    if msg["type"] == "KNOW_GIVE" and "knowledge" not in msg["payload"]:
+        raise ProtocolError("KNOW_GIVE 缺 knowledge 内容")
 
 
 class Bus:
@@ -186,6 +192,30 @@ class Node:
                         self.memory_hook(rec)
                 return {"output": output, "pass": passed, "evidence": evidence}
         raise ProtocolError("TASK 无 RESULT 回复（协议死锁）")
+
+    def handle_bus_sync(self, self_agent) -> None:
+        """M2 同步辅助（接收方处理自己的收件箱，比对/固化均用自己库）：
+
+        - KNOW_OFFER → 比对自身已有指纹 → 回 KNOW_REQUEST（缺失清单）
+        - KNOW_GIVE  → 固化进自身库（tag: swarm_sync，幂等由 digest 保证）
+        """
+        from swarm_m2_bridge import _digest
+        have = {_digest(n.content)
+                for n in self_agent.engine.store.get_nodes_by_tag("swarm_sync", limit=500)}
+        for msg in self.bus.recv(self.id):
+            self.log.append(msg)
+            if msg["type"] == "KNOW_OFFER":
+                missing = [e for e in msg["payload"]["entries"]
+                           if e["digest"] not in have]
+                if missing:
+                    self.bus.send(make_msg("KNOW_REQUEST", self.id, msg["from"],
+                                           {"entries": missing}, reply_to=msg["id"]))
+            elif msg["type"] == "KNOW_GIVE":
+                content = msg["payload"]["knowledge"]
+                if _digest(content) not in have:  # 幂等：已有不重复入库
+                    self_agent.remember(content=content, importance=0.6,
+                                        tags=["swarm_sync", "M2"])
+                    have.add(_digest(content))
 
     def handle_bus(self) -> None:
         """处理收件箱请求：CAP_QUERY 四态裁决 / TASK 执行 / VERDICT 固化。"""
