@@ -216,13 +216,23 @@ class Node:
 
 if __name__ == "__main__":
     import sys
+    import tempfile
     sys.stdout.reconfigure(encoding="utf-8")
-    root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..",
-                        "data", "swarm_bus_demo")
+    # 每次运行唯一总线目录（Bus 目录按 node_id 持久，跨实例复用会串消息）
+    root = tempfile.mkdtemp(prefix="swarm_m1_demo_")
     bus = Bus(root)
-    a, b = Node("nodeA", bus, ["排序", "求和"]), Node("nodeB", bus, ["编译"])
+    a = Node("nodeA", bus, ["排序", "校验"])
+    b = Node("nodeB", bus, ["求和"])
     a.attach_remote(b)
-    a.hello("nodeB")
-    print("A 能力协商 排序:", a.query_capability("nodeB", "编译"))
-    print("A 能力协商 存储:", a.query_capability("nodeB", "存储"))
-    print("A 记录的 B 边界:", a.blindspots)
+    b.register_handler("求和", lambda xs: sum(xs))
+    print(f"[M1 端到端演示] 节点：{a.id}(灵枢·ZCode) ↔ {b.id}(灵枢·dsh)")
+    print("[M1 端到端演示] HELLO 交换…")
+    a.hello(b.id)
+    b.hello(a.id)
+    a.poll()
+    print("[M1 端到端演示] A 请求 B 的求和能力，A 用己方基底裁决…")
+    r = a.request_and_execute(b.id, "求和", [1, 2, 3, 4],
+                              verifier=lambda o: (o == 10, f"A 重算=10，B 报告={o}"))
+    print("  结果:", r)
+    print("  A adopted:", len(a.adopted), "| B adopted:", len(b.adopted))
+    print("  序列:", [m["type"] for m in a.log])
