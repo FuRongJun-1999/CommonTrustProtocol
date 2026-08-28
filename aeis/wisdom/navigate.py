@@ -29,6 +29,42 @@ def get_sub_route(state_attributes) -> str:
         if isinstance(state_attributes, dict) else ""
 
 
+# ============ L1 混合门控（T7 · 2026-08-28） ============
+# 证据裁决（csre_alignment_bench 18 问）：CSRE 词向量对骨架域可靠、
+# 对措辞变体盲（完整短语字面匹配）——故 L1 只做先验不裁决：
+# 非零且 score≥τ → 域先验；零向量/低分/引擎异常 → None 回退全扫。
+_CSRE_CACHE: dict = {}
+
+
+def _l1_domain_prior(dex, question: str) -> str | None:
+    """CSRE 域先验（混合门控）：非零且 top 分 ≥0.5 返回域串，否则 None。"""
+    try:
+        db_path = getattr(dex, "db_path", None) or \
+            getattr(getattr(dex, "store", None), "db_path", None) or \
+            getattr(getattr(dex, "engine", None), "db_path", None)
+        if not db_path:
+            return None
+        key = str(db_path)
+        if key not in _CSRE_CACHE:
+            from csre import Csre
+            _c = Csre(str(db_path))
+            _c.ensure_loaded()
+            _CSRE_CACHE[key] = _c
+        doms = _CSRE_CACHE[key].rank_domains(question, top_k=1)
+        if doms and doms[0].get("score", 0) >= 0.5:
+            return doms[0].get("domain") or None
+    except Exception:
+        return None
+    return None
+
+
+def _dom_match(cand_dom: str, prior_dom: str) -> bool:
+    """域族一致判定：互为子串（自造域串与骨架域串同构场景）。"""
+    if not cand_dom or not prior_dom:
+        return True   # 域缺失不降权（只对明确不一致降权）
+    return cand_dom in prior_dom or prior_dom in cand_dom
+
+
 def _canonical(obj) -> str:
     """导航链规范化：字符串去空白、字典按键排序递归处理，保证指纹计算稳定。"""
     def norm(x):
@@ -118,8 +154,12 @@ def navigate_retrieve(dex, question: str, *, max_depth: int = 3,
     #   同层命中里若有未访问的 composite 节点 → 优先进入其子条件空间
     #   （先进城市再找街道）；否则取未访问的最高分 atomic 直答。
     #   已访问的规则跳过——防止同一入口反复入栈（循环防护）。
+    # L1 混合门控（T7）：CSRE 域先验存在时，域明确不一致的 composite
+    #   降级为 deferred（先找域一致者，找不到才用）——降权不排除。
+    prior_dom = _l1_domain_prior(dex, question)
     entry = None
     atomic_fallback = None
+    deferred_composite = None
     for h in structured_rank:
         nid = h.get("id")
         sa_h = _load_state(dex, nid)
@@ -137,12 +177,15 @@ def navigate_retrieve(dex, question: str, *, max_depth: int = 3,
                 "knowledge_type": ktype,
                 "_sa": sa_h}
         if ktype == "composite":
+            if prior_dom and not _dom_match(cand["condition_space"], prior_dom):
+                deferred_composite = deferred_composite or cand
+                continue
             entry = cand
             break
         if atomic_fallback is None:
             atomic_fallback = cand
     if entry is None:
-        entry = atomic_fallback
+        entry = deferred_composite or atomic_fallback
     if entry is None:
         return _result("structural_blindspot", chain,
                        note="全部候选均已导航过（循环耗尽）")
