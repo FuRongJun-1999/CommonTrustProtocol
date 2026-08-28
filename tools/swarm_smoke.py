@@ -18,6 +18,7 @@ SUITE = [
     ("M3 信任分 三性质", "test_swarm_m3_trust.py"),
     ("M3×M1 集成 信任决定分工", "test_swarm_trust_integration.py"),
     ("dsh 接入指南合规性", "test_swarm_dsh_guide.py"),
+    ("M1 真实接入联调彩排（跨进程）", "test_swarm_rehearsal.py"),
     ("语言栈 V-P1~P4", "test_mini_python_vp.py"),
     ("语言栈 T4 增强族", "test_mini_python_t4.py"),
     ("编译器管线", "test_mini_compiler.py"),
