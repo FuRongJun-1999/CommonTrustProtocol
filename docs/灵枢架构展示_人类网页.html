@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵枢 · 白箱智能协议实例</title>
+<style>
+  :root{--bg:#0b0f14;--panel:#111820;--line:#1e2a38;--tx:#d8e2ec;--dim:#7d8fa3;
+        --em:#4ade80;--amber:#fbbf24;--cyan:#38bdf8;--rose:#fb7185;--violet:#a78bfa}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--tx);font-family:"Microsoft YaHei",system-ui,sans-serif;line-height:1.75}
+  .wrap{max-width:960px;margin:0 auto;padding:48px 28px 80px}
+  h1{font-size:2rem;letter-spacing:.05em;margin-bottom:6px}
+  .sub{color:var(--dim);font-size:1.05rem;margin-bottom:4px}
+  .prop{background:linear-gradient(90deg,#132015,#0f1a24);border:1px solid var(--line);
+        border-left:3px solid var(--em);padding:18px 22px;border-radius:8px;margin:26px 0}
+  .prop b{color:var(--em)}
+  h2{font-size:1.25rem;margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line);color:var(--cyan)}
+  h2 .no{color:var(--dim);font-weight:400;margin-right:8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+  .card b{color:var(--cyan)}
+  .card .v{color:var(--em);font-weight:600}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.95rem}
+  th,td{border:1px solid var(--line);padding:8px 12px;text-align:left}
+  th{background:#141c26;color:var(--dim);font-weight:600}
+  td .win{color:var(--em);font-weight:600}
+  .tl{border-left:2px solid var(--line);margin-left:10px;padding-left:22px}
+  .tl .ev{position:relative;margin-bottom:14px}
+  .tl .ev::before{content:"";position:absolute;left:-28px;top:8px;width:8px;height:8px;
+        border-radius:50%;background:var(--cyan)}
+  .tl .t{color:var(--dim);font-size:.85rem}
+  a{color:var(--cyan);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .frame{width:100%;height:720px;border:1px solid var(--line);border-radius:8px;background:#fff}
+  .note{color:var(--dim);font-size:.88rem;margin-top:8px}
+  .footer{margin-top:70px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>灵 枢</h1>
+<div class="sub">白箱智能协议实例 · 智能论 v3.3 工程实现</div>
+
+<div class="prop">
+  核心命题：<b>确定高效后，维持自身</b>——白箱规则确立后的确定性执行
+  （零思考、可解释、自维持），这是 LLM 做不到的。<br>
+  展示方式：架构 + 已有完整项目 + 可解释性。每一步决策可追溯，
+  每一条声称可复现，每一次错误可定位。
+</div>
+
+<h2><span class="no">第一幕</span>架构全景</h2>
+<p>五层结构，回答「为什么这样分层」：黑箱不可信 → 知识条件化写入、
+路由命中可解释（白箱化）；规则会漂移 → 自维持层锚定（传感器发现退化、
+三臂终裁、快照可回滚）；LLM 只做表达通道——确定性执行交给白箱规则。</p>
+<p style="margin:16px 0">
+  <a class="frame" style="display:block;height:auto;padding:14px" href="lingshu_architecture.html">
+    ▶ 打开交互式架构全景图（独立 HTML · 可缩放查看）
+  </a>
+</p>
+<div class="grid">
+  <div class="card"><b>通道层</b><br>LLM 可替换（ZCode MCP / dsh 插件 / harness）——模型是感官不是大脑</div>
+  <div class="card"><b>感知层</b><br>会话检索问答 · 情感/知识分流（条件化路由）</div>
+  <div class="card"><b>白箱智能层</b><br>条件空间 3971 节点 · CSRE/card_route · 递归反思三级验证</div>
+  <div class="card"><b>记忆层</b><br>情境/知识/长期三层 · 蒸馏复用 · 指纹四层可溯源</div>
+  <div class="card"><b>自维持层</b><br>心跳 10 分钟强制劳动 · 五维传感器 · 三臂终裁 · 快照回滚</div>
+</div>
+
+<h2><span class="no">第二幕</span>知识从哪来</h2>
+<p>不是预训练灌进去的——是<b>条件化写入、路由命中、物理验证</b>的。
+双通道生产：通道 A 确定性白箱（零 LLM：缺口扫描→补丁→验证→落盘）；
+通道 B 双智能体初稿 + 物理用例裁决（过者固化、拒者留痕）。</p>
+<table>
+  <tr><th>资产</th><th>规模</th><th>验收</th></tr>
+  <tr><td>六域单元库</td><td>119+ 五域单元</td><td class="win">六域管线 1058/1058</td></tr>
+  <tr><td>中文编译器</td><td>词法→VM 全链</td><td class="win">272/272</td></tr>
+  <tr><td>P 线 Mini-Python</td><td>语言机制</td><td class="win">240/240 + T4 增强 19/19</td></tr>
+  <tr><td>白箱路由</td><td>导航递归 CSPRE</td><td class="win">9/9</td></tr>
+  <tr><td>知识图谱</td><td>3993 节点</td><td>指纹四层可溯源</td></tr>
+</table>
+
+<h2><span class="no">第三幕</span>一个中文程序的生命</h2>
+<p>protocol-compiler（白箱自举第六阶段完整产出：词法/语法/编译/VM/
+调试器/分析器，78/78 测试全绿）。以递归阶乘为例，四阶段逐层可追溯：</p>
+<div class="grid">
+  <div class="card"><b>① 词法</b><br>字符流 → 记号流，中文标识符/全角括号/运算词各自成类，逐 token 可对照词法规则</div>
+  <div class="card"><b>② 字节码</b><br>函数定义编译为跳转+入口结构；递归调用 = CALL (1, ['n'])——逐指令可读</div>
+  <div class="card"><b>③ VM 执行</b><br>栈机 + 符号表：symbols["结果"] = 120.0，名实校验全程在场</div>
+  <div class="card"><b>④ 验收</b><br>基准 120/15/11/1/8 全绿（T9-2 自验收 5/5 实证，期望值可手工验算）</div>
+</div>
+<p class="note">诚实面：本轮实测发现该编译器四个调用限制（多参数/嵌套/
+若则非递归/多函数）——定位方法为逐变体字节码对照。<b>白箱的含义是
+缺陷也可定位</b>，黑箱系统同类问题只能看到「输出不对」。</p>
+
+<h2><span class="no">第四幕</span>可解释性 · 四案例</h2>
+<div class="grid">
+  <div class="card"><b>失败可定位</b><br>通道 B 三缺陷闭环：日志捕获卡死 → 三根因定位 → 修复提交 → 拒绝留痕 → 收敛固化</div>
+  <div class="card"><b>退化可发声</b><br>CSRE 索引静默退化 → 18 问基准暴露 28% → 指纹比对自动重建闭环（两次自动触发实证）</div>
+  <div class="card"><b>自身可纠错</b><br>验收器作用域缺陷污染整组实验 → <b>数据作废公开声明</b> → 修复 + 教训入库——可解释性对内抓到了自己的验收器</div>
+  <div class="card"><b>经验可固化</b><br>「规范型卡优先」从实验反哺为写卡永久纪律（类比文字会干扰实现方向——实证）</div>
+</div>
+
+<h2><span class="no">第五幕</span>自维持 · 单日实证时间线</h2>
+<div class="tl">
+  <div class="ev"><div class="t">05:45</div>bootstrap_loop 多轮正常留痕（劳动层运转）</div>
+  <div class="ev"><div class="t">08:52</div>发现循环停转——进程存活检查误判 + main 截断（写入事故）</div>
+  <div class="ev"><div class="t">09:10</div>三层根因修复 + 快速轮实测 + 正式重启</div>
+  <div class="ev"><div class="t">09:32</div>CSRE 索引自动重建首次触发（2874 行）——新卡入库即被路由覆盖</div>
+  <div class="ev"><div class="t">10:23</div>CSRE 二次自动触发（2880 行 = 6 张新知识卡）——闭环稳定</div>
+  <div class="ev"><div class="t">11:37</div>停电恢复：循环重启 + 遗留提交入库 + 安装份同步</div>
+  <div class="ev"><div class="t">11:42</div>通道 B 消化：子串判定 verified（rejected_log 留痕机制首战）</div>
+  <div class="ev"><div class="t">全天</div>设计者两次指正（劳动纪律/时长纪律）→ 提示词热更新 + 知识层入库——制度当日两次进化</div>
+</div>
+
+<h2><span class="no">附</span>为什么不用 benchmark 测灵枢</h2>
+<p>T8→T9→T9-2→T10 四轮实验（30 题/6 项目/编译器域/复杂场景，
+GLM + DeepSeek 双端交叉）构成「单任务测量失效」的完整证据链：
+简单任务上机制注入是纯固定开销；任务难度是相对模型的；验收器缺陷
+会系统性污染数据。测得的有效信号反而支持白箱：
+<b>知识密集域输入 token −40%、轮次 3 vs 6、优势域项目级 A 反超</b>——
+但这些都只是副产品。灵枢的价值在跨时间持续迭代，在每步决策可追溯，
+在确定高效后的零思考维持。</p>
+
+<div class="footer">
+  灵枢 · CommonTrustProtocol（MIT）· 架构展示 v1.0 · 2026-08-28<br>
+  AI 智能体请读 <a href="灵枢架构展示_AI入口.md">AI 入口文档</a>（结构化导航 + 复现命令）·
+  全部数据与脚本可复现（tools/ 目录）
+</div>
+
+</div>
+</body>
+</html>
