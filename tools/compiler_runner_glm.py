@@ -138,19 +138,42 @@ def run_task(task, with_lingshu, max_rounds=5):
 
 def main():
     mode = sys.argv[1] if len(sys.argv) > 1 else "both"
+    task_filter = sys.argv[2].split(",") if len(sys.argv) > 2 else None
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                        "compiler_token_results_glm.json")
+    # 续跑：已有结果加载（补跑不丢已完成组）
     results = {"裸LLM": [], "灵枢+白箱": [], "engine": MODEL}
+    if os.path.exists(out):
+        try:
+            prev = json.load(open(out, encoding="utf-8"))
+            results["裸LLM"] = prev.get("裸LLM", [])
+            results["灵枢+白箱"] = prev.get("灵枢+白箱", [])
+        except Exception:
+            pass
 
     for t in TASKS:
+        if task_filter and t["id"] not in task_filter:
+            continue
         print(f"\n===== 任务{t['id']} {t['name']}（{t['complexity']}·期望 {t['expected']}） =====")
-        for label, flag in [("裸LLM", False), ("灵枢+白箱", True)]:
+        for label, flag, key in [("裸LLM", False, "裸LLM"),
+                                 ("灵枢+白箱", True, "灵枢+白箱")]:
             if (mode == "bare" and flag) or (mode == "lingshu" and not flag):
                 continue
-            r = run_task(t, flag)
-            results[label].append({**r, "task": t["id"], "name": t["name"],
-                                   "complexity": t["complexity"],
-                                   "expected": t["expected"]})
+            # 续跑幂等：同任务同组已有通过记录则跳过
+            if any(r.get("task") == t["id"] and r.get("pass") for r in results[key]):
+                print(f"  [{label}] 任务{t['id']} 已有通过记录，跳过")
+                continue
+            try:
+                r = run_task(t, flag)
+            except Exception as e:
+                print(f"  [{label}] run_task 异常: {e}", file=sys.stderr)
+                continue
+            # 覆盖同任务同组旧的非通过记录（补跑结果替换）
+            results[key] = [r0 for r0 in results[key]
+                            if not (r0.get("task") == t["id"] and not r0.get("pass"))]
+            results[key].append({**r, "task": t["id"], "name": t["name"],
+                                 "complexity": t["complexity"],
+                                 "expected": t["expected"]})
             json.dump(results, open(out, "w", encoding="utf-8"),
                       ensure_ascii=False, indent=1)  # 每任务落盘（防卡死丢进度）
             print(f"  [{label}] pass={r['pass']} rounds={r['rounds']} "
