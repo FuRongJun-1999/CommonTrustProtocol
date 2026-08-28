@@ -168,13 +168,19 @@ def strip_code_block(text: str) -> str:
 
 
 def run_tests(code: str, tests: list) -> tuple[bool, str]:
-    """验收：failing 结构化（具体断言 + 修正提示），供下一轮精准修正。"""
+    """验收：failing 结构化（具体断言 + 修正提示），供下一轮精准修正。
+
+    ns['ns'] = ns 自引用（T9 一二轮数据作废根因修复）：tests 以 `ns['fn']`
+    形态引用名字 ns，而 exec(t, ns) 的 globals 正是 ns 字典——缺自引用键
+    则第一条断言必 NameError，模型会学会造 ns 字典满足断言（作废教训）。
+    """
     ns = {}
     try:
         exec(compile(code, "<impl>", "exec"), ns)
     except Exception as e:
         return False, (f"代码执行异常 {type(e).__name__}: {e}。"
                        "请确保所有要求的函数都已定义且可直接调用。")
+    ns["ns"] = ns
     for t in tests:
         try:
             exec(compile(t, "<assert>", "exec"), ns)
