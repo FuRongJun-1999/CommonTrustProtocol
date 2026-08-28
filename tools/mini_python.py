@@ -86,6 +86,45 @@ class Parser:
             node = ("index", node, key)
         return node
 
+    def _parse_suffixes(self, node, name=None):
+        """后缀链统一：.attr / [idx] / (args)（V-P3：NAME 与字符串字面量共用）。
+
+        循环消化后缀使链式调用成立（s.strip().upper()）；调用结果再取下标
+        （f(x)[0]）同样支持。obj.method(args) → ("method", obj, name, args)；
+        name(args) → ("call", ...)。下标结果再调用（如 a[0](x)）显式不支持
+        ——原实现会静默错当 a(x)。
+        """
+        while True:
+            t1 = self.peek()[1]
+            if t1 == ".":
+                self.advance()
+                attr = self.advance()
+                if attr[0] != "NAME":
+                    raise SyntaxError(f"语法错误：'.' 后应为属性名，得到 '{attr[1]}'")
+                node = ("attr", node, attr[1])
+            elif t1 == "[":
+                self.advance()
+                key = self.or_expr()
+                self.expect("]")
+                node = ("index", node, key)
+            elif t1 == "(":
+                self.advance()
+                args = []
+                if self.peek()[1] != ")":
+                    args.append(self.or_expr())
+                    while self.match(","):
+                        args.append(self.or_expr())
+                self.expect(")")
+                if node[0] == "attr":  # obj.method(args) → 方法调用节点
+                    node = ("method", node[1], node[2], args)
+                elif name is not None and node[0] == "name" and node[1] == name:
+                    node = ("call", name, args)
+                else:
+                    raise SyntaxError("语法错误：该表达式不可调用（下标结果调用不支持）")
+            else:
+                break
+        return node
+
     def expect(self, text):
         t = self.peek()
         if t[1] != text:
@@ -171,36 +210,12 @@ class Parser:
         if t[0] == "NUMBER":
             self.advance()
             return ("num", t[1])
-        if t[0] == "STRING":  # P5：字符串字面量
+        if t[0] == "STRING":  # P5：字符串字面量（V-P3：后缀链与 NAME 统一）
             self.advance()
-            return ("str", t[1])
+            return self._parse_suffixes(("str", t[1]))
         if t[0] == "NAME":  # 变量/函数调用/方法链（P3 + T4 后缀统一）
             self.advance()
-            node = ("name", t[1])
-            while self.peek()[1] in (".", "["):  # 后缀链：.attr / [idx]
-                if self.match("."):
-                    attr = self.advance()
-                    if attr[0] != "NAME":
-                        raise SyntaxError(f"语法错误：'.' 后应为属性名，得到 '{attr[1]}'")
-                    node = ("attr", node, attr[1])
-                else:
-                    self.advance()
-                    key = self.or_expr()
-                    self.expect("]")
-                    node = ("index", node, key)
-            if self.peek()[1] == "(":
-                self.advance()
-                args = []
-                if self.peek()[1] != ")":
-                    args.append(self.or_expr())
-                    while self.match(","):
-                        args.append(self.or_expr())
-                self.expect(")")
-                if node[0] == "attr":  # obj.method(args) → 方法调用节点
-                    node = ("method", node[1], node[2], args)
-                else:
-                    node = ("call", t[1], args)
-            return self._maybe_index(node)
+            return self._parse_suffixes(("name", t[1]), name=t[1])
         if t[1] == "[":
             self.advance()
             items = []
@@ -244,8 +259,14 @@ class Parser:
 
 # ============ 三、求值（对照 CPython 行为） ============
 def is_truthy(v):
-    """真值判定：对照 CPython 规则（None/0/空容器为假）。"""
-    return v is not None and v is not False and v != 0
+    """真值判定：对照 CPython 规则（None/False/0/空容器/空串为假）。"""
+    if v is None or v is False:
+        return False
+    if isinstance(v, (int, float)) and v == 0:
+        return False
+    if isinstance(v, (str, list, tuple, dict)) and len(v) == 0:
+        return False
+    return True
 
 
 def eval_node(node, env=None):
@@ -318,7 +339,7 @@ def eval_node(node, env=None):
         return m(*args)
     if kind == "call":  # 函数调用（P3：局部作用域 + 参数绑定 + return 捕获）
         try:
-            f = env.get(node[1])
+            f = env.get(node[1]) if env is not None else None
         except MiniPyError:
             f = None
         builtin = _BUILTINS.get(node[1])
@@ -380,8 +401,12 @@ _BUILTINS = {
     "print": print,
 }
 
-# 方法白名单（T4·str 方法族起步：任务书规范 upper/split）
-_METHOD_WHITELIST = {"upper", "split"}
+# 方法白名单（T4 起步 upper/split；V-P3 扩展 str 方法族 + V-P2 揭示 F4 需
+# list.append / dict.get 容器方法原语——全部为 CPython 原生方法，getattr
+# 分派直接对齐 CPython 语义。contains 不入列：str 无 .contains，应走 in
+# 运算符（V-P4 挂账，涉及 for 头解析冲突需专项））
+_METHOD_WHITELIST = {"upper", "split", "startswith", "endswith", "strip", "join",
+                     "append", "get"}
 
 
 class Env:
@@ -415,6 +440,8 @@ class ReturnSignal(Exception):
 _AUG_RE = re.compile(r"(\w+)\s*(\+=|-=|\*=|/=)\s*(.+)$")
 # T4：普通赋值行首形态（变量名 + 单个 =，排除 ==/<=/>=/!= 与字符串内等号）
 _ASSIGN_RE = re.compile(r"([A-Za-z_]\w*)\s*=(?!=)")
+# V-P2：下标赋值行首形态（obj[key] = value；[(.+)] 贪婪至最后一个 ]）
+_SUBASSIGN_RE = re.compile(r"([A-Za-z_]\w*)\s*\[(.+)\]\s*=(?!=)\s*(.+)$")
 
 
 def parse_program(src):
@@ -449,6 +476,13 @@ def parse_program(src):
         if m_assign:
             return ("assign", m_assign.group(1),
                     Parser(tokenize(code[m_assign.end():])).parse())
+        # 下标赋值 obj[key] = value（V-P2：F4 字典/列表写入原语；贪婪匹配
+        # 最后一个 ] 使嵌套 key 如 a[b[1]] 正确拆分）
+        m_sub = _SUBASSIGN_RE.match(code)
+        if m_sub:
+            return ("index_assign", m_sub.group(1),
+                    Parser(tokenize(m_sub.group(2))).parse(),
+                    Parser(tokenize(m_sub.group(3))).parse())
         # if/elif/else
         if code.startswith("def "):
             import re as _re
@@ -499,6 +533,15 @@ def exec_stmt(stmt, env):
     kind = stmt[0]
     if kind == "assign":
         env.set(stmt[1], eval_node(stmt[2], env))
+    elif kind == "index_assign":  # V-P2：下标写入 obj[key] = value（list/dict 原生语义）
+        obj = env.get(stmt[1])
+        key = eval_node(stmt[2], env)
+        try:
+            obj[key] = eval_node(stmt[3], env)
+        except IndexError:
+            raise MiniPyError(f"索引赋值越界：{obj!r}[{key!r}]")
+        except TypeError:
+            raise MiniPyError(f"类型不支持下标赋值：{type(obj).__name__}[{key!r}]")
     elif kind == "aug_assign":  # T4：x op= e → x = x op e（/= 除零对齐 / 语义）
         cur = env.get(stmt[1])
         rhs = eval_node(stmt[3], env)
@@ -662,7 +705,13 @@ class VM:
             if op == "PUSH_CONST":
                 self.stack.append(arg)
             elif op == "LOAD_NAME":
-                self.stack.append(self.env.get(arg))
+                try:
+                    self.stack.append(self.env.get(arg))
+                except MiniPyError:
+                    if arg in _BUILTINS:  # V-P2：VM 路内置函数兜底（与 AST 路对齐）
+                        self.stack.append(_BUILTINS[arg])
+                    else:
+                        raise
             elif op == "PUSH_LIST":
                 items = self.stack[-arg:]
                 self.stack = self.stack[:-arg]
@@ -722,16 +771,21 @@ class VM:
                 args = self.stack[-arg:]
                 self.stack = self.stack[:-arg]
                 f = self.stack.pop()  # 函数在参数之下（先压函数后压参数）
-                _, params, body, def_env = f
-                local = Env(def_env)
-                for p, a in zip(params, args):
-                    local.set(p, a)
-                try:
-                    for s in body:
-                        exec_stmt(s, local)
-                    self.stack.append(None)
-                except ReturnSignal as rs:
-                    self.stack.append(rs.value)
+                if isinstance(f, tuple) and f and f[0] == "func":
+                    _, params, body, def_env = f
+                    local = Env(def_env)
+                    for p, a in zip(params, args):
+                        local.set(p, a)
+                    try:
+                        for s in body:
+                            exec_stmt(s, local)
+                        self.stack.append(None)
+                    except ReturnSignal as rs:
+                        self.stack.append(rs.value)
+                elif callable(f):  # V-P2：内置函数（与 AST 路 _BUILTINS 分派对齐）
+                    self.stack.append(f(*args))
+                else:
+                    raise MiniPyError(f"不可调用: {f!r}")
             elif op == "GET_ATTR":  # T4
                 obj = self.stack.pop()
                 if arg not in _METHOD_WHITELIST:
