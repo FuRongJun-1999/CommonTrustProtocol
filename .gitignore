@@ -18,3 +18,10 @@ data/verify_cache.json
 data/verify_savings.jsonl
 
 snapshots/
+tools/*.out
+tools/*.err
+tools/_*.py
+tools/cognition_map/.archify-delivery-*/
+tools/cognition_map/latest_cognition.html
+tools/cognition_map/_cognition.*
+extend_110_results.json
