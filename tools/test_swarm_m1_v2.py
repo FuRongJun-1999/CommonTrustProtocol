@@ -57,6 +57,16 @@ try:
     check("V-M1.5 fail 不固化", len(a.adopted) == 1 and len(b.adopted) == 1,
           f"A={len(a.adopted)} B={len(b.adopted)}")
 
+    # ============ 批次 3（M2 预备）：ADOPTED 记忆钩子 ============
+    hooks = {"a": [], "b": []}
+    a.memory_hook = lambda rec: hooks["a"].append(rec)
+    b.memory_hook = lambda rec: hooks["b"].append(rec)
+    r3 = a.request_and_execute("nodeB", "求和", [4, 5, 6],
+                               verifier=lambda o: (o == 15, f"A 重算=15，B 报告={o}"))
+    check("批次3 A 侧钩子固化", len(hooks["a"]) == 1 and hooks["a"][0]["output"] == 15,
+          f"got {hooks['a']}")
+    check("批次3 B 侧钩子固化", len(hooks["b"]) == 1, f"got {hooks['b']}")
+
     # ============ V-M1.6 端到端消息序列可追溯 ============
     types = [m["type"] for m in a.log]
     check("V-M1.6 完整消息序列", all(t in types for t in

@@ -106,6 +106,9 @@ class Node:
         self.granted: set[tuple[str, str]] = set()  # (peer, capability) 已 ACCEPT
         self.verifier: object = None            # 己方验证基底：output → (pass, evidence)
         self.adopted: list[dict] = []           # ADOPTED 固化登记
+        # 批次 3（M2 预备）：ADOPTED 事件外挂记忆钩子——互联成果固化进
+        # 节点自身知识库（灵枢 remember / 图库 insert），由宿主注入
+        self.memory_hook: object = None
 
     def poll(self) -> None:
         """处理收件箱中的 HELLO（能力表收敛）。异步消息的同步收敛点。"""
@@ -177,8 +180,10 @@ class Node:
                 self._remote_side.handle_bus()    # B 登记 ADOPTED
                 self.poll()                        # A 收 B 的 ADOPTED 确认
                 if passed:
-                    self.adopted.append({"verdict_id": vd["id"],
-                                         "peer": peer, "output": output})
+                    rec = {"verdict_id": vd["id"], "peer": peer, "output": output}
+                    self.adopted.append(rec)
+                    if self.memory_hook:  # 批次 3：互联成果固化进自身知识库
+                        self.memory_hook(rec)
                 return {"output": output, "pass": passed, "evidence": evidence}
         raise ProtocolError("TASK 无 RESULT 回复（协议死锁）")
 
@@ -209,9 +214,11 @@ class Node:
                                        reply_to=msg["id"]))
             elif msg["type"] == "VERDICT":
                 if msg["payload"]["pass"]:
-                    self.adopted.append({"verdict_id": msg["id"],
-                                         "peer": msg["from"],
-                                         "reply_to": msg.get("reply_to")})
+                    rec = {"verdict_id": msg["id"], "peer": msg["from"],
+                           "reply_to": msg.get("reply_to")}
+                    self.adopted.append(rec)
+                    if self.memory_hook:  # 批次 3：对端同样固化
+                        self.memory_hook(rec)
 
 
 if __name__ == "__main__":
