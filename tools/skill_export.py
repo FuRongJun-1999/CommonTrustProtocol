@@ -38,16 +38,24 @@ NAME_MAP = {
     "编译-作用域分析": "compile-scope",
     "词法-中文程序": "lex-chinese-program",
     "编译-完整管线": "compile-full-pipeline",
+    "VM-循环执行": "vm-loop-run",
+    "VM-执行循环": "vm-run-loop",
+    "VM-闭包创建": "vm-closure-create",
+    "VM-闭包调用": "vm-closure-call",
+    "VM-栈操作": "vm-stack-ops",
+    "VM-比较执行": "vm-compare",
+    "VM-引用计数": "vm-refcount",
+    "VM-指令剖析": "vm-profiling",
+    "VM-栈保护": "vm-stack-guard",
+    "VM-数组操作": "vm-array-ops",
+    "VM-异常处理": "vm-exception",
+    "VM-短路求值": "vm-short-circuit",
 }
 
 def slugify(uid):
-    """uid → 英文 slug：映射表优先，否则去符号取拼音不可行则用 domain-unit 编号。"""
+    """uid → 英文 slug：映射表优先；未映射统一哈希尾（保证唯一合法，不冲突）。"""
     if uid in NAME_MAP:
         return NAME_MAP[uid]
-    # 回退：非中文部分 + 哈希尾（保证唯一合法 slug）
-    m = re.sub(r"[^a-zA-Z0-9]+", "-", uid).strip("-").lower()
-    if m:
-        return m[:40]
     import hashlib
     return "unit-" + hashlib.md5(uid.encode()).hexdigest()[:8]
 
