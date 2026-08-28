@@ -12,22 +12,21 @@
   "views": [
    {
     "id": "flow",
-    "label": "数据流",
+    "label": "核心数据流",
     "focus": [
      "session",
-     "condspace",
      "router",
-     "memory"
+     "condspace",
+     "memory",
+     "flywheel"
     ]
    },
    {
     "id": "sustain",
-    "label": "自维持闭环",
+    "label": "自维持巡检",
     "focus": [
      "heartbeat",
-     "sensor",
-     "vital",
-     "snapshot"
+     "condspace"
     ]
    }
   ]
@@ -39,8 +38,8 @@
    "label": "ZCode MCP",
    "sublabel": "77 工具",
    "pos": [
-    80,
-    90
+    90,
+    70
    ],
    "size": [
     110,
@@ -53,8 +52,8 @@
    "label": "dsh 插件",
    "sublabel": "网页端桥",
    "pos": [
-    210,
-    90
+    215,
+    70
    ],
    "size": [
     110,
@@ -68,7 +67,7 @@
    "sublabel": "Web 宿主",
    "pos": [
     340,
-    90
+    70
    ],
    "size": [
     110,
@@ -79,10 +78,10 @@
    "id": "session",
    "type": "frontend",
    "label": "会话感知",
-   "sublabel": "检索问答 · 情感/知识分流",
+   "sublabel": "检索问答 · 分流",
    "pos": [
-    150,
-    210
+    80,
+    190
    ],
    "size": [
     130,
@@ -90,27 +89,27 @@
    ]
   },
   {
-   "id": "condspace",
-   "type": "database",
-   "label": "条件空间",
-   "sublabel": "3971 节点 · KCCS 四要素",
+   "id": "router",
+   "type": "backend",
+   "label": "白箱路由",
+   "sublabel": "CSRE · card_route",
    "pos": [
-    330,
-    330
+    240,
+    190
    ],
    "size": [
-    130,
+    140,
     56
    ]
   },
   {
-   "id": "router",
-   "type": "backend",
-   "label": "白箱路由",
-   "sublabel": "CSRE · card_route · 导航递归",
+   "id": "condspace",
+   "type": "database",
+   "label": "条件空间",
+   "sublabel": "KCCS 四要素",
    "pos": [
-    160,
-    330
+    420,
+    190
    ],
    "size": [
     140,
@@ -121,13 +120,13 @@
    "id": "reflect",
    "type": "backend",
    "label": "递归反思",
-   "sublabel": "三级验证 · 元反思",
+   "sublabel": "三级验证",
    "pos": [
-    500,
-    330
+    590,
+    190
    ],
    "size": [
-    130,
+    110,
     56
    ]
   },
@@ -137,8 +136,8 @@
    "label": "三层记忆",
    "sublabel": "情境/知识/长期",
    "pos": [
-    330,
-    450
+    240,
+    310
    ],
    "size": [
     130,
@@ -149,13 +148,13 @@
    "id": "flywheel",
    "type": "messagebus",
    "label": "知识飞轮",
-   "sublabel": "蒸馏 · 复用 · 溯源指纹",
+   "sublabel": "蒸馏 · 溯源指纹",
    "pos": [
-    500,
-    450
+    420,
+    310
    ],
    "size": [
-    130,
+    140,
     52
    ]
   },
@@ -163,10 +162,10 @@
    "id": "heartbeat",
    "type": "security",
    "label": "自维持心跳",
-   "sublabel": "36+ 轮 · 感知+劳动",
+   "sublabel": "感知 + 劳动",
    "pos": [
-    90,
-    570
+    80,
+    430
    ],
    "size": [
     120,
@@ -174,44 +173,16 @@
    ]
   },
   {
-   "id": "sensor",
+   "id": "sustain",
    "type": "security",
-   "label": "信息差传感器",
-   "sublabel": "五维 · 退化拦截",
+   "label": "自维持闭环",
+   "sublabel": "传感器 · 三臂 · 维生 · 快照",
    "pos": [
-    230,
-    570
+    260,
+    430
    ],
    "size": [
-    130,
-    52
-   ]
-  },
-  {
-   "id": "vital",
-   "type": "security",
-   "label": "维生三臂",
-   "sublabel": "build/audit/judge",
-   "pos": [
-    380,
-    570
-   ],
-   "size": [
-    120,
-    52
-   ]
-  },
-  {
-   "id": "snapshot",
-   "type": "security",
-   "label": "快照纪律",
-   "sublabel": "auto_snapshot · rollback",
-   "pos": [
-    520,
-    570
-   ],
-   "size": [
-    130,
+    200,
     52
    ]
   }
@@ -249,9 +220,7 @@
    "label": "自维持层（零思考运转）",
    "wraps": [
     "heartbeat",
-    "sensor",
-    "vital",
-    "snapshot"
+    "sustain"
    ]
   }
  ],
@@ -261,14 +230,35 @@
    "from": "zcode",
    "to": "session",
    "label": "会话/工具",
-   "variant": "default"
+   "variant": "default",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "labelAt": [
+    200,
+    140
+   ]
   },
   {
    "id": "c2",
    "from": "dsh",
    "to": "session",
-   "label": "对话",
-   "variant": "default"
+   "variant": "default",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "via": [
+    [
+     270,
+     148
+    ],
+    [
+     145,
+     148
+    ]
+   ],
+   "labelAt": [
+    215,
+    135
+   ]
   },
   {
    "id": "c3",
@@ -276,7 +266,11 @@
    "to": "router",
    "label": "问题条件化",
    "variant": "emphasis",
-   "width": 2
+   "width": 2,
+   "labelAt": [
+    225,
+    262
+   ]
   },
   {
    "id": "c4",
@@ -284,63 +278,58 @@
    "to": "condspace",
    "label": "条件命中",
    "variant": "emphasis",
-   "width": 2
+   "width": 2,
+   "labelAt": [
+    330,
+    168
+   ]
   },
   {
    "id": "c5",
    "from": "condspace",
    "to": "memory",
-   "label": "知识写入",
-   "variant": "default"
-  },
-  {
-   "id": "c6",
-   "from": "reflect",
-   "to": "router",
-   "label": "验证反馈",
-   "variant": "dashed"
+   "variant": "default",
+   "labelAt": [
+    330,
+    295
+   ]
   },
   {
    "id": "c7",
    "from": "memory",
    "to": "flywheel",
-   "label": "经验蒸馏",
-   "variant": "default"
+   "variant": "default",
+   "labelAt": [
+    335,
+    380
+   ]
   },
   {
    "id": "c8",
    "from": "heartbeat",
    "to": "condspace",
-   "label": "劳动/巡检",
-   "variant": "dashed"
-  },
-  {
-   "id": "c9",
-   "from": "sensor",
-   "to": "router",
-   "label": "退化拦截",
-   "variant": "dashed"
-  },
-  {
-   "id": "c10",
-   "from": "vital",
-   "to": "reflect",
-   "label": "三臂终裁",
-   "variant": "dashed"
-  },
-  {
-   "id": "c11",
-   "from": "snapshot",
-   "to": "memory",
-   "label": "指纹回滚",
-   "variant": "dashed"
-  },
-  {
-   "id": "c12",
-   "from": "flywheel",
-   "to": "router",
-   "label": "模式复用",
-   "variant": "default"
+   "label": "自维持巡检",
+   "variant": "dashed",
+   "fromSide": "bottom",
+   "toSide": "right",
+   "via": [
+    [
+     140,
+     510
+    ],
+    [
+     580,
+     510
+    ],
+    [
+     580,
+     218
+    ]
+   ],
+   "labelAt": [
+    200,
+    496
+   ]
   }
  ],
  "cards": [
@@ -351,6 +340,15 @@
     "黑箱不可信 → 知识条件化写入，路由命中可解释、可追溯（白箱化）",
     "规则会漂移 → 自维持层锚定：传感器发现退化，三臂终裁，快照可回滚",
     "LLM 只做表达通道：确定性执行交给白箱规则——零思考、自维持"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "自维持闭环（虚线巡检）",
+   "items": [
+    "心跳每 10 分钟：感知检查 + 强制劳动，产物可验证",
+    "信息差传感器五维监测；验收三臂 build/audit/judge；快照一条命令回滚",
+    "实证：停电恢复 63 分钟、通道 B 三缺陷闭环、CSRE 索引自动重建"
    ]
   }
  ]
