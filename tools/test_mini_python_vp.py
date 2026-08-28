@@ -79,12 +79,8 @@ env = run_program(
     "ranked = sorted(scores)\n"
     "result = ranked[len(ranked) - 1]")
 check("V-P2 嵌套索引取最大", env.get("result") == 95, f"got {env.get('result')!r}")
-# V-P4 挂账实证：sorted(..., reverse=True) 关键字参数语法不支持（缺口显式化）
-try:
-    eval_expr("sorted([2, 1], reverse=True)")
-    check("V-P4 挂账实证 kwargs 缺口", False, "未抛异常")
-except (MiniPyError, SyntaxError):
-    check("V-P4 挂账实证 kwargs 缺口", True)
+# V-P4 kwargs 已落地（2026-08-28 第二批）：原挂账实证用例翻转为正向断言
+check("V-P4 kwargs 原缺口已闭合", eval_expr("sorted([2, 1], reverse=True)") == [2, 1])
 
 env = run_program(
     "freq = {'a': 3, 'b': 1}\n"
@@ -132,6 +128,19 @@ check("V-P4 in dict 键", eval_expr("'a' in {'a': 1}") is True)
 check("V-P4 VM 双路", eval_expr_vm("9 not in [1, 2, 3]") is True)
 env = run_program("words = ['ab', 'cd']\ncount = 0\nfor w in words:\n    if 'a' in w:\n        count += 1\nresult = count")
 check("V-P4 程序级成员判断", env.get("result") == 1, f"got {env.get('result')!r}")
+
+# ============ V-P4（第二批 2026-08-28）：关键字参数 kwargs ============
+check("V-P4 kwargs sorted reverse", eval_expr("sorted([3, 1, 2], reverse=True)") == [3, 2, 1])
+check("V-P4 VM kwargs", eval_expr_vm("sorted([3, 1, 2], reverse=True)") == [3, 2, 1])
+check("V-P4 内置函数作值 key=len",
+      eval_expr("sorted(['bb', 'a', 'ccc'], key=len)") == ["a", "bb", "ccc"])
+env = run_program("data = [3, 1, 2]\nresult = sorted(data, reverse=True)[0]")
+check("V-P4 程序级 kwargs", env.get("result") == 3, f"got {env.get('result')!r}")
+try:
+    eval_expr("len(x=1)")
+    check("V-P4 非法 kwarg 显式报错", False, "未抛异常")
+except (MiniPyError, TypeError):
+    check("V-P4 非法 kwarg 显式报错", True)
 
 # 白名单边界显式：contains 确认不可用（str 无 .contains，须走 in 运算符）
 try:

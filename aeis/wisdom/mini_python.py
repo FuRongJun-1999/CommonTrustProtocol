@@ -86,6 +86,28 @@ class Parser:
             node = ("index", node, key)
         return node
 
+    def _peek_eq(self):
+        """后视：当前 NAME 后是否跟单个 =（kwarg 形态，区别于 ==）。"""
+        nxt = self.tokens[self.pos + 1] if self.pos + 1 < len(self.tokens) else None
+        return nxt is not None and nxt[0] == "OP" and nxt[1] == "="
+
+    def _parse_call_args(self):
+        """调用参数列表：位置参数 + 关键字参数 k=v（V-P4 kwargs 第一批）。"""
+        args, kwargs = [], []
+        if self.peek()[1] != ")":
+            while True:
+                t = self.peek()
+                if t[0] == "NAME" and self._peek_eq():  # k=v
+                    self.advance()
+                    self.advance()
+                    kwargs.append((t[1], self.or_expr()))
+                else:
+                    args.append(self.or_expr())
+                if not self.match(","):
+                    break
+        self.expect(")")
+        return args, kwargs
+
     def _parse_suffixes(self, node, name=None):
         """后缀链统一：.attr / [idx] / (args)（V-P3：NAME 与字符串字面量共用）。
 
@@ -109,16 +131,11 @@ class Parser:
                 node = ("index", node, key)
             elif t1 == "(":
                 self.advance()
-                args = []
-                if self.peek()[1] != ")":
-                    args.append(self.or_expr())
-                    while self.match(","):
-                        args.append(self.or_expr())
-                self.expect(")")
+                args, kwargs = self._parse_call_args()
                 if node[0] == "attr":  # obj.method(args) → 方法调用节点
-                    node = ("method", node[1], node[2], args)
+                    node = ("method", node[1], node[2], args, kwargs)
                 elif name is not None and node[0] == "name" and node[1] == name:
-                    node = ("call", name, args)
+                    node = ("call", name, args, kwargs)
                 else:
                     raise SyntaxError("语法错误：该表达式不可调用（下标结果调用不支持）")
             else:
@@ -293,9 +310,14 @@ def eval_node(node, env=None):
     if kind == "none":
         return None
     if kind == "name":
-        if env is None:
-            raise MiniPyError(f"NameError: name '{node[1]}' is not defined")
-        return env.get(node[1])
+        if env is not None:
+            try:
+                return env.get(node[1])
+            except MiniPyError:
+                pass
+        if node[1] in _BUILTINS:  # V-P4：内置函数可作值引用（sorted(x, key=len)）
+            return _BUILTINS[node[1]]
+        raise MiniPyError(f"NameError: name '{node[1]}' is not defined")
     if kind == "or":
         a = eval_node(node[1], env)
         return a if is_truthy(a) else eval_node(node[2], env)
@@ -348,18 +370,22 @@ def eval_node(node, env=None):
         if not callable(m):
             raise MiniPyError(f"不可调用: {type(obj).__name__}.{node[2]}")
         args = [eval_node(a, env) for a in node[3]]
-        return m(*args)
+        kw = {k: eval_node(v, env) for k, v in node[4]} if len(node) > 4 else {}
+        return m(*args, **kw)
     if kind == "call":  # 函数调用（P3：局部作用域 + 参数绑定 + return 捕获）
         try:
             f = env.get(node[1]) if env is not None else None
         except MiniPyError:
             f = None
         builtin = _BUILTINS.get(node[1])
+        kw = {k: eval_node(v, env) for k, v in node[3]} if len(node) > 3 else {}
         if not (isinstance(f, tuple) and f[0] == "func"):
             if builtin is not None:
                 args = [eval_node(a, env) for a in node[2]]
-                return builtin(*args)
+                return builtin(*args, **kw)
             raise MiniPyError(f"NameError: name '{node[1]}' is not defined")
+        if kw:
+            raise MiniPyError("自定义函数关键字调用暂不支持（V-P4 第二批：def 默认参数）")
         _, params, body, def_env = f
         local = Env(def_env)
         args = [eval_node(a, env) for a in node[2]]
@@ -692,8 +718,17 @@ def compile_expr(node):
         code = [("LOAD_NAME", node[1])]
         for a in node[2]:
             code.extend(compile_expr(a))
-        code.append(("CALL", len(node[2])))
+        if len(node) > 3 and node[3]:  # V-P4：kwargs 压 key,值 序列 + CALL_KW
+            for k, v in node[3]:
+                code.append(("PUSH_CONST", k))
+                code.extend(compile_expr(v))
+            code.append(("CALL_KW", (len(node[2]), len(node[3]))))
+        else:
+            code.append(("CALL", len(node[2])))
         return code
+    if kind == "method":
+        if len(node) > 4 and node[4]:
+            raise MiniPyError("VM 暂不支持方法关键字参数（V-P4 第二批）")
     raise MiniPyError(f"无法编译节点: {node}")
 
 
@@ -801,6 +836,21 @@ class VM:
                         self.stack.append(rs.value)
                 elif callable(f):  # V-P2：内置函数（与 AST 路 _BUILTINS 分派对齐）
                     self.stack.append(f(*args))
+                else:
+                    raise MiniPyError(f"不可调用: {f!r}")
+            elif op == "CALL_KW":  # V-P4：带关键字参数调用（栈序 f, pos..., k1,v1,...）
+                n_pos, n_kw = arg
+                kw_items = self.stack[len(self.stack) - 2 * n_kw:]
+                self.stack = self.stack[:-2 * n_kw]
+                kwargs = {kw_items[2 * i]: kw_items[2 * i + 1] for i in range(n_kw)}
+                args = self.stack[-n_pos:] if n_pos else []
+                if n_pos:
+                    self.stack = self.stack[:-n_pos]
+                f = self.stack.pop()
+                if isinstance(f, tuple) and f and f[0] == "func":
+                    raise MiniPyError("自定义函数关键字调用暂不支持（V-P4 第二批）")
+                if callable(f):
+                    self.stack.append(f(*args, **kwargs))
                 else:
                     raise MiniPyError(f"不可调用: {f!r}")
             elif op == "GET_ATTR":  # T4
