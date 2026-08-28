@@ -8,7 +8,18 @@
 
 ## 这是什么
 
-一个 **Agent Plugins 1.0.0 兼容包**（agent-plugins.org），内含 **116 个 Agent Skills**（compiler 域条件单元）。
+一个 **Agent Plugins 1.0.0 兼容包**（agent-plugins.org），内含 **688 个 Agent Skills（六域条件单元）**：
+
+| 域 | 单元数 | 内容 |
+|---|---|---|
+| compiler | 116 | 中文编译器（词法/语法/编译/VM/调试/分析）|
+| pylang | 122 | Python 语言机制（表达式/函数/类/闭包）|
+| graph | 117 | 图算法与图数据库 |
+| os | 112 | 操作系统（进程/调度/文件系统）|
+| browser | 104 | 浏览器与网页 |
+| net | 117 | 网络（协议/传输/安全）|
+| **合计** | **688** | 白箱六域条件单元 |
+
 每个技能描述灵枢在**什么条件下**能做什么、**怎么执行**、**克制什么**——比标准 Agent Skills 多出
 **KCCS 四要素（生效条件/子功能/执行/不适用条件）** 与**不适用条件三通道**（description「Not for」+
 metadata.kccs.not_applicable + 正文克制条款章节）。
@@ -57,9 +68,9 @@ aeis/skills/
 
 ## 验证状态（发布门禁）
 
-- ✅ 116/116 单元通过格式 + 三通道校验
-- ✅ not_applicable / when / execute / 正文克制条款 全部 116/116
-- ✅ plugin.json 符合 agent-plugins.org schema（含 extensions 扩展）
+- ✅ 688/688 单元通过格式 + 三通道校验（六域）
+- ✅ not_applicable / when / execute / 正文克制条款 全部 688/688
+- ✅ plugin.json 符合 agent-plugins.org schema（含 extensions 扩展：self-cognition/condition-route/mcp）
 
 ## 与主仓库纪律
 

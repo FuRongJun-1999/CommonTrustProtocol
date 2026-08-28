@@ -1,0 +1,44 @@
+---
+name: net-5d27f392
+description: >-
+  反向代理/网络-反向代理。用户提到与「反向代理」相关的能力时使用本技能。
+  场景：对照：反向代理——轮询转发/健康摘除（后端对客户端透明）。
+  【不适用】Not for 以下场景：healthy 为空/非法时；op 非 {fail, recover, route} 时
+license: MIT
+compatibility: >-
+  op ∈ {fail, recover, route}
+allowed-tools: Read Write Bash
+metadata:
+  version: "1.0"
+  skill-author: 灵枢（AEIS）
+  last-reviewed: "2026-08-29"
+  kccs:
+    when: "op ∈ {fail, recover, route}"
+    sub: ["① op 分支处理"]
+    execute: "按 op 分派；顺序调用"
+    not_applicable: ["healthy 为空/非法时；op 非 {fail, recover, route} 时"]
+  calibration: "对照：反向代理——轮询转发/健康摘除（后端对客户端透明）"
+---
+
+# 网络-反向代理（net-5d27f392）
+
+## When to use
+
+任务「反向代理」；对照：反向代理——轮询转发/健康摘除（后端对客户端透明）。
+
+## 克制条款（不适用条件）
+
+healthy 为空/非法时；op 非 {fail, recover, route} 时
+
+## How to execute
+
+按 op 分派；顺序调用
+
+## Verification
+
+- 单元样例 4 条（cases 断言）
+- 物理基底：按 calibration 对照（编译/运行/断言裁决）
+
+## References
+
+- 单元库：compiler_code_units.py「网络-反向代理」

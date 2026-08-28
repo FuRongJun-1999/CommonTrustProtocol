@@ -126,7 +126,7 @@ def main():
             print(f"  ✘ 缺字段: {f}")
             pj_ok = False
     ext = pj.get("extensions", {}).get("lingshu", {}).get("condition-route", {})
-    for f in ["domain", "unit-count", "kccs-version", "negative-route", "condition-space"]:
+    for f in ["domains", "unit-count", "kccs-version", "negative-route", "condition-space"]:
         if f not in ext:
             print(f"  ✘ extensions.condition-route 缺: {f}")
             pj_ok = False

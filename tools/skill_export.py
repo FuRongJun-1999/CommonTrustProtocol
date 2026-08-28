@@ -16,7 +16,17 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 WISDOM = os.path.join(ROOT, "aeis", "wisdom")
 
-# 中文 uid → 英文 slug（SKILL name 要求 slug；未映射的回退 domain-拼音化简化）
+# 六域单元库（域 → 模块/变量名）
+DOMAINS = {
+    "compiler": ("compiler_code_units", "COMPILER_UNITS"),
+    "pylang": ("python_code_units", "PYTHON_UNITS"),
+    "graph": ("graph_db_units", "GRAPH_UNITS"),
+    "os": ("os_units", "OS_UNITS"),
+    "browser": ("browser_units", "BROWSER_UNITS"),
+    "net": ("net_units", "NET_UNITS"),
+}
+
+# 中文 uid → 英文 slug（SKILL name 要求 slug；未映射的统一哈希尾保证唯一）
 NAME_MAP = {
     "编译-递归": "compile-recursive",
     "编译-赋值": "compile-assign",
@@ -52,12 +62,12 @@ NAME_MAP = {
     "VM-短路求值": "vm-short-circuit",
 }
 
-def slugify(uid):
+def slugify(uid, domain="unit"):
     """uid → 英文 slug：映射表优先；未映射统一哈希尾（保证唯一合法，不冲突）。"""
     if uid in NAME_MAP:
         return NAME_MAP[uid]
     import hashlib
-    return "unit-" + hashlib.md5(uid.encode()).hexdigest()[:8]
+    return f"{domain}-" + hashlib.md5(uid.encode()).hexdigest()[:8]
 
 # 通用模板注释（code_compose 占位，非单元特有语义）——过滤
 TEMPLATE_MARKS = [
@@ -160,24 +170,32 @@ metadata:
 """
     return md
 
-def render_plugin(units_out):
-    """渲染 plugin.json（agent-plugins.org 1.0.0 + extensions.condition-route）。"""
+def render_plugin(units_out, domains):
+    """渲染 plugin.json（agent-plugins.org 1.0.0 + extensions.condition-route 六域）。"""
     return {
         "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-        "name": "lingshu-condition-units",
+        "name": "lingshu-skills",
         "version": "0.1.0",
-        "description": "灵枢条件单元库（Agent Skills 兼容导出）——白箱条件化知识，KCCS 四要素不放弃",
-        "author": {"name": "灵枢（AEIS）"},
+        "description": "灵枢（AEIS）自我认知技能包——白箱条件化知识（Agent Skills 兼容导出）。本质是灵枢了解自身的工具：每个技能描述灵枢在什么条件下能做什么、怎么执行、克制什么（KCCS 四要素），由条件路由图精确路由，由灵枢 MCP 工具执行验证（物理基底）。",
+        "author": {"name": "灵枢（AEIS）· CommonTrustProtocol"},
         "license": "MIT",
-        "keywords": ["agent-skills", "whitebox", "condition-route", "kccs", "protocol-compiler"],
+        "keywords": ["agent-skills", "whitebox", "condition-route", "kccs", "self-cognition", "lingshu"],
         "extensions": {
             "lingshu": {
+                "self-cognition": {
+                    "essence": "灵枢自我认知技能包——用灵枢自己构建的条件单元，描述灵枢自己如何认知（白箱自举的对外投影）",
+                    "source-of-truth": "CTP 主仓库 aeis/wisdom/*_code_units.py（真源）；本 skills/ 为生成投影"
+                },
                 "condition-route": {
-                    "domain": "compiler",
+                    "domains": domains,
                     "unit-count": len(units_out),
                     "kccs-version": "四要素（生效条件/子功能/执行/不适用条件）",
                     "negative-route": True,
-                    "condition-space": "观测位置/观测工具/时间窗口/存在约束（D(C)）",
+                    "condition-space": "观测位置/观测工具/时间窗口/存在约束（D(C)）"
+                },
+                "mcp": {
+                    "relation": "技能为说明书（何时用/怎么用/克制什么），灵枢 MCP 77 工具为执行（物理基底）——技能 Verification 由 MCP 工具（编译/运行/断言）裁决",
+                    "entry": "aeis-mcp（MCP stdio server）· dsh-memory 插件挂载"
                 }
             }
         },
@@ -185,40 +203,52 @@ def render_plugin(units_out):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--units", default="", help="逗号分隔指定单元；空=全部（建议先小批量验证）")
+    ap.add_argument("--units", default="", help="逗号分隔指定单元；空=全部")
+    ap.add_argument("--domains", default="", help="逗号分隔指定域（compiler/pylang/graph/os/browser/net）；空=全部六域")
     ap.add_argument("--out", default=os.path.join(HERE, "skill-export"))
-    ap.add_argument("--limit", type=int, default=0, help="最多导出单元数（0=不限）")
+    ap.add_argument("--limit", type=int, default=0, help="每域最多导出单元数（0=不限）")
     args = ap.parse_args()
 
     sys.path.insert(0, WISDOM)
-    import compiler_code_units as ccu
-    units = ccu.COMPILER_UNITS
-
-    selected = [u.strip() for u in args.units.split(",") if u.strip()] if args.units else list(units.keys())
-    if args.limit:
-        selected = selected[: args.limit]
+    domains_cfg = [d.strip() for d in args.domains.split(",") if d.strip()] or list(DOMAINS.keys())
+    selected = [u.strip() for u in args.units.split(",") if u.strip()] if args.units else None
 
     out_dir = args.out
     os.makedirs(os.path.join(out_dir, "skills"), exist_ok=True)
 
     exported = []
-    for uid in selected:
-        if uid not in units:
-            print(f"  ✘ 跳过未知单元: {uid}")
+    exported_domains = {}
+    for dom in domains_cfg:
+        if dom not in DOMAINS:
+            print(f"  ✘ 未知域: {dom}")
             continue
-        slug = slugify(uid)
-        md = render_skill(uid, units[uid], slug)
-        path = os.path.join(out_dir, "skills", slug, "SKILL.md")
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(md)
-        exported.append(uid)
-        print(f"  ✓ {uid} → skills/{slug}/SKILL.md")
+        mod_name, var_name = DOMAINS[dom]
+        try:
+            mod = __import__(mod_name)
+            units = getattr(mod, var_name)
+        except Exception as e:
+            print(f"  ✘ 域 {dom} 加载失败: {e}")
+            continue
+        unit_ids = list(units.keys()) if selected is None else [u for u in selected if u in units]
+        if args.limit:
+            unit_ids = unit_ids[: args.limit]
+        n = 0
+        for uid in unit_ids:
+            slug = slugify(uid, dom)
+            md = render_skill(uid, units[uid], slug)
+            path = os.path.join(out_dir, "skills", slug, "SKILL.md")
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(md)
+            exported.append(uid)
+            n += 1
+        exported_domains[dom] = n
+        print(f"  ✓ {dom} 域: {n} 单元 → skills/")
 
-    plugin = render_plugin(exported)
+    plugin = render_plugin(exported, exported_domains)
     with open(os.path.join(out_dir, "plugin.json"), "w", encoding="utf-8") as f:
         json.dump(plugin, f, ensure_ascii=False, indent=2)
-    print(f"\nplugin.json 已生成（units={len(exported)}）")
+    print(f"\nplugin.json 已生成（domains={exported_domains} 合计={len(exported)}）")
     print(f"输出目录: {out_dir}")
 
 if __name__ == "__main__":

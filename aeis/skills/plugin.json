@@ -1,10 +1,10 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "lingshu-condition-units",
+  "name": "lingshu-skills",
   "version": "0.1.0",
-  "description": "灵枢条件单元库（Agent Skills 兼容导出）——白箱条件化知识，KCCS 四要素不放弃",
+  "description": "灵枢（AEIS）自我认知技能包——白箱条件化知识（Agent Skills 兼容导出）。本质是灵枢了解自身的工具：每个技能描述灵枢在什么条件下能做什么、怎么执行、克制什么（KCCS 四要素），由条件路由图精确路由，由灵枢 MCP 工具执行验证（物理基底）。",
   "author": {
-    "name": "灵枢（AEIS）"
+    "name": "灵枢（AEIS）· CommonTrustProtocol"
   },
   "license": "MIT",
   "keywords": [
@@ -12,16 +12,32 @@
     "whitebox",
     "condition-route",
     "kccs",
-    "protocol-compiler"
+    "self-cognition",
+    "lingshu"
   ],
   "extensions": {
     "lingshu": {
+      "self-cognition": {
+        "essence": "灵枢自我认知技能包——用灵枢自己构建的条件单元，描述灵枢自己如何认知（白箱自举的对外投影）",
+        "source-of-truth": "CTP 主仓库 aeis/wisdom/*_code_units.py（真源）；本 skills/ 为生成投影"
+      },
       "condition-route": {
-        "domain": "compiler",
-        "unit-count": 116,
+        "domains": {
+          "compiler": 116,
+          "pylang": 122,
+          "graph": 117,
+          "os": 112,
+          "browser": 104,
+          "net": 117
+        },
+        "unit-count": 688,
         "kccs-version": "四要素（生效条件/子功能/执行/不适用条件）",
         "negative-route": true,
         "condition-space": "观测位置/观测工具/时间窗口/存在约束（D(C)）"
+      },
+      "mcp": {
+        "relation": "技能为说明书（何时用/怎么用/克制什么），灵枢 MCP 77 工具为执行（物理基底）——技能 Verification 由 MCP 工具（编译/运行/断言）裁决",
+        "entry": "aeis-mcp（MCP stdio server）· dsh-memory 插件挂载"
       }
     }
   }
