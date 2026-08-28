@@ -115,6 +115,9 @@ class Node:
         # 批次 3（M2 预备）：ADOPTED 事件外挂记忆钩子——互联成果固化进
         # 节点自身知识库（灵枢 remember / 图库 insert），由宿主注入
         self.memory_hook: object = None
+        # 批次 4（M3 集成）：信任账本——分工由信任决定（智能论 §2.9）
+        from swarm_m3_trust import TrustLedger
+        self.trust = TrustLedger()
 
     def poll(self) -> None:
         """处理收件箱中的 HELLO（能力表收敛）。异步消息的同步收敛点。"""
@@ -163,6 +166,9 @@ class Node:
         白箱纪律：①资格先于执行（未 ACCEPT 不发 TASK）；②自验证不采信
         （verifier 是 A 的己方基底，裁决 B 的产出）。
         """
+        ok, reason = self.trust.can_dispatch(peer)  # M3：信任决定分工
+        if not ok:
+            raise ProtocolError(f"信任不足：{reason}")
         reply = self.query_capability(peer, capability)
         if reply["verdict"] != "ACCEPT":
             raise ProtocolError(
@@ -185,6 +191,7 @@ class Node:
                 self.log.append(vd)
                 self._remote_side.handle_bus()    # B 登记 ADOPTED
                 self.poll()                        # A 收 B 的 ADOPTED 确认
+                self.trust.record(peer, passed)  # M3：行为验证后更新信任
                 if passed:
                     rec = {"verdict_id": vd["id"], "peer": peer, "output": output}
                     self.adopted.append(rec)
