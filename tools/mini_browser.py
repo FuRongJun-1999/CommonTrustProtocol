@@ -14,11 +14,86 @@
 
 from __future__ import annotations
 
+import re
 import socket
 
 
 class BrowserError(Exception):
     """浏览器白箱错误（URL 非法/网络失败/响应畸形）。"""
+
+
+# ---------------------------------------------------------------------------
+# F3 内容解析 / F4 结构化渲染 / V6 相对 URL（第二批 2026-08-28）
+# ---------------------------------------------------------------------------
+
+_RE_TITLE = re.compile(r"<title[^>]*>(.*?)</title>", re.IGNORECASE | re.DOTALL)
+_RE_A = re.compile(r"<a\s[^>]*?href=(\"([^\"]*)\"|'([^']*)')[^>]*>(.*?)</a>",
+                   re.IGNORECASE | re.DOTALL)
+_RE_STRIP = {"script": re.compile(r"<script\b.*?</script>", re.IGNORECASE | re.DOTALL),
+             "style": re.compile(r"<style\b.*?</style>", re.IGNORECASE | re.DOTALL),
+             "tag": re.compile(r"<[^>]+>")}
+_ENTITIES = {"&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&#39;": "'"}
+
+
+def _unescape_basic(text: str) -> str:
+    """基本 HTML 实体（显式白名单，教学口径不做全量实体表）。"""
+    for k, v in _ENTITIES.items():
+        text = text.replace(k, v)
+    return text
+
+
+def extract(html: str) -> dict:
+    """F3 内容解析：HTML → {title, links, text}（显式规则可追溯）。
+
+    - title：<title> 文本（缺省 None——显式而非静默空串）
+    - links：[(href, text)]（引号形态单双皆收；无 href 的 <a> 不收）
+    - text：去 script/style/标签后的压缩正文（空白折叠）
+    """
+    m = _RE_TITLE.search(html)
+    title = _unescape_basic(m.group(1)).strip() if m else None
+    links = []
+    for m in _RE_A.finditer(html):
+        href = m.group(2) if m.group(2) is not None else m.group(3)
+        text = _RE_STRIP["tag"].sub(" ", m.group(4))
+        links.append((href, " ".join(text.split())))
+    stripped = _RE_STRIP["tag"].sub(" ", _RE_STRIP["style"].sub(
+        " ", _RE_STRIP["script"].sub(" ", html)))
+    text = " ".join(stripped.split())
+    return {"title": title, "links": links, "text": _unescape_basic(text)}
+
+
+def render(page: dict) -> str:
+    """F4 结构化渲染：标题行 + 链接表 [n] text -> href + 正文（按序文本）。"""
+    lines = []
+    lines.append(f"# {page['title']}" if page.get("title") else "# (无标题)")
+    for i, (href, text) in enumerate(page.get("links", []), 1):
+        lines.append(f"[{i}] {text} -> {href}")
+    if page.get("text"):
+        lines.append("")
+        lines.append(page["text"])
+    return "\n".join(lines)
+
+
+def resolve_url(base: str, href: str) -> str:
+    """V6 相对 URL 解析（教学子集：绝对/根相对/相对/同级）。"""
+    if "://" in href:
+        return href
+    info = parse_url(base)
+    root = f"{info['scheme']}://{info['host']}:{info['port']}"
+    if href.startswith("/"):
+        return root + href
+    if href.startswith("#"):
+        return base.split("#", 1)[0] + href
+    # 相对路径：基于当前 path 的目录
+    cur_dir = info["path"].rsplit("/", 1)[0]
+    stack = []
+    for part in (cur_dir + "/" + href).split("/"):
+        if part == "..":
+            if stack:
+                stack.pop()
+        elif part not in ("", "."):
+            stack.append(part)
+    return root + "/" + "/".join(stack)
 
 
 _DEFAULT_PORTS = {"http": 80, "https": 443}
