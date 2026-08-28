@@ -142,6 +142,21 @@ try:
 except (MiniPyError, TypeError):
     check("V-P4 非法 kwarg 显式报错", True)
 
+# ============ V-P4（第三批 2026-08-29）：def 默认参数 + 自定义函数关键字调用 ============
+env = run_program("def f(a, b=10):\n    return a + b\nr1 = f(1)\nr2 = f(1, 2)\nr3 = f(1, b=5)")
+check("V-P4 默认参数省略", env.get("r1") == 11, f"got {env.get('r1')!r}")
+check("V-P4 位置覆盖默认", env.get("r2") == 3)
+check("V-P4 关键字覆盖默认", env.get("r3") == 6)
+env = run_program("def area(w, h=2):\n    return w * h\nresult = area(3, h=4)")
+check("V-P4 位置+关键字混合", env.get("result") == 12)
+env = run_program("def rec(n, acc=1):\n    if n <= 1:\n        return acc\n    return rec(n - 1, acc * n)\nresult = rec(5)")
+check("V-P4 递归+默认累加器", env.get("result") == 120)
+try:
+    run_program("def f(a):\n    return a\nr = f()")
+    check("V-P4 缺参显式报错", False, "未抛异常")
+except MiniPyError:
+    check("V-P4 缺参显式报错", True)
+
 # 白名单边界显式：contains 确认不可用（str 无 .contains，须走 in 运算符）
 try:
     eval_expr("'a'.contains('a')")

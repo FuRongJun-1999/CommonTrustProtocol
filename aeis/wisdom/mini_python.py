@@ -384,15 +384,9 @@ def eval_node(node, env=None):
                 args = [eval_node(a, env) for a in node[2]]
                 return builtin(*args, **kw)
             raise MiniPyError(f"NameError: name '{node[1]}' is not defined")
-        if kw:
-            raise MiniPyError("自定义函数关键字调用暂不支持（V-P4 第二批：def 默认参数）")
-        _, params, body, def_env = f
-        local = Env(def_env)
         args = [eval_node(a, env) for a in node[2]]
-        if len(args) != len(params):
-            raise MiniPyError(f"参数数量不符：{node[1]} 需要 {len(params)}，给了 {len(args)}")
-        for p, a in zip(params, args):
-            local.set(p, a)
+        _, params, body, def_env = f
+        local = bind_params(params, args, kw, def_env)  # V-P4：默认值+kwargs 绑定
         try:
             for s in body:
                 exec_stmt(s, local)
@@ -471,6 +465,30 @@ class Env:
         self.vars[name] = value
 
 
+def bind_params(params, args, kw, def_env):
+    """V-P4 第三批：参数绑定（位置→关键字→默认值），AST 与 VM 共用。
+
+    params 元素 = (name, default_ast|None)；默认值在定义环境 def_env 求值。
+    """
+    from_dict = dict(kw or {})
+    values = {}
+    for i, (pname, dflt) in enumerate(params):
+        if i < len(args):
+            values[pname] = args[i]
+        elif pname in from_dict:
+            values[pname] = from_dict.pop(pname)
+        elif dflt is not None:
+            values[pname] = eval_node(dflt, def_env)
+        else:
+            raise MiniPyError(f"参数缺失: {pname}（无默认值且未传）")
+    if from_dict:
+        raise MiniPyError(f"未识别的关键字参数: {sorted(from_dict)}")
+    local = Env(def_env)
+    for k, v in values.items():
+        local.set(k, v)
+    return local
+
+
 class ReturnSignal(Exception):
     """return 语句信号（P3）"""
     def __init__(self, value):
@@ -530,7 +548,17 @@ def parse_program(src):
             import re as _re
             m = _re.match(r"def\s+(\w+)\s*\(([^)]*)\)\s*:", code)
             name = m.group(1)
-            params = [p.strip() for p in m.group(2).split(",") if p.strip()]
+            # V-P4 第三批：参数支持默认值 name=expr → (name, default_ast|None)
+            params = []
+            for p_raw in m.group(2).split(","):
+                p_raw = p_raw.strip()
+                if not p_raw:
+                    continue
+                if "=" in p_raw:
+                    pn, _, pv = p_raw.partition("=")
+                    params.append((pn.strip(), Parser(tokenize(pv.strip())).parse()))
+                else:
+                    params.append((p_raw, None))
             body = build(idx, lines[idx[0]][0] if idx[0] < len(lines) else 0)
             return ("funcdef", name, params, body)
         if code.startswith("return "):
@@ -825,9 +853,7 @@ class VM:
                 f = self.stack.pop()  # 函数在参数之下（先压函数后压参数）
                 if isinstance(f, tuple) and f and f[0] == "func":
                     _, params, body, def_env = f
-                    local = Env(def_env)
-                    for p, a in zip(params, args):
-                        local.set(p, a)
+                    local = bind_params(params, args, None, def_env)  # V-P4
                     try:
                         for s in body:
                             exec_stmt(s, local)
@@ -848,7 +874,15 @@ class VM:
                     self.stack = self.stack[:-n_pos]
                 f = self.stack.pop()
                 if isinstance(f, tuple) and f and f[0] == "func":
-                    raise MiniPyError("自定义函数关键字调用暂不支持（V-P4 第二批）")
+                    _, params, body, def_env = f
+                    local = bind_params(params, args, kwargs, def_env)  # V-P4
+                    try:
+                        for s in body:
+                            exec_stmt(s, local)
+                        self.stack.append(None)
+                    except ReturnSignal as rs:
+                        self.stack.append(rs.value)
+                    continue
                 if callable(f):
                     self.stack.append(f(*args, **kwargs))
                 else:
