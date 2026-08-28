@@ -201,6 +201,15 @@ def main() -> int:
                "B": {"tokens": 0, "attempts": 0, "passed": False}}
 
         # ================= A 组：灵枢递归反思 + 白箱查找 =================
+        # 注入模式（荣 2026-08-28 深度独立测试指正）：
+        #   content = 知识内容（执行/直答全文）——层级错位时语义诱导偏离
+        #     （P4 实证：任务要 shout 高层需求，卡注入 upper 实现细节
+        #      反复拉偏，4 轮才过）
+        #   declaration = 条件空间声明（生效条件/不适用条件）——帮模型
+        #     定位自身边界，不拖拽实现层级；任务层级对齐的知识内容由
+        #     模型在声明边界内自行组织
+        #   hybrid = 声明 + 直答（T9 一二轮形态，保留对照）
+        inject_mode = os.environ.get("T9_INJECT_MODE", "declaration")
         analysis, u = llm(ANALYSIS_PROMPT.format(task=proj["task"]),
                           "请开始分析。")
         rec["A"]["tokens"] += u["prompt"] + u["completion"]
@@ -208,11 +217,25 @@ def main() -> int:
         cards = []
         for kw in proj["knowledge_queries"]:
             for h in card_route(dex, kw, limit=1):
-                da = h.get("direct_answer") or ""
-                if h.get("_card_hit") and da:
+                if not (h.get("_card_hit") and (h.get("direct_answer") or h.get("name"))):
+                    continue
+                cm = {}
+                try:
+                    _node = dex.store.get_node(h.get("id"))
+                    cm = (_node.state_attributes or {}).get("comment", {}) if _node else {}
+                except Exception:
+                    cm = {}
+                if inject_mode == "declaration":
+                    cards.append(
+                        f"- 卡「{h.get('name')}」与本任务相关：生效条件 "
+                        f"{cm.get('生效条件', [])}；不适用条件 {cm.get('不适用条件', [])}"
+                        "（在上述边界内实现，越界行为不属于本任务）")
+                else:
+                    da = h.get("direct_answer") or ""
                     cards.append(f"- {h.get('name')}: {da}")
-                    break
-        ctx_a = ("知识库条件卡（确定性参考，须遵循其中的规则与数值）：\n"
+                break
+        ctx_a = ("知识库条件空间声明（边界参考——在声明的生效范围内实现，"
+                 "命中不适用条件的行为不属于本任务）：\n"
                  + "\n".join(cards)) if cards else ""
         failing = ""
         for attempt in range(1, MAX_ATTEMPTS + 1):
