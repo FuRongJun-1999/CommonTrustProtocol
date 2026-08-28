@@ -2763,6 +2763,31 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": '对照：蓝牙互联网条件卡 F4 服务发现专项（T11 完整版条件卡_其余六目标 目标 7）——蜂群注册表精确匹配口径',
     },
+    '运算符-in 成员判断': {
+        "task": 'in 成员判断',
+        "triggers": ["in 运算符", "成员判断", "not in"],
+        "pattern": "def mini_in(item, container):\n    # 生效条件：container 为 str/list/tuple/dict；item 为可比较值\n    # 子功能：① dict 按键判定；② 序列按相等扫描；③ not in 为取反\n    # 执行：条件分派；循环迭代\n    # 不适用条件：自定义 __contains__ 不在本单元范围（str 为 CPython 子串语义特例）\n    if isinstance(container, dict):\n        return item in container\n    if isinstance(container, str):\n        return container.find(item) != -1\n    for element in container:\n        if element == item:\n            return True\n    return False",
+        "cases": [
+            ((2, [1, 2, 3]), True),
+            ((9, [1, 2, 3]), False),
+            (('ell', 'hello'), True),
+            (('a', {'a': 1}), True),
+        ],
+        "params": [],
+        "calibration": '对照：mini_python.py in/not in 运算符（V-P4 第一批 6a5e964，comparison+_compare+VM 三处对齐，CPython in 语义）',
+    },
+    '参数-默认值与关键字绑定': {
+        "task": "参数默认值绑定",
+        "triggers": ["默认参数", "关键字参数", "kwargs", "参数绑定"],
+        "pattern": "def mini_bind(params, args, kw):\n    # 生效条件：params 为 (名字, 默认值) 列表；args 为位置实参序列；kw 为关键字实参 dict\n    # 子功能：① 位置实参按序绑定；② 关键字实参按名绑定；③ 缺省填充默认值\n    # 执行：顺序绑定；条件分派\n    # 不适用条件：*args/**kwargs 收集形态与重复绑定冲突检测不在本单元范围\n    values = {}\n    for i, (name, default) in enumerate(params):\n        if i < len(args):\n            values[name] = args[i]\n        elif name in kw:\n            values[name] = kw[name]\n        else:\n            values[name] = default\n    return values",
+        "cases": [
+            (((('a', 1), ('b', 2)), (10,), {}), {'a': 10, 'b': 2}),
+            (((('a', 1), ('b', 2)), (10,), {'b': 20}), {'a': 10, 'b': 20}),
+            (((('a', 1),), (), {}), {'a': 1}),
+        ],
+        "params": [],
+        "calibration": '对照：mini_python.py bind_params（V-P4 第三批 d2f796a，AST/VM 共用绑定，默认值在定义环境求值）',
+    },
 }
 
 
