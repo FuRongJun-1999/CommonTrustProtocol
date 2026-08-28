@@ -1,0 +1,28 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "lingshu-condition-units",
+  "version": "0.1.0",
+  "description": "灵枢条件单元库（Agent Skills 兼容导出）——白箱条件化知识，KCCS 四要素不放弃",
+  "author": {
+    "name": "灵枢（AEIS）"
+  },
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "whitebox",
+    "condition-route",
+    "kccs",
+    "protocol-compiler"
+  ],
+  "extensions": {
+    "lingshu": {
+      "condition-route": {
+        "domain": "compiler",
+        "unit-count": 116,
+        "kccs-version": "四要素（生效条件/子功能/执行/不适用条件）",
+        "negative-route": true,
+        "condition-space": "观测位置/观测工具/时间窗口/存在约束（D(C)）"
+      }
+    }
+  }
+}
