@@ -1,0 +1,357 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "灵枢架构全景 · 白箱智能协议实例",
+  "locale": "zh-CN",
+  "subtitle": "确定高效后，维持自身——每步决策可追溯",
+  "quality_profile": "showcase",
+  "legend": {
+   "mode": "all"
+  },
+  "views": [
+   {
+    "id": "flow",
+    "label": "数据流",
+    "focus": [
+     "session",
+     "condspace",
+     "router",
+     "memory"
+    ]
+   },
+   {
+    "id": "sustain",
+    "label": "自维持闭环",
+    "focus": [
+     "heartbeat",
+     "sensor",
+     "vital",
+     "snapshot"
+    ]
+   }
+  ]
+ },
+ "components": [
+  {
+   "id": "zcode",
+   "type": "external",
+   "label": "ZCode MCP",
+   "sublabel": "77 工具",
+   "pos": [
+    80,
+    90
+   ],
+   "size": [
+    110,
+    52
+   ]
+  },
+  {
+   "id": "dsh",
+   "type": "external",
+   "label": "dsh 插件",
+   "sublabel": "网页端桥",
+   "pos": [
+    210,
+    90
+   ],
+   "size": [
+    110,
+    52
+   ]
+  },
+  {
+   "id": "harness",
+   "type": "external",
+   "label": "原生 harness",
+   "sublabel": "Web 宿主",
+   "pos": [
+    340,
+    90
+   ],
+   "size": [
+    110,
+    52
+   ]
+  },
+  {
+   "id": "session",
+   "type": "frontend",
+   "label": "会话感知",
+   "sublabel": "检索问答 · 情感/知识分流",
+   "pos": [
+    150,
+    210
+   ],
+   "size": [
+    130,
+    52
+   ]
+  },
+  {
+   "id": "condspace",
+   "type": "database",
+   "label": "条件空间",
+   "sublabel": "3971 节点 · KCCS 四要素",
+   "pos": [
+    330,
+    330
+   ],
+   "size": [
+    130,
+    56
+   ]
+  },
+  {
+   "id": "router",
+   "type": "backend",
+   "label": "白箱路由",
+   "sublabel": "CSRE · card_route · 导航递归",
+   "pos": [
+    160,
+    330
+   ],
+   "size": [
+    140,
+    56
+   ]
+  },
+  {
+   "id": "reflect",
+   "type": "backend",
+   "label": "递归反思",
+   "sublabel": "三级验证 · 元反思",
+   "pos": [
+    500,
+    330
+   ],
+   "size": [
+    130,
+    56
+   ]
+  },
+  {
+   "id": "memory",
+   "type": "database",
+   "label": "三层记忆",
+   "sublabel": "情境/知识/长期",
+   "pos": [
+    330,
+    450
+   ],
+   "size": [
+    130,
+    52
+   ]
+  },
+  {
+   "id": "flywheel",
+   "type": "messagebus",
+   "label": "知识飞轮",
+   "sublabel": "蒸馏 · 复用 · 溯源指纹",
+   "pos": [
+    500,
+    450
+   ],
+   "size": [
+    130,
+    52
+   ]
+  },
+  {
+   "id": "heartbeat",
+   "type": "security",
+   "label": "自维持心跳",
+   "sublabel": "36+ 轮 · 感知+劳动",
+   "pos": [
+    90,
+    570
+   ],
+   "size": [
+    120,
+    52
+   ]
+  },
+  {
+   "id": "sensor",
+   "type": "security",
+   "label": "信息差传感器",
+   "sublabel": "五维 · 退化拦截",
+   "pos": [
+    230,
+    570
+   ],
+   "size": [
+    130,
+    52
+   ]
+  },
+  {
+   "id": "vital",
+   "type": "security",
+   "label": "维生三臂",
+   "sublabel": "build/audit/judge",
+   "pos": [
+    380,
+    570
+   ],
+   "size": [
+    120,
+    52
+   ]
+  },
+  {
+   "id": "snapshot",
+   "type": "security",
+   "label": "快照纪律",
+   "sublabel": "auto_snapshot · rollback",
+   "pos": [
+    520,
+    570
+   ],
+   "size": [
+    130,
+    52
+   ]
+  }
+ ],
+ "boundaries": [
+  {
+   "kind": "region",
+   "label": "通道层（LLM 可替换）",
+   "wraps": [
+    "zcode",
+    "dsh",
+    "harness"
+   ]
+  },
+  {
+   "kind": "region",
+   "label": "白箱智能层（确定性执行）",
+   "wraps": [
+    "session",
+    "router",
+    "condspace",
+    "reflect"
+   ]
+  },
+  {
+   "kind": "region",
+   "label": "记忆层（可溯源）",
+   "wraps": [
+    "memory",
+    "flywheel"
+   ]
+  },
+  {
+   "kind": "region",
+   "label": "自维持层（零思考运转）",
+   "wraps": [
+    "heartbeat",
+    "sensor",
+    "vital",
+    "snapshot"
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "c1",
+   "from": "zcode",
+   "to": "session",
+   "label": "会话/工具",
+   "variant": "default"
+  },
+  {
+   "id": "c2",
+   "from": "dsh",
+   "to": "session",
+   "label": "对话",
+   "variant": "default"
+  },
+  {
+   "id": "c3",
+   "from": "session",
+   "to": "router",
+   "label": "问题条件化",
+   "variant": "emphasis",
+   "width": 2
+  },
+  {
+   "id": "c4",
+   "from": "router",
+   "to": "condspace",
+   "label": "条件命中",
+   "variant": "emphasis",
+   "width": 2
+  },
+  {
+   "id": "c5",
+   "from": "condspace",
+   "to": "memory",
+   "label": "知识写入",
+   "variant": "default"
+  },
+  {
+   "id": "c6",
+   "from": "reflect",
+   "to": "router",
+   "label": "验证反馈",
+   "variant": "dashed"
+  },
+  {
+   "id": "c7",
+   "from": "memory",
+   "to": "flywheel",
+   "label": "经验蒸馏",
+   "variant": "default"
+  },
+  {
+   "id": "c8",
+   "from": "heartbeat",
+   "to": "condspace",
+   "label": "劳动/巡检",
+   "variant": "dashed"
+  },
+  {
+   "id": "c9",
+   "from": "sensor",
+   "to": "router",
+   "label": "退化拦截",
+   "variant": "dashed"
+  },
+  {
+   "id": "c10",
+   "from": "vital",
+   "to": "reflect",
+   "label": "三臂终裁",
+   "variant": "dashed"
+  },
+  {
+   "id": "c11",
+   "from": "snapshot",
+   "to": "memory",
+   "label": "指纹回滚",
+   "variant": "dashed"
+  },
+  {
+   "id": "c12",
+   "from": "flywheel",
+   "to": "router",
+   "label": "模式复用",
+   "variant": "default"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "emerald",
+   "title": "为什么这样分层",
+   "items": [
+    "黑箱不可信 → 知识条件化写入，路由命中可解释、可追溯（白箱化）",
+    "规则会漂移 → 自维持层锚定：传感器发现退化，三臂终裁，快照可回滚",
+    "LLM 只做表达通道：确定性执行交给白箱规则——零思考、自维持"
+   ]
+  }
+ ]
+}
