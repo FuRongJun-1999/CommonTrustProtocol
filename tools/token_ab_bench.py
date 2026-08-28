@@ -121,7 +121,9 @@ def main() -> int:
     ap.add_argument("--threshold", type=int, default=5,
                     help="白箱直答的 score 阈值（T8 二轮实验 3 vs 5）")
     ap.add_argument("--a-only", action="store_true",
-                    help="只跑 A 组（B 组复用上轮 token_ab_report.json）")
+                    help="只跑 A 组（B 组复用 --b-prev 指定的上轮报告）")
+    ap.add_argument("--b-prev", default="token_ab_report.json",
+                    help="a-only 模式的 B 组数据来源（token_ab_report*.json）")
     args = ap.parse_args()
     qs = QUESTIONS[:args.n]
 
@@ -160,7 +162,7 @@ def main() -> int:
 
         # ---- B 组：主仓库显式描述（--a-only 时复用上轮数据）----
         if args.a_only:
-            prev = json.load(open(os.path.join(HERE, "token_ab_report.json"),
+            prev = json.load(open(os.path.join(HERE, args.b_prev),
                                   encoding="utf-8"))["rows"]
             b_tok = prev[len(rows)]["b_tok"]
             stats["B"]["llm_tokens"] += b_tok

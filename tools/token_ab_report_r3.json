@@ -1,0 +1,233 @@
+{
+ "stats": {
+  "A": {
+   "llm_tokens": 5379,
+   "whitebox": 24,
+   "fallback": 6,
+   "correct": 15,
+   "judged": 25
+  },
+  "B": {
+   "llm_tokens": 24836,
+   "correct": 0,
+   "judged": 0
+  },
+  "A_whitebox_judge": {
+   "judged": 23,
+   "correct": 13
+  }
+ },
+ "ratio": 4.617215095742703,
+ "rows": [
+  {
+   "q": "三角形内角和是多少度",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 197,
+   "whitebox_answer": "三角形任意两边之和大于第三边。三角形内角和是180度。三角形的一个外角等于不相邻"
+  },
+  {
+   "q": "光的反射定律内容是什么",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 337,
+   "whitebox_answer": "光的反射定律：反射光线、入射光线和法线在同一平面内，反射光线和入射光线分居法线两"
+  },
+  {
+   "q": "二重积分换元法怎么用",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 1129,
+   "whitebox_answer": "重积分变量替换：∫∫f(x,y)dxdy等于∫∫f(x(u,v),y(u,v))"
+  },
+  {
+   "q": "水的电解实验生成什么气体",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 331,
+   "whitebox_answer": "电解：电能转化为化学能。电解池：阳极氧化（连接正极）阴极还原（连接负极）。法拉第"
+  },
+  {
+   "q": "细胞分裂的过程叫什么",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 621,
+   "whitebox_answer": "细胞分裂是一个细胞分成两个。细胞核先分裂，细胞质再分裂。分裂使细胞数目增多。染色"
+  },
+  {
+   "q": "鸦片战争的起因是什么",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 928,
+   "whitebox_answer": "鸦片战争（1840）签订《南京条约》，中国开始沦为半殖民地半封建社会。第二次鸦片"
+  },
+  {
+   "q": "TCP 三次握手的过程",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 510,
+   "whitebox_answer": "TCP 连接建立要三次握手：客户端发 SYN，服务端回 SYN+ACK，客户端再"
+  },
+  {
+   "q": "图的度分布怎么统计",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 1367,
+   "whitebox_answer": "度分布统计图中每个节点的度（相连边数）的出现频率：遍历所有节点数出邻居数，汇总成"
+  },
+  {
+   "q": "插入排序的基本思想",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 400,
+   "whitebox_answer": "插入排序：逐个取出元素，插入到前方已有序区间的正确位置——像整理手牌，已处理部分"
+  },
+  {
+   "q": "工作窃取调度是什么",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 657,
+   "whitebox_answer": "工作窃取调度：每个工作者有自己的双端任务队列，自己队列空了就从别的忙碌者队列尾部"
+  },
+  {
+   "q": "TCP 和 UDP 的区别",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 689,
+   "whitebox_answer": "TCP 面向连接、可靠传输（握手建连、确认重传、有序交付）；UDP 无连接、不可"
+  },
+  {
+   "q": "任务调度器怎么实现",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 1957,
+   "whitebox_answer": "任务调度器三件套：就绪队列（存待执行任务）+ 选择策略（优先级/时间片/窃取）+"
+  },
+  {
+   "q": "婆媳矛盾怎么处理",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 925,
+   "whitebox_answer": "婆媳相处的核心：丈夫是桥梁不是裁判；妻子与婆婆的关系需要边界感和尊重共同经营。"
+  },
+  {
+   "q": "理财亏了怎么办",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 710,
+   "whitebox_answer": "理财亏损的处理框架：先止损盘点，再分析原因，最后调整策略——不同阶段动作不同。"
+  },
+  {
+   "q": "带孩子观念不一致怎么办",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 913,
+   "whitebox_answer": "育儿冲突的正解不是分输赢：先区分冲突类型——是隔代观念差异还是教育方式分歧，再分"
+  },
+  {
+   "q": "想养宠物从哪开始",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 521,
+   "whitebox_answer": "养宠物的核心是稳定的日程与环境管理：吃住规律、环境安全比间歇性宠爱更重要。"
+  },
+  {
+   "q": "拖延症怎么破",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 689,
+   "whitebox_answer": "时间管理的本质是精力与任务的匹配：把重要的事配给高效时段，而不是靠意志力硬挤时间"
+  },
+  {
+   "q": "第一次租房要注意什么",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 987,
+   "whitebox_answer": "租房的总成本等于租金加通勤加押金风险：租金预算上限为收入的 30%，超出这条线其"
+  },
+  {
+   "q": "汇报工作没条理怎么办",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 626,
+   "whitebox_answer": "职场汇报的关键是结论先行：先给结果与建议，再讲依据与过程——听的人时间有限。"
+  },
+  {
+   "q": "半夜老是醒来怎么办",
+   "a_mode": "fallback",
+   "a_tok": 738,
+   "b_tok": 792,
+   "whitebox_answer": "半夜频繁醒来可以从这几方面入手：\n\n**排查常见原因**\n- 睡前饮酒（酒精会导"
+  },
+  {
+   "q": "零基础学什么编程语言",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 642,
+   "whitebox_answer": "编程入门的路径：先选一门合适语言建立正反馈，再用项目驱动练习——顺序错了容易放弃"
+  },
+  {
+   "q": "Mini-Python 支持复合赋值吗",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 1141,
+   "whitebox_answer": "复合赋值 x op= e 等价于 x = x op e：Mini-Python "
+  },
+  {
+   "q": "Mini-Python 的字符串方法有哪些",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 1096,
+   "whitebox_answer": "Mini-Python 的 str 方法走白名单机制：现支持 upper（大写）"
+  },
+  {
+   "q": "print 能一次打印多个值吗",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 517,
+   "whitebox_answer": "Mini-Python 的 print 支持多参数，按空格分隔输出（CPytho"
+  },
+  {
+   "q": "量子引力的圈量子理论怎么统一广义相对论",
+   "a_mode": "whitebox",
+   "a_tok": 0,
+   "b_tok": 2097,
+   "whitebox_answer": "狭义相对论两个原理：相对性原理（物理规律在所有惯性系相同）、光速不变原理。洛伦兹"
+  },
+  {
+   "q": "怎么样在火星上种土豆",
+   "a_mode": "fallback",
+   "a_tok": 1303,
+   "b_tok": 1346,
+   "whitebox_answer": "# 火星种土豆指南 🥔\n\n**先说结论：不能露天种**，必须建温室。原因：\n- "
+  },
+  {
+   "q": "明朝那些事儿的作者是谁",
+   "a_mode": "fallback",
+   "a_tok": 194,
+   "b_tok": 191,
+   "whitebox_answer": "《明朝那些事儿》的作者是**当年明月**，本名石悦。他是一名公务员，以轻松幽默的"
+  },
+  {
+   "q": "黑洞的信息悖论怎么解决",
+   "a_mode": "fallback",
+   "a_tok": 1561,
+   "b_tok": 1045,
+   "whitebox_answer": "# 黑洞信息悖论\n\n**悖论核心**：量子力学要求演化幺正（信息守恒），但霍金辐"
+  },
+  {
+   "q": "怎么用三天学会小提琴",
+   "a_mode": "fallback",
+   "a_tok": 776,
+   "b_tok": 681,
+   "whitebox_answer": "三天“学会”小提琴不现实——它是公认最难入门的乐器之一，通常需要数月才能拉出完整"
+  },
+  {
+   "q": "宇宙的最终命运会是什么",
+   "a_mode": "fallback",
+   "a_tok": 807,
+   "b_tok": 794,
+   "whitebox_answer": "根据现代宇宙学，主要有几种可能情景：\n\n**1. 热寂（最可能）**\n目前观测显"
+  }
+ ]
+}
