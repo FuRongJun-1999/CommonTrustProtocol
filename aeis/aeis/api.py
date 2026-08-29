@@ -391,6 +391,30 @@ class Agent:
         独立通道，不参与信任值计算（E_weight 零改动）。"""
         return self.engine.get_emotional_bias()
 
+    def channel_credibility(self, channel: str = "") -> Dict:
+        """v3.4 通道可信度（2.9.1a）：通道级可信度注册表快照。
+        置信度=单次一致性，可信度=历史验证命中率（Beta 后验均值）。
+        是 self_reliability 的通道级分解（B(t) 端口状态一部分）。"""
+        reg = self._channel_registry()
+        if channel:
+            return reg.channel_state(channel) if channel in reg.registry() else {"error": f"unknown channel: {channel}", "available": list(reg.registry().keys())}
+        return {"registry": reg.registry()}
+
+    def channel_record(self, channel: str, hit: bool, conf: float = 1.0, strong: bool = False) -> Dict:
+        """v3.4 通道可信度更新：记录一次验证结果（命中/未命中）。
+        strong=True 表示强验证（行动/世界裁决，快更新）；否则弱验证（通道互裁，慢更新）。"""
+        reg = self._channel_registry()
+        if hit:
+            return reg.record_hit(channel, conf, strong)
+        return reg.record_miss(channel, conf, strong)
+
+    def _channel_registry(self):
+        from .channel_credibility import ChannelCredibilityRegistry
+        if not hasattr(self, "_cred_reg"):
+            db_dir = os.path.dirname(getattr(getattr(self, "engine", None), "db_path", "") or "") if hasattr(self, "engine") else ""
+            self._cred_reg = ChannelCredibilityRegistry(persist_path=os.path.join(db_dir, "channel_credibility.json") if db_dir else None)
+        return self._cred_reg
+
     def self_reliability(self, window: int = 30) -> Dict:
         """P0-4 元认知校准：预测命中率 vs 行为置信度 → 自我可靠性模型
         （reliable / watch / degraded；输出归一化参考，不修改存储）。"""
