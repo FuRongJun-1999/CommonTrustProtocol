@@ -3197,6 +3197,104 @@ class SpacetimeMemoryEngine:
             return {"status": "ok", "loop": self._sll.state()}
         return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/run/step/report/audit/verify/decision/memory/graph/state）"}
 
+    def world_generator(self, action: str, params: dict = None) -> dict:
+        """文字生图/文字生视频（里程碑4.3 · 世界模型生成器）：
+        有世界模型的 AI 生成画面与时序——文字→场景解析→世界实例化→渲染。
+        - scene: 场景解析（text → 地形 + 实体规格，白箱可审计）
+        - image: 文字生图（text → PNG base64，3D 渲染，确定性）
+        - video: 文字生视频（text → GIF 多帧=世界演化的一串帧 + L4 预测叠加）
+        - save: 保存到文件（path + image/video）"""
+        p = params or {}
+        try:
+            from game_web.generate import WorldGenerator
+        except ImportError:
+            try:
+                from .game_web.generate import WorldGenerator
+            except Exception as e:
+                return {"status": "gen_not_ready", "error": str(e)}
+        if not hasattr(self, '_wgen'):
+            self._wgen = WorldGenerator(size=int(p.get('size', 24)),
+                                        seed=int(p.get('seed', 42)))
+        if action == "scene":
+            r = self._wgen.scene_from_text(str(p.get("text", "")))
+            return {"status": "ok", "scene": r}
+        if action == "image":
+            r = self._wgen.generate_image(
+                str(p.get("text", "")),
+                size=int(p.get("size", 480)),
+                run_ticks=int(p.get("run_ticks", 0)))
+            import base64
+            return {"status": "ok", "image_b64": base64.b64encode(r["image"]).decode("ascii"),
+                    "summary": r["summary"], "bytes": len(r["image"])}
+        if action == "video":
+            r = self._wgen.generate_video(
+                str(p.get("text", "")),
+                ticks=int(p.get("ticks", 16)),
+                fps=int(p.get("fps", 5)),
+                size=int(p.get("size", 360)))
+            import base64
+            return {"status": "ok", "gif_b64": base64.b64encode(r["gif"]).decode("ascii"),
+                    "summary": r["summary"], "frames": r["frames"],
+                    "bytes": len(r["gif"]), "final_tick": r["final_tick"]}
+        if action == "save":
+            text = str(p.get("text", ""))
+            path = str(p.get("path", "world_gen"))
+            if str(p.get("kind", "image")) == "video":
+                r = self._wgen.save_video(text, path + ".gif",
+                                          ticks=int(p.get("ticks", 16)),
+                                          fps=int(p.get("fps", 5)),
+                                          size=int(p.get("size", 360)))
+                return {"status": "ok", "path": r["path"], "summary": r["summary"],
+                        "frames": r["frames"]}
+            r = self._wgen.save_image(text, path + ".png",
+                                      size=int(p.get("size", 480)))
+            return {"status": "ok", "path": r["path"], "summary": r["summary"]}
+        return {"status": "error", "error": f"未知动作 {action}（可用: scene/image/video/save）"}
+
+    def world_semantics(self, action: str, params: dict = None) -> dict:
+        """图像语义提取（里程碑4.5 · 感知方向）：轮廓/形状/颜色/亮度 →
+        从外部到内部 → 图的信息定义（场景图）——
+        - analyze: 图像 → 场景图（image_b64 输入；节点=形状/颜色/亮度/层级/父，
+          边=inside/adjacent；levels 层级深度 1-3）
+        - decompose: 递归部件分解（图→人物→头{发/脸{眼/口}}→躯干→双腿）
+        - generate_roundtrip: 文字生图 → 提取语义（生成-感知闭环自验证）
+        """
+        p = params or {}
+        try:
+            from game_web.semantics import analyze_image
+        except ImportError:
+            try:
+                from .game_web.semantics import analyze_image
+            except Exception as e:
+                return {"status": "sem_not_ready", "error": str(e)}
+        if action == "analyze":
+            import base64
+            png = base64.b64decode(str(p.get("image_b64", "")))
+            g = analyze_image(png, levels=int(p.get("levels", 2)),
+                              size=int(p.get("size", 240)))
+            return {"status": "ok", "graph": g}
+        if action == "decompose":
+            from game_web.semantics import part_decompose
+            import base64
+            png = base64.b64decode(str(p.get("image_b64", "")))
+            r = part_decompose(png, size=int(p.get("size", 300)))
+            return {"status": "ok", "decomposition": r}
+        if action == "generate_roundtrip":
+            try:
+                from game_web.generate import WorldGenerator
+            except ImportError:
+                from .game_web.generate import WorldGenerator
+            gen = WorldGenerator(size=int(p.get('size', 24)),
+                                 seed=int(p.get('seed', 42)))
+            r = gen.generate_image(str(p.get("text", "森林里有狼追兔子")),
+                                   size=int(p.get("img_size", 420)),
+                                   run_ticks=int(p.get("run_ticks", 6)))
+            g = analyze_image(r["image"], levels=int(p.get("levels", 2)),
+                              size=int(p.get("ana_size", 320)))
+            return {"status": "ok", "source_summary": r["summary"],
+                    "extracted_graph": g}
+        return {"status": "error", "error": f"未知动作 {action}（可用: analyze/generate_roundtrip）"}
+
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）

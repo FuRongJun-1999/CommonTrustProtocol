@@ -275,6 +275,18 @@ def _tools():
                          "properties": {"action": {"type": "string"},
                                         "params": {"type": "object"}},
                          "required": ["action"]}},
+        {"name": "world_generator",
+         "description": "文字生图/文字生视频（里程碑4.3 · 世界模型生成器）：有世界模型的 AI 生成画面与时序——scene（场景解析：text → 地形+实体规格，白箱可审计）/ image（文字生图：text → PNG base64，3D 渲染，同输入同输出）/ video（文字生视频：text → GIF 多帧=世界演化的一串帧 + L4 预测叠加）/ save（存文件 path+kind）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
+        {"name": "world_semantics",
+         "description": "图像语义提取（里程碑4.5-4.6 · 感知方向）：只需轮廓/形状/颜色/亮度识别，从外部逐步深入到内部结构，形成图的信息定义——analyze（image_b64 → 场景图：节点=形状/颜色/亮度/层级/父，边=inside/adjacent）/ decompose（递归部件分解：图→人物→头{发/脸{眼/口}}→躯干→双腿）/ generate_roundtrip（文字生图→提取语义=生成-感知闭环自验证）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "world_server",
          "description": "AI 游戏世界服务器（里程碑2.2）：AI 自身成为游戏世界的服务器——tick（多路并行模拟）/ snapshot+rollback（世界记忆与错误回滚）/ feedback（实体行动反馈）/ sync（客户端同步）/ verify（预测验证：预测下一 tick vs 实际→命中判定）。",
          "inputSchema": {"type": "object",
@@ -740,6 +752,12 @@ class AEISServer:
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "seven_layer_loop":
             return {"content": [{"type": "text", "text": _dump(agent.seven_layer_loop(
+                a.get("action", ""), a.get("params")))}], "isError": False}
+        if name == "world_generator":
+            return {"content": [{"type": "text", "text": _dump(agent.world_generator(
+                a.get("action", ""), a.get("params")))}], "isError": False}
+        if name == "world_semantics":
+            return {"content": [{"type": "text", "text": _dump(agent.world_semantics(
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world_server":
             return {"content": [{"type": "text", "text": _dump(agent.world_server(
