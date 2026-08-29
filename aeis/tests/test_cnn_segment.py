@@ -223,5 +223,24 @@ check("quality report keys", set(q) >= {"score", "mean_info", "mean_boundary"},
       str(q.keys()))
 check("quality mean boundary positive", q["mean_boundary"] > 0)
 
+# ---------- 14. 灰度+高斯边缘提取（轮廓识别 · 用户方法论） ----------
+hard = Image.new("RGB", (100, 80), (255, 255, 255))
+hd = ImageDraw.Draw(hard)
+hd.rectangle([8, 8, 30, 30], fill=(20, 20, 20))     # 硬边界方块
+hd.ellipse([40, 8, 62, 30], fill=(30, 30, 30))      # 圆
+edge_map = CS.gray_gauss_edge_map(hard, sigma=1.0)
+check("edge map size", edge_map.size == (100, 80), str(edge_map.size))
+regs_c = CS.closed_contour_segments(hard, sigma=1.0)
+check("closed contours on hard-edge", len(regs_c) >= 3,
+      str([r["bbox"] for r in regs_c[:4]]))
+# 方块区域：bbox 中心在方块内（边缘像素腐蚀 1px，允许 ±2 容差）
+def in_square(r):
+    cx = (r["bbox"][0] + r["bbox"][2]) / 2
+    cy = (r["bbox"][1] + r["bbox"][3]) / 2
+    return 12 <= cx <= 26 and 12 <= cy <= 26
+check("contour square region", any(in_square(r) for r in regs_c),
+      str([r["bbox"] for r in regs_c[:4]]))
+check("contour has edge ratio", all(r["edge_pixels"] > 0 for r in regs_c))
+
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
