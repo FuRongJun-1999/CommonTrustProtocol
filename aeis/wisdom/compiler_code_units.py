@@ -3002,12 +3002,25 @@ COMPILER_UNITS = {
 
 
 def route_compiler_unit(question):
-    """任务识别（问题 → 编译器单元，最长关键词优先）"""
+    """任务识别（问题 → 编译器单元，最长关键词优先）
+    检索面：task/uid + KCCS v0.2 触发词索引（trigger_words_index.json，白箱回写）
+    ——触发词是条件路由图检索面的第一入口（对齐 lingshu-skills/Agent Skills description）。"""
+    import os, json
     best, best_len = None, 0
     for uid, u in COMPILER_UNITS.items():
         for kw in (u["task"], uid):
             if kw in question and len(kw) > best_len:
                 best, best_len = uid, len(kw)
+    # 触发词索引扩展（存在则加载；缺失回退原逻辑不退化）
+    try:
+        _idx_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "trigger_words_index.json")
+        _idx = json.load(open(_idx_path, encoding="utf-8")).get("compiler", {})
+        for uid, trigs in _idx.items():
+            for t in trigs:
+                if t and t in question and len(t) > best_len:
+                    best, best_len = uid, len(t)
+    except Exception:
+        pass
     return best
 
 

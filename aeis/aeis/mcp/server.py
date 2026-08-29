@@ -369,6 +369,14 @@ def _tools():
                                         "tests": {"type": "array", "items": {"type": "string"}},
                                         "timeout_s": {"type": "integer"}},
                          "required": ["code", "tests"]}},
+        {"name": "compile_exec",
+         "description": "中文协议编译器本地编译执行（白箱完整生命周期：认知图→条件代码图→本工具→本地编译执行）：中文协议程序（智能论语法）编译为字节码并 VM 执行，返回结构化结果。输入 {source, symbols?}。返回 {ok, errors[], instructions, symbols, trust, halt}。物理基底：compile_source + ConditionVM（零 LLM 确定性）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"source": {"type": "string",
+                                                   "description": "中文协议程序源码（如：结果 = 3 加 4 乘 2；止。）"},
+                                        "symbols": {"type": "object",
+                                                    "description": "初始符号表（可选）"}},
+                         "required": ["source"]}},
         {"name": "lingshu_sensor_report",
          "description": "自修改安全闭环·信息差传感器：五维结构质量信号（路由/知识/代码/认知/信息差收敛）扫描。自修改前先查基线，rescan 对比退化即拦截。",
          "inputSchema": {"type": "object",
@@ -832,6 +840,31 @@ class AEISServer:
                               "stderr": (r.stderr or "runner 输出异常")[-300:]}
             return {"content": [{"type": "text", "text": _dump(result)}],
                     "isError": False}
+        if name == "compile_exec":
+            # 中文协议编译器本地编译执行（白箱完整生命周期：认知图→条件代码图→本工具→本地编译执行）
+            src = a.get("source", "")
+            symbols = a.get("symbols") or {}
+            try:
+                from wisdom.core.compiler import compile_source
+                from wisdom.core.condition_vm import ConditionVM
+            except ImportError:
+                sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "wisdom"))
+                from core.compiler import compile_source
+                from core.condition_vm import ConditionVM
+            try:
+                code, result = compile_source(src, strict=False)
+                if not result["ok"]:
+                    return {"content": [{"type": "text", "text": _dump({
+                        "ok": False, "errors": [str(e) for e in result["errors"][:5]]})}], "isError": True}
+                vm = ConditionVM()
+                state = vm.run(code, symbols=symbols)
+                return {"content": [{"type": "text", "text": _dump({
+                    "ok": True, "instructions": len(code),
+                    "symbols": state["symbols"], "trust": state["trust"],
+                    "halt": state["halt"]})}], "isError": False}
+            except Exception as e:
+                return {"content": [{"type": "text", "text": _dump({
+                    "ok": False, "errors": [str(e)]})}], "isError": True}
         if name == "lingshu_sensor_report":
             from ..selfmod import sensor_scan
             return {"content": [{"type": "text",
