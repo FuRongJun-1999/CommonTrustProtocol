@@ -143,6 +143,31 @@ if os.path.isfile(path):
                    if "红" in lb and "下部" in lb and r["area"] >= 4]
         check("lower red region auto-detected",
               len(low_red) >= 1, str(low_red[:3]))
+        # LAB 新格式（颜色-形状-位置yx-大小）：形状词/2D位置词/亮度词
+        res4 = CS.segment_adaptive(com, k=0.5, min_area=4, step=2)
+        lab_labels = res4["labels"]
+        def pos3(lb):
+            parts = lb.split("-")
+            return parts[2] if len(parts) >= 3 else ""
+        check("lab 4-part format",
+              all(len(lb.split("-")) == 4 for lb in lab_labels),
+              str(lab_labels[:3]))
+        check("lab shape words present",
+              any("-圆点-" in lb or "-块状-" in lb or "-竖条-" in lb
+                  or "-横条-" in lb or "-散状-" in lb for lb in lab_labels),
+              str(lab_labels[:5]))
+        check("lab 2d position words",
+              all(len(pos3(lb)) == 2 and pos3(lb)[0] in "上中下"
+                  and pos3(lb)[1] in "左右中" for lb in lab_labels
+                  if pos3(lb)), str(lab_labels[:5]))
+        up_red2 = [lb for r, lb in zip(res4["regions"], lab_labels)
+                   if "红" in lb and pos3(lb).startswith("上")
+                   and r["area"] >= 8]
+        check("lab upper red (blush)", len(up_red2) >= 1, str(up_red2[:3]))
+        low_red2 = [lb for r, lb in zip(res4["regions"], lab_labels)
+                    if "红" in lb and pos3(lb).startswith("下")
+                    and r["area"] >= 8]
+        check("lab lower red (crotch)", len(low_red2) >= 1, str(low_red2[:3]))
     except Exception as e:
         check("real image test", False, str(e))
 else:
