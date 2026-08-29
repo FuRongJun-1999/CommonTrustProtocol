@@ -115,6 +115,11 @@ def _result(status: str, chain: list, **extra) -> dict:
     return out
 
 
+MIN_ACCEPT_SCORE = 5   # M1.2 四态边界：低于此分的候选不授予执行资格
+                       # （BLINDSPOT 优于强行 ACCEPT——对抗负条件防线）。
+                       # 校准：正例 6-10 / 域外 1-4，阈值取 5 最大化间隔
+
+
 def navigate_retrieve(dex, question: str, *, max_depth: int = 3,
                       chain: list | None = None,
                       seen: set | None = None) -> dict:
@@ -183,7 +188,9 @@ def navigate_retrieve(dex, question: str, *, max_depth: int = 3,
             entry = cand
             break
         if atomic_fallback is None:
-            atomic_fallback = cand
+            score = h.get("score")
+            if not (isinstance(score, (int, float)) and score < MIN_ACCEPT_SCORE):
+                atomic_fallback = cand  # M1.2：仅达标分数作兜底（防域外强行 ACCEPT）
     if entry is None:
         entry = deferred_composite or atomic_fallback
     if entry is None:
