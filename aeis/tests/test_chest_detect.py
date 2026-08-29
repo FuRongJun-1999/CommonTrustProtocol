@@ -3,7 +3,7 @@
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
-from aeis.game_web.chest_detect import 小簇, bra_band, chest_features
+from aeis.game_web.chest_detect import 小簇, bra_band, chest_features, chest_arcs
 from PIL import Image, ImageDraw
 
 passed = failed = 0
@@ -37,6 +37,23 @@ check("nipple pair detected", len(f["nipple_pairs"]) >= 1,
       str(f["nipple_pairs"]))
 check("chest regions", len(f["chest_regions"]) >= 1,
       str([c["bbox"] for c in f["chest_regions"]]))
+
+# ---------- 弧检测（半圆弧轮廓） ----------
+# 合成：肤色底 + 半圆弧（胸廓）
+arc_img = Image.new("RGB", (120, 100), (235, 215, 210))
+ad = ImageDraw.Draw(arc_img)
+# 下凸半圆弧：弧底 y=70，两端 y=50，宽 80
+import math as _m
+for x in range(20, 101):
+    # 半圆 (x-60)^2 + (y-70)^2 = 40^2, 取下半 y=70+sqrt(...)
+    d2 = 1600 - (x - 60) ** 2
+    if d2 >= 0:
+        y = int(70 + _m.sqrt(d2) * 0.6)     # 扁弧（宽>高）
+        ad.point((x, y), fill=(150, 90, 100))
+        ad.point((x, y + 1), fill=(150, 90, 100))
+arcs = chest_arcs(arc_img)
+check("chest arc detected", len(arcs) >= 1,
+      str([a["bbox"] for a in arcs[:3]]))
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
