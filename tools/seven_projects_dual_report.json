@@ -1,0 +1,42 @@
+{
+ "domains": [
+  {
+   "name": "1-中文编程语言",
+   "status": "accepted",
+   "attempts": 1,
+   "evidence": "Σi²(1..4) 预期 30，实得 30"
+  },
+  {
+   "name": "2-中文编译器",
+   "status": "failed",
+   "attempts": 3,
+   "last_evidence": "3加4乘2 预期 11，实得 None（halt=None）"
+  },
+  {
+   "name": "6-图数据库",
+   "status": "accepted",
+   "attempts": 1,
+   "evidence": "4 组最短路径全对（物理执行）"
+  },
+  {
+   "name": "4-操作系统",
+   "status": "failed",
+   "attempts": 3,
+   "last_evidence": "未定义 work_steal(queues)"
+  },
+  {
+   "name": "5-网络协议栈",
+   "status": "accepted",
+   "attempts": 1,
+   "evidence": "checksum([1, 2, 3, 4])=30 往返一致+篡改可检（物理执行）"
+  },
+  {
+   "name": "7-蓝牙互联网",
+   "status": "accepted",
+   "attempts": 1,
+   "evidence": "3 组分帧往返全对（物理执行）"
+  }
+ ],
+ "started": "2026-08-29 20:08:21",
+ "summary": "4/6 域双智能体实测通过"
+}
