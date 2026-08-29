@@ -511,6 +511,13 @@ class Agent:
         （遮挡重建损失）/ model（学得参数导出）。"""
         return self.engine.world_learner(action, params)
 
+    def curiosity_explorer(self, action: str, params: dict = None) -> Dict:
+        """好奇驱动探索（里程碑3.3）：主动选择观测最大化信息增益——explore
+        （好奇/随机/轮询策略，有限带宽）/ step（决策日志：chosen+IG 分解）/
+        probe（全带宽探针评估）/ compare（同世界轨迹策略对比）/ curiosity
+        （好奇心摘要：观测分布/不确定度趋势）/ uncertainty（不确定度轨迹）。"""
+        return self.engine.curiosity_explorer(action, params)
+
     # 外部知识摄取（第 3 项：记忆含外部知识）
     # =====================================================================
 

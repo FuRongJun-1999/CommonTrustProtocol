@@ -263,6 +263,12 @@ def _tools():
                          "properties": {"action": {"type": "string"},
                                         "params": {"type": "object"}},
                          "required": ["action"]}},
+        {"name": "curiosity_explorer",
+         "description": "好奇驱动探索（里程碑3.3）：主动选择观测最大化信息增益，用最少带宽收紧认知缺口——init / create / entity / path / explore（探索 n tick：curiosity/random/round_robin 策略，budget=每 tick 观测上限）/ step（探索一步，决策日志：chosen + IG 分解=不确定×新奇×信息瓶颈×陈旧×异常）/ probe（全带宽探针：学得模型 held-out 命中率）/ compare（同世界轨迹策略对比：好奇 vs 随机 vs 轮询）/ curiosity（好奇心摘要：观测分布/不确定度趋势/异常计数）/ uncertainty（不确定度轨迹）/ model / history / state。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "world_server",
          "description": "AI 游戏世界服务器（里程碑2.2）：AI 自身成为游戏世界的服务器——tick（多路并行模拟）/ snapshot+rollback（世界记忆与错误回滚）/ feedback（实体行动反馈）/ sync（客户端同步）/ verify（预测验证：预测下一 tick vs 实际→命中判定）。",
          "inputSchema": {"type": "object",
@@ -722,6 +728,9 @@ class AEISServer:
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world_learner":
             return {"content": [{"type": "text", "text": _dump(agent.world_learner(
+                a.get("action", ""), a.get("params")))}], "isError": False}
+        if name == "curiosity_explorer":
+            return {"content": [{"type": "text", "text": _dump(agent.curiosity_explorer(
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world_server":
             return {"content": [{"type": "text", "text": _dump(agent.world_server(

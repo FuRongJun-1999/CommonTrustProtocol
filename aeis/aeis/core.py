@@ -3051,6 +3051,82 @@ class SpacetimeMemoryEngine:
             return {"status": "ok", "learner": self._wlearner.state()}
         return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/run/learn/predict/evaluate/curve/masked/model/history/state）"}
 
+    def curiosity_explorer(self, action: str, params: dict = None) -> dict:
+        """好奇驱动探索（里程碑3.3）：主动选择观测最大化信息增益——
+        - init: 初始化（size/seed/window/budget）
+        - create: 物理世界创建场景（追逐链测试世界）
+        - entity: 添加实体
+        - path: 定义巡逻路径
+        - explore: 探索 n tick（budget/policy：curiosity/random/round_robin）
+        - step: 探索一步（决策日志：chosen + IG 分解）
+        - probe: 全带宽探针评估（学得模型 held-out 命中率）
+        - compare: 策略对比（同世界轨迹：好奇 vs 随机 vs 轮询）
+        - curiosity: 好奇心摘要（观测分布/不确定度趋势/异常计数）
+        - uncertainty: 不确定度轨迹
+        - model: 学得模型参数
+        - history: 观测序列
+        - state: 探索器状态"""
+        p = params or {}
+        try:
+            from curiosity_explorer import CuriosityExplorer
+        except ImportError:
+            try:
+                from .curiosity_explorer import CuriosityExplorer
+            except Exception as e:
+                return {"status": "cx_not_ready", "error": str(e)}
+        if not hasattr(self, '_curious'):
+            self._curious = CuriosityExplorer(
+                size=int(p.get('size', 24)),
+                ground_level=int(p.get('ground_level', 1)),
+                seed=int(p.get('seed', 42)),
+                window=int(p.get('window', 6)))
+        if action == "create":
+            r = self._curious.world.create_scene(trees=int(p.get("trees", 2)),
+                                                 water=bool(p.get("water", False)))
+            return {"status": "ok", "scene": r}
+        if action == "entity":
+            eid = self._curious.world.add_entity(
+                str(p.get("category", "entity")),
+                behavior=str(p.get("behavior", "wander")),
+                pos=tuple(float(v) for v in p.get("pos", [2, 1.5, 2])),
+                speed=float(p.get("speed", 0.3)),
+                goal=str(p.get("goal", "")))
+            return {"status": "ok", "entity_id": eid}
+        if action == "path":
+            self._curious.world.add_path(str(p.get("path_id", "")), p.get("points", []))
+            return {"status": "ok", "path_id": str(p.get("path_id", ""))}
+        if action == "explore":
+            r = self._curious.explore(ticks=int(p.get("n", 30)),
+                                      budget=int(p.get("budget", 2)),
+                                      policy=str(p.get("policy", "curiosity")))
+            return {"status": "ok", "explore": r}
+        if action == "step":
+            r = self._curious.explore_tick(budget=int(p.get("budget", 2)),
+                                           policy=str(p.get("policy", "curiosity")))
+            return {"status": "ok", "step": r}
+        if action == "probe":
+            r = self._curious.probe(ticks=int(p.get("n", 15)))
+            return {"status": "ok", "probe": r}
+        if action == "compare":
+            r = self._curious.compare_policies(
+                budget=int(p.get("budget", 2)),
+                explore_ticks=int(p.get("explore_ticks", 40)),
+                probe_ticks=int(p.get("probe_ticks", 15)))
+            return {"status": "ok", "compare": r}
+        if action == "curiosity":
+            return {"status": "ok", "curiosity": self._curious.curiosity_summary()}
+        if action == "uncertainty":
+            return {"status": "ok", "curve": self._curious.uncertainty_curve,
+                    "current": self._curious.uncertainty()}
+        if action == "model":
+            return {"status": "ok", "model": self._curious.model_params()}
+        if action == "history":
+            return {"status": "ok",
+                    "history": self._curious.history_view(limit=int(p.get("limit", 10)))}
+        if action == "state":
+            return {"status": "ok", "explorer": self._curious.state()}
+        return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/explore/step/probe/compare/curiosity/uncertainty/model/history/state）"}
+
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）

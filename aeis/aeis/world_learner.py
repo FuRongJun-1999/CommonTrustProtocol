@@ -134,8 +134,8 @@ class WorldLearner:
         return round(math.hypot(mx, mz), 3), round(speed, 3)
 
     def _pair_tendency(self, a: str, b: str, window: Optional[int] = None
-                       ) -> float:
-        """a 对 b 的趋向均值：cos(位移_a, 方向_a→b)。"""
+                       ) -> Tuple[float, int]:
+        """a 对 b 的趋向均值 + 样本数：cos(位移_a, 方向_a→b)。"""
         w = window or self.window
         scores = []
         prev = None
@@ -154,7 +154,8 @@ class WorldLearner:
                     if tl > 1e-6:
                         scores.append((dx * tx + dz * tz) / (dl * tl))
             prev = ea["pos"]
-        return round(sum(scores) / len(scores), 3) if scores else 0.0
+        return (round(sum(scores) / len(scores), 3) if scores else 0.0,
+                len(scores))
 
     def _recent_dir(self, eid: str) -> Optional[Tuple[float, float, float]]:
         """最近位移方向（单位化）。"""
@@ -191,13 +192,13 @@ class WorldLearner:
             model["per_entity"][eid] = {"speed_est": speed, "persistence": pers}
         # 关系候选（趋向/远离）
         for a in eids:
-            best_t, best_c = None, 0.0
+            best_t, best_c, best_n = None, 0.0, 0
             for b in eids:
                 if a == b:
                     continue
-                c = self._pair_tendency(a, b, w)
-                if abs(c) > abs(best_c):
-                    best_c, best_t = c, b
+                c, n = self._pair_tendency(a, b, w)
+                if n >= 3 and abs(c) > abs(best_c):   # 样本不足不采信（防虚假关系）
+                    best_c, best_t, best_n = c, b, n
             if best_t is not None and abs(best_c) >= 0.5:
                 rel = "seek" if best_c > 0 else "flee"
                 model["relations"].append({"source": a, "relation": rel,
