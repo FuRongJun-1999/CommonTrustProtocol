@@ -263,3 +263,31 @@ class SemanticAnchorGraph:
             "edges": [e.to_dict() for e in self.edges],
             "relation_types": list(RELATION_TYPES.keys()),
         }
+
+    # ---- 多感知机锚点验证（里程碑1.4）----
+
+    def verify(self, anchor_id: str, channel: str, evidence: float,
+               strong: Optional[bool] = None) -> Dict:
+        """多感知机验证：记录某通道证据 → 确认度判定。
+
+        核心（荣）：一个事物不能只有视觉一层信息——触觉/听觉/行动等
+        多通道协同才能确认锚点（打破视觉自证陷阱）。"""
+        try:
+            from .anchor_verify import AnchorVerification
+        except ImportError:
+            from anchor_verify import AnchorVerification
+        if not hasattr(self, '_verifier'):
+            self._verifier = AnchorVerification(graph=self)
+        self._verifier.add_channel_evidence(anchor_id, channel, evidence, strong)
+        return self._verifier.verify_anchor(anchor_id)
+
+    def verify_conflict(self, anchor_id: str, channel: str,
+                        expected: str, actual: str) -> Dict:
+        """多通道矛盾检测：通道观测与锚点声明不符 → 冲突记录 + 降级。"""
+        try:
+            from .anchor_verify import AnchorVerification
+        except ImportError:
+            from anchor_verify import AnchorVerification
+        if not hasattr(self, '_verifier'):
+            self._verifier = AnchorVerification(graph=self)
+        return self._verifier.channel_conflict_detect(anchor_id, channel, expected, actual)

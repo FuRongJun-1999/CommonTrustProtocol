@@ -2634,6 +2634,30 @@ class SpacetimeMemoryEngine:
             infer = bool(p.get("infer", True))
             g = self._world3d.build_anchor_graph(infer=infer)
             return {"status": "ok", "graph": g}
+        if action == "verify":
+            """多感知机锚点验证（里程碑1.4）：记录某通道对锚点的验证证据 → 确认度判定。
+            params: anchor_id, channel(visual/tactile/audio/action/prediction), evidence[0,1]。
+            核心：一个事物不能只有视觉一层信息——多通道协同确认（打破视觉自证陷阱）。"""
+            aid = str(p.get("anchor_id", ""))
+            channel = str(p.get("channel", "visual"))
+            evidence = float(p.get("evidence", 0.5))
+            strong = p.get("strong")
+            if not aid:
+                return {"status": "error", "error": "anchor_id 必填"}
+            r = self._world3d.verify_anchor(aid, channel, evidence,
+                                            strong=strong if strong is not None else None)
+            return {"status": "ok", "verification": r}
+        if action == "verify_conflict":
+            """多通道矛盾检测（里程碑1.4）：通道观测与锚点声明冲突 → 降级。
+            params: anchor_id, channel, expected, actual。"""
+            aid = str(p.get("anchor_id", ""))
+            ch = str(p.get("channel", ""))
+            exp = str(p.get("expected", ""))
+            act = str(p.get("actual", ""))
+            if not aid or not ch or not exp or not act:
+                return {"status": "error", "error": "anchor_id/channel/expected/actual 必填"}
+            r = self._world3d.verify_conflict(aid, ch, exp, act)
+            return {"status": "ok", "verification": r}
         if action == "status":
             return {"status": "ok", **self._world3d.to_dict()}
         if action == "add":
