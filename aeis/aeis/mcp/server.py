@@ -245,6 +245,12 @@ def _tools():
                          "properties": {"action": {"type": "string"},
                                         "params": {"type": "object"}},
                          "required": ["action"]}},
+        {"name": "spacetime_consistency",
+         "description": "时空一致性验证（里程碑2.4 · 阶段2收官）：持续运行 + 一致性验证闭环——create（场景）/ entity / path / run（每 tick 预测下一状态 vs 实际 → 滚动命中率跟踪）/ step（验证一步：预测 vs 实际 + 不变量校验 + 漂移检测）/ teleport（排队外部事件瞬移→演示漂移检测）/ report（自洽度报告：总体/滚动/分行为命中率 + 漂移事件 + 判定）/ self_consistent（世界模型自洽判定：持续运行中预测与实际保持一致性）/ drift（漂移事件）/ history（预测历史可审计）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "world_server",
          "description": "AI 游戏世界服务器（里程碑2.2）：AI 自身成为游戏世界的服务器——tick（多路并行模拟）/ snapshot+rollback（世界记忆与错误回滚）/ feedback（实体行动反馈）/ sync（客户端同步）/ verify（预测验证：预测下一 tick vs 实际→命中判定）。",
          "inputSchema": {"type": "object",
@@ -695,6 +701,9 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.body())}], "isError": False}
         if name == "scene_simulator":
             return {"content": [{"type": "text", "text": _dump(agent.scene_simulator(
+                a.get("action", ""), a.get("params")))}], "isError": False}
+        if name == "spacetime_consistency":
+            return {"content": [{"type": "text", "text": _dump(agent.spacetime_consistency(
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world_server":
             return {"content": [{"type": "text", "text": _dump(agent.world_server(

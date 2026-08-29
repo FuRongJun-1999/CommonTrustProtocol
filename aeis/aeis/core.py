@@ -2833,6 +2833,79 @@ class SpacetimeMemoryEngine:
             return {"status": "ok", "log": self._scene.behavior_log(limit=int(p.get("limit", 30)))}
         return {"status": "error", "error": f"未知动作 {action}（可用: create/entity/path/step/state/log）"}
 
+    def spacetime_consistency(self, action: str, params: dict = None) -> dict:
+        """时空一致性验证（里程碑2.4 · 阶段2收官）——世界模型自洽判定：
+        - init: 初始化一致性验证器（size/window/hit_threshold/drift_rate/drift_ticks/consistent_rate/min_consistent_ticks）
+        - create: 创建场景（透传 SceneSimulator）
+        - entity: 添加自主实体（wander/seek/avoid/flee/follow）
+        - path: 定义巡逻路径
+        - run: 持续运行 n tick（每 tick 预测下一状态 vs 实际 → 滚动命中率）
+        - step: 验证一步（预测 vs 实际 + 不变量校验 + 漂移检测）
+        - teleport: 排队外部事件瞬移（模型无法解释 → 演示漂移检测）
+        - report: 自洽度报告（总体/滚动/分行为命中率 + 漂移事件 + 判定）
+        - self_consistent: 世界模型自洽判定（持续运行中预测与实际保持一致性）
+        - drift: 漂移事件列表
+        - history: 预测验证历史（可审计）"""
+        p = params or {}
+        try:
+            from spacetime_consistency import SpacetimeConsistency
+        except ImportError:
+            try:
+                from .spacetime_consistency import SpacetimeConsistency
+            except Exception as e:
+                return {"status": "stc_not_ready", "error": str(e)}
+        if not hasattr(self, '_stc'):
+            self._stc = SpacetimeConsistency(
+                size=int(p.get('size', 24)),
+                ground_level=int(p.get('ground_level', 1)),
+                window=int(p.get('window', 20)),
+                hit_threshold=float(p.get('hit_threshold', 0.5)),
+                drift_rate=float(p.get('drift_rate', 0.7)),
+                drift_ticks=int(p.get('drift_ticks', 5)),
+                consistent_rate=float(p.get('consistent_rate', 0.85)),
+                min_consistent_ticks=int(p.get('min_consistent_ticks', 50)))
+        if action == "create":
+            r = self._stc.create_scene(trees=int(p.get("trees", 4)),
+                                       water=bool(p.get("water", True)))
+            return {"status": "ok", "scene": r}
+        if action == "entity":
+            eid = self._stc.add_entity(
+                str(p.get("category", "entity")),
+                behavior=str(p.get("behavior", "wander")),
+                pos=tuple(float(v) for v in p.get("pos", [2, 1.5, 2])),
+                speed=float(p.get("speed", 0.3)),
+                goal=str(p.get("goal", "")))
+            return {"status": "ok", "entity_id": eid}
+        if action == "path":
+            self._stc.add_path(str(p.get("path_id", "")), p.get("points", []))
+            return {"status": "ok", "path_id": str(p.get("path_id", ""))}
+        if action == "run":
+            r = self._stc.run(n=int(p.get("n", 10)))
+            return {"status": "ok", "run": r}
+        if action == "step":
+            r = self._stc.step_verified()
+            return {"status": "ok", "step": r}
+        if action == "teleport":
+            ok = self._stc.teleport(str(p.get("entity_id", "")),
+                                    tuple(float(v) for v in p.get("pos", [0, 0, 0])))
+            return {"status": "ok" if ok else "error",
+                    "queued": ok}
+        if action == "report":
+            return {"status": "ok", "report": self._stc.consistency_report()}
+        if action == "self_consistent":
+            rep = self._stc.consistency_report()
+            return {"status": "ok", "self_consistent": rep["self_consistent"],
+                    "verdict": rep["verdict"],
+                    "overall_hit_rate": rep["overall_hit_rate"],
+                    "rolling_hit_rate": rep["rolling_hit_rate"]}
+        if action == "drift":
+            return {"status": "ok", "drift_events": self._stc.drift_events(),
+                    "drift_active": self._stc.drift_active()}
+        if action == "history":
+            return {"status": "ok",
+                    "history": self._stc.prediction_history(limit=int(p.get("limit", 10)))}
+        return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/run/step/teleport/report/self_consistent/drift/history）"}
+
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）

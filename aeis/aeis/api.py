@@ -491,6 +491,12 @@ class Agent:
         （wander/seek/avoid/flee/follow 确定性行为策略）+ 决策循环场景演化。"""
         return self.engine.scene_simulator(action, params)
 
+    def spacetime_consistency(self, action: str, params: dict = None) -> Dict:
+        """时空一致性验证（里程碑2.4 · 阶段2收官）：持续运行 + 一致性验证闭环——
+        run（每 tick 预测下一状态 vs 实际）/ report（自洽度报告：滚动命中率 +
+        漂移事件）/ self_consistent（世界模型自洽判定）/ drift / history。"""
+        return self.engine.spacetime_consistency(action, params)
+
     # 外部知识摄取（第 3 项：记忆含外部知识）
     # =====================================================================
 
