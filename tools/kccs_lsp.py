@@ -9,6 +9,10 @@
 运行：
     python kccs_lsp.py --tcp 2087   # TCP 模式（VS Code 客户端连接）
 数据源：主仓库条件路由图（wisdom-book-cloud.db，随卡增长实时可查）。
+
+诚实边界：条件路由检索面为中文条件词——英文标识符经 snake_case 变体
+尝试（insertion_sort → 问insertionsort），未命中返回 None。英文条件词
+全覆盖属行动项 4 后续。
 """
 from __future__ import annotations
 
@@ -29,6 +33,7 @@ from semantic_translate import card_route
 
 server = LanguageServer("kccs-lsp", "v0.1.0")
 _dex = None
+_CARD_CACHE = {}
 
 
 def dex() -> ConditionDex:
@@ -40,26 +45,43 @@ def dex() -> ConditionDex:
     return _dex
 
 
+def _query_variants(word: str) -> list:
+    """跨语言查询变体：原文 + snake_case 合并形态。"""
+    variants = [f"问{word}"]
+    if "_" in word:
+        variants.append("问" + word.replace("_", ""))
+    return variants
+
+
 def hover_card(word: str) -> str | None:
-    """标识符 → 条件路由图 → KCCS 四要素 Markdown（悬停卡）。"""
-    hs = card_route(dex(), f"问{word}", limit=1)
-    if not hs or not hs[0].get("_card_hit"):
-        return None
-    h = hs[0]
-    node = dex().store.get_node(h.get("id"))
-    cm = (node.state_attributes or {}).get("comment", {}) if node else {}
-    lines = [f"**📦 KCCS 条件卡：{h.get('name', word)}**", ""]
-    if cm.get("生效条件"):
-        lines.append(f"**生效条件**：{'；'.join(map(str, cm['生效条件'][:3]))}")
-    if cm.get("子功能"):
-        lines.append(f"**子功能**：{cm['子功能']}")
-    if cm.get("执行"):
-        lines.append(f"**执行**：{str(cm['执行'])[:200]}")
-    if cm.get("不适用条件"):
-        lines.append(f"**不适用条件**：{'；'.join(map(str, cm['不适用条件'][:3]))}")
-    lines.append("")
-    lines.append("*来源：灵枢条件路由图（条件化语法，高于语法树一层）*")
-    return "\n".join(lines)
+    """标识符 → 条件路由图 → KCCS 四要素 Markdown（悬停卡，带缓存）。"""
+    for q in _query_variants(word):
+        if q in _CARD_CACHE:
+            if _CARD_CACHE[q]:
+                return _CARD_CACHE[q]
+            continue
+        card = None
+        hs = card_route(dex(), q, limit=1)
+        if hs and hs[0].get("_card_hit"):
+            h = hs[0]
+            node = dex().store.get_node(h.get("id"))
+            cm = (node.state_attributes or {}).get("comment", {}) if node else {}
+            lines = [f"**📦 KCCS 条件卡：{h.get('name', word)}**", ""]
+            if cm.get("生效条件"):
+                lines.append(f"**生效条件**：{'；'.join(map(str, cm['生效条件'][:3]))}")
+            if cm.get("子功能"):
+                lines.append(f"**子功能**：{cm['子功能']}")
+            if cm.get("执行"):
+                lines.append(f"**执行**：{str(cm['执行'])[:200]}")
+            if cm.get("不适用条件"):
+                lines.append(f"**不适用条件**：{'；'.join(map(str, cm['不适用条件'][:3]))}")
+            lines.append("")
+            lines.append("*来源：灵枢条件路由图（条件化语法，高于语法树一层）*")
+            card = "\n".join(lines)
+        _CARD_CACHE[q] = card
+        if card:
+            return card
+    return None
 
 
 # ---- R1-R3 校验（条件词边界规范 v1.0 复用）----
@@ -82,8 +104,7 @@ def on_hover(ls, params: lsp.HoverParams):
     # 光标处标识符提取（中英文）
     for m in re.finditer(r"[\w\u4e00-\u9fff]+", line):
         if m.start() <= params.position.character <= m.end():
-            word = m.group(0)
-            card = hover_card(word)
+            card = hover_card(m.group(0))
             if card:
                 return lsp.Hover(contents=lsp.MarkupContent(
                     kind=lsp.MarkupKind.Markdown, value=card))
