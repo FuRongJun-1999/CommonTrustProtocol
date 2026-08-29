@@ -1,7 +1,7 @@
 ---
 name: browser-44d7f183
 description: >-
-  渐变填充 / 渲染-渐变填充 / canvas 渐变——色 / 按位置 t 线性插值。用户提到这些词时使用本技能。
+  渐变填充 / 渲染-渐变填充 / canvas 渐。用户提到这些词时使用本技能。
   场景：对照：canvas 渐变——色停线性插值（渐变填充）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["渐变填充", "渲染-渐变填充", "canvas 渐变——色", "按位置 t 线性插值"]
+    trigger_words: ["渐变填充", "渲染-渐变填充", "canvas 渐"]
     when: "参数 stops/t 合法"
     sub: ["① 调用 range；② 调用 len；③ 调用 tuple"]
     execute: "循环迭代；顺序调用"

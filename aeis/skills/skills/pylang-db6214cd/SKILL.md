@@ -1,7 +1,7 @@
 ---
 name: pylang-db6214cd
 description: >-
-  性能计时 / 工具-性能计时 / time.perf_co / 耗时计算（start。用户提到这些词时使用本技能。
+  性能计时 / 工具-性能计时 / time.perf_co / 耗时计算。用户提到这些词时使用本技能。
   场景：对照：time.perf_counter——耗时计算（毫秒/秒）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["性能计时", "工具-性能计时", "time.perf_co", "耗时计算（start"]
+    trigger_words: ["性能计时", "工具-性能计时", "time.perf_co", "耗时计算"]
     when: "参数 start/end/unit 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "性能计时：耗时计算（start/end 时间戳——性能测量）"

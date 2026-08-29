@@ -1,7 +1,7 @@
 ---
 name: os-5192621b
 description: >-
-  能力系统 / 安全-能力系统 / OS 安全——能力系统 / 能力 / 特权令牌（持能力才可。用户提到这些词时使用本技能。
+  能力系统 / 安全-能力系统 / OS 安 / 能力 / 特权令牌。用户提到这些词时使用本技能。
   场景：对照：OS 安全——能力系统（特权令牌授予/检查/撤销，最小权限）。
   【不适用】Not for 以下场景：op 非 {check, grant, revoke} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["能力系统", "安全-能力系统", "OS 安全——能力系统", "能力", "特权令牌（持能力才可"]
+    trigger_words: ["能力系统", "安全-能力系统", "OS 安", "能力", "特权令牌"]
     when: "op ∈ {check, grant, revoke}；caps.discard 可用"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

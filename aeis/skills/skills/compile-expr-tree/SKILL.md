@@ -1,7 +1,7 @@
 ---
 name: compile-expr-tree
 description: >-
-  表达式树 / 编译-表达式树 / 语法——中缀表达式 → / 中缀 token →。用户提到这些词时使用本技能。
+  表达式树 / 编译-表达式树 / 语法——中缀表达式 → 。用户提到这些词时使用本技能。
   场景：对照：语法——中缀表达式 → 嵌套树（AST 构建）。
   【不适用】Not for 以下场景：tok 非 {(, )} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["表达式树", "编译-表达式树", "语法——中缀表达式 →", "中缀 token →"]
+    trigger_words: ["表达式树", "编译-表达式树", "语法——中缀表达式 → "]
     when: "tok ∈ {(, )}"
     sub: ["1 tok 分支处理"]
     execute: "按 op 分派；循环迭代"

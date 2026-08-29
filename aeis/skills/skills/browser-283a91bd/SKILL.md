@@ -1,7 +1,7 @@
 ---
 name: browser-283a91bd
 description: >-
-  推送通知 / 通知-推送消息 / Push API——订阅 / Push API / 订阅/推送（服务器。用户提到这些词时使用本技能。
+  推送通知 / 通知-推送消息 / Push API——订 / 推送 / 订阅/推送。用户提到这些词时使用本技能。
   场景：对照：Push API——订阅/推送（服务器推送通知到设备）。
   【不适用】Not for 以下场景：op 非 {send, subscribe} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["推送通知", "通知-推送消息", "Push API——订阅", "Push API", "订阅/推送（服务器"]
+    trigger_words: ["推送通知", "通知-推送消息", "Push API——订", "推送", "订阅/推送"]
     when: "op ∈ {send, subscribe}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

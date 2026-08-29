@@ -1,7 +1,7 @@
 ---
 name: os-bda92711
 description: >-
-  访问控制 / 安全-访问控制 / OS 安全——ACL 访 / ACL / 访问控制列表（主体→。用户提到这些词时使用本技能。
+  访问控制 / 安全-访问控制 / OS 安 / ACL / 访问控制列表。用户提到这些词时使用本技能。
   场景：对照：OS 安全——ACL 访问控制（主体/资源/动作 规则判定，默认拒绝）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["访问控制", "安全-访问控制", "OS 安全——ACL 访", "ACL", "访问控制列表（主体→"]
+    trigger_words: ["访问控制", "安全-访问控制", "OS 安", "ACL", "访问控制列表"]
     when: "参数 acl/subject/resource/action 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

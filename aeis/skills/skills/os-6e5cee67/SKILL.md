@@ -1,7 +1,7 @@
 ---
 name: os-6e5cee67
 description: >-
-  系统调用过滤 / 安全-系统调用过滤 / OS 安全——secco / seccomp——白。用户提到这些词时使用本技能。
+  系统调用过滤 / 安全-系统调用过滤 / OS 安 / seccomp——白。用户提到这些词时使用本技能。
   场景：对照：OS 安全——seccomp 系统调用过滤（白名单，沙箱）。
   【不适用】Not for 以下场景：op 非 {allow, check} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["系统调用过滤", "安全-系统调用过滤", "OS 安全——secco", "seccomp——白"]
+    trigger_words: ["系统调用过滤", "安全-系统调用过滤", "OS 安", "seccomp——白"]
     when: "op ∈ {allow, check}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

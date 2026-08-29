@@ -1,7 +1,7 @@
 ---
 name: pylang-d8962e66
 description: >-
-  编辑距离 / 工具-编辑距离 / Levenshtein— / 插入/删除/替换最小。用户提到这些词时使用本技能。
+  编辑距离 / 工具-编辑距离 / Levenshtein— / 插入/删除/替换最小次数。用户提到这些词时使用本技能。
   场景：对照：Levenshtein——编辑距离（插删改最小次数）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["编辑距离", "工具-编辑距离", "Levenshtein—", "插入/删除/替换最小"]
+    trigger_words: ["编辑距离", "工具-编辑距离", "Levenshtein—", "插入/删除/替换最小次数"]
     when: "参数 a/b 合法"
     sub: ["① 调用 range；② 调用 len；③ 调用 min"]
     execute: "循环迭代；顺序调用"

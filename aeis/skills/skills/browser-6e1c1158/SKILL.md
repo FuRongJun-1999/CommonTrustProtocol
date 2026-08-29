@@ -1,7 +1,7 @@
 ---
 name: browser-6e1c1158
 description: >-
-  应用清单 / PWA-应用清单 / PWA manifest / PWA 清单 / 最小字段校验（名称/。用户提到这些词时使用本技能。
+  应用清单 / PWA-应用清单 / PWA manifest / 图标 / 启动地址最小字段 / PWA 清 / 最小字段校验。用户提到这些词时使用本技能。
   场景：对照：PWA manifest——名称/图标/启动地址最小字段（安装条件）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["应用清单", "PWA-应用清单", "PWA manifest", "PWA 清单", "最小字段校验（名称/"]
+    trigger_words: ["应用清单", "PWA-应用清单", "PWA manifest", "图标", "启动地址最小字段", "PWA 清", "最小字段校验"]
     when: "参数 manifest 合法"
     sub: []
     execute: "PWA 清单：最小字段校验（名称/图标/启动地址——可安装条件）"

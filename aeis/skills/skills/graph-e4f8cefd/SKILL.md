@@ -1,7 +1,7 @@
 ---
 name: graph-e4f8cefd
 description: >-
-  路径计数 / 图查询-路径计数 / DFS——简单路径计数 / DFS 简单路径枚举。用户提到这些词时使用本技能。
+  路径计数 / 图查询-路径计数 / DFS——简 / DFS 简。用户提到这些词时使用本技能。
   场景：对照：DFS——简单路径计数（长度上限）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["路径计数", "图查询-路径计数", "DFS——简单路径计数", "DFS 简单路径枚举"]
+    trigger_words: ["路径计数", "图查询-路径计数", "DFS——简", "DFS 简"]
     when: "参数 adj/start/end/max_len 合法"
     sub: ["① 调用 dfs"]
     execute: "循环迭代；顺序调用"

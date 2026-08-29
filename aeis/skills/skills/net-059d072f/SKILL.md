@@ -1,7 +1,7 @@
 ---
 name: net-059d072f
 description: >-
-  TCP握手 / 网络-TCP握手 / 网络 TCP——三次握手 / TCP 三次握手 / CLOSED → S。用户提到这些词时使用本技能。
+  TCP握手 / 网络-TCP握手 / TCP 三。用户提到这些词时使用本技能。
   场景：对照：网络 TCP——三次握手状态机（CLOSED→SYN_SENT→ESTABLISHED）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["TCP握手", "网络-TCP握手", "网络 TCP——三次握手", "TCP 三次握手", "CLOSED → S"]
+    trigger_words: ["TCP握手", "网络-TCP握手", "TCP 三"]
     when: "states 为事件序列（SYN/SYN-ACK/ACK 等）"
     sub: ["① 状态机迁移 ② 非法事件忽略 ③ 到达 ESTABLISHED 判定"]
     execute: "状态转移表逐事件推进"

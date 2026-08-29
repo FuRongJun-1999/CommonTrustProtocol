@@ -1,7 +1,7 @@
 ---
 name: compiler-cf5776a4
 description: >-
-  字节码序列化 / 字节码-序列化 / C3 原生编译——字节码 / 字节码序列化（.pb / 指令列表 → .pb。用户提到这些词时使用本技能。
+  字节码序列化 / 字节码-序列化 / C3 原。用户提到这些词时使用本技能。
   场景：对照：C3 原生编译——字节码文件格式（op字符串+arg类型标记编码）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["字节码序列化", "字节码-序列化", "C3 原生编译——字节码", "字节码序列化（.pb", "指令列表 → .pb"]
+    trigger_words: ["字节码序列化", "字节码-序列化", "C3 原"]
     when: "code 为 (op, arg) 指令列表；arg 为 int/str/None"
     sub: ["① op 定长前缀编码 ② arg 类型分派编码 ③ 拼装字节串"]
     execute: "struct.pack 前缀长度 + utf-8 op + arg 按类型编码"

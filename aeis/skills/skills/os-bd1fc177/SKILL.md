@@ -1,7 +1,7 @@
 ---
 name: os-bd1fc177
 description: >-
-  共享内存 / IPC-共享内存 / OS IPC 共享内存— / attach 挂接 / （多进程映射同一物理 / 引用计数）。用户提到这些词时使用本技能。
+  共享内存 / IPC-共享内存 / OS IPC 共 / write / read / detach / attach 挂 / （多进程映射同一物理页。用户提到这些词时使用本技能。
   场景：对照：OS IPC 共享内存——attach/write/read/detach（物理页共享，引用计数）。
   【不适用】Not for 以下场景：op 非 {attach, detach, read, write} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["共享内存", "IPC-共享内存", "OS IPC 共享内存—", "attach 挂接", "（多进程映射同一物理", "引用计数）"]
+    trigger_words: ["共享内存", "IPC-共享内存", "OS IPC 共", "write", "read", "detach", "attach 挂", "（多进程映射同一物理页"]
     when: "op ∈ {attach, detach, read, write}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

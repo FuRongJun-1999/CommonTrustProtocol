@@ -1,7 +1,7 @@
 ---
 name: browser-cc7d3d6d
 description: >-
-  安装事件 / PWA-安装事件 / PWA beforein / PWA 安装 / beforeinst。用户提到这些词时使用本技能。
+  安装事件 / PWA-安装事件 / PWA beforein / 展示 / 接受 / 拒绝 / PWA 安 / beforeinstal。用户提到这些词时使用本技能。
   场景：对照：PWA beforeinstallprompt——捕获/展示/接受/拒绝（安装事件流）。
   【不适用】Not for 以下场景：action 非 {accept, capture, dismiss, prompt} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["安装事件", "PWA-安装事件", "PWA beforein", "PWA 安装", "beforeinst"]
+    trigger_words: ["安装事件", "PWA-安装事件", "PWA beforein", "展示", "接受", "拒绝", "PWA 安", "beforeinstal"]
     when: "action ∈ {accept, capture, dismiss, prompt}"
     sub: ["1 action 分支处理"]
     execute: "按 op 分派"

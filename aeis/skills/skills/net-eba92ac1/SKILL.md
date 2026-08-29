@@ -1,7 +1,7 @@
 ---
 name: net-eba92ac1
 description: >-
-  消息去重 / 蜂群-消息去重 / 蜂群协议——消息 ID / 蜂群消息去重 / 已见 ID 跳过。用户提到这些词时使用本技能。
+  消息去重 / 蜂群-消息去重 / 蜂群消息去重。用户提到这些词时使用本技能。
   场景：对照：蜂群协议——消息 ID 去重（多路径重复投递只处理一次）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["消息去重", "蜂群-消息去重", "蜂群协议——消息 ID", "蜂群消息去重", "已见 ID 跳过"]
+    trigger_words: ["消息去重", "蜂群-消息去重", "蜂群消息去重"]
     when: "参数 messages/seen_ids 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

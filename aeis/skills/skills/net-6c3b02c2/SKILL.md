@@ -1,7 +1,7 @@
 ---
 name: net-6c3b02c2
 description: >-
-  带宽分配 / 网络-带宽分配 / 带宽分配——按权重比例公 / 按权重比例分总带宽（。用户提到这些词时使用本技能。
+  带宽分配 / 网络-带宽分配 / 带宽分配——按权重比例公 / 按权重比例分总带宽。用户提到这些词时使用本技能。
   场景：对照：带宽分配——按权重比例公平分配（weighted sharing）。
   【不适用】Not for 以下场景：s 越界（LtE）时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["带宽分配", "网络-带宽分配", "带宽分配——按权重比例公", "按权重比例分总带宽（"]
+    trigger_words: ["带宽分配", "网络-带宽分配", "带宽分配——按权重比例公", "按权重比例分总带宽"]
     when: "参数 total/weights 合法"
     sub: ["① 调用 sum；② 调用 round"]
     execute: "循环迭代；顺序调用"

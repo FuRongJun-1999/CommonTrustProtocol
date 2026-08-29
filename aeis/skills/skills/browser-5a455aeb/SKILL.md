@@ -1,7 +1,7 @@
 ---
 name: browser-5a455aeb
 description: >-
-  摄像头 / 浏览器-摄像头 / request 请求。用户提到这些词时使用本技能。
+  摄像头 / 浏览器-摄像头 / request 请。用户提到这些词时使用本技能。
   场景：对照：getUserMedia——摄像头权限与媒体流启停。
   【不适用】Not for 以下场景：op 非 {request, start, stop} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["摄像头", "浏览器-摄像头", "request 请求"]
+    trigger_words: ["摄像头", "浏览器-摄像头", "request 请"]
     when: "op ∈ {request, start, stop}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

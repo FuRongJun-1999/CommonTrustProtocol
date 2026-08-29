@@ -1,7 +1,7 @@
 ---
 name: os-4bf77933
 description: >-
-  进程通信 / IPC-管道 / 管道 IPC / 写端数据 → FIF。用户提到这些词时使用本技能。
+  进程通信 / IPC-管道。用户提到这些词时使用本技能。
   场景：对照：OS IPC 管道——FIFO 缓冲，读端消费数据。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["进程通信", "IPC-管道", "管道 IPC", "写端数据 → FIF"]
+    trigger_words: ["进程通信", "IPC-管道"]
     when: "参数 sender_data/reader 合法"
     sub: ["① 调用 list；② 调用 range"]
     execute: "循环迭代；顺序调用"

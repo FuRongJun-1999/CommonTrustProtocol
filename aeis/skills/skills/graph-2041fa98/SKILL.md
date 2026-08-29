@@ -1,7 +1,7 @@
 ---
 name: graph-2041fa98
 description: >-
-  一致性快照 / 图存储-一致性快照 / MVCC 快照隔离——版 / 版本化读写（读 ≤。用户提到这些词时使用本技能。
+  一致性快照 / 图存储-一致性快照 / MVCC 快 / 版本化读写。用户提到这些词时使用本技能。
   场景：对照：MVCC 快照隔离——版本化读写（读旧版本一致视图）。
   【不适用】Not for 以下场景：kv 为空/非法时；op 非 {read, write} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["一致性快照", "图存储-一致性快照", "MVCC 快照隔离——版", "版本化读写（读 ≤"]
+    trigger_words: ["一致性快照", "图存储-一致性快照", "MVCC 快", "版本化读写"]
     when: "op ∈ {read, write}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

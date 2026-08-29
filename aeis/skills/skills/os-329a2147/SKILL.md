@@ -1,7 +1,7 @@
 ---
 name: os-329a2147
 description: >-
-  初始化流程 / 启动-初始化流程 / OS init——依赖排 / init 进程 / 按依赖顺序启动服务（。用户提到这些词时使用本技能。
+  初始化流程 / 启动-初始化流程 / OS init——依 / init 进 / 按依赖顺序启动服务。用户提到这些词时使用本技能。
   场景：对照：OS init——依赖排序启动（先依赖后服务）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["初始化流程", "启动-初始化流程", "OS init——依赖排", "init 进程", "按依赖顺序启动服务（"]
+    trigger_words: ["初始化流程", "启动-初始化流程", "OS init——依", "init 进", "按依赖顺序启动服务"]
     when: "参数 services 合法"
     sub: ["① 调用 set；② 调用 sorted；③ 调用 all"]
     execute: "循环迭代；顺序调用"

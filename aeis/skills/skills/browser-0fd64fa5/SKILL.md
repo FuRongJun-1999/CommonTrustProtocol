@@ -1,7 +1,7 @@
 ---
 name: browser-0fd64fa5
 description: >-
-  Service Worker / 并行-Service Worker / Service Work / Service Wo / install→ac。用户提到这些词时使用本技能。
+  Service Worker / 并行-Service Worker / activate / fetch 拦 / install→acti。用户提到这些词时使用本技能。
   场景：对照：Service Worker——install/activate/fetch 拦截（缓存优先/网络回退）。
   【不适用】Not for 以下场景：event 非 {activate, fetch, install} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["Service Worker", "并行-Service Worker", "Service Work", "Service Wo", "install→ac"]
+    trigger_words: ["Service Worker", "并行-Service Worker", "activate", "fetch 拦", "install→acti"]
     when: "event ∈ {activate, fetch, install}"
     sub: ["1 event 分支处理"]
     execute: "按 op 分派"

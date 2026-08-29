@@ -1,7 +1,7 @@
 ---
 name: os-c0fa71bd
 description: >-
-  进程生命周期 / 进程-生命周期 / fork 创建 /。用户提到这些词时使用本技能。
+  进程生命周期 / 进程-生命周期 / fork 创。用户提到这些词时使用本技能。
   场景：对照：OS 进程——fork/exec/wait 生命周期状态机。
   【不适用】Not for 以下场景：op 非 {exec, fork, wait} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["进程生命周期", "进程-生命周期", "fork 创建 /"]
+    trigger_words: ["进程生命周期", "进程-生命周期", "fork 创"]
     when: "op ∈ {exec, fork, wait}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

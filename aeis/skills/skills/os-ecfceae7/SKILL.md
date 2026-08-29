@@ -1,7 +1,7 @@
 ---
 name: os-ecfceae7
 description: >-
-  文件元数据 / 文件-元数据查询 / OS stat——文件元 / stat 查询（大小。用户提到这些词时使用本技能。
+  文件元数据 / 文件-元数据查询 / OS stat——文 / stat 查。用户提到这些词时使用本技能。
   场景：对照：OS stat——文件元数据（大小/权限/类型）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["文件元数据", "文件-元数据查询", "OS stat——文件元", "stat 查询（大小"]
+    trigger_words: ["文件元数据", "文件-元数据查询", "OS stat——文", "stat 查"]
     when: "参数 fs/name 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "文件元数据：stat 查询（大小/权限/类型——文件信息）"

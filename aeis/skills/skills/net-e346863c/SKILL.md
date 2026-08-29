@@ -1,7 +1,7 @@
 ---
 name: net-e346863c
 description: >-
-  配对信任 / 蜂群-配对信任 / 蓝牙配对——信任建立/撤 / 配对即信任=1 / op ∈ {pair / device_id。用户提到这些词时使用本技能。
+  配对信任 / 蜂群-配对信任 / 蓝牙配对——信任建立 / 撤销 / 查询三操作 / 配对即信任=1 / device_id 配。用户提到这些词时使用本技能。
   场景：对照：蓝牙配对——信任建立/撤销/查询三操作，配对即信任=1（蜂群信任链基例）。
   【不适用】Not for 以下场景：重复配对已配对设备返回原状态（幂等）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["配对信任", "蜂群-配对信任", "蓝牙配对——信任建立/撤", "配对即信任=1", "op ∈ {pair", "device_id"]
+    trigger_words: ["配对信任", "蜂群-配对信任", "蓝牙配对——信任建立", "撤销", "查询三操作", "配对即信任=1", "device_id 配"]
     when: "devices 为设备 dict（id → {'paired': bool, 'trust': int}）；"
     sub: ["① pair 信任建立（trust=1）② unpair 撤销 ③ check 查询"]
     execute: "状态机分派（配对信任链：未配对→已配对，撤销反向）"

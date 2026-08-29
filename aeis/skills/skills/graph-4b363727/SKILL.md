@@ -1,7 +1,7 @@
 ---
 name: graph-4b363727
 description: >-
-  旅行商 / 图算法-旅行商 / TSP——最近邻贪心环游 / 贪心最近邻环游（TS。用户提到这些词时使用本技能。
+  旅行商 / 图算法-旅行商 / TSP——最 / 贪心最近邻环游。用户提到这些词时使用本技能。
   场景：对照：TSP——最近邻贪心环游（旅行商近似）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["旅行商", "图算法-旅行商", "TSP——最近邻贪心环游", "贪心最近邻环游（TS"]
+    trigger_words: ["旅行商", "图算法-旅行商", "TSP——最", "贪心最近邻环游"]
     when: "参数 adj/start 合法"
     sub: ["① 调用 len；② 调用 sorted"]
     execute: "循环迭代；顺序调用"

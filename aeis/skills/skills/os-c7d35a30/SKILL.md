@@ -1,7 +1,7 @@
 ---
 name: os-c7d35a30
 description: >-
-  内存热插拔 / 内存-内存热插拔 / 内存热插拔——节点上线/ / online 上线。用户提到这些词时使用本技能。
+  内存热插拔 / 内存-内存热插拔 / 内存热插拔——节点上线 / 下线 / online 上。用户提到这些词时使用本技能。
   场景：对照：内存热插拔——节点上线/下线（热添加内存）。
   【不适用】Not for 以下场景：op 非 {nodes, offline, online} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["内存热插拔", "内存-内存热插拔", "内存热插拔——节点上线/", "online 上线"]
+    trigger_words: ["内存热插拔", "内存-内存热插拔", "内存热插拔——节点上线", "下线", "online 上"]
     when: "op ∈ {nodes, offline, online}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: os-4f05d577
 description: >-
-  自旋锁 / 并发-自旋锁 / 自旋锁——忙等获取/释放 / acquire 忙等。用户提到这些词时使用本技能。
+  自旋锁 / 并发-自旋锁 / 自旋锁——忙等获取 / 释放 / acquire 忙。用户提到这些词时使用本技能。
   场景：对照：自旋锁——忙等获取/释放（短临界区）。
   【不适用】Not for 以下场景：op 非 {acquire, release} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["自旋锁", "并发-自旋锁", "自旋锁——忙等获取/释放", "acquire 忙等"]
+    trigger_words: ["自旋锁", "并发-自旋锁", "自旋锁——忙等获取", "释放", "acquire 忙"]
     when: "op ∈ {acquire, release}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

@@ -1,7 +1,7 @@
 ---
 name: pylang-482be62b
 description: >-
-  捕获异常 / 异常-捕获 / Python try/e / 异常捕获（try/e / 尝试 risky()。用户提到这些词时使用本技能。
+  捕获异常 / 异常-捕获 / except / 异常捕获。用户提到这些词时使用本技能。
   场景：对照：Python try/except（异常匹配 etype → 处理器；无异常 → ok）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["捕获异常", "异常-捕获", "Python try/e", "异常捕获（try/e", "尝试 risky()"]
+    trigger_words: ["捕获异常", "异常-捕获", "except", "异常捕获"]
     when: "risky 为可调用；etype 为异常类型；handler 为异常处理器"
     sub: ["① 尝试执行 ② 捕获指定异常 ③ 转交处理器"]
     execute: "try risky() → except etype → handler(err)"

@@ -1,7 +1,7 @@
 ---
 name: graph-2d455cd8
 description: >-
-  模式匹配 / 图查询-模式匹配 / 图查询语言——MATCH / 图查询语言 / MATCH (a)- / src/dst 支持 / rel 支持 Non。用户提到这些词时使用本技能。
+  模式匹配 / 图查询-模式匹配 / 图查询语言 / MATCH -[r]-> / src/dst 支 / rel 支。用户提到这些词时使用本技能。
   场景：对照：图查询语言——MATCH 模式（(a)-[r]->(b)，None=任意，条件路由图三元组查询）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["模式匹配", "图查询-模式匹配", "图查询语言——MATCH", "图查询语言", "MATCH (a)-", "src/dst 支持", "rel 支持 Non"]
+    trigger_words: ["模式匹配", "图查询-模式匹配", "图查询语言", "MATCH -[r]->", "src/dst 支", "rel 支"]
     when: "graph.neighbors 可用"
     sub: ["① 调用 sorted"]
     execute: "循环迭代；顺序调用"

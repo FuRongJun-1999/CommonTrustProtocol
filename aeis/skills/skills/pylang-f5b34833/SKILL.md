@@ -1,7 +1,7 @@
 ---
 name: pylang-f5b34833
 description: >-
-  列表分块 / 工具-列表分块 / 分块——按大小分批 / 按固定大小切块（分批。用户提到这些词时使用本技能。
+  列表分块 / 工具-列表分块 / 分块——按大小分批 / 按固定大小切块。用户提到这些词时使用本技能。
   场景：对照：分块——按大小分批（chunking）。
   【不适用】Not for 以下场景：size 越界（LtE）时（隐式盲区：返回默认值 [] = 未知行为——不适用）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["列表分块", "工具-列表分块", "分块——按大小分批", "按固定大小切块（分批"]
+    trigger_words: ["列表分块", "工具-列表分块", "分块——按大小分批", "按固定大小切块"]
     when: "参数 items/size 合法"
     sub: ["① 调用 range；② 调用 len"]
     execute: "顺序调用"

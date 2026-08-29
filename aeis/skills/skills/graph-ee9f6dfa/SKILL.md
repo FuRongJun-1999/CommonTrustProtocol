@@ -1,7 +1,7 @@
 ---
 name: graph-ee9f6dfa
 description: >-
-  顶点覆盖 / 图算法-顶点覆盖 / 贪心选边两端加入覆盖。用户提到这些词时使用本技能。
+  顶点覆盖 / 图算法-顶点覆盖 / 贪心选边两端加入覆盖并删。用户提到这些词时使用本技能。
   场景：对照：顶点覆盖（NP 完全）——贪心 2-近似：选边两端入覆盖，删去关联边。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["顶点覆盖", "图算法-顶点覆盖", "贪心选边两端加入覆盖"]
+    trigger_words: ["顶点覆盖", "图算法-顶点覆盖", "贪心选边两端加入覆盖并删"]
     when: "参数 edges 合法"
     sub: ["① 调用 set；② 调用 sorted；③ 调用 list"]
     execute: "循环迭代；顺序调用"

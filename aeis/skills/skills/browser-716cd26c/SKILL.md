@@ -1,7 +1,7 @@
 ---
 name: browser-716cd26c
 description: >-
-  动画帧 / 渲染-动画帧 / 浏览器渲染——动画帧循环 / 动画帧循环 / 逐帧应用 step_。用户提到这些词时使用本技能。
+  动画帧 / 渲染-动画帧 / 浏览器渲染——动画帧循环 / 动画帧循环。用户提到这些词时使用本技能。
   场景：对照：浏览器渲染——动画帧循环（rAF 逐帧更新状态）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["动画帧", "渲染-动画帧", "浏览器渲染——动画帧循环", "动画帧循环", "逐帧应用 step_"]
+    trigger_words: ["动画帧", "渲染-动画帧", "浏览器渲染——动画帧循环", "动画帧循环"]
     when: "参数 state/step_fn/frames 合法"
     sub: ["① 调用 range；② 调用 step_fn"]
     execute: "循环迭代；顺序调用"

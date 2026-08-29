@@ -1,7 +1,7 @@
 ---
 name: os-9b6ed02c
 description: >-
-  字符设备 / 设备-字符设备 / OS 设备驱动——字符设 / 字符设备抽象 / open/read/。用户提到这些词时使用本技能。
+  字符设备 / 设备-字符设备 / OS 设 / 字符设备抽象。用户提到这些词时使用本技能。
   场景：对照：OS 设备驱动——字符设备接口（open/read/write/close，设备即文件）。
   【不适用】Not for 以下场景：op 非 {close, open, read, write} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["字符设备", "设备-字符设备", "OS 设备驱动——字符设", "字符设备抽象", "open/read/"]
+    trigger_words: ["字符设备", "设备-字符设备", "OS 设", "字符设备抽象"]
     when: "op ∈ {close, open, read, write}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

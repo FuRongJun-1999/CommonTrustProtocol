@@ -1,7 +1,7 @@
 ---
 name: pylang-e88e31fd
 description: >-
-  文本分词 / 工具-文本分词 / tokenize——非字 / 非字母字符分割并转小。用户提到这些词时使用本技能。
+  文本分词 / 工具-文本分词 / tokenize——非 / 非字母字符分割并转小写。用户提到这些词时使用本技能。
   场景：对照：tokenize——非字母数字分割（文本分词）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["文本分词", "工具-文本分词", "tokenize——非字", "非字母字符分割并转小"]
+    trigger_words: ["文本分词", "工具-文本分词", "tokenize——非", "非字母字符分割并转小写"]
     when: "text.lower 可用"
     sub: []
     execute: "文本分词：非字母字符分割并转小写（简单 tokenizer）"

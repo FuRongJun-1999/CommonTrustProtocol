@@ -1,7 +1,7 @@
 ---
 name: compiler-98a5625b
 description: >-
-  条件断点 / 调试-条件断点 / C4 调试器——条件断点 / set 设置条件 /。用户提到这些词时使用本技能。
+  条件断点 / 调试-条件断点 / C4 调 / set 设。用户提到这些词时使用本技能。
   场景：对照：C4 调试器——条件断点（条件满足才暂停）。
   【不适用】Not for 以下场景：op 非 {hit, set} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["条件断点", "调试-条件断点", "C4 调试器——条件断点", "set 设置条件 /"]
+    trigger_words: ["条件断点", "调试-条件断点", "C4 调", "set 设"]
     when: "op ∈ {hit, set}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

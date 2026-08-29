@@ -1,7 +1,7 @@
 ---
 name: os-41d14544
 description: >-
-  孤儿进程 / 进程-孤儿进程 / 孤儿进程——父亡子被 i / adopt 收养 /。用户提到这些词时使用本技能。
+  孤儿进程 / 进程-孤儿进程 / adopt 收。用户提到这些词时使用本技能。
   场景：对照：孤儿进程——父亡子被 init（PID 1）收养。
   【不适用】Not for 以下场景：op 非 {adopt, orphaned, parent} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["孤儿进程", "进程-孤儿进程", "孤儿进程——父亡子被 i", "adopt 收养 /"]
+    trigger_words: ["孤儿进程", "进程-孤儿进程", "adopt 收"]
     when: "op ∈ {adopt, orphaned, parent}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

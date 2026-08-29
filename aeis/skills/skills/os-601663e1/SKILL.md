@@ -1,7 +1,7 @@
 ---
 name: os-601663e1
 description: >-
-  即插即用 / 设备-即插即用 / 即插即用——设备 ID / 设备 ID → 自动。用户提到这些词时使用本技能。
+  即插即用 / 设备-即插即用。用户提到这些词时使用本技能。
   场景：对照：即插即用——设备 ID 自动匹配驱动（PnP 语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["即插即用", "设备-即插即用", "即插即用——设备 ID", "设备 ID → 自动"]
+    trigger_words: ["即插即用", "设备-即插即用"]
     when: "device.startswith 可用"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

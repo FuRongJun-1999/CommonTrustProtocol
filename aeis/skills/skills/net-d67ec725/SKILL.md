@@ -1,7 +1,7 @@
 ---
 name: net-d67ec725
 description: >-
-  消息路由 / 网络-消息路由 / 消息中间件——主题绑定队 / bind 绑定主题到。用户提到这些词时使用本技能。
+  消息路由 / 网络-消息路由 / 消息中间件——主题绑定队 / bind 绑。用户提到这些词时使用本技能。
   场景：对照：消息中间件——主题绑定队列路由（发布订阅）。
   【不适用】Not for 以下场景：op 非 {bind, route} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["消息路由", "网络-消息路由", "消息中间件——主题绑定队", "bind 绑定主题到"]
+    trigger_words: ["消息路由", "网络-消息路由", "消息中间件——主题绑定队", "bind 绑"]
     when: "op ∈ {bind, route}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

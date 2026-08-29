@@ -1,7 +1,7 @@
 ---
 name: vm-arithmetic
 description: >-
-  算术执行 / VM-算术执行 / VM 算术指令——ADD / 弹出两操作数执行 A。用户提到这些词时使用本技能。
+  算术执行 / VM-算术执行 / VM 算 / SUB / MUL / DIV。用户提到这些词时使用本技能。
   场景：对照：VM 算术指令——ADD/SUB/MUL/DIV（栈机执行）。
   【不适用】Not for 以下场景：op 非 {ADD, DIV, MUL, SUB} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["算术执行", "VM-算术执行", "VM 算术指令——ADD", "弹出两操作数执行 A"]
+    trigger_words: ["算术执行", "VM-算术执行", "VM 算", "SUB", "MUL", "DIV"]
     when: "op ∈ {ADD, DIV, MUL, SUB}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

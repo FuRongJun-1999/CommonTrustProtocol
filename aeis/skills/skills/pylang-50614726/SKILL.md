@@ -1,7 +1,7 @@
 ---
 name: pylang-50614726
 description: >-
-  最小堆 / 数据结构-最小堆 / heapq——最小堆上浮 / push 上浮插入 / 上浮 / 新元素与父节点比较并 / 下沉 / 根与较小子节点交换（。用户提到这些词时使用本技能。
+  最小堆 / 数据结构-最小堆 / heapq——最 / 下沉 / push 上 / 上浮 / 新元素与父节点比较并交换 / 根与较小子节点交换。用户提到这些词时使用本技能。
   场景：对照：heapq——最小堆上浮/下沉（push/pop/peek）。
   【不适用】Not for 以下场景：heap 为空/非法时；op 非 {peek, pop, push} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["最小堆", "数据结构-最小堆", "heapq——最小堆上浮", "push 上浮插入", "上浮", "新元素与父节点比较并", "下沉", "根与较小子节点交换（"]
+    trigger_words: ["最小堆", "数据结构-最小堆", "heapq——最", "下沉", "push 上", "上浮", "新元素与父节点比较并交换", "根与较小子节点交换"]
     when: "op ∈ {peek, pop, push}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

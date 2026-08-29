@@ -1,7 +1,7 @@
 ---
 name: pylang-7c7193ad
 description: >-
-  对象组合 / 面向对象-组合 / Python 组合——h / 组合（对象组合·ha / 对象含对象（add。用户提到这些词时使用本技能。
+  对象组合 / 面向对象-组合 / Python 组 / 组合 / 对象含对象。用户提到这些词时使用本技能。
   场景：对照：Python 组合——has-a 关系（对象含对象，方法委托转发）。
   【不适用】Not for 以下场景：op 非 {add, call} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["对象组合", "面向对象-组合", "Python 组合——h", "组合（对象组合·ha", "对象含对象（add"]
+    trigger_words: ["对象组合", "面向对象-组合", "Python 组", "组合", "对象含对象"]
     when: "op ∈ {add, call}；add 时 name/part 提供，call 时 name/method 提供"
     sub: ["① add 添加部件 ② call 转发部件方法"]
     execute: "按 op 分派字典/方法调用"

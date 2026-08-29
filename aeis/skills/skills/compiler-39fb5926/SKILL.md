@@ -1,7 +1,7 @@
 ---
 name: compiler-39fb5926
 description: >-
-  断点 / 调试-断点 / C4 调试器断点 / enable=Tru。用户提到这些词时使用本技能。
+  断点 / 调试-断点 / C4 调 / enable=True 。用户提到这些词时使用本技能。
   场景：对照：C4 调试器断点（登记/清除/命中判定——调试器暂停点）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["断点", "调试-断点", "C4 调试器断点", "enable=Tru"]
+    trigger_words: ["断点", "调试-断点", "C4 调", "enable=True "]
     when: "breaks.discard 可用"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "断点：enable=True 登记 / False 清除 / None 查询命中（调试器暂停点）"

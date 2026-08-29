@@ -1,7 +1,7 @@
 ---
 name: pylang-943b9dcb
 description: >-
-  打乱 / 工具-打乱 / random.shuff / 确定性伪随机重排（F。用户提到这些词时使用本技能。
+  打乱 / 工具-打乱 / random.shuff / 确定性伪随机重排。用户提到这些词时使用本技能。
   场景：对照：random.shuffle——确定性打乱（带种子 Fisher-Yates）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["打乱", "工具-打乱", "random.shuff", "确定性伪随机重排（F"]
+    trigger_words: ["打乱", "工具-打乱", "random.shuff", "确定性伪随机重排"]
     when: "参数 seq/seed 合法"
     sub: ["① 调用 list；② 调用 range；③ 调用 len"]
     execute: "循环迭代；顺序调用"

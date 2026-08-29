@@ -1,7 +1,7 @@
 ---
 name: pylang-886935a3
 description: >-
-  类型注解 / 类型-类型注解 / Python 类型注解 / 参数/返回类型标注（ / 演示 / 构造类型注解表。用户提到这些词时使用本技能。
+  类型注解 / 类型-类型注解 / Python 类 / 演示 / 构造类型注解表。用户提到这些词时使用本技能。
   场景：对照：Python 类型注解（参数/返回类型标注——PEP 484）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["类型注解", "类型-类型注解", "Python 类型注解", "参数/返回类型标注（", "演示", "构造类型注解表"]
+    trigger_words: ["类型注解", "类型-类型注解", "Python 类", "演示", "构造类型注解表"]
     when: "参数 params/ret 合法"
     sub: ["① 调用 dict"]
     execute: "顺序调用"

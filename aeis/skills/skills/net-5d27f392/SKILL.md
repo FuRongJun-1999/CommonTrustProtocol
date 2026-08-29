@@ -1,7 +1,7 @@
 ---
 name: net-5d27f392
 description: >-
-  反向代理 / 网络-反向代理 / 反向代理——轮询转发/健 / route 轮询转发。用户提到这些词时使用本技能。
+  反向代理 / 网络-反向代理 / 反向代理——轮询转发 / 健康摘除 / route 轮。用户提到这些词时使用本技能。
   场景：对照：反向代理——轮询转发/健康摘除（后端对客户端透明）。
   【不适用】Not for 以下场景：healthy 为空/非法时；op 非 {fail, recover, route} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["反向代理", "网络-反向代理", "反向代理——轮询转发/健", "route 轮询转发"]
+    trigger_words: ["反向代理", "网络-反向代理", "反向代理——轮询转发", "健康摘除", "route 轮"]
     when: "op ∈ {fail, recover, route}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: os-b718657b
 description: >-
-  多核均衡 / 调度-多核均衡 / SMP——多核负载均衡 / assign 分核。用户提到这些词时使用本技能。
+  多核均衡 / 调度-多核均衡 / SMP——多 / assign 分。用户提到这些词时使用本技能。
   场景：对照：SMP——多核负载均衡（最小负载核分配）。
   【不适用】Not for 以下场景：cores 为空/非法时；op 非 {assign, balance, loads} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["多核均衡", "调度-多核均衡", "SMP——多核负载均衡", "assign 分核"]
+    trigger_words: ["多核均衡", "调度-多核均衡", "SMP——多", "assign 分"]
     when: "op ∈ {assign, balance, loads}；cores.index 可用"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

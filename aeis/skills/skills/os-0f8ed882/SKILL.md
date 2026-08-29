@@ -1,7 +1,7 @@
 ---
 name: os-0f8ed882
 description: >-
-  命名空间 / 虚拟化-命名空间 / 容器命名空间——PID / 命名空间隔离 / PID/网络视图映射。用户提到这些词时使用本技能。
+  命名空间 / 虚拟化-命名空间 / 命名空间隔离 / PID/网。用户提到这些词时使用本技能。
   场景：对照：容器命名空间——PID 视图映射（进程在命名空间内重编号，隔离语义）。
   【不适用】Not for 以下场景：op 非 {lookup, register} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["命名空间", "虚拟化-命名空间", "容器命名空间——PID", "命名空间隔离", "PID/网络视图映射"]
+    trigger_words: ["命名空间", "虚拟化-命名空间", "命名空间隔离", "PID/网"]
     when: "op ∈ {lookup, register}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

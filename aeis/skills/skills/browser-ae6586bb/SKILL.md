@@ -1,7 +1,7 @@
 ---
 name: browser-ae6586bb
 description: >-
-  合成分层 / 渲染-合成分层 / 浏览器渲染——合成分层 / add 加层 / u。用户提到这些词时使用本技能。
+  合成分层 / 渲染-合成分层 / 浏览器渲染——合成分层 / add 加。用户提到这些词时使用本技能。
   场景：对照：浏览器渲染——合成分层（独立图层 z 序合成，滚动不重绘）。
   【不适用】Not for 以下场景：op 非 {add, render, update} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["合成分层", "渲染-合成分层", "浏览器渲染——合成分层", "add 加层 / u"]
+    trigger_words: ["合成分层", "渲染-合成分层", "浏览器渲染——合成分层", "add 加"]
     when: "op ∈ {add, render, update}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

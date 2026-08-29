@@ -1,7 +1,7 @@
 ---
 name: graph-df1ebb63
 description: >-
-  物化视图 / 图查询-物化视图 / 图查询——物化视图 / 预计算子查询结果（复。用户提到这些词时使用本技能。
+  物化视图 / 图查询-物化视图 / 图查询——物化视图 / 预计算子查询结果。用户提到这些词时使用本技能。
   场景：对照：图查询——物化视图（预计算复用，refresh 重算）。
   【不适用】Not for 以下场景：op 非 {query, refresh} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["物化视图", "图查询-物化视图", "图查询——物化视图", "预计算子查询结果（复"]
+    trigger_words: ["物化视图", "图查询-物化视图", "图查询——物化视图", "预计算子查询结果"]
     when: "op ∈ {query, refresh}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

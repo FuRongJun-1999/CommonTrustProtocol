@@ -1,7 +1,7 @@
 ---
 name: net-8361fe5b
 description: >-
-  路径MTU发现 / 网络-路径MTU发现 / PMTUD——路径最大传 / 路径 MTU 发现 / probe 探测 /。用户提到这些词时使用本技能。
+  路径MTU发现 / 网络-路径MTU发现 / PMTUD——路 / probe 探。用户提到这些词时使用本技能。
   场景：对照：PMTUD——路径最大传输单元发现（过大减 8 重探）。
   【不适用】Not for 以下场景：op 非 {current, probe, result} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["路径MTU发现", "网络-路径MTU发现", "PMTUD——路径最大传", "路径 MTU 发现", "probe 探测 /"]
+    trigger_words: ["路径MTU发现", "网络-路径MTU发现", "PMTUD——路", "probe 探"]
     when: "op ∈ {current, probe, result}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

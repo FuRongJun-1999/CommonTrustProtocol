@@ -1,7 +1,7 @@
 ---
 name: pylang-621123dd
 description: >-
-  众数统计 / 工具-众数统计 / statistics.m / 出现最频繁的元素（m。用户提到这些词时使用本技能。
+  众数统计 / 工具-众数统计 / statistics.m / 出现最频繁的元素。用户提到这些词时使用本技能。
   场景：对照：statistics.mode——众数（最频繁元素）。
   【不适用】Not for 以下场景：items 为空/非法时（隐式盲区：返回默认值 [] = 未知行为——不适用）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["众数统计", "工具-众数统计", "statistics.m", "出现最频繁的元素（m"]
+    trigger_words: ["众数统计", "工具-众数统计", "statistics.m", "出现最频繁的元素"]
     when: "参数 items 合法"
     sub: ["① 调用 max"]
     execute: "循环迭代；顺序调用"

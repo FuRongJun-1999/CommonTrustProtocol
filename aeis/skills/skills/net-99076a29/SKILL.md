@@ -1,7 +1,7 @@
 ---
 name: net-99076a29
 description: >-
-  跳频 / 网络-跳频 / FHSS——跳频序列 / hop 下一频率 /。用户提到这些词时使用本技能。
+  跳频 / 网络-跳频 / FHSS——跳 / hop 下。用户提到这些词时使用本技能。
   场景：对照：FHSS——跳频序列（抗干扰/保密）。
   【不适用】Not for 以下场景：op 非 {current, hop, pattern} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["跳频", "网络-跳频", "FHSS——跳频序列", "hop 下一频率 /"]
+    trigger_words: ["跳频", "网络-跳频", "FHSS——跳", "hop 下"]
     when: "op ∈ {current, hop, pattern}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

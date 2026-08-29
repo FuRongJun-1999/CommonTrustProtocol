@@ -1,7 +1,7 @@
 ---
 name: os-da0aadde
 description: >-
-  最短作业 / 调度-SJF / OS 调度 SJF——最 / SJF 最短作业优先 / [(到达, 时长)]。用户提到这些词时使用本技能。
+  最短作业 / 调度-SJF / OS 调 / SJF 最 / [] → 完成时间列表。用户提到这些词时使用本技能。
   场景：对照：OS 调度 SJF——最短作业优先（平均等待最小化）。
   【不适用】Not for 以下场景：ready 为空/非法时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["最短作业", "调度-SJF", "OS 调度 SJF——最", "SJF 最短作业优先", "[(到达, 时长)]"]
+    trigger_words: ["最短作业", "调度-SJF", "OS 调", "SJF 最", "[] → 完成时间列表"]
     when: "ready.sort 可用"
     sub: ["① 调用 sorted"]
     execute: "循环迭代；顺序调用"

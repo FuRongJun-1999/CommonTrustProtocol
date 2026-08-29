@@ -1,7 +1,7 @@
 ---
 name: pylang-642cd625
 description: >-
-  排序键控 / 工具-排序键控 / Python sorte / 排序键控（键排序） / 按 key 函数排序。用户提到这些词时使用本技能。
+  排序键控 / 工具-排序键控。用户提到这些词时使用本技能。
   场景：对照：Python sorted(key=)（按键函数稳定排序）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["排序键控", "工具-排序键控", "Python sorte", "排序键控（键排序）", "按 key 函数排序"]
+    trigger_words: ["排序键控", "工具-排序键控"]
     when: "items 可迭代；key_fn 为取键函数（可调用）"
     sub: ["① 对每项取键 ② 按键稳定排序"]
     execute: "sorted(items, key=key_fn)（稳定排序语义）"

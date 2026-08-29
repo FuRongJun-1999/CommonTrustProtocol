@@ -1,7 +1,7 @@
 ---
 name: graph-34a1dba7
 description: >-
-  最大团 / 图算法-最大团 / Bron-Kerbosc / 贪心扩张完全子图（B。用户提到这些词时使用本技能。
+  最大团 / 图算法-最大团 / Bron-Kerbosc / 贪心扩张完全子图。用户提到这些词时使用本技能。
   场景：对照：Bron-Kerbosch——最大完全子图（贪心扩张近似）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["最大团", "图算法-最大团", "Bron-Kerbosc", "贪心扩张完全子图（B"]
+    trigger_words: ["最大团", "图算法-最大团", "Bron-Kerbosc", "贪心扩张完全子图"]
     when: "参数 adj 合法"
     sub: ["① 调用 list；② 调用 all；③ 调用 len"]
     execute: "循环迭代；顺序调用"

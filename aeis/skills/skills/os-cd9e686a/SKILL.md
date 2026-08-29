@@ -1,7 +1,7 @@
 ---
 name: os-cd9e686a
 description: >-
-  中断向量 / 中断-向量表 / OS 中断——向量表 / 中断向量表 / IRQ 号 → 处理。用户提到这些词时使用本技能。
+  中断向量 / 中断-向量表 / OS 中 / 中断向量表 / IRQ 号。用户提到这些词时使用本技能。
   场景：对照：OS 中断——向量表（IRQ→handler 查表分派，未注册返回 None）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["中断向量", "中断-向量表", "OS 中断——向量表", "中断向量表", "IRQ 号 → 处理"]
+    trigger_words: ["中断向量", "中断-向量表", "OS 中", "中断向量表", "IRQ 号"]
     when: "参数 table/irq 合法"
     sub: []
     execute: "中断向量表：IRQ 号 → 处理函数（未注册 → None）"

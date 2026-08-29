@@ -104,28 +104,52 @@ def parse_four_elements(pattern):
             specific.append(ls)  # 单元特有注释（如「递归函数：若 基条件…」）
     return when, sub, execute, not_app, specific
 
+def _clean_trigger(part):
+    """清洗触发词片段：去括号内容/尾标点；混合拉丁段砍到中文边界；纯 API 标识符保留。"""
+    p = (part or "").strip()
+    if not p:
+        return None
+    # 去括号及括号内
+    p = re.sub(r"[（(].*?[)）]", "", p)
+    p = p.rstrip("。；;，,：:—")
+    if not p:
+        return None
+    # 含拉丁字符：若整体是合法标识符（API 触发）保留；否则砍到中文边界前
+    if re.search(r"[A-Za-z]", p):
+        if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_.]*", p):
+            return p  # 纯 API 名（compile_recursive）
+        m = re.match(r"^(.*?[\u4e00-\u9fff])", p)
+        if m:
+            p = m.group(1)
+        else:
+            return None
+    return p[:12]
+
 def extract_triggers(task, uid, calib, specific):
     """提取触发词（KCCS v0.2 五要素）：task/uid/calibration 核心短语/特有注释语义词。"""
     triggers = []
     seen = set()
-    def add(w):
-        w = (w or "").strip()
+    def add(w, full=False):
+        if full:
+            w = re.sub(r"[（(].*?[)）]", "", (w or "").strip()).rstrip("。；;，,：:—")
+        else:
+            w = _clean_trigger(w)
         if w and w not in seen and len(w) >= 2:
             seen.add(w)
             triggers.append(w)
-    add(task)
-    add(uid)
+    add(task, full=True)
+    add(uid, full=True)
     # calibration 核心短语（「对照：X（Y…）」→ 取 X 前段 + Y 前段）
     if calib:
         m = re.search(r"对照：(.+?)（", calib)
         if m:
             core = m.group(1).strip()
-            for part in core.split("，"):
-                add(part.split("（")[0].strip()[:12])
+            for part in re.split(r"[，、/]", core):
+                add(part)
     # 特有注释语义词（递归函数/阶乘 等）
     for s in (specific or [])[:3]:
         for part in re.split(r"[；：，]", s)[:2]:
-            add(part.strip()[:10])
+            add(part)
     return triggers[:8]
 
 def render_skill(uid, unit, slug, domain="unit"):

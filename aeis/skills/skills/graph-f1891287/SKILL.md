@@ -1,7 +1,7 @@
 ---
 name: graph-f1891287
 description: >-
-  割点 / 图算法-割点 / Tarjan——割点 / 移除后图不连通的顶点 / 深度优先 / 记录发现/低值并据。用户提到这些词时使用本技能。
+  割点 / 图算法-割点 / Tarjan——割 / 移除后图不连通的顶点 / 深度优先。用户提到这些词时使用本技能。
   场景：对照：Tarjan——割点（移除致不连通，low[v]>=disc[u]）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["割点", "图算法-割点", "Tarjan——割点", "移除后图不连通的顶点", "深度优先", "记录发现/低值并据"]
+    trigger_words: ["割点", "图算法-割点", "Tarjan——割", "移除后图不连通的顶点", "深度优先"]
     when: "参数 adj 合法"
     sub: ["① 调用 len；② 调用 set；③ 调用 sorted"]
     execute: "循环迭代；顺序调用"

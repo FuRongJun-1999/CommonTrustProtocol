@@ -1,7 +1,7 @@
 ---
 name: os-4f50ad0b
 description: >-
-  信号处理 / 信号-信号处理 / OS 信号——注册/发送 / 信号 / 注册 handler。用户提到这些词时使用本技能。
+  信号处理 / 信号-信号处理 / OS 信 / 发送 / 默认 / 信号。用户提到这些词时使用本技能。
   场景：对照：OS 信号——注册/发送/默认（SIGINT=2 默认终止，SIGUSR=10 默认忽略）。
   【不适用】Not for 以下场景：op 非 {register, send} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["信号处理", "信号-信号处理", "OS 信号——注册/发送", "信号", "注册 handler"]
+    trigger_words: ["信号处理", "信号-信号处理", "OS 信", "发送", "默认", "信号"]
     when: "op ∈ {register, send}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

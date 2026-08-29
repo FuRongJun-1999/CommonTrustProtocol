@@ -1,7 +1,7 @@
 ---
 name: net-d80c1c4c
 description: >-
-  消息队列 / 网络-消息队列 / 消息队列——FIFO 入 / 入队/出队（FIFO。用户提到这些词时使用本技能。
+  消息队列 / 网络-消息队列 / 入队/出队。用户提到这些词时使用本技能。
   场景：对照：消息队列——FIFO 入队出队（生产消费解耦）。
   【不适用】Not for 以下场景：q 为空/非法时；op 非 {dequeue, enqueue} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["消息队列", "网络-消息队列", "消息队列——FIFO 入", "入队/出队（FIFO"]
+    trigger_words: ["消息队列", "网络-消息队列", "入队/出队"]
     when: "op ∈ {dequeue, enqueue}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

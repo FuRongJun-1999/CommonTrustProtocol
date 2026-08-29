@@ -1,7 +1,7 @@
 ---
 name: graph-3755dbc9
 description: >-
-  最小割 / 图算法-最小割 / 最大流=最小割 / 最大流=最小割（BF。用户提到这些词时使用本技能。
+  最小割 / 图算法-最小割 / 最大流=最小割。用户提到这些词时使用本技能。
   场景：对照：最大流=最小割（Ford-Fulkerson BFS 增广路）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["最小割", "图算法-最小割", "最大流=最小割", "最大流=最小割（BF"]
+    trigger_words: ["最小割", "图算法-最小割", "最大流=最小割"]
     when: "参数 adj/s/t 合法"
     sub: ["① 调用 dict；② 调用 float；③ 调用 min"]
     execute: "循环迭代；顺序调用"

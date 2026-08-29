@@ -1,7 +1,7 @@
 ---
 name: net-3bdf9d9d
 description: >-
-  多径传输 / 网络-多径传输 / MPTCP 多子流并。用户提到这些词时使用本技能。
+  多径传输 / 网络-多径传输 / MPTCP 多。用户提到这些词时使用本技能。
   场景：对照：MPTCP 多径传输——多子流并行，选最少发送。
   【不适用】Not for 以下场景：paths 为空/非法时；op 非 {add, send, stats} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["多径传输", "网络-多径传输", "MPTCP 多子流并"]
+    trigger_words: ["多径传输", "网络-多径传输", "MPTCP 多"]
     when: "op ∈ {add, send, stats}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

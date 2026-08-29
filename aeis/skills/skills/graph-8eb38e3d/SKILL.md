@@ -1,7 +1,7 @@
 ---
 name: graph-8eb38e3d
 description: >-
-  查询缓存 / 图查询-查询缓存 / 图查询——查询缓存 / get 命中返回并移。用户提到这些词时使用本技能。
+  查询缓存 / 图查询-查询缓存 / 图查询——查询缓存 / get 命。用户提到这些词时使用本技能。
   场景：对照：图查询——查询缓存（LRU 淘汰，命中加速重复查询）。
   【不适用】Not for 以下场景：op 非 {get, put} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["查询缓存", "图查询-查询缓存", "图查询——查询缓存", "get 命中返回并移"]
+    trigger_words: ["查询缓存", "图查询-查询缓存", "图查询——查询缓存", "get 命"]
     when: "op ∈ {get, put}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

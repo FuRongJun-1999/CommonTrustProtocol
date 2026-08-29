@@ -1,7 +1,7 @@
 ---
 name: os-92276145
 description: >-
-  抢占轮转 / 调度-时间片轮转 / 时间片轮转 / run 执行队首 /。用户提到这些词时使用本技能。
+  抢占轮转 / 调度-时间片轮转 / 时间片轮转 / run 执。用户提到这些词时使用本技能。
   场景：对照：RR 时间片轮转——队首执行/时间片耗尽回队尾。
   【不适用】Not for 以下场景：ready 为空/非法时；op 非 {preempt, run, status} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["抢占轮转", "调度-时间片轮转", "时间片轮转", "run 执行队首 /"]
+    trigger_words: ["抢占轮转", "调度-时间片轮转", "时间片轮转", "run 执"]
     when: "op ∈ {preempt, run, status}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

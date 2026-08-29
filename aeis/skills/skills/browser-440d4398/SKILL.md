@@ -1,7 +1,7 @@
 ---
 name: browser-440d4398
 description: >-
-  弹窗拦截 / 浏览器-弹窗拦截 / 弹窗拦截（弹出窗口拦 / 无用户手势的自动弹窗。用户提到这些词时使用本技能。
+  弹窗拦截 / 浏览器-弹窗拦截 / 无用户手势的自动弹窗拦截。用户提到这些词时使用本技能。
   场景：对照：弹窗拦截——仅用户手势触发的允许弹窗，自动弹窗拦截并记录。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["弹窗拦截", "浏览器-弹窗拦截", "弹窗拦截（弹出窗口拦", "无用户手势的自动弹窗"]
+    trigger_words: ["弹窗拦截", "浏览器-弹窗拦截", "无用户手势的自动弹窗拦截"]
     when: "allow 为站点弹窗许可；user_gesture 为用户手势标志"
     sub: ["① 许可+手势放行 ② 否则拦截并记录"]
     execute: "allow ∧ user_gesture → allowed；否则 blocked_log 追加并返 blocked"

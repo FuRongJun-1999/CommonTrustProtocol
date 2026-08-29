@@ -1,7 +1,7 @@
 ---
 name: pylang-1dd35612
 description: >-
-  字节编解码 / 工具-字节编解码 / bytes——UTF-8 / encode 文本→。用户提到这些词时使用本技能。
+  字节编解码 / 工具-字节编解码 / bytes——UTF-8 / 解码 / encode 文。用户提到这些词时使用本技能。
   场景：对照：bytes——UTF-8 编码/解码（文本↔字节）。
   【不适用】Not for 以下场景：op 非 {decode, encode} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["字节编解码", "工具-字节编解码", "bytes——UTF-8", "encode 文本→"]
+    trigger_words: ["字节编解码", "工具-字节编解码", "bytes——UTF-8", "解码", "encode 文"]
     when: "op ∈ {decode, encode}；data.encode 可用；data.decode 可用"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

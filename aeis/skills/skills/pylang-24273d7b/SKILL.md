@@ -1,7 +1,7 @@
 ---
 name: pylang-24273d7b
 description: >-
-  直方图 / 工具-直方图 / 分桶计数（数据分布统。用户提到这些词时使用本技能。
+  直方图 / 工具-直方图 / 分桶计数。用户提到这些词时使用本技能。
   场景：对照：分桶直方图——数据分布计数。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["直方图", "工具-直方图", "分桶计数（数据分布统"]
+    trigger_words: ["直方图", "工具-直方图", "分桶计数"]
     when: "参数 data/bins 合法"
     sub: ["① 调用 min；② 调用 max；③ 调用 int"]
     execute: "循环迭代；顺序调用"

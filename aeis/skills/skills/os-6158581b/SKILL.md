@@ -1,7 +1,7 @@
 ---
 name: os-6158581b
 description: >-
-  参数校验 / 系统调用-参数校验 / OS 系统调用——参数类 / 系统调用参数校验 / 类型检查（copy_。用户提到这些词时使用本技能。
+  参数校验 / 系统调用-参数校验 / OS 系 / 系统调用参数校验 / 类型检查。用户提到这些词时使用本技能。
   场景：对照：OS 系统调用——参数类型校验（copy_from_user 语义，非法拒绝）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["参数校验", "系统调用-参数校验", "OS 系统调用——参数类", "系统调用参数校验", "类型检查（copy_"]
+    trigger_words: ["参数校验", "系统调用-参数校验", "OS 系", "系统调用参数校验", "类型检查"]
     when: "参数 args/types 合法"
     sub: ["① 调用 zip；② 调用 len；③ 调用 isinstance"]
     execute: "循环迭代；顺序调用"

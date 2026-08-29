@@ -1,7 +1,7 @@
 ---
 name: os-03c0d7d6
 description: >-
-  互斥锁 / 进程-互斥锁 / OS 并发——互斥锁 / 互斥锁操作 / lock/unloc。用户提到这些词时使用本技能。
+  互斥锁 / 进程-互斥锁 / OS 并 / 互斥锁操作 / lock/unlock（。用户提到这些词时使用本技能。
   场景：对照：OS 并发——互斥锁（占用时加锁失败，释放后可用）。
   【不适用】Not for 以下场景：op 非 {lock, unlock} 时；state 非 {free} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["互斥锁", "进程-互斥锁", "OS 并发——互斥锁", "互斥锁操作", "lock/unloc"]
+    trigger_words: ["互斥锁", "进程-互斥锁", "OS 并", "互斥锁操作", "lock/unlock（"]
     when: "op ∈ {lock, unlock}；state ∈ {free}"
     sub: ["① op 分支处理；2 state 分支处理"]
     execute: "按 op 分派"

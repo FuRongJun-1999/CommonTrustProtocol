@@ -1,7 +1,7 @@
 ---
 name: net-e2fc73f8
 description: >-
-  CIDR子网 / 网络-CIDR / 网络 IP——CIDR / IP 子网计算 / IP + 前缀长度 / 整数转点分十进制 I。用户提到这些词时使用本技能。
+  CIDR子网 / 网络-CIDR / IP 子 / IP + 前。用户提到这些词时使用本技能。
   场景：对照：网络 IP——CIDR 子网计算（/24 网络地址+广播地址+可用主机数）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["CIDR子网", "网络-CIDR", "网络 IP——CIDR", "IP 子网计算", "IP + 前缀长度", "整数转点分十进制 I"]
+    trigger_words: ["CIDR子网", "网络-CIDR", "IP 子", "IP + 前"]
     when: "参数 ip/prefix 合法"
     sub: ["① 调用 int；② 调用 to_ip；③ 调用 max"]
     execute: "顺序调用"

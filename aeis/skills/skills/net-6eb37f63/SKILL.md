@@ -1,7 +1,7 @@
 ---
 name: net-6eb37f63
 description: >-
-  链路利用率 / 网络-链路利用率 / 链路利用率——已用/容量 / sample 记录。用户提到这些词时使用本技能。
+  链路利用率 / 网络-链路利用率 / 链路利用率——已用 / 容量采样 / sample 记。用户提到这些词时使用本技能。
   场景：对照：链路利用率——已用/容量采样（平均与峰值）。
   【不适用】Not for 以下场景：op 非 {peak, sample, util} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["链路利用率", "网络-链路利用率", "链路利用率——已用/容量", "sample 记录"]
+    trigger_words: ["链路利用率", "网络-链路利用率", "链路利用率——已用", "容量采样", "sample 记"]
     when: "op ∈ {peak, sample, util}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

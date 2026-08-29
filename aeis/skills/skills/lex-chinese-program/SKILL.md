@@ -1,7 +1,7 @@
 ---
 name: lex-chinese-program
 description: >-
-  中文程序词法 / 词法-中文程序 / protocol-com / 中文程序词法（词法分 / 中文程序行 → (k。用户提到这些词时使用本技能。
+  中文程序词法 / 词法-中文程序 / 中文程序行 → 。用户提到这些词时使用本技能。
   场景：对照：protocol-compiler lexer（九章算术结构/若则/道德经指令/步骤序号）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["中文程序词法", "词法-中文程序", "protocol-com", "中文程序词法（词法分", "中文程序行 → (k"]
+    trigger_words: ["中文程序词法", "词法-中文程序", "中文程序行 → "]
     when: "line 为中文程序源码行"
     sub: ["① 九章算术结构识别 ② 条件/指令/步骤分类 ③ 提取载荷"]
     execute: "前缀匹配 + 分类返回 (kind, payload)"

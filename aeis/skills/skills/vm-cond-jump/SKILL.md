@@ -1,7 +1,7 @@
 ---
 name: vm-cond-jump
 description: >-
-  条件跳转 / VM-条件跳转 / 若条件为假则跳过 the / 若…则…否则 / 栈顶为假则跳转（智能。用户提到这些词时使用本技能。
+  条件跳转 / VM-条件跳转 / 若…则…否则 / 栈顶为假则跳转。用户提到这些词时使用本技能。
   场景：对照：若条件为假则跳过 then 执行 else（JUMP_IF_FALSE）。
   【不适用】Not for 以下场景：stack 为空/非法时（隐式盲区：返回默认值 1 = 未知行为——不适用）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["条件跳转", "VM-条件跳转", "若条件为假则跳过 the", "若…则…否则", "栈顶为假则跳转（智能"]
+    trigger_words: ["条件跳转", "VM-条件跳转", "若…则…否则", "栈顶为假则跳转"]
     when: "参数 stack/ip/target 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "若…则…否则：栈顶为假则跳转（智能论条件语句的 VM 语义）"

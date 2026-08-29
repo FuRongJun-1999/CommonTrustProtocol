@@ -1,7 +1,7 @@
 ---
 name: pylang-ecd569d2
 description: >-
-  字符串拆分 / 工具-字符串拆分 / Python str.s / 字符串拆分（spli / 按分隔符拆（spli。用户提到这些词时使用本技能。
+  字符串拆分 / 工具-字符串拆分 / 按分隔符拆。用户提到这些词时使用本技能。
   场景：对照：Python str.split（分隔符拆分，默认空白）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["字符串拆分", "工具-字符串拆分", "Python str.s", "字符串拆分（spli", "按分隔符拆（spli"]
+    trigger_words: ["字符串拆分", "工具-字符串拆分", "按分隔符拆"]
     when: "text 为字符串；sep 为分隔符或 None（默认空白拆分）"
     sub: ["① 显式分隔符拆分 ② 默认空白拆分"]
     execute: "sep 非 None → text.split(sep)，否则 text.split()"

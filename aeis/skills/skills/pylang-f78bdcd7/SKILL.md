@@ -1,7 +1,7 @@
 ---
 name: pylang-f78bdcd7
 description: >-
-  函数机制 / 函数-定义调用 / mini_python. / 函数对象 / 参数 + body / 调用 / 局部环境（父=定义环。用户提到这些词时使用本技能。
+  函数机制 / 函数-定义调用 / mini_python. / 函数对象 / 调用。用户提到这些词时使用本技能。
   场景：对照：mini_python.py 函数对象（参数+body+定义环境）与 call 调用（局部环境+参数绑定）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["函数机制", "函数-定义调用", "mini_python.", "函数对象", "参数 + body", "调用", "局部环境（父=定义环"]
+    trigger_words: ["函数机制", "函数-定义调用", "mini_python.", "函数对象", "调用"]
     when: "参数 params/body/def_env 合法"
     sub: []
     execute: "函数对象：参数 + body + 定义环境（闭包基础）；调用：局部环境（父=定义环境）+ 参数绑定 + 执行 body（return 值）"

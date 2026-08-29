@@ -1,7 +1,7 @@
 ---
 name: os-462f3ed4
 description: >-
-  优先级继承 / 进程-优先级继承 / 优先级继承——持锁者继承 / wait 等待锁 /。用户提到这些词时使用本技能。
+  优先级继承 / 进程-优先级继承 / 优先级继承——持锁者继承 / wait 等。用户提到这些词时使用本技能。
   场景：对照：优先级继承——持锁者继承等待者高优先（防反转）。
   【不适用】Not for 以下场景：op 非 {inherit, restore, wait} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["优先级继承", "进程-优先级继承", "优先级继承——持锁者继承", "wait 等待锁 /"]
+    trigger_words: ["优先级继承", "进程-优先级继承", "优先级继承——持锁者继承", "wait 等"]
     when: "op ∈ {inherit, restore, wait}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

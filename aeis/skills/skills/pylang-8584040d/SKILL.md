@@ -1,7 +1,7 @@
 ---
 name: pylang-8584040d
 description: >-
-  正则匹配 / 工具-正则匹配 / CPython re.s / re.search。用户提到这些词时使用本技能。
+  正则匹配 / 工具-正则匹配 / re.search 简。用户提到这些词时使用本技能。
   场景：对照：CPython re.search（正则匹配，^ 锚定/\d 数字类）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["正则匹配", "工具-正则匹配", "CPython re.s", "re.search"]
+    trigger_words: ["正则匹配", "工具-正则匹配", "re.search 简"]
     when: "re.search 可用"
     sub: ["① 调用 bool"]
     execute: "顺序调用"

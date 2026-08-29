@@ -1,7 +1,7 @@
 ---
 name: browser-6cfcb6db
 description: >-
-  联系人 / 浏览器-联系人 / pick 选择 /。用户提到这些词时使用本技能。
+  联系人 / 浏览器-联系人 / pick 选。用户提到这些词时使用本技能。
   场景：对照：Contact Picker——联系人选择与列表。
   【不适用】Not for 以下场景：op 非 {clear, pick, selected} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["联系人", "浏览器-联系人", "pick 选择 /"]
+    trigger_words: ["联系人", "浏览器-联系人", "pick 选"]
     when: "op ∈ {clear, pick, selected}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

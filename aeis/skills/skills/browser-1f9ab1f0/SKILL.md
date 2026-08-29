@@ -1,7 +1,7 @@
 ---
 name: browser-1f9ab1f0
 description: >-
-  边框圆角 / 渲染-边框圆角 / border-radiu / 点是否在圆角矩形内（。用户提到这些词时使用本技能。
+  边框圆角 / 渲染-边框圆角 / border-radiu / 点是否在圆角矩形内。用户提到这些词时使用本技能。
   场景：对照：border-radius——圆角矩形内点判定（命中测试）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["边框圆角", "渲染-边框圆角", "border-radiu", "点是否在圆角矩形内（"]
+    trigger_words: ["边框圆角", "渲染-边框圆角", "border-radiu", "点是否在圆角矩形内"]
     when: "参数 box/radius/point 合法"
     sub: ["① 调用 min；② 调用 max"]
     execute: "顺序调用"

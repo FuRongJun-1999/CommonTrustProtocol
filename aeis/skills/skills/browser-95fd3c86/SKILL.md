@@ -1,7 +1,7 @@
 ---
 name: browser-95fd3c86
 description: >-
-  会话存储 / 存储-会话存储 / 浏览器存储——sessi / sessionSto / 标签页级生命周期（新。用户提到这些词时使用本技能。
+  会话存储 / 存储-会话存储 / sessionStorage / 标签页级生命周期。用户提到这些词时使用本技能。
   场景：对照：浏览器存储——sessionStorage（标签页生命周期，新标签页数据隔离）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["会话存储", "存储-会话存储", "浏览器存储——sessi", "sessionSto", "标签页级生命周期（新"]
+    trigger_words: ["会话存储", "存储-会话存储", "sessionStorage", "标签页级生命周期"]
     when: "参数 store/tab_open 合法"
     sub: ["① 调用 dict"]
     execute: "顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: graph-42187d5d
 description: >-
-  边索引 / 图存储-边索引 / 边索引——按属性键存/查 / put 按键存边 /。用户提到这些词时使用本技能。
+  边索引 / 图存储-边索引 / 边索引——按属性键存 / 删边 / put 按。用户提到这些词时使用本技能。
   场景：对照：边索引——按属性键存/查/删边（图存储索引）。
   【不适用】Not for 以下场景：op 非 {drop, get, put} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["边索引", "图存储-边索引", "边索引——按属性键存/查", "put 按键存边 /"]
+    trigger_words: ["边索引", "图存储-边索引", "边索引——按属性键存", "删边", "put 按"]
     when: "op ∈ {drop, get, put}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

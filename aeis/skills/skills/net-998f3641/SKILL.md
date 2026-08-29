@@ -1,7 +1,7 @@
 ---
 name: net-998f3641
 description: >-
-  MQTT发布订阅 / 网络-MQTT发布订阅 / MQTT——发布/订阅 / MQTT / 发布/订阅（主题路由。用户提到这些词时使用本技能。
+  MQTT发布订阅 / 网络-MQTT发布订阅 / MQTT——发 / 订阅 / MQTT / 发布/订阅。用户提到这些词时使用本技能。
   场景：对照：MQTT——发布/订阅（主题路由，订阅者接收主题消息）。
   【不适用】Not for 以下场景：op 非 {publish, subscribe} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["MQTT发布订阅", "网络-MQTT发布订阅", "MQTT——发布/订阅", "MQTT", "发布/订阅（主题路由"]
+    trigger_words: ["MQTT发布订阅", "网络-MQTT发布订阅", "MQTT——发", "订阅", "MQTT", "发布/订阅"]
     when: "op ∈ {publish, subscribe}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

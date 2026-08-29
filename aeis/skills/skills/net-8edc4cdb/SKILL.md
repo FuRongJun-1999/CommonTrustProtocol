@@ -1,7 +1,7 @@
 ---
 name: net-8edc4cdb
 description: >-
-  分块传输 / 网络-分块传输 / HTTP 分块传输——每 / encode 分块编。用户提到这些词时使用本技能。
+  分块传输 / 网络-分块传输 / HTTP 分 / encode 分。用户提到这些词时使用本技能。
   场景：对照：HTTP 分块传输——每块十六进制长度（chunked 编码）。
   【不适用】Not for 以下场景：op 非 {decode, encode} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["分块传输", "网络-分块传输", "HTTP 分块传输——每", "encode 分块编"]
+    trigger_words: ["分块传输", "网络-分块传输", "HTTP 分", "encode 分"]
     when: "op ∈ {decode, encode}；data.index 可用"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

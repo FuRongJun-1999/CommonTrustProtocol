@@ -1,7 +1,7 @@
 ---
 name: browser-b4c8cf65
 description: >-
-  事件委托 / 事件-事件委托 / 事件委托——祖先单监听器 / 事件委托（事件代理） / 祖先单监听器按目标分。用户提到这些词时使用本技能。
+  事件委托 / 事件-事件委托 / 祖先单监听器按目标分派。用户提到这些词时使用本技能。
   场景：对照：事件委托——祖先单监听器按 target+type 分派子处理器（冒泡优化）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["事件委托", "事件-事件委托", "事件委托——祖先单监听器", "事件委托（事件代理）", "祖先单监听器按目标分"]
+    trigger_words: ["事件委托", "事件-事件委托", "祖先单监听器按目标分派"]
     when: "handlers 键为 (目标, 事件类型)；event 含 target/type"
     sub: ["① 按 (target, type) 查处理器 ② 命中调用并返回结果"]
     execute: "dict 精确键查 + 处理器调用，未命中返回 None"

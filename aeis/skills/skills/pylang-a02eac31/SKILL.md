@@ -1,7 +1,7 @@
 ---
 name: pylang-a02eac31
 description: >-
-  装饰器 / 装饰器-定义使用 / Python 装饰器 / 包装函数（@time / 包装 / 记录调用并转发原函数 / 演示 / @timer 装饰后。用户提到这些词时使用本技能。
+  装饰器 / 装饰器-定义使用 / Python 装 / 包装函数 / 包装 / 记录调用并转发原函数 / 演示 / @timer 装。用户提到这些词时使用本技能。
   场景：对照：Python 装饰器（@timer 包装增强，不改原函数逻辑）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["装饰器", "装饰器-定义使用", "Python 装饰器", "包装函数（@time", "包装", "记录调用并转发原函数", "演示", "@timer 装饰后"]
+    trigger_words: ["装饰器", "装饰器-定义使用", "Python 装", "包装函数", "包装", "记录调用并转发原函数", "演示", "@timer 装"]
     when: "参数 fn 合法"
     sub: ["① 调用 fn"]
     execute: "顺序调用"

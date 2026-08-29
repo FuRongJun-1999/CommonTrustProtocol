@@ -1,7 +1,7 @@
 ---
 name: pylang-61a9102d
 description: >-
-  类继承 / 面向对象-继承 / Python 继承——子 / 父类（继承基类） / 动物基类（speak / 发声 / 父类默认叫声 / 继承。用户提到这些词时使用本技能。
+  类继承 / 面向对象-继承 / Python 继 / 父类 / 动物基类 / 发声 / 父类默认叫声 / 继承。用户提到这些词时使用本技能。
   场景：对照：Python 继承——子类覆盖父类方法（方法重写语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["类继承", "面向对象-继承", "Python 继承——子", "父类（继承基类）", "动物基类（speak", "发声", "父类默认叫声", "继承"]
+    trigger_words: ["类继承", "面向对象-继承", "Python 继", "父类", "动物基类", "发声", "父类默认叫声", "继承"]
     when: "参数 输入 合法"
     sub: ["① 调用 Animal；② 调用 Cat"]
     execute: "顺序调用"

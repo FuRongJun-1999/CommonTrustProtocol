@@ -1,7 +1,7 @@
 ---
 name: net-fb9d8f5d
 description: >-
-  端口扫描检测 / 网络-端口扫描检测 / 入侵检测——端口扫描模式 / record 记录连。用户提到这些词时使用本技能。
+  端口扫描检测 / 网络-端口扫描检测 / 入侵检测——端口扫描模式 / record 记。用户提到这些词时使用本技能。
   场景：对照：入侵检测——端口扫描模式（多端口快速尝试识别）。
   【不适用】Not for 以下场景：op 非 {check, record} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["端口扫描检测", "网络-端口扫描检测", "入侵检测——端口扫描模式", "record 记录连"]
+    trigger_words: ["端口扫描检测", "网络-端口扫描检测", "入侵检测——端口扫描模式", "record 记"]
     when: "op ∈ {check, record}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

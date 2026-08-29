@@ -1,7 +1,7 @@
 ---
 name: pylang-521b1bf8
 description: >-
-  事件循环 / 异步-事件循环 / Python 事件循环— / 事件循环（异步事件循 / 任务队列调度（依次执。用户提到这些词时使用本技能。
+  事件循环 / 异步-事件循环 / Python 事 / 任务队列调度。用户提到这些词时使用本技能。
   场景：对照：Python 事件循环——任务队列依次调度（单线程并发）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["事件循环", "异步-事件循环", "Python 事件循环—", "事件循环（异步事件循", "任务队列调度（依次执"]
+    trigger_words: ["事件循环", "异步-事件循环", "Python 事", "任务队列调度"]
     when: "tasks 为可调用任务列表（无参函数）"
     sub: ["① 依序取任务 ② 逐个执行 ③ 收集结果"]
     execute: "for 循环调用并收集返回值"

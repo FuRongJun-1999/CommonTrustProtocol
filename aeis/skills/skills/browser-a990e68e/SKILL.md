@@ -1,7 +1,7 @@
 ---
 name: browser-a990e68e
 description: >-
-  翻译 / 浏览器-翻译 / translate。用户提到这些词时使用本技能。
+  翻译 / 浏览器-翻译 / translate 翻。用户提到这些词时使用本技能。
   场景：对照：Translator API——文本翻译与语言对。
   【不适用】Not for 以下场景：op 非 {available, langs, translate} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["翻译", "浏览器-翻译", "translate"]
+    trigger_words: ["翻译", "浏览器-翻译", "translate 翻"]
     when: "op ∈ {available, langs, translate}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

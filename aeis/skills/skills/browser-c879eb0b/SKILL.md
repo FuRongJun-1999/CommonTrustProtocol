@@ -1,7 +1,7 @@
 ---
 name: browser-c879eb0b
 description: >-
-  文本摘要 / 浏览器-文本摘要 / summarize。用户提到这些词时使用本技能。
+  文本摘要 / 浏览器-文本摘要 / summarize 提。用户提到这些词时使用本技能。
   场景：对照：Summarizer——文本要点提取摘要。
   【不适用】Not for 以下场景：op 非 {last, length, summarize} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["文本摘要", "浏览器-文本摘要", "summarize"]
+    trigger_words: ["文本摘要", "浏览器-文本摘要", "summarize 提"]
     when: "op ∈ {last, length, summarize}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

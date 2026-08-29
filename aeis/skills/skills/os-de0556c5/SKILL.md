@@ -1,7 +1,7 @@
 ---
 name: os-de0556c5
 description: >-
-  邮箱 / IPC-邮箱 / OS IPC 邮箱——异 / put 投递 / g / （异步消息槽 / 收发进程解耦）。用户提到这些词时使用本技能。
+  邮箱 / IPC-邮箱 / OS IPC 邮 / put 投 / （异步消息槽 / 收发进程解耦）。用户提到这些词时使用本技能。
   场景：对照：OS IPC 邮箱——异步消息槽（put 投递/get FIFO 取，进程解耦）。
   【不适用】Not for 以下场景：op 非 {get, put} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["邮箱", "IPC-邮箱", "OS IPC 邮箱——异", "put 投递 / g", "（异步消息槽", "收发进程解耦）"]
+    trigger_words: ["邮箱", "IPC-邮箱", "OS IPC 邮", "put 投", "（异步消息槽", "收发进程解耦）"]
     when: "op ∈ {get, put}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

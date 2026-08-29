@@ -1,7 +1,7 @@
 ---
 name: os-c76b5a43
 description: >-
-  进程组 / 进程-进程组 / 进程组——组加入/成员/ / join 入组 /。用户提到这些词时使用本技能。
+  进程组 / 进程-进程组 / 进程组——组加入 / 成员 / 组播信号 / join 入。用户提到这些词时使用本技能。
   场景：对照：进程组——组加入/成员/组播信号（作业控制）。
   【不适用】Not for 以下场景：op 非 {join, members, signal} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["进程组", "进程-进程组", "进程组——组加入/成员/", "join 入组 /"]
+    trigger_words: ["进程组", "进程-进程组", "进程组——组加入", "成员", "组播信号", "join 入"]
     when: "op ∈ {join, members, signal}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

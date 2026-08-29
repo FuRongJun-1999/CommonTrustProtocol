@@ -1,7 +1,7 @@
 ---
 name: pylang-6be54340
 description: >-
-  深拷贝 / 工具-深拷贝 / copy.deepcop / 嵌套结构完整复制（列。用户提到这些词时使用本技能。
+  深拷贝 / 工具-深拷贝 / copy.deepcop / 嵌套结构完整复制。用户提到这些词时使用本技能。
   场景：对照：copy.deepcopy——嵌套结构递归复制（引用隔离）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["深拷贝", "工具-深拷贝", "copy.deepcop", "嵌套结构完整复制（列"]
+    trigger_words: ["深拷贝", "工具-深拷贝", "copy.deepcop", "嵌套结构完整复制"]
     when: "参数 obj 合法"
     sub: ["① 调用 isinstance；② 调用 deep_copy"]
     execute: "顺序调用"

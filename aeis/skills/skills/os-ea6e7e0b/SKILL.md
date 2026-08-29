@@ -1,7 +1,7 @@
 ---
 name: os-ea6e7e0b
 description: >-
-  性能分析 / 性能-性能分析 / OS 性能——profi / profiling / 函数耗时统计（累计/。用户提到这些词时使用本技能。
+  性能分析 / 性能-性能分析 / OS 性 / profiling / 函数耗时统计。用户提到这些词时使用本技能。
   场景：对照：OS 性能——profiling（函数耗时统计，热点定位）。
   【不适用】Not for 以下场景：times 为空/非法时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["性能分析", "性能-性能分析", "OS 性能——profi", "profiling", "函数耗时统计（累计/"]
+    trigger_words: ["性能分析", "性能-性能分析", "OS 性", "profiling", "函数耗时统计"]
     when: "参数 times 合法"
     sub: ["① 调用 sum；② 调用 round；③ 调用 len"]
     execute: "顺序调用"

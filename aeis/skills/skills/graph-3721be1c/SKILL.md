@@ -1,7 +1,7 @@
 ---
 name: graph-3721be1c
 description: >-
-  增量备份 / 图存储-增量备份 / 数据库备份——全量+增量 / full 全量 /。用户提到这些词时使用本技能。
+  增量备份 / 图存储-增量备份 / 数据库备份——全量+增量 / full 全。用户提到这些词时使用本技能。
   场景：对照：数据库备份——全量+增量（变更记录，还原叠加）。
   【不适用】Not for 以下场景：op 非 {full, incr, restore} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["增量备份", "图存储-增量备份", "数据库备份——全量+增量", "full 全量 /"]
+    trigger_words: ["增量备份", "图存储-增量备份", "数据库备份——全量+增量", "full 全"]
     when: "op ∈ {full, incr, restore}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

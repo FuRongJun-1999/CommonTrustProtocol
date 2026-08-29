@@ -1,7 +1,7 @@
 ---
 name: compile-full-pipeline
 description: >-
-  完整编译 / 编译-完整管线 / 白箱版 pc compi / 白箱版 pc com / 中文源码 → 字节码 / 流程 / 逐行词法 → 静态检 / 条件真值编译。用户提到这些词时使用本技能。
+  完整编译 / 编译-完整管线 / 中文源码 → 字节码 / 流程 / 逐行词法 → 静态检查→ / 条件真值编译 / LOAD 左。用户提到这些词时使用本技能。
   场景：对照：白箱版 pc compile 单入口（词法→静态检查→编译）；若则真值计算由编译-若则单元深化。
   【不适用】Not for 以下场景：kw 非 {知足} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["完整编译", "编译-完整管线", "白箱版 pc compi", "白箱版 pc com", "中文源码 → 字节码", "流程", "逐行词法 → 静态检", "条件真值编译"]
+    trigger_words: ["完整编译", "编译-完整管线", "中文源码 → 字节码", "流程", "逐行词法 → 静态检查→", "条件真值编译", "LOAD 左"]
     when: "kw ∈ {知足}；source.splitlines 可用；line.strip 可用"
     sub: ["1 kw 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

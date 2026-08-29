@@ -1,7 +1,7 @@
 ---
 name: os-6b0a68bf
 description: >-
-  文件锁 / 文件-文件锁 / OS 文件锁——floc / flock 语义（独。用户提到这些词时使用本技能。
+  文件锁 / 文件-文件锁 / OS 文 / flock 语。用户提到这些词时使用本技能。
   场景：对照：OS 文件锁——flock（独占/释放，并发写保护）。
   【不适用】Not for 以下场景：op 非 {lock, unlock} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["文件锁", "文件-文件锁", "OS 文件锁——floc", "flock 语义（独"]
+    trigger_words: ["文件锁", "文件-文件锁", "OS 文", "flock 语"]
     when: "op ∈ {lock, unlock}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

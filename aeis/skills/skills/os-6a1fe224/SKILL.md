@@ -1,7 +1,7 @@
 ---
 name: os-6a1fe224
 description: >-
-  页置换 / 内存-页置换 / OS 虚拟内存——LRU / LRU 页置换（最近 / 页序列 + 容量 →。用户提到这些词时使用本技能。
+  页置换 / 内存-页置换 / OS 虚 / LRU 页 / 页序列 + 容量 → 缺。用户提到这些词时使用本技能。
   场景：对照：OS 虚拟内存——LRU 页置换（容量 3 时 8 页访问 5 次缺页）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["页置换", "内存-页置换", "OS 虚拟内存——LRU", "LRU 页置换（最近", "页序列 + 容量 →"]
+    trigger_words: ["页置换", "内存-页置换", "OS 虚", "LRU 页", "页序列 + 容量 → 缺"]
     when: "page_seq 为页访问序列；capacity 为物理帧容量"
     sub: ["① 命中页前移 ② 未命中缺页计数 ③ 满时淘汰最久未用"]
     execute: "frames 列表维护 LRU 序（remove+append 前移）"

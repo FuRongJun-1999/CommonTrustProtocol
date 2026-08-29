@@ -1,7 +1,7 @@
 ---
 name: pylang-b00660e6
 description: >-
-  默认字典 / 数据结构-默认字典 / 缺失键返回默认值并登。用户提到这些词时使用本技能。
+  默认字典 / 数据结构-默认字典 / 缺失键返回默认值并登记。用户提到这些词时使用本技能。
   场景：对照：collections.defaultdict——缺失键返回默认值并登记。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["默认字典", "数据结构-默认字典", "缺失键返回默认值并登"]
+    trigger_words: ["默认字典", "数据结构-默认字典", "缺失键返回默认值并登记"]
     when: "参数 d/key/default 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "默认字典：缺失键返回默认值并登记（defaultdict 语义）"

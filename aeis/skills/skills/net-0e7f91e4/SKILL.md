@@ -1,7 +1,7 @@
 ---
 name: net-0e7f91e4
 description: >-
-  CRC校验 / 网络-CRC校验 / CRC-16 校验——多 / CRC-16 校验 / 多项式 0x8005。用户提到这些词时使用本技能。
+  CRC校验 / 网络-CRC校验 / CRC-16 校。用户提到这些词时使用本技能。
   场景：对照：CRC-16 校验——多项式除法余数（传输完整性检测）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["CRC校验", "网络-CRC校验", "CRC-16 校验——多", "CRC-16 校验", "多项式 0x8005"]
+    trigger_words: ["CRC校验", "网络-CRC校验", "CRC-16 校"]
     when: "参数 data 合法"
     sub: ["① 调用 range"]
     execute: "循环迭代；顺序调用"

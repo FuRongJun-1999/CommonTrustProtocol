@@ -1,7 +1,7 @@
 ---
 name: compiler-6d979db2
 description: >-
-  常量折叠 / 编译-常量折叠 / 编译优化——常量折叠 / PUSH 常量 +。用户提到这些词时使用本技能。
+  常量折叠 / 编译-常量折叠 / 编译优化——常量折叠 / PUSH 常。用户提到这些词时使用本技能。
   场景：对照：编译优化——常量折叠（PUSH+PUSH+算术 → PUSH 结果，编译期求值）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["常量折叠", "编译-常量折叠", "编译优化——常量折叠", "PUSH 常量 +"]
+    trigger_words: ["常量折叠", "编译-常量折叠", "编译优化——常量折叠", "PUSH 常"]
     when: "参数 instrs 合法"
     sub: ["① 调用 len"]
     execute: "循环迭代；顺序调用"

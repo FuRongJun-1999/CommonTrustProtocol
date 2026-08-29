@@ -1,7 +1,7 @@
 ---
 name: vm-profiling
 description: >-
-  指令剖析 / VM-指令剖析 / VM profiling / 指令类型频次统计（p。用户提到这些词时使用本技能。
+  指令剖析 / VM-指令剖析 / VM profiling / 指令类型频次统计。用户提到这些词时使用本技能。
   场景：对照：VM profiling——指令类型频次（热点定位）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["指令剖析", "VM-指令剖析", "VM profiling", "指令类型频次统计（p"]
+    trigger_words: ["指令剖析", "VM-指令剖析", "VM profiling", "指令类型频次统计"]
     when: "参数 code 合法"
     sub: []
     execute: "循环迭代"

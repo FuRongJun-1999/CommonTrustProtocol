@@ -1,7 +1,7 @@
 ---
 name: pylang-b880c6c6
 description: >-
-  并发任务 / 异步-并发任务 / Python async / asyncio.ga。用户提到这些词时使用本技能。
+  并发任务 / 异步-并发任务 / asyncio.gath。用户提到这些词时使用本技能。
   场景：对照：Python asyncio.gather（并发任务汇总结果）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["并发任务", "异步-并发任务", "Python async", "asyncio.ga"]
+    trigger_words: ["并发任务", "异步-并发任务", "asyncio.gath"]
     when: "参数 tasks 合法"
     sub: ["① 调用 t"]
     execute: "顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: browser-97a14ca3
 description: >-
-  事件监听 / 事件-事件监听 / 浏览器事件——监听器注册 / 事件监听器 / add/trigge。用户提到这些词时使用本技能。
+  事件监听 / 事件-事件监听 / 浏览器事件——监听器注册 / 触发 / 事件监听器。用户提到这些词时使用本技能。
   场景：对照：浏览器事件——监听器注册/触发（addEventListener/dispatchEvent 语义）。
   【不适用】Not for 以下场景：event 非 {add, trigger} 时（隐式盲区：返回默认值 0 = 未知行为——不适用）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["事件监听", "事件-事件监听", "浏览器事件——监听器注册", "事件监听器", "add/trigge"]
+    trigger_words: ["事件监听", "事件-事件监听", "浏览器事件——监听器注册", "触发", "事件监听器"]
     when: "event ∈ {add, trigger}"
     sub: ["1 event 分支处理"]
     execute: "按 op 分派；顺序调用"

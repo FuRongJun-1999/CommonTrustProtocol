@@ -1,7 +1,7 @@
 ---
 name: os-3d84e0c9
 description: >-
-  引导加载 / 启动-引导加载 / OS 启动——bootl / bootloader / MBR→内核加载（引。用户提到这些词时使用本技能。
+  引导加载 / 启动-引导加载 / OS 启 / bootloader / MBR→内。用户提到这些词时使用本技能。
   场景：对照：OS 启动——bootloader（MBR→内核→initrd 加载）。
   【不适用】Not for 以下场景：stage 非 {initrd, mbr} 时（隐式盲区：返回默认值 unknown = 未知行为——不适用）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["引导加载", "启动-引导加载", "OS 启动——bootl", "bootloader", "MBR→内核加载（引"]
+    trigger_words: ["引导加载", "启动-引导加载", "OS 启", "bootloader", "MBR→内"]
     when: "stage ∈ {initrd, mbr}"
     sub: ["1 stage 分支处理"]
     execute: "按 op 分派"

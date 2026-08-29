@@ -1,7 +1,7 @@
 ---
 name: os-4c14cec2
 description: >-
-  亲和性 / 调度-亲和性 / set 绑定核 /。用户提到这些词时使用本技能。
+  亲和性 / 调度-亲和性 / set 绑。用户提到这些词时使用本技能。
   场景：对照：CPU 亲和性——进程绑定核/查询/允许集。
   【不适用】Not for 以下场景：op 非 {allowed, get, set} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["亲和性", "调度-亲和性", "set 绑定核 /"]
+    trigger_words: ["亲和性", "调度-亲和性", "set 绑"]
     when: "op ∈ {allowed, get, set}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: pylang-fd7595f0
 description: >-
-  成对迭代 / 工具-成对迭代 / 相邻元素对（iter。用户提到这些词时使用本技能。
+  成对迭代 / 工具-成对迭代 / 相邻元素对。用户提到这些词时使用本技能。
   场景：对照：itertools.pairwise——相邻元素对。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["成对迭代", "工具-成对迭代", "相邻元素对（iter"]
+    trigger_words: ["成对迭代", "工具-成对迭代", "相邻元素对"]
     when: "参数 seq 合法"
     sub: ["① 调用 range；② 调用 len"]
     execute: "顺序调用"

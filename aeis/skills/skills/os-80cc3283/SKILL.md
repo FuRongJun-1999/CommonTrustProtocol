@@ -1,7 +1,7 @@
 ---
 name: os-80cc3283
 description: >-
-  缺页处理 / 内存-缺页处理 / OS 虚拟内存——缺页处 / present=0。用户提到这些词时使用本技能。
+  缺页处理 / 内存-缺页处理 / OS 虚 / present=0 → 。用户提到这些词时使用本技能。
   场景：对照：OS 虚拟内存——缺页处理（命中/加载/无空闲帧拒绝；置换交由页置换策略）。
   【不适用】Not for 以下场景：free_frames 为空/非法时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["缺页处理", "内存-缺页处理", "OS 虚拟内存——缺页处", "present=0"]
+    trigger_words: ["缺页处理", "内存-缺页处理", "OS 虚", "present=0 → "]
     when: "参数 page_table/vpn/free_frames/load 合法"
     sub: ["① 调用 load"]
     execute: "顺序调用"

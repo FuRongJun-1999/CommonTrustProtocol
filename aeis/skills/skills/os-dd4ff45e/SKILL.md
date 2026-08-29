@@ -1,7 +1,7 @@
 ---
 name: os-dd4ff45e
 description: >-
-  文件版本 / 文件-文件版本 / save 存版本 /。用户提到这些词时使用本技能。
+  文件版本 / 文件-文件版本 / save 存。用户提到这些词时使用本技能。
   场景：对照：文件版本——版本历史保存/列表/取最新。
   【不适用】Not for 以下场景：op 非 {get, list, save} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["文件版本", "文件-文件版本", "save 存版本 /"]
+    trigger_words: ["文件版本", "文件-文件版本", "save 存"]
     when: "op ∈ {get, list, save}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

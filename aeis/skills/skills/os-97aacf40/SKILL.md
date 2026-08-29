@@ -1,7 +1,7 @@
 ---
 name: os-97aacf40
 description: >-
-  电源管理 / 系统-电源管理 / suspend 休眠。用户提到这些词时使用本技能。
+  电源管理 / 系统-电源管理 / suspend 休。用户提到这些词时使用本技能。
   场景：对照：ACPI 电源管理——休眠/唤醒/状态。
   【不适用】Not for 以下场景：op 非 {resume, status, suspend} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["电源管理", "系统-电源管理", "suspend 休眠"]
+    trigger_words: ["电源管理", "系统-电源管理", "suspend 休"]
     when: "op ∈ {resume, status, suspend}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

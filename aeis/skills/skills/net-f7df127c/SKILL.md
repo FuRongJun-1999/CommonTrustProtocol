@@ -1,7 +1,7 @@
 ---
 name: net-f7df127c
 description: >-
-  端口镜像 / 网络-端口镜像 / SPAN——端口流量镜像 / enable 启用。用户提到这些词时使用本技能。
+  端口镜像 / 网络-端口镜像 / SPAN——端 / enable 启。用户提到这些词时使用本技能。
   场景：对照：SPAN——端口流量镜像到监控口（抓包）。
   【不适用】Not for 以下场景：op 非 {active, enable, mirror} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["端口镜像", "网络-端口镜像", "SPAN——端口流量镜像", "enable 启用"]
+    trigger_words: ["端口镜像", "网络-端口镜像", "SPAN——端", "enable 启"]
     when: "op ∈ {active, enable, mirror}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

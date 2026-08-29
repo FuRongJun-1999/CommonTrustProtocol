@@ -1,7 +1,7 @@
 ---
 name: net-706d2692
 description: >-
-  组播 / 网络-组播 / IP 组播——组成员加入 / join 加入组 /。用户提到这些词时使用本技能。
+  组播 / 网络-组播 / IP 组 / 离开 / 组内广播 / join 加。用户提到这些词时使用本技能。
   场景：对照：IP 组播——组成员加入/离开/组内广播（成员管理）。
   【不适用】Not for 以下场景：op 非 {join, leave, send} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["组播", "网络-组播", "IP 组播——组成员加入", "join 加入组 /"]
+    trigger_words: ["组播", "网络-组播", "IP 组", "离开", "组内广播", "join 加"]
     when: "op ∈ {join, leave, send}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

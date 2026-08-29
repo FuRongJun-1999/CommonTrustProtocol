@@ -1,7 +1,7 @@
 ---
 name: graph-a5cd04ae
 description: >-
-  相似推荐 / 图学习-相似推荐 / 图学习——相似推荐 / 共同邻居最多的节点（。用户提到这些词时使用本技能。
+  相似推荐 / 图学习-相似推荐 / 图学习——相似推荐 / 共同邻居最多的节点。用户提到这些词时使用本技能。
   场景：对照：图学习——相似推荐（共同邻居最多，协同过滤）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["相似推荐", "图学习-相似推荐", "图学习——相似推荐", "共同邻居最多的节点（"]
+    trigger_words: ["相似推荐", "图学习-相似推荐", "图学习——相似推荐", "共同邻居最多的节点"]
     when: "cands.sort 可用；graph.neighbors 可用"
     sub: ["① 调用 set；② 调用 len；③ 调用 common"]
     execute: "顺序调用"

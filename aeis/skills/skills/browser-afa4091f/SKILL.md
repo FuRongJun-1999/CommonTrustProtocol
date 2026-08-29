@@ -1,7 +1,7 @@
 ---
 name: browser-afa4091f
 description: >-
-  URL解析 / URL-解析 / URL 解析（网页地 / 协议/主机/端口/路。用户提到这些词时使用本技能。
+  URL解析 / URL-解析 / URL 解 / 协议/主机/端口/路径。用户提到这些词时使用本技能。
   场景：对照：浏览器 URL——协议/主机/端口/路径解析。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["URL解析", "URL-解析", "URL 解析（网页地", "协议/主机/端口/路"]
+    trigger_words: ["URL解析", "URL-解析", "URL 解", "协议/主机/端口/路径"]
     when: "url 为合法 URL 字符串（scheme://host[:port][/path]）"
     sub: ["① 协议提取 ② 主机提取 ③ 端口/路径提取"]
     execute: "正则 `\\w+://...` 分组捕获"

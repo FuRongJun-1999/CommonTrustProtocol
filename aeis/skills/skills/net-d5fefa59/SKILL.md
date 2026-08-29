@@ -1,7 +1,7 @@
 ---
 name: net-d5fefa59
 description: >-
-  数据序列化 / 网络-数据序列化 / 字段表+值 → 紧凑。用户提到这些词时使用本技能。
+  数据序列化 / 网络-数据序列化 / 字段表+值 → 紧凑编码。用户提到这些词时使用本技能。
   场景：对照：protobuf 序列化——字段序号+类型+值紧凑编码。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["数据序列化", "网络-数据序列化", "字段表+值 → 紧凑"]
+    trigger_words: ["数据序列化", "网络-数据序列化", "字段表+值 → 紧凑编码"]
     when: "参数 fields/values 合法"
     sub: ["① 调用 enumerate"]
     execute: "循环迭代；顺序调用"

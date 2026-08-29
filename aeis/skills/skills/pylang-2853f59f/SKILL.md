@@ -1,7 +1,7 @@
 ---
 name: pylang-2853f59f
 description: >-
-  顺序去重 / 工具-顺序去重 / preserve-ord / 保留首次出现序（pr。用户提到这些词时使用本技能。
+  顺序去重 / 工具-顺序去重 / preserve-ord / 保留首次出现序。用户提到这些词时使用本技能。
   场景：对照：preserve-order unique——去重保序（dict.fromkeys 语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["顺序去重", "工具-顺序去重", "preserve-ord", "保留首次出现序（pr"]
+    trigger_words: ["顺序去重", "工具-顺序去重", "preserve-ord", "保留首次出现序"]
     when: "参数 seq 合法"
     sub: ["① 调用 set"]
     execute: "循环迭代；顺序调用"

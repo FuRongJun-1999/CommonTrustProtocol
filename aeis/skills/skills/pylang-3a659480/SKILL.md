@@ -1,7 +1,7 @@
 ---
 name: pylang-3a659480
 description: >-
-  超时控制 / 异步-超时控制 / asyncio.wait / 用时 ≤ 超时返回结。用户提到这些词时使用本技能。
+  超时控制 / 异步-超时控制 / asyncio.wait_for / 用时 ≤ 超时返回结果。用户提到这些词时使用本技能。
   场景：对照：asyncio.wait_for（超时取消/按时完成）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["超时控制", "异步-超时控制", "asyncio.wait", "用时 ≤ 超时返回结"]
+    trigger_words: ["超时控制", "异步-超时控制", "asyncio.wait_for", "用时 ≤ 超时返回结果"]
     when: "参数 task_fn/timeout/time_used 合法"
     sub: ["① 调用 task_fn"]
     execute: "顺序调用"

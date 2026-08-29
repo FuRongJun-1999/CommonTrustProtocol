@@ -1,7 +1,7 @@
 ---
 name: browser-09e60b35
 description: >-
-  画中画 / 浏览器-画中画 / open 打开 /。用户提到这些词时使用本技能。
+  画中画 / 浏览器-画中画 / open 打。用户提到这些词时使用本技能。
   场景：对照：Picture-in-Picture——画中画窗口开关。
   【不适用】Not for 以下场景：op 非 {active, close, open} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["画中画", "浏览器-画中画", "open 打开 /"]
+    trigger_words: ["画中画", "浏览器-画中画", "open 打"]
     when: "op ∈ {active, close, open}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

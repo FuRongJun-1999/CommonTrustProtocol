@@ -1,7 +1,7 @@
 ---
 name: browser-31f2b08f
 description: >-
-  形状检测 / 浏览器-形状检测 / detect 检测。用户提到这些词时使用本技能。
+  形状检测 / 浏览器-形状检测 / detect 检。用户提到这些词时使用本技能。
   场景：对照：Shape Detection——人脸/条码形状检测。
   【不适用】Not for 以下场景：op 非 {count, detect, last} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["形状检测", "浏览器-形状检测", "detect 检测"]
+    trigger_words: ["形状检测", "浏览器-形状检测", "detect 检"]
     when: "op ∈ {count, detect, last}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

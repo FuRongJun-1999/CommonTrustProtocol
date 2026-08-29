@@ -1,7 +1,7 @@
 ---
 name: compiler-ecb30d5b
 description: >-
-  链式比较 / 编译-链式比较 / 编译链式比较——a<b< / a < b < c。用户提到这些词时使用本技能。
+  链式比较 / 编译-链式比较 / a < b < c → 。用户提到这些词时使用本技能。
   场景：对照：编译链式比较——a<b<c = (a<b) 且 (b<c)（短路组合，Python 链式语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["链式比较", "编译-链式比较", "编译链式比较——a<b<", "a < b < c"]
+    trigger_words: ["链式比较", "编译-链式比较", "a < b < c → "]
     when: "参数 cmp1/cmp2 合法"
     sub: ["① 调用 list"]
     execute: "顺序调用"

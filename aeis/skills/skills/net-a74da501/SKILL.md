@@ -1,7 +1,7 @@
 ---
 name: net-a74da501
 description: >-
-  端口转发 / 网络-端口转发 / NAT 端口转发——外网 / add 映射 / l。用户提到这些词时使用本技能。
+  端口转发 / 网络-端口转发 / NAT 端 / add 映。用户提到这些词时使用本技能。
   场景：对照：NAT 端口转发——外网端口→内网主机端口映射（增删查）。
   【不适用】Not for 以下场景：op 非 {add, lookup, remove} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["端口转发", "网络-端口转发", "NAT 端口转发——外网", "add 映射 / l"]
+    trigger_words: ["端口转发", "网络-端口转发", "NAT 端", "add 映"]
     when: "op ∈ {add, lookup, remove}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

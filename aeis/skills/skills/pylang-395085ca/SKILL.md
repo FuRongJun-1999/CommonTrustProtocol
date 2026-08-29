@@ -1,7 +1,7 @@
 ---
 name: pylang-395085ca
 description: >-
-  属性访问 / 工具-属性访问 / Python 动态属性 / 属性访问（动态属性） / getattr/se / 构造 / 初始化内部属性字典 / 读拦截。用户提到这些词时使用本技能。
+  属性访问 / 工具-属性访问 / Python 动 / 构造 / 初始化内部属性字典 / 读拦截 / 未定义属性从内部字典取。用户提到这些词时使用本技能。
   场景：对照：Python 动态属性（__getattr__/__setattr__ 拦截读写）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["属性访问", "工具-属性访问", "Python 动态属性", "属性访问（动态属性）", "getattr/se", "构造", "初始化内部属性字典", "读拦截"]
+    trigger_words: ["属性访问", "工具-属性访问", "Python 动", "构造", "初始化内部属性字典", "读拦截", "未定义属性从内部字典取"]
     when: "参数 输入 合法"
     sub: ["① 调用 User"]
     execute: "顺序调用"

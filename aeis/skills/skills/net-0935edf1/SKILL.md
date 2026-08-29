@@ -1,7 +1,7 @@
 ---
 name: net-0935edf1
 description: >-
-  拓扑发现 / 网络-拓扑发现 / 拓扑发现——链路探测与邻 / probe 探测 /。用户提到这些词时使用本技能。
+  拓扑发现 / 网络-拓扑发现 / 拓扑发现——链路探测与邻 / probe 探。用户提到这些词时使用本技能。
   场景：对照：拓扑发现——链路探测与邻居表（LLDP）。
   【不适用】Not for 以下场景：op 非 {link, neighbors, probe} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["拓扑发现", "网络-拓扑发现", "拓扑发现——链路探测与邻", "probe 探测 /"]
+    trigger_words: ["拓扑发现", "网络-拓扑发现", "拓扑发现——链路探测与邻", "probe 探"]
     when: "op ∈ {link, neighbors, probe}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

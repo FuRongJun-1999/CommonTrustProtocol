@@ -1,7 +1,7 @@
 ---
 name: net-8897d5cc
 description: >-
-  BGP路径选择 / 网络-BGP路径选择 / BGP 路由——路径选择 / BGP 路径选择 / AS 路径最短优先（。用户提到这些词时使用本技能。
+  BGP路径选择 / 网络-BGP路径选择 / BGP 路 / AS 路。用户提到这些词时使用本技能。
   场景：对照：BGP 路由——路径选择（AS 路径最短优先，选路决策）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["BGP路径选择", "网络-BGP路径选择", "BGP 路由——路径选择", "BGP 路径选择", "AS 路径最短优先（"]
+    trigger_words: ["BGP路径选择", "网络-BGP路径选择", "BGP 路", "AS 路"]
     when: "参数 routes 合法"
     sub: ["① 调用 len"]
     execute: "循环迭代；顺序调用"

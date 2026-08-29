@@ -1,7 +1,7 @@
 ---
 name: graph-5ca34baa
 description: >-
-  社区发现 / 图算法-社区发现 / 图算法——标签传播社区发 / 标签传播（LPA——。用户提到这些词时使用本技能。
+  社区发现 / 图算法-社区发现 / 图算法——标签传播社区发 / 标签传播。用户提到这些词时使用本技能。
   场景：对照：图算法——标签传播社区发现（LPA，邻居多数标签传播收敛）。
   【不适用】Not for 以下场景：neigh 为空/非法时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["社区发现", "图算法-社区发现", "图算法——标签传播社区发", "标签传播（LPA——"]
+    trigger_words: ["社区发现", "图算法-社区发现", "图算法——标签传播社区发", "标签传播"]
     when: "graph.neighbors 可用；cnt.most_common 可用"
     sub: ["① 调用 range；② 调用 sorted；③ 调用 Counter"]
     execute: "循环迭代；顺序调用"

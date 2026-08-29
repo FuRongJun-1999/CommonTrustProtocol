@@ -1,7 +1,7 @@
 ---
 name: net-ea14aab8
 description: >-
-  快速重传 / 网络-快速重传 / TCP 快速重传——3 / 重复 ACK 达阈值。用户提到这些词时使用本技能。
+  快速重传 / 网络-快速重传 / TCP 快。用户提到这些词时使用本技能。
   场景：对照：TCP 快速重传——3 个重复 ACK 触发立即重传（不等超时）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["快速重传", "网络-快速重传", "TCP 快速重传——3", "重复 ACK 达阈值"]
+    trigger_words: ["快速重传", "网络-快速重传", "TCP 快"]
     when: "参数 dup_acks/threshold 合法"
     sub: []
     execute: "快速重传：重复 ACK 达阈值立即重传（不等超时——快速恢复）"

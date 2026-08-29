@@ -1,7 +1,7 @@
 ---
 name: compiler-0e82b966
 description: >-
-  协议词法对接 / 对接-协议词法 / protocol-com / protocol-c。用户提到这些词时使用本技能。
+  协议词法对接 / 对接-协议词法 / protocol-com。用户提到这些词时使用本技能。
   场景：对照：protocol-compiler TokenType 枚举（道德经助记符/若则/九章算术）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["协议词法对接", "对接-协议词法", "protocol-com", "protocol-c"]
+    trigger_words: ["协议词法对接", "对接-协议词法", "protocol-com"]
     when: "参数 token_name 合法"
     sub: []
     execute: "protocol-compiler TokenType → 白箱指令名（真实词法对接校准基准）"

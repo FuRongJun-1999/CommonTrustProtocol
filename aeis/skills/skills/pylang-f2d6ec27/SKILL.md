@@ -1,7 +1,7 @@
 ---
 name: pylang-f2d6ec27
 description: >-
-  解包赋值 / 求值-解包赋值 / CPython 解包赋值 / 解包赋值（多重赋值） / a, b = b, / 递归遍历 / 嵌套列表目标逐层绑定。用户提到这些词时使用本技能。
+  解包赋值 / 求值-解包赋值 / CPython 解 / a, b = b, a  / 递归遍历 / 嵌套列表目标逐层绑定值。用户提到这些词时使用本技能。
   场景：对照：CPython 解包赋值（RHS 先求值后按目标逐层写入，嵌套列表递归解包）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["解包赋值", "求值-解包赋值", "CPython 解包赋值", "解包赋值（多重赋值）", "a, b = b,", "递归遍历", "嵌套列表目标逐层绑定"]
+    trigger_words: ["解包赋值", "求值-解包赋值", "CPython 解", "a, b = b, a ", "递归遍历", "嵌套列表目标逐层绑定值"]
     when: "targets 与 values 结构对应（嵌套列表匹配嵌套值）"
     sub: ["① 逐目标遍历 ② 嵌套列表递归解包 ③ 叶子目标绑定值"]
     execute: "zip 配对 + 递归 walk，RHS 先求值后逐层写入"

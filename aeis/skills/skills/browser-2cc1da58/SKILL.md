@@ -1,7 +1,7 @@
 ---
 name: browser-2cc1da58
 description: >-
-  扩展管理 / 浏览器-扩展管理 / 浏览器扩展——安装/启停 / install 安装。用户提到这些词时使用本技能。
+  扩展管理 / 浏览器-扩展管理 / 浏览器扩展——安装 / 启停 / 权限检查 / install 安。用户提到这些词时使用本技能。
   场景：对照：浏览器扩展——安装/启停/权限检查（最小权限原则）。
   【不适用】Not for 以下场景：op 非 {check, enable, install} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["扩展管理", "浏览器-扩展管理", "浏览器扩展——安装/启停", "install 安装"]
+    trigger_words: ["扩展管理", "浏览器-扩展管理", "浏览器扩展——安装", "启停", "权限检查", "install 安"]
     when: "op ∈ {check, enable, install}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

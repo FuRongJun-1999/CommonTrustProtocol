@@ -1,7 +1,7 @@
 ---
 name: os-2ea9a5ff
 description: >-
-  资源限额 / 系统-资源限额 / OS ulimit——进 / ulimit / 进程资源限制（设置/。用户提到这些词时使用本技能。
+  资源限额 / 系统-资源限额 / OS ulimit——进 / ulimit / 进程资源限制。用户提到这些词时使用本技能。
   场景：对照：OS ulimit——进程资源限制（软限制设置/查询）。
   【不适用】Not for 以下场景：op 非 {check, get, set} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["资源限额", "系统-资源限额", "OS ulimit——进", "ulimit", "进程资源限制（设置/"]
+    trigger_words: ["资源限额", "系统-资源限额", "OS ulimit——进", "ulimit", "进程资源限制"]
     when: "op ∈ {check, get, set}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

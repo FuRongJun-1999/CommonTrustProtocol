@@ -1,7 +1,7 @@
 ---
 name: pylang-b67b1878
 description: >-
-  字典合并 / 语法-字典合并 / 多字典顺序合并（后者。用户提到这些词时使用本技能。
+  字典合并 / 语法-字典合并 / 多字典顺序合并。用户提到这些词时使用本技能。
   场景：对照：Python 3.9 dict | 运算符——顺序合并后者覆盖。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["字典合并", "语法-字典合并", "多字典顺序合并（后者"]
+    trigger_words: ["字典合并", "语法-字典合并", "多字典顺序合并"]
     when: "参数 输入 合法"
     sub: []
     execute: "循环迭代"

@@ -1,7 +1,7 @@
 ---
 name: net-70a20e04
 description: >-
-  RTT平滑 / 网络-RTT平滑 / TCP RTT——EWM / RTT 平滑 / sample 加权更。用户提到这些词时使用本技能。
+  RTT平滑 / 网络-RTT平滑 / TCP RTT——EWM / RTT 平 / sample 加。用户提到这些词时使用本技能。
   场景：对照：TCP RTT——EWMA 加权平滑估值（α=0.125）。
   【不适用】Not for 以下场景：op 非 {get, sample} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["RTT平滑", "网络-RTT平滑", "TCP RTT——EWM", "RTT 平滑", "sample 加权更"]
+    trigger_words: ["RTT平滑", "网络-RTT平滑", "TCP RTT——EWM", "RTT 平", "sample 加"]
     when: "op ∈ {get, sample}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

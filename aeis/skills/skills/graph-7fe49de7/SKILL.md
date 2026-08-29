@@ -1,7 +1,7 @@
 ---
 name: graph-7fe49de7
 description: >-
-  最大割 / 图算法-最大割 / MAX-CUT——贪心二 / 最大割（MAX-CU / 贪心二分使跨割边最多。用户提到这些词时使用本技能。
+  最大割 / 图算法-最大割 / MAX-CUT——贪 / 贪心二分使跨割边最多。用户提到这些词时使用本技能。
   场景：对照：MAX-CUT——贪心二分最大跨割边（近似）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["最大割", "图算法-最大割", "MAX-CUT——贪心二", "最大割（MAX-CU", "贪心二分使跨割边最多"]
+    trigger_words: ["最大割", "图算法-最大割", "MAX-CUT——贪", "贪心二分使跨割边最多"]
     when: "adj 为无向图邻接表（顶点可哈希）"
     sub: ["① 交替着色分侧 ② 统计跨侧边数"]
     execute: "逐顶点按首个邻居反向着色，u<v 且异侧计数"

@@ -1,7 +1,7 @@
 ---
 name: net-3434e92f
 description: >-
-  数据包采样 / 网络-数据包采样 / NetFlow——按采样 / sample 按率采。用户提到这些词时使用本技能。
+  数据包采样 / 网络-数据包采样 / NetFlow——按 / sample 按。用户提到这些词时使用本技能。
   场景：对照：NetFlow——按采样率抽取数据包（sFlow/NetFlow）。
   【不适用】Not for 以下场景：op 非 {count, rate, sample} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["数据包采样", "网络-数据包采样", "NetFlow——按采样", "sample 按率采"]
+    trigger_words: ["数据包采样", "网络-数据包采样", "NetFlow——按", "sample 按"]
     when: "op ∈ {count, rate, sample}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

@@ -1,7 +1,7 @@
 ---
 name: pylang-39c72c78
 description: >-
-  数值统计 / 工具-数值统计 / Python stati / mean 平均 /。用户提到这些词时使用本技能。
+  数值统计 / 工具-数值统计 / min / max / mean 平。用户提到这些词时使用本技能。
   场景：对照：Python statistics——mean/min/max（统计族）。
   【不适用】Not for 以下场景：nums 为空/非法时；op 非 {max, mean, min} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["数值统计", "工具-数值统计", "Python stati", "mean 平均 /"]
+    trigger_words: ["数值统计", "工具-数值统计", "min", "max", "mean 平"]
     when: "op ∈ {max, mean, min}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

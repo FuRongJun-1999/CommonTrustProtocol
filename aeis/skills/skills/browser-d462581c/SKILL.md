@@ -1,7 +1,7 @@
 ---
 name: browser-d462581c
 description: >-
-  下载管理 / 浏览器-下载管理 / 浏览器下载——进度/暂停 / start 开始 /。用户提到这些词时使用本技能。
+  下载管理 / 浏览器-下载管理 / 浏览器下载——进度 / 暂停 / 恢复 / start 开。用户提到这些词时使用本技能。
   场景：对照：浏览器下载——进度/暂停/恢复（断点续传）。
   【不适用】Not for 以下场景：op 非 {pause, progress, resume, start} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["下载管理", "浏览器-下载管理", "浏览器下载——进度/暂停", "start 开始 /"]
+    trigger_words: ["下载管理", "浏览器-下载管理", "浏览器下载——进度", "暂停", "恢复", "start 开"]
     when: "op ∈ {pause, progress, resume, start}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

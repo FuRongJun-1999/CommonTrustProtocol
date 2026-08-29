@@ -1,7 +1,7 @@
 ---
 name: pylang-a7c3d0e2
 description: >-
-  字符串替换 / 工具-字符串替换 / Python str.r / 字符串替换（repl / 全部/前 n 次替换。用户提到这些词时使用本技能。
+  字符串替换 / 工具-字符串替换。用户提到这些词时使用本技能。
   场景：对照：Python str.replace（全部/限次替换）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["字符串替换", "工具-字符串替换", "Python str.r", "字符串替换（repl", "全部/前 n 次替换"]
+    trigger_words: ["字符串替换", "工具-字符串替换"]
     when: "text 为字符串；old/new 为替换对；count 为次数或 None（全部）"
     sub: ["① 全部替换 ② 限量替换"]
     execute: "count 给定 → text.replace(old, new, count)，否则全替"

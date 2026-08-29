@@ -1,7 +1,7 @@
 ---
 name: net-08a2fc88
 description: >-
-  路由收敛 / 网络-路由收敛 / 路由协议收敛——链路变化 / update 链路变。用户提到这些词时使用本技能。
+  路由收敛 / 网络-路由收敛 / 路由协议收敛——链路变化 / update 链。用户提到这些词时使用本技能。
   场景：对照：路由协议收敛——链路变化传播至全网稳定（收敛判定）。
   【不适用】Not for 以下场景：op 非 {converge, stable, update} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["路由收敛", "网络-路由收敛", "路由协议收敛——链路变化", "update 链路变"]
+    trigger_words: ["路由收敛", "网络-路由收敛", "路由协议收敛——链路变化", "update 链"]
     when: "op ∈ {converge, stable, update}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

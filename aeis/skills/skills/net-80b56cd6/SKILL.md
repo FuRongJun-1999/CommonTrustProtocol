@@ -1,7 +1,7 @@
 ---
 name: net-80b56cd6
 description: >-
-  证书校验 / 网络-证书校验 / 证书校验（证书有效期 / 有效期时间窗检查（T。用户提到这些词时使用本技能。
+  证书校验 / 网络-证书校验 / 有效期时间窗检查。用户提到这些词时使用本技能。
   场景：对照：X.509 证书有效期校验——not_before/not_after 时间窗判定。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["证书校验", "网络-证书校验", "证书校验（证书有效期", "有效期时间窗检查（T"]
+    trigger_words: ["证书校验", "网络-证书校验", "有效期时间窗检查"]
     when: "cert 含 not_before/not_after；now 为当前时间戳"
     sub: ["① 时间窗边界比较 ② 越界判过期 ③ 窗内判有效"]
     execute: "now < not_before 或 now > not_after → expired（fail-closed）"

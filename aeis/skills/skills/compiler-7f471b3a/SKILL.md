@@ -1,7 +1,7 @@
 ---
 name: compiler-7f471b3a
 description: >-
-  基本块 / 分析-基本块 / CFG 分析——基本块划 / 按跳转目标/跳转指令。用户提到这些词时使用本技能。
+  基本块 / 分析-基本块 / CFG 分 / 按跳转目标/跳转指令切分。用户提到这些词时使用本技能。
   场景：对照：CFG 分析——基本块划分（跳转为界）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["基本块", "分析-基本块", "CFG 分析——基本块划", "按跳转目标/跳转指令"]
+    trigger_words: ["基本块", "分析-基本块", "CFG 分", "按跳转目标/跳转指令切分"]
     when: "参数 instrs 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

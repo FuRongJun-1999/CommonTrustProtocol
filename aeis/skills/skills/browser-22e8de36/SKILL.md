@@ -1,7 +1,7 @@
 ---
 name: browser-22e8de36
 description: >-
-  触控手势 / 浏览器-触控手势 / tap 轻点 / p。用户提到这些词时使用本技能。
+  触控手势 / 浏览器-触控手势 / tap 轻。用户提到这些词时使用本技能。
   场景：对照：Touch Events——轻点/平移/双指缩放手势识别。
   【不适用】Not for 以下场景：op 非 {pan, pinch, tap} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["触控手势", "浏览器-触控手势", "tap 轻点 / p"]
+    trigger_words: ["触控手势", "浏览器-触控手势", "tap 轻"]
     when: "op ∈ {pan, pinch, tap}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

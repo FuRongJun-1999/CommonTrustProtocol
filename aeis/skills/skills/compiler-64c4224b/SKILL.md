@@ -1,7 +1,7 @@
 ---
 name: compiler-64c4224b
 description: >-
-  中间表示 / 编译-中间表示 / 三地址码——IR 中间表 / 表达式 → 三地址码。用户提到这些词时使用本技能。
+  中间表示 / 编译-中间表示 / 表达式 → 三地址码。用户提到这些词时使用本技能。
   场景：对照：三地址码——IR 中间表示（赋值/二元运算）。
   【不适用】Not for 以下场景：op 非 {assign, binary} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["中间表示", "编译-中间表示", "三地址码——IR 中间表", "表达式 → 三地址码"]
+    trigger_words: ["中间表示", "编译-中间表示", "表达式 → 三地址码"]
     when: "op ∈ {assign, binary}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

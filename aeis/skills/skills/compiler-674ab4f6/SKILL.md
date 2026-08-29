@@ -1,7 +1,7 @@
 ---
 name: compiler-674ab4f6
 description: >-
-  完整性校验 / 字节码-完整性校验 / C3 .pbc 完整性— / .pbc 完整性 / 异或校验和验证（检测。用户提到这些词时使用本技能。
+  完整性校验 / 字节码-完整性校验 / C3 .pbc 完 / .pbc 完 / 异或校验和验证。用户提到这些词时使用本技能。
   场景：对照：C3 .pbc 完整性——异或校验和（损坏检测）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["完整性校验", "字节码-完整性校验", "C3 .pbc 完整性—", ".pbc 完整性", "异或校验和验证（检测"]
+    trigger_words: ["完整性校验", "字节码-完整性校验", "C3 .pbc 完", ".pbc 完", "异或校验和验证"]
     when: "参数 data/expected 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

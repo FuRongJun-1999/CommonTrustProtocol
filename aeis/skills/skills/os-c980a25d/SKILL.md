@@ -1,7 +1,7 @@
 ---
 name: os-c980a25d
 description: >-
-  inode查询 / 文件-inode / OS 文件系统 inod / inode 表查询 / 文件名 → (大小,。用户提到这些词时使用本技能。
+  inode查询 / 文件-inode / OS 文 / inode 表。用户提到这些词时使用本技能。
   场景：对照：OS 文件系统 inode——文件名→元数据（大小/权限）查询。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["inode查询", "文件-inode", "OS 文件系统 inod", "inode 表查询", "文件名 → (大小,"]
+    trigger_words: ["inode查询", "文件-inode", "OS 文", "inode 表"]
     when: "参数 files/name 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

@@ -1,7 +1,7 @@
 ---
 name: os-cc49ef2f
 description: >-
-  存储池 / 存储-存储池 / 存储池——容量池分配/回 / create 建池。用户提到这些词时使用本技能。
+  存储池 / 存储-存储池 / 存储池——容量池分配 / 回收 / create 建。用户提到这些词时使用本技能。
   场景：对照：存储池——容量池分配/回收（超限拒绝）。
   【不适用】Not for 以下场景：op 非 {alloc, create, free, status} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["存储池", "存储-存储池", "存储池——容量池分配/回", "create 建池"]
+    trigger_words: ["存储池", "存储-存储池", "存储池——容量池分配", "回收", "create 建"]
     when: "op ∈ {alloc, create, free, status}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: net-686632aa
 description: >-
-  链路预算 / 网络-链路预算 / 蓝牙 RSSI——信号质 / measure 记录。用户提到这些词时使用本技能。
+  链路预算 / 网络-链路预算 / measure 记。用户提到这些词时使用本技能。
   场景：对照：蓝牙 RSSI——信号质量分级与距离估算（链路预算）。
   【不适用】Not for 以下场景：op 非 {distance, measure, quality} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["链路预算", "网络-链路预算", "蓝牙 RSSI——信号质", "measure 记录"]
+    trigger_words: ["链路预算", "网络-链路预算", "measure 记"]
     when: "op ∈ {distance, measure, quality}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

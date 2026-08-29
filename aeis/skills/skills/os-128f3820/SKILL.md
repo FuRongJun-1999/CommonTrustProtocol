@@ -1,7 +1,7 @@
 ---
 name: os-128f3820
 description: >-
-  模块加载 / 系统-模块加载 / 模块加载（内核模块装 / 依赖满足才注册（内核。用户提到这些词时使用本技能。
+  模块加载 / 系统-模块加载 / 依赖满足才注册。用户提到这些词时使用本技能。
   场景：对照：内核模块装载——依赖全部已注册才加载，缺依赖拒绝。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["模块加载", "系统-模块加载", "模块加载（内核模块装", "依赖满足才注册（内核"]
+    trigger_words: ["模块加载", "系统-模块加载", "依赖满足才注册"]
     when: "registry 为已加载模块表；deps 为模块依赖名列表"
     sub: ["① 依赖存在性检查 ② 全满足注册 ③ 缺依赖拒绝"]
     execute: "all(d in registry) → 注册返回 ok，否则 missing_deps"

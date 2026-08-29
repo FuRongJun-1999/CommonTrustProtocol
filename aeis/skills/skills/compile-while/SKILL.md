@@ -1,7 +1,7 @@
 ---
 name: compile-while
 description: >-
-  循环编译 / 编译-循环 / 当…执行=while 语 / 循环编译（while / 当…执行 → 条件 / （while 语义 / 条件为假即退出。用户提到这些词时使用本技能。
+  循环编译 / 编译-循环 / （while 语 / 条件为假即退出。用户提到这些词时使用本技能。
   场景：对照：当…执行=while 语句（条件先判→体→回跳；假则跳出到循环后）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["循环编译", "编译-循环", "当…执行=while 语", "循环编译（while", "当…执行 → 条件", "（while 语义", "条件为假即退出"]
+    trigger_words: ["循环编译", "编译-循环", "（while 语", "条件为假即退出"]
     when: "cond_instrs/body_instrs 为指令列表（条件字节码/循环体字节码）"
     sub: ["① 拼接条件指令 ② 假跳转至循环后 ③ 体尾回跳条件"]
     execute: "JUMP_IF_FALSE 跳出 + JUMP 回跳形成循环（while 语义）"

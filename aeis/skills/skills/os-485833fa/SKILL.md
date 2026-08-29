@@ -1,7 +1,7 @@
 ---
 name: os-485833fa
 description: >-
-  页缓存 / 内存-页缓存 / get 命中读 /。用户提到这些词时使用本技能。
+  页缓存 / 内存-页缓存 / get 命。用户提到这些词时使用本技能。
   场景：对照：页缓存——文件页缓存命中/写入/命中率。
   【不适用】Not for 以下场景：op 非 {get, put, stats} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["页缓存", "内存-页缓存", "get 命中读 /"]
+    trigger_words: ["页缓存", "内存-页缓存", "get 命"]
     when: "op ∈ {get, put, stats}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

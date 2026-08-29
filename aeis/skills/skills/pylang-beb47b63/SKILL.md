@@ -1,7 +1,7 @@
 ---
 name: pylang-beb47b63
 description: >-
-  任务取消 / 异步-任务取消 / asyncio.Task / start 启动 /。用户提到这些词时使用本技能。
+  任务取消 / 异步-任务取消 / asyncio.Task.cancel / start 启。用户提到这些词时使用本技能。
   场景：对照：asyncio.Task.cancel（运行中可取消，已完成不可）。
   【不适用】Not for 以下场景：op 非 {cancel, check, start} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["任务取消", "异步-任务取消", "asyncio.Task", "start 启动 /"]
+    trigger_words: ["任务取消", "异步-任务取消", "asyncio.Task.cancel", "start 启"]
     when: "op ∈ {cancel, check, start}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

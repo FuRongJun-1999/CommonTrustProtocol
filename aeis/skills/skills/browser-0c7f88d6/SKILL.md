@@ -1,7 +1,7 @@
 ---
 name: browser-0c7f88d6
 description: >-
-  盒模型 / 渲染-盒模型 / 浏览器渲染——盒模型 / 盒模型（CSS 盒模 / 内容+padding。用户提到这些词时使用本技能。
+  盒模型 / 渲染-盒模型 / 浏览器渲染——盒模型。用户提到这些词时使用本技能。
   场景：对照：浏览器渲染——盒模型（padding/border 计入元素尺寸，margin 不计）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["盒模型", "渲染-盒模型", "浏览器渲染——盒模型", "盒模型（CSS 盒模", "内容+padding"]
+    trigger_words: ["盒模型", "渲染-盒模型", "浏览器渲染——盒模型"]
     when: "width/padding/border/margin 为数值（CSS 盒属性）"
     sub: ["① 内容宽 ② 加两侧 padding ③ 加两侧 border"]
     execute: "width + 2*padding + 2*border（margin 不计入总宽）"

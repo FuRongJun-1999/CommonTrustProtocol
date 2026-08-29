@@ -1,7 +1,7 @@
 ---
 name: net-240a14ec
 description: >-
-  时隙 / 网络-时隙 / assign 分配。用户提到这些词时使用本技能。
+  时隙 / 网络-时隙 / assign 分。用户提到这些词时使用本技能。
   场景：对照：TDMA——时分多址时隙分配/轮转/归属。
   【不适用】Not for 以下场景：op 非 {assign, next, owner} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["时隙", "网络-时隙", "assign 分配"]
+    trigger_words: ["时隙", "网络-时隙", "assign 分"]
     when: "op ∈ {assign, next, owner}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代"

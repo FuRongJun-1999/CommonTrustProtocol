@@ -1,7 +1,7 @@
 ---
 name: pylang-7ca54f0e
 description: >-
-  默认参数 / 语法-默认参数 / Python 默认参数 / 参数绑定（缺省用默认。用户提到这些词时使用本技能。
+  默认参数 / 语法-默认参数 / Python 默 / 参数绑定。用户提到这些词时使用本技能。
   场景：对照：Python 默认参数（缺省用默认值绑定）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["默认参数", "语法-默认参数", "Python 默认参数", "参数绑定（缺省用默认"]
+    trigger_words: ["默认参数", "语法-默认参数", "Python 默", "参数绑定"]
     when: "参数 params/defaults/call_args 合法"
     sub: ["① 调用 enumerate；② 调用 len"]
     execute: "循环迭代；顺序调用"

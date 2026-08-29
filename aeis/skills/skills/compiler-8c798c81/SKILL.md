@@ -1,7 +1,7 @@
 ---
 name: compiler-8c798c81
 description: >-
-  转义序列 / 词法-转义序列 / 词法——转义序列 / 反斜杠n 反斜杠t。用户提到这些词时使用本技能。
+  转义序列 / 词法-转义序列 / 词法——转义序列。用户提到这些词时使用本技能。
   场景：对照：词法——转义序列（反斜杠n反斜杠t反斜杠引号 解码）。
   【不适用】Not for 以下场景：nxt 非 {n, t} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["转义序列", "词法-转义序列", "词法——转义序列", "反斜杠n 反斜杠t"]
+    trigger_words: ["转义序列", "词法-转义序列", "词法——转义序列"]
     when: "nxt ∈ {n, t}"
     sub: ["1 nxt 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

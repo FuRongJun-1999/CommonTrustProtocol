@@ -1,7 +1,7 @@
 ---
 name: graph-37a45d4b
 description: >-
-  最大流 / 图算法-最大流 / 图算法——最大流 / 最大流（Ford-F / BFS 增广路径推送。用户提到这些词时使用本技能。
+  最大流 / 图算法-最大流 / 图算法——最大流 / BFS 增。用户提到这些词时使用本技能。
   场景：对照：图算法——最大流（Ford-Fulkerson 增广路径推送）。
   【不适用】Not for 以下场景：found 为空/非法时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["最大流", "图算法-最大流", "图算法——最大流", "最大流（Ford-F", "BFS 增广路径推送"]
+    trigger_words: ["最大流", "图算法-最大流", "图算法——最大流", "BFS 增"]
     when: "graph 为容量网络（含容量边）；source/sink 为源/汇节点"
     sub: ["① BFS 找增广路 ② 沿路推送最小剩余容量 ③ 更新残留网络"]
     execute: "反复增广直至无路，累加推送流量"

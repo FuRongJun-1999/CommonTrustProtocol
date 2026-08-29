@@ -1,7 +1,7 @@
 ---
 name: os-cfa66a1b
 description: >-
-  块管理 / 文件-块管理 / OS 文件系统——块位图 / 块位图分配 / 连续 size 块。用户提到这些词时使用本技能。
+  块管理 / 文件-块管理 / OS 文 / 块位图分配。用户提到这些词时使用本技能。
   场景：对照：OS 文件系统——块位图分配（连续块首次适配）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["块管理", "文件-块管理", "OS 文件系统——块位图", "块位图分配", "连续 size 块"]
+    trigger_words: ["块管理", "文件-块管理", "OS 文", "块位图分配"]
     when: "参数 bitmap/size 合法"
     sub: ["① 调用 len；② 调用 range；③ 调用 all"]
     execute: "循环迭代；顺序调用"

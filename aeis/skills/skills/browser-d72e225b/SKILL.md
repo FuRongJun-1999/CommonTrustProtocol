@@ -1,7 +1,7 @@
 ---
 name: browser-d72e225b
 description: >-
-  渲染优化 / 性能-渲染优化 / 浏览器性能——批量 DO / 批量 DOM 更新（。用户提到这些词时使用本技能。
+  渲染优化 / 性能-渲染优化。用户提到这些词时使用本技能。
   场景：对照：浏览器性能——批量 DOM 更新（合并修改减少重排）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["渲染优化", "性能-渲染优化", "浏览器性能——批量 DO", "批量 DOM 更新（"]
+    trigger_words: ["渲染优化", "性能-渲染优化"]
     when: "参数 updates 合法"
     sub: []
     execute: "循环迭代"

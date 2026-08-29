@@ -1,7 +1,7 @@
 ---
 name: net-91e00638
 description: >-
-  序列号回绕 / 网络-序列号回绕 / TCP 序列号——回绕推 / next 推进 /。用户提到这些词时使用本技能。
+  序列号回绕 / 网络-序列号回绕 / TCP 序 / 回绕比较 / next 推。用户提到这些词时使用本技能。
   场景：对照：TCP 序列号——回绕推进/回绕比较（2^32 空间）。
   【不适用】Not for 以下场景：op 非 {compare, next, wrap} 时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["序列号回绕", "网络-序列号回绕", "TCP 序列号——回绕推", "next 推进 /"]
+    trigger_words: ["序列号回绕", "网络-序列号回绕", "TCP 序", "回绕比较", "next 推"]
     when: "op ∈ {compare, next, wrap}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

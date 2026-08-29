@@ -1,7 +1,7 @@
 ---
 name: compiler-054a0414
 description: >-
-  支配树 / 编译-支配树 / 支配树——必经节点集合 / 入口可达必经节点（支。用户提到这些词时使用本技能。
+  支配树 / 编译-支配树 / 支配树——必经节点集合 / 入口可达必经节点。用户提到这些词时使用本技能。
   场景：对照：支配树——必经节点集合（迭代数据流）。
   【不适用】Not for 以下场景：preds 为空/非法时
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["支配树", "编译-支配树", "支配树——必经节点集合", "入口可达必经节点（支"]
+    trigger_words: ["支配树", "编译-支配树", "支配树——必经节点集合", "入口可达必经节点"]
     when: "set.intersection 可用"
     sub: ["① 调用 list；② 调用 set"]
     execute: "循环迭代；顺序调用"

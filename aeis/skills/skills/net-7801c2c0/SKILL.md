@@ -1,7 +1,7 @@
 ---
 name: net-7801c2c0
 description: >-
-  选择性确认 / 网络-选择性确认 / TCP SACK——块确 / 已收段 vs 期望序。用户提到这些词时使用本技能。
+  选择性确认 / 网络-选择性确认 / TCP SACK——块。用户提到这些词时使用本技能。
   场景：对照：TCP SACK——块确认只重传缺失段（高效丢包恢复）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["选择性确认", "网络-选择性确认", "TCP SACK——块确", "已收段 vs 期望序"]
+    trigger_words: ["选择性确认", "网络-选择性确认", "TCP SACK——块"]
     when: "参数 received/expected 合法"
     sub: ["① 调用 range"]
     execute: "顺序调用"

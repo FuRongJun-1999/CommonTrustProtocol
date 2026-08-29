@@ -1,7 +1,7 @@
 ---
 name: pylang-d2001e1f
 description: >-
-  切片操作 / 工具-切片操作 / Python 切片——s / start:stop。用户提到这些词时使用本技能。
+  切片操作 / 工具-切片操作 / Python 切 / start:stop:s。用户提到这些词时使用本技能。
   场景：对照：Python 切片——start:stop:step 区间截取（含负索引）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["切片操作", "工具-切片操作", "Python 切片——s", "start:stop"]
+    trigger_words: ["切片操作", "工具-切片操作", "Python 切", "start:stop:s"]
     when: "参数 seq/start/stop/step 合法"
     sub: ["① 调用 list"]
     execute: "顺序调用"

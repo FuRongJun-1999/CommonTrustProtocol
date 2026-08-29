@@ -1,7 +1,7 @@
 ---
 name: os-607f1963
 description: >-
-  磁盘配额 / 文件-磁盘配额 / OS 磁盘配额——用户限 / 用户使用量 + 新写。用户提到这些词时使用本技能。
+  磁盘配额 / 文件-磁盘配额 / OS 磁 / 用户使用量 + 新写入 。用户提到这些词时使用本技能。
   场景：对照：OS 磁盘配额——用户限额（使用量+写入 ≤ 限额，超限拒绝）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,7 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
-    trigger_words: ["磁盘配额", "文件-磁盘配额", "OS 磁盘配额——用户限", "用户使用量 + 新写"]
+    trigger_words: ["磁盘配额", "文件-磁盘配额", "OS 磁", "用户使用量 + 新写入 "]
     when: "参数 quotas/user/usage/size 合法"
     sub: ["① 调用 float"]
     execute: "顺序调用"
