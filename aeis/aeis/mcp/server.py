@@ -269,6 +269,12 @@ def _tools():
                          "properties": {"action": {"type": "string"},
                                         "params": {"type": "object"}},
                          "required": ["action"]}},
+        {"name": "seven_layer_loop",
+         "description": "七层闭环（里程碑3.4 · 阶段3收官）：感知→记忆→理解→预测→验证→物理→决策 完整自主循环——init / create / entity / path / run（持续运行 n tick，每 tick 七层闭环：L1感知=好奇选定实体观测 / L2记忆=时空记忆图 / L3认知=关系与行为推断 / L4预测=学得模型候选未来 / L5验证=外部观察者对比命中率 / L6物理=世界演化 / L7决策=好奇信息增益最大化）/ step（单步七层留痕）/ report（闭环报告：七层统计 + 自增强曲线 early vs late 命中率）/ audit（审计轨迹）/ verify（L5）/ decision（L7）/ memory（L2）/ graph（L3）/ state。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "world_server",
          "description": "AI 游戏世界服务器（里程碑2.2）：AI 自身成为游戏世界的服务器——tick（多路并行模拟）/ snapshot+rollback（世界记忆与错误回滚）/ feedback（实体行动反馈）/ sync（客户端同步）/ verify（预测验证：预测下一 tick vs 实际→命中判定）。",
          "inputSchema": {"type": "object",
@@ -731,6 +737,9 @@ class AEISServer:
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "curiosity_explorer":
             return {"content": [{"type": "text", "text": _dump(agent.curiosity_explorer(
+                a.get("action", ""), a.get("params")))}], "isError": False}
+        if name == "seven_layer_loop":
+            return {"content": [{"type": "text", "text": _dump(agent.seven_layer_loop(
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world_server":
             return {"content": [{"type": "text", "text": _dump(agent.world_server(

@@ -518,6 +518,13 @@ class Agent:
         （好奇心摘要：观测分布/不确定度趋势）/ uncertainty（不确定度轨迹）。"""
         return self.engine.curiosity_explorer(action, params)
 
+    def seven_layer_loop(self, action: str, params: dict = None) -> Dict:
+        """七层闭环（里程碑3.4 · 阶段3收官）：感知→记忆→理解→预测→验证→物理→决策
+        完整自主循环——run（持续七层闭环）/ step（七层留痕）/ report（闭环报告+
+        自增强曲线）/ audit（审计轨迹）/ verify（L5）/ decision（L7）/ memory（L2）/
+        graph（L3）。"""
+        return self.engine.seven_layer_loop(action, params)
+
     # 外部知识摄取（第 3 项：记忆含外部知识）
     # =====================================================================
 

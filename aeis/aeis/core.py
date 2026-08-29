@@ -3127,6 +3127,76 @@ class SpacetimeMemoryEngine:
             return {"status": "ok", "explorer": self._curious.state()}
         return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/explore/step/probe/compare/curiosity/uncertainty/model/history/state）"}
 
+    def seven_layer_loop(self, action: str, params: dict = None) -> dict:
+        """七层闭环（里程碑3.4 · 阶段3收官）：感知→记忆→理解→预测→验证→物理→决策
+        完整自主循环——
+        - init: 初始化（size/seed/window/budget/policy）
+        - create: 物理世界创建场景
+        - entity: 添加实体
+        - path: 定义巡逻路径
+        - run: 持续运行 n tick（每 tick 七层闭环）
+        - step: 闭环一步（返回七层留痕：L1感知/L2记忆/L3认知/L4预测/L5验证/L6物理/L7决策）
+        - report: 闭环报告（七层统计 + 自增强曲线：early vs late 命中率）
+        - audit: 审计轨迹（最近 n tick 七层留痕）
+        - verify: 验证状态（L5 命中率）
+        - decision: 决策状态（L7 好奇观测分布）
+        - memory: 时空记忆（L2）
+        - graph: 认知图（L3）
+        - state: 闭环状态"""
+        p = params or {}
+        try:
+            from seven_layer_loop import SevenLayerLoop
+        except ImportError:
+            try:
+                from .seven_layer_loop import SevenLayerLoop
+            except Exception as e:
+                return {"status": "sll_not_ready", "error": str(e)}
+        if not hasattr(self, '_sll'):
+            self._sll = SevenLayerLoop(
+                size=int(p.get('size', 24)),
+                ground_level=int(p.get('ground_level', 1)),
+                seed=int(p.get('seed', 42)),
+                window=int(p.get('window', 6)),
+                budget=int(p.get('budget', 2)),
+                policy=str(p.get('policy', 'curiosity')))
+        if action == "create":
+            r = self._sll.create_scene(trees=int(p.get("trees", 2)),
+                                       water=bool(p.get("water", False)))
+            return {"status": "ok", "scene": r}
+        if action == "entity":
+            eid = self._sll.add_entity(
+                str(p.get("category", "entity")),
+                behavior=str(p.get("behavior", "wander")),
+                pos=tuple(float(v) for v in p.get("pos", [2, 1.5, 2])),
+                speed=float(p.get("speed", 0.3)),
+                goal=str(p.get("goal", "")))
+            return {"status": "ok", "entity_id": eid}
+        if action == "path":
+            self._sll.add_path(str(p.get("path_id", "")), p.get("points", []))
+            return {"status": "ok", "path_id": str(p.get("path_id", ""))}
+        if action == "run":
+            r = self._sll.run(n=int(p.get("n", 30)))
+            return {"status": "ok", "run": r}
+        if action == "step":
+            r = self._sll.step()
+            return {"status": "ok", "step": r}
+        if action == "report":
+            return {"status": "ok", "report": self._sll.report()}
+        if action == "audit":
+            return {"status": "ok",
+                    "audit": self._sll.audit_view(limit=int(p.get("limit", 10)))}
+        if action == "verify":
+            return {"status": "ok", "verify": self._sll.verify_state()}
+        if action == "decision":
+            return {"status": "ok", "decision": self._sll.decision_state()}
+        if action == "memory":
+            return {"status": "ok", "memory": self._sll.memory_state()}
+        if action == "graph":
+            return {"status": "ok", "graph": self._sll.graph_state()}
+        if action == "state":
+            return {"status": "ok", "loop": self._sll.state()}
+        return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/run/step/report/audit/verify/decision/memory/graph/state）"}
+
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）
