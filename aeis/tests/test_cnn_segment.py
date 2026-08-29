@@ -128,6 +128,16 @@ if os.path.isfile(path):
               len(nonbg) >= 3, str(nonbg[:5]))
         check("real image prototypes", len(res2["prototypes"]) >= 3,
               str(len(res2["prototypes"])))
+        # 红色内容自动区分：红晕=上部（脸），局部小簇=中部（胸）——同一颜色类别
+        # 下，内容由空间位置自动涌现（语义不预设，从特征派生）
+        up_red = [lb for r, lb in zip(res2["regions"], res2["labels"])
+                  if "红" in lb and "上部" in lb and r["area"] >= 10]
+        mid_red = [lb for r, lb in zip(res2["regions"], res2["labels"])
+                   if "红" in lb and "中部" in lb and r["area"] >= 5]
+        check("blush auto-separated at upper (face)",
+              len(up_red) >= 1, str(up_red[:3]))
+        check("nipple auto-separated at mid (chest)",
+              len(mid_red) >= 1, str(mid_red[:3]))
     except Exception as e:
         check("real image test", False, str(e))
 else:
