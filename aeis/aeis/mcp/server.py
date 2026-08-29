@@ -1013,11 +1013,11 @@ def main():
     try:
         interval = float(os.environ.get("AEIS_LIFECYCLE_INTERVAL", "120"))
         res = server.agent.start_lifecycle(interval=interval)
-        _sys.stderr.write(f"[lifecycle] 自主循环已启动 interval={interval}s → {res.get('status')}\n")
-        _sys.stderr.flush()
+        sys.stderr.write(f"[lifecycle] 自主循环已启动 interval={interval}s → {res.get('status')}\n")
+        sys.stderr.flush()
     except Exception as e:
-        _sys.stderr.write(f"[lifecycle] 启动失败: {e}\n")
-        _sys.stderr.flush()
+        sys.stderr.write(f"[lifecycle] 启动失败: {e}\n")
+        sys.stderr.flush()
     server.run()
 
 

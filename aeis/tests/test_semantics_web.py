@@ -44,15 +44,21 @@ check("step pngs", all(s["png"] and len(s["png"]) > 200 for s in st), "")
 imgs = [len(s["png"]) for s in st]
 check("steps grow", imgs[-1] >= imgs[0], str(imgs))
 
-# ---------- 4. 递归语义结构树 ----------
+# ---------- 4. 语义时空图 ----------
 gr = sw.graph()
-tree = gr["tree"]
-check("tree root 人物", tree["name"] == "人物", str(tree))
-names = json.dumps(tree, ensure_ascii=False)
-check("tree has 头部/躯干/双腿", "头部" in names and "躯干" in names
-      and "双腿" in names, names[:200])
-check("tree has spec", "spec" in gr and gr["spec"].get("hair_color") == "pink",
-      str(gr.get("spec")))
+check("st-graph nodes", len(gr["nodes"]) >= 4, str(len(gr["nodes"])))
+sems = [n["semantic"] for n in gr["nodes"]]
+check("st-graph auto-semantics", len(sems) >= 4, str(sems))
+check("st-graph 3D facing", any(n.get("facing") for n in gr["nodes"]),
+      "no facing")
+check("st-graph 3D brightness",
+      all("brightness" in n for n in gr["nodes"]), "no brightness")
+check("st-graph edges", len(gr["edges"]) >= 4, str(len(gr["edges"])))
+check("st-graph cnn features", all("cnn" in n and "edge_intensity" in n.get("cnn", {})
+      for n in gr["nodes"]), str([n.get("cnn", {}) for n in gr["nodes"][:2]]))
+check("st-graph summary", len(gr["summary"]) > 10, gr["summary"][:60])
+check("stnodes conversion", len(gr.get("stnodes", [])) == len(gr["nodes"]),
+      str(len(gr.get("stnodes", []))))
 
 # ---------- 5. 显示图 ----------
 disp = sw.display_image()
