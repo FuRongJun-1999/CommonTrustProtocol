@@ -46,8 +46,9 @@ def _sha(path: str) -> str:
 
 
 # ==================== ① 信息差传感器 ====================
-def sensor_scan(db_path: str = CLOUD_DB) -> dict:
+def sensor_scan(db_path: str | None = None) -> dict:
     """五维结构质量信号（sentrux 闭环的 scan 步）。"""
+    db_path = db_path or CLOUD_DB
     report = {"ts": time.strftime("%Y-%m-%d %H:%M:%S"), "dims": {}}
 
     # 路由健康：KCCS 注释覆盖率 + 确定性探针
@@ -262,8 +263,9 @@ def judge_arm(audit_evidence: dict, baseline_compare: dict) -> dict:
 
 
 # ==================== ③ 维生显示化 ====================
-def vitality_report(db_path: str = CLOUD_DB) -> dict:
+def vitality_report(db_path: str | None = None) -> dict:
     """维生状态：心跳 / 影响面 / 回滚能力 / 维生判定（ALIVE·AT_RISK）。"""
+    db_path = db_path or CLOUD_DB
     heartbeat = {"db_readable": os.path.exists(db_path),
                  "engine_import": True}
     try:

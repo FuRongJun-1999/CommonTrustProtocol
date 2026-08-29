@@ -876,12 +876,12 @@ class AEISServer:
         if name == "lingshu_sensor_report":
             from ..selfmod import sensor_scan
             return {"content": [{"type": "text",
-                                 "text": _dump(sensor_scan(a.get("db") or None))}],
+                                 "text": _dump(sensor_scan(a.get("db")))}],
                     "isError": False}
         if name == "lingshu_vitality_report":
             from ..selfmod import vitality_report
             return {"content": [{"type": "text",
-                                 "text": _dump(vitality_report(a.get("db") or None))}],
+                                 "text": _dump(vitality_report(a.get("db")))}],
                     "isError": False}
         if name == "lingshu_auto_snapshot":
             from ..selfmod import auto_snapshot
