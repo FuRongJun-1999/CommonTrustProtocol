@@ -19,6 +19,7 @@ SUITE = [
     ("M3×M1 集成 信任决定分工", "test_swarm_trust_integration.py"),
     ("dsh 接入指南合规性", "test_swarm_dsh_guide.py"),
     ("M1 真实接入联调彩排（跨进程）", "test_swarm_rehearsal.py"),
+    ("编排层批1 能力目录+职责协商", "test_swarm_orchestrator.py"),
     ("语言栈 V-P1~P4", "test_mini_python_vp.py"),
     ("语言栈 T4 增强族", "test_mini_python_t4.py"),
     ("语言栈 P 线自举单元库", os.path.join("..", "aeis", "wisdom", "test_python_self_bootstrap.py")),
