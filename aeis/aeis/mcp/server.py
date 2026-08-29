@@ -997,16 +997,25 @@ class AEISServer:
 
 def main():
     server = AEISServer()
+    # 环境摘要（issue #7 远程诊断）：启动即输出 python/aeis 版本——远程用户
+    # 反馈问题时日志自带环境信息，免一轮来回追问
+    try:
+        import platform
+        import aeis as _pkg
+        sys.stderr.write(
+            f"[env] python {sys.version.split()[0]} ({platform.machine()}) | "
+            f"aeis {_pkg.__version__} | pid {os.getpid()}\n")
+        sys.stderr.flush()
+    except Exception:
+        pass
     # 自主生命周期（v1.15 主动性）：MCP 启动即开始自发循环（感知→好奇→缩小信息差→巩固）
     # 不依赖外部配置——「她自己醒来」；interval 可由 AEIS_LIFECYCLE_INTERVAL 覆盖，默认 120s
     try:
         interval = float(os.environ.get("AEIS_LIFECYCLE_INTERVAL", "120"))
         res = server.agent.start_lifecycle(interval=interval)
-        import sys as _sys
         _sys.stderr.write(f"[lifecycle] 自主循环已启动 interval={interval}s → {res.get('status')}\n")
         _sys.stderr.flush()
     except Exception as e:
-        import sys as _sys
         _sys.stderr.write(f"[lifecycle] 启动失败: {e}\n")
         _sys.stderr.flush()
     server.run()
