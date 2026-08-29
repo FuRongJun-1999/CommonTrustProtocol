@@ -2736,6 +2736,60 @@ class SpacetimeMemoryEngine:
             return {"status": "ok", "world": self._voxel.world_state()}
         return {"status": "error", "error": f"未知动作 {action}（可用: build/spawn/simulate/trail/state）"}
 
+    def world_server(self, action: str, params: dict = None) -> dict:
+        """AI 游戏世界服务器（里程碑2.2）：
+        - init: 初始化服务器（size/ground_level）
+        - tick: 多路并行推进（n 步，实体独立演化）
+        - spawn: 生成动态实体
+        - snapshot: 保存世界快照（记忆）
+        - rollback: 回滚到最近快照（错误恢复）
+        - feedback: 实体行动反馈
+        - sync: 客户端状态同步
+        - verify: 预测验证（预测下一 tick vs 实际 → 命中判定）
+        - state: 服务器状态"""
+        p = params or {}
+        try:
+            from world_server import WorldServer
+        except ImportError:
+            try:
+                from .world_server import WorldServer
+            except Exception as e:
+                return {"status": "server_not_ready", "error": str(e)}
+        if not hasattr(self, '_wserver'):
+            self._wserver = WorldServer(size=int(p.get('size', 16)),
+                                      ground_level=int(p.get('ground_level', 1)))
+        if action == "init":
+            self._wserver.world.build_flatland(trees=int(p.get("trees", 2)))
+            return {"status": "ok", "server": self._wserver.sync()}
+        if action == "tick":
+            r = self._wserver.tick(n=int(p.get("n", 1)))
+            return {"status": "ok", "tick": r}
+        if action == "spawn":
+            eid = self._wserver.world.spawn_entity(
+                str(p.get("category", "entity")),
+                tuple(float(v) for v in p.get("pos", [0, 1, 0])),
+                tuple(float(v) for v in p.get("velocity", [0, 0, 0])))
+            return {"status": "ok", "entity_id": eid}
+        if action == "snapshot":
+            sid = self._wserver.snapshot(tag=str(p.get("tag", "")))
+            return {"status": "ok", "snapshot_id": sid}
+        if action == "rollback":
+            sid = self._wserver.rollback()
+            return {"status": "ok" if sid else "error", "snapshot_id": sid}
+        if action == "feedback":
+            r = self._wserver.feedback(str(p.get("entity_id", "")),
+                                      str(p.get("action", "")),
+                                      str(p.get("result", "")))
+            return {"status": "ok" if r["ok"] else "error", "feedback": r}
+        if action == "sync":
+            return {"status": "ok", "world": self._wserver.sync(client_id=str(p.get("client", "")))}
+        if action == "verify":
+            r = self._wserver.verify_prediction(horizon=int(p.get("horizon", 1)))
+            return {"status": "ok", "verification": r}
+        if action == "state":
+            return {"status": "ok", "server": self._wserver.sync()}
+        return {"status": "error", "error": f"未知动作 {action}（可用: init/tick/spawn/snapshot/rollback/feedback/sync/verify/state）"}
+
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）

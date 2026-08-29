@@ -481,6 +481,11 @@ class Agent:
         / trail（实体时空轨迹 A→B）/ state（世界状态）。"""
         return self.engine.voxel_world(action, params)
 
+    def world_server(self, action: str, params: dict = None) -> Dict:
+        """AI 游戏世界服务器（里程碑2.2）：tick 多路并行/快照记忆/反馈/同步/
+        错误回滚/预测验证——AI 自身成为游戏世界的服务器。"""
+        return self.engine.world_server(action, params)
+
     # 外部知识摄取（第 3 项：记忆含外部知识）
     # =====================================================================
 
