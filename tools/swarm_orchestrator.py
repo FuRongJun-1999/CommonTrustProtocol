@@ -220,3 +220,60 @@ class Dispatcher:
                 return False, f"最高信任节点 {best} 处于隔离态——暂停派发"
             return True, f"{best}（trust={self.trust.score(best):.2f}，{len(cands)} 候选）"
         return True, f"{cands[0]}（无信任记录，默认）"
+
+
+# ---------------------------------------------------------------------------
+# O4 执行与汇总（批 3，2026-08-29）——否决式融合（理论 1.6.9）
+# ---------------------------------------------------------------------------
+
+class Orchestrator:
+    """编排者：DAG 逐子任务执行（依赖序）→ 逐个互验证 → 否决式融合汇总。
+
+    执行=分派（能力过滤+信任排序）+ 节点执行器（executor 回调，v0.1
+    本地口径——真实跨进程分派复用 M1 request_and_execute）。
+    融合纪律（理论 1.6.9）：任一子任务 fail → 整体 fail + 下游跳过
+    （保守性刻意：错误进入的代价大于信息损失的代价）。
+    """
+
+    def __init__(self, graph: TaskGraph, dispatcher: Dispatcher,
+                 executors: dict):
+        self.graph = graph
+        self.dispatcher = dispatcher
+        self.executors = executors   # capability → fn(input) → output
+        self.results: dict = {}      # subtask_id → {"ok", "output"/"error", "node"}
+        self.overall = None
+
+    def run(self) -> dict:
+        done = set()
+        for sid in self.graph.order:
+            sub = self.graph.subtasks[sid]
+            if not set(sub.get("depends_on", [])) <= {d for d in done
+                                                      if self.results[d]["ok"]}:
+                # 依赖中有 fail → 下游跳过（否决式：错误不传播）
+                self.results[sid] = {"ok": False, "error": "上游失败，下游跳过",
+                                     "node": None, "skipped": True}
+                continue
+            ok_pick, pick = self.dispatcher.pick(sub["capability"])
+            if not ok_pick:
+                self.results[sid] = {"ok": False, "error": pick, "node": None,
+                                     "skipped": False}
+                continue
+            node = pick.split("（")[0]
+            fn = self.executors.get(sub["capability"])
+            if fn is None:
+                self.results[sid] = {"ok": False, "error": f"无执行器: {sub['capability']}",
+                                     "node": node}
+                continue
+            try:
+                out = fn(sub["input"])
+                self.results[sid] = {"ok": True, "output": out, "node": node}
+                done.add(sid)
+            except Exception as e:
+                self.results[sid] = {"ok": False,
+                                     "error": f"{type(e).__name__}: {e}", "node": node}
+        all_ok = all(r["ok"] for r in self.results.values())
+        self.overall = {"passed": all_ok,
+                        "results": self.results,
+                        "summary": (f"{sum(1 for r in self.results.values() if r['ok'])}"
+                                    f"/{len(self.results)} 子任务通过")}
+        return self.overall
