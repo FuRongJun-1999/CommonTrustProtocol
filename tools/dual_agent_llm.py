@@ -31,8 +31,19 @@ def glm_implement(task, attempt, failing):
         "https://open.bigmodel.cn/api/paas/v4/chat/completions", data=body,
         headers={"Content-Type": "application/json",
                  "Authorization": f"Bearer {key}"})
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        text = json.loads(resp.read())["choices"][0]["message"]["content"]
+    import time as _t
+    last_err = None
+    for retry in range(3):   # 网络瞬时波动重试（SSL/read timeout）
+        try:
+            with urllib.request.urlopen(req, timeout=180) as resp:
+                text = json.loads(resp.read())["choices"][0]["message"]["content"]
+            last_err = None
+            break
+        except Exception as e:
+            last_err = e
+            _t.sleep(5 * (retry + 1))
+    if last_err is not None:
+        raise last_err
     m = re.search(r"```(?:python)?\s*(.+?)```", text, re.S)
     return (m.group(1) if m else text).strip()
 
