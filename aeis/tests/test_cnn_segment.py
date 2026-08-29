@@ -143,5 +143,55 @@ if os.path.isfile(path):
 else:
     print("  SKIP real image (demos/1.png absent)")
 
+# ---------- 9. LAB 感知特征（方向三） ----------
+field_lab, gw_lab, gh_lab = CS.feature_vectors_lab(img, step=2)
+check("lab field shape", gw_lab == 30 and gh_lab == 30,
+      f"gw={gw_lab} gh={gh_lab}")
+# 蓝块 LAB b 通道（0.5-）应显著低于红块
+def lab_b(field, x, y):
+    return field[y][x][2]
+check("lab blue block b low", lab_b(field_lab, 8, 8) < 0.42,
+      f"b={lab_b(field_lab, 8, 8):.3f}")
+check("lab red block b high", lab_b(field_lab, 22, 8) > 0.45,
+      f"b={lab_b(field_lab, 22, 8):.3f}")
+
+# ---------- 10. MST 自适应阈值分割（方向一） ----------
+ad = CS.adaptive_segment(img, k=0.5, min_area=4, step=2)
+check("adaptive has regions", len(ad) >= 4, str(len(ad)))
+check("adaptive quality fields", all("info" in r and "boundary" in r for r in ad))
+# 蓝块/红块区域分离（LAB 色相）
+blu = [r for r in ad if r["centroid"][2] < 0.40 and r["area"] >= 20]
+red = [r for r in ad if r["centroid"][1] > 0.55 and r["area"] >= 20]
+check("adaptive blue region", len(blu) >= 1, str(len(blu)))
+check("adaptive red region", len(red) >= 1, str(len(red)))
+
+# ---------- 11. LAB 自动命名（_auto_label_lab） ----------
+c_white = CS.feature_vectors_lab(Image.new("RGB", (4, 4), (255, 255, 255)), step=2)[0][0][0]
+check("lab white label", "白" in CS._auto_label_lab(c_white), str(CS._auto_label_lab(c_white)))
+c_red = CS.feature_vectors_lab(Image.new("RGB", (4, 4), (230, 65, 64)), step=2)[0][0][0]
+check("lab red label", "红" in CS._auto_label_lab(c_red), str(CS._auto_label_lab(c_red)))
+c_blue = CS.feature_vectors_lab(Image.new("RGB", (4, 4), (80, 130, 200)), step=2)[0][0][0]
+check("lab blue label", "蓝" in CS._auto_label_lab(c_blue), str(CS._auto_label_lab(c_blue)))
+
+# ---------- 12. 注意力递归细化（方向二） ----------
+# 渐变图（内部渐变 → 信息量高 → 递归细分出 level 1）
+grad = Image.new("RGB", (64, 64))
+for gx in range(64):
+    for gy in range(64):
+        grad.putpixel((gx, gy), (int(40 + gx * 3), int(90 - gx), int(220 - gy * 2)))
+ref = CS.refine_recursive(grad, k0=0.5, k1=0.2, max_depth=1, info_thresh=0.00001)
+check("refine levels", any(r["level"] == 0 for r in ref)
+      and any(r["level"] == 1 for r in ref),
+      "levels=" + str(set(r["level"] for r in ref)))
+check("refine children structure", any(r.get("children") for r in ref))
+lv1 = [r for r in ref if r["level"] == 1 and r.get("label")]
+check("refine labels on level1", len(lv1) >= 2, str(len(lv1)))
+
+# ---------- 13. 质量自检（方向五） ----------
+q = CS.quality_report(ad)
+check("quality report keys", set(q) >= {"score", "mean_info", "mean_boundary"},
+      str(q.keys()))
+check("quality mean boundary positive", q["mean_boundary"] > 0)
+
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
