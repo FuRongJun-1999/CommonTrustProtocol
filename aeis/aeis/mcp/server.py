@@ -363,11 +363,12 @@ def _tools():
                                         "workspace": {"type": "string"}},
                          "required": ["command"]}},
         {"name": "code_test",
-         "description": "结构化代码测试（M2.2 物理基底裁决工具化）：code 在隔离临时目录+python -I+timeout 下执行，tests 逐条断言返回结果。输入 {code, tests[], timeout_s?=10（上限 60）}。返回 {status, passed, results[{test,ok,error}], stderr}。安全边界：本机信任域（与 run_command 同域，非对外服务）。",
+         "description": "结构化代码测试（M2.2 物理基底裁决工具化）：code 在隔离环境执行，tests 逐条断言返回结果。输入 {code, tests[], timeout_s?=10（上限 60）, sandbox?=local|docker}。sandbox=docker 时容器隔离（--network none 断网+--rm 用后即弃+临时目录挂载，需 Docker daemon）。返回 {status, passed, results[{test,ok,error}], sandbox, stderr}。",
          "inputSchema": {"type": "object",
                          "properties": {"code": {"type": "string"},
                                         "tests": {"type": "array", "items": {"type": "string"}},
-                                        "timeout_s": {"type": "integer"}},
+                                        "timeout_s": {"type": "integer"},
+                                        "sandbox": {"type": "string", "enum": ["local", "docker"]}},
                          "required": ["code", "tests"]}},
         {"name": "compile_exec",
          "description": "中文协议编译器本地编译执行（白箱完整生命周期：认知图→条件代码图→本工具→本地编译执行）：中文协议程序（智能论语法）编译为字节码并 VM 执行，返回结构化结果。输入 {source, symbols?}。返回 {ok, errors[], instructions, symbols, trust, halt}。物理基底：compile_source + ConditionVM（零 LLM 确定性）。",
@@ -814,6 +815,7 @@ class AEISServer:
             code = a.get("code", "")
             tests = a.get("tests", [])
             timeout_s = min(int(a.get("timeout_s", 10)), 60)
+            sandbox = a.get("sandbox", "local")
             with tempfile.TemporaryDirectory() as td:
                 with open(os.path.join(td, "impl.py"), "w", encoding="utf-8") as f:
                     f.write(code)
@@ -822,15 +824,21 @@ class AEISServer:
                 rp = os.path.join(td, "runner.py")
                 with open(rp, "w", encoding="utf-8") as f:
                     f.write(_CODE_TEST_RUNNER)
+                if sandbox == "docker":
+                    cmd = ["docker", "run", "--rm", "--network", "none",
+                           "-v", td + ":/work", "-w", "/work",
+                           "python:3.12-slim", "python", "-I", "runner.py"]
+                else:
+                    cmd = [sys.executable, "-I", rp]
                 try:
-                    r = subprocess.run([sys.executable, "-I", rp], cwd=td,
+                    r = subprocess.run(cmd, cwd=td,
                                        capture_output=True, text=True,
                                        encoding="utf-8", errors="replace",
-                                       timeout=timeout_s)
+                                       timeout=timeout_s * (3 if sandbox == "docker" else 1))
                     payload = json.loads(r.stdout) if r.stdout.strip() else {"results": []}
                     results = payload.get("results", [])
                     passed = bool(results) and all(x["ok"] for x in results)
-                    result = {"status": "ok", "passed": passed,
+                    result = {"status": "ok", "passed": passed, "sandbox": sandbox,
                               "results": results, "stderr": (r.stderr or "")[-300:]}
                 except subprocess.TimeoutExpired:
                     result = {"status": "ok", "passed": False, "results": [],
