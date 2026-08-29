@@ -239,6 +239,12 @@ def _tools():
         {"name": "body",
          "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
          "inputSchema": {"type": "object"}},
+        {"name": "voxel_world",
+         "description": "小型我的世界（里程碑2.1 · 4D 时空占用沙盒）：build（生成平地世界）/ spawn（动态实体）/ simulate（时空演化——实体按速度移动）/ trail（实体时空轨迹 A→B）/ state（世界状态）。为时空演化预测与世界模拟提供可控测试环境。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "world3d",
          "description": "WORLD3D-REV1 时空重建：语义 → 3D 空间与颜色（灵枢自己的文生图，确定性渲染零 LLM）。build（从记忆视觉原语重建，multiview 多视角三角化）/ render / status / add / add_view（多视角融合）/ graph（3D 语义锚点图：节点=锚点+provenance，边=关系）/ verify（多感知机锚点验证——一个事物不能只有视觉一层信息：visual/tactile/audio/action/prediction 多通道协同确认，打破视觉自证陷阱）/ verify_conflict（多通道矛盾检测→降级）。",
          "inputSchema": {"type": "object",
@@ -675,6 +681,9 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.compact_context(a.get("session_id", "s"), a.get("summary", "")))}], "isError": False}
         if name == "body":
             return {"content": [{"type": "text", "text": _dump(agent.body())}], "isError": False}
+        if name == "voxel_world":
+            return {"content": [{"type": "text", "text": _dump(agent.voxel_world(
+                a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world3d":
             return {"content": [{"type": "text", "text": _dump(agent.world3d(
                 a.get("action", ""), a.get("params")))}], "isError": False}

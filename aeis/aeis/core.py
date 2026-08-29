@@ -2694,7 +2694,47 @@ class SpacetimeMemoryEngine:
                                             confidence=float(p.get("confidence", 0.5)))
             result["scene"] = self._world3d.scene_text()
             return {"status": "ok", **result}
-        return {"status": "error", "error": f"未知动作 {action}（可用: build/render/status/add/add_view）"}
+        return {"status": "error", "error": f"未知动作 {action}（可用: build/render/status/add/add_view/graph/verify/verify_conflict）"}
+
+    def voxel_world(self, action: str, params: dict = None) -> dict:
+        """小型我的世界（里程碑2.1 · 4D 时空占用沙盒）：
+        - build: 生成平地世界（params: size, trees, water）
+        - spawn: 生成动态实体（params: category, pos, velocity）
+        - simulate: 时空演化推进（params: steps——实体按速度移动）
+        - trail: 实体时空轨迹（params: entity_id——A→B 完整记录）
+        - state: 世界状态（方块/实体/时间步）"""
+        p = params or {}
+        try:
+            from voxel_world import VoxelWorld
+        except ImportError:
+            try:
+                from .voxel_world import VoxelWorld
+            except Exception as e:
+                return {"status": "voxel_not_ready", "error": str(e)}
+        if not hasattr(self, '_voxel'):
+            self._voxel = VoxelWorld(size=int(p.get('size', 16)),
+                                    ground_level=int(p.get('ground_level', 1)))
+        if action == "build":
+            blocks = self._voxel.build_flatland(trees=int(p.get("trees", 2)),
+                                               water=bool(p.get("water", True)))
+            return {"status": "ok", "blocks": blocks, "world": self._voxel.world_state()}
+        if action == "spawn":
+            category = str(p.get("category", "entity"))
+            pos = tuple(float(v) for v in p.get("pos", [0, 1, 0]))
+            vel = tuple(float(v) for v in p.get("velocity", [0, 0, 0]))
+            eid = self._voxel.spawn_entity(category, pos, velocity=vel)
+            return {"status": "ok", "entity_id": eid}
+        if action == "simulate":
+            steps = int(p.get("steps", 1))
+            moved = self._voxel.simulate(steps=steps)
+            return {"status": "ok", "entities_moved": moved, "step": self._voxel._step}
+        if action == "trail":
+            eid = str(p.get("entity_id", ""))
+            trail = self._voxel.trail(eid)
+            return {"status": "ok", "entity_id": eid, "trail": trail}
+        if action == "state":
+            return {"status": "ok", "world": self._voxel.world_state()}
+        return {"status": "error", "error": f"未知动作 {action}（可用: build/spawn/simulate/trail/state）"}
 
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
