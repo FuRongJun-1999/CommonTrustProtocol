@@ -2628,6 +2628,12 @@ class SpacetimeMemoryEngine:
             return {"status": "ok", "in_memory": True,
                     "bytes": len(buf.getvalue()),
                     "scene": self._world3d.scene_text()}
+        if action == "graph":
+            """3D 语义锚点图（里程碑1.2）：世界物体 → 图结构（节点=锚点，边=关系）。
+            核心哲学：事物是其关系的总和。infer=False 跳过关系推理。"""
+            infer = bool(p.get("infer", True))
+            g = self._world3d.build_anchor_graph(infer=infer)
+            return {"status": "ok", "graph": g}
         if action == "status":
             return {"status": "ok", **self._world3d.to_dict()}
         if action == "add":
