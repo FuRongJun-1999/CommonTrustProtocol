@@ -138,6 +138,11 @@ if os.path.isfile(path):
               len(up_red) >= 1, str(up_red[:3]))
         check("nipple auto-separated at mid (chest)",
               len(mid_red) >= 1, str(mid_red[:3]))
+        # 下部红区（用户确认：低位区域特征——颜色+亮度+轮廓位置共同识别）
+        low_red = [lb for r, lb in zip(res2["regions"], res2["labels"])
+                   if "红" in lb and "下部" in lb and r["area"] >= 4]
+        check("lower red region auto-detected",
+              len(low_red) >= 1, str(low_red[:3]))
     except Exception as e:
         check("real image test", False, str(e))
 else:
