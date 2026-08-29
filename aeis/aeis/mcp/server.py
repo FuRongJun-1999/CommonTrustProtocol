@@ -66,34 +66,6 @@ def _serialize(obj):
     return obj
 
 
-_CODE_TEST_RUNNER = """import json
-ns = {}
-res = []
-setup_err = None
-try:
-    with open('impl.py', encoding='utf-8') as f:
-        code = f.read()
-    exec(compile(code, 'impl.py', 'exec'), ns)
-    ns['ns'] = ns
-except Exception as e:
-    setup_err = type(e).__name__ + ': ' + str(e)
-with open('tests.json', encoding='utf-8') as f:
-    tests = json.load(f)
-for t in tests:
-    if setup_err:
-        res.append({'test': t, 'ok': False, 'error': '代码加载失败 ' + setup_err})
-        continue
-    try:
-        exec(compile(t, '<assert>', 'exec'), ns)
-        res.append({'test': t, 'ok': True, 'error': None})
-    except AssertionError:
-        res.append({'test': t, 'ok': False, 'error': '断言失败'})
-    except Exception as e:
-        res.append({'test': t, 'ok': False, 'error': type(e).__name__ + ': ' + str(e)})
-print(json.dumps({'results': res}, ensure_ascii=False))
-"""
-
-
 def _dump(obj) -> str:
     return json.dumps(_serialize(obj), ensure_ascii=False, default=str)
 
@@ -111,12 +83,6 @@ def _tools():
                                         "importance": {"type": "number"},
                                         "tags": {"type": "array", "items": {"type": "string"}},
                                         "entities": {"type": "array", "items": {"type": "string"}}},
-                         "required": ["content"]}},
-        {"name": "add_context",
-         "description": "写入一条情境层记忆（短时会话记忆，FIFO 上限 + 1h 时间窗口，可自然衰减，不污染知识层）。content 必填；importance 重要性[0,1]。",
-         "inputSchema": {"type": "object",
-                         "properties": {"content": {"type": "string"},
-                                        "importance": {"type": "number"}},
                          "required": ["content"]}},
         {"name": "recall",
          "description": "组合联想召回（内容相似0.5+重要性0.3+近因0.2）。返回 [(node, score)]。",
@@ -202,17 +168,6 @@ def _tools():
          "description": "中断生命周期自发循环（source: user/designer/verifier/vital_system）。",
          "inputSchema": {"type": "object",
                          "properties": {"source": {"type": "string"}}}},
-        {"name": "condition_space_operate",
-         "description": "条件空间 7 操作（白箱自进化协议算子·确定性）：identify(变体fp命中测试)/declare(簇触发词+直答状态)/separate(候选冲突检测)/compose(合并建议)/switch(路由归属)/reverse(反题)/loop(一轮收敛报告)。",
-         "inputSchema": {"type": "object",
-                         "properties": {
-                             "operation": {"type": "string",
-                                           "enum": ["identify", "declare", "separate",
-                                                    "compose", "switch", "reverse", "loop"]},
-                             "theme": {"type": "string"},
-                             "variants": {"type": "array", "items": {"type": "string"}},
-                             "candidates": {"type": "array", "items": {"type": "string"}}},
-                         "required": ["operation"]}},
         {"name": "self_check",
          "description": "完整性自检（孤儿边/表统计/integrity_ok）。",
          "inputSchema": {"type": "object"}},
@@ -285,7 +240,7 @@ def _tools():
          "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
          "inputSchema": {"type": "object"}},
         {"name": "world3d",
-         "description": "WORLD3D-REV1 时空重建：语义 → 3D 空间与颜色（灵枢自己的文生图，确定性渲染零 LLM）。build（从记忆视觉原语重建 3D 世界）/ render（任意视角透视投影渲染，yaw/pitch/cx 相机参数；2D 是 3D 透视下的情况）/ status / add（手动添加 category+bbox）。",
+         "description": "WORLD3D-REV1 时空重建：语义 → 3D 空间与颜色（灵枢自己的文生图，确定性渲染零 LLM）。build（从记忆视觉原语重建 3D 世界）/ render（任意视角透视投影渲染）/ status / add（手动添加）/ add_view（多视角融合——同一物体多视角 bbox 三角化收敛，借鉴 DUSt3R 多视图对齐）。",
          "inputSchema": {"type": "object",
                          "properties": {"action": {"type": "string"},
                                         "params": {"type": "object"}},
@@ -362,43 +317,6 @@ def _tools():
                                         "timeout_ms": {"type": "number"},
                                         "workspace": {"type": "string"}},
                          "required": ["command"]}},
-        {"name": "code_test",
-         "description": "结构化代码测试（M2.2 物理基底裁决工具化）：code 在隔离环境执行，tests 逐条断言返回结果。输入 {code, tests[], timeout_s?=10（上限 60）, sandbox?=local|docker}。sandbox=docker 时容器隔离（--network none 断网+--rm 用后即弃+临时目录挂载，需 Docker daemon）。返回 {status, passed, results[{test,ok,error}], sandbox, stderr}。",
-         "inputSchema": {"type": "object",
-                         "properties": {"code": {"type": "string"},
-                                        "tests": {"type": "array", "items": {"type": "string"}},
-                                        "timeout_s": {"type": "integer"},
-                                        "sandbox": {"type": "string", "enum": ["local", "docker"]}},
-                         "required": ["code", "tests"]}},
-        {"name": "compile_exec",
-         "description": "中文协议编译器本地编译执行（白箱完整生命周期：认知图→条件代码图→本工具→本地编译执行）：中文协议程序（智能论语法）编译为字节码并 VM 执行，返回结构化结果。输入 {source, symbols?}。返回 {ok, errors[], instructions, symbols, trust, halt}。物理基底：compile_source + ConditionVM（零 LLM 确定性）。",
-         "inputSchema": {"type": "object",
-                         "properties": {"source": {"type": "string",
-                                                   "description": "中文协议程序源码（如：结果 = 3 加 4 乘 2；止。）"},
-                                        "symbols": {"type": "object",
-                                                    "description": "初始符号表（可选）"}},
-                         "required": ["source"]}},
-        {"name": "lingshu_sensor_report",
-         "description": "自修改安全闭环·信息差传感器：五维结构质量信号（路由/知识/代码/认知/信息差收敛）扫描。自修改前先查基线，rescan 对比退化即拦截。",
-         "inputSchema": {"type": "object",
-                         "properties": {"db": {"type": "string",
-                                               "description": "知识库路径（缺省=发布快照库）"}}}},
-        {"name": "lingshu_vitality_report",
-         "description": "自修改安全闭环·维生状态：心跳（引擎/知识库/导航探针）/自修改影响面/回滚能力/维生判定（ALIVE·AT_RISK·CRITICAL）。",
-         "inputSchema": {"type": "object",
-                         "properties": {"db": {"type": "string"}}}},
-        {"name": "lingshu_auto_snapshot",
-         "description": "自修改安全闭环·前置快照：任何自修改前自动快照知识库/固化单元/代码目标文件（附 sha256 指纹与修改意图），返回快照 id。",
-         "inputSchema": {"type": "object",
-                         "properties": {"intent": {"type": "string",
-                                                    "description": "修改意图（为什么改/影响面）"}},
-                         "required": ["intent"]}},
-        {"name": "lingshu_rollback",
-         "description": "自修改安全闭环·一键回滚：校验快照指纹后恢复全部目标文件到快照态（快照被改可检出）。撤销永远一条命令。",
-         "inputSchema": {"type": "object",
-                         "properties": {"snapshot_id": {"type": "string",
-                                                         "description": "lingshu_auto_snapshot 返回的快照 id"}},
-                         "required": ["snapshot_id"]}},
         {"name": "action_log",
          "description": "P0-1 行为日志（最近 N 条）：引擎自己做了什么的记录面。",
          "inputSchema": {"type": "object",
@@ -645,9 +563,6 @@ class AEISServer:
             r = agent.remember(a.get("content", ""), importance=a.get("importance", 0.5),
                                tags=a.get("tags"), entities=a.get("entities"))
             return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
-        if name == "add_context":
-            r = agent.add_context(a.get("content", ""), importance=a.get("importance", 0.4))
-            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
         if name == "recall":
             return {"content": [{"type": "text", "text": _dump(agent.recall(a.get("query", ""), limit=a.get("limit", 10)))}], "isError": False}
         if name == "search":
@@ -715,10 +630,6 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.start_lifecycle(interval=a.get("interval", 60.0)))}], "isError": False}
         if name == "stop_lifecycle":
             return {"content": [{"type": "text", "text": _dump(agent.stop_lifecycle(source=a.get("source", "user")))}], "isError": False}
-        if name == "condition_space_operate":
-            return {"content": [{"type": "text", "text": _dump(agent.condition_space_operate(
-                operation=a.get("operation", ""), theme=a.get("theme", ""),
-                variants=a.get("variants"), candidates=a.get("candidates")))}], "isError": False}
         if name == "self_check":
             return {"content": [{"type": "text", "text": _dump(agent.self_check())}], "isError": False}
         if name == "gap_trend":
@@ -810,89 +721,6 @@ class AEISServer:
                                        workspace=a.get("workspace", ""))
             return {"content": [{"type": "text", "text": _dump(result)}],
                     "isError": result.get("status") != "ok"}
-        if name == "code_test":
-            import tempfile
-            code = a.get("code", "")
-            tests = a.get("tests", [])
-            timeout_s = min(int(a.get("timeout_s", 10)), 60)
-            sandbox = a.get("sandbox", "local")
-            with tempfile.TemporaryDirectory() as td:
-                with open(os.path.join(td, "impl.py"), "w", encoding="utf-8") as f:
-                    f.write(code)
-                with open(os.path.join(td, "tests.json"), "w", encoding="utf-8") as f:
-                    json.dump(tests, f, ensure_ascii=False)
-                rp = os.path.join(td, "runner.py")
-                with open(rp, "w", encoding="utf-8") as f:
-                    f.write(_CODE_TEST_RUNNER)
-                if sandbox == "docker":
-                    cmd = ["docker", "run", "--rm", "--network", "none",
-                           "-v", td + ":/work", "-w", "/work",
-                           "python:3.12-slim", "python", "-I", "runner.py"]
-                else:
-                    cmd = [sys.executable, "-I", rp]
-                try:
-                    r = subprocess.run(cmd, cwd=td,
-                                       capture_output=True, text=True,
-                                       encoding="utf-8", errors="replace",
-                                       timeout=timeout_s * (3 if sandbox == "docker" else 1))
-                    payload = json.loads(r.stdout) if r.stdout.strip() else {"results": []}
-                    results = payload.get("results", [])
-                    passed = bool(results) and all(x["ok"] for x in results)
-                    result = {"status": "ok", "passed": passed, "sandbox": sandbox,
-                              "results": results, "stderr": (r.stderr or "")[-300:]}
-                except subprocess.TimeoutExpired:
-                    result = {"status": "ok", "passed": False, "results": [],
-                              "stderr": f"执行超时（>{timeout_s}s）"}
-                except json.JSONDecodeError:
-                    result = {"status": "ok", "passed": False, "results": [],
-                              "stderr": (r.stderr or "runner 输出异常")[-300:]}
-            return {"content": [{"type": "text", "text": _dump(result)}],
-                    "isError": False}
-        if name == "compile_exec":
-            # 中文协议编译器本地编译执行（白箱完整生命周期：认知图→条件代码图→本工具→本地编译执行）
-            src = a.get("source", "")
-            symbols = a.get("symbols") or {}
-            try:
-                from wisdom.core.compiler import compile_source
-                from wisdom.core.condition_vm import ConditionVM
-            except ImportError:
-                sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "wisdom"))
-                from core.compiler import compile_source
-                from core.condition_vm import ConditionVM
-            try:
-                code, result = compile_source(src, strict=False)
-                if not result["ok"]:
-                    return {"content": [{"type": "text", "text": _dump({
-                        "ok": False, "errors": [str(e) for e in result["errors"][:5]]})}], "isError": True}
-                vm = ConditionVM()
-                state = vm.run(code, symbols=symbols)
-                return {"content": [{"type": "text", "text": _dump({
-                    "ok": True, "instructions": len(code),
-                    "symbols": state["symbols"], "trust": state["trust"],
-                    "halt": state["halt"]})}], "isError": False}
-            except Exception as e:
-                return {"content": [{"type": "text", "text": _dump({
-                    "ok": False, "errors": [str(e)]})}], "isError": True}
-        if name == "lingshu_sensor_report":
-            from ..selfmod import sensor_scan
-            return {"content": [{"type": "text",
-                                 "text": _dump(sensor_scan(a.get("db")))}],
-                    "isError": False}
-        if name == "lingshu_vitality_report":
-            from ..selfmod import vitality_report
-            return {"content": [{"type": "text",
-                                 "text": _dump(vitality_report(a.get("db")))}],
-                    "isError": False}
-        if name == "lingshu_auto_snapshot":
-            from ..selfmod import auto_snapshot
-            return {"content": [{"type": "text",
-                                 "text": _dump(auto_snapshot(a.get("intent", "") or "自修改"))}],
-                    "isError": False}
-        if name == "lingshu_rollback":
-            from ..selfmod import rollback
-            res = rollback(a.get("snapshot_id", "") or "")
-            return {"content": [{"type": "text", "text": _dump(res)}],
-                    "isError": not res.get("ok", False)}
         if name == "action_log":
             return {"content": [{"type": "text", "text": _dump(agent.action_log(limit=a.get("limit", 50)))}], "isError": False}
         if name == "cognition":

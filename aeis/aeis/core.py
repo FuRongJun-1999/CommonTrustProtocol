@@ -851,15 +851,9 @@ class LayeredStore:
 
     @staticmethod
     def expand_query_terms(query: str) -> list:
-        """查询同义词展开：原查询整句 + 按空格/标点分词（≥2 字符）+ 命中组词 + 组内同义词。
-        分词（v1.28.1 · 检索缺陷修复）：重组短语（如「数据库 连接池 超时 重试」）逐词 LIKE，
-        解决整句 LIKE 对非连续子串召回失效；命中词本身必须加入——整句 LIKE 无法命中只含词级的节点。"""
+        """查询同义词展开：原查询整句 + 命中组词（含命中词本身，词级预筛）+ 组内同义词。
+        命中词本身必须加入——整句 LIKE 无法命中只含词级的节点。"""
         terms = [query]
-        import re as _re
-        for w in _re.split(r"[\s、，。；：,;.:/\\|]+", query):
-            w = w.strip()
-            if len(w) >= 2 and w not in terms:
-                terms.append(w)
         for group in LayeredStore.SYNONYM_GROUPS:
             for w in group:
                 if w in query:
@@ -894,14 +888,10 @@ class LayeredStore:
             # 检索增强（v1.12.1 · AEIS-BENCH-01 发现）：LIKE 预筛落空
             # （查询为重组短语，原文无连续子串命中）→ 回退全表二元组 Jaccard。
             # 节点量级小（千级），全表计算代价可忽略；消除连续性漏检。
-            # v1.28.1 修复：回退按 重要性降序+新近度降序 取 TOP，而非取最旧 N 行
-            # （原 `LIMIT 500` 无 ORDER BY = rowid 最小 = 最旧节点，新写入节点
-            #  永久隔离在检索之外——检索缺陷报告问题 1）。
-            order = "importance DESC, COALESCE(created_at, 0) DESC"
             if conds:
-                c.execute(f"SELECT * FROM nodes WHERE {' AND '.join(conds)} ORDER BY {order} LIMIT 500", params)
+                c.execute(f"SELECT * FROM nodes WHERE {' AND '.join(conds)} LIMIT 500", params)
             else:
-                c.execute(f"SELECT * FROM nodes ORDER BY {order} LIMIT 500")
+                c.execute("SELECT * FROM nodes LIMIT 500")
             rows = c.fetchall()
         scored = []
         # 评分用原查询二元组重叠率（召回导向）；扩展词只负责预筛召回不稀释评分
@@ -2095,12 +2085,8 @@ class SpacetimeMemoryEngine:
         """依赖注入（D-005）：provider.encode(text)->List[float]；provider.search(query,limit)->List[str]"""
         self._embedding_provider = provider
 
-    def recall(self, context_content: str, limit: int = 10,
-               w_sim: float = 0.5, w_importance: float = 0.3,
-               w_recency: float = 0.2) -> List[Tuple[STNode, float]]:
-        """组合联想（内容相似 + 重要性 + 近因）——记忆参与推理（1.1.1）。
-        v1.28.1 修复（检索缺陷报告问题 6）：权重可配置（默认 0.5/0.3/0.2），
-        调用方可按场景调整或对 seed 层做检索豁免。"""
+    def recall(self, context_content: str, limit: int = 10) -> List[Tuple[STNode, float]]:
+        """组合联想（内容相似 0.5 + 重要性 0.3 + 近因 0.2）——记忆参与推理（1.1.1）"""
         results = self.store.search_content(context_content, limit=50)
         if not results:
             return []
@@ -2109,7 +2095,7 @@ class SpacetimeMemoryEngine:
         for node, sim in results:
             la = node.last_access if node.last_access is not None else (node.created_at or now)
             recency = 1.0 / (1.0 + max(0.0, now - la) / 86400.0)
-            score = w_sim * sim + w_importance * (node.importance or 0.0) + w_recency * recency
+            score = 0.5 * sim + 0.3 * (node.importance or 0.0) + 0.2 * recency
             scored.append((node, score))
         scored.sort(key=lambda x: -x[1])
         self._note_reuse([n.id for n, _ in scored[:limit]])
@@ -2631,7 +2617,27 @@ class SpacetimeMemoryEngine:
             self._world3d.add_vprim(vp, int(p.get("screen_w", 800)),
                                     int(p.get("screen_h", 600)))
             return {"status": "ok", "scene": self._world3d.scene_text()}
-        return {"status": "error", "error": f"未知动作 {action}（可用: build/render/status/add）"}
+        if action == "add_view":
+            """多视角融合（阶段1 · 里程碑1.1）：category + bbox + 视角相机 → 三角化。
+            首次观测记录；≥2 视角触发射线交汇收敛（借鉴 DUSt3R 多视图对齐）。"""
+            category = str(p.get("category", ""))
+            bbox = p.get("bbox")
+            if not category or not bbox or len(bbox) != 4:
+                return {"status": "error", "error": "category 与 bbox=[x1,y1,x2,y2] 必填"}
+            sw = int(p.get("screen_w", 800))
+            sh = int(p.get("screen_h", 600))
+            # 视角相机（可选：缺省当前相机）
+            cam = None
+            if p.get("camera"):
+                cp = p["camera"]
+                cam = Camera3D(yaw=float(cp.get("yaw", 0)), pitch=float(cp.get("pitch", 0)),
+                               cx=float(cp.get("cx", 0)), cy=float(cp.get("cy", 1.2)))
+            result = self._world3d.add_view(category, [float(v) for v in bbox],
+                                            sw, sh, camera=cam,
+                                            confidence=float(p.get("confidence", 0.5)))
+            result["scene"] = self._world3d.scene_text()
+            return {"status": "ok", **result}
+        return {"status": "error", "error": f"未知动作 {action}（可用: build/render/status/add/add_view）"}
 
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
@@ -3919,30 +3925,9 @@ class SpacetimeMemoryEngine:
                 if n.importance < 0.08:
                     self.store.tag_node(n.id, "compressible")
                     stats["compressible"] += 1
-        # v1.28.1 修复（检索缺陷报告问题 3）：演练「无变化」时不落节点——
-        # 原实现每次巩固无条件写入 [consolidation] 节点，同内容可重复数十次
-        # 污染知识层稀释检索；仅当有实际动作（提升/降权/压缩标记）才记录。
-        # v1.30.1 修复（外部测试报告 · consolidation 日志无节制累积）：
-        # ①条件含恒真的 rehearsed（知识库有高重要度节点即恒 >0）→ 去掉；
-        # ②演练（rehearsed）本质是「读取刷新」，不是知识变化——即使记录，
-        #   也不应写入知识层 nodes（污染检索），改为落日志文件。
-        # v1.30.2 修复（F-SPEC 评审 · consolidation 残留）：v1.30.1 条件
-        #   「boosted/degraded/compressible 任一 >0 才写」仍不彻底——boosted
-        #   触发条件为 access_count % 10 == 0，真实运行中有访问即有节点跨过
-        #   10 的倍数被提升，「提升 N>0」几乎恒真 → 仍持续写知识层节点。
-        #   根治：consolidation 统计是内部维护元数据（演练/提升/降权/压缩
-        #   标记），一律不写知识层 nodes，无论有无动作都只落日志文件。
-        import os as _os
-        try:
-            _log_dir = _os.path.join(_os.path.dirname(_os.path.dirname(
-                _os.path.abspath(__file__))), "logs")
-            _os.makedirs(_log_dir, exist_ok=True)
-            with open(_os.path.join(_log_dir, "consolidation.log"), "a", encoding="utf-8") as _lf:
-                _lf.write(f"[{__import__('time').strftime('%Y-%m-%d %H:%M:%S')}] "
-                          f"consolidation 演练 {stats['rehearsed']} · 提升 {stats['boosted']} · "
-                          f"降权 {stats['degraded']} · 可压缩 {stats['compressible']}\n")
-        except Exception:
-            pass
+        self.add_perception(
+            f"[consolidation] 演练 {stats['rehearsed']} · 提升 {stats['boosted']} · 降权 {stats['degraded']} · 可压缩 {stats['compressible']}",
+            importance=0.4, tags=["consolidation"])
         return stats
 
     def run_maintenance_cycle(self, decay_factor: float = 0.02) -> Dict:
@@ -4099,11 +4084,9 @@ class SpacetimeMemoryEngine:
         检索时命中相似节点会附「这两个的区别」提示——细化条件得到精确知识。"""
         try:
             import sys as _s
-            # 单源规范：模块随 wisdom 包分发，锚点=本包上级的 wisdom/（禁止外部副本路径）
-            _wdir = os.path.join(os.path.dirname(os.path.dirname(
-                os.path.abspath(__file__))), "wisdom")
-            if _wdir not in _s.path:
-                _s.path.insert(0, _wdir)
+            _kb = r'D:\Program Files\2_ai\knowledge-base'
+            if _kb not in _s.path:
+                _s.path.insert(0, _kb)
             from pattern_separation import PatternSeparation
             ps = PatternSeparation(self)
             return ps.scan(limit=limit)
@@ -4118,11 +4101,9 @@ class SpacetimeMemoryEngine:
         不代表真实发生的过去就是如此（0.0.3 局部不可知）。"""
         try:
             import sys as _s
-            # 单源规范：模块随 wisdom 包分发，锚点=本包上级的 wisdom/（禁止外部副本路径）
-            _wdir = os.path.join(os.path.dirname(os.path.dirname(
-                os.path.abspath(__file__))), "wisdom")
-            if _wdir not in _s.path:
-                _s.path.insert(0, _wdir)
+            _kb = r'D:\Program Files\2_ai\knowledge-base'
+            if _kb not in _s.path:
+                _s.path.insert(0, _kb)
             from scene_reconstruction import SceneReconstruction
             sr = SceneReconstruction(self)
             return sr.reconstruct(clue, depth=depth, max_nodes=max_nodes)
