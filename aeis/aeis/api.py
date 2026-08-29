@@ -497,6 +497,13 @@ class Agent:
         漂移事件）/ self_consistent（世界模型自洽判定）/ drift / history。"""
         return self.engine.spacetime_consistency(action, params)
 
+    def world_model(self, action: str, params: dict = None) -> Dict:
+        """统一世界模型（里程碑3.1 · HERMES 式统一架构）：世界状态表征作为理解/
+        生成/验证共享的同一骨干——perceive（观测→世界图，生成先验注入理解）/
+        generate（世界图→候选未来）/ verify（外部观察者对比）/ patterns（观测-only
+        模式推断）/ anomalies（预测-观测异常）/ graph / history。"""
+        return self.engine.world_model(action, params)
+
     # 外部知识摄取（第 3 项：记忆含外部知识）
     # =====================================================================
 

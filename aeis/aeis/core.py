@@ -2906,6 +2906,76 @@ class SpacetimeMemoryEngine:
                     "history": self._stc.prediction_history(limit=int(p.get("limit", 10)))}
         return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/run/step/teleport/report/self_consistent/drift/history）"}
 
+    def world_model(self, action: str, params: dict = None) -> dict:
+        """统一世界模型（里程碑3.1 · HERMES 式统一架构）：世界状态表征作为
+        理解/生成/验证共享的同一骨干——
+        - init: 初始化（size/ground_level/seed）
+        - create: 物理世界创建场景（trees/water）
+        - entity: 物理世界添加自主实体（行为已知=世界真相，模型只能观测）
+        - path: 定义巡逻路径
+        - perceive: 理解端口（观测→世界图；生成先验注入理解=预测-观测一致性异常检测）
+        - generate: 生成端口（世界图→候选未来，顺序语义外推+不确定边界）
+        - verify: 验证端口（外部观察者对比→命中率）
+        - run: 持续运行 n tick（generate→物理演化→perceive→verify）
+        - patterns: 观测-only 行为模式推断（关系/速度/方向一致性）
+        - anomalies: 预测-观测异常事件（模型缺口/外部事件）
+        - graph: 世界图导出（节点+边+观测溯源条件空间）
+        - history: 4D 演化历史
+        - state: 模型状态"""
+        p = params or {}
+        try:
+            from world_model import UnifiedWorldModel
+        except ImportError:
+            try:
+                from .world_model import UnifiedWorldModel
+            except Exception as e:
+                return {"status": "wm_not_ready", "error": str(e)}
+        if not hasattr(self, '_wmodel'):
+            self._wmodel = UnifiedWorldModel(
+                size=int(p.get('size', 24)),
+                ground_level=int(p.get('ground_level', 1)),
+                seed=int(p.get('seed', 42)))
+        if action == "create":
+            r = self._wmodel.world.create_scene(trees=int(p.get("trees", 2)),
+                                                water=bool(p.get("water", False)))
+            return {"status": "ok", "scene": r}
+        if action == "entity":
+            eid = self._wmodel.world.add_entity(
+                str(p.get("category", "entity")),
+                behavior=str(p.get("behavior", "wander")),
+                pos=tuple(float(v) for v in p.get("pos", [2, 1.5, 2])),
+                speed=float(p.get("speed", 0.3)),
+                goal=str(p.get("goal", "")))
+            return {"status": "ok", "entity_id": eid}
+        if action == "path":
+            self._wmodel.world.add_path(str(p.get("path_id", "")), p.get("points", []))
+            return {"status": "ok", "path_id": str(p.get("path_id", ""))}
+        if action == "perceive":
+            r = self._wmodel.perceive(tool=str(p.get("tool", "observer")))
+            return {"status": "ok", "perceive": r}
+        if action == "generate":
+            r = self._wmodel.generate(horizon=int(p.get("horizon", 1)))
+            return {"status": "ok", "generate": r}
+        if action == "verify":
+            r = self._wmodel.verify()
+            return {"status": "ok", "verify": r}
+        if action == "run":
+            r = self._wmodel.verify_run(n=int(p.get("n", 10)))
+            return {"status": "ok", "run": r}
+        if action == "patterns":
+            return {"status": "ok", "patterns": self._wmodel.patterns()}
+        if action == "anomalies":
+            return {"status": "ok",
+                    "anomalies": self._wmodel.anomalies(limit=int(p.get("limit", 20)))}
+        if action == "graph":
+            return {"status": "ok", "graph": self._wmodel.graph()}
+        if action == "history":
+            return {"status": "ok",
+                    "history": self._wmodel.history_view(limit=int(p.get("limit", 10)))}
+        if action == "state":
+            return {"status": "ok", "model": self._wmodel.state()}
+        return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/perceive/generate/verify/run/patterns/anomalies/graph/history/state）"}
+
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）

@@ -251,6 +251,12 @@ def _tools():
                          "properties": {"action": {"type": "string"},
                                         "params": {"type": "object"}},
                          "required": ["action"]}},
+        {"name": "world_model",
+         "description": "统一世界模型（里程碑3.1 · HERMES 式统一架构）：世界状态表征作为理解/生成/验证共享的同一骨干——init / create（物理世界场景）/ entity / path / perceive（理解端口：观测→世界图，生成先验注入理解=预测-观测一致性异常检测）/ generate（生成端口：世界图→候选未来，顺序语义外推+不确定边界）/ verify（验证端口：外部观察者对比→命中率）/ run（持续运行：generate→物理演化→perceive→verify）/ patterns（观测-only 行为模式推断：关系/速度/方向一致性）/ anomalies（预测-观测异常事件）/ graph（世界图+观测溯源条件空间）/ history（4D 演化历史）/ state。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "world_server",
          "description": "AI 游戏世界服务器（里程碑2.2）：AI 自身成为游戏世界的服务器——tick（多路并行模拟）/ snapshot+rollback（世界记忆与错误回滚）/ feedback（实体行动反馈）/ sync（客户端同步）/ verify（预测验证：预测下一 tick vs 实际→命中判定）。",
          "inputSchema": {"type": "object",
@@ -704,6 +710,9 @@ class AEISServer:
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "spacetime_consistency":
             return {"content": [{"type": "text", "text": _dump(agent.spacetime_consistency(
+                a.get("action", ""), a.get("params")))}], "isError": False}
+        if name == "world_model":
+            return {"content": [{"type": "text", "text": _dump(agent.world_model(
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world_server":
             return {"content": [{"type": "text", "text": _dump(agent.world_server(
