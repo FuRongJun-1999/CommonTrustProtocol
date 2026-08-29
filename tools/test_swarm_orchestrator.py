@@ -62,9 +62,41 @@ try:
     check("V-SO.3 到期失效", expired == ["reflect"] and neg_b.holder("reflect") is None)
     neg_b.confirm("reflect", "nodeX")
     check("V-SO.3 重协商恢复", neg_b.holder("reflect") == "nodeX")
+
+    # ============ V-SO.4 任务分解（DAG+环检测） ============
+    from swarm_orchestrator import TaskGraph, Dispatcher
+    dag = TaskGraph([
+        {"id": "stat", "capability": "求和", "input": [1, 2], "depends_on": []},
+        {"id": "sort", "capability": "排序", "input": [3, 1], "depends_on": ["stat"]},
+        {"id": "verify", "capability": "校验", "input": None, "depends_on": ["sort"]},
+    ])
+    check("V-SO.4 DAG 拓扑序", dag.order == ["stat", "sort", "verify"], f"got {dag.order}")
+    check("V-SO.4 就绪集计算", dag.ready(set()) == ["stat"])
+    try:
+        TaskGraph([{"id": "a", "capability": "x", "depends_on": ["b"]},
+                   {"id": "b", "capability": "x", "depends_on": ["a"]}])
+        check("V-SO.4 环显式报错", False, "未抛异常")
+    except ProtocolError as e:
+        check("V-SO.4 环显式报错", "环" in str(e), str(e))
+    try:
+        TaskGraph([{"id": "a", "capability": "x", "depends_on": ["ghost"]}])
+        check("V-SO.4 未知依赖报错", False, "未抛异常")
+    except ProtocolError as e:
+        check("V-SO.4 未知依赖报错", "未知子任务" in str(e), str(e))
+
+    # ============ V-SO.5 分派策略（能力过滤+信任排序） ============
+    from swarm_orchestrator import Registry as _R
+    reg2 = _R(os.path.join(tmp, "bus2"))
+    reg2.register("nodeB", ["求和"])
+    reg2.register("nodeC", ["求和"])
+    disp = Dispatcher(reg2, trust)
+    ok, det = disp.pick("求和")
+    check("V-SO.5 信任排序选节点", ok and "nodeB" in det, det)
+    ok2, det2 = disp.pick("求和", exclude={"nodeB", "nodeC"})
+    check("V-SO.5 全排除显式报错", not ok2 and "无节点" in det2, det2)
 finally:
     shutil.rmtree(tmp, ignore_errors=True)
 
 print("\n=== 判定 ===")
-print(f"编排层批 1: {pass_n}/{pass_n + fail_n}")
+print(f"编排层批 1+2: {pass_n}/{pass_n + fail_n}")
 sys.exit(0 if fail_n == 0 else 1)

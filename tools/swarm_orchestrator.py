@@ -160,3 +160,63 @@ if __name__ == "__main__":
     reg.register("nodeB", ["求和", "世界模型"], roles=["reflect"])
     print("目录:", json.dumps(reg.nodes, ensure_ascii=False)[:120])
     print("按能力查:", reg.by_capability("求和"))
+
+
+# ---------------------------------------------------------------------------
+# O2 任务分解 / O3 分派策略（批 2，2026-08-29）
+# ---------------------------------------------------------------------------
+
+class TaskGraph:
+    """O2 任务分解：显式 DAG（v0.1 口径——调用方给子任务与依赖）。
+
+    subtasks: [{id, capability, input, depends_on: [subtask_id]}]
+    环检测：拓扑排序失败 → 显式报错（白箱纪律：不猜测）。
+    """
+
+    def __init__(self, subtasks: list):
+        self.subtasks = {s["id"]: s for s in subtasks}
+        self.order = s = self._toposort(subtasks)
+        if s is None:
+            raise ProtocolError("任务图存在环（依赖不可满足）——显式拒绝")
+
+    def _toposort(self, subtasks):
+        ids = {s["id"] for s in subtasks}
+        deps = {s["id"]: set(s.get("depends_on", [])) for s in subtasks}
+        for sid, ds in deps.items():
+            if not ds <= ids:
+                raise ProtocolError(f"依赖未知子任务: {sid} → {ds - ids}")
+        order, done = [], set()
+        while len(done) < len(ids):
+            ready = [i for i in ids - done if deps[i] <= done]
+            if not ready:
+                return None  # 有环
+            for i in sorted(ready):
+                order.append(i)
+                done.add(i)
+        return order
+
+    def ready(self, done: set) -> list:
+        return [sid for sid in self.order
+                if sid not in done
+                and set(self.subtasks[sid].get("depends_on", [])) <= done]
+
+
+class Dispatcher:
+    """O3 分派策略：能力过滤（ACCEPT 候选）→ 信任排序 → 选节点。"""
+
+    def __init__(self, registry: Registry, trust: object):
+        self.registry = registry
+        self.trust = trust
+
+    def pick(self, capability: str, exclude: set = ()) -> tuple:
+        cands = [n for n in self.registry.by_capability(capability)
+                 if n not in exclude]
+        if not cands:
+            return False, f"无节点具备能力 {capability}（目录空/被排除）"
+        if self.trust:
+            scored = sorted(cands, key=lambda n: -self.trust.score(n))
+            best = scored[0]
+            if self.trust.isolated(best):
+                return False, f"最高信任节点 {best} 处于隔离态——暂停派发"
+            return True, f"{best}（trust={self.trust.score(best):.2f}，{len(cands)} 候选）"
+        return True, f"{cands[0]}（无信任记录，默认）"
