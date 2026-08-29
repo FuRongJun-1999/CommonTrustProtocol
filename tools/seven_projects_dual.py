@@ -72,7 +72,12 @@ def make_graph_judge():
 
 
 def judge_os(code):
-    """工程 4：工作窃取调度——真跑断言（负载均衡+总量守恒）。"""
+    """工程 4：工作窃取调度——真跑断言（总量守恒+均衡改善）。
+
+    judge 重审修正（2026-08-29）：旧断言「非空队列数不增」与窃取语义
+    矛盾——工作窃取的目的恰是让空/闲队列获得任务。真不变量=①总量
+    守恒 ②均衡改善（极差缩小）。
+    """
     try:
         ns = {}
         exec(compile(code, "<impl>", "exec"), ns)
@@ -80,16 +85,20 @@ def judge_os(code):
         if fn is None:
             return False, "未定义 work_steal(queues)"
         queues = [[1, 2, 3], [4, 5], [], [6]]
-        result = fn([q[:] for q in queues])
-        # result = 调度后的队列列表：非空队列数不增、总任务数守恒
         total_before = sum(len(q) for q in queues)
+        range_before = max(len(q) for q in queues) - min(len(q) for q in queues)
+        result = fn([q[:] for q in queues])
+        if not isinstance(result, list):
+            return False, f"返回类型须为 list，得到 {type(result).__name__}"
         total_after = sum(len(q) for q in result)
         if total_after != total_before:
             return False, f"任务总数不守恒 {total_before}→{total_after}"
-        nonempty = sum(1 for q in result if q)
-        if nonempty > len([q for q in queues if q]):
-            return False, "出现新的非空队列（窃取语义错误）"
-        return True, f"守恒 {total_after} 任务、{nonempty} 非空队列（物理执行）"
+        lens = [len(q) for q in result]
+        range_after = max(lens) - min(lens)
+        if range_after >= range_before:
+            return False, f"负载未均衡：极差 {range_before}→{range_after}"
+        return True, (f"守恒 {total_after} 任务；极差 {range_before}→{range_after} "
+                      f"（物理执行，窃取生效）")
     except Exception as e:
         return False, f"{type(e).__name__}: {e}"
 
