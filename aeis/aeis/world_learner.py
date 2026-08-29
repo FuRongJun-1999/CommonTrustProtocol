@@ -287,6 +287,7 @@ class WorldLearner:
                 pred[eid] = {"predicted": list(shadow[eid]),
                              "bound": round(self._reach(speed), 3),
                              "mode": "bounded_stochastic"}
+        self._last_prediction = pred   # 生成先验（供好奇异常检测/状态导出）
         return {"tick": self.tick, "horizon": horizon, "predictions": pred}
 
     # ================= 遮挡重建（自监督损失 · V-JEPA 式） =================
