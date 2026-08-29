@@ -1,7 +1,7 @@
 ---
 name: browser-c45cbfe9
 description: >-
-  CSS级联/CSS-级联。用户提到与「CSS级联」相关的能力时使用本技能。
+  CSS级联 / CSS-级联 / 浏览器 CSS——级联优 / 级联应用 / 选择最高优先级规则 / CSS 级联优先级 / 内联1000 > i。用户提到这些词时使用本技能。
   场景：对照：浏览器 CSS——级联优先级（内联>id>class>标签）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["CSS级联", "CSS-级联", "浏览器 CSS——级联优", "级联应用", "选择最高优先级规则", "CSS 级联优先级", "内联1000 > i"]
     when: "参数 rules 合法"
     sub: ["① 调用 max"]
     execute: "顺序调用"

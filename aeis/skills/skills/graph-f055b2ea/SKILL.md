@@ -1,7 +1,7 @@
 ---
 name: graph-f055b2ea
 description: >-
-  分层布局/图可视化-分层布局。用户提到与「分层布局」相关的能力时使用本技能。
+  分层布局 / 图可视化-分层布局 / 图可视化——分层布局 / 按 BFS 深度分层。用户提到这些词时使用本技能。
   场景：对照：图可视化——分层布局（BFS 深度分层坐标）。
   【不适用】Not for 以下场景：starts 为空/非法时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["分层布局", "图可视化-分层布局", "图可视化——分层布局", "按 BFS 深度分层"]
     when: "q.popleft 可用；graph.neighbors 可用"
     sub: ["① 调用 deque；② 调用 min；③ 调用 any"]
     execute: "循环迭代；顺序调用"

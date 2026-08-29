@@ -1,7 +1,7 @@
 ---
 name: pylang-8fe98252
 description: >-
-  作用域环境/环境-作用域链。用户提到与「作用域环境」相关的能力时使用本技能。
+  作用域环境 / 环境-作用域链 / mini_python. / 变量环境（作用域链） / 局部 → 父环境（M / 构造 / 创建变量表并挂接父环 / 查询。用户提到这些词时使用本技能。
   场景：对照：mini_python.py Env（父链作用域：局部找不到向上查找）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["作用域环境", "环境-作用域链", "mini_python.", "变量环境（作用域链）", "局部 → 父环境（M", "构造", "创建变量表并挂接父环", "查询"]
     when: "参数 输入 合法"
     sub: ["① 调用 Env"]
     execute: "顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: graph-fd51ece9
 description: >-
-  正则路径/图查询-正则路径。用户提到与「正则路径」相关的能力时使用本技能。
+  正则路径 / 图查询-正则路径 / 图查询——正则路径 / 正则路径查询 / 按标签序列沿边匹配（。用户提到这些词时使用本技能。
   场景：对照：图查询——正则路径（标签序列沿边匹配，属性图路径语义）。
   【不适用】Not for 以下场景：frontier 为空/非法时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["正则路径", "图查询-正则路径", "图查询——正则路径", "正则路径查询", "按标签序列沿边匹配（"]
     when: "参数 adj/start/labels 合法"
     sub: ["① 调用 sorted；② 调用 set"]
     execute: "循环迭代；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: vm-cond-space
 description: >-
-  条件空间/VM-条件空间。用户提到与「条件空间」相关的能力时使用本技能。
+  条件空间 / VM-条件空间 / 道=create_pat / 创建协议路径（条件空。用户提到这些词时使用本技能。
   场景：对照：道=create_path（条件空间注册）、自然=restore_default。
   【不适用】Not for 以下场景：op 非 {自然, 道} 时（隐式盲区：返回默认值 [] = 未知行为——不适用）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["条件空间", "VM-条件空间", "道=create_pat", "创建协议路径（条件空"]
     when: "op ∈ {自然, 道}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

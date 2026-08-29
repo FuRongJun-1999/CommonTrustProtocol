@@ -1,7 +1,7 @@
 ---
 name: net-fdec2c86
 description: >-
-  带宽时延积/网络-带宽时延积。用户提到与「带宽时延积」相关的能力时使用本技能。
+  带宽时延积 / 网络-带宽时延积 / BDP——带宽×RTT / 带宽×RTT = 在。用户提到这些词时使用本技能。
   场景：对照：BDP——带宽×RTT（TCP 窗口大小依据）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["带宽时延积", "网络-带宽时延积", "BDP——带宽×RTT", "带宽×RTT = 在"]
     when: "参数 bandwidth/rtt 合法"
     sub: ["① 调用 round"]
     execute: "顺序调用"

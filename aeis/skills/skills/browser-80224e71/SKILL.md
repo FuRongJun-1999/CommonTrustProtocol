@@ -1,7 +1,7 @@
 ---
 name: browser-80224e71
 description: >-
-  全屏模式/浏览器-全屏模式。用户提到与「全屏模式」相关的能力时使用本技能。
+  全屏模式 / 浏览器-全屏模式 / enter 元素全屏。用户提到这些词时使用本技能。
   场景：对照：Fullscreen API——元素全屏进入/退出。
   【不适用】Not for 以下场景：op 非 {enter, exit} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["全屏模式", "浏览器-全屏模式", "enter 元素全屏"]
     when: "op ∈ {enter, exit}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

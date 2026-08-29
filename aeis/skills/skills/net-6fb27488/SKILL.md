@@ -1,7 +1,7 @@
 ---
 name: net-6fb27488
 description: >-
-  距离矢量/网络-距离矢量。用户提到与「距离矢量」相关的能力时使用本技能。
+  距离矢量 / 网络-距离矢量 / 网络路由——距离矢量 / 距离矢量路由（RIP / 收到邻居路由表 →。用户提到这些词时使用本技能。
   场景：对照：网络路由——距离矢量（邻居路由表合并，距离+1 取最短——RIP 语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["距离矢量", "网络-距离矢量", "网络路由——距离矢量", "距离矢量路由（RIP", "收到邻居路由表 →"]
     when: "参数 routes/neighbor/neighbor_routes 合法"
     sub: ["① 调用 dict"]
     execute: "循环迭代；顺序调用"

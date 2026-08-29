@@ -1,7 +1,7 @@
 ---
 name: pylang-4ddf31f3
 description: >-
-  异步生成器/异步-异步生成器。用户提到与「异步生成器」相关的能力时使用本技能。
+  异步生成器 / 异步-异步生成器 / async genera / next 产出一个值。用户提到这些词时使用本技能。
   场景：对照：async generator——异步逐值产出（yield 语义模拟）。
   【不适用】Not for 以下场景：op 非 {done, feed, next} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["异步生成器", "异步-异步生成器", "async genera", "next 产出一个值"]
     when: "op ∈ {done, feed, next}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

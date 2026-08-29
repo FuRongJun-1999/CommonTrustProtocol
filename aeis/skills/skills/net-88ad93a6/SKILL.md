@@ -1,7 +1,7 @@
 ---
 name: net-88ad93a6
 description: >-
-  网络切片/网络-网络切片。用户提到与「网络切片」相关的能力时使用本技能。
+  网络切片 / 网络-网络切片 / 5G 网络切片——按服务 / create 创建。用户提到这些词时使用本技能。
   场景：对照：5G 网络切片——按服务隔离带宽资源（准入控制）。
   【不适用】Not for 以下场景：op 非 {admit, create} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["网络切片", "网络-网络切片", "5G 网络切片——按服务", "create 创建"]
     when: "op ∈ {admit, create}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

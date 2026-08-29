@@ -1,7 +1,7 @@
 ---
 name: compiler-ce648068
 description: >-
-  控制流图/分析-控制流图。用户提到与「控制流图」相关的能力时使用本技能。
+  控制流图 / 分析-控制流图 / CFG——基本块跳转边构 / 基本块间跳转关系（C。用户提到这些词时使用本技能。
   场景：对照：CFG——基本块跳转边构建（控制流图）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["控制流图", "分析-控制流图", "CFG——基本块跳转边构", "基本块间跳转关系（C"]
     when: "参数 blocks/jumps 合法"
     sub: []
     execute: "循环迭代"

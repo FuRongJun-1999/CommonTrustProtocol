@@ -1,7 +1,7 @@
 ---
 name: net-61f64fbc
 description: >-
-  令牌桶/网络-令牌桶限速。用户提到与「令牌桶」相关的能力时使用本技能。
+  令牌桶 / 网络-令牌桶限速 / 网络限速——令牌桶 / 令牌桶限速 / 按速率补令牌（上限。用户提到这些词时使用本技能。
   场景：对照：网络限速——令牌桶（速率补令牌，容量封顶）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["令牌桶", "网络-令牌桶限速", "网络限速——令牌桶", "令牌桶限速", "按速率补令牌（上限"]
     when: "参数 tokens/capacity/rate/elapsed 合法"
     sub: ["① 调用 min"]
     execute: "顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: pylang-f4f820d4
 description: >-
-  笛卡尔积/工具-笛卡尔积。用户提到与「笛卡尔积」相关的能力时使用本技能。
+  笛卡尔积 / 工具-笛卡尔积 / itertools.pr / 多序列组合（iter。用户提到这些词时使用本技能。
   场景：对照：itertools.product——笛卡尔积（全组合）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["笛卡尔积", "工具-笛卡尔积", "itertools.pr", "多序列组合（iter"]
     when: "参数 输入 合法"
     sub: ["① 调用 list；② 调用 product"]
     execute: "顺序调用"

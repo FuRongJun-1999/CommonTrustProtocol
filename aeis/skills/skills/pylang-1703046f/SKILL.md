@@ -1,7 +1,7 @@
 ---
 name: pylang-1703046f
 description: >-
-  复合赋值求值/复合赋值-执行内核。用户提到与「复合赋值求值」相关的能力时使用本技能。
+  复合赋值求值 / 复合赋值-执行内核 / mini_python.。用户提到这些词时使用本技能。
   场景：对照：mini_python.py aug_assign 语句内核（CPython += 真除/零除语义）。
   【不适用】Not for 以下场景：未知 op 抛 ValueError；下标/属性目标不在本单元范围
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["复合赋值求值", "复合赋值-执行内核", "mini_python."]
     when: "op 为 '+=' '-=' '*=' '/=' 之一；rhs 与 cur 类型相容"
     sub: ["① 四值分派；② '/=' 零除报错；③ 字符串 '+=' 拼接"]
     execute: "条件分派；算术求值"

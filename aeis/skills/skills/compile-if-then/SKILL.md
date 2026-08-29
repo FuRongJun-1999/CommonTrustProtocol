@@ -1,7 +1,7 @@
 ---
 name: compile-if-then
 description: >-
-  编译条件/编译-若则。用户提到与「编译条件」相关的能力时使用本技能。
+  编译条件 / 编译-若则 / 若则=条件语句 / 条件跳转编译（若则编 / 若…则…否则 → J。用户提到这些词时使用本技能。
   场景：对照：若则=条件语句（v0.2 codegen if/else 的字节码形态）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["编译条件", "编译-若则", "若则=条件语句", "条件跳转编译（若则编", "若…则…否则 → J"]
     when: "cond_instrs/then_instrs/else_instrs 为指令列表（条件/真分支/假分支字节码）"
     sub: ["① 拼接条件指令 ② 假跳转至 else ③ 真分支尾跳至结束"]
     execute: "JUMP_IF_FALSE（条件假跳）+ JUMP（跳过 else）"

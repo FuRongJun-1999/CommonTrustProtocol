@@ -1,7 +1,7 @@
 ---
 name: graph-72ce5342
 description: >-
-  图文件/图持久化-文件。用户提到与「图文件」相关的能力时使用本技能。
+  图文件 / 图持久化-文件 / 条件图数据库——.cgd / 图 → .cgdb / .cgdb 文件 → / 组装 / Graph + sa。用户提到这些词时使用本技能。
   场景：对照：条件图数据库——.cgdb 文件持久化（存储层升级：JSON→文件）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["图文件", "图持久化-文件", "条件图数据库——.cgd", "图 → .cgdb", ".cgdb 文件 →", "组装", "Graph + sa"]
     when: "json.dump 可用"
     sub: ["① 调用 open；② 调用 sorted"]
     execute: "顺序调用"

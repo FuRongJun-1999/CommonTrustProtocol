@@ -1,7 +1,7 @@
 ---
 name: os-819f3093
 description: >-
-  写时复制快照/文件-写时复制快照。用户提到与「写时复制快照」相关的能力时使用本技能。
+  写时复制快照 / 文件-写时复制快照 / OS 文件系统——写时复 / 写时复制快照（COW / snapshot 冻。用户提到这些词时使用本技能。
   场景：对照：OS 文件系统——写时复制快照（快照冻结，写共享块先复制）。
   【不适用】Not for 以下场景：op 非 {read, snapshot, write} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["写时复制快照", "文件-写时复制快照", "OS 文件系统——写时复", "写时复制快照（COW", "snapshot 冻"]
     when: "op ∈ {snapshot, write}；snapshots 为快照表（可空）"
     sub: ["① snapshot 冻结块引用 ② write 写块时复制原值"]
     execute: "按 op 分派快照/写时复制"

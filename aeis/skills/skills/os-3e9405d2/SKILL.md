@@ -1,7 +1,7 @@
 ---
 name: os-3e9405d2
 description: >-
-  RAID条带/文件-RAID条带。用户提到与「RAID条带」相关的能力时使用本技能。
+  RAID条带 / 文件-RAID条带 / RAID 0——数据条带 / RAID 0 / 数据条带化（分块分布。用户提到这些词时使用本技能。
   场景：对照：RAID 0——数据条带化（分块分布，并行 I/O 语义）。
   【不适用】Not for 以下场景：disks 为空/非法时（隐式盲区：返回默认值 [] = 未知行为——不适用）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["RAID条带", "文件-RAID条带", "RAID 0——数据条带", "RAID 0", "数据条带化（分块分布"]
     when: "参数 data/disks 合法"
     sub: ["① 调用 range"]
     execute: "顺序调用"

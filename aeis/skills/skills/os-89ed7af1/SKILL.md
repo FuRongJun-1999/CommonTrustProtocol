@@ -1,7 +1,7 @@
 ---
 name: os-89ed7af1
 description: >-
-  审计日志/安全-审计日志。用户提到与「审计日志」相关的能力时使用本技能。
+  审计日志 / 安全-审计日志 / OS 安全——审计日志 / 审计 / 安全事件记录（操作。用户提到这些词时使用本技能。
   场景：对照：OS 安全——审计日志（安全事件记录，可追溯）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["审计日志", "安全-审计日志", "OS 安全——审计日志", "审计", "安全事件记录（操作"]
     when: "参数 log/event/subject 合法"
     sub: ["① 调用 len"]
     execute: "顺序调用"

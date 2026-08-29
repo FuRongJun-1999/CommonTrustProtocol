@@ -1,7 +1,7 @@
 ---
 name: os-15796db5
 description: >-
-  内存压缩/内存-内存压缩。用户提到与「内存压缩」相关的能力时使用本技能。
+  内存压缩 / 内存-内存压缩 / OS 内存——内存压缩 / 超长页压缩存储（zs。用户提到这些词时使用本技能。
   场景：对照：OS 内存——内存压缩（超阈页压缩存储，减少占用）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["内存压缩", "内存-内存压缩", "OS 内存——内存压缩", "超长页压缩存储（zs"]
     when: "参数 pages/threshold 合法"
     sub: ["① 调用 len"]
     execute: "循环迭代；顺序调用"

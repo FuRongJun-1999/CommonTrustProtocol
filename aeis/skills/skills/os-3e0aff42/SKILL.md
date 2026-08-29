@@ -1,7 +1,7 @@
 ---
 name: os-3e0aff42
 description: >-
-  页表映射/内存-页表映射。用户提到与「页表映射」相关的能力时使用本技能。
+  页表映射 / 内存-页表映射 / OS 虚拟内存——页表映 / 页表映射（虚拟内存页 / 虚拟页号 → 物理帧。用户提到这些词时使用本技能。
   场景：对照：OS 虚拟内存——页表映射（VPN→物理帧；present=0 或缺项=缺页）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["页表映射", "内存-页表映射", "OS 虚拟内存——页表映", "页表映射（虚拟内存页", "虚拟页号 → 物理帧"]
     when: "page_table 为 VPN→页表项 映射；vpn 为虚拟页号"
     sub: ["① 查页表项 ② present 位判定 ③ 缺页/命中返回"]
     execute: "无条目或 present≠1 → None（缺页）；否则返 frame"

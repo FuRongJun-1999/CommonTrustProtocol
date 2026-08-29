@@ -1,7 +1,7 @@
 ---
 name: browser-87b0ce80
 description: >-
-  在线状态/浏览器-在线状态。用户提到与「在线状态」相关的能力时使用本技能。
+  在线状态 / 浏览器-在线状态 / navigator.on / set 设置 onl。用户提到这些词时使用本技能。
   场景：对照：navigator.onLine + online/offline 事件（网络状态监测）。
   【不适用】Not for 以下场景：op 非 {events, get, set} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["在线状态", "浏览器-在线状态", "navigator.on", "set 设置 onl"]
     when: "op ∈ {events, get, set}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

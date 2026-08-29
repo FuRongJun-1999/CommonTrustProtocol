@@ -1,7 +1,7 @@
 ---
 name: graph-53fbfef5
 description: >-
-  最短路径/图遍历-最短路径。用户提到与「最短路径」相关的能力时使用本技能。
+  最短路径 / 图遍历-最短路径 / 条件链最短路径——BFS / 最短路径（无权图 B / BFS 逐层扩散 +。用户提到这些词时使用本技能。
   场景：对照：条件链最短路径——BFS 最少跳数（两链中取最短；反向无路返回 None）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["最短路径", "图遍历-最短路径", "条件链最短路径——BFS", "最短路径（无权图 B", "BFS 逐层扩散 +"]
     when: "graph 提供 neighbors 接口；start/end 为图中节点"
     sub: ["① BFS 逐层扩散 ② 记录前驱 ③ 终点回溯还原路径"]
     execute: "队列扩散 + prev 链回溯"

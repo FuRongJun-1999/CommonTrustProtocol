@@ -1,7 +1,7 @@
 ---
 name: net-56dbd63f
 description: >-
-  Anycast/网络-Anycast。用户提到与「Anycast」相关的能力时使用本技能。
+  Anycast / 网络-Anycast / Anycast——同 I / 同一 IP 多节点。用户提到这些词时使用本技能。
   场景：对照：Anycast——同 IP 多节点就近接入（地理位置最近优先）。
   【不适用】Not for 以下场景：servers 为空/非法时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["Anycast", "网络-Anycast", "Anycast——同 I", "同一 IP 多节点"]
     when: "参数 servers/client_loc 合法"
     sub: ["① 调用 min；② 调用 abs"]
     execute: "顺序调用"

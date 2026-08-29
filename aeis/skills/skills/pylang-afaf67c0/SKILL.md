@@ -1,7 +1,7 @@
 ---
 name: pylang-afaf67c0
 description: >-
-  自定义异常/异常-自定义异常。用户提到与「自定义异常」相关的能力时使用本技能。
+  自定义异常 / 异常-自定义异常 / Python 自定义异常 / 异常类层级（父→子继。用户提到这些词时使用本技能。
   场景：对照：Python 自定义异常——类层级继承（子类捕获父类）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["自定义异常", "异常-自定义异常", "Python 自定义异常", "异常类层级（父→子继"]
     when: "参数 names/child/ancestor 合法"
     sub: ["① 调用 dict；② 调用 set"]
     execute: "循环迭代；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: pylang-2bc88f4c
 description: >-
-  栈机执行/栈机-字节码执行。用户提到与「栈机执行」相关的能力时使用本技能。
+  栈机执行 / 栈机-字节码执行 / mini_python. / 字节码栈机雏形（PU。用户提到这些词时使用本技能。
   场景：对照：mini_python.py VM 栈机（指令→栈操作）。
   【不适用】Not for 以下场景：op 非 {ADD, MUL, PUSH, SUB} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["栈机执行", "栈机-字节码执行", "mini_python.", "字节码栈机雏形（PU"]
     when: "op ∈ {ADD, MUL, PUSH, SUB}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代"

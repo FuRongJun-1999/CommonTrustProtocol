@@ -1,7 +1,7 @@
 ---
 name: graph-c1d5687b
 description: >-
-  属性边/图存储-属性边。用户提到与「属性边」相关的能力时使用本技能。
+  属性边 / 图存储-属性边 / put 存边属性 /。用户提到这些词时使用本技能。
   场景：对照：属性图边——带标签/属性边存储与查询。
   【不适用】Not for 以下场景：op 非 {by_attr, get, put} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["属性边", "图存储-属性边", "put 存边属性 /"]
     when: "op ∈ {by_attr, get, put}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: browser-720ce1a1
 description: >-
-  本地存储/存储-本地存储。用户提到与「本地存储」相关的能力时使用本技能。
+  本地存储 / 存储-本地存储 / 浏览器存储——local / 本地存储（local / setItem/ge。用户提到这些词时使用本技能。
   场景：对照：浏览器存储——localStorage（setItem/getItem/removeItem/clear）。
   【不适用】Not for 以下场景：op 非 {clear, get, remove, set} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["本地存储", "存储-本地存储", "浏览器存储——local", "本地存储（local", "setItem/ge"]
     when: "op ∈ {set, get, remove, clear}；key/value 按 op 提供"
     sub: ["① set 写键值 ② get 读值 ③ remove 删键 ④ clear 清空"]
     execute: "按 op 分派字典操作"

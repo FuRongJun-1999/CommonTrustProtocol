@@ -1,7 +1,7 @@
 ---
 name: browser-fa65fa2d
 description: >-
-  像素光栅化/渲染-像素光栅化。用户提到与「像素光栅化」相关的能力时使用本技能。
+  像素光栅化 / 渲染-像素光栅化 / Canvas 像素绘制— / 画布坐标填色（can。用户提到这些词时使用本技能。
   场景：对照：Canvas 像素绘制——坐标填充与边界检查（光栅化）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["像素光栅化", "渲染-像素光栅化", "Canvas 像素绘制—", "画布坐标填色（can"]
     when: "参数 canvas/x/y/color 合法"
     sub: ["① 调用 len"]
     execute: "顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: browser-7e96fe1d
 description: >-
-  混合模式/渲染-混合模式。用户提到与「混合模式」相关的能力时使用本技能。
+  混合模式 / 渲染-混合模式 / multiply 正。用户提到这些词时使用本技能。
   场景：对照：canvas 混合模式——multiply/screen/overlay 通道计算。
   【不适用】Not for 以下场景：b 越界（Lt）时；mode 非 {multiply, overlay, screen} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["混合模式", "渲染-混合模式", "multiply 正"]
     when: "mode ∈ {multiply, overlay, screen}"
     sub: ["1 mode 分支处理"]
     execute: "按 op 分派；顺序调用"

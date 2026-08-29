@@ -1,7 +1,7 @@
 ---
 name: compiler-fa8ff5f7
 description: >-
-  内联缓存/编译-内联缓存。用户提到与「内联缓存」相关的能力时使用本技能。
+  内联缓存 / 编译-内联缓存 / learn 学习 /。用户提到这些词时使用本技能。
   场景：对照：多态内联缓存——类→方法学习/命中/未命中。
   【不适用】Not for 以下场景：op 非 {learn, lookup, miss} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["内联缓存", "编译-内联缓存", "learn 学习 /"]
     when: "op ∈ {learn, lookup, miss}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

@@ -1,7 +1,7 @@
 ---
 name: os-5582bce6
 description: >-
-  日志恢复/文件-日志恢复。用户提到与「日志恢复」相关的能力时使用本技能。
+  日志恢复 / 文件-日志恢复 / OS 文件系统日志——j / 文件系统日志 / 崩溃后重放（jour。用户提到这些词时使用本技能。
   场景：对照：OS 文件系统日志——journal 重放（崩溃恢复，write/delete 条目应用）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["日志恢复", "文件-日志恢复", "OS 文件系统日志——j", "文件系统日志", "崩溃后重放（jour"]
     when: "参数 entries/disk 合法"
     sub: ["① 调用 dict"]
     execute: "循环迭代；顺序调用"

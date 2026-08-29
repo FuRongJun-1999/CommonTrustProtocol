@@ -1,7 +1,7 @@
 ---
 name: net-66e6119b
 description: >-
-  DHCP租约/网络-DHCP租约。用户提到与「DHCP租约」相关的能力时使用本技能。
+  DHCP租约 / 网络-DHCP租约 / DHCP / offer 分配/释。用户提到这些词时使用本技能。
   场景：对照：DHCP 协议——地址租约 offer/renew/release 生命周期。
   【不适用】Not for 以下场景：op 非 {offer, release, renew} 时；state 非 {free} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["DHCP租约", "网络-DHCP租约", "DHCP", "offer 分配/释"]
     when: "op ∈ {offer, release, renew}；state ∈ {free}"
     sub: ["① op 分支处理；2 state 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

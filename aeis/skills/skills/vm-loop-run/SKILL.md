@@ -1,7 +1,7 @@
 ---
 name: vm-loop-run
 description: >-
-  循环执行/VM-循环执行。用户提到与「循环执行」相关的能力时使用本技能。
+  循环执行 / VM-循环执行 / while 循环 VM / 智能论 VM 循环执 / 算术(ADD/SUB。用户提到这些词时使用本技能。
   场景：对照：while 循环 VM 运行（i=1→3 累积 1+2=3 于 s；死循环被步数上限拦截）。
   【不适用】Not for 以下场景：op 非 {ADD, CMP_LT, JUMP, JUMP_IF_FALSE, LOAD, PUSH, STORE, SUB} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["循环执行", "VM-循环执行", "while 循环 VM", "智能论 VM 循环执", "算术(ADD/SUB"]
     when: "op ∈ {ADD, CMP_LT, JUMP, JUMP_IF_FALSE, LOAD, PUSH, STORE, SUB}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

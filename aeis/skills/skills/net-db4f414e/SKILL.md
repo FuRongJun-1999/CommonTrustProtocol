@@ -1,7 +1,7 @@
 ---
 name: net-db4f414e
 description: >-
-  负载均衡/网络-负载均衡。用户提到与「负载均衡」相关的能力时使用本技能。
+  负载均衡 / 网络-负载均衡 / 网络负载均衡——轮询调度 / 轮询调度（请求 →。用户提到这些词时使用本技能。
   场景：对照：网络负载均衡——轮询调度（请求均匀分布到服务器）。
   【不适用】Not for 以下场景：servers 为空/非法时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["负载均衡", "网络-负载均衡", "网络负载均衡——轮询调度", "轮询调度（请求 →"]
     when: "参数 servers/request_id 合法"
     sub: ["① 调用 len"]
     execute: "顺序调用"

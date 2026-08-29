@@ -1,7 +1,7 @@
 ---
 name: pylang-730c3fe4
 description: >-
-  矩阵运算/工具-矩阵运算。用户提到与「矩阵运算」相关的能力时使用本技能。
+  矩阵运算 / 工具-矩阵运算 / 矩阵运算——逐元素加/矩 / add 逐元素加 /。用户提到这些词时使用本技能。
   场景：对照：矩阵运算——逐元素加/矩阵乘（内积和）。
   【不适用】Not for 以下场景：op 非 {add, mul} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["矩阵运算", "工具-矩阵运算", "矩阵运算——逐元素加/矩", "add 逐元素加 /"]
     when: "op ∈ {add, mul}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

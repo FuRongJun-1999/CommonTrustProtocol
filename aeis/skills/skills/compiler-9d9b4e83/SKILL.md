@@ -1,7 +1,7 @@
 ---
 name: compiler-9d9b4e83
 description: >-
-  三元表达式/语法-三元表达式。用户提到与「三元表达式」相关的能力时使用本技能。
+  三元表达式 / 语法-三元表达式 / 条件 ? 真值 :。用户提到这些词时使用本技能。
   场景：对照：三元条件表达式——条件跳转选真/假分支。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["三元表达式", "语法-三元表达式", "条件 ? 真值 :"]
     when: "参数 cond/then_expr/else_expr 合法"
     sub: ["① 调用 list；② 调用 len"]
     execute: "顺序调用"

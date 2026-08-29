@@ -1,7 +1,7 @@
 ---
 name: graph-7dc36de7
 description: >-
-  图序列化/图持久化-序列化。用户提到与「图序列化」相关的能力时使用本技能。
+  图序列化 / 图持久化-序列化 / 条件图数据库——图序列化 / 图序列化（图持久化· / 图 → JSON 字 / JSON → 图（存。用户提到这些词时使用本技能。
   场景：对照：条件图数据库——图序列化持久化（JSON 存储层）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["图序列化", "图持久化-序列化", "条件图数据库——图序列化", "图序列化（图持久化·", "图 → JSON 字", "JSON → 图（存"]
     when: "graph 含 nodes/edges 接口（节点集 + 邻接表）"
     sub: ["① 节点排序收集 ② 边表排序 ③ JSON 编码"]
     execute: "json.dumps({'nodes':…, 'edges':…})"

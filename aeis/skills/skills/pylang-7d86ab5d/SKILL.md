@@ -1,7 +1,7 @@
 ---
 name: pylang-7d86ab5d
 description: >-
-  字符串切分/字符串-切分。用户提到与「字符串切分」相关的能力时使用本技能。
+  字符串切分 / 字符串-切分 / mini_python.。用户提到这些词时使用本技能。
   场景：对照：mini_python.py str 方法白名单 split（str.split 基础版，保留空段）。
   【不适用】Not for 以下场景：多字符分隔符/正则语义/maxsplit 不在本单元范围
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["字符串切分", "字符串-切分", "mini_python."]
     when: "s 为字符串；sep 为单字符分隔符"
     sub: ["① 线性扫描；② 保留空段；③ 缺分隔符返回原串"]
     execute: "循环迭代；顺序追加"

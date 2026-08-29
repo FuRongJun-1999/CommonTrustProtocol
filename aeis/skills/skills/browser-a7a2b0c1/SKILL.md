@@ -1,7 +1,7 @@
 ---
 name: browser-a7a2b0c1
 description: >-
-  绘制/渲染-绘制。用户提到与「绘制」相关的能力时使用本技能。
+  绘制 / 渲染-绘制 / 浏览器渲染管线——绘制 / 布局树 → 字符画布。用户提到这些词时使用本技能。
   场景：对照：浏览器渲染管线——绘制（布局坐标→字符画布，像素填充）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["绘制", "渲染-绘制", "浏览器渲染管线——绘制", "布局树 → 字符画布"]
     when: "参数 layout/rows/cols 合法"
     sub: ["① 调用 range"]
     execute: "循环迭代；顺序调用"

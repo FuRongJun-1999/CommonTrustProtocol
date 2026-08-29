@@ -1,7 +1,7 @@
 ---
 name: net-ac57deb7
 description: >-
-  报文调度/网络-报文调度。用户提到与「报文调度」相关的能力时使用本技能。
+  报文调度 / 网络-报文调度 / WFQ——加权公平队列调 / dequeue 按权。用户提到这些词时使用本技能。
   场景：对照：WFQ——加权公平队列调度（按权重选队出队）。
   【不适用】Not for 以下场景：op 非 {dequeue, enqueue} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["报文调度", "网络-报文调度", "WFQ——加权公平队列调", "dequeue 按权"]
     when: "op ∈ {dequeue, enqueue}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

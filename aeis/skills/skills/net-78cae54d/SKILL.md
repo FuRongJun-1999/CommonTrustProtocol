@@ -1,7 +1,7 @@
 ---
 name: net-78cae54d
 description: >-
-  滑动窗口/网络-滑动窗口。用户提到与「滑动窗口」相关的能力时使用本技能。
+  滑动窗口 / 网络-滑动窗口 / TCP 可靠传输——滑动 / TCP 滑动窗口（滑 / 收到 ack 后窗口 / base=已确认序号。用户提到这些词时使用本技能。
   场景：对照：TCP 可靠传输——滑动窗口（ACK 确认后窗口前移，窗口内可发送）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["滑动窗口", "网络-滑动窗口", "TCP 可靠传输——滑动", "TCP 滑动窗口（滑", "收到 ack 后窗口", "base=已确认序号"]
     when: "base=已确认序号；next_seq=下一待发；ack=收到的确认"
     sub: ["① ack 前进基准 ② 待发序号同步 ③ 返回可发送窗口"]
     execute: "ack > base 则前移；next_seq 落后则推进（滑动窗口语义）"

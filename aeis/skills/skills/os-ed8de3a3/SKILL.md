@@ -1,7 +1,7 @@
 ---
 name: os-ed8de3a3
 description: >-
-  配置管理/系统-配置管理。用户提到与「配置管理」相关的能力时使用本技能。
+  配置管理 / 系统-配置管理 / 系统配置——键值设置/读 / set 设置 / g。用户提到这些词时使用本技能。
   场景：对照：系统配置——键值设置/读取（默认值兜底）。
   【不适用】Not for 以下场景：op 非 {get, list, set} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["配置管理", "系统-配置管理", "系统配置——键值设置/读", "set 设置 / g"]
     when: "op ∈ {get, list, set}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

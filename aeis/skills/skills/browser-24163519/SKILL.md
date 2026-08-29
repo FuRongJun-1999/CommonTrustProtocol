@@ -1,7 +1,7 @@
 ---
 name: browser-24163519
 description: >-
-  DOM解析/HTML-DOM解析。用户提到与「DOM解析」相关的能力时使用本技能。
+  DOM解析 / HTML-DOM解析 / 浏览器 HTML 解析— / HTML → DOM / 标签 → 直接子标签。用户提到这些词时使用本技能。
   场景：对照：浏览器 HTML 解析——标签嵌套 → DOM 树（父子关系）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["DOM解析", "HTML-DOM解析", "浏览器 HTML 解析—", "HTML → DOM", "标签 → 直接子标签"]
     when: "re.finditer 可用；m.group 可用"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

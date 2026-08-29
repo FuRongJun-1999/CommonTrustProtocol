@@ -1,7 +1,7 @@
 ---
 name: browser-7f9cefec
 description: >-
-  虚拟键盘/浏览器-虚拟键盘。用户提到与「虚拟键盘」相关的能力时使用本技能。
+  虚拟键盘 / 浏览器-虚拟键盘 / show 显示 /。用户提到这些词时使用本技能。
   场景：对照：Virtual Keyboard——虚拟键盘显隐。
   【不适用】Not for 以下场景：op 非 {hide, show, visible} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["虚拟键盘", "浏览器-虚拟键盘", "show 显示 /"]
     when: "op ∈ {hide, show, visible}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

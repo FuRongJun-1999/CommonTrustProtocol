@@ -1,7 +1,7 @@
 ---
 name: net-cdac702d
 description: >-
-  校验和/网络-校验和。用户提到与「校验和」相关的能力时使用本技能。
+  校验和 / 网络-校验和 / 网络 UDP——校验和 / UDP 校验和（简化 / 16 位和进位折叠。用户提到这些词时使用本技能。
   场景：对照：网络 UDP——校验和（和取反，接收端校验出错）。
   【不适用】Not for 以下场景：total 越界（Gt）时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["校验和", "网络-校验和", "网络 UDP——校验和", "UDP 校验和（简化", "16 位和进位折叠"]
     when: "参数 data 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

@@ -1,7 +1,7 @@
 ---
 name: graph-baf61b7c
 description: >-
-  传递闭包/图算法-传递闭包。用户提到与「传递闭包」相关的能力时使用本技能。
+  传递闭包 / 图算法-传递闭包 / Floyd-Warsha / Floyd-Wars。用户提到这些词时使用本技能。
   场景：对照：Floyd-Warshall——传递闭包（全节点可达矩阵）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["传递闭包", "图算法-传递闭包", "Floyd-Warsha", "Floyd-Wars"]
     when: "参数 adj/n 合法"
     sub: ["① 调用 range"]
     execute: "循环迭代；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: pylang-4ca283f2
 description: >-
-  过滤/工具-过滤。用户提到与「过滤」相关的能力时使用本技能。
+  过滤 / 工具-过滤 / Python filte / 条件保留元素（fil。用户提到这些词时使用本技能。
   场景：对照：Python filter（条件筛选元素）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["过滤", "工具-过滤", "Python filte", "条件保留元素（fil"]
     when: "参数 items/pred 合法"
     sub: ["① 调用 pred"]
     execute: "顺序调用"

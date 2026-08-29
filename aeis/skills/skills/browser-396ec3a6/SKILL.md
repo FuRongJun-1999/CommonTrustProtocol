@@ -1,7 +1,7 @@
 ---
 name: browser-396ec3a6
 description: >-
-  书签管理/浏览器-书签管理。用户提到与「书签管理」相关的能力时使用本技能。
+  书签管理 / 浏览器-书签管理 / 浏览器书签——增删查列 / 书签 / add 添加 / g。用户提到这些词时使用本技能。
   场景：对照：浏览器书签——增删查列（名称排序管理）。
   【不适用】Not for 以下场景：op 非 {add, get, list, remove} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["书签管理", "浏览器-书签管理", "浏览器书签——增删查列", "书签", "add 添加 / g"]
     when: "op ∈ {add, get, list, remove}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

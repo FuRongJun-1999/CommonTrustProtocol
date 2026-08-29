@@ -1,7 +1,7 @@
 ---
 name: os-ecbebbe3
 description: >-
-  工作窃取/调度-工作窃取。用户提到与「工作窃取」相关的能力时使用本技能。
+  工作窃取 / 调度-工作窃取 / 工作窃取（work / 空闲核从最忙队列窃取。用户提到这些词时使用本技能。
   场景：对照：工作窃取（work stealing）——空闲核从最忙队列窃取任务，无其他非空队列则不动。
   【不适用】Not for 以下场景：candidates 为空/非法时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["工作窃取", "调度-工作窃取", "工作窃取（work", "空闲核从最忙队列窃取"]
     when: "queues 为各核任务队列列表；worker 为申请窃取的核号"
     sub: ["① 空闲判定（自己队列非空则不窃取）② 找最忙非空队列 ③ 迁移一个任务"]
     execute: "忙核直返；空闲则取最忙队列 pop(0) 到本队列"

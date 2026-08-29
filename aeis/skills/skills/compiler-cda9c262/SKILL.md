@@ -1,7 +1,7 @@
 ---
 name: compiler-cda9c262
 description: >-
-  边界检查消除/编译-边界检查消除。用户提到与「边界检查消除」相关的能力时使用本技能。
+  边界检查消除 / 编译-边界检查消除 / 编译优化——边界检查消除 / prove 证明范围。用户提到这些词时使用本技能。
   场景：对照：编译优化——边界检查消除（可证范围免检）。
   【不适用】Not for 以下场景：op 非 {eliminate, prove} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["边界检查消除", "编译-边界检查消除", "编译优化——边界检查消除", "prove 证明范围"]
     when: "op ∈ {eliminate, prove}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

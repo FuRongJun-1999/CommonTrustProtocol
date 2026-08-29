@@ -1,7 +1,7 @@
 ---
 name: graph-fd02d934
 description: >-
-  读写分离/运维-读写分离。用户提到与「读写分离」相关的能力时使用本技能。
+  读写分离 / 运维-读写分离 / 数据库读写分离——主库写 / 从库读 / 写→主库并同步从库。用户提到这些词时使用本技能。
   场景：对照：数据库读写分离——主库写+同步从库，从库读（负载分散）。
   【不适用】Not for 以下场景：op 非 {read, write} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["读写分离", "运维-读写分离", "数据库读写分离——主库写", "从库读", "写→主库并同步从库"]
     when: "op ∈ {read, write}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

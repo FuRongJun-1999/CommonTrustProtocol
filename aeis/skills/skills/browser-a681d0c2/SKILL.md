@@ -1,7 +1,7 @@
 ---
 name: browser-a681d0c2
 description: >-
-  CSP策略/安全-CSP策略。用户提到与「CSP策略」相关的能力时使用本技能。
+  CSP策略 / 安全-CSP策略 / 浏览器安全——CSP / CSP / 内容安全策略（资源类。用户提到这些词时使用本技能。
   场景：对照：浏览器安全——CSP（资源类型白名单，* 通配允许）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["CSP策略", "安全-CSP策略", "浏览器安全——CSP", "CSP", "内容安全策略（资源类"]
     when: "参数 policy/resource_type/source 合法"
     sub: []
     execute: "CSP：内容安全策略（资源类型 → 允许的来源白名单）"

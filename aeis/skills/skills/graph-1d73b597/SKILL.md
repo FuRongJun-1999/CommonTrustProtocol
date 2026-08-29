@@ -1,7 +1,7 @@
 ---
 name: graph-1d73b597
 description: >-
-  路径查找/图遍历-路径。用户提到与「路径查找」相关的能力时使用本技能。
+  路径查找 / 图遍历-路径 / 条件链——气压低→沸点降 / 路径存在性（可达判定 / start 能否到达。用户提到这些词时使用本技能。
   场景：对照：条件链——气压低→沸点降→煮不熟 有路径；反向无（条件链有向）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["路径查找", "图遍历-路径", "条件链——气压低→沸点降", "路径存在性（可达判定", "start 能否到达"]
     when: "graph 提供 neighbors 接口；start/end 为图中节点"
     sub: ["① 起终点相同直判 ② BFS 扩散 ③ 终点命中判定"]
     execute: "BFS 队列遍历，命中终点即返 True"

@@ -1,7 +1,7 @@
 ---
 name: net-b4151e9a
 description: >-
-  CSMA退避/网络-CSMA退避。用户提到与「CSMA退避」相关的能力时使用本技能。
+  CSMA退避 / 网络-CSMA退避 / CSMA/CD——碰撞指 / CSMA 退避 / collision。用户提到这些词时使用本技能。
   场景：对照：CSMA/CD——碰撞指数退避（2^n 上限 1024，重传清零）。
   【不适用】Not for 以下场景：op 非 {collision, reset, wait} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["CSMA退避", "网络-CSMA退避", "CSMA/CD——碰撞指", "CSMA 退避", "collision"]
     when: "op ∈ {collision, reset, wait}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

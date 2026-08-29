@@ -1,7 +1,7 @@
 ---
 name: browser-c4dd6078
 description: >-
-  样式计算/渲染-样式计算。用户提到与「样式计算」相关的能力时使用本技能。
+  样式计算 / 渲染-样式计算 / 浏览器渲染管线——样式计 / 样式计算（CSS 级 / DOM 节点（tag。用户提到这些词时使用本技能。
   场景：对照：浏览器渲染管线——样式计算（DOM×CSS→匹配规则→级联取最高优先级样式）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["样式计算", "渲染-样式计算", "浏览器渲染管线——样式计", "样式计算（CSS 级", "DOM 节点（tag"]
     when: "node 含 tag/classes；rules 为带特异度的样式规则列表"
     sub: ["① 规则匹配过滤 ② 特异度比较 ③ 级联合并最终样式"]
     execute: "匹配规则按权重取最优逐属性合并"

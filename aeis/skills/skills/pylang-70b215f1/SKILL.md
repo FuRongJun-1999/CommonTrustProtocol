@@ -1,7 +1,7 @@
 ---
 name: pylang-70b215f1
 description: >-
-  类装饰器/元编程-类装饰器。用户提到与「类装饰器」相关的能力时使用本技能。
+  类装饰器 / 元编程-类装饰器 / Python 类装饰器— / 给类附加标记属性并返。用户提到这些词时使用本技能。
   场景：对照：Python 类装饰器——类对象增强（附加标记/注册语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["类装饰器", "元编程-类装饰器", "Python 类装饰器—", "给类附加标记属性并返"]
     when: "参数 marker 合法"
     sub: []
     execute: "类装饰器：给类附加标记属性并返回标记（类增强语义）"

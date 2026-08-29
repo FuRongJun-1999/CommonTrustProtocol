@@ -1,7 +1,7 @@
 ---
 name: os-0854291c
 description: >-
-  强制访问控制/安全-强制访问控制。用户提到与「强制访问控制」相关的能力时使用本技能。
+  强制访问控制 / 安全-强制访问控制 / OS 安全——MAC 强 / MAC 强制访问控制 / 标签对操作授权（安全。用户提到这些词时使用本技能。
   场景：对照：OS 安全——MAC 强制访问控制（安全标签规则，未授权默认拒绝）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["强制访问控制", "安全-强制访问控制", "OS 安全——MAC 强", "MAC 强制访问控制", "标签对操作授权（安全"]
     when: "参数 policy/subject_label/object_label/action 合法"
     sub: []
     execute: "MAC 强制访问控制：标签对操作授权（安全标签规则表——强制策略）"

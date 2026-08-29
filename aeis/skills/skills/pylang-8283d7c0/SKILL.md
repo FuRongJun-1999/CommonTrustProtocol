@@ -1,7 +1,7 @@
 ---
 name: pylang-8283d7c0
 description: >-
-  词法分析/词法-记号化。用户提到与「词法分析」相关的能力时使用本技能。
+  词法分析 / 词法-记号化 / mini_python. / 字符流 → toke。用户提到这些词时使用本技能。
   场景：对照：mini_python.py tokenize（数字含小数/运算符/括号）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["词法分析", "词法-记号化", "mini_python.", "字符流 → toke"]
     when: "参数 src 合法"
     sub: ["① 调用 len；② 调用 SyntaxError；③ 调用 float"]
     execute: "循环迭代；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: browser-bcd4288d
 description: >-
-  图像生成/浏览器-图像生成。用户提到与「图像生成」相关的能力时使用本技能。
+  图像生成 / 浏览器-图像生成 / generate 生。用户提到这些词时使用本技能。
   场景：对照：Image Generation——文本提示生成图像。
   【不适用】Not for 以下场景：op 非 {count, generate, last} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["图像生成", "浏览器-图像生成", "generate 生"]
     when: "op ∈ {count, generate, last}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

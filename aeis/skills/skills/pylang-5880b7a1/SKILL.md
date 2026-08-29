@@ -1,7 +1,7 @@
 ---
 name: pylang-5880b7a1
 description: >-
-  行程压缩/工具-行程压缩。用户提到与「行程压缩」相关的能力时使用本技能。
+  行程压缩 / 工具-行程压缩 / encode 连续值。用户提到这些词时使用本技能。
   场景：对照：run-length encoding——连续值行程压缩/还原。
   【不适用】Not for 以下场景：op 非 {decode, encode} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["行程压缩", "工具-行程压缩", "encode 连续值"]
     when: "op ∈ {decode, encode}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

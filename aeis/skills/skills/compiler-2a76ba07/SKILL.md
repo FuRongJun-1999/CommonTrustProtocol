@@ -1,7 +1,7 @@
 ---
 name: compiler-2a76ba07
 description: >-
-  尾调用优化/编译-尾调用优化。用户提到与「尾调用优化」相关的能力时使用本技能。
+  尾调用优化 / 编译-尾调用优化 / 编译优化——尾调用优化 / 末尾调用指令 → 跳。用户提到这些词时使用本技能。
   场景：对照：编译优化——尾调用优化（CALL→JUMP，尾递归不增栈帧）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["尾调用优化", "编译-尾调用优化", "编译优化——尾调用优化", "末尾调用指令 → 跳"]
     when: "参数 body 合法"
     sub: ["① 调用 list"]
     execute: "顺序调用"

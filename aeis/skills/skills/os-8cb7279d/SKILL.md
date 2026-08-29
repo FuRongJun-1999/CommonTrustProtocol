@@ -1,7 +1,7 @@
 ---
 name: os-8cb7279d
 description: >-
-  瓶颈检测/性能-瓶颈检测。用户提到与「瓶颈检测」相关的能力时使用本技能。
+  瓶颈检测 / 性能-瓶颈检测 / OS 性能——瓶颈检测 / 利用率最高的资源（系。用户提到这些词时使用本技能。
   场景：对照：OS 性能——瓶颈检测（最高利用率资源）。
   【不适用】Not for 以下场景：resources 为空/非法时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["瓶颈检测", "性能-瓶颈检测", "OS 性能——瓶颈检测", "利用率最高的资源（系"]
     when: "参数 resources 合法"
     sub: ["① 调用 max"]
     execute: "顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: graph-873fb505
 description: >-
-  桥检测/图算法-桥检测。用户提到与「桥检测」相关的能力时使用本技能。
+  桥检测 / 图算法-桥检测 / Tarjan——桥 / 移除后不连通的边（T / 深度优先 / low 值大于发现值。用户提到这些词时使用本技能。
   场景：对照：Tarjan——桥（移除致不连通，low[v]>disc[u]）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["桥检测", "图算法-桥检测", "Tarjan——桥", "移除后不连通的边（T", "深度优先", "low 值大于发现值"]
     when: "参数 adj 合法"
     sub: ["① 调用 dfs；② 调用 min"]
     execute: "循环迭代；顺序调用"

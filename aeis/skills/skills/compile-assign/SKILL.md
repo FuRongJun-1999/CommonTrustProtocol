@@ -1,7 +1,7 @@
 ---
 name: compile-assign
 description: >-
-  编译赋值/编译-赋值。用户提到与「编译赋值」相关的能力时使用本技能。
+  编译赋值 / 编译-赋值 / 赋值 = target / 赋值编译（名实写入） / 赋值 → 值指令 +。用户提到这些词时使用本技能。
   场景：对照：赋值 = target = expr（名实对应）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["编译赋值", "编译-赋值", "赋值 = target", "赋值编译（名实写入）", "赋值 → 值指令 +"]
     when: "对照：赋值 = target = expr（名实对应）"
     sub: ["① 拼接值指令 ② 追加名写入指令"]
     execute: "值指令 + STORE_NAME（名实绑定语义）"

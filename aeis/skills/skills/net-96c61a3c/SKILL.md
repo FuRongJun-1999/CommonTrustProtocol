@@ -1,7 +1,7 @@
 ---
 name: net-96c61a3c
 description: >-
-  IP分片/网络-IP分片。用户提到与「IP分片」相关的能力时使用本技能。
+  IP分片 / 网络-IP分片 / 网络 IP——超过 MT / IP 分片 / 包大小 + MTU。用户提到这些词时使用本技能。
   场景：对照：网络 IP——超过 MTU 需分片（每片 20B 头）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["IP分片", "网络-IP分片", "网络 IP——超过 MT", "IP 分片", "包大小 + MTU"]
     when: "math.ceil 可用"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "IP 分片：包大小 + MTU → 分片数（每片含 20B IP 头）"

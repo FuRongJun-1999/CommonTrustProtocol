@@ -1,7 +1,7 @@
 ---
 name: compiler-63eae588
 description: >-
-  布尔字面量/语法-布尔字面量。用户提到与「布尔字面量」相关的能力时使用本技能。
+  布尔字面量 / 语法-布尔字面量 / 词法——布尔字面量 / 真/假 → True。用户提到这些词时使用本技能。
   场景：对照：词法——布尔字面量（真/假→True/False）。
   【不适用】Not for 以下场景：token 非 {假, 真} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["布尔字面量", "语法-布尔字面量", "词法——布尔字面量", "真/假 → True"]
     when: "token ∈ {假, 真}"
     sub: ["1 token 分支处理"]
     execute: "按 op 分派"

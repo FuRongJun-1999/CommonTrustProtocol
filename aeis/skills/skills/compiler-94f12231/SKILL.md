@@ -1,7 +1,7 @@
 ---
 name: compiler-94f12231
 description: >-
-  标识符解析/词法-标识符解析。用户提到与「标识符解析」相关的能力时使用本技能。
+  标识符解析 / 词法-标识符解析 / 词法——标识符 / CJK/字母/下划线。用户提到这些词时使用本技能。
   场景：对照：词法——标识符（CJK/字母数字下划线连续串）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["标识符解析", "词法-标识符解析", "词法——标识符", "CJK/字母/下划线"]
     when: "参数 src/i 合法"
     sub: ["① 调用 len"]
     execute: "循环迭代；顺序调用"

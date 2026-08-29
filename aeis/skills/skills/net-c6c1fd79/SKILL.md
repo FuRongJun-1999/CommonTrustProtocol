@@ -1,7 +1,7 @@
 ---
 name: net-c6c1fd79
 description: >-
-  慢启动/网络-慢启动。用户提到与「慢启动」相关的能力时使用本技能。
+  慢启动 / 网络-慢启动 / TCP 慢启动——每 R / 达阈值转线性 / 每 RTT 拥塞窗口。用户提到这些词时使用本技能。
   场景：对照：TCP 慢启动——每 RTT 窗口翻倍，达阈值转线性（拥塞避免）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["慢启动", "网络-慢启动", "TCP 慢启动——每 R", "达阈值转线性", "每 RTT 拥塞窗口"]
     when: "参数 cwnd/ssthresh/rtts 合法"
     sub: ["① 调用 range"]
     execute: "循环迭代；顺序调用"

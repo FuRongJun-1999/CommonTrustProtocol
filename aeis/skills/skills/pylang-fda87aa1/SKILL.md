@@ -1,7 +1,7 @@
 ---
 name: pylang-fda87aa1
 description: >-
-  字典反转/工具-字典反转。用户提到与「字典反转」相关的能力时使用本技能。
+  字典反转 / 工具-字典反转 / 键值反转——值映射到键列 / 键值互换（值变键。用户提到这些词时使用本技能。
   场景：对照：键值反转——值映射到键列表（invert）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["字典反转", "工具-字典反转", "键值反转——值映射到键列", "键值互换（值变键"]
     when: "参数 d 合法"
     sub: []
     execute: "循环迭代"

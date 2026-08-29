@@ -1,7 +1,7 @@
 ---
 name: graph-de00894f
 description: >-
-  聚类系数/图算法-聚类系数。用户提到与「聚类系数」相关的能力时使用本技能。
+  聚类系数 / 图算法-聚类系数 / 局部聚类系数——邻居间实 / 邻居间实际边数 /。用户提到这些词时使用本技能。
   场景：对照：局部聚类系数——邻居间实际边/可能边（闭合度）。
   【不适用】Not for 以下场景：k 越界（Lt）时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["聚类系数", "图算法-聚类系数", "局部聚类系数——邻居间实", "邻居间实际边数 /"]
     when: "参数 adj/u 合法"
     sub: ["① 调用 set；② 调用 len；③ 调用 sum"]
     execute: "顺序调用"

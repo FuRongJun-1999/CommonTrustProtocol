@@ -1,7 +1,7 @@
 ---
 name: os-955c4d66
 description: >-
-  多级反馈队列/调度-多级反馈队列。用户提到与「多级反馈队列」相关的能力时使用本技能。
+  多级反馈队列 / 调度-多级反馈队列 / OS 多级反馈队列 ML / 低等级定期提升 / enqueue 按等 / / boost 低优。用户提到这些词时使用本技能。
   场景：对照：OS 多级反馈队列 MLFQ——高等级优先调度，低等级定期提升（防饿死）。
   【不适用】Not for 以下场景：op 非 {boost, enqueue, pick} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["多级反馈队列", "调度-多级反馈队列", "OS 多级反馈队列 ML", "低等级定期提升", "enqueue 按等", "/ boost 低优"]
     when: "op ∈ {boost, enqueue, pick}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

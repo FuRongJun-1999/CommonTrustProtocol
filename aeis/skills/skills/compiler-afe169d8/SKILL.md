@@ -1,7 +1,7 @@
 ---
 name: compiler-afe169d8
 description: >-
-  指令调度/编译-指令调度。用户提到与「指令调度」相关的能力时使用本技能。
+  指令调度 / 编译-指令调度 / 编译优化——指令调度 / 无依赖指令前移（乱序。用户提到这些词时使用本技能。
   场景：对照：编译优化——指令调度（依赖无关前移）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["指令调度", "编译-指令调度", "编译优化——指令调度", "无依赖指令前移（乱序"]
     when: "arg.startswith 可用"
     sub: ["① 调用 set；② 调用 isinstance；③ 调用 any"]
     execute: "循环迭代；顺序调用"

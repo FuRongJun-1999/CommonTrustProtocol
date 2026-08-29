@@ -1,7 +1,7 @@
 ---
 name: os-a568affe
 description: >-
-  实时调度/调度-实时EDF。用户提到与「实时调度」相关的能力时使用本技能。
+  实时调度 / 调度-实时EDF / OS 实时调度 EDF— / 最早截止时间优先（E。用户提到这些词时使用本技能。
   场景：对照：OS 实时调度 EDF——最早截止时间优先（deadline 最近先执行）。
   【不适用】Not for 以下场景：ready 为空/非法时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["实时调度", "调度-实时EDF", "OS 实时调度 EDF—", "最早截止时间优先（E"]
     when: "参数 ready/now 合法"
     sub: ["① 调用 min"]
     execute: "顺序调用"

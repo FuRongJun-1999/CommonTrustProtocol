@@ -1,7 +1,7 @@
 ---
 name: browser-0ab4f2db
 description: >-
-  网络记录/浏览器-网络记录。用户提到与「网络记录」相关的能力时使用本技能。
+  网络记录 / 浏览器-网络记录 / 开发者工具 / record 记录请。用户提到这些词时使用本技能。
   场景：对照：开发者工具网络面板——请求记录/过滤/汇总。
   【不适用】Not for 以下场景：op 非 {filter, record, stats} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["网络记录", "浏览器-网络记录", "开发者工具", "record 记录请"]
     when: "op ∈ {filter, record, stats}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: pylang-9dbd8e2b
 description: >-
-  控制流/求值-控制流。用户提到与「控制流」相关的能力时使用本技能。
+  控制流 / 求值-控制流 / mini_python. / 语句执行器 / assign/if/。用户提到这些词时使用本技能。
   场景：对照：mini_python.py exec_stmt（assign/if/while 语义）。
   【不适用】Not for 以下场景：k 非 {assign, if, while} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["控制流", "求值-控制流", "mini_python.", "语句执行器", "assign/if/"]
     when: "k ∈ {assign, if, while}"
     sub: ["1 k 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

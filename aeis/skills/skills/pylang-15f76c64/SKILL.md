@@ -1,7 +1,7 @@
 ---
 name: pylang-15f76c64
 description: >-
-  计数器/工具-计数器。用户提到与「计数器」相关的能力时使用本技能。
+  计数器 / 工具-计数器 / collections. / 计数器（频次统计） / 元素频次统计（Cou。用户提到这些词时使用本技能。
   场景：对照：collections.Counter（元素频次统计）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["计数器", "工具-计数器", "collections.", "计数器（频次统计）", "元素频次统计（Cou"]
     when: "items 为可迭代对象"
     sub: ["① 逐元素计数 ② 缺失键初始化"]
     execute: "freq.get(x, 0) + 1 累积"

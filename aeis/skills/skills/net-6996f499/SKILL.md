@@ -1,7 +1,7 @@
 ---
 name: net-6996f499
 description: >-
-  路径备份/网络-路径备份。用户提到与「路径备份」相关的能力时使用本技能。
+  路径备份 / 网络-路径备份 / FRR——主备路径故障切 / assign 指定。用户提到这些词时使用本技能。
   场景：对照：FRR——主备路径故障切换（快速重路由）。
   【不适用】Not for 以下场景：op 非 {active, assign, failover} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["路径备份", "网络-路径备份", "FRR——主备路径故障切", "assign 指定"]
     when: "op ∈ {active, assign, failover}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

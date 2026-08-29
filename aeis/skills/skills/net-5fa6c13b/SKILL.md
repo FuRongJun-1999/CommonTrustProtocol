@@ -1,7 +1,7 @@
 ---
 name: net-5fa6c13b
 description: >-
-  帧封装/网络-帧封装。用户提到与「帧封装」相关的能力时使用本技能。
+  帧封装 / 网络-帧封装 / WebSocket 帧— / WebSocket / 首字节(FIN+op。用户提到这些词时使用本技能。
   场景：对照：WebSocket 帧——FIN+opcode+长度+负载（RFC 6455 帧格式）。
   【不适用】Not for 以下场景：n 越界（Lt）时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["帧封装", "网络-帧封装", "WebSocket 帧—", "WebSocket", "首字节(FIN+op"]
     when: "参数 opcode/payload 合法"
     sub: ["① 调用 len；② 调用 bytes"]
     execute: "顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: os-ebc34d83
 description: >-
-  设备驱动/系统-设备驱动。用户提到与「设备驱动」相关的能力时使用本技能。
+  设备驱动 / 系统-设备驱动 / register 注。用户提到这些词时使用本技能。
   场景：对照：Linux 设备驱动——设备 ID 注册/匹配。
   【不适用】Not for 以下场景：op 非 {match, register} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["设备驱动", "系统-设备驱动", "register 注"]
     when: "op ∈ {match, register}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代"

@@ -1,7 +1,7 @@
 ---
 name: net-14102d54
 description: >-
-  广播风暴/网络-广播风暴。用户提到与「广播风暴」相关的能力时使用本技能。
+  广播风暴 / 网络-广播风暴 / 广播风暴抑制——计数/速 / count 计数 /。用户提到这些词时使用本技能。
   场景：对照：广播风暴抑制——计数/速率/超阈阻塞（环路风暴防护）。
   【不适用】Not for 以下场景：op 非 {block, count, rate} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["广播风暴", "网络-广播风暴", "广播风暴抑制——计数/速", "count 计数 /"]
     when: "op ∈ {block, count, rate}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

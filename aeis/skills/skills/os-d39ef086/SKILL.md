@@ -1,7 +1,7 @@
 ---
 name: os-d39ef086
 description: >-
-  条件变量/并发-条件变量。用户提到与「条件变量」相关的能力时使用本技能。
+  条件变量 / 并发-条件变量 / POSIX 条件变量—— / wait 等待 /。用户提到这些词时使用本技能。
   场景：对照：POSIX 条件变量——等待/通知（条件满足唤醒）。
   【不适用】Not for 以下场景：op 非 {notify, notify_all, wait} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["条件变量", "并发-条件变量", "POSIX 条件变量——", "wait 等待 /"]
     when: "op ∈ {notify, notify_all, wait}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

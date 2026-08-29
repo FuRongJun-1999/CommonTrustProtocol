@@ -1,7 +1,7 @@
 ---
 name: net-431cccf9
 description: >-
-  路由汇聚/网络-路由汇聚。用户提到与「路由汇聚」相关的能力时使用本技能。
+  路由汇聚 / 网络-路由汇聚 / 路由汇聚——CIDR 汇 / 同网段路由合成 CI。用户提到这些词时使用本技能。
   场景：对照：路由汇聚——CIDR 汇总（最长公共前缀合成）。
   【不适用】Not for 以下场景：routes 为空/非法时（隐式盲区：返回默认值 [] = 未知行为——不适用）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["路由汇聚", "网络-路由汇聚", "路由汇聚——CIDR 汇", "同网段路由合成 CI"]
     when: "参数 routes 合法"
     sub: ["① 调用 len"]
     execute: "顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: vm-trust-accum
 description: >-
-  信任累积/VM-信任累积。用户提到与「信任累积」相关的能力时使用本技能。
+  信任累积 / VM-信任累积 / 德指令 → accumu / 信任累积（德） / 德——信任值累积（信。用户提到这些词时使用本技能。
   场景：对照：德指令 → accumulate_trust（v0.2 INSTRUCTION_MAP 同语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["信任累积", "VM-信任累积", "德指令 → accumu", "信任累积（德）", "德——信任值累积（信"]
     when: "trust/amount 为数值（信任值 0-1 区间）"
     sub: ["① 信任值相加 ② 三位小数归整"]
     execute: "round(trust + amount, 3)"

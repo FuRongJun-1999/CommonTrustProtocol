@@ -1,7 +1,7 @@
 ---
 name: net-f332b629
 description: >-
-  策略路由/网络-策略路由。用户提到与「策略路由」相关的能力时使用本技能。
+  策略路由 / 网络-策略路由 / 策略路由——按流量特征匹 / add 注册策略 /。用户提到这些词时使用本技能。
   场景：对照：策略路由——按流量特征匹配策略（条件路由）。
   【不适用】Not for 以下场景：op 非 {add, match} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["策略路由", "网络-策略路由", "策略路由——按流量特征匹", "add 注册策略 /"]
     when: "op ∈ {add, match}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

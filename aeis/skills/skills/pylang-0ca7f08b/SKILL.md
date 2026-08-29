@@ -1,7 +1,7 @@
 ---
 name: pylang-0ca7f08b
 description: >-
-  异步信号量/异步-信号量。用户提到与「异步信号量」相关的能力时使用本技能。
+  异步信号量 / 异步-信号量 / asyncio.Sema / acquire 获取。用户提到这些词时使用本技能。
   场景：对照：asyncio.Semaphore（并发上限，满则等待/释放交接）。
   【不适用】Not for 以下场景：op 非 {acquire, release} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["异步信号量", "异步-信号量", "asyncio.Sema", "acquire 获取"]
     when: "op ∈ {acquire, release}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

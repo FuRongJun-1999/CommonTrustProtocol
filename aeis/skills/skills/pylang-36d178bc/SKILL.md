@@ -1,7 +1,7 @@
 ---
 name: pylang-36d178bc
 description: >-
-  数据结构/数据结构-列表字典。用户提到与「数据结构」相关的能力时使用本技能。
+  数据结构 / 数据结构-列表字典 / Python list/ / list/dict / 索引读取/写入（P5。用户提到这些词时使用本技能。
   场景：对照：Python list/dict 语义（索引读写/长度）。
   【不适用】Not for 以下场景：op 非 {get, len, set} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["数据结构", "数据结构-列表字典", "Python list/", "list/dict", "索引读取/写入（P5"]
     when: "op ∈ {get, len, set}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

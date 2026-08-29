@@ -1,7 +1,7 @@
 ---
 name: browser-50fecd89
 description: >-
-  历史记录/浏览器-历史记录。用户提到与「历史记录」相关的能力时使用本技能。
+  历史记录 / 浏览器-历史记录 / 浏览器历史——后退/前进 / visit 记录 /。用户提到这些词时使用本技能。
   场景：对照：浏览器历史——后退/前进（访问栈+位置指针）。
   【不适用】Not for 以下场景：op 非 {back, forward, visit} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["历史记录", "浏览器-历史记录", "浏览器历史——后退/前进", "visit 记录 /"]
     when: "op ∈ {back, forward, visit}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

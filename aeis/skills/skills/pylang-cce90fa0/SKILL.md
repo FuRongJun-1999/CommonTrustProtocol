@@ -1,7 +1,7 @@
 ---
 name: pylang-cce90fa0
 description: >-
-  生成器/生成器-yield。用户提到与「生成器」相关的能力时使用本技能。
+  生成器 / 生成器-yield / Python 生成器—— / yield 暂停/恢 / 演示 / 收集生成器全部产出。用户提到这些词时使用本技能。
   场景：对照：Python 生成器——yield 逐个产出（list(gen_count(3))=[0,1,2] 惰性求值）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["生成器", "生成器-yield", "Python 生成器——", "yield 暂停/恢", "演示", "收集生成器全部产出"]
     when: "参数 n 合法"
     sub: []
     execute: "循环迭代"

@@ -1,7 +1,7 @@
 ---
 name: browser-853690c0
 description: >-
-  内置聊天/浏览器-内置聊天。用户提到与「内置聊天」相关的能力时使用本技能。
+  内置聊天 / 浏览器-内置聊天 / send 发送 /。用户提到这些词时使用本技能。
   场景：对照：AI Chat——内置对话发送/回复/历史。
   【不适用】Not for 以下场景：op 非 {history, reply, send} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["内置聊天", "浏览器-内置聊天", "send 发送 /"]
     when: "op ∈ {history, reply, send}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

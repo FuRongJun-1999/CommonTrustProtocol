@@ -1,7 +1,7 @@
 ---
 name: net-57387462
 description: >-
-  链路状态路由/网络-链路状态路由。用户提到与「链路状态路由」相关的能力时使用本技能。
+  链路状态路由 / 网络-链路状态路由 / Dijkstra 最。用户提到这些词时使用本技能。
   场景：对照：OSPF 链路状态路由——Dijkstra 全拓扑最短路径树。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["链路状态路由", "网络-链路状态路由", "Dijkstra 最"]
     when: "unvisited.discard 可用"
     sub: ["① 调用 set；② 调用 min；③ 调用 float"]
     execute: "循环迭代；顺序调用"

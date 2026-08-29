@@ -1,7 +1,7 @@
 ---
 name: net-435a9f7f
 description: >-
-  压缩传输/网络-压缩传输。用户提到与「压缩传输」相关的能力时使用本技能。
+  压缩传输 / 网络-压缩传输 / 压缩传输——RLE 行程 / compress 行。用户提到这些词时使用本技能。
   场景：对照：压缩传输——RLE 行程编码（重复段压缩/还原）。
   【不适用】Not for 以下场景：mode 非 {compress, decompress} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["压缩传输", "网络-压缩传输", "压缩传输——RLE 行程", "compress 行"]
     when: "mode ∈ {compress, decompress}"
     sub: ["1 mode 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

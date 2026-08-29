@@ -1,7 +1,7 @@
 ---
 name: browser-ff94a671
 description: >-
-  提示词/浏览器-提示词。用户提到与「提示词」相关的能力时使用本技能。
+  提示词 / 浏览器-提示词 / set 设置 / g。用户提到这些词时使用本技能。
   场景：对照：Prompt API——提示词设置/读取/清除。
   【不适用】Not for 以下场景：op 非 {clear, get, set} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["提示词", "浏览器-提示词", "set 设置 / g"]
     when: "op ∈ {clear, get, set}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

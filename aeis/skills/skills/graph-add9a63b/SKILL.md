@@ -1,7 +1,7 @@
 ---
 name: graph-add9a63b
 description: >-
-  生成树计数/图算法-生成树计数。用户提到与「生成树计数」相关的能力时使用本技能。
+  生成树计数 / 图算法-生成树计数 / Kirchhoff / 2x2 行列式（简化 / 仅支持最多 3 节点。用户提到这些词时使用本技能。
   场景：对照：Kirchhoff——Laplacian 主子式求生成树数。
   【不适用】Not for 以下场景：n 越界（LtE）时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["生成树计数", "图算法-生成树计数", "Kirchhoff", "2x2 行列式（简化", "仅支持最多 3 节点"]
     when: "参数 adj 合法"
     sub: ["① 调用 len；② 调用 range"]
     execute: "循环迭代；顺序调用"

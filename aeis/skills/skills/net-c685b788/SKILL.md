@@ -1,7 +1,7 @@
 ---
 name: net-c685b788
 description: >-
-  停等协议/网络-停等协议。用户提到与「停等协议」相关的能力时使用本技能。
+  停等协议 / 网络-停等协议 / 网络可靠传输——停等协议 / 发送→等确认→再发下。用户提到这些词时使用本技能。
   场景：对照：网络可靠传输——停等协议（逐包确认后再发下一包）。
   【不适用】Not for 以下场景：ack_all 为空/非法时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["停等协议", "网络-停等协议", "网络可靠传输——停等协议", "发送→等确认→再发下"]
     when: "参数 send_packets/ack_all 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

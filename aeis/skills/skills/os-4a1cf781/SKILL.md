@@ -1,7 +1,7 @@
 ---
 name: os-4a1cf781
 description: >-
-  软中断/中断-软中断。用户提到与「软中断」相关的能力时使用本技能。
+  软中断 / 中断-软中断 / 软中断（softir / 硬中断中延迟的低优先。用户提到这些词时使用本技能。
   场景：对照：软中断（softirq）——硬中断处理中延迟低优先级工作，按优先级排队执行。
   【不适用】Not for 以下场景：action 非 {defer, run} 时返回 None；不重复入队检查由调用方负责
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["软中断", "中断-软中断", "软中断（softir", "硬中断中延迟的低优先"]
     when: "action ∈ {defer, run}；defer 时 item 为 (优先级, 工作名)"
     sub: ["① defer 入队并按优先级排序 ② run 依序弹出处理"]
     execute: "list.sort(key=优先级) + pop(0) 逐出队"

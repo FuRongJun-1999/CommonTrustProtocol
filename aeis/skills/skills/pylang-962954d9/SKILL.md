@@ -1,7 +1,7 @@
 ---
 name: pylang-962954d9
 description: >-
-  字符串大写/字符串-大写。用户提到与「字符串大写」相关的能力时使用本技能。
+  字符串大写 / 字符串-大写 / mini_python.。用户提到这些词时使用本技能。
   场景：对照：mini_python.py str 方法白名单 upper（CPython str.upper ASCII 子集）。
   【不适用】Not for 以下场景：非 ASCII 字母（中文等）不在本单元范围，原样保留
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["字符串大写", "字符串-大写", "mini_python."]
     when: "s 为字符串"
     sub: ["① 逐字符判定 a-z；② ASCII 偏移转大写；③ 非小写原样保留"]
     execute: "循环迭代；条件分派"

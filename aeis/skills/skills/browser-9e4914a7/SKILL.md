@@ -1,7 +1,7 @@
 ---
 name: browser-9e4914a7
 description: >-
-  网页共享/浏览器-网页共享。用户提到与「网页共享」相关的能力时使用本技能。
+  网页共享 / 浏览器-网页共享 / share 分享 /。用户提到这些词时使用本技能。
   场景：对照：Web Share API——网页内容分享。
   【不适用】Not for 以下场景：op 非 {can_share, last, share} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["网页共享", "浏览器-网页共享", "share 分享 /"]
     when: "op ∈ {can_share, last, share}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

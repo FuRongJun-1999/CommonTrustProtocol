@@ -1,7 +1,7 @@
 ---
 name: net-83447546
 description: >-
-  数据去重/网络-数据去重。用户提到与「数据去重」相关的能力时使用本技能。
+  数据去重 / 网络-数据去重 / 网络去重——指纹识别重复 / hash 指纹 /。用户提到这些词时使用本技能。
   场景：对照：网络去重——指纹识别重复载荷（dedup）。
   【不适用】Not for 以下场景：op 非 {dedup, hash, store} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["数据去重", "网络-数据去重", "网络去重——指纹识别重复", "hash 指纹 /"]
     when: "op ∈ {dedup, hash, store}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

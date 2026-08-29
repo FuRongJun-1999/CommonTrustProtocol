@@ -1,7 +1,7 @@
 ---
 name: pylang-ab7dddc2
 description: >-
-  循环轮转/工具-循环轮转。用户提到与「循环轮转」相关的能力时使用本技能。
+  循环轮转 / 工具-循环轮转 / deque.rotate / 向右旋转 k 位（d。用户提到这些词时使用本技能。
   场景：对照：deque.rotate——循环轮转（右移 k 位）。
   【不适用】Not for 以下场景：items 为空/非法时（隐式盲区：返回默认值 [] = 未知行为——不适用）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["循环轮转", "工具-循环轮转", "deque.rotate", "向右旋转 k 位（d"]
     when: "参数 items/k 合法"
     sub: ["① 调用 len；② 调用 list"]
     execute: "顺序调用"

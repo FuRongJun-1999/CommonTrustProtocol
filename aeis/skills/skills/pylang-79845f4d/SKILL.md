@@ -1,7 +1,7 @@
 ---
 name: pylang-79845f4d
 description: >-
-  多行字符串/语法-多行字符串。用户提到与「多行字符串」相关的能力时使用本技能。
+  多行字符串 / 语法-多行字符串 / Python 三引号字符 / 三引号解析（chr。用户提到这些词时使用本技能。
   场景：对照：Python 三引号字符串（跨行字面量）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["多行字符串", "语法-多行字符串", "Python 三引号字符", "三引号解析（chr"]
     when: "src.find 可用"
     sub: ["① 调用 chr；② 调用 len"]
     execute: "顺序调用"

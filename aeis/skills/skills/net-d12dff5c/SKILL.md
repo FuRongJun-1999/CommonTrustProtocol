@@ -1,7 +1,7 @@
 ---
 name: net-d12dff5c
 description: >-
-  Reno拥塞控制/网络-Reno拥塞控制。用户提到与「Reno拥塞控制」相关的能力时使用本技能。
+  Reno拥塞控制 / 网络-Reno拥塞控制 / Reno 拥塞控制 / ack 慢启动翻倍/。用户提到这些词时使用本技能。
   场景：对照：TCP Reno——慢启动指数/拥塞避免线性/丢包阈值减半快速恢复。
   【不适用】Not for 以下场景：event 非 {ack, loss} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["Reno拥塞控制", "网络-Reno拥塞控制", "Reno 拥塞控制", "ack 慢启动翻倍/"]
     when: "event ∈ {ack, loss}"
     sub: ["1 event 分支处理"]
     execute: "按 op 分派；顺序调用"

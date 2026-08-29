@@ -1,7 +1,7 @@
 ---
 name: compiler-2df52f16
 description: >-
-  指令融合/编译-指令融合。用户提到与「指令融合」相关的能力时使用本技能。
+  指令融合 / 编译-指令融合 / 编译优化——指令融合 / LOAD x + S。用户提到这些词时使用本技能。
   场景：对照：编译优化——指令融合（LOAD+STORE→MOV）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["指令融合", "编译-指令融合", "编译优化——指令融合", "LOAD x + S"]
     when: "参数 instrs 合法"
     sub: ["① 调用 len"]
     execute: "循环迭代；顺序调用"

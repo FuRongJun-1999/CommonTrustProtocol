@@ -1,7 +1,7 @@
 ---
 name: net-b2b29d8d
 description: >-
-  局域网发现/网络-局域网发现。用户提到与「局域网发现」相关的能力时使用本技能。
+  局域网发现 / 网络-局域网发现 / 局域网发现——设备心跳在 / 设备表+心跳 → 在。用户提到这些词时使用本技能。
   场景：对照：局域网发现——设备心跳在线判定（TTL 超时离线）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["局域网发现", "网络-局域网发现", "局域网发现——设备心跳在", "设备表+心跳 → 在"]
     when: "参数 devices/heartbeat_ttl 合法"
     sub: ["① 调用 sorted"]
     execute: "循环迭代；顺序调用"

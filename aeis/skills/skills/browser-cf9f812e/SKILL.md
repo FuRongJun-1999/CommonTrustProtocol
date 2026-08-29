@@ -1,7 +1,7 @@
 ---
 name: browser-cf9f812e
 description: >-
-  缓存策略/PWA-缓存策略。用户提到与「缓存策略」相关的能力时使用本技能。
+  缓存策略 / PWA-缓存策略 / PWA Service / PWA 缓存策略 / cache-firs / / stale 陈旧。用户提到这些词时使用本技能。
   场景：对照：PWA Service Worker——缓存策略（缓存优先/网络优先/陈旧再验证）。
   【不适用】Not for 以下场景：strategy 非 {cache-first, network-first} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["缓存策略", "PWA-缓存策略", "PWA Service", "PWA 缓存策略", "cache-firs", "/ stale 陈旧"]
     when: "strategy ∈ {cache-first, network-first}"
     sub: ["1 strategy 分支处理"]
     execute: "按 op 分派"

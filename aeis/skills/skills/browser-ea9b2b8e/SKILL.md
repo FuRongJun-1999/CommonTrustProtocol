@@ -1,7 +1,7 @@
 ---
 name: browser-ea9b2b8e
 description: >-
-  地理位置/浏览器-地理位置。用户提到与「地理位置」相关的能力时使用本技能。
+  地理位置 / 浏览器-地理位置 / Geolocation / request 请求。用户提到这些词时使用本技能。
   场景：对照：Geolocation API——权限请求/坐标获取（权限门控）。
   【不适用】Not for 以下场景：op 非 {get, request} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["地理位置", "浏览器-地理位置", "Geolocation", "request 请求"]
     when: "op ∈ {get, request}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

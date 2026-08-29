@@ -1,7 +1,7 @@
 ---
 name: os-313ef4ed
 description: >-
-  屏障同步/并发-屏障同步。用户提到与「屏障同步」相关的能力时使用本技能。
+  屏障同步 / 并发-屏障同步 / OS 并发——屏障同步 / wait 到达汇合点。用户提到这些词时使用本技能。
   场景：对照：OS 并发——屏障同步（全部到达汇合点才释放）。
   【不适用】Not for 以下场景：op 非 {wait} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["屏障同步", "并发-屏障同步", "OS 并发——屏障同步", "wait 到达汇合点"]
     when: "op ∈ {wait}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

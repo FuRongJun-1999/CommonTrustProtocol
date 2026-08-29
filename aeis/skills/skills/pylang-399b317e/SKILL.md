@@ -1,7 +1,7 @@
 ---
 name: pylang-399b317e
 description: >-
-  in 成员判断/运算符-in 成员判断。用户提到与「in 成员判断」相关的能力时使用本技能。
+  in 成员判断 / 运算符-in 成员判断 / mini_python.。用户提到这些词时使用本技能。
   场景：对照：mini_python.py in/not in 运算符（V-P4 第一批 6a5e964，comparison+_compare+VM 三处对齐，CPython in 语义）。
   【不适用】Not for 以下场景：自定义 __contains__ 不在本单元范围（str 为 CPython 子串语义特例）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["in 成员判断", "运算符-in 成员判断", "mini_python."]
     when: "container 为 str/list/tuple/dict；item 为可比较值"
     sub: ["① dict 按键判定；② 序列按相等扫描；③ not in 为取反"]
     execute: "条件分派；循环迭代"

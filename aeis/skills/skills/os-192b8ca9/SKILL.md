@@ -1,7 +1,7 @@
 ---
 name: os-192b8ca9
 description: >-
-  段式管理/内存-段式管理。用户提到与「段式管理」相关的能力时使用本技能。
+  段式管理 / 内存-段式管理 / map 登记段 /。用户提到这些词时使用本技能。
   场景：对照：分段内存——段登记/基址+限长越界检查。
   【不适用】Not for 以下场景：op 非 {access, base, map} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["段式管理", "内存-段式管理", "map 登记段 /"]
     when: "op ∈ {access, base, map}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

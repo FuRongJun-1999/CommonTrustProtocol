@@ -1,7 +1,7 @@
 ---
 name: net-b2ddce5d
 description: >-
-  DNS解析/网络-DNS解析。用户提到与「DNS解析」相关的能力时使用本技能。
+  DNS解析 / 网络-DNS解析 / DNS——域名解析 / DNS 解析 / 域名→IP（缓存命中。用户提到这些词时使用本技能。
   场景：对照：DNS——域名解析（缓存命中直返/未命中查询，缓存加速语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["DNS解析", "网络-DNS解析", "DNS——域名解析", "DNS 解析", "域名→IP（缓存命中"]
     when: "参数 cache/domain 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "DNS 解析：域名→IP（缓存命中直返；未命中模拟查询 8.8.8.8）"

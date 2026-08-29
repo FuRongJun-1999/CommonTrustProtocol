@@ -1,7 +1,7 @@
 ---
 name: vm-exception
 description: >-
-  异常处理/VM-异常处理。用户提到与「异常处理」相关的能力时使用本技能。
+  异常处理 / VM-异常处理 / VM 异常——异常类型抛 / VM 异常处理 / raise 抛异常。用户提到这些词时使用本技能。
   场景：对照：VM 异常——异常类型抛出与处理表跳转（try/except 语义）。
   【不适用】Not for 以下场景：op 非 {clear, handler, raise} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["异常处理", "VM-异常处理", "VM 异常——异常类型抛", "VM 异常处理", "raise 抛异常"]
     when: "op ∈ {clear, handler, raise}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

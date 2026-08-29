@@ -1,7 +1,7 @@
 ---
 name: compiler-a7995a0c
 description: >-
-  调用栈回溯/调试-调用栈回溯。用户提到与「调用栈回溯」相关的能力时使用本技能。
+  调用栈回溯 / 调试-调用栈回溯 / CPython trac / 出错帧 + 调用链（。用户提到这些词时使用本技能。
   场景：对照：CPython traceback（异常处最内层，逐层向外到入口）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["调用栈回溯", "调试-调用栈回溯", "CPython trac", "出错帧 + 调用链（"]
     when: "参数 call_stack/error_frame 合法"
     sub: ["① 调用 reversed"]
     execute: "顺序调用"

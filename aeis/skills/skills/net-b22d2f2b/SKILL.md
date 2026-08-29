@@ -1,7 +1,7 @@
 ---
 name: net-b22d2f2b
 description: >-
-  内容协商/网络-内容协商。用户提到与「内容协商」相关的能力时使用本技能。
+  内容协商 / 网络-内容协商 / HTTP 内容协商——A / Accept 头匹配。用户提到这些词时使用本技能。
   场景：对照：HTTP 内容协商——Accept 头匹配可用类型（q 剥离）。
   【不适用】Not for 以下场景：op 非 {match} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["内容协商", "网络-内容协商", "HTTP 内容协商——A", "Accept 头匹配"]
     when: "op ∈ {match}；a.strip 可用"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代"

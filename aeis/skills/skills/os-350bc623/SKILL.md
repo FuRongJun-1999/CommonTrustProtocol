@@ -1,7 +1,7 @@
 ---
 name: os-350bc623
 description: >-
-  内存映射/文件-内存映射。用户提到与「内存映射」相关的能力时使用本技能。
+  内存映射 / 文件-内存映射 / OS mmap——文件映 / map 映射文件段到。用户提到这些词时使用本技能。
   场景：对照：OS mmap——文件映射到内存（读偏移/写回）。
   【不适用】Not for 以下场景：op 非 {map, read, write} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["内存映射", "文件-内存映射", "OS mmap——文件映", "map 映射文件段到"]
     when: "op ∈ {map, read, write}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

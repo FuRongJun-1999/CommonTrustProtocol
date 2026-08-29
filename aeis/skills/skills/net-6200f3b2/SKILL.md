@@ -1,7 +1,7 @@
 ---
 name: net-6200f3b2
 description: >-
-  隧道封装/网络-隧道封装。用户提到与「隧道封装」相关的能力时使用本技能。
+  隧道封装 / 网络-隧道封装 / 隧道——IP-in-IP / 隧道 / 内层包 + 外层头（ / 解封装 / 剥离外层头 → 内层。用户提到这些词时使用本技能。
   场景：对照：隧道——IP-in-IP 封装/解封装（外层头包裹内层包）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["隧道封装", "网络-隧道封装", "隧道——IP-in-IP", "隧道", "内层包 + 外层头（", "解封装", "剥离外层头 → 内层"]
     when: "参数 inner/outer_src/outer_dst 合法"
     sub: []
     execute: "隧道：内层包 + 外层头（IP-in-IP 封装——跨网络传输）；解封装：剥离外层头 → 内层包"

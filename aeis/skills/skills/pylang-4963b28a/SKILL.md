@@ -1,7 +1,7 @@
 ---
 name: pylang-4963b28a
 description: >-
-  数据类/工具-数据类。用户提到与「数据类」相关的能力时使用本技能。
+  数据类 / 工具-数据类 / CPython data / 字段表 + 位置参数。用户提到这些词时使用本技能。
   场景：对照：CPython dataclass（字段表自动生成 __init__，参数个数不匹配报错）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["数据类", "工具-数据类", "CPython data", "字段表 + 位置参数"]
     when: "参数 fields/args 合法"
     sub: ["① 调用 dict；② 调用 len；③ 调用 zip"]
     execute: "顺序调用"

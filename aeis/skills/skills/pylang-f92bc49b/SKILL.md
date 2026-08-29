@@ -1,7 +1,7 @@
 ---
 name: pylang-f92bc49b
 description: >-
-  集合推导/推导式-集合推导。用户提到与「集合推导」相关的能力时使用本技能。
+  集合推导 / 推导式-集合推导 / CPython 集合推导 / 集合推导（集合推导式 / {x for x i。用户提到这些词时使用本技能。
   场景：对照：CPython 集合推导（{x for ...} 去重 + 条件过滤，与列表/字典推导同族）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["集合推导", "推导式-集合推导", "CPython 集合推导", "集合推导（集合推导式", "{x for x i"]
     when: "items 可迭代；cond 为谓词函数或 None（不过滤）"
     sub: ["① 无谓词直接去重建集 ② 有谓词过滤后建集"]
     execute: "set(items) 或 {x for x in items if cond(x)}"

@@ -1,7 +1,7 @@
 ---
 name: os-a13ce4aa
 description: >-
-  磁盘调度/存储-磁盘调度SCAN。用户提到与「磁盘调度」相关的能力时使用本技能。
+  磁盘调度 / 存储-磁盘调度SCAN / OS 磁盘调度——SCA / SCAN 电梯算法（。用户提到这些词时使用本技能。
   场景：对照：OS 磁盘调度——SCAN 电梯算法（单向扫描折返）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["磁盘调度", "存储-磁盘调度SCAN", "OS 磁盘调度——SCA", "SCAN 电梯算法（"]
     when: "参数 requests/head/direction 合法"
     sub: ["① 调用 sorted"]
     execute: "顺序调用"

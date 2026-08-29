@@ -1,7 +1,7 @@
 ---
 name: graph-f729034f
 description: >-
-  环形布局/图可视化-环形布局。用户提到与「环形布局」相关的能力时使用本技能。
+  环形布局 / 图可视化-环形布局 / 图可视化——环形布局 / 节点均匀分布圆周（可。用户提到这些词时使用本技能。
   场景：对照：图可视化——环形布局（圆周均匀分布坐标）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["环形布局", "图可视化-环形布局", "图可视化——环形布局", "节点均匀分布圆周（可"]
     when: "math.cos 可用；math.sin 可用"
     sub: ["① 调用 len；② 调用 enumerate；③ 调用 round"]
     execute: "循环迭代；顺序调用"

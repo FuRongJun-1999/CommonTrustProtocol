@@ -1,7 +1,7 @@
 ---
 name: net-b873d6f7
 description: >-
-  ICMP探测/网络-ICMP探测。用户提到与「ICMP探测」相关的能力时使用本技能。
+  ICMP探测 / 网络-ICMP探测 / ICMP Echo——p / ICMP / ping 记录往返。用户提到这些词时使用本技能。
   场景：对照：ICMP Echo——ping 往返测量与可达性判定（RTT 阈值）。
   【不适用】Not for 以下场景：op 非 {ping, reply, stats} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["ICMP探测", "网络-ICMP探测", "ICMP Echo——p", "ICMP", "ping 记录往返"]
     when: "op ∈ {ping, reply, stats}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

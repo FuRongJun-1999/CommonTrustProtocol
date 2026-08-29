@@ -1,7 +1,7 @@
 ---
 name: check-name-real
 description: >-
-  名实校验/校验-名实。用户提到与「名实校验」相关的能力时使用本技能。
+  名实校验 / 校验-名实 / name_checker / 以名举实 / 要求的符号必须已声明。用户提到这些词时使用本技能。
   场景：对照：name_checker 以名举实（符号表→协议实体）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["名实校验", "校验-名实", "name_checker", "以名举实", "要求的符号必须已声明"]
     when: "参数 required/declared 合法"
     sub: []
     execute: "以名举实：要求的符号必须已声明（墨辩静态检查）"

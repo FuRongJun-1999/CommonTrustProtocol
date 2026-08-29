@@ -1,7 +1,7 @@
 ---
 name: net-6967ff14
 description: >-
-  心跳保活/网络-心跳保活。用户提到与「心跳保活」相关的能力时使用本技能。
+  心跳保活 / 网络-心跳保活 / TCP keepaliv / beat 记录心跳。用户提到这些词时使用本技能。
   场景：对照：TCP keepalive——心跳记录/超时判定（连接保活）。
   【不适用】Not for 以下场景：op 非 {alive, beat, reset} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["心跳保活", "网络-心跳保活", "TCP keepaliv", "beat 记录心跳"]
     when: "op ∈ {alive, beat, reset}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

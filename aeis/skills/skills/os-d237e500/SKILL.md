@@ -1,7 +1,7 @@
 ---
 name: os-d237e500
 description: >-
-  内存碎片/内存-内存碎片。用户提到与「内存碎片」相关的能力时使用本技能。
+  内存碎片 / 内存-内存碎片 / 内存碎片——空洞记录与碎 / record 记录空。用户提到这些词时使用本技能。
   场景：对照：内存碎片——空洞记录与碎片率（碎片化度量）。
   【不适用】Not for 以下场景：op 非 {holes, rate, record} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["内存碎片", "内存-内存碎片", "内存碎片——空洞记录与碎", "record 记录空"]
     when: "op ∈ {holes, rate, record}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: net-74d647cb
 description: >-
-  连接迁移/网络-连接迁移。用户提到与「连接迁移」相关的能力时使用本技能。
+  连接迁移 / 网络-连接迁移 / QUIC——连接迁移 / migrate 换端。用户提到这些词时使用本技能。
   场景：对照：QUIC——连接迁移（端点切换不断连）。
   【不适用】Not for 以下场景：op 非 {count, current, migrate} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["连接迁移", "网络-连接迁移", "QUIC——连接迁移", "migrate 换端"]
     when: "op ∈ {count, current, migrate}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

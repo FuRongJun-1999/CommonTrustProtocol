@@ -1,7 +1,7 @@
 ---
 name: pylang-dfad3dba
 description: >-
-  字符串对齐/工具-字符串对齐。用户提到与「字符串对齐」相关的能力时使用本技能。
+  字符串对齐 / 工具-字符串对齐 / ljust 左 /。用户提到这些词时使用本技能。
   场景：对照：str.ljust/rjust/center——填充对齐。
   【不适用】Not for 以下场景：align 非 {center, left, right} 时（隐式盲区：返回默认值 0 = 未知行为——不适用）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["字符串对齐", "工具-字符串对齐", "ljust 左 /"]
     when: "align ∈ {center, left, right}；text.ljust 可用；text.rjust 可用"
     sub: ["1 align 分支处理"]
     execute: "按 op 分派"

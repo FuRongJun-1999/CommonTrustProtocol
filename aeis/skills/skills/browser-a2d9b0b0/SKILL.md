@@ -1,7 +1,7 @@
 ---
 name: browser-a2d9b0b0
 description: >-
-  游戏手柄/浏览器-游戏手柄。用户提到与「游戏手柄」相关的能力时使用本技能。
+  游戏手柄 / 浏览器-游戏手柄 / connect 连接。用户提到这些词时使用本技能。
   场景：对照：Gamepad——手柄连接/按键/摇杆。
   【不适用】Not for 以下场景：op 非 {axis, button, connect} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["游戏手柄", "浏览器-游戏手柄", "connect 连接"]
     when: "op ∈ {axis, button, connect}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

@@ -1,7 +1,7 @@
 ---
 name: graph-85bf101e
 description: >-
-  邻接表压缩/图存储-邻接表CSR。用户提到与「邻接表压缩」相关的能力时使用本技能。
+  邻接表压缩 / 图存储-邻接表CSR / CSR 邻接表——压缩稀 / CSR 邻接表 / 边列表 → 压缩稀疏。用户提到这些词时使用本技能。
   场景：对照：CSR 邻接表——压缩稀疏行（偏移数组+邻接数组，紧凑边存储）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["邻接表压缩", "图存储-邻接表CSR", "CSR 邻接表——压缩稀", "CSR 邻接表", "边列表 → 压缩稀疏"]
     when: "参数 edges/n 合法"
     sub: ["① 调用 range"]
     execute: "循环迭代；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: pylang-cf0fca1c
 description: >-
-  最长公共前缀/工具-最长公共前缀。用户提到与「最长公共前缀」相关的能力时使用本技能。
+  最长公共前缀 / 工具-最长公共前缀 / 最长公共前缀——逐词比对 / 逐字符比对所有词（L。用户提到这些词时使用本技能。
   场景：对照：最长公共前缀——逐词比对（LCP）。
   【不适用】Not for 以下场景：words 为空/非法时；prefix 为空/非法时（隐式盲区：返回默认值 空串 = 未知行为——不适用）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["最长公共前缀", "工具-最长公共前缀", "最长公共前缀——逐词比对", "逐字符比对所有词（L"]
     when: "w.startswith 可用"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

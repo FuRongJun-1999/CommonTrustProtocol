@@ -1,7 +1,7 @@
 ---
 name: pylang-4af9140e
 description: >-
-  完整程序/程序-完整执行。用户提到与「完整程序」相关的能力时使用本技能。
+  完整程序 / 程序-完整执行 / mini_python. / 完整程序执行（组装 / 词法→语法→语句执行 / 简化管线 / 行→语句（assig。用户提到这些词时使用本技能。
   场景：对照：mini_python.py run_program（词法→语法→语句执行全链路；组装白箱生成单元）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["完整程序", "程序-完整执行", "mini_python.", "完整程序执行（组装", "词法→语法→语句执行", "简化管线", "行→语句（assig"]
     when: "src.splitlines 可用；raw.strip 可用"
     sub: ["① 调用 fn_run_stmts；② 调用 int"]
     execute: "循环迭代；顺序调用"

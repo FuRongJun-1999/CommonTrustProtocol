@@ -1,7 +1,7 @@
 ---
 name: vm-func-call
 description: >-
-  函数调用/VM-函数调用。用户提到与「函数调用」相关的能力时使用本技能。
+  函数调用 / VM-函数调用 / protocol-com / CALL 语义 / 保存调用帧(返回地址。用户提到这些词时使用本技能。
   场景：对照：protocol-compiler CALL（帧保存+参数绑定遮蔽全局，对齐 da997ef VM）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["函数调用", "VM-函数调用", "protocol-com", "CALL 语义", "保存调用帧(返回地址"]
     when: "参数 call_stack/symbols/params/args/entry_ip/ret_ip 合法"
     sub: ["① 调用 zip；② 调用 dict"]
     execute: "循环迭代；顺序调用"

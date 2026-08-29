@@ -1,7 +1,7 @@
 ---
 name: pylang-486a1e94
 description: >-
-  二分查找/工具-二分查找。用户提到与「二分查找」相关的能力时使用本技能。
+  二分查找 / 工具-二分查找 / bisect——有序序列 / 有序序列定位目标（折。用户提到这些词时使用本技能。
   场景：对照：bisect——有序序列折半查找（命中索引/-1）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["二分查找", "工具-二分查找", "bisect——有序序列", "有序序列定位目标（折"]
     when: "参数 seq/target 合法"
     sub: ["① 调用 len"]
     execute: "循环迭代；顺序调用"

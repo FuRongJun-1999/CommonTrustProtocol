@@ -1,7 +1,7 @@
 ---
 name: graph-8650548b
 description: >-
-  审计记录/图安全-审计日志。用户提到与「审计记录」相关的能力时使用本技能。
+  审计记录 / 图安全-审计日志 / 图安全——审计日志 / 审计日志 / record 记录操。用户提到这些词时使用本技能。
   场景：对照：图安全——审计日志（操作记录/用户过滤）。
   【不适用】Not for 以下场景：op 非 {count, filter, record} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["审计记录", "图安全-审计日志", "图安全——审计日志", "审计日志", "record 记录操"]
     when: "op ∈ {count, filter, record}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: os-040b5505
 description: >-
-  消息队列/IPC-消息队列。用户提到与「消息队列」相关的能力时使用本技能。
+  消息队列 / IPC-消息队列 / OS IPC 消息队列— / send 按类型投递 / （SysV msg / 消息带类型。用户提到这些词时使用本技能。
   场景：对照：OS IPC 消息队列——SysV msg（类型投递/按类型取最早）。
   【不适用】Not for 以下场景：op 非 {count, recv, send} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["消息队列", "IPC-消息队列", "OS IPC 消息队列—", "send 按类型投递", "（SysV msg", "消息带类型"]
     when: "op ∈ {count, recv, send}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

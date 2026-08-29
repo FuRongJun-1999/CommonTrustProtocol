@@ -1,7 +1,7 @@
 ---
 name: browser-822cfa44
 description: >-
-  屏幕方向/浏览器-屏幕方向。用户提到与「屏幕方向」相关的能力时使用本技能。
+  屏幕方向 / 浏览器-屏幕方向 / lock 锁定 /。用户提到这些词时使用本技能。
   场景：对照：Screen Orientation API——方向锁定/解锁/查询。
   【不适用】Not for 以下场景：op 非 {get, lock, unlock} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["屏幕方向", "浏览器-屏幕方向", "lock 锁定 /"]
     when: "op ∈ {get, lock, unlock}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

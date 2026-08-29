@@ -1,7 +1,7 @@
 ---
 name: graph-96b85e1f
 description: >-
-  强连通分量/图算法-强连通分量。用户提到与「强连通分量」相关的能力时使用本技能。
+  强连通分量 / 图算法-强连通分量 / Kosaraju 两 / 深度优先 / 遍历可达顶点并记录完。用户提到这些词时使用本技能。
   场景：对照：Kosaraju 算法——两遍 DFS 求有向图强连通分量。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["强连通分量", "图算法-强连通分量", "Kosaraju 两", "深度优先", "遍历可达顶点并记录完"]
     when: "visited.clear 可用"
     sub: ["① 调用 set；② 调用 reversed；③ 调用 dfs"]
     execute: "循环迭代；顺序调用"

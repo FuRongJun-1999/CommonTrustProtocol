@@ -1,7 +1,7 @@
 ---
 name: compiler-0622a1f6
 description: >-
-  内联展开/编译-内联展开。用户提到与「内联展开」相关的能力时使用本技能。
+  内联展开 / 编译-内联展开 / 编译优化——内联展开 / 小函数（指令数 ≤。用户提到这些词时使用本技能。
   场景：对照：编译优化——内联展开（小函数体复制到调用处，减少调用开销）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["内联展开", "编译-内联展开", "编译优化——内联展开", "小函数（指令数 ≤"]
     when: "参数 funcs/name/call_site 合法"
     sub: ["① 调用 list；② 调用 len"]
     execute: "顺序调用"

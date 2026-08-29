@@ -1,7 +1,7 @@
 ---
 name: os-1898928a
 description: >-
-  系统监控/系统-监控指标。用户提到与「系统监控」相关的能力时使用本技能。
+  系统监控 / 系统-监控指标 / OS 系统监控——CPU / CPU/内存采样 →。用户提到这些词时使用本技能。
   场景：对照：OS 系统监控——CPU 使用率采样统计（平均/峰值）。
   【不适用】Not for 以下场景：usage_samples 为空/非法时（隐式盲区：返回默认值 {'avg': 0.0, 'peak': 0.0} = 未知行为——不适用）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["系统监控", "系统-监控指标", "OS 系统监控——CPU", "CPU/内存采样 →"]
     when: "参数 usage_samples 合法"
     sub: ["① 调用 round；② 调用 max；③ 调用 sum"]
     execute: "顺序调用"

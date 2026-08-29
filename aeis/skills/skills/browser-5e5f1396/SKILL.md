@@ -1,7 +1,7 @@
 ---
 name: browser-5e5f1396
 description: >-
-  扫码/浏览器-扫码。用户提到与「扫码」相关的能力时使用本技能。
+  扫码 / 浏览器-扫码 / scan 检测 /。用户提到这些词时使用本技能。
   场景：对照：BarcodeDetector——条码/二维码检测与缓存。
   【不适用】Not for 以下场景：op 非 {cache, last, scan} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["扫码", "浏览器-扫码", "scan 检测 /"]
     when: "op ∈ {cache, last, scan}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

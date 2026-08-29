@@ -1,7 +1,7 @@
 ---
 name: pylang-f127a8d1
 description: >-
-  环境查询/工具-环境查询。用户提到与「环境查询」相关的能力时使用本技能。
+  环境查询 / 工具-环境查询 / platform 平。用户提到这些词时使用本技能。
   场景：对照：sys/platform——平台与版本环境查询。
   【不适用】Not for 以下场景：op 非 {get, platform, version} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["环境查询", "工具-环境查询", "platform 平"]
     when: "op ∈ {get, platform, version}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

@@ -1,7 +1,7 @@
 ---
 name: compiler-4cbbda95
 description: >-
-  编译指令/编译-指令。用户提到与「编译指令」相关的能力时使用本技能。
+  编译指令 / 编译-指令 / INSTRUCTION_ / 道德经指令 AST。用户提到这些词时使用本技能。
   场景：对照：INSTRUCTION_MAP（道→create_path 等；未接入指令诚实边界）。
   【不适用】Not for 以下场景：kind 非 {DAO, DE} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["编译指令", "编译-指令", "INSTRUCTION_", "道德经指令 AST"]
     when: "kind ∈ {DAO, DE}"
     sub: ["1 kind 分支处理"]
     execute: "按 op 分派；顺序调用"

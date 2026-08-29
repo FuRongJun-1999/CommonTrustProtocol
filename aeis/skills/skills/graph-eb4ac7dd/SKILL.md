@@ -1,7 +1,7 @@
 ---
 name: graph-eb4ac7dd
 description: >-
-  租户隔离/图安全-租户隔离。用户提到与「租户隔离」相关的能力时使用本技能。
+  租户隔离 / 图安全-租户隔离 / 图安全——租户隔离 / 返回租户可见节点（数。用户提到这些词时使用本技能。
   场景：对照：图安全——租户隔离（节点 owner 过滤，多租户数据隔离）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["租户隔离", "图安全-租户隔离", "图安全——租户隔离", "返回租户可见节点（数"]
     when: "参数 graph/tenant 合法"
     sub: ["① 调用 sorted"]
     execute: "顺序调用"

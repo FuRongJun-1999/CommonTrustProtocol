@@ -1,7 +1,7 @@
 ---
 name: browser-7bb4871d
 description: >-
-  剪贴板/浏览器-剪贴板。用户提到与「剪贴板」相关的能力时使用本技能。
+  剪贴板 / 浏览器-剪贴板 / 浏览器 API——nav / copy 写入 /。用户提到这些词时使用本技能。
   场景：对照：浏览器 API——navigator.clipboard（copy/paste 读写剪贴板）。
   【不适用】Not for 以下场景：op 非 {clear, copy, paste} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["剪贴板", "浏览器-剪贴板", "浏览器 API——nav", "copy 写入 /"]
     when: "op ∈ {clear, copy, paste}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

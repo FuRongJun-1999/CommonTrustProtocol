@@ -1,7 +1,7 @@
 ---
 name: pylang-be55a094
 description: >-
-  运行时检查/类型-运行时检查。用户提到与「运行时检查」相关的能力时使用本技能。
+  运行时检查 / 类型-运行时检查 / Python 运行时类型 / 运行时类型检查 / isinstance。用户提到这些词时使用本技能。
   场景：对照：Python 运行时类型检查（isinstance，整值浮点可当整数）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["运行时检查", "类型-运行时检查", "Python 运行时类型", "运行时类型检查", "isinstance"]
     when: "value.is_integer 可用"
     sub: ["① 调用 isinstance"]
     execute: "顺序调用"

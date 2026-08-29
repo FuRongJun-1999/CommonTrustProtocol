@@ -1,7 +1,7 @@
 ---
 name: pylang-f4aa9e65
 description: >-
-  分位数/工具-分位数。用户提到与「分位数」相关的能力时使用本技能。
+  分位数 / 工具-分位数 / quantiles——百 / 排序后按百分位取位置。用户提到这些词时使用本技能。
   场景：对照：quantiles——百分位插值（分位数）。
   【不适用】Not for 以下场景：data 为空/非法时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["分位数", "工具-分位数", "quantiles——百", "排序后按百分位取位置"]
     when: "参数 data/p 合法"
     sub: ["① 调用 sorted；② 调用 int；③ 调用 min"]
     execute: "顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: compiler-25be1262
 description: >-
-  指令选择/编译-指令选择。用户提到与「指令选择」相关的能力时使用本技能。
+  指令选择 / 编译-指令选择 / 编译后端——IR 操作到 / IR 操作 → 目标。用户提到这些词时使用本技能。
   场景：对照：编译后端——IR 操作到目标指令映射（指令选择）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["指令选择", "编译-指令选择", "编译后端——IR 操作到", "IR 操作 → 目标"]
     when: "参数 ir 合法"
     sub: []
     execute: "指令选择：IR 操作 → 目标指令（模式匹配翻译）"

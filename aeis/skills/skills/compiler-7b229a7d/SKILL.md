@@ -1,7 +1,7 @@
 ---
 name: compiler-7b229a7d
 description: >-
-  紧凑编码/字节码-紧凑编码。用户提到与「紧凑编码」相关的能力时使用本技能。
+  紧凑编码 / 字节码-紧凑编码 / C3 .pbc 体积优化 / encode 变长整。用户提到这些词时使用本技能。
   场景：对照：C3 .pbc 体积优化——varint 变长整数（小整数 1 字节）。
   【不适用】Not for 以下场景：b 越界（Lt）时；mode 非 {decode, encode} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["紧凑编码", "字节码-紧凑编码", "C3 .pbc 体积优化", "encode 变长整"]
     when: "mode ∈ {decode, encode}"
     sub: ["1 mode 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

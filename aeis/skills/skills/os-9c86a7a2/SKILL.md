@@ -1,7 +1,7 @@
 ---
 name: os-9c86a7a2
 description: >-
-  内存池/内存-内存池。用户提到与「内存池」相关的能力时使用本技能。
+  内存池 / 内存-内存池 / 内存池——固定块分配/释 / alloc 分配 /。用户提到这些词时使用本技能。
   场景：对照：内存池——固定块分配/释放/统计（池化分配）。
   【不适用】Not for 以下场景：op 非 {alloc, free, stats} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["内存池", "内存-内存池", "内存池——固定块分配/释", "alloc 分配 /"]
     when: "op ∈ {alloc, free, stats}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

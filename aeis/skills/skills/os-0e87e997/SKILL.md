@@ -1,7 +1,7 @@
 ---
 name: os-0e87e997
 description: >-
-  磨损均衡/存储-磨损均衡。用户提到与「磨损均衡」相关的能力时使用本技能。
+  磨损均衡 / 存储-磨损均衡 / OS 存储——磨损均衡 / 写块记录写入次数。用户提到这些词时使用本技能。
   场景：对照：OS 存储——磨损均衡（写入次数记录，选最少磨损块）。
   【不适用】Not for 以下场景：blocks 为空/非法时；op 非 {pick, write} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["磨损均衡", "存储-磨损均衡", "OS 存储——磨损均衡", "写块记录写入次数"]
     when: "op ∈ {pick, write}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

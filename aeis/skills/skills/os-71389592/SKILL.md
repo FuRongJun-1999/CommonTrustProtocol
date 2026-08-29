@@ -1,7 +1,7 @@
 ---
 name: os-71389592
 description: >-
-  TPM度量/可信-TPM度量。用户提到与「TPM度量」相关的能力时使用本技能。
+  TPM度量 / 可信-TPM度量 / TPM——PCR 扩展度 / TPM 度量 / PCR 扩展（哈希累。用户提到这些词时使用本技能。
   场景：对照：TPM——PCR 扩展度量（组件哈希累加到平台寄存器）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["TPM度量", "可信-TPM度量", "TPM——PCR 扩展度", "TPM 度量", "PCR 扩展（哈希累"]
     when: "参数 pcr/component 合法"
     sub: ["① 调用 sum；② 调用 ord"]
     execute: "顺序调用"

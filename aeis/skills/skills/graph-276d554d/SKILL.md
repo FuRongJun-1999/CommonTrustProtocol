@@ -1,7 +1,7 @@
 ---
 name: graph-276d554d
 description: >-
-  游标遍历/图查询-游标遍历。用户提到与「游标遍历」相关的能力时使用本技能。
+  游标遍历 / 图查询-游标遍历 / 查询游标——分页遍历 / next 取下一节点。用户提到这些词时使用本技能。
   场景：对照：查询游标——分页遍历（next/has_next/reset）。
   【不适用】Not for 以下场景：op 非 {has_next, next, reset} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["游标遍历", "图查询-游标遍历", "查询游标——分页遍历", "next 取下一节点"]
     when: "op ∈ {has_next, next, reset}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

@@ -1,7 +1,7 @@
 ---
 name: graph-d0677ce1
 description: >-
-  节点相似度/图算法-节点相似度。用户提到与「节点相似度」相关的能力时使用本技能。
+  节点相似度 / 图算法-节点相似度 / 图算法——Jaccard / Jaccard（共同。用户提到这些词时使用本技能。
   场景：对照：图算法——Jaccard 相似度（共同邻居占比，推荐/相似节点语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["节点相似度", "图算法-节点相似度", "图算法——Jaccard", "Jaccard（共同"]
     when: "graph.neighbors 可用"
     sub: ["① 调用 set；② 调用 len"]
     execute: "顺序调用"

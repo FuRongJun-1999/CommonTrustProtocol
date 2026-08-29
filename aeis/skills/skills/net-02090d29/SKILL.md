@@ -1,7 +1,7 @@
 ---
 name: net-02090d29
 description: >-
-  NAT转换/网络-NAT。用户提到与「NAT转换」相关的能力时使用本技能。
+  NAT转换 / 网络-NAT / 网络 NAT——内网→公 / NAT / 内网地址→公网地址（。用户提到这些词时使用本技能。
   场景：对照：网络 NAT——内网→公网地址转换（端口映射表，复用已映射端口）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["NAT转换", "网络-NAT", "网络 NAT——内网→公", "NAT", "内网地址→公网地址（"]
     when: "参数 table/src_ip/src_port/pub_ip 合法"
     sub: ["① 调用 len"]
     execute: "顺序调用"

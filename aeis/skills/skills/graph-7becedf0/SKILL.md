@@ -1,7 +1,7 @@
 ---
 name: graph-7becedf0
 description: >-
-  分布式查询/图查询-分布式查询。用户提到与「分布式查询」相关的能力时使用本技能。
+  分布式查询 / 图查询-分布式查询 / 分布式查询——分片并行处 / 各分片并行查 → 合。用户提到这些词时使用本技能。
   场景：对照：分布式查询——分片并行处理合并（Map 归约语义）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["分布式查询", "图查询-分布式查询", "分布式查询——分片并行处", "各分片并行查 → 合"]
     when: "参数 shards/query_fn 合法"
     sub: ["① 调用 sorted；② 调用 query_fn"]
     execute: "循环迭代；顺序调用"

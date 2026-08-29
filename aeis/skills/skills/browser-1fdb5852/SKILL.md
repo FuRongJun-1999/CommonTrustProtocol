@@ -1,7 +1,7 @@
 ---
 name: browser-1fdb5852
 description: >-
-  标签页通信/浏览器-标签页通信。用户提到与「标签页通信」相关的能力时使用本技能。
+  标签页通信 / 浏览器-标签页通信 / post 广播消息。用户提到这些词时使用本技能。
   场景：对照：BroadcastChannel/postMessage——跨标签页广播通信。
   【不适用】Not for 以下场景：op 非 {listeners, post, recv} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["标签页通信", "浏览器-标签页通信", "post 广播消息"]
     when: "op ∈ {listeners, post, recv}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

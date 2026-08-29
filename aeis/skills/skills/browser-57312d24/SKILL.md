@@ -1,7 +1,7 @@
 ---
 name: browser-57312d24
 description: >-
-  离线队列/浏览器-离线队列。用户提到与「离线队列」相关的能力时使用本技能。
+  离线队列 / 浏览器-离线队列 / 离线优先——离线请求队列 / enqueue 离线。用户提到这些词时使用本技能。
   场景：对照：离线优先——离线请求队列（上线重发）。
   【不适用】Not for 以下场景：op 非 {count, enqueue, flush} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["离线队列", "浏览器-离线队列", "离线优先——离线请求队列", "enqueue 离线"]
     when: "op ∈ {count, enqueue, flush}；queue.clear 可用"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

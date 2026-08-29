@@ -1,7 +1,7 @@
 ---
 name: os-35ee1a30
 description: >-
-  文件权限/文件-文件权限。用户提到与「文件权限」相关的能力时使用本技能。
+  文件权限 / 文件-文件权限 / OS 文件权限——模式位 / 模式位 rwx 检查。用户提到这些词时使用本技能。
   场景：对照：OS 文件权限——模式位检查（r=4/w=2/x=1 位与运算）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["文件权限", "文件-文件权限", "OS 文件权限——模式位", "模式位 rwx 检查"]
     when: "参数 mode/access 合法"
     sub: ["① 调用 bool"]
     execute: "顺序调用"

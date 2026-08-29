@@ -1,7 +1,7 @@
 ---
 name: pylang-e476915b
 description: >-
-  上下文管理器/上下文-管理器。用户提到与「上下文管理器」相关的能力时使用本技能。
+  上下文管理器 / 上下文-管理器 / Python with / 上下文管理器（wit / __enter__ / 进入 / 标记已打开并返回自身 / 退出。用户提到这些词时使用本技能。
   场景：对照：Python with 语句（__enter__/__exit__ 资源获取释放）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["上下文管理器", "上下文-管理器", "Python with", "上下文管理器（wit", "__enter__", "进入", "标记已打开并返回自身", "退出"]
     when: "参数 输入 合法"
     sub: ["① 调用 Open"]
     execute: "顺序调用"

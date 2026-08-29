@@ -1,7 +1,7 @@
 ---
 name: graph-0de12477
 description: >-
-  最小生成树/图算法-最小生成树。用户提到与「最小生成树」相关的能力时使用本技能。
+  最小生成树 / 图算法-最小生成树 / 图算法——Kruskal / Kruskal——按 / 根查找 / 路径压缩（并查集连通。用户提到这些词时使用本技能。
   场景：对照：图算法——Kruskal 最小生成树（升序加边+并查集避环）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["最小生成树", "图算法-最小生成树", "图算法——Kruskal", "Kruskal——按", "根查找", "路径压缩（并查集连通"]
     when: "参数 edges/n 合法"
     sub: ["① 调用 list；② 调用 sorted；③ 调用 range"]
     execute: "循环迭代；顺序调用"

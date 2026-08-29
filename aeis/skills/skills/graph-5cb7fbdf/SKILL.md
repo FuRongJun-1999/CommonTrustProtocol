@@ -1,7 +1,7 @@
 ---
 name: graph-5cb7fbdf
 description: >-
-  边活跃度/图动态-边活跃度。用户提到与「边活跃度」相关的能力时使用本技能。
+  边活跃度 / 图动态-边活跃度 / 动态图——边活跃度 / touch 更新活跃。用户提到这些词时使用本技能。
   场景：对照：动态图——边活跃度（时间窗内活跃判定）。
   【不适用】Not for 以下场景：op 非 {active, touch} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["边活跃度", "图动态-边活跃度", "动态图——边活跃度", "touch 更新活跃"]
     when: "op ∈ {active, touch}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

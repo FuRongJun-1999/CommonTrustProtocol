@@ -1,7 +1,7 @@
 ---
 name: os-c9f8df6e
 description: >-
-  服务管理/系统-服务管理。用户提到与「服务管理」相关的能力时使用本技能。
+  服务管理 / 系统-服务管理 / systemd 服务—— / start 启动 /。用户提到这些词时使用本技能。
   场景：对照：systemd 服务——start/stop/status（服务生命周期）。
   【不适用】Not for 以下场景：op 非 {start, status, stop} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["服务管理", "系统-服务管理", "systemd 服务——", "start 启动 /"]
     when: "op ∈ {start, status, stop}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

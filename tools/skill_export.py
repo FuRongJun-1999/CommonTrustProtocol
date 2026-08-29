@@ -104,8 +104,32 @@ def parse_four_elements(pattern):
             specific.append(ls)  # 单元特有注释（如「递归函数：若 基条件…」）
     return when, sub, execute, not_app, specific
 
-def render_skill(uid, unit, slug):
-    """渲染 SKILL.md。"""
+def extract_triggers(task, uid, calib, specific):
+    """提取触发词（KCCS v0.2 五要素）：task/uid/calibration 核心短语/特有注释语义词。"""
+    triggers = []
+    seen = set()
+    def add(w):
+        w = (w or "").strip()
+        if w and w not in seen and len(w) >= 2:
+            seen.add(w)
+            triggers.append(w)
+    add(task)
+    add(uid)
+    # calibration 核心短语（「对照：X（Y…）」→ 取 X 前段 + Y 前段）
+    if calib:
+        m = re.search(r"对照：(.+?)（", calib)
+        if m:
+            core = m.group(1).strip()
+            for part in core.split("，"):
+                add(part.split("（")[0].strip()[:12])
+    # 特有注释语义词（递归函数/阶乘 等）
+    for s in (specific or [])[:3]:
+        for part in re.split(r"[；：，]", s)[:2]:
+            add(part.strip()[:10])
+    return triggers[:8]
+
+def render_skill(uid, unit, slug, domain="unit"):
+    """渲染 SKILL.md（KCCS v0.2 五要素：触发词 + 四要素）。"""
     task = unit.get("task", "")
     calib = unit.get("calibration", "")
     when, sub, execute, not_app, specific = parse_four_elements(unit.get("pattern", ""))
@@ -118,7 +142,10 @@ def render_skill(uid, unit, slug):
     if not when and calib:
         when = calib
 
-    desc_trigger = f"{task}/{uid}。用户提到与「{task}」相关的能力时使用本技能。"
+    triggers = extract_triggers(task, uid, calib, specific)
+    trig_text = " / ".join(triggers)
+
+    desc_trigger = f"{trig_text}。用户提到这些词时使用本技能。"
     desc_not = ""
     if not_app:
         desc_not = f"【不适用】Not for 以下场景：{not_app[:120]}"
@@ -126,8 +153,8 @@ def render_skill(uid, unit, slug):
     md = f"""---
 name: {slug}
 description: >-
-  {desc_trigger}
-  场景：{calib[:120] if calib else '白箱条件单元（KCCS 四要素）'}。
+  {trig_text}。用户提到这些词时使用本技能。
+  场景：{calib[:120] if calib else '白箱条件单元（KCCS 五要素）'}。
   {desc_not}
 license: MIT
 compatibility: >-
@@ -138,6 +165,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "{today}"
   kccs:
+    trigger_words: {json.dumps(triggers, ensure_ascii=False)}
     when: {json.dumps(when or '', ensure_ascii=False)}
     sub: {json.dumps([sub] if sub else [], ensure_ascii=False)}
     execute: {json.dumps(execute or '', ensure_ascii=False)}

@@ -1,7 +1,7 @@
 ---
 name: net-74e8a576
 description: >-
-  尽力交付/网络-尽力交付。用户提到与「尽力交付」相关的能力时使用本技能。
+  尽力交付 / 网络-尽力交付 / UDP 尽力交付——无确 / send 发送（无确。用户提到这些词时使用本技能。
   场景：对照：UDP 尽力交付——无确认/可丢包（不可靠传输语义）。
   【不适用】Not for 以下场景：op 非 {delivered, drop, send} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["尽力交付", "网络-尽力交付", "UDP 尽力交付——无确", "send 发送（无确"]
     when: "op ∈ {delivered, drop, send}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

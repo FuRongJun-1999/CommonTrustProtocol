@@ -1,7 +1,7 @@
 ---
 name: net-c2a3f019
 description: >-
-  漏桶限流/网络-漏桶限流。用户提到与「漏桶限流」相关的能力时使用本技能。
+  漏桶限流 / 网络-漏桶限流 / 漏桶——匀速漏出平滑流量 / fill 灌桶 /。用户提到这些词时使用本技能。
   场景：对照：漏桶——匀速漏出平滑流量（灌桶/漏/接受判定）。
   【不适用】Not for 以下场景：op 非 {accept, fill, leak} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["漏桶限流", "网络-漏桶限流", "漏桶——匀速漏出平滑流量", "fill 灌桶 /"]
     when: "op ∈ {accept, fill, leak}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

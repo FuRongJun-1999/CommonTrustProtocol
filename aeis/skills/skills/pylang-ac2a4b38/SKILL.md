@@ -1,7 +1,7 @@
 ---
 name: pylang-ac2a4b38
 description: >-
-  异常传播/异常-传播。用户提到与「异常传播」相关的能力时使用本技能。
+  异常传播 / 异常-传播 / Python 异常传播 / 内层函数抛错 → 中 / 内层 / 主动抛出指定异常 / 中层 / 不捕获。用户提到这些词时使用本技能。
   场景：对照：Python 异常传播（内层 raise → 中间不处理 → 外层捕获）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["异常传播", "异常-传播", "Python 异常传播", "内层函数抛错 → 中", "内层", "主动抛出指定异常", "中层", "不捕获"]
     when: "参数 call_chain/etype/msg 合法"
     sub: ["① 调用 etype；② 调用 inner；③ 调用 mid"]
     execute: "顺序调用"

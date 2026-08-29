@@ -83,9 +83,11 @@ def main():
             for field in ["description", "compatibility", "license"]:
                 if not re.search(rf"^{field}:", fm_text, re.M):
                     errs.append(f"{field} 缺失")
-            # metadata.kccs 四要素块
+            # metadata.kccs 四要素 + 触发词（KCCS v0.2 五要素）
             if "metadata:" not in fm_text or "kccs:" not in fm_text:
                 errs.append("metadata.kccs 缺失")
+            if "trigger_words:" not in fm_text:
+                errs.append("KCCS v0.2 触发词缺失")
             # 三通道
             if "【不适用】" not in md[:1200] and "Not for" not in md[:1200]:
                 errs.append("通道1缺失：description 无「Not for」")

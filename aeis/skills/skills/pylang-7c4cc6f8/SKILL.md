@@ -1,7 +1,7 @@
 ---
 name: pylang-7c4cc6f8
 description: >-
-  抛出异常/异常-抛出。用户提到与「抛出异常」相关的能力时使用本技能。
+  抛出异常 / 异常-抛出 / Python raise / raise 语义 / 构造异常对象并抛出（。用户提到这些词时使用本技能。
   场景：对照：Python raise（构造异常实例并抛出）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["抛出异常", "异常-抛出", "Python raise", "raise 语义", "构造异常对象并抛出（"]
     when: "参数 etype/msg 合法"
     sub: ["① 调用 etype"]
     execute: "顺序调用"

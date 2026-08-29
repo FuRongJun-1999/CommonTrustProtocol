@@ -1,7 +1,7 @@
 ---
 name: os-26a4f86a
 description: >-
-  权限提升/系统-权限提升。用户提到与「权限提升」相关的能力时使用本技能。
+  权限提升 / 系统-权限提升 / sudo——命令白名单授 / check 校验授权。用户提到这些词时使用本技能。
   场景：对照：sudo——命令白名单授权（提权执行）。
   【不适用】Not for 以下场景：op 非 {check, run} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["权限提升", "系统-权限提升", "sudo——命令白名单授", "check 校验授权"]
     when: "op ∈ {check, run}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

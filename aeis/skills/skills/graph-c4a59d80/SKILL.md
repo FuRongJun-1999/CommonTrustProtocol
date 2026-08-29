@@ -1,7 +1,7 @@
 ---
 name: graph-c4a59d80
 description: >-
-  图权限/图安全-权限控制。用户提到与「图权限」相关的能力时使用本技能。
+  图权限 / 图安全-权限控制 / 图安全——节点级 ACL / 节点级访问控制（用户。用户提到这些词时使用本技能。
   场景：对照：图安全——节点级 ACL（用户/节点/动作权限）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["图权限", "图安全-权限控制", "图安全——节点级 ACL", "节点级访问控制（用户"]
     when: "参数 acl/user/node/action 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "循环迭代"

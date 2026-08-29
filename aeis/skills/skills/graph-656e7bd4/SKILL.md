@@ -1,7 +1,7 @@
 ---
 name: graph-656e7bd4
 description: >-
-  主从复制/图存储-主从复制。用户提到与「主从复制」相关的能力时使用本技能。
+  主从复制 / 图存储-主从复制 / 分布式图——主从复制 / 写主节点 → 同步从。用户提到这些词时使用本技能。
   场景：对照：分布式图——主从复制（写全副本同步，读主副本）。
   【不适用】Not for 以下场景：op 非 {read, write} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["主从复制", "图存储-主从复制", "分布式图——主从复制", "写主节点 → 同步从"]
     when: "op ∈ {read, write}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

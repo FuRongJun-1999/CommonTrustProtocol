@@ -1,7 +1,7 @@
 ---
 name: net-1da1c695
 description: >-
-  CDN缓存/网络-CDN缓存。用户提到与「CDN缓存」相关的能力时使用本技能。
+  CDN缓存 / 网络-CDN缓存 / CDN——边缘缓存 / CDN / 边缘节点缓存（内容就。用户提到这些词时使用本技能。
   场景：对照：CDN——边缘缓存（命中/回源/缓存写入，内容就近分发）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["CDN缓存", "网络-CDN缓存", "CDN——边缘缓存", "CDN", "边缘节点缓存（内容就"]
     when: "参数 edges/content/url 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "CDN：边缘节点缓存（内容就近分发——回源/命中）"

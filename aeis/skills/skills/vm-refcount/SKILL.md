@@ -1,7 +1,7 @@
 ---
 name: vm-refcount
 description: >-
-  引用计数/VM-引用计数。用户提到与「引用计数」相关的能力时使用本技能。
+  引用计数 / VM-引用计数 / VM 垃圾回收——引用计 / inc/dec 增减。用户提到这些词时使用本技能。
   场景：对照：VM 垃圾回收——引用计数（归零回收）。
   【不适用】Not for 以下场景：op 非 {dec, inc} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["引用计数", "VM-引用计数", "VM 垃圾回收——引用计", "inc/dec 增减"]
     when: "op ∈ {dec, inc}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

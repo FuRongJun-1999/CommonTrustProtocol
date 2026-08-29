@@ -1,7 +1,7 @@
 ---
 name: os-1234eb00
 description: >-
-  轮转调度/进程-时间片轮转。用户提到与「轮转调度」相关的能力时使用本技能。
+  轮转调度 / 进程-时间片轮转 / RR 时间片轮转 / [(运行时长)] →。用户提到这些词时使用本技能。
   场景：对照：OS 时间片轮转——每进程最多运行 quantum，循环调度。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["轮转调度", "进程-时间片轮转", "RR 时间片轮转", "[(运行时长)] →"]
     when: "参数 processes/quantum 合法"
     sub: ["① 调用 list；② 调用 any；③ 调用 min"]
     execute: "循环迭代；顺序调用"

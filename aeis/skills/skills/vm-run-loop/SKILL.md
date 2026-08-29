@@ -1,7 +1,7 @@
 ---
 name: vm-run-loop
 description: >-
-  执行循环/VM-执行循环。用户提到与「执行循环」相关的能力时使用本技能。
+  执行循环 / VM-执行循环 / condition_vm。用户提到这些词时使用本技能。
   场景：对照：condition_vm 执行循环（止=halt/无为=yield/名实不符=错误）。
   【不适用】Not for 以下场景：op 非 {DAO, DE, JUMP, JUMP_IF_FALSE, LOAD, PUSH, STORE, WUWEI, ZHI, ZHIZU, ZIRAN} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["执行循环", "VM-执行循环", "condition_vm"]
     when: "code 为指令列表；symbols 为符号表；trust 为初始信任值"
     sub: ["① 按 ip 取指执行 ② 控制流信号处理 ③ 名实校验拦截"]
     execute: "循环取指分派，止/无为跳转，名实不符报错"

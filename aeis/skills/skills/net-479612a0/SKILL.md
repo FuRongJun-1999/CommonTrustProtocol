@@ -1,7 +1,7 @@
 ---
 name: net-479612a0
 description: >-
-  WebSocket握手/网络-WebSocket握手。用户提到与「WebSocket握手」相关的能力时使用本技能。
+  WebSocket握手 / 网络-WebSocket握手 / WebSocket——H / WebSocket / HTTP Upgra。用户提到这些词时使用本技能。
   场景：对照：WebSocket——HTTP Upgrade 握手（RFC 6455：101 切换协议/400 拒绝）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["WebSocket握手", "网络-WebSocket握手", "WebSocket——H", "WebSocket", "HTTP Upgra"]
     when: "参数 headers 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "WebSocket 握手：HTTP Upgrade: websocket → 101 切换协议"

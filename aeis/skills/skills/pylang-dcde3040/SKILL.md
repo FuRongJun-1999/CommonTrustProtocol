@@ -1,7 +1,7 @@
 ---
 name: pylang-dcde3040
 description: >-
-  参数默认值绑定/参数-默认值与关键字绑定。用户提到与「参数默认值绑定」相关的能力时使用本技能。
+  参数默认值绑定 / 参数-默认值与关键字绑定 / mini_python.。用户提到这些词时使用本技能。
   场景：对照：mini_python.py bind_params（V-P4 第三批 d2f796a，AST/VM 共用绑定，默认值在定义环境求值）。
   【不适用】Not for 以下场景：*args/**kwargs 收集形态与重复绑定冲突检测不在本单元范围
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["参数默认值绑定", "参数-默认值与关键字绑定", "mini_python."]
     when: "params 为 (名字, 默认值) 列表；args 为位置实参序列；kw 为关键字实参 dict"
     sub: ["① 位置实参按序绑定；② 关键字实参按名绑定；③ 缺省填充默认值"]
     execute: "顺序绑定；条件分派"

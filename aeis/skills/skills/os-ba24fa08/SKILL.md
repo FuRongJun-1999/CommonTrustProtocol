@@ -1,7 +1,7 @@
 ---
 name: os-ba24fa08
 description: >-
-  碎片整理/存储-碎片整理。用户提到与「碎片整理」相关的能力时使用本技能。
+  碎片整理 / 存储-碎片整理 / scan 扫描空洞。用户提到这些词时使用本技能。
   场景：对照：磁盘整理——空洞扫描/压实/碎片计数。
   【不适用】Not for 以下场景：op 非 {compact, frags, scan} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["碎片整理", "存储-碎片整理", "scan 扫描空洞"]
     when: "op ∈ {compact, frags, scan}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

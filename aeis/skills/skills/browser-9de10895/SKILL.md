@@ -1,7 +1,7 @@
 ---
 name: browser-9de10895
 description: >-
-  HTTP解析/HTTP-响应解析。用户提到与「HTTP解析」相关的能力时使用本技能。
+  HTTP解析 / HTTP-响应解析 / HTTP 响应解析 / 状态行/头/体 →。用户提到这些词时使用本技能。
   场景：对照：浏览器 HTTP——响应状态行/头字段/体解析。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["HTTP解析", "HTTP-响应解析", "HTTP 响应解析", "状态行/头/体 →"]
     when: "v.strip 可用；k.strip 可用"
     sub: ["① 调用 int；② 调用 len"]
     execute: "循环迭代；顺序调用"

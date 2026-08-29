@@ -1,7 +1,7 @@
 ---
 name: pylang-3e799347
 description: >-
-  关键字参数/语法-关键字参数。用户提到与「关键字参数」相关的能力时使用本技能。
+  关键字参数 / 语法-关键字参数 / Python 关键字参数 / 位置+关键字绑定（*。用户提到这些词时使用本技能。
   场景：对照：Python 关键字参数（关键字优先于位置绑定）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["关键字参数", "语法-关键字参数", "Python 关键字参数", "位置+关键字绑定（*"]
     when: "参数 params/args/kwargs 合法"
     sub: ["① 调用 enumerate；② 调用 len"]
     execute: "循环迭代；顺序调用"

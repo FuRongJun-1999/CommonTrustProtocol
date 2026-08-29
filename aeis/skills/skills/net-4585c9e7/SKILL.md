@@ -1,7 +1,7 @@
 ---
 name: net-4585c9e7
 description: >-
-  路由衰减/网络-路由衰减。用户提到与「路由衰减」相关的能力时使用本技能。
+  路由衰减 / 网络-路由衰减 / BGP damping— / record 记录抖。用户提到这些词时使用本技能。
   场景：对照：BGP damping——路由抖动抑制（阈值衰减）。
   【不适用】Not for 以下场景：op 非 {damped, record, reset} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["路由衰减", "网络-路由衰减", "BGP damping—", "record 记录抖"]
     when: "op ∈ {damped, record, reset}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

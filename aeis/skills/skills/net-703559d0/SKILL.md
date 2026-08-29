@@ -1,7 +1,7 @@
 ---
 name: net-703559d0
 description: >-
-  加密握手/网络-加密握手。用户提到与「加密握手」相关的能力时使用本技能。
+  加密握手 / 网络-加密握手 / TLS 握手——问候→密 / 加密传输 / TLS 简化握手状态 / 防御式 / 未显式 exchan。用户提到这些词时使用本技能。
   场景：对照：TLS 握手——问候→密钥交换→完成（会话密钥协商）。
   【不适用】Not for 以下场景：op 非 {exchange, finish, hello} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["加密握手", "网络-加密握手", "TLS 握手——问候→密", "加密传输", "TLS 简化握手状态", "防御式", "未显式 exchan"]
     when: "op ∈ {exchange, finish, hello}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

@@ -1,7 +1,7 @@
 ---
 name: browser-cf3c47f0
 description: >-
-  会话恢复/浏览器-会话恢复。用户提到与「会话恢复」相关的能力时使用本技能。
+  会话恢复 / 浏览器-会话恢复 / 浏览器会话恢复——标签页 / save 保存标签页。用户提到这些词时使用本技能。
   场景：对照：浏览器会话恢复——标签页快照保存/恢复（崩溃恢复）。
   【不适用】Not for 以下场景：op 非 {restore, save} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["会话恢复", "浏览器-会话恢复", "浏览器会话恢复——标签页", "save 保存标签页"]
     when: "op ∈ {restore, save}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

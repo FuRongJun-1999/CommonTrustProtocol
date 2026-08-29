@@ -1,7 +1,7 @@
 ---
 name: os-0205cf9b
 description: >-
-  加密文件系统/安全-加密文件系统。用户提到与「加密文件系统」相关的能力时使用本技能。
+  加密文件系统 / 安全-加密文件系统 / OS 安全——加密文件系 / write 加密存储。用户提到这些词时使用本技能。
   场景：对照：OS 安全——加密文件系统（透明加解密存储）。
   【不适用】Not for 以下场景：op 非 {read, write} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["加密文件系统", "安全-加密文件系统", "OS 安全——加密文件系", "write 加密存储"]
     when: "op ∈ {read, write}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

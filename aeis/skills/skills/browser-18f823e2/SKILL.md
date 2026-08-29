@@ -1,7 +1,7 @@
 ---
 name: browser-18f823e2
 description: >-
-  响应式断点/浏览器-响应式断点。用户提到与「响应式断点」相关的能力时使用本技能。
+  响应式断点 / 浏览器-响应式断点 / CSS 媒体查询——响应 / 按宽度匹配断点（媒体。用户提到这些词时使用本技能。
   场景：对照：CSS 媒体查询——响应式断点（宽度分级）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["响应式断点", "浏览器-响应式断点", "CSS 媒体查询——响应", "按宽度匹配断点（媒体"]
     when: "参数 width/breakpoints 合法"
     sub: ["① 调用 sorted"]
     execute: "循环迭代；顺序调用"

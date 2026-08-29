@@ -1,7 +1,7 @@
 ---
 name: compiler-39457d2e
 description: >-
-  位运算/语法-位运算。用户提到与「位运算」相关的能力时使用本技能。
+  位运算 / 语法-位运算 / 位运算——与/或/异或/ / 按位与/或/异或/取。用户提到这些词时使用本技能。
   场景：对照：位运算——与/或/异或/取反（bitwise 语义）。
   【不适用】Not for 以下场景：op 非 {and, not, or, xor} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["位运算", "语法-位运算", "位运算——与/或/异或/", "按位与/或/异或/取"]
     when: "op ∈ {and, not, or, xor}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

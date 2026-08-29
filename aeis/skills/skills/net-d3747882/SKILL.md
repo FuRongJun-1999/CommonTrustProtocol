@@ -1,7 +1,7 @@
 ---
 name: net-d3747882
 description: >-
-  流式传输/网络-流式传输。用户提到与「流式传输」相关的能力时使用本技能。
+  流式传输 / 网络-流式传输 / HTTP 流式传输——c / 流式分块传输 / 数据切块 + 长度前。用户提到这些词时使用本技能。
   场景：对照：HTTP 流式传输——chunked 编码（分块+长度前缀+终止块）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["流式传输", "网络-流式传输", "HTTP 流式传输——c", "流式分块传输", "数据切块 + 长度前"]
     when: "chunk.decode 可用"
     sub: ["① 调用 range；② 调用 len"]
     execute: "循环迭代；顺序调用"

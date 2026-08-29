@@ -1,7 +1,7 @@
 ---
 name: compiler-83c61634
 description: >-
-  编译管线/编译-管线静态检查。用户提到与「编译管线」相关的能力时使用本技能。
+  编译管线 / 编译-管线静态检查 / C2 语义——名实=静态 / 编译管线（C2 语义 / 静态检查→字节码）—。用户提到这些词时使用本技能。
   场景：对照：C2 语义——名实=静态检查、条件空间=类型系统（编译期拦截类型错误/未声明空间）。
   【不适用】Not for 以下场景：kind 非 {COND} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["编译管线", "编译-管线静态检查", "C2 语义——名实=静态", "编译管线（C2 语义", "静态检查→字节码）—"]
     when: "kind ∈ {COND}；_re.search 可用；m.group 可用"
     sub: ["1 kind 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

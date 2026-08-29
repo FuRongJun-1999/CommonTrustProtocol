@@ -1,7 +1,7 @@
 ---
 name: graph-8e920d5d
 description: >-
-  邻居查询/图查询-邻居查询。用户提到与「邻居查询」相关的能力时使用本技能。
+  邻居查询 / 图查询-邻居查询 / 图查询——一跳/多跳邻居 / direct 一跳邻。用户提到这些词时使用本技能。
   场景：对照：图查询——一跳/多跳邻居（BFS 扩展）。
   【不适用】Not for 以下场景：op 非 {direct, multi} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["邻居查询", "图查询-邻居查询", "图查询——一跳/多跳邻居", "direct 一跳邻"]
     when: "op ∈ {direct, multi}；seen.discard 可用"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

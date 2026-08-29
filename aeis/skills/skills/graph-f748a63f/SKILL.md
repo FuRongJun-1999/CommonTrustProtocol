@@ -1,7 +1,7 @@
 ---
 name: graph-f748a63f
 description: >-
-  一致性哈希/图分布式-一致性哈希。用户提到与「一致性哈希」相关的能力时使用本技能。
+  一致性哈希 / 图分布式-一致性哈希 / 分布式哈希环——一致性哈 / add 节点入环 /。用户提到这些词时使用本技能。
   场景：对照：分布式哈希环——一致性哈希（键定位，最小迁移）。
   【不适用】Not for 以下场景：ring 为空/非法时；op 非 {add, locate} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["一致性哈希", "图分布式-一致性哈希", "分布式哈希环——一致性哈", "add 节点入环 /"]
     when: "op ∈ {add, locate}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

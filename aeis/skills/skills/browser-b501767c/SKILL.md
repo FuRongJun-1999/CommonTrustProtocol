@@ -1,7 +1,7 @@
 ---
 name: browser-b501767c
 description: >-
-  混合内容/安全-混合内容。用户提到与「混合内容」相关的能力时使用本技能。
+  混合内容 / 安全-混合内容 / 混合内容——HTTPS / 混合内容（mixed / HTTPS 页面加载。用户提到这些词时使用本技能。
   场景：对照：混合内容——HTTPS 页面加载 HTTP 子资源拦截（安全降级防护）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["混合内容", "安全-混合内容", "混合内容——HTTPS", "混合内容（mixed", "HTTPS 页面加载"]
     when: "page_scheme/res_scheme ∈ {https, http}"
     sub: ["① HTTPS 页面检测 ② HTTP 子资源判定 ③ 拦截/放行"]
     execute: "页面 https 且资源 http → blocked，否则 allowed"

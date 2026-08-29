@@ -1,7 +1,7 @@
 ---
 name: os-62f9278b
 description: >-
-  RAID奇偶/文件-RAID奇偶校验。用户提到与「RAID奇偶」相关的能力时使用本技能。
+  RAID奇偶 / 文件-RAID奇偶校验 / RAID 5——XOR / RAID 5 / XOR 奇偶校验（N。用户提到这些词时使用本技能。
   场景：对照：RAID 5——XOR 奇偶校验（任一数据盘故障可由其余+奇偶恢复）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["RAID奇偶", "文件-RAID奇偶校验", "RAID 5——XOR", "RAID 5", "XOR 奇偶校验（N"]
     when: "参数 blocks 合法"
     sub: []
     execute: "循环迭代"

@@ -1,7 +1,7 @@
 ---
 name: os-fcdd828d
 description: >-
-  时钟节拍/系统-时钟节拍。用户提到与「时钟节拍」相关的能力时使用本技能。
+  时钟节拍 / 系统-时钟节拍 / 定时器——节拍推进/已过 / tick 推进 /。用户提到这些词时使用本技能。
   场景：对照：定时器——节拍推进/已过时间/频率（HZ）。
   【不适用】Not for 以下场景：op 非 {elapsed, hz, tick} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["时钟节拍", "系统-时钟节拍", "定时器——节拍推进/已过", "tick 推进 /"]
     when: "op ∈ {elapsed, hz, tick}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

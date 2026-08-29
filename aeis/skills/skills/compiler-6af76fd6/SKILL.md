@@ -1,7 +1,7 @@
 ---
 name: compiler-6af76fd6
 description: >-
-  常量池/编译-常量池。用户提到与「常量池」相关的能力时使用本技能。
+  常量池 / 编译-常量池 / 编译——常量池字面量去重 / add 去重登记 /。用户提到这些词时使用本技能。
   场景：对照：编译——常量池字面量去重（LDC 索引引用）。
   【不适用】Not for 以下场景：op 非 {add, get, size} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["常量池", "编译-常量池", "编译——常量池字面量去重", "add 去重登记 /"]
     when: "op ∈ {add, get, size}；pool.index 可用"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；顺序调用"

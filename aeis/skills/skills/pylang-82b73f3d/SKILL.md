@@ -1,7 +1,7 @@
 ---
 name: pylang-82b73f3d
 description: >-
-  字符串判断/工具-字符串判断。用户提到与「字符串判断」相关的能力时使用本技能。
+  字符串判断 / 工具-字符串判断 / Python 字符串方法 / isdigit/st。用户提到这些词时使用本技能。
   场景：对照：Python 字符串方法族（isdigit/startswith/isupper）。
   【不适用】Not for 以下场景：op 非 {isdigit, isupper, startswith} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["字符串判断", "工具-字符串判断", "Python 字符串方法", "isdigit/st"]
     when: "op ∈ {isdigit, isupper, startswith}；text.isdigit 可用；text.startswith 可用"
     sub: ["① op 分支处理"]
     execute: "按 op 分派"

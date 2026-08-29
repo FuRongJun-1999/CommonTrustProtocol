@@ -1,7 +1,7 @@
 ---
 name: net-dc09d67c
 description: >-
-  VLAN划分/网络-VLAN划分。用户提到与「VLAN划分」相关的能力时使用本技能。
+  VLAN划分 / 网络-VLAN划分 / VLAN——802.1Q / VLAN / 802.1Q 标签（。用户提到这些词时使用本技能。
   场景：对照：VLAN——802.1Q 标签（TPID 0x8100 + VID 12bit）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["VLAN划分", "网络-VLAN划分", "VLAN——802.1Q", "VLAN", "802.1Q 标签（"]
     when: "参数 frame/vlan_id 合法"
     sub: []
     execute: "VLAN：802.1Q 标签（4 字节——TPID+TCI 含 VID 12bit）"

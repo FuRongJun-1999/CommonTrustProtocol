@@ -1,7 +1,7 @@
 ---
 name: os-6fb1ff58
 description: >-
-  工作池/并发-工作池。用户提到与「工作池」相关的能力时使用本技能。
+  工作池 / 并发-工作池 / OS 并发——工作池 / 任务队列分发给固定。用户提到这些词时使用本技能。
   场景：对照：OS 并发——工作池（任务分发固定 worker，并发处理）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["工作池", "并发-工作池", "OS 并发——工作池", "任务队列分发给固定"]
     when: "参数 tasks/workers 合法"
     sub: ["① 调用 enumerate；② 调用 range"]
     execute: "循环迭代；顺序调用"

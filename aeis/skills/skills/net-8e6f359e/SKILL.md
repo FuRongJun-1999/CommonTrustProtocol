@@ -1,7 +1,7 @@
 ---
 name: net-8e6f359e
 description: >-
-  包过滤/网络-包过滤。用户提到与「包过滤」相关的能力时使用本技能。
+  包过滤 / 网络-包过滤 / ACL——按五元组规则过 / rules 规则 /。用户提到这些词时使用本技能。
   场景：对照：ACL——按五元组规则过滤（允许/拒绝）。
   【不适用】Not for 以下场景：op 非 {filter, rules, stats} 时
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["包过滤", "网络-包过滤", "ACL——按五元组规则过", "rules 规则 /"]
     when: "op ∈ {filter, rules, stats}"
     sub: ["① op 分支处理"]
     execute: "按 op 分派；循环迭代；顺序调用"

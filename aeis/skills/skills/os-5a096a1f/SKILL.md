@@ -1,7 +1,7 @@
 ---
 name: os-5a096a1f
 description: >-
-  系统调用/系统调用-接口。用户提到与「系统调用」相关的能力时使用本技能。
+  系统调用 / 系统调用-接口 / OS 系统调用——编号分 / 编号 → 处理函数分。用户提到这些词时使用本技能。
   场景：对照：OS 系统调用——编号分派（syscall 表，未知编号返回 None）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["系统调用", "系统调用-接口", "OS 系统调用——编号分", "编号 → 处理函数分"]
     when: "参数 table/num/args 合法"
     sub: ["① 调用 fn"]
     execute: "顺序调用"

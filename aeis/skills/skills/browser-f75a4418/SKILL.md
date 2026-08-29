@@ -1,7 +1,7 @@
 ---
 name: browser-f75a4418
 description: >-
-  资源完整性/浏览器-资源完整性。用户提到与「资源完整性」相关的能力时使用本技能。
+  资源完整性 / 浏览器-资源完整性 / SRI 子资源完整性—— / 子资源完整性 / 哈希比对（SRI——。用户提到这些词时使用本技能。
   场景：对照：SRI 子资源完整性——脚本哈希校验（防篡改）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["资源完整性", "浏览器-资源完整性", "SRI 子资源完整性——", "子资源完整性", "哈希比对（SRI——"]
     when: "参数 resource_hash/expected 合法"
     sub: ["① 条件判定 ② 结果处理"]
     execute: "子资源完整性：哈希比对（SRI——防篡改第三方脚本）"

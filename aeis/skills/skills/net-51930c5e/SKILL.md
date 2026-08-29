@@ -1,7 +1,7 @@
 ---
 name: net-51930c5e
 description: >-
-  拥塞控制/网络-拥塞控制。用户提到与「拥塞控制」相关的能力时使用本技能。
+  拥塞控制 / 网络-拥塞控制 / TCP 拥塞控制 / 慢启动（cwnd 每 / cwnd=拥塞窗口。用户提到这些词时使用本技能。
   场景：对照：TCP 拥塞控制——慢启动指数增长→阈值后线性+1；丢包减半阈值+重置窗口。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["拥塞控制", "网络-拥塞控制", "TCP 拥塞控制", "慢启动（cwnd 每", "cwnd=拥塞窗口"]
     when: "参数 cwnd/ssthresh/acked/lost 合法"
     sub: ["① 调用 max；② 调用 min"]
     execute: "顺序调用"

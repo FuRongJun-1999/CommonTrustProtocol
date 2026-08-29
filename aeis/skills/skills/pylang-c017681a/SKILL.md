@@ -1,7 +1,7 @@
 ---
 name: pylang-c017681a
 description: >-
-  字典推导/推导式-字典推导。用户提到与「字典推导」相关的能力时使用本技能。
+  字典推导 / 推导式-字典推导 / 字典推导——键值函数映射 / 键值函数映射建字典（。用户提到这些词时使用本技能。
   场景：对照：字典推导——键值函数映射建字典（dict comprehension）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -13,6 +13,7 @@ metadata:
   skill-author: 灵枢（AEIS）
   last-reviewed: "2026-08-29"
   kccs:
+    trigger_words: ["字典推导", "推导式-字典推导", "字典推导——键值函数映射", "键值函数映射建字典（"]
     when: "参数 items/key_fn/val_fn 合法"
     sub: ["① 调用 key_fn；② 调用 val_fn"]
     execute: "顺序调用"
