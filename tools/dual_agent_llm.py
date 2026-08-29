@@ -25,7 +25,7 @@ def glm_implement(task, attempt, failing):
     if failing:
         prompt += f"\n上次未通过验证：{failing}\n请修正。"
     body = json.dumps({"model": "glm-5.3-flash", "temperature": 0,
-                       "max_tokens": 2000,
+                       "max_tokens": 8192,   # 思考常开：须覆盖 reasoning 链（防 content 被截为空）
                        "messages": [{"role": "user", "content": prompt}]}).encode()
     req = urllib.request.Request(
         "https://open.bigmodel.cn/api/paas/v4/chat/completions", data=body,
