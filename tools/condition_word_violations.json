@@ -1,0 +1,942 @@
+[
+ {
+  "id": "kp_1052729916_1787027032092",
+  "rule": "R3",
+  "word": "问编译到 JS+类型擦除"
+ },
+ {
+  "id": "kp_1316123430_1787027032073",
+  "rule": "R2",
+  "word": "问GIL（全局解释器锁）"
+ },
+ {
+  "id": "kp_1412073814_1787025941591",
+  "rule": "R1",
+  "word": "说睡不着"
+ },
+ {
+  "id": "kp_1412073814_1787025941591",
+  "rule": "R1",
+  "word": "越想睡越睡不着"
+ },
+ {
+  "id": "kp_3789879586_1787027032073",
+  "rule": "R2",
+  "word": "问GIL（全局解释器锁）"
+ },
+ {
+  "id": "kp_4077618606_1787025941734",
+  "rule": "R3",
+  "word": "问1 2 3 4 5是什么数"
+ },
+ {
+  "id": "kp_4292879940_1787025941475",
+  "rule": "R3",
+  "word": "问A A*"
+ },
+ {
+  "id": "kp_605244589_1787027032193",
+  "rule": "R3",
+  "word": "问达成。备份 lingshu.db.bak"
+ },
+ {
+  "id": "kp_605244589_1787027032193",
+  "rule": "R3",
+  "word": "问备份 l"
+ },
+ {
+  "id": "kp_605244589_1787027032193",
+  "rule": "R3",
+  "word": "问语言卡 content 是 str/li"
+ },
+ {
+  "id": "kp_605244589_1787027032193",
+  "rule": "R2",
+  "word": "问causal 边 name 子串匹配（卡"
+ },
+ {
+  "id": "kp_605244589_1787027032193",
+  "rule": "R3",
+  "word": "问subject 卡缺 spatial/t"
+ },
+ {
+  "id": "kp_6135930459_1787027032073",
+  "rule": "R2",
+  "word": "问GIL（全局解释器锁）"
+ },
+ {
+  "id": "kp_7149016872_1787027032092",
+  "rule": "R3",
+  "word": "问编译到 JS+类型擦除"
+ },
+ {
+  "id": "kp_7149016872_1787027032092",
+  "rule": "R3",
+  "word": "问tsc "
+ },
+ {
+  "id": "kp_7216819067_1787027032193",
+  "rule": "R2",
+  "word": "问causal 边 name 子串匹配（卡"
+ },
+ {
+  "id": "kp_7216819067_1787027032193",
+  "rule": "R3",
+  "word": "问语言卡 content 是 str/li"
+ },
+ {
+  "id": "kp_7216819067_1787027032193",
+  "rule": "R3",
+  "word": "问subject 卡缺 spatial/t"
+ },
+ {
+  "id": "kp_7216819067_1787027032193",
+  "rule": "R3",
+  "word": "问达成。备份 lingshu.db.bak"
+ },
+ {
+  "id": "kp_7478370348_1787027032193",
+  "rule": "R3",
+  "word": "问subject 卡缺 spatial/t"
+ },
+ {
+  "id": "kp_7478370348_1787027032193",
+  "rule": "R3",
+  "word": "问语言卡 content 是 str/li"
+ },
+ {
+  "id": "kp_7478370348_1787027032193",
+  "rule": "R2",
+  "word": "问causal 边 name 子串匹配（卡"
+ },
+ {
+  "id": "kp_7478370348_1787027032193",
+  "rule": "R3",
+  "word": "问达成。备份 lingshu.db.bak"
+ },
+ {
+  "id": "kp_7775438282_1787025941475",
+  "rule": "R3",
+  "word": "问像Im "
+ },
+ {
+  "id": "kp_7923681314_1787027032073",
+  "rule": "R2",
+  "word": "问GIL（全局解释器锁）"
+ },
+ {
+  "id": "kp_8650819811_1787027032092",
+  "rule": "R3",
+  "word": "问大型 J"
+ },
+ {
+  "id": "kp_8650819811_1787027032092",
+  "rule": "R3",
+  "word": "问编译到 JS+类型擦除"
+ },
+ {
+  "id": "kp_8730066606_1787027032193",
+  "rule": "R3",
+  "word": "问语言卡 content 是 str/li"
+ },
+ {
+  "id": "kp_8730066606_1787027032193",
+  "rule": "R3",
+  "word": "问语言卡 "
+ },
+ {
+  "id": "kp_8730066606_1787027032193",
+  "rule": "R2",
+  "word": "问causal 边 name 子串匹配（卡"
+ },
+ {
+  "id": "kp_8730066606_1787027032193",
+  "rule": "R3",
+  "word": "问subject 卡缺 spatial/t"
+ },
+ {
+  "id": "kp_8730066606_1787027032193",
+  "rule": "R3",
+  "word": "问达成。备份 lingshu.db.bak"
+ },
+ {
+  "id": "kp_8988025707_1787027032092",
+  "rule": "R3",
+  "word": "问编译到 JS+类型擦除"
+ },
+ {
+  "id": "kp_9381842443_1787027032073",
+  "rule": "R2",
+  "word": "问GIL（全局解释器锁）"
+ },
+ {
+  "id": "kp_9449675327_1787027032083",
+  "rule": "R3",
+  "word": "问&T 不"
+ },
+ {
+  "id": "kp_9655731344_1787025941598",
+  "rule": "R3",
+  "word": "问1H N"
+ },
+ {
+  "id": "kp_9742469571_1787027032092",
+  "rule": "R3",
+  "word": "问编译到 JS+类型擦除"
+ },
+ {
+  "id": "kp_even_1787739496154",
+  "rule": "R3",
+  "word": "问0 2 4 6 8是什么数"
+ },
+ {
+  "id": "kp_odd_1787739496153",
+  "rule": "R3",
+  "word": "问1 3 5 7 9是什么数"
+ },
+ {
+  "id": "kp_nav_px_root",
+  "rule": "R1",
+  "word": "婆媳矛盾"
+ },
+ {
+  "id": "kp_nav_px_root",
+  "rule": "R1",
+  "word": "婆媳关系不好"
+ },
+ {
+  "id": "kp_nav_px_root",
+  "rule": "R1",
+  "word": "和婆婆吵架"
+ },
+ {
+  "id": "kp_nav_px_qt",
+  "rule": "R1",
+  "word": "沟通情境下如何倾听"
+ },
+ {
+  "id": "kp_nav_px_qt",
+  "rule": "R1",
+  "word": "说不上话怎么办"
+ },
+ {
+  "id": "kp_nav_px_bj",
+  "rule": "R1",
+  "word": "沟通情境下怎么设边界"
+ },
+ {
+  "id": "kp_nav_lc_root",
+  "rule": "R1",
+  "word": "理财亏了"
+ },
+ {
+  "id": "kp_nav_lc_root",
+  "rule": "R1",
+  "word": "投资亏损了"
+ },
+ {
+  "id": "kp_nav_lc_root",
+  "rule": "R1",
+  "word": "基金股票被套"
+ },
+ {
+  "id": "kp_nav_lc_fx",
+  "rule": "R1",
+  "word": "风险场景下怎么评估承受力"
+ },
+ {
+  "id": "kp_nav_ye_root",
+  "rule": "R1",
+  "word": "带孩子观念不一致"
+ },
+ {
+  "id": "kp_nav_ye_root",
+  "rule": "R1",
+  "word": "和家人在教育孩子上冲突"
+ },
+ {
+  "id": "kp_nav_ye_jg",
+  "rule": "R1",
+  "word": "冲突类型是老人溺爱或观念旧"
+ },
+ {
+  "id": "kp_nav_bc_root",
+  "rule": "R1",
+  "word": "想学编程"
+ },
+ {
+  "id": "kp_nav_bc_root",
+  "rule": "R1",
+  "word": "编程从哪开始"
+ },
+ {
+  "id": "kp_nav_bc_root",
+  "rule": "R1",
+  "word": "零基础学编程"
+ },
+ {
+  "id": "kp_nav_bc_yy",
+  "rule": "R1",
+  "word": "学习阶段下怎么选语言"
+ },
+ {
+  "id": "kp_nav_bc_yy",
+  "rule": "R1",
+  "word": "第一门编程语言学哪个"
+ },
+ {
+  "id": "kp_nav_bc_yy",
+  "rule": "R3",
+  "word": "问 Python 适合入门吗"
+ },
+ {
+  "id": "kp_nav_blx",
+  "rule": "R1",
+  "word": "学习阶段下怎么练习"
+ },
+ {
+  "id": "kp_nav_blx",
+  "rule": "R1",
+  "word": "看视频懂了但不会写"
+ },
+ {
+  "id": "kp_nav_blx",
+  "rule": "R1",
+  "word": "学完就忘怎么办"
+ },
+ {
+  "id": "kp_nav_sm_root",
+  "rule": "R1",
+  "word": "睡不着"
+ },
+ {
+  "id": "kp_nav_sm_root",
+  "rule": "R1",
+  "word": "失眠怎么办"
+ },
+ {
+  "id": "kp_nav_sm_root",
+  "rule": "R1",
+  "word": "睡眠不好"
+ },
+ {
+  "id": "kp_nav_sm_rs",
+  "rule": "R1",
+  "word": "症状类型是躺下睡不着"
+ },
+ {
+  "id": "kp_nav_sm_rs",
+  "rule": "R1",
+  "word": "入睡困难怎么破"
+ },
+ {
+  "id": "kp_nav_sm_rs",
+  "rule": "R1",
+  "word": "越想睡越清醒"
+ },
+ {
+  "id": "kp_nav_sm_yx",
+  "rule": "R1",
+  "word": "症状类型是半夜醒来"
+ },
+ {
+  "id": "kp_nav_sm_yx",
+  "rule": "R1",
+  "word": "夜里容易醒怎么办"
+ },
+ {
+  "id": "kp_nav_sm_yx",
+  "rule": "R1",
+  "word": "早醒睡不着"
+ },
+ {
+  "id": "kp_nav_zc_root",
+  "rule": "R1",
+  "word": "怎么向领导汇报"
+ },
+ {
+  "id": "kp_nav_zc_root",
+  "rule": "R1",
+  "word": "汇报工作紧张"
+ },
+ {
+  "id": "kp_nav_zc_root",
+  "rule": "R1",
+  "word": "工作汇报没条理"
+ },
+ {
+  "id": "kp_nav_zc_jg",
+  "rule": "R1",
+  "word": "汇报场景下怎么组织内容"
+ },
+ {
+  "id": "kp_nav_zc_jg",
+  "rule": "R1",
+  "word": "汇报抓不住重点"
+ },
+ {
+  "id": "kp_nav_zc_jg",
+  "rule": "R1",
+  "word": "说了一堆领导没听懂"
+ },
+ {
+  "id": "kp_nav_zc_xt",
+  "rule": "R1",
+  "word": "汇报场景下怎么跟领导沟通"
+ },
+ {
+  "id": "kp_nav_zc_xt",
+  "rule": "R1",
+  "word": "坏消息不敢说"
+ },
+ {
+  "id": "kp_nav_zc_xt",
+  "rule": "R1",
+  "word": "领导总临时加需求"
+ },
+ {
+  "id": "kp_nav_cw_root",
+  "rule": "R1",
+  "word": "想养宠物"
+ },
+ {
+  "id": "kp_nav_cw_root",
+  "rule": "R1",
+  "word": "养猫养狗注意什么"
+ },
+ {
+  "id": "kp_nav_cw_root",
+  "rule": "R1",
+  "word": "宠物怎么照顾"
+ },
+ {
+  "id": "kp_nav_cw_tt",
+  "rule": "R1",
+  "word": "养育场景下怎么挑宠物"
+ },
+ {
+  "id": "kp_nav_cw_tt",
+  "rule": "R1",
+  "word": "第一次养什么宠物好"
+ },
+ {
+  "id": "kp_nav_cw_wy",
+  "rule": "R1",
+  "word": "养育场景下怎么喂"
+ },
+ {
+  "id": "kp_nav_cw_wy",
+  "rule": "R1",
+  "word": "宠物能吃人吃的吗"
+ },
+ {
+  "id": "kp_nav_cw_wy",
+  "rule": "R1",
+  "word": "换粮拉肚子"
+ },
+ {
+  "id": "kp_nav_sj_root",
+  "rule": "R1",
+  "word": "时间不够用"
+ },
+ {
+  "id": "kp_nav_sj_root",
+  "rule": "R1",
+  "word": "怎么管理时间"
+ },
+ {
+  "id": "kp_nav_sj_root",
+  "rule": "R1",
+  "word": "拖延症怎么办"
+ },
+ {
+  "id": "kp_nav_sj_cf",
+  "rule": "R1",
+  "word": "拖延情境下怎么启动"
+ },
+ {
+  "id": "kp_nav_sj_cf",
+  "rule": "R1",
+  "word": "任务拖着不想做"
+ },
+ {
+  "id": "kp_nav_sj_cf",
+  "rule": "R1",
+  "word": "计划完不成"
+ },
+ {
+  "id": "kp_nav_sj_zy",
+  "rule": "R1",
+  "word": "拖延情境下怎么专注"
+ },
+ {
+  "id": "kp_nav_sj_zy",
+  "rule": "R1",
+  "word": "工作总被打断"
+ },
+ {
+  "id": "kp_nav_sj_zy",
+  "rule": "R1",
+  "word": "静不下心学习"
+ },
+ {
+  "id": "kp_nav_zf_root",
+  "rule": "R1",
+  "word": "租房怎么选"
+ },
+ {
+  "id": "kp_nav_zf_root",
+  "rule": "R1",
+  "word": "第一次租房"
+ },
+ {
+  "id": "kp_nav_zf_root",
+  "rule": "R1",
+  "word": "看房要注意什么"
+ },
+ {
+  "id": "kp_nav_zf_kf",
+  "rule": "R1",
+  "word": "决策阶段怎么看房"
+ },
+ {
+  "id": "kp_nav_zf_kf",
+  "rule": "R1",
+  "word": "租房验房清单"
+ },
+ {
+  "id": "kp_nav_zf_kf",
+  "rule": "R1",
+  "word": "中介说得好听怎么验证"
+ },
+ {
+  "id": "kp_nav_zf_ht",
+  "rule": "R1",
+  "word": "决策阶段合同怎么看"
+ },
+ {
+  "id": "kp_nav_zf_ht",
+  "rule": "R1",
+  "word": "押金被扣怎么办"
+ },
+ {
+  "id": "kp_nav_zf_ht",
+  "rule": "R1",
+  "word": "房东不退押金"
+ },
+ {
+  "id": "kp_card_aug",
+  "rule": "R3",
+  "word": "问 += 是什么"
+ },
+ {
+  "id": "kp_card_aug",
+  "rule": "R1",
+  "word": "Mini-Python 复合赋值"
+ },
+ {
+  "id": "kp_card_aug",
+  "rule": "R3",
+  "word": "问 C 语言指针"
+ },
+ {
+  "id": "kp_card_strm",
+  "rule": "R3",
+  "word": "问 upper split"
+ },
+ {
+  "id": "kp_card_strm",
+  "rule": "R1",
+  "word": "Mini-Python str 方法"
+ },
+ {
+  "id": "kp_card_print",
+  "rule": "R3",
+  "word": "问 print 多参"
+ },
+ {
+  "id": "kp_card_print",
+  "rule": "R1",
+  "word": "Mini-Python print"
+ },
+ {
+  "id": "kp_card_print",
+  "rule": "R3",
+  "word": "问 f-string 格式化"
+ },
+ {
+  "id": "kp_card_print",
+  "rule": "R3",
+  "word": "问 print 到文件"
+ },
+ {
+  "id": "kp_card_tcp3",
+  "rule": "R1",
+  "word": "TCP 连接建立"
+ },
+ {
+  "id": "kp_card_tcp3",
+  "rule": "R3",
+  "word": "问 TLS 握手"
+ },
+ {
+  "id": "kp_card_degdist",
+  "rule": "R1",
+  "word": "图的度怎么统计"
+ },
+ {
+  "id": "kp_card_ins",
+  "rule": "R1",
+  "word": "排序的基本思想"
+ },
+ {
+  "id": "kp_card_ws",
+  "rule": "R1",
+  "word": "work stealing 是什么"
+ },
+ {
+  "id": "kp_card_tcpudp",
+  "rule": "R3",
+  "word": "问 TCP 和 UDP 的区别"
+ },
+ {
+  "id": "kp_card_tcpudp",
+  "rule": "R1",
+  "word": "TCP UDP 怎么选"
+ },
+ {
+  "id": "kp_card_tcpudp",
+  "rule": "R3",
+  "word": "问 HTTP 状态码"
+ },
+ {
+  "id": "kp_card_tcpudp",
+  "rule": "R3",
+  "word": "问 Socket 编程代码"
+ },
+ {
+  "id": "kp_card_sched",
+  "rule": "R1",
+  "word": "调度器怎么实现"
+ },
+ {
+  "id": "kp_card_fsm",
+  "rule": "R1",
+  "word": "订单状态怎么变"
+ },
+ {
+  "id": "kp_card_leap",
+  "rule": "R1",
+  "word": "怎么判断闰年"
+ },
+ {
+  "id": "kp_card_leap",
+  "rule": "R1",
+  "word": "二月多少天"
+ },
+ {
+  "id": "kp_card_agg",
+  "rule": "R1",
+  "word": "怎么按类目统计金额"
+ },
+ {
+  "id": "kp_card_agg",
+  "rule": "R3",
+  "word": "问 Excel 操作"
+ },
+ {
+  "id": "kp_card_agg",
+  "rule": "R3",
+  "word": "问数据库 SQL"
+ },
+ {
+  "id": "kp_card_whitebox_def",
+  "rule": "R1",
+  "word": "什么是白箱智能"
+ },
+ {
+  "id": "kp_card_whitebox_def",
+  "rule": "R1",
+  "word": "白箱和黑箱的区别"
+ },
+ {
+  "id": "kp_card_four_states",
+  "rule": "R1",
+  "word": "ACCEPT REJECT DEFER BLINDSPOT"
+ },
+ {
+  "id": "kp_card_four_states",
+  "rule": "R1",
+  "word": "白箱四种状态"
+ },
+ {
+  "id": "kp_card_blindspot",
+  "rule": "R1",
+  "word": "系统不知道该怎么办"
+ },
+ {
+  "id": "kp_card_blindspot",
+  "rule": "R1",
+  "word": "BLINDSPOT 是什么"
+ },
+ {
+  "id": "kp_card_condroute",
+  "rule": "R1",
+  "word": "什么是条件递归"
+ },
+ {
+  "id": "kp_card_condroute",
+  "rule": "R1",
+  "word": "两个能力相似怎么选"
+ },
+ {
+  "id": "kp_card_boiling",
+  "rule": "R1",
+  "word": "高原烧水为什么难煮熟"
+ },
+ {
+  "id": "kp_card_boiling",
+  "rule": "R1",
+  "word": "海拔与沸点"
+ },
+ {
+  "id": "kp_card_error_update",
+  "rule": "R1",
+  "word": "预测误差怎么处理"
+ },
+ {
+  "id": "kp_card_error_update",
+  "rule": "R1",
+  "word": "白箱如何更新规则"
+ },
+ {
+  "id": "kp_card_vs_expert",
+  "rule": "R1",
+  "word": "白箱是专家系统吗"
+ },
+ {
+  "id": "kp_card_vs_expert",
+  "rule": "R3",
+  "word": "问 MYCIN 系统"
+ },
+ {
+  "id": "kp_card_llm_division",
+  "rule": "R3",
+  "word": "问 LLM 和白箱的关系"
+ },
+ {
+  "id": "kp_card_llm_division",
+  "rule": "R1",
+  "word": "白箱需要大语言模型吗"
+ },
+ {
+  "id": "kp_card_llm_division",
+  "rule": "R3",
+  "word": "问 LLM 微调方法"
+ },
+ {
+  "id": "kp_card_llm_division",
+  "rule": "R3",
+  "word": "问 prompt 工程技巧"
+ },
+ {
+  "id": "kp_nav_xx_root",
+  "rule": "R1",
+  "word": "学习方法不对"
+ },
+ {
+  "id": "kp_nav_xx_root",
+  "rule": "R1",
+  "word": "怎么学更高效"
+ },
+ {
+  "id": "kp_nav_xx_root",
+  "rule": "R1",
+  "word": "学完就忘"
+ },
+ {
+  "id": "kp_nav_xx_jy",
+  "rule": "R1",
+  "word": "学习场景下怎么记忆"
+ },
+ {
+  "id": "kp_nav_xx_jy",
+  "rule": "R1",
+  "word": "背了就忘怎么办"
+ },
+ {
+  "id": "kp_nav_xx_bs",
+  "rule": "R1",
+  "word": "学习场景下怎么做笔记"
+ },
+ {
+  "id": "kp_nav_xx_bs",
+  "rule": "R1",
+  "word": "笔记记了不看"
+ },
+ {
+  "id": "kp_nav_gt_root",
+  "rule": "R1",
+  "word": "沟通表达能力差"
+ },
+ {
+  "id": "kp_nav_gt_root",
+  "rule": "R1",
+  "word": "说话没重点"
+ },
+ {
+  "id": "kp_nav_gt_root",
+  "rule": "R1",
+  "word": "怎么提高表达能力"
+ },
+ {
+  "id": "kp_nav_gt_dr",
+  "rule": "R1",
+  "word": "表达场景下当众发言紧张"
+ },
+ {
+  "id": "kp_nav_gt_dr",
+  "rule": "R1",
+  "word": "开会发言发抖"
+ },
+ {
+  "id": "kp_nav_gt_qt",
+  "rule": "R1",
+  "word": "表达场景下怎么倾听"
+ },
+ {
+  "id": "kp_nav_gt_qt",
+  "rule": "R1",
+  "word": "总是聊不到一起"
+ },
+ {
+  "id": "kp_nav_gt_qt",
+  "rule": "R1",
+  "word": "对方觉得我没在听"
+ },
+ {
+  "id": "kp_card_axiom_layers",
+  "rule": "R1",
+  "word": "理论和假设怎么区分"
+ },
+ {
+  "id": "kp_card_axiom_layers",
+  "rule": "R1",
+  "word": "命题的层级"
+ },
+ {
+  "id": "kp_card_hallucination",
+  "rule": "R1",
+  "word": "AI 为什么会幻觉"
+ },
+ {
+  "id": "kp_card_hallucination",
+  "rule": "R1",
+  "word": "幻觉和编造的区别"
+ },
+ {
+  "id": "kp_card_emotion_model",
+  "rule": "R1",
+  "word": "情绪和信息差的关系"
+ },
+ {
+  "id": "kp_card_emotion_model",
+  "rule": "R1",
+  "word": "灵枢的情绪机制"
+ },
+ {
+  "id": "kp_card_affect_trust",
+  "rule": "R1",
+  "word": "情感和情绪的区别"
+ },
+ {
+  "id": "kp_card_affect_trust",
+  "rule": "R1",
+  "word": "信任怎么量化"
+ },
+ {
+  "id": "kp_card_three_layers",
+  "rule": "R1",
+  "word": "概率能不能决定执行"
+ },
+ {
+  "id": "kp_card_three_layers",
+  "rule": "R1",
+  "word": "三层分工是什么"
+ },
+ {
+  "id": "kp_card_trust_prob",
+  "rule": "R1",
+  "word": "信任可以量化吗"
+ },
+ {
+  "id": "kp_card_trust_prob",
+  "rule": "R1",
+  "word": "灵枢的信任机制"
+ },
+ {
+  "id": "kp_card_swarm_msgs",
+  "rule": "R1",
+  "word": "蜂群消息协议"
+ },
+ {
+  "id": "kp_card_swarm_msgs",
+  "rule": "R1",
+  "word": "节点之间怎么通信"
+ },
+ {
+  "id": "kp_card_swarm_msgs",
+  "rule": "R3",
+  "word": "问 TCP 协议栈源码"
+ },
+ {
+  "id": "kp_card_swarm_discipline",
+  "rule": "R1",
+  "word": "节点协作怎么保证可靠"
+ },
+ {
+  "id": "kp_card_swarm_discipline",
+  "rule": "R1",
+  "word": "蜂群互验证"
+ },
+ {
+  "id": "kp_card_swarm_discipline",
+  "rule": "R3",
+  "word": "问共识算法 Paxos"
+ },
+ {
+  "id": "kp_card_swarm_trust",
+  "rule": "R1",
+  "word": "蜂群怎么决定派活给谁"
+ },
+ {
+  "id": "kp_card_swarm_trust",
+  "rule": "R1",
+  "word": "P_trust 怎么算"
+ },
+ {
+  "id": "kp_card_swarm_sync",
+  "rule": "R1",
+  "word": "节点间知识同步"
+ },
+ {
+  "id": "kp_card_swarm_sync",
+  "rule": "R1",
+  "word": "增量同步怎么做"
+ },
+ {
+  "id": "kp_card_swarm_bus",
+  "rule": "R1",
+  "word": "蜂群消息怎么传输"
+ },
+ {
+  "id": "kp_card_swarm_bus",
+  "rule": "R1",
+  "word": "收件箱机制"
+ },
+ {
+  "id": "kp_card_swarm_bus",
+  "rule": "R3",
+  "word": "问消息队列 Kafka"
+ }
+]
