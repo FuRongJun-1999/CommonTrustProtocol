@@ -2790,6 +2790,49 @@ class SpacetimeMemoryEngine:
             return {"status": "ok", "server": self._wserver.sync()}
         return {"status": "error", "error": f"未知动作 {action}（可用: init/tick/spawn/snapshot/rollback/feedback/sync/verify/state）"}
 
+    def scene_simulator(self, action: str, params: dict = None) -> dict:
+        """场景级世界模拟器（里程碑2.3 · 自主行为玩家）：
+        - create: 创建场景（size/trees/water）
+        - entity: 添加自主实体（category/behavior/pos/speed/goal——wander/seek/avoid/flee/follow）
+        - path: 定义巡逻路径（path_id/points）
+        - step: 推进 n tick（所有自主实体决策→行动→场景演化）
+        - state: 场景状态（实体+行为+演化历史）
+        - log: 自主行为决策记录（可审计）"""
+        p = params or {}
+        try:
+            from scene_simulator import SceneSimulator
+        except ImportError:
+            try:
+                from .scene_simulator import SceneSimulator
+            except Exception as e:
+                return {"status": "scene_not_ready", "error": str(e)}
+        if not hasattr(self, '_scene'):
+            self._scene = SceneSimulator(size=int(p.get('size', 24)),
+                                       ground_level=int(p.get('ground_level', 1)))
+        if action == "create":
+            r = self._scene.create_scene(trees=int(p.get("trees", 4)),
+                                        water=bool(p.get("water", True)))
+            return {"status": "ok", "scene": r}
+        if action == "entity":
+            eid = self._scene.add_entity(
+                str(p.get("category", "entity")),
+                behavior=str(p.get("behavior", "wander")),
+                pos=tuple(float(v) for v in p.get("pos", [2, 1.5, 2])),
+                speed=float(p.get("speed", 0.3)),
+                goal=str(p.get("goal", "")))
+            return {"status": "ok", "entity_id": eid}
+        if action == "path":
+            self._scene.add_path(str(p.get("path_id", "")), p.get("points", []))
+            return {"status": "ok", "path_id": str(p.get("path_id", ""))}
+        if action == "step":
+            r = self._scene.step(n=int(p.get("n", 1)))
+            return {"status": "ok", "step": r}
+        if action == "state":
+            return {"status": "ok", "scene": self._scene.scene_state()}
+        if action == "log":
+            return {"status": "ok", "log": self._scene.behavior_log(limit=int(p.get("limit", 30)))}
+        return {"status": "error", "error": f"未知动作 {action}（可用: create/entity/path/step/state/log）"}
+
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）

@@ -239,6 +239,12 @@ def _tools():
         {"name": "body",
          "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
          "inputSchema": {"type": "object"}},
+        {"name": "scene_simulator",
+         "description": "场景级世界模拟器（里程碑2.3）：在服务器基础上添加场景/实体/自主行为玩家——create（场景）/ entity（自主实体：wander/seek/avoid/flee/follow 确定性行为）/ path（巡逻路径）/ step（决策循环：所有自主实体各自决策→行动→场景演化）/ state / log（行为可审计）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "world_server",
          "description": "AI 游戏世界服务器（里程碑2.2）：AI 自身成为游戏世界的服务器——tick（多路并行模拟）/ snapshot+rollback（世界记忆与错误回滚）/ feedback（实体行动反馈）/ sync（客户端同步）/ verify（预测验证：预测下一 tick vs 实际→命中判定）。",
          "inputSchema": {"type": "object",
@@ -687,6 +693,9 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.compact_context(a.get("session_id", "s"), a.get("summary", "")))}], "isError": False}
         if name == "body":
             return {"content": [{"type": "text", "text": _dump(agent.body())}], "isError": False}
+        if name == "scene_simulator":
+            return {"content": [{"type": "text", "text": _dump(agent.scene_simulator(
+                a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world_server":
             return {"content": [{"type": "text", "text": _dump(agent.world_server(
                 a.get("action", ""), a.get("params")))}], "isError": False}

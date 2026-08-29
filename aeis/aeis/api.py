@@ -486,6 +486,11 @@ class Agent:
         错误回滚/预测验证——AI 自身成为游戏世界的服务器。"""
         return self.engine.world_server(action, params)
 
+    def scene_simulator(self, action: str, params: dict = None) -> Dict:
+        """场景级世界模拟器（里程碑2.3）：场景 + 实体 + 自主行为玩家
+        （wander/seek/avoid/flee/follow 确定性行为策略）+ 决策循环场景演化。"""
+        return self.engine.scene_simulator(action, params)
+
     # 外部知识摄取（第 3 项：记忆含外部知识）
     # =====================================================================
 
