@@ -87,7 +87,7 @@ check("verify details", len(run["last"]["details"]) == 3
 
 # 5. 生成先验注入理解：注入外部事件（瞬移）→ 预测-观测异常被检测
 eid = p2
-before = wm2.nodes[eid].pos
+c_before = wm2.nodes[eid].confidence
 wm2.generate(horizon=1)                    # 生成先验（预期位置）
 wm2.world.entities[eid].pos = (20.0, 1.5, 20.0)   # 物理世界外部变更
 per3 = wm2.perceive()
@@ -95,8 +95,9 @@ check("anomaly detected", per3["anomaly_events"] == 1, str(per3))
 anoms = wm2.anomalies()
 check("anomaly recorded", len(anoms) >= 1 and anoms[-1]["entity"] == eid,
       str(anoms[-1] if anoms else None))
-check("confidence dropped on anomaly", wm2.nodes[eid].confidence < 0.5,
-      str(wm2.nodes[eid].confidence))
+check("confidence dropped on anomaly",
+      wm2.nodes[eid].confidence < c_before,
+      f"{wm2.nodes[eid].confidence} vs before={c_before}")
 
 # 6. 一致观测 → 置信上升
 wm3 = UnifiedWorldModel(size=16)

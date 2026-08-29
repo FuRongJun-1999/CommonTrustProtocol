@@ -2976,6 +2976,81 @@ class SpacetimeMemoryEngine:
             return {"status": "ok", "model": self._wmodel.state()}
         return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/perceive/generate/verify/run/patterns/anomalies/graph/history/state）"}
 
+    def world_learner(self, action: str, params: dict = None) -> dict:
+        """自监督世界学习（里程碑3.2 · V-JEPA 式）：从观测序列无标注学转移函数——
+        - init: 初始化（size/seed/window）
+        - create: 物理世界创建场景
+        - entity: 物理世界添加自主实体
+        - path: 定义巡逻路径
+        - run: 物理世界演化 n tick + 观测（数据采集，观测面只暴露位置/类别）
+        - learn: 自监督学习（从观测序列估计学得模型参数）
+        - predict: 用学得模型预测下一状态（带不确定边界）
+        - evaluate: 评估协议（train/eval：学得 vs naive 基线 vs 真模型上界 → 认知缺口）
+        - curve: 增量学习曲线（观测增加 → 命中率提升 = 认知缺口收紧）
+        - masked: 遮挡重建损失（V-JEPA 自监督信号）
+        - model: 学得模型参数导出（白箱可审计）
+        - history: 观测序列
+        - state: 学习者状态"""
+        p = params or {}
+        try:
+            from world_learner import WorldLearner
+        except ImportError:
+            try:
+                from .world_learner import WorldLearner
+            except Exception as e:
+                return {"status": "wl_not_ready", "error": str(e)}
+        if not hasattr(self, '_wlearner'):
+            self._wlearner = WorldLearner(
+                size=int(p.get('size', 24)),
+                ground_level=int(p.get('ground_level', 1)),
+                seed=int(p.get('seed', 42)),
+                window=int(p.get('window', 6)))
+        if action == "create":
+            r = self._wlearner.world.create_scene(trees=int(p.get("trees", 2)),
+                                                  water=bool(p.get("water", False)))
+            return {"status": "ok", "scene": r}
+        if action == "entity":
+            eid = self._wlearner.world.add_entity(
+                str(p.get("category", "entity")),
+                behavior=str(p.get("behavior", "wander")),
+                pos=tuple(float(v) for v in p.get("pos", [2, 1.5, 2])),
+                speed=float(p.get("speed", 0.3)),
+                goal=str(p.get("goal", "")))
+            return {"status": "ok", "entity_id": eid}
+        if action == "path":
+            self._wlearner.world.add_path(str(p.get("path_id", "")), p.get("points", []))
+            return {"status": "ok", "path_id": str(p.get("path_id", ""))}
+        if action == "run":
+            r = self._wlearner.run(n=int(p.get("n", 10)))
+            return {"status": "ok", "run": r}
+        if action == "learn":
+            m = self._wlearner.learn()
+            return {"status": "ok", "learned": m}
+        if action == "predict":
+            r = self._wlearner.predict(horizon=int(p.get("horizon", 1)))
+            return {"status": "ok", "predict": r}
+        if action == "evaluate":
+            r = self._wlearner.evaluate(train_ticks=int(p.get("train_ticks", 30)),
+                                        eval_ticks=int(p.get("eval_ticks", 15)))
+            return {"status": "ok", "evaluate": r}
+        if action == "curve":
+            r = self._wlearner.learning_curve(
+                epochs=int(p.get("epochs", 4)),
+                per_epoch_ticks=int(p.get("per_epoch_ticks", 10)),
+                eval_ticks=int(p.get("eval_ticks", 8)))
+            return {"status": "ok", "curve": r}
+        if action == "masked":
+            r = self._wlearner.masked_loss()
+            return {"status": "ok", "masked": r}
+        if action == "model":
+            return {"status": "ok", "model": self._wlearner.model_params()}
+        if action == "history":
+            return {"status": "ok",
+                    "history": self._wlearner.history_view(limit=int(p.get("limit", 10)))}
+        if action == "state":
+            return {"status": "ok", "learner": self._wlearner.state()}
+        return {"status": "error", "error": f"未知动作 {action}（可用: init/create/entity/path/run/learn/predict/evaluate/curve/masked/model/history/state）"}
+
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
         - spatial: 两个 bbox 的空间关系（params: a=[x1,y1,x2,y2], b=[...]）

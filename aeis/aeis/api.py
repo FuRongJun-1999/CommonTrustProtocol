@@ -504,6 +504,13 @@ class Agent:
         模式推断）/ anomalies（预测-观测异常）/ graph / history。"""
         return self.engine.world_model(action, params)
 
+    def world_learner(self, action: str, params: dict = None) -> Dict:
+        """自监督世界学习（里程碑3.2 · V-JEPA 式）：从观测序列无标注学转移函数——
+        run（数据采集）/ learn（自监督学习）/ predict（学得模型预测）/ evaluate
+        （学得 vs naive vs 真模型上界）/ curve（学习曲线=认知缺口收紧）/ masked
+        （遮挡重建损失）/ model（学得参数导出）。"""
+        return self.engine.world_learner(action, params)
+
     # 外部知识摄取（第 3 项：记忆含外部知识）
     # =====================================================================
 

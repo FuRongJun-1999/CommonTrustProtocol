@@ -315,7 +315,15 @@ class UnifiedWorldModel:
             speed = self._patterns.get("speed_estimates", {}).get(eid, 0.3)
             cons = self._patterns.get("entropy", {}).get(eid, 0.0)
             rel = next((e for e in self.edges if e.source == eid), None)
-            if rel and rel.relation in ("seek", "flee") and rel.target in shadow:
+            use_rel = False
+            if rel is not None and rel.relation in ("seek", "flee") and rel.target in shadow:
+                tgt_cons = self._patterns.get("entropy", {}).get(rel.target, 0.0)
+                # 关系仅在自身方向性明确时使用（防随机实体的虚假关系）；
+                # seek 追逐随机目标 → 降级 chase_stochastic（宽可达域，D1）
+                if (cons >= self.entropy_threshold
+                        or (rel.relation == "seek" and tgt_cons < self.entropy_threshold)):
+                    use_rel = True
+            if use_rel:
                 t = shadow[rel.target]
                 dx, dz = (t[0] - shadow[eid][0], t[2] - shadow[eid][2])
                 if rel.relation == "flee":

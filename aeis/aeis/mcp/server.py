@@ -257,6 +257,12 @@ def _tools():
                          "properties": {"action": {"type": "string"},
                                         "params": {"type": "object"}},
                          "required": ["action"]}},
+        {"name": "world_learner",
+         "description": "自监督世界学习（里程碑3.2 · V-JEPA 式）：从观测序列无标注学转移函数，学习者不接触世界内部规则（缸中之脑姿态）——init / create / entity / path / run（物理演化+观测数据采集）/ learn（自监督学习：速度/方向持续性/关系候选/可达域，白箱可审计）/ predict（学得模型预测下一状态，带不确定边界）/ evaluate（评估协议：学得 vs naive 基线 vs 真模型上界 → 认知缺口）/ curve（增量学习曲线：观测增加→命中率提升=认知缺口收紧）/ masked（遮挡重建损失）/ model（学得参数导出）/ history / state。",
+         "inputSchema": {"type": "object",
+                         "properties": {"action": {"type": "string"},
+                                        "params": {"type": "object"}},
+                         "required": ["action"]}},
         {"name": "world_server",
          "description": "AI 游戏世界服务器（里程碑2.2）：AI 自身成为游戏世界的服务器——tick（多路并行模拟）/ snapshot+rollback（世界记忆与错误回滚）/ feedback（实体行动反馈）/ sync（客户端同步）/ verify（预测验证：预测下一 tick vs 实际→命中判定）。",
          "inputSchema": {"type": "object",
@@ -713,6 +719,9 @@ class AEISServer:
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world_model":
             return {"content": [{"type": "text", "text": _dump(agent.world_model(
+                a.get("action", ""), a.get("params")))}], "isError": False}
+        if name == "world_learner":
+            return {"content": [{"type": "text", "text": _dump(agent.world_learner(
                 a.get("action", ""), a.get("params")))}], "isError": False}
         if name == "world_server":
             return {"content": [{"type": "text", "text": _dump(agent.world_server(
