@@ -240,7 +240,7 @@ def _tools():
          "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
          "inputSchema": {"type": "object"}},
         {"name": "world3d",
-         "description": "WORLD3D-REV1 时空重建：语义 → 3D 空间与颜色（灵枢自己的文生图，确定性渲染零 LLM）。build（从记忆视觉原语重建 3D 世界）/ render（任意视角透视投影渲染）/ status / add（手动添加）/ add_view（多视角融合——同一物体多视角 bbox 三角化收敛，借鉴 DUSt3R 多视图对齐）。",
+         "description": "WORLD3D-REV1 时空重建：语义 → 3D 空间与颜色（灵枢自己的文生图，确定性渲染零 LLM）。build（从记忆视觉原语重建 3D 世界，multiview=True 用多视角三角化融合）/ render（任意视角透视投影渲染）/ status / add（手动添加）/ add_view（多视角融合——同一物体多视角 bbox 三角化收敛，借鉴 DUSt3R 多视图对齐）。",
          "inputSchema": {"type": "object",
                          "properties": {"action": {"type": "string"},
                                         "params": {"type": "object"}},

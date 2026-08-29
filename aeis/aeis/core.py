@@ -2569,19 +2569,46 @@ class SpacetimeMemoryEngine:
             except ImportError:
                 from .vprim import parse_anchor  # noqa: F401
             world = World3D()
-            nodes = self.store.get_nodes_by_tag("vprim", limit=int(p.get("limit", 5)))
+            nodes = self.store.get_nodes_by_tag("vprim", limit=int(p.get("limit", 20)))
             sw = int(p.get("screen_w", 800))
             sh = int(p.get("screen_h", 600))
+            multiview = bool(p.get("multiview", False))  # 多视角融合（阶段1 里程碑1.1）
             added = 0
-            for n in nodes:
-                text = n.content or ""
-                for token in text.split("；"):
-                    vp = parse_anchor(token)
-                    if vp is not None:
-                        world.add_vprim(vp, sw, sh)
-                        added += 1
+            if multiview:
+                # 多视角模式：按类别分组，同类别多帧用不同虚拟视角 → 三角化
+                # 视角派生：按时间戳/索引产生 yaw 偏移（模拟环绕观测，借鉴 DUSt3R）
+                import itertools
+                try:
+                    from world3d import Camera3D as _C3D
+                except ImportError:
+                    from .world3d import Camera3D as _C3D
+                per_cat: dict = {}
+                for n in nodes:
+                    text = n.content or ""
+                    for token in text.split("；"):
+                        vp = parse_anchor(token)
+                        if vp is not None:
+                            per_cat.setdefault(vp.category, []).append(vp)
+                for cat, vps in per_cat.items():
+                    for idx, vp in enumerate(vps):
+                        # 虚拟视角：同一物体多帧 = 环绕观测（yaw 随索引旋转）
+                        yaw_i = math.radians(idx * 30 - 30) if len(vps) > 1 else 0.0
+                        cam_v = _C3D(yaw=yaw_i, pitch=0.1, cx=-1.5 if idx % 2 == 0 else 1.5, cy=1.2)
+                        res = world.add_view(vp.category, vp.bbox, sw, sh,
+                                            camera=cam_v, confidence=vp.confidence)
+                        if res.get("triangulated"):
+                            added += 1
+            else:
+                for n in nodes:
+                    text = n.content or ""
+                    for token in text.split("；"):
+                        vp = parse_anchor(token)
+                        if vp is not None:
+                            world.add_vprim(vp, sw, sh)
+                            added += 1
             self._world3d = world
             return {"status": "ok", "objects": added,
+                    "mode": "multiview" if multiview else "single_view",
                     "scene": world.scene_text(),
                     "detail": world.to_dict()}
         if action == "render":
