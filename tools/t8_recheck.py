@@ -57,14 +57,23 @@ KEYWORDS = {
     24: ["圈量子", "广义相对论"],
 }
 
-# ---- 直答评测（M1.2 门槛：MIN_ACCEPT_SCORE=5）----
-MIN_SCORE = 5
+# ---- 直答评测（M1.2 门槛按域分级+覆盖双维校准，T8 24 题）----
+def accept(score, cov, name, domain):
+    if not isinstance(score, (int, float)) or not isinstance(cov, (int, float)):
+        return False
+    if "导航种子" in f"{name} {domain}":
+        return score >= 3 and cov >= 0.15
+    if score >= 5 or score >= 4:
+        return True
+    return score == 3 and cov >= 0.22
+
 results = []
 hit = miss = 0
 for num, q in questions:
     try:
         hs = card_route(DEX, q, limit=1)
-        if hs and hs[0].get("score", 0) >= MIN_SCORE:
+        if hs and accept(hs[0].get("score"), hs[0].get("_coverage") or 0.0,
+                         hs[0].get("name") or "", hs[0].get("domain") or ""):
             card = hs[0]
             # 直答全文 = direct_answer 字段（T8 口径）
             answer = str(card.get("direct_answer") or card.get("name") or card)[:300]

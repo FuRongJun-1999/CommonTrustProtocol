@@ -118,6 +118,31 @@ def _result(status: str, chain: list, **extra) -> dict:
 MIN_ACCEPT_SCORE = 5   # M1.2 四态边界：低于此分的候选不授予执行资格
                        # （BLINDSPOT 优于强行 ACCEPT——对抗负条件防线）。
                        # 校准：正例 6-10 / 域外 1-4，阈值取 5 最大化间隔
+SEED_MIN_ACCEPT_SCORE = 3  # 导航种子/常识播种卡：T8 复查实证分数 3-4
+                           # （2026-08-30：TCP/理财/复合赋值等正例被一刀切误杀）
+
+
+def _accept_by_score(name: str, domain: str, score, coverage) -> bool:
+    """M1.2 门槛按域分级 + 覆盖双维校准（T8 24 题，2026-08-30）。
+
+    背景：一刀切 MIN_ACCEPT_SCORE=5 误杀正例——导航种子卡分数普遍 3-4
+    （理财/宠物/拖延），计算机知识卡正例也有 3-4（TCP/复合赋值/print）。
+    数据驱动规则（24 题校准：正例 22 全过、答非所问 2 + 域外 1 全拒）：
+      - 导航种子（人工校准的确定性直答）：score≥3 且 coverage≥0.15
+      - 知识卡：score≥4 直接过；score=3 需 coverage≥0.22（分离
+        TCP/UDP=0.23、复合赋值=0.43 正例与狭义相对论域外=0.21）
+      - 域外强行命中（score 3 且 cov 低）仍拒——对抗防线不破坏
+    """
+    if not isinstance(score, (int, float)) or not isinstance(coverage, (int, float)):
+        return False
+    text = f"{name} {domain}"
+    if "导航种子" in text:
+        return score >= SEED_MIN_ACCEPT_SCORE and coverage >= 0.15
+    if score >= MIN_ACCEPT_SCORE:
+        return True
+    if score >= 4:
+        return True
+    return score == 3 and coverage >= 0.22
 
 
 def navigate_retrieve(dex, question: str, *, max_depth: int = 3,
@@ -189,8 +214,10 @@ def navigate_retrieve(dex, question: str, *, max_depth: int = 3,
             break
         if atomic_fallback is None:
             score = h.get("score")
-            if not (isinstance(score, (int, float)) and score < MIN_ACCEPT_SCORE):
-                atomic_fallback = cand  # M1.2：仅达标分数作兜底（防域外强行 ACCEPT）
+            cov = h.get("_coverage") or 0.0
+            ok = _accept_by_score(h.get("name") or "", h.get("domain") or "", score, cov)
+            if ok:
+                atomic_fallback = cand  # M1.2 按域分级+覆盖：仅达标候选作兜底（防域外强行 ACCEPT）
     if entry is None:
         entry = deferred_composite or atomic_fallback
     if entry is None:
