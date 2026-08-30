@@ -19,8 +19,8 @@ def check(name, cond, detail=""):
 # 合成：肤色底 + 对称局部小簇对(胸) + 下方单个大低位区域簇
 img = Image.new("RGB", (200, 200), (235, 215, 210))
 d = ImageDraw.Draw(img)
-d.ellipse([55, 70, 75, 90], fill=(200, 60, 50))     # 左局部小簇(小)
-d.ellipse([125, 70, 145, 90], fill=(200, 60, 50))   # 右局部小簇(小, 对称)
+d.ellipse([62, 75, 72, 85], fill=(200, 60, 50))      # 左局部小簇(小)
+d.ellipse([128, 75, 138, 85], fill=(200, 60, 50))    # 右局部小簇(小, 对称)
 d.ellipse([70, 130, 130, 165], fill=(180, 40, 30))  # 低位区域(大, 下方)
 res = anchored_lowregion_detect(img, min_n=4)
 check("小簇 found", len(res["小簇"]) >= 2, str(res["小簇"]))
@@ -42,13 +42,25 @@ for name in ("1.png", "2.png"):
         continue
     im = Image.open(path).convert("RGB")
     w, h = im.size
-    ratio = 400.0 / max(w, h)
+    ratio = 600.0 / max(w, h)
     an = im.resize((max(1, int(w * ratio)), max(1, int(h * ratio))))
     res2 = anchored_lowregion_detect(an, min_n=6)
     check(name + " has 小簇", len(res2["小簇"]) >= 2,
           str(len(res2["小簇"])))
     check(name + " has lowregion", len(res2["lowregions"]) >= 1,
           str(res2["lowregions"]))
+    if name == "2.png" and res2["小簇"] and res2["lowregions"]:
+        # 用户标注校准: 局部小簇=#18/#19(小对称对), 低位区域=#39核心(高饱和收缩)
+        nbbox = [n["bbox"] for n in res2["小簇"]]
+        check("2.png 小簇 = user #18/#19",
+              any(abs(b[0] - 153) < 8 and abs(b[1] - 211) < 8 for b in nbbox)
+              and any(abs(b[0] - 264) < 8 and abs(b[1] - 209) < 8 for b in nbbox),
+              str(nbbox))
+        gc = res2["lowregions"][0]["core"]
+        check("2.png lowregion core (user range)",
+              abs(gc[0] - 241) < 15 and abs(gc[1] - 343) < 15
+              and abs(gc[2] - 269) < 15 and abs(gc[3] - 425) < 15,
+              str(gc))
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
