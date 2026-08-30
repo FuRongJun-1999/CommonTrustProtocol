@@ -1,3 +1,16 @@
 - insert:
     - id: dsh-memory
       name: '@furongjun1999/dsh-memory'
+      config:
+        serverName: 'lingshu'
+        # 灵枢记忆库持久化路径（绝对路径·与 zcode 端共用同一份）
+        dbPath: 'D:/Program Files/2_ai/AEIS/data/aeis_memory.db'
+        identity: '灵枢'
+        python: 'python'
+        moduleArgs: ['-m', 'aeis.mcp.server']
+        tools: 'core'
+        memory:
+          userMessage: true
+          assistantMessage: false
+          toolResult: false
+          importance: 0.6
