@@ -28,3 +28,4 @@ extend_110_results.json
 
 # 测试过程临时产物（提交信息日志，不入库）
 aeis/tests/_cm*.txt
+aeis/tests/_tmp*.py
