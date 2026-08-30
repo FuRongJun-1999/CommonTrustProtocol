@@ -9,6 +9,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(os.path.dirname(ROOT), "tools"))  # ROOT=aeis，上级=项目根
 
 from template_catalog import TemplateCatalog, LAYERS
 
