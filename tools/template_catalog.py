@@ -55,6 +55,30 @@ class TemplateCatalog:
             n *= max(1, c[k])
         return n
 
+    # ---- 持久化（目录可保存/加载——模板库增量增长的基础）----
+    def to_dict(self) -> dict:
+        return {"name": self.name,
+                "templates": {k: list(v) for k, v in self._templates.items()}}
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "TemplateCatalog":
+        cat = cls(d.get("name", "default"))
+        for layer, ts in (d.get("templates") or {}).items():
+            if layer in LAYERS:
+                cat._templates[layer] = list(ts)
+        return cat
+
+    def save(self, path: str) -> None:
+        import json
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(self.to_dict(), f, ensure_ascii=False)
+
+    @classmethod
+    def load(cls, path: str) -> "TemplateCatalog":
+        import json
+        with open(path, encoding="utf-8") as f:
+            return cls.from_dict(json.load(f))
+
     def sample(self, picks: Optional[Dict[str, str]] = None,
                rng=None) -> dict:
         """条件采样：四层各取一模板 → 组合描述（V-TBE.7）。
