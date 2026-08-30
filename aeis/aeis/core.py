@@ -1649,6 +1649,7 @@ class SpacetimeMemoryEngine:
         self._gate = None
         self._reuse_tracker: Dict[int, set] = {}
         self._interaction_count = 0
+        self._session_id = uuid.uuid4().hex[:8]  # T4：复用落库的进程实例标识
         self._last_reflection_chain = None   # REFLECT-REV1：最近反思链（递归截断时返回）
         self._event_queue: List[Dict] = []
         self._setup_v111()
@@ -2290,12 +2291,30 @@ class SpacetimeMemoryEngine:
     # ==================== v1.11 知识飞轮（FLYWHEEL-REV1） ====================
 
     def _note_reuse(self, node_ids: List[str]):
-        """复用追踪（P0-2 度量：同轮同节点去重）"""
+        """复用追踪（P0-2 度量：同轮同节点去重）。
+
+        T4 修复（2026-08-30）：内存 tracker 之外同步落库 flywheel_reuse 表
+        （session_id 区分进程实例）——跨进程累计，心跳/对话端任一进程的
+        flywheel_metrics 都能读到全实例复用观测（此前心跳进程 tracker 恒空）。
+        写库失败不阻断检索主流程（复用观测是工程观测值，DEVIATION-004）。"""
         if not node_ids:
             return
         rnd = self._interaction_count
         bucket = self._reuse_tracker.setdefault(rnd, set())
         bucket.update(node_ids)
+        try:
+            conn = self.store.conn
+            conn.execute(
+                "CREATE TABLE IF NOT EXISTS flywheel_reuse "
+                "(session_id TEXT, round INTEGER, node_id TEXT, ts REAL)")
+            ts = time.time()
+            conn.executemany(
+                "INSERT INTO flywheel_reuse (session_id, round, node_id, ts) "
+                "VALUES (?, ?, ?, ?)",
+                [(self._session_id, rnd, nid, ts) for nid in sorted(bucket)])
+            conn.commit()
+        except Exception:
+            pass  # 观测落库失败静默（不阻断检索）
 
     def notify_event(self, event_type: str, payload: Dict = None):
         """P1-4 事件驱动：轻量标记（防抖：同类事件 τ=N_effective/10 秒内合并）"""

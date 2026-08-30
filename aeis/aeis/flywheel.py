@@ -199,17 +199,31 @@ class FlywheelEngine:
         base = self._last_stats.get("total", total_now)
         growth = (total_now - base) / max(1, base)
 
-        # 复用率（引擎 _reuse_tracker：{round: set(node_ids)}）
+        # 复用率（T4 修复 2026-08-30：跨进程口径——读 flywheel_reuse 落库表，
+        # 全实例累计；内存 tracker 作为本进程回退。原口径只读本进程内存
+        # tracker，心跳独立进程恒空（观测路径断裂）。）
         reuse_rounds = 0
         reuse_nodes = set()
         try:
-            tracker = self.engine._reuse_tracker
-            reuse_rounds = len(tracker)
-            for node_set in tracker.values():
-                reuse_nodes |= node_set
+            row = self.engine.store.conn.execute(
+                "SELECT COUNT(DISTINCT session_id || ':' || round), "
+                "COUNT(DISTINCT node_id) FROM flywheel_reuse").fetchone()
+            reuse_rounds = int(row[0] or 0)
+            nodes_row = self.engine.store.conn.execute(
+                "SELECT DISTINCT node_id FROM flywheel_reuse").fetchall()
+            reuse_nodes = {r[0] for r in nodes_row}
         except Exception:
-            pass
-        interactions = max(1, getattr(self.engine, "_interaction_count", 1) or 1)
+            pass  # 表未建（无检索发生）——回退内存 tracker
+        if not reuse_rounds:
+            try:
+                tracker = self.engine._reuse_tracker
+                reuse_rounds = len(tracker)
+                for node_set in tracker.values():
+                    reuse_nodes |= node_set
+            except Exception:
+                pass
+        interactions = max(reuse_rounds,
+                           getattr(self.engine, "_interaction_count", 1) or 1)
         reuse_rate = len(reuse_nodes) / interactions
 
         # 蒸馏产出率（OBS-REV1：patterns 以 reusable_pattern 标签节点数为准，
