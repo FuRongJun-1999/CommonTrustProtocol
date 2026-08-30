@@ -106,3 +106,35 @@ print("\n==== 未命中（回答率缺口）====")
 for num, q, ans, _ in results:
     if ans.startswith("（BLINDSPOT") or ans.startswith("（异常"):
         print(f"  #{num} {q}")
+
+# ---- 附：概念域覆盖比对模式（python tools/t8_recheck.py --coverage）----
+# T3/T10 续批：高频概念域与现有卡覆盖的比对（M1.2 分级口径），可复跑观测。
+COVERAGE_PROBES = [
+    ("智慧之书", "智慧之书是什么怎么用"),
+    ("条件论", "条件论的核心是什么"),
+    ("白箱", "白箱范式是什么"),
+    ("识别卡", "识别卡是什么"),
+    ("知识验证", "知识怎么验证"),
+    ("信息差", "信息差是什么意思"),
+]
+
+if "--coverage" in sys.argv:
+    print("\n==== 概念域覆盖比对（M1.2 分级口径 · top5 抗排序波动）====")
+    cov_ok = 0
+    expect = {"智慧之书": "kp_card_wisdom_book", "条件论": "kp_card_axiom_layers",
+              "白箱": "kp_card_whitebox_def", "识别卡": "kp_card_identity_card",
+              "知识验证": "kp_card_knowledge_verify", "信息差": "kp_card_info_gap"}
+    for label, q in COVERAGE_PROBES:
+        hs = card_route(DEX, q, limit=5) or []
+        # 目标卡 id 精确判定：目标卡在 top5 且达标（抗第一名排序波动——
+        # consolidation 动态改 importance，limit=1 边界场景不稳定）
+        target = expect.get(label)
+        hit = next((h for h in hs if h.get("id") == target and accept(
+            h.get("score"), h.get("_coverage") or 0.0,
+            h.get("name") or "", h.get("domain") or "")), None)
+        if hit:
+            cov_ok += 1
+            print(f"  ✓已覆盖 {label}: {str(hit.get('name'))[:30]} score={hit.get('score')}")
+        else:
+            print(f"  ✗缺口 {label}: top5 无达标目标卡")
+    print(f"覆盖: {cov_ok}/{len(COVERAGE_PROBES)}")
