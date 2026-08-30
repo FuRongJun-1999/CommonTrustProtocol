@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""harness.outputs.responder · 输出（纳西妲音色 + 文字）
+"""harness.outputs.responder · 输出（自定义音色 + 文字）
 ================================================
 复用身体层 AudioDevice.say（nahida 引擎：GPT-SoVITS 常驻服务热加载）。
 """
@@ -12,7 +12,7 @@ if _AEIS_ROOT not in sys.path:
 
 
 class Responder:
-    """输出器：文字日志 + 可选语音（纳西妲）。"""
+    """输出器：文字日志 + 可选语音（自定义）。"""
 
     def __init__(self, workspace: str = "", voice_enabled: bool = True, log=None):
         self.workspace = workspace
@@ -36,7 +36,7 @@ class Responder:
         self.log(f"[灵枢] {text}")
 
     def say_voice(self, text: str):
-        """纳西妲语音输出（失败静默降级为文字）。"""
+        """自定义语音输出（失败静默降级为文字）。"""
         audio = self._get_audio()
         if audio is None:
             return False

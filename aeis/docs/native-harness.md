@@ -17,7 +17,7 @@ harness/                          # 原生运行时（零依赖，纯标准库�
 │   ├── voice.py                  # 语音输入（VAD 断句，复用 AudioDevice）
 │   └── terminal.py               # 终端输入（开发/调试）
 ├── outputs/
-│   └── responder.py              # 输出：纳西妲音色 + 文字日志
+│   └── responder.py              # 输出：自定义音色 + 文字日志
 └── scheduler/
     ├── store.py                  # 自动化存储（data/automations.db）
     ├── cron.py                   # schedule 解析（interval/daily/cron）

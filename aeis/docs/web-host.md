@@ -18,7 +18,7 @@ harness/web/server.py（ThreadingHTTPServer，零依赖）
    ▲
 MessageHub（harness/core/hub.py）：voice/terminal/web 三路输入统一队列
    ▼
-主循环线程 → DeepSeek 思考 → 回复（publish + 纳西妲语音）
+主循环线程 → DeepSeek 思考 → 回复（publish + 自定义语音）
 ```
 
 ## 启动
@@ -39,7 +39,7 @@ Start-Process -WindowStyle Hidden -FilePath python.exe `
 
 - **聊天区**：消息气泡（用户/灵枢），语音输入对话实时显示（source 标记 voice）
 - **状态面板**：记忆节点数、调度任务（心跳/睡眠巩固）、插件健康、子体任务、系统日志
-- 深色科技风（纳西妲绿点缀），无框架原生 JS
+- 深色科技风（自定义绿点缀），无框架原生 JS
 
 ## API
 
