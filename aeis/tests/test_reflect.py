@@ -85,19 +85,6 @@ def test_recursion_limit():
     check("协议约束标注", "3.12" in r["note"])
 
 
-def test_vprim_anchor_injection():
-    """VPRIM-REV1：claim 含视觉锚点时注入确定性空间上下文。"""
-    a = Agent(identity="reflect-vprim", db_path=":memory:")
-    r = a.recursive_reflect(
-        claim="moon@(420,52,484,116) 被误检为 balloon，person@(208,220,654,1136) 是主体")
-    vctx = r.get("vprim_context")
-    check("锚点上下文存在", vctx is not None)
-    check("锚点提取", vctx and len(vctx["anchors"]) == 2)
-    check("确定性空间关系", vctx and vctx["relations"][0]["relation"] == "above")
-    check("普通 claim 无锚点上下文",
-          "vprim_context" not in a.recursive_reflect("普通文本反思"))
-
-
 def test_mcp_tool():
     """MCP recursive_reflect 工具注册（42 工具）。"""
     import json
@@ -127,7 +114,7 @@ def test_mcp_tool():
     r = send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
     tools = {t["name"]: t for t in r["result"]["tools"]}
     check("recursive_reflect 工具", "recursive_reflect" in tools)
-    check("工具总数 42", len(tools) == 44, f"count={len(tools)}")
+    check("工具总数", len(tools) == 81, f"count={len(tools)}")
     proc.stdin.close()
     proc.wait(timeout=10)
 
@@ -137,7 +124,6 @@ def main():
     test_irreversible_escalation()
     test_reversible_no_escalation()
     test_recursion_limit()
-    test_vprim_anchor_injection()
     test_mcp_tool()
     print(f"\n===== REFLECT-REV1 递归验证反思回归: {PASS}/{TOTAL} 通过 =====")
     return 0 if PASS == TOTAL else 1

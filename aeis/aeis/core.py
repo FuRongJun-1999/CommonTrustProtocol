@@ -99,6 +99,7 @@ class EdgeType(Enum):
     SPATIAL_CONNECTED = "spatial_connected"
     SIMILAR = "similar"
     OPPOSITE = "opposite"
+    APPLIES_TO = "applies_to"   # v1.16（条件节点化）：条件 → 知识 的适用关系
 
 class MemoryLayer(Enum):
     ANCHOR = "anchor"       # 不可遗忘
@@ -2412,7 +2413,8 @@ class SpacetimeMemoryEngine:
             return _pi(self, image_path, provider,
                        conf_threshold, importance, classes)
         except Exception as e:
-            return {"status": "vision_error", "error": str(e)}
+            # 视觉实现已迁 AEIS 身体库：缺失按能力不可用降级（契约 status）
+            return {"status": "vision_unavailable", "error": str(e)}
 
     def get_body_capabilities(self) -> dict:
         """v1.13 身体能力声明（第 4 项：工具/模态作为自我的一部分）"""

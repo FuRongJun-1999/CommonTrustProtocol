@@ -91,8 +91,12 @@ except Exception:
 from . import longterm_gate as _longterm_gate
 _sys.modules["longterm_gate"] = _longterm_gate
 
-from . import vprim as _vprim
-_sys.modules["vprim"] = _vprim
+try:
+    from . import vprim as _vprim
+    _sys.modules["vprim"] = _vprim
+except Exception:
+    _vprim = None
+    _sys.modules["vprim"] = None  # v1.15：vprim 已迁 AEIS 身体库，缺失优雅降级
 
 from . import api as _api
 from .api import Agent
