@@ -79,6 +79,55 @@ class TemplateCatalog:
         with open(path, encoding="utf-8") as f:
             return cls.from_dict(json.load(f))
 
+    # ---- 验证闸（V-TBE.8 主仓库侧·识别方向逻辑半边）----
+    # 观测签名逐层比对模板 → 匹配度 + 四态判定。
+    # 图像→签名的提取半边在 AEIS 身体库（stage4 管线），此处为纯逻辑比对。
+    @staticmethod
+    def _desc_match(observed: dict, template_desc: dict) -> float:
+        """desc 匹配度：键值交集 / 模板键数（0~1）。空模板视为通配=1。"""
+        if not template_desc:
+            return 1.0
+        if not isinstance(observed, dict):
+            return 0.0
+        hit = sum(1 for k, v in template_desc.items() if observed.get(k) == v)
+        return hit / len(template_desc)
+
+    def verify(self, observed: Dict[str, dict], threshold: float = 0.5) -> dict:
+        """观测签名 → 逐层匹配模板 → 四态判定（语义识别=分层模板匹配）。
+        observed={layer: {desc 键值}}（来自提取管线；缺层记 BLINDSPOT）。
+        判定：全层达标=ACCEPT；过半达标=DEFER；其余=REJECT；
+        缺层=BLINDSPOT（诚实边界：没看到的不假装看到）。"""
+        layers_report = {}
+        matched = 0
+        blindspot = False
+        for layer in LAYERS:
+            obs = observed.get(layer)
+            if obs is None:
+                layers_report[layer] = {"status": "BLINDSPOT", "best": None,
+                                        "score": None}
+                blindspot = True
+                continue
+            best_id, best_score = None, 0.0
+            for t in self._templates[layer]:
+                sc = self._desc_match(obs, t["desc"])
+                if sc > best_score:
+                    best_id, best_score = t["id"], sc
+            ok = best_score >= threshold
+            matched += 1 if ok else 0
+            layers_report[layer] = {"status": "ACCEPT" if ok else "REJECT",
+                                    "best": best_id,
+                                    "score": round(best_score, 3)}
+        if blindspot:
+            verdict = "BLINDSPOT"
+        elif matched == len(LAYERS):
+            verdict = "ACCEPT"
+        elif matched >= len(LAYERS) / 2:
+            verdict = "DEFER"
+        else:
+            verdict = "REJECT"
+        return {"verdict": verdict, "matched": matched,
+                "layers": layers_report}
+
     def sample(self, picks: Optional[Dict[str, str]] = None,
                rng=None) -> dict:
         """条件采样：四层各取一模板 → 组合描述（V-TBE.7）。

@@ -80,5 +80,20 @@ try:
 except ValueError:
     check("未知层登记拒绝", True)
 
+# ---- 验证闸 verify（V-TBE.8 主仓库侧：逐层比对+四态判定）----
+v = cat.verify({"L1_skeleton": {"joints": 0}, "L2_pose": {"angles": 5},
+                "L3_appearance": {"color": 9}, "L4_detail": {"pattern": 2}})
+check("verify 全层匹配=ACCEPT", v["verdict"] == "ACCEPT" and v["matched"] == 4,
+      str(v))
+v2 = cat.verify({"L1_skeleton": {"joints": 0}, "L2_pose": {"angles": 999},
+                 "L3_appearance": {"color": 9}, "L4_detail": {"pattern": 2}})
+check("verify 半层匹配=DEFER", v2["verdict"] == "DEFER", str(v2["verdict"]))
+v3 = cat.verify({"L1_skeleton": {"joints": 999}, "L2_pose": {"angles": 999},
+                 "L3_appearance": {"color": 999}, "L4_detail": {"pattern": 999}})
+check("verify 全不匹配=REJECT", v3["verdict"] == "REJECT", str(v3["verdict"]))
+v4 = cat.verify({"L1_skeleton": {"joints": 0}})
+check("verify 缺层=BLINDSPOT（没看到的不假装看到）",
+      v4["verdict"] == "BLINDSPOT", str(v4["verdict"]))
+
 print(f"\ntemplate_catalog 测试: {passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
