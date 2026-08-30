@@ -95,5 +95,11 @@ v4 = cat.verify({"L1_skeleton": {"joints": 0}})
 check("verify 缺层=BLINDSPOT（没看到的不假装看到）",
       v4["verdict"] == "BLINDSPOT", str(v4["verdict"]))
 
+# ---- 互逆往返自洽（v0.3 · V-TBE.12 逻辑版：采样→verify 回读全认回）----
+import random as _rd
+rc = cat.roundtrip_selfcheck(n=50, rng=_rd.Random(7))
+check("互逆往返自洽率 100%（采样产物被识别方向完整认回）",
+      rc["accepted"] == 50 and rc["self_consistency"] == 1.0, str(rc))
+
 print(f"\ntemplate_catalog 测试: {passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

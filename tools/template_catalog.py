@@ -148,6 +148,23 @@ class TemplateCatalog:
                 "summary": " + ".join(f"{LAYER_NAMES[l]}[{combo[l]['id']}]"
                                       for l in LAYERS)}
 
+    def roundtrip_selfcheck(self, n: int = 50, rng=None) -> dict:
+        """互逆往返自洽校验（v0.3 · V-TBE.12 逻辑版）：
+        采样 n 组组合 → 各层 desc 作为观测喂回 verify → 应全部 ACCEPT。
+        自洽率 = ACCEPT 数 / n——模板库自洽度的物理测量（采样与验证
+        互逆：生成方向的产物应被识别方向完整认回）。"""
+        import random
+        rng = rng or random
+        accepts = 0
+        for _ in range(n):
+            s = self.sample(rng=rng)
+            observed = {l: c["desc"] for l, c in s["layers"].items()}
+            v = self.verify(observed)
+            if v["verdict"] == "ACCEPT":
+                accepts += 1
+        rate = accepts / n if n else 0.0
+        return {"n": n, "accepted": accepts, "self_consistency": rate}
+
     def sample_all(self, limit: int = 100) -> List[dict]:
         """全组合枚举（上限 limit 防爆——组合空间大时用采样）。"""
         pools = [self._templates[l] for l in LAYERS]
