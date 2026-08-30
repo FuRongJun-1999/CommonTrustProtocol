@@ -31,6 +31,10 @@ check("roundtrip error finite", 0 <= rt["roundtrip_error"] < 1.5,
 torso = [p for p in rt["parts"] if p["semantic"] == "torso"][0]
 check("torso blue roundtrip low color err", torso["color_err"] < 0.05,
       str(torso["color_err"]))
+# hair cyan 往返自洽（修复渲染器 spec 格式后）
+hair = [p for p in rt["parts"] if p["semantic"] == "hair"][0]
+check("hair cyan roundtrip self-consistent", hair["color_err"] < 0.05,
+      str(hair["color_err"]))
 # 颜色距离对称性
 c1 = _lab_of_rgb((40, 90, 220))
 c2 = _lab_of_rgb((210, 60, 50))
