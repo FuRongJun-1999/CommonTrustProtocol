@@ -70,14 +70,23 @@ _sys.modules["entity_registry"] = _entities
 from . import self_cognition as _self_cognition
 _sys.modules["self_cognition_engine"] = _self_cognition
 
-from . import vision as _vision
-_sys.modules["vision"] = _vision
+# 身体/视觉实现（vision/body）已迁移至 AEIS（用户自接接口）——惰性注册，缺失不阻断大脑
+try:
+    from . import vision as _vision
+    _sys.modules["vision"] = _vision
+except Exception:
+    _vision = None
+    _sys.modules["vision"] = None
 
 from . import knowledge as _knowledge
 _sys.modules["knowledge"] = _knowledge
 
-from . import body as _body
-_sys.modules["body"] = _body
+try:
+    from . import body as _body
+    _sys.modules["body"] = _body
+except Exception:
+    _body = None
+    _sys.modules["body"] = None
 
 from . import longterm_gate as _longterm_gate
 _sys.modules["longterm_gate"] = _longterm_gate
@@ -105,7 +114,11 @@ from .blindspot import BlindSpotLearningLoop
 from .cognition import CognitiveOrchestrator
 from .entities import EntityRegistry
 from .self_cognition import SelfCognitionEngine
-from .vision import VisionProvider, YOLOVisionProvider, NullVisionProvider, create_vision_provider
+# vision 提供者（AEIS 自接接口；缺失时导出 None 占位）
+try:
+    from .vision import VisionProvider, YOLOVisionProvider, NullVisionProvider, create_vision_provider
+except Exception:
+    VisionProvider = YOLOVisionProvider = NullVisionProvider = create_vision_provider = None
 from .knowledge import ingest_text, ingest_file, ingest_url
 
 __version__ = "0.5.0"

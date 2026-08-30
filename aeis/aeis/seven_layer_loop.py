@@ -29,10 +29,14 @@ from __future__ import annotations
 import math
 from typing import Dict, List, Optional, Tuple
 
+# 3D 场景模拟器实现已迁移至 AEIS——大脑保留接口，缺失时 SceneSimulator=None
 try:
     from .scene_simulator import SceneSimulator
-except ImportError:
-    from scene_simulator import SceneSimulator
+except Exception:
+    try:
+        from scene_simulator import SceneSimulator
+    except Exception:
+        SceneSimulator = None
 
 try:
     from .curiosity_explorer import CuriosityExplorer
