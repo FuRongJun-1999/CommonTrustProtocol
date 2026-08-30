@@ -49,6 +49,10 @@ for name in ("1.png", "2.png"):
           str(len(res2["小簇"])))
     check(name + " has lowregion", len(res2["lowregions"]) >= 1,
           str(res2["lowregions"]))
+    if name == "4.png":
+        # 半身图骨架判定：无低位区域（核心面积小/上部误报排除）
+        check("4.png half-body no lowregion", len(res2["lowregions"]) == 0,
+              str(res2["lowregions"]))
     if name == "2.png" and res2["小簇"] and res2["lowregions"]:
         # 用户标注校准: 局部小簇=#18/#19(小对称对), 低位区域=#39核心(高饱和收缩)
         nbbox = [n["bbox"] for n in res2["小簇"]]
