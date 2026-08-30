@@ -3252,48 +3252,16 @@ class SpacetimeMemoryEngine:
         return {"status": "error", "error": f"未知动作 {action}（可用: scene/image/video/save）"}
 
     def world_semantics(self, action: str, params: dict = None) -> dict:
-        """图像语义提取（里程碑4.5 · 感知方向）：轮廓/形状/颜色/亮度 →
-        从外部到内部 → 图的信息定义（场景图）——
-        - analyze: 图像 → 场景图（image_b64 输入；节点=形状/颜色/亮度/层级/父，
-          边=inside/adjacent；levels 层级深度 1-3）
-        - decompose: 递归部件分解（图→人物→头{发/脸{眼/口}}→躯干→双腿）
-        - generate_roundtrip: 文字生图 → 提取语义（生成-感知闭环自验证）
+        """图像语义（BLINDSPOT：细分能力已迁移至 AEIS 敏感仓库）。
+
+        历史细分能力（analyze/decompose/reconstruct/generate_roundtrip，
+        依赖 game_web.semantics / character_render）已按策略从公开仓库
+        移除并迁移至 AEIS 仓库（敏感内容测试）。此处诚实声明 BLINDSPOT，
+        不强行猜测或引用已移除模块。
         """
-        p = params or {}
-        try:
-            from game_web.semantics import analyze_image
-        except ImportError:
-            try:
-                from .game_web.semantics import analyze_image
-            except Exception as e:
-                return {"status": "sem_not_ready", "error": str(e)}
-        if action == "analyze":
-            import base64
-            png = base64.b64decode(str(p.get("image_b64", "")))
-            g = analyze_image(png, levels=int(p.get("levels", 2)),
-                              size=int(p.get("size", 240)))
-            return {"status": "ok", "graph": g}
-        if action == "decompose":
-            from game_web.semantics import part_decompose
-            import base64
-            png = base64.b64decode(str(p.get("image_b64", "")))
-            r = part_decompose(png, size=int(p.get("size", 300)))
-            return {"status": "ok", "decomposition": r}
-        if action == "generate_roundtrip":
-            try:
-                from game_web.generate import WorldGenerator
-            except ImportError:
-                from .game_web.generate import WorldGenerator
-            gen = WorldGenerator(size=int(p.get('size', 24)),
-                                 seed=int(p.get('seed', 42)))
-            r = gen.generate_image(str(p.get("text", "森林里有狼追兔子")),
-                                   size=int(p.get("img_size", 420)),
-                                   run_ticks=int(p.get("run_ticks", 6)))
-            g = analyze_image(r["image"], levels=int(p.get("levels", 2)),
-                              size=int(p.get("ana_size", 320)))
-            return {"status": "ok", "source_summary": r["summary"],
-                    "extracted_graph": g}
-        return {"status": "error", "error": f"未知动作 {action}（可用: analyze/generate_roundtrip）"}
+        return {"status": "blindspot",
+                "reason": "细分语义能力已迁移至 AEIS 敏感仓库",
+                "available": []}
 
     def vprim_query(self, action: str, params: dict = None) -> dict:
         """VPRIM-REV1 视觉原语查询（确定性·零 LLM）：
