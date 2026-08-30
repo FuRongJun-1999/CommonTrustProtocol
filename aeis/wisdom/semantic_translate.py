@@ -2925,8 +2925,8 @@ def _card_q_tokens(question: str) -> set:
     return _card_bigrams(question) - _CARD_STOP
 
 
-def card_route(dex, question, limit=5):
-    """快速层：问题条件词 → kp 四要素注释索引命中（对齐 ccg.search）。
+def _card_route_impl(dex, question, limit=5):
+    """快速层实现（card_route 的缓存包装目标）：问题条件词 → kp 四要素注释索引命中。
 
     索引词 = name + 生效条件 + 子功能 + 执行（tokens）
     负路由 = 不适用条件命中 ≥2 → 排除（条件冲突不路由，对齐 ccg.search）
@@ -3030,6 +3030,53 @@ def card_route(dex, question, limit=5):
         print(f"[card_route] 注释索引扫描中断：{type(_exc).__name__}: {_exc}",
               file=_sys.stderr)
         return []
+
+
+# ---- 存算融合接入（ARCH-GRAPH-SCF 步骤 2 · RouteCache · 2026-08-30）----
+# card_route 查询链路吃缓存收益：TTL + 知识库指纹失效 + 命中率统计。
+# 实测（tools/test_route_cache.py）：命中 0.00ms vs 直查 33.4ms。
+_ROUTE_CACHE: dict = {}            # (question, limit) → (expires_at, results)
+_ROUTE_CACHE_STATS = {"hits": 0, "misses": 0}
+_ROUTE_CACHE_TTL = 300.0
+_ROUTE_CACHE_FP: str | None = None
+
+
+def _db_fingerprint(dex) -> str:
+    """知识库指纹（mtime+size）——变更即整体失效（写库后缓存不投喂旧结果）。"""
+    p = getattr(dex, "db_path", None)
+    if p and os.path.exists(p):
+        st = os.stat(p)
+        return f"{st.st_mtime_ns}:{st.st_size}"
+    return "unknown"
+
+
+def route_cache_stats() -> dict:
+    """存算融合观测值：缓存命中率/规模（供心跳与工具查询，不参与信任计算）。"""
+    t = _ROUTE_CACHE_STATS["hits"] + _ROUTE_CACHE_STATS["misses"]
+    return {"hits": _ROUTE_CACHE_STATS["hits"], "misses": _ROUTE_CACHE_STATS["misses"],
+            "hit_rate": _ROUTE_CACHE_STATS["hits"] / t if t else 0.0,
+            "cached": len(_ROUTE_CACHE)}
+
+
+def card_route(dex, question, limit=5):
+    """card_route 缓存包装（语义与 _card_route_impl 完全一致）：
+    同 (question, limit) 在 TTL 内直返缓存；知识库指纹变更整体失效。"""
+    global _ROUTE_CACHE_FP
+    import time as _time
+    fp = _db_fingerprint(dex)
+    if fp != _ROUTE_CACHE_FP:
+        _ROUTE_CACHE.clear()
+        _ROUTE_CACHE_FP = fp
+    key = (question, limit)
+    hit = _ROUTE_CACHE.get(key)
+    now = _time.time()
+    if hit and hit[0] > now:
+        _ROUTE_CACHE_STATS["hits"] += 1
+        return hit[1]
+    _ROUTE_CACHE_STATS["misses"] += 1
+    results = _card_route_impl(dex, question, limit=limit)
+    _ROUTE_CACHE[key] = (now + _ROUTE_CACHE_TTL, results)
+    return results
 
 
 # ==================== 两阶段收敛检索（第七阶段 v0.1 · 2026-08-26） ====================
