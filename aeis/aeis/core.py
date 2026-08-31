@@ -1137,6 +1137,7 @@ class LayeredStore:
         self.conn.commit()
 
     def get_protected_nodes(self) -> List[str]:
+        """取保护名单节点 id 列表（不可遗忘层的豁免集合）。"""
         c = self.conn.cursor()
         c.execute("SELECT node_id FROM protections")
         return [r[0] for r in c.fetchall()]
@@ -1166,6 +1167,7 @@ class LayeredStore:
         return edge
 
     def count_layer(self, layer: MemoryLayer) -> int:
+        """统计指定记忆层的节点数。"""
         c = self.conn.cursor()
         c.execute("SELECT COUNT(*) FROM nodes WHERE layer=?", (layer.value,))
         return c.fetchone()[0]
@@ -1522,6 +1524,7 @@ class LayeredStore:
 
     def add_rejected_path(self, path_type: str, description: str, reason: str,
                           evidence: str = "") -> str:
+        """登记被否决的路径（负路由沉淀：错误答案留档防重蹈），返回 id。"""
         rid = f"rp_{uuid.uuid4().hex[:8]}"
         c = self.conn.cursor()
         c.execute("INSERT INTO rejected_paths VALUES (?,?,?,?,?,?,?,?)",
@@ -1530,6 +1533,7 @@ class LayeredStore:
         return rid
 
     def list_rejected_paths(self, status: str = None) -> List[Dict]:
+        """列出否决路径（可按 status=open/consumed 过滤）。"""
         c = self.conn.cursor()
         if status:
             c.execute("SELECT * FROM rejected_paths WHERE status=?", (status,))
@@ -1540,6 +1544,7 @@ class LayeredStore:
                 for r in c.fetchall()]
 
     def mark_rejected_path_consumed(self, rejected_id: str):
+        """标记否决路径已消费（同类问题复用该否决答案后）。"""
         c = self.conn.cursor()
         c.execute("UPDATE rejected_paths SET status='consumed', consumed_at=? WHERE id=?",
                   (time.time(), rejected_id))
@@ -1547,6 +1552,7 @@ class LayeredStore:
 
     def add_verifier_standard(self, name: str, param: str, value: float, reason: str,
                               proposer: str) -> str:
+        """登记校验器标准参数提案（阈值类修订的可追溯载体），返回 id。"""
         vid = f"vs_{uuid.uuid4().hex[:8]}"
         c = self.conn.cursor()
         c.execute("INSERT INTO verifier_standards VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
