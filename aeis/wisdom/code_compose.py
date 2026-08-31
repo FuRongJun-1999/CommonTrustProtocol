@@ -458,7 +458,8 @@ def _verify_with_verifier(code, unit, unit_id=""):
         lv = c.get("level", "?")
         ok = c.get("ok")
         mark = "✔" if ok else "✗"
-        checks.append(f"{mark} {lv} {str(c.get('evidence', ''))[:60]}")
+        # evidence 完整保留（[:60] 截断曾吞掉 L2 崩溃 traceback 关键诊断信息）
+        checks.append(f"{mark} {lv} {str(c.get('evidence', ''))}")
     if r.cached:
         checks.append(f"✔ 缓存命中（指纹 {r.fingerprint[:12]}）")
     return r.ok, checks

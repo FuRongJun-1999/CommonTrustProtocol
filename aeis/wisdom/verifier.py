@@ -168,7 +168,10 @@ class VerifyResult:
 # 校验器规则版本：L1/L2/L3/规范/集成规则升级时必须 +1——
 # 旧版本缓存结果在规则已变的场景下不再可信，强制全部失效重验
 # （等价于「协议升级 → 相关缓存刷新」，GLM 建议的 protocol_version 落地）。
-VERIFIER_VERSION = 5
+# v6（2026-08-31）：cases 形态修复（list→tuple）后指纹归一化同值，旧 False
+# 条目对修复免疫；bump 版本作废全部旧缓存——长驻进程内存快照复活毒条目的
+# 终局解（版本不符整体清空，任何进程加载即重建）。
+VERIFIER_VERSION = 6
 _CACHE_VERSION_KEY = "_verifier_version"
 _STATS_KEY = "_stats"
 
@@ -334,7 +337,9 @@ class VerifyCache:
                 if os.path.exists(self.path):
                     with open(self.path, "r", encoding="utf-8") as f:
                         disk = json.load(f)
-                    if isinstance(disk, dict):
+                    # 版本一致性守卫：磁盘条目版本与本实例不同 → 全部忽略
+                    # （版本 bump 即整体作废，不能被合并逻辑复活旧条目）
+                    if isinstance(disk, dict) and disk.get(_CACHE_VERSION_KEY) == self.version:
                         for k, v in disk.items():
                             if k not in self._data:
                                 self._data[k] = v
