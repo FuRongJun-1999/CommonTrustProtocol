@@ -1,8 +1,8 @@
 {
- "version": "v1.2",
+ "version": "v1.3",
  "description": "白箱回答能力题库（荣指令 2026-08-31：多种对话问题测试白箱回答能力，提问收录入题库）",
  "usage": "keywords 供自动 key_hit 口径；type/domain 供分域统计；新增题 append 后跑评测脚本",
- "count": 30,
+ "count": 36,
  "questions": [
   {
    "id": "T8-001",
@@ -378,6 +378,78 @@
    ],
    "source": "新知识域探索-天文",
    "added": "2026-08-31"
+  },
+  {
+   "id": "QB-007",
+   "question": "五线谱的每小节有几条竖线分隔",
+   "domain": "音乐",
+   "type": "学科直答",
+   "keywords": [
+    "小节线"
+   ],
+   "source": "新知识域探索-音乐",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-008",
+   "question": "马拉松的标准距离是多少公里",
+   "domain": "体育",
+   "type": "学科直答",
+   "keywords": [
+    "42.195",
+    "42"
+   ],
+   "source": "新知识域探索-体育",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-009",
+   "question": "正常人的体温是多少度",
+   "domain": "医学基础",
+   "type": "学科直答",
+   "keywords": [
+    "36",
+    "37"
+   ],
+   "source": "新知识域探索-医学",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-010",
+   "question": "JavaScript 里 const 声明的变量能重新赋值吗",
+   "domain": "编程-JS",
+   "type": "技术直答",
+   "keywords": [
+    "不能",
+    "不可",
+    "TypeError"
+   ],
+   "source": "新知识域探索-JS",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-011",
+   "question": "什么是白箱测试",
+   "domain": "白箱-协议",
+   "type": "白箱自举",
+   "keywords": [
+    "内部",
+    "结构",
+    "代码"
+   ],
+   "source": "白箱自举加深",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-012",
+   "question": "水的沸点在海平面是多少度",
+   "domain": "物理",
+   "type": "学科直答",
+   "keywords": [
+    "100"
+   ],
+   "source": "回归-物理",
+   "added": "2026-09-01"
   }
  ]
 }
