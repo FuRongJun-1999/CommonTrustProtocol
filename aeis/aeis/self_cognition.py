@@ -102,7 +102,7 @@ class SelfCognitionEngine:
         # 外部写锁持有时立即放弃，不阻塞检索主流程 10s
         try:
             store = self.engine.store
-            store.best_effort_write(
+            store.conn.execute(
                 "INSERT INTO action_logs (ts, action_type, summary, node_ids, outcome, context)"
                 " VALUES (?,?,?,?,?,?)",
                 (entry["ts"], entry["action_type"], entry["summary"],
@@ -110,11 +110,14 @@ class SelfCognitionEngine:
                  json.dumps(entry["outcome"], ensure_ascii=False, default=str),
                  json.dumps(entry["context"], ensure_ascii=False, default=str)),
             )
-            store.best_effort_write(
+            store.conn.commit()
+            # 表只保留最近 2 倍缓冲上限，防无限增长
+            store.conn.execute(
                 "DELETE FROM action_logs WHERE id NOT IN"
                 " (SELECT id FROM action_logs ORDER BY id DESC LIMIT ?)",
                 (self.ACTION_LOG_MAX * 2,),
             )
+            store.conn.commit()
         except Exception:
             pass
         return entry

@@ -2312,23 +2312,16 @@ class SpacetimeMemoryEngine:
         bucket = self._reuse_tracker.setdefault(rnd, set())
         bucket.update(node_ids)
         try:
-            # T4 完善（2026-08-31）：观测落库用独立短连接 timeout=0——
-            # 写锁被外部事务持有时立即放弃（不阻塞检索主流程 5-10s），
-            # 复用观测宁可缺一条也不拖慢检索（DEVIATION-004 工程观测值）。
-            obs = sqlite3.connect(self.store.db_path, timeout=0)
-            try:
-                obs.execute(
-                    "CREATE TABLE IF NOT EXISTS flywheel_reuse "
-                    "(session_id TEXT, round INTEGER, node_id TEXT, ts REAL)")
-                ts = time.time()
-                obs.executemany(
-                    "INSERT OR IGNORE INTO flywheel_reuse "
-                    "(session_id, round, node_id, ts) "
-                    "VALUES (?, ?, ?, ?)",
-                    [(self._session_id, rnd, nid, ts) for nid in sorted(bucket)])
-                obs.commit()
-            finally:
-                obs.close()
+            conn = self.store.conn
+            conn.execute(
+                "CREATE TABLE IF NOT EXISTS flywheel_reuse "
+                "(session_id TEXT, round INTEGER, node_id TEXT, ts REAL)")
+            ts = time.time()
+            conn.executemany(
+                "INSERT INTO flywheel_reuse (session_id, round, node_id, ts) "
+                "VALUES (?, ?, ?, ?)",
+                [(self._session_id, rnd, nid, ts) for nid in sorted(bucket)])
+            conn.commit()
         except Exception:
             pass  # 观测落库失败静默（不阻断检索）
 
