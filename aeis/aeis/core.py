@@ -310,6 +310,7 @@ class LayeredStore:
 
     IMMUTABLE_LAYERS = {MemoryLayer.ANCHOR, MemoryLayer.STRUCTURE,
                         MemoryLayer.SELF}  # v1.16 扮演论：SELF 层=自我锚点（扮演依据）不可遗忘
+    SCHEMA_VERSION = 1  # 建表块每新增表/列时 +1（配合 _init_tables 启动只读化守卫）
 
     def __init__(self, db_path: str = ":memory:", role: Role = Role.PRIMARY):
         self.db_path = db_path
@@ -330,11 +331,38 @@ class LayeredStore:
                     pass
             except Exception:
                 pass
-        self._init_tables()
+        # ③ 启动重试（2026-09-01 修复③）：建表/初始化失败（写锁竞争超时）
+        #    指数退避重试 3 次再退出——不再一次性崩溃
+        import time as _t
+        for attempt in range(3):
+            try:
+                self._init_tables()
+                break
+            except Exception as e:
+                if attempt == 2:
+                    raise
+                _t.sleep(1.5 * (2 ** attempt))  # 1.5s / 3s 退避
         self._lock = threading.Lock()
 
     def _init_tables(self):
         c = self.conn.cursor()
+        # 启动只读化（2026-09-01 多进程写锁竞争修复②）：全部关键表已存在且
+        # schema 版本一致 → 跳过整个建表块。CREATE TABLE IF NOT EXISTS 即使
+        # 表已存在也要拿写锁——多进程共享库（3×MCP server+循环+心跳）启动
+        # 窗口叠加时 10s 拿不到锁即崩溃（睡眠巩固失败根因②）。
+        # 只有首次建库或 schema_version 升级才走写路径。
+        try:
+            have = {r[0] for r in self.conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'").fetchall()}
+            _KEY_TABLES = {'nodes', 'edges', 'engine_meta', 'gap_history'}
+            if _KEY_TABLES <= have:
+                row = self.conn.execute(
+                    "SELECT value FROM engine_meta WHERE key='_schema_version'"
+                ).fetchone()
+                if row and row[0] == str(self.SCHEMA_VERSION):
+                    return
+        except Exception:
+            pass  # 只读校验异常 → 保守回退到原建表路径（IF NOT EXISTS 幂等）
         # 节点表（含层标识）
         c.execute('''
             CREATE TABLE IF NOT EXISTS nodes (
@@ -463,6 +491,9 @@ class LayeredStore:
                 ts REAL, d_norm REAL
             )
         ''')
+        # 建表完成 → 落 schema 版本标记（下次启动只读化守卫据此跳过建表块）
+        c.execute("INSERT OR REPLACE INTO engine_meta (key, value) VALUES ('_schema_version', ?)",
+                  (str(self.SCHEMA_VERSION),))
         self.conn.commit()
 
     # ---------- 节点操作 ----------
