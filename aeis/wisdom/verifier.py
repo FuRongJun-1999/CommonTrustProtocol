@@ -321,11 +321,29 @@ class VerifyCache:
         self._flush()
 
     def _flush(self) -> None:
-        """内存态刷盘：原子覆盖保存缓存与度量。"""
+        """内存态刷盘：读-合并-原子替换（多进程并发写友好）。
+
+        bootstrap 循环进程与交互进程共用同一缓存文件——先吸收磁盘上
+        他进程新增的条目再写，消除「整文件写覆盖」；临时文件+os.replace
+        原子替换，消除「读到半写状态」。残余窗口仅剩同指纹同时写的
+        几毫秒，缓存可重建（最坏=丢条目重跑 verify），工程可接受。
+        """
         try:
             os.makedirs(DATA_DIR, exist_ok=True)
-            with open(self.path, "w", encoding="utf-8") as f:
+            try:
+                if os.path.exists(self.path):
+                    with open(self.path, "r", encoding="utf-8") as f:
+                        disk = json.load(f)
+                    if isinstance(disk, dict):
+                        for k, v in disk.items():
+                            if k not in self._data:
+                                self._data[k] = v
+            except Exception:
+                pass  # 磁盘半写/损坏 → 以内存为准
+            tmp = self.path + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(self._data, f, ensure_ascii=False, indent=1)
+            os.replace(tmp, self.path)
         except Exception:
             pass
 
