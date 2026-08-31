@@ -10,7 +10,7 @@
  "thresholds": {
   "long_body_lines": 25
  },
- "ts": "2026-08-31 22:14:09",
+ "ts": "2026-08-31 23:27:02",
  "violations": [
   {
    "rule": "B_LONG_NO_COMMENT",
@@ -288,77 +288,77 @@
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4282,
+   "line": 4333,
    "name": "mark_rejected_path_consumed",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4287,
+   "line": 4338,
    "name": "get_verifier_config",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4329,
+   "line": 4380,
    "name": "list_verifier_standards",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4349,
+   "line": 4400,
    "name": "list_escalation_points",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4352,
+   "line": 4403,
    "name": "add_escalation_point",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4356,
+   "line": 4407,
    "name": "set_escalation_enabled",
    "kind": "FunctionDef"
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 4445,
+   "line": 4496,
    "name": "export_trajectory",
    "body_lines": 31
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 4623,
+   "line": 4674,
    "name": "session_summary",
    "body_lines": 29
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4789,
+   "line": 4840,
    "name": "stop_auto_decay",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4823,
+   "line": 4874,
    "name": "get_stats",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4826,
+   "line": 4877,
    "name": "close",
    "kind": "FunctionDef"
   },

@@ -4279,6 +4279,57 @@ class SpacetimeMemoryEngine:
         return self.store.subgraph(root_id, max_depth=max_depth,
                                    relation_types=relation_types)
 
+    def subgraph_replace(self, parent_id: str, old_sub_root_id: str,
+                         new_subtree: Dict) -> Dict:
+        """子图替换（可嵌套认知图 · 子部件生成基底）。
+
+        把 parent_id 下挂在 old_sub_root_id 的旧子树整体移除，将
+        new_subtree（dsh 嵌套认知图同构：{id, spatial_coordinates,
+        content, importance, subgraph{nodes, edges}}）作为新子树挂入，
+        新根以 hierarchical 边（new→parent）保持层级语义。
+
+        支撑「替换子部件生成其他图像」：dsh 端子部件匹配/定位后，
+        认知图侧以本操作完成子部件级的图更新。
+        返回 {new_root_id, new_nodes, removed_nodes}
+        """
+        import json as _json
+        # ① 收集旧子树全部后代（in 方向=子指向父，含自身）
+        old_desc = self.store.traverse(old_sub_root_id,
+                                       relation_types=["hierarchical"],
+                                       direction="in", max_depth=64)
+        removed = [old_sub_root_id] + [r["node_id"] for r in old_desc]
+        # ② 移除旧子树节点（关联边随删除级联清理）
+        for nid in removed:
+            self.store.delete_node(nid)
+        # ③ 递归挂入新子树
+        counter = {"n": 0}
+
+        def _attach(node: Dict, parent: str = None):
+            cs = node.get("condition_space", {})
+            coord = node.get("spatial_coordinates", {}).get("image2d", [0, 0])
+            n = self.add_perception(
+                content=_json.dumps(node.get("content", {}), ensure_ascii=False),
+                modality=node.get("modality", "visual"),
+                spatial_coordinates={"image2d_x": float(coord[0]) if coord else 0.0,
+                                     "image2d_y": float(coord[1]) if len(coord) > 1 else 0.0},
+                importance=float(node.get("importance", 0.5)),
+                tags=["subgraph_replace", "img:" + node["id"]],
+                entities=[node["id"]], skip_dedup=True)
+            counter["n"] += 1
+            nid = n.id
+            if parent:
+                self.add_edge(source_id=nid, target_id=parent,
+                              relation_type=EdgeType.HIERARCHICAL,
+                              confidence=float(node.get("confidence", 0.9)),
+                              source_evidence="subgraph_replace")
+            for sub in node.get("subgraph", {}).get("nodes", []):
+                _attach(sub, nid)
+            return nid
+
+        new_root_id = _attach(new_subtree, parent_id)
+        return {"new_root_id": new_root_id, "new_nodes": counter["n"],
+                "removed_nodes": len(removed)}
+
     def mark_rejected_path_consumed(self, rejected_id: str):
         self.store.mark_rejected_path_consumed(rejected_id)
 
