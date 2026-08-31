@@ -31,6 +31,18 @@
 - **自我认知**：`action_log`（行为日志）、`cognition`（一致性→失调→候选，候选须验证单元复核生效）、`emotional_bias`（d²D_norm/dt²）、`self_reliability`（元认知校准）、`learning_impact`
 - **元认知**：`self_check`（完整性）、`gap_trend`（信息差趋势）、`export`（全库导出）、`service_info`（服务身份确认）
 
+### 工具集裁剪（env 配置开/关）
+
+客户端工具注入有预算上限（全量 81 工具+其他 MCP 可能超限被整体截断），
+server 支持按 env 手动裁剪暴露集（`aeis/mcp/server.py`，2026-08-31）：
+
+- `AEIS_MCP_TOOLS=service_info,cognition,...` — 白名单：只暴露列出的工具
+- `AEIS_MCP_EXCLUDE=see,think,...` — 黑名单：排除列出的工具
+- 都不设 = 全量 81（默认不变）；白名单先生效再应用黑名单
+- 被裁剪工具被调用时明确报 `disabled by config`；配置打错名在启动
+  stderr 报 `unknown_configured`；启动摘要输出 `[tools] filter=... enabled=N/81`
+- 推荐白名单（心跳巡检+记忆九件套）：`service_info,cognition,gap_trend,flywheel_metrics,distill,action_log,remember,recall,search`
+
 ## 四、使用约定
 
 - **接入第一步**：调用 `service_info` 确认服务身份/版本（信任透明度）。
