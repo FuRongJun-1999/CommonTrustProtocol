@@ -104,6 +104,7 @@ class ChildAgent:
         return task
 
     def close(self):
+        """关闭子代理（释放资源，幂等安全）。"""
         with self._lock:
             if self._agent is not None:
                 try:

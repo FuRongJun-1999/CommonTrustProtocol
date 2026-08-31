@@ -67,6 +67,7 @@ class CodingLoop:
         self._stop = threading.Event()
 
     def stop(self):
+        """置停止标志，编码循环在下一检查点安全退出。"""
         self._stop.set()
 
     # ---- 模型（function calling） ----

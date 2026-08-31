@@ -31,10 +31,12 @@ class AgentTask:
         self.finished_at = None
 
     def to_dict(self) -> dict:
+        """任务对象转字典（全部实例属性）。"""
         return {k: v for k, v in vars(self).items()}
 
     @classmethod
     def from_dict(cls, d: dict) -> "AgentTask":
+        """从字典重建任务对象（缺字段用默认值）。"""
         t = cls(d.get("prompt", ""), d.get("agent_role", "assistant"),
                 d.get("db_path"), d.get("title", ""),
                 d.get("max_steps", 8), d.get("timeout", 300.0),

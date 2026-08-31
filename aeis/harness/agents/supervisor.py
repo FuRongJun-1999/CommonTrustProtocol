@@ -62,10 +62,12 @@ class Supervisor:
     # ---- 查询 ----
 
     def status(self, task_id: str):
+        """查询任务状态（task_id → 状态/进度信息）。"""
         with self._lock:
             return self._tasks.get(task_id)
 
     def results(self, since: float = 0.0) -> list:
+        """取指定时间戳之后的结果列表。"""
         with self._lock:
             return [t for t in self._tasks.values()
                     if t.finished_at and t.finished_at >= since]
@@ -108,11 +110,13 @@ class Supervisor:
             self._events = self._events[-50:]
 
     def events(self, limit: int = 20) -> list:
+        """取最近事件流（默认 20 条）。"""
         return self._events[-limit:]
 
     # ---- 生命周期 ----
 
     def shutdown(self):
+        """关闭执行器（不等待、取消未开始任务）。"""
         self._executor.shutdown(wait=False, cancel_futures=True)
 
     def _on_done(self, task, child, fut):

@@ -2,15 +2,15 @@
  "scan": "M5.1-L2 readability violations",
  "root": "aeis",
  "files_scanned": 184,
- "total": 335,
+ "total": 321,
  "by_rule": {
   "B_LONG_NO_COMMENT": 69,
-  "A_MISSING_DOCSTRING": 266
+  "A_MISSING_DOCSTRING": 252
  },
  "thresholds": {
   "long_body_lines": 25
  },
- "ts": "2026-08-31 15:57:02",
+ "ts": "2026-08-31 19:14:09",
  "violations": [
   {
    "rule": "B_LONG_NO_COMMENT",
@@ -547,7 +547,7 @@
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/mcp/server.py",
-   "line": 998,
+   "line": 1026,
    "name": "main",
    "kind": "FunctionDef"
   },
@@ -902,121 +902,23 @@
    "kind": "FunctionDef"
   },
   {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/agents/child.py",
-   "line": 106,
-   "name": "close",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/agents/supervisor.py",
-   "line": 64,
-   "name": "status",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/agents/supervisor.py",
-   "line": 68,
-   "name": "results",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/agents/supervisor.py",
-   "line": 110,
-   "name": "events",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/agents/supervisor.py",
-   "line": 115,
-   "name": "shutdown",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/agents/task.py",
-   "line": 33,
-   "name": "to_dict",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/agents/task.py",
-   "line": 37,
-   "name": "from_dict",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/coding/loop.py",
-   "line": 69,
-   "name": "stop",
-   "kind": "FunctionDef"
-  },
-  {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/harness/coding/loop.py",
-   "line": 96,
+   "line": 97,
    "name": "_execute_tool",
    "body_lines": 41
   },
   {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/coding/manager.py",
-   "line": 24,
-   "name": "set_default_workspace",
-   "kind": "FunctionDef"
-  },
-  {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/harness/coding/manager.py",
-   "line": 27,
+   "line": 28,
    "name": "submit",
    "body_lines": 30
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/coding/manager.py",
-   "line": 58,
-   "name": "get",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/coding/manager.py",
-   "line": 62,
-   "name": "list_tasks",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/harness/coding/workspace.py",
-   "line": 33,
-   "name": "read_file",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/coding/workspace.py",
-   "line": 56,
-   "name": "list_files",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/coding/workspace.py",
-   "line": 70,
-   "name": "exists",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/coding/workspace.py",
-   "line": 133,
+   "line": 136,
    "name": "list_snapshots",
    "kind": "FunctionDef"
   },
@@ -2213,35 +2115,35 @@
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/verifier.py",
-   "line": 241,
+   "line": 244,
    "name": "record_input",
    "body_lines": 30
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/verifier.py",
-   "line": 863,
+   "line": 886,
    "name": "_audit_all",
    "body_lines": 40
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/verifier.py",
-   "line": 905,
+   "line": 928,
    "name": "_cost_model",
    "body_lines": 34
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/wisdom/verifier.py",
-   "line": 941,
+   "line": 964,
    "name": "main",
    "kind": "FunctionDef"
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/verifier.py",
-   "line": 941,
+   "line": 964,
    "name": "main",
    "body_lines": 45
   },

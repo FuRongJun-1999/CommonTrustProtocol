@@ -31,6 +31,7 @@ class Workspace:
     # ---- 文件操作（经身体层设备语义：读/写/存在） ----
 
     def read_file(self, rel_path: str, max_chars: int = 20000) -> dict:
+        """读工作区内文件（相对路径，截断到 max_chars 防大文件）。"""
         p = self.resolve(rel_path)
         if not p or not os.path.isfile(p):
             return {"ok": False, "error": f"文件不存在或越界: {rel_path}"}
@@ -54,6 +55,7 @@ class Workspace:
                 "append": append}
 
     def list_files(self, rel_dir: str = ".", max_items: int = 100) -> dict:
+        """列工作区内文件清单（相对目录，默认前 100 项）。"""
         p = self.resolve(rel_dir)
         if not p or not os.path.isdir(p):
             return {"ok": False, "error": f"目录不存在或越界: {rel_dir}"}
@@ -68,6 +70,7 @@ class Workspace:
         return {"ok": True, "dir": rel_dir, "items": items}
 
     def exists(self, rel_path: str) -> dict:
+        """判断工作区内路径是否存在。"""
         p = self.resolve(rel_path)
         return {"ok": True, "path": rel_path, "exists": bool(p and os.path.exists(p))}
 

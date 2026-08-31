@@ -22,6 +22,7 @@ class CodingManager:
         self._default_ws = None
 
     def set_default_workspace(self, root: str):
+        """设置默认工作区根目录（后续任务未显式指定时使用）。"""
         self._default_ws = root
 
     def submit(self, task: str, workspace_root: str = None) -> dict:
@@ -56,10 +57,12 @@ class CodingManager:
         return {"ok": True, "task_id": task_id, "status": "running"}
 
     def get(self, task_id: str) -> dict:
+        """按 id 取任务快照，不存在返回空 dict。"""
         with self._lock:
             return self._tasks.get(task_id)
 
     def list_tasks(self, limit: int = 10) -> list:
+        """列最近任务快照（默认前 10 条）。"""
         with self._lock:
             items = sorted(self._tasks.values(),
                            key=lambda t: t.get("created_at", 0), reverse=True)
