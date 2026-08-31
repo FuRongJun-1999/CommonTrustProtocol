@@ -1,0 +1,105 @@
+{
+ "scan": "E5 time-core lint (钉死批条款3机械化)",
+ "kernel_clause": "X_i(t)=X_i,∞+(X_i,0-X_i,∞)·e^(-γ_i·t)；核形状唯一，γ_i按对象分层",
+ "root": "aeis",
+ "files_scanned": 183,
+ "total_hits": 12,
+ "by_rule": {
+  "NON_TIME_EXP": 1,
+  "DISCRETE_EXP": 2,
+  "CONTINUOUS_EXP": 1,
+  "TTL_LEASE": 7,
+  "EMA": 1
+ },
+ "kernel_compliant": 11,
+ "suspect_violations": 0,
+ "e5_verdict": "PASS",
+ "note": "就地实现清单=统一核函数cred()单点化的消号队列（非违规，形状均指数族）",
+ "ts": "2026-08-31 14:54:37",
+ "hits": [
+  {
+   "rule": "NON_TIME_EXP",
+   "file": "aeis/aeis/confirmation.py",
+   "line": 34,
+   "verdict": "exp无时间参数(排除)",
+   "code": "return 1.0 / (1.0 + math.exp(-x))"
+  },
+  {
+   "rule": "DISCRETE_EXP",
+   "file": "aeis/aeis/core.py",
+   "line": 807,
+   "verdict": "指数核(离散乘法)",
+   "code": "new_conf = edge.confidence * (1 - factor)"
+  },
+  {
+   "rule": "DISCRETE_EXP",
+   "file": "aeis/aeis/core.py",
+   "line": 821,
+   "verdict": "指数核(离散乘法)",
+   "code": "new_imp = imp * (1 - factor)"
+  },
+  {
+   "rule": "CONTINUOUS_EXP",
+   "file": "aeis/aeis/flywheel.py",
+   "line": 418,
+   "verdict": "指数核(连续)",
+   "code": "factor = max(0.2, min(1.0, math.exp(-age_days / tau)))"
+  },
+  {
+   "rule": "TTL_LEASE",
+   "file": "aeis/aeis/stable_lease.py",
+   "line": 5,
+   "verdict": "租约(需DEV耦合声明)",
+   "code": "stable(S, t_verified, TTL)"
+  },
+  {
+   "rule": "TTL_LEASE",
+   "file": "aeis/aeis/stable_lease.py",
+   "line": 6,
+   "verdict": "租约(需DEV耦合声明)",
+   "code": "S ∈ stable ⟺ (t - t_verified) < TTL ∧ ¬conflict(S_pred_hat, S)"
+  },
+  {
+   "rule": "TTL_LEASE",
+   "file": "aeis/aeis/stable_lease.py",
+   "line": 8,
+   "verdict": "租约(需DEV耦合声明)",
+   "code": "耦合声明（DEV-005）：TTL 与时空记忆图 confidence 衰减共享同一指数衰减核"
+  },
+  {
+   "rule": "TTL_LEASE",
+   "file": "aeis/aeis/stable_lease.py",
+   "line": 9,
+   "verdict": "租约(需DEV耦合声明)",
+   "code": "exp(-γ·t)——TTL 超时等价于 confidence 衰减至弱验证阈值以下。"
+  },
+  {
+   "rule": "TTL_LEASE",
+   "file": "aeis/aeis/stable_lease.py",
+   "line": 73,
+   "verdict": "租约(需DEV耦合声明)",
+   "code": "\"reason\": \"TTL 超时\" if expired else \"置信度衰减至弱阈值\","
+  },
+  {
+   "rule": "TTL_LEASE",
+   "file": "aeis/wisdom/net_units.py",
+   "line": 92,
+   "verdict": "租约(需DEV耦合声明)",
+   "code": "\"calibration\": \"对照：局域网发现——设备心跳在线判定（TTL 超时离线）\","
+  },
+  {
+   "rule": "EMA",
+   "file": "aeis/wisdom/net_units.py",
+   "line": 2203,
+   "verdict": "指数平滑",
+   "code": "\"        state['rtt'] = round((1 - alpha) * prev + alpha * sample, 2)\\n\""
+  },
+  {
+   "rule": "TTL_LEASE",
+   "file": "aeis/wisdom/semantic_translate.py",
+   "line": 3063,
+   "verdict": "租约(需DEV耦合声明)",
+   "code": "同 (question, limit) 在 TTL 内直返缓存；知识库指纹变更整体失效。\"\"\""
+  }
+ ]
+}
