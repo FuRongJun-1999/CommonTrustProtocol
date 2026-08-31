@@ -675,12 +675,14 @@ class LayeredStore:
         例：历史学（元学科）⊃ 初中历史/高中历史（hierarchical 归属嵌套）。
         返回 {root, node_count, edge_count, nodes: {id: {name, importance}}, edges}
         """
+        # ① 递归遍历收集子图节点（默认沿归属/因果/相似三类边向外扩展）
         nodes = self.traverse(root_id, relation_types=relation_types or
                               ["hierarchical", "causal", "similar"],
                               direction="out", max_depth=max_depth)
         node_ids = [root_id] + [r["node_id"] for r in nodes]
         c = self.conn.cursor()
         ph = ",".join("?" * len(node_ids))
+        # ② 收集子图内部边（两端都在子图内的边才算）
         edges = []
         for row in c.execute(
                 f"SELECT source_id, target_id, relation_type FROM edges "
@@ -688,6 +690,7 @@ class LayeredStore:
                 node_ids + node_ids).fetchall():
             edges.append({"source": row[0], "target": row[1],
                           "relation_type": row[2]})
+        # ③ 取节点名与重要度（name 缺失时退化为 id 前 24 字符）
         names = {}
         for row in c.execute(
                 f"SELECT id, state_attributes, importance FROM nodes "
