@@ -1,8 +1,8 @@
 {
- "version": "v1.3",
+ "version": "v1.4",
  "description": "白箱回答能力题库（荣指令 2026-08-31：多种对话问题测试白箱回答能力，提问收录入题库）",
  "usage": "keywords 供自动 key_hit 口径；type/domain 供分域统计；新增题 append 后跑评测脚本",
- "count": 36,
+ "count": 42,
  "questions": [
   {
    "id": "T8-001",
@@ -449,6 +449,82 @@
     "100"
    ],
    "source": "回归-物理",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-013",
+   "question": "通货膨胀是什么意思",
+   "domain": "经济",
+   "type": "学科直答",
+   "keywords": [
+    "物价",
+    "货币",
+    "购买力"
+   ],
+   "source": "新知识域探索-经济",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-014",
+   "question": "HTTPS 和 HTTP 的区别是什么",
+   "domain": "网络安全",
+   "type": "技术直答",
+   "keywords": [
+    "加密",
+    "TLS",
+    "SSL"
+   ],
+   "source": "新知识域探索-网络安全",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-015",
+   "question": "什么是机器学习",
+   "domain": "人工智能",
+   "type": "技术直答",
+   "keywords": [
+    "数据",
+    "学习",
+    "模型"
+   ],
+   "source": "新知识域探索-AI",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-016",
+   "question": "血液循环的路径是什么",
+   "domain": "生物",
+   "type": "学科直答",
+   "keywords": [
+    "心脏",
+    "动脉",
+    "静脉"
+   ],
+   "source": "新知识域探索-生物深化",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-017",
+   "question": "勾股定理的内容是什么",
+   "domain": "数学",
+   "type": "学科直答",
+   "keywords": [
+    "直角",
+    "平方"
+   ],
+   "source": "新知识域探索-数学深化",
+   "added": "2026-09-01"
+  },
+  {
+   "id": "QB-018",
+   "question": "Git 的 commit 和 push 有什么区别",
+   "domain": "编程-Git",
+   "type": "技术直答",
+   "keywords": [
+    "本地",
+    "远程"
+   ],
+   "source": "新知识域探索-Git",
    "added": "2026-09-01"
   }
  ]
