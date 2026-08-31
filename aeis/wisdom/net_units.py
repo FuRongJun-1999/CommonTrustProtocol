@@ -2865,9 +2865,9 @@ NET_UNITS = {
             "    return dev['paired']\n"
         ),
         "cases": [
-            [[{'id': 1, 'paired': False, 'trust': 0}, 'pair', 1], True],
-            [[{'id': 1, 'paired': True, 'trust': 1}, 'unpair', 1], False],
-            [[{'id': 1, 'paired': False, 'trust': 0}, 'check', 1], False],
+            [({1: {'paired': False, 'trust': 0}}, 'pair', 1), True],
+            [({1: {'paired': True, 'trust': 1}}, 'unpair', 1), False],
+            [({1: {'paired': False, 'trust': 0}}, 'check', 1), False],
         ],
         "params": ["devices", "op", "device_id"],
         "calibration": "对照：蓝牙配对——信任建立/撤销/查询三操作，配对即信任=1（蜂群信任链基例）",
