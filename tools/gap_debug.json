@@ -1,0 +1,28 @@
+{
+ "probe": "写一个蜂群-配对信任单元（配对信任）",
+ "result": {
+  "question": "写一个蜂群-配对信任单元（配对信任）",
+  "ok": false,
+  "task": "配对信任",
+  "unit": "蜂群-配对信任",
+  "code": "def swarm_pair(devices, op, device_id=None):\n    # 生效条件：devices 为设备 dict（id → {'paired': bool, 'trust': int}）；\n    #          op ∈ {pair, unpair, check}；device_id 配对/解对时必填\n    # 子功能：① pair 信任建立（trust=1）② unpair 撤销 ③ check 查询\n    # 执行：状态机分派（配对信任链：未配对→已配对，撤销反向）\n    # 不适用条件：重复配对已配对设备返回原状态（幂等）\n    devices.setdefault(device_id, {'paired': False, 'trust': 0})\n    dev = devices[device_id]\n    if op == 'pair':\n        dev['paired'] = True\n        dev['trust'] = 1\n    elif op == 'unpair':\n        dev['paired'] = False\n        dev['trust'] = 0\n    return dev['paired']\n",
+  "checks": [
+   "✔ L1语法 语法通过（1 个函数定义）",
+   "✗ L2样例 样例1 崩溃: [{1: {'paired': False, 'trust': 0}}, 'pair', 1] → swarm_pair() missing 1 required positional argument: 'op'",
+   "✔ 规范符合性 结构规范 + 语义对齐 + 条件论注释通过",
+   "✔ 缓存命中（指纹 a866f668bd6f）"
+  ],
+  "solidified": false,
+  "domain": "net"
+ },
+ "pid": 21112,
+ "sys_executable": "C:\\Users\\FuRongJun\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+ "code_compose_file": "D:\\Program Files\\2_ai\\CommonTrustProtocol\\aeis\\wisdom\\code_compose.py",
+ "cases_shape": "tuple",
+ "env": {
+  "AEIS_DESIGNER_KEY": "6dfe28b761c3711f80743ab3345c74b8aba9afae306f2636",
+  "PYTHONIOENCODING": "utf-8",
+  "PYTHONUTF8": "1",
+  "SYSTEMROOT": "C:\\WINDOWS"
+ }
+}
