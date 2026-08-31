@@ -309,6 +309,21 @@ def main():
         except Exception as e:
             log_event({"round": "loop_error", "error": str(e)[:200],
                        "ts": _time.strftime("%Y-%m-%d %H:%M:%S")})
+        # GAP_DEBUG 诊断（2026-08-31）：每轮结束后自报本进程视角的
+        # 配对信任指纹状态——区分「本进程写的 False」vs「他进程写回」
+        if os.environ.get("GAP_DEBUG"):
+            try:
+                _vc = os.path.join(ROOT, "aeis", "data", "verify_cache.json")
+                _d = json.load(open(_vc, encoding="utf-8"))
+                _ent = _d.get("a866f668bd6f4a1c048e16f684df69bf")
+                log_event({"round": "gap_watch", "pid": os.getpid(),
+                           "a866_ok": (_ent or {}).get("ok"),
+                           "a866_cached": "缓存命中" in json.dumps((_ent or {}).get("checks", []), ensure_ascii=False),
+                           "cache_entries": len([k for k in _d if not k.startswith("_")]),
+                           "ts": _time.strftime("%Y-%m-%d %H:%M:%S")})
+            except Exception as _e:
+                log_event({"round": "gap_watch", "error": str(_e)[:100],
+                           "ts": _time.strftime("%Y-%m-%d %H:%M:%S")})
         # CSRE 索引新鲜度（T7 · 2026-08-28）：kp 卡指纹变化才重建，
         # 快照过期会让 L1 词向量对新知识卡零向量
         try:
