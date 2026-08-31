@@ -1647,6 +1647,7 @@ class LayeredStore:
     # ---------- 统计 ----------
 
     def get_stats(self) -> Dict:
+        """全库统计快照（各层节点数等聚合指标）。"""
         c = self.conn.cursor()
         stats = {}
         for layer in MemoryLayer:
@@ -1659,6 +1660,7 @@ class LayeredStore:
         return stats
 
     def close(self):
+        """关闭存储连接（Agent 生命周期终点调用）。"""
         self.conn.close()
 
 
@@ -1956,6 +1958,7 @@ class SpacetimeMemoryEngine:
         return node
 
     def get_anchors(self) -> List[STNode]:
+        """取锚点层节点（不可遗忘的核心锚集合）。"""
         return self.store.get_layer_nodes(MemoryLayer.ANCHOR)
 
     # ==================== 结构层操作 ====================
