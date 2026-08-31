@@ -2225,6 +2225,7 @@ class SpacetimeMemoryEngine:
 
     def add_context(self, content: str, importance: float = 0.4,
                     condition_space: ConditionSpace = None, tags: List[str] = None) -> STNode:
+        """写入情境层节点（短期记忆，importance 默认 0.4，随 decay 淡出）。"""
         cs = condition_space or ConditionSpace(
             "情境感知", "会话摄入", (time.time(), time.time()+3600), "协议实例运行中")
         node = STNode(
@@ -2241,6 +2242,7 @@ class SpacetimeMemoryEngine:
         return self.store.get_recent_context(limit)
 
     def set_context_cap(self, max_size: int):
+        """设置情境层容量上限（FIFO 上限，至少 1）。"""
         self._context_max = max(1, max_size)
         self.store.enforce_context_cap(self._context_max)
 
