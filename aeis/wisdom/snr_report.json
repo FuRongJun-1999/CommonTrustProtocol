@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-30 15:16:48",
+  "generated_at": "2026-08-31 11:13:01",
   "source": "snr_dashboard v1.16（C 维进化·递归反思 3.12 终裁）",
   "compression_ratio": 3988.8,
   "inject_quality": null,
-  "graph_snr": null,
+  "graph_snr": 0.0,
   "memory_purge": null,
   "signals": {
     "compression": {
@@ -18,8 +18,8 @@
     "graph": {
       "available": true,
       "verified_edges": 0,
-      "rejected_open": 0,
-      "graph_snr": null
+      "rejected_open": 10,
+      "graph_snr": 0.0
     },
     "memory": {
       "available": true,
@@ -36,6 +36,6 @@
     }
   },
   "bottleneck": [
-    "各维度信噪比良好，维持现有八机制"
+    "图谱信噪比 0.0% < 90%：存在 open 被拒路径，建议走 causal_discover 验证闭环修复"
   ]
 }

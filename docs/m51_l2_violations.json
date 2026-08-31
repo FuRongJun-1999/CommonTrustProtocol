@@ -1,0 +1,2921 @@
+{
+ "scan": "M5.1-L2 readability violations",
+ "root": "aeis",
+ "files_scanned": 183,
+ "total": 415,
+ "by_rule": {
+  "B_LONG_NO_COMMENT": 69,
+  "A_MISSING_DOCSTRING": 346
+ },
+ "thresholds": {
+  "long_body_lines": 25
+ },
+ "ts": "2026-08-31 14:44:50",
+ "violations": [
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/api.py",
+   "line": 563,
+   "name": "condition_space_operate",
+   "body_lines": 74
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/attention.py",
+   "line": 54,
+   "name": "get_weights",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/channel_credibility.py",
+   "line": 80,
+   "name": "save",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/channel_credibility.py",
+   "line": 123,
+   "name": "credibility",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/channel_credibility.py",
+   "line": 127,
+   "name": "channel_state",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/channel_credibility.py",
+   "line": 148,
+   "name": "reset",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 83,
+   "name": "NodeType",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 91,
+   "name": "EdgeType",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 104,
+   "name": "MemoryLayer",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 116,
+   "name": "STNode",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 171,
+   "name": "STEdge",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 60,
+   "name": "to_json",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 64,
+   "name": "from_json",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 134,
+   "name": "to_row",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 150,
+   "name": "from_row",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 184,
+   "name": "to_row",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 196,
+   "name": "from_row",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 228,
+   "name": "update",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 271,
+   "name": "to_dict",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 444,
+   "name": "add_node",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 479,
+   "name": "get_node",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 528,
+   "name": "add_edge",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 535,
+   "name": "get_edge",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 562,
+   "name": "query_nodes",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 579,
+   "name": "get_layer_nodes",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 639,
+   "name": "subgraph",
+   "body_lines": 31
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 705,
+   "name": "get_outgoing_edges",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 710,
+   "name": "get_incoming_edges",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 944,
+   "name": "tag_node",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 963,
+   "name": "get_recent_context",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 970,
+   "name": "add_blindspot",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 981,
+   "name": "list_blindspots",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 998,
+   "name": "resolve_blindspot",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1006,
+   "name": "add_skill",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1014,
+   "name": "search_skills",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1028,
+   "name": "count_skills",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1033,
+   "name": "update_skill_confidence",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1041,
+   "name": "add_promotion_proposal",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1049,
+   "name": "verify_promotion",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1089,
+   "name": "get_protected_nodes",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1118,
+   "name": "count_layer",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 1351,
+   "name": "insight_verify",
+   "body_lines": 41
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 1393,
+   "name": "insight_report",
+   "body_lines": 48
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1473,
+   "name": "add_rejected_path",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1482,
+   "name": "list_rejected_paths",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1492,
+   "name": "mark_rejected_path_consumed",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1498,
+   "name": "add_verifier_standard",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1508,
+   "name": "list_verifier_standards",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1562,
+   "name": "list_escalation_points",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1572,
+   "name": "add_escalation_point",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1581,
+   "name": "set_escalation_enabled",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1589,
+   "name": "get_stats",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1601,
+   "name": "close",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1898,
+   "name": "get_anchors",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 1929,
+   "name": "add_edge",
+   "body_lines": 29
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1965,
+   "name": "spatiotemporal_query",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2059,
+   "name": "get_self_model",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2064,
+   "name": "search_content",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2138,
+   "name": "list_blindspots",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2158,
+   "name": "add_context",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2172,
+   "name": "get_recent_context",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2175,
+   "name": "set_context_cap",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2181,
+   "name": "set_dedup_config",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2194,
+   "name": "register_conflict",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2199,
+   "name": "propose_promotion",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2241,
+   "name": "get_protected_nodes",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2246,
+   "name": "store_skill",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2249,
+   "name": "recall_skill",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2256,
+   "name": "update_skill_confidence",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2397,
+   "name": "mark_contested",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2402,
+   "name": "resolve_contested",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2407,
+   "name": "mark_stale",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 2412,
+   "name": "reverify",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 2729,
+   "name": "voxel_world",
+   "body_lines": 39
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 2769,
+   "name": "world_server",
+   "body_lines": 53
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 2823,
+   "name": "scene_simulator",
+   "body_lines": 42
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 2866,
+   "name": "spacetime_consistency",
+   "body_lines": 72
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 2939,
+   "name": "world_model",
+   "body_lines": 69
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 3009,
+   "name": "world_learner",
+   "body_lines": 74
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 3084,
+   "name": "curiosity_explorer",
+   "body_lines": 75
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 3160,
+   "name": "seven_layer_loop",
+   "body_lines": 69
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 3230,
+   "name": "world_generator",
+   "body_lines": 53
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 3284,
+   "name": "world_semantics",
+   "body_lines": 45
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 3467,
+   "name": "_vprim_context_for_claim",
+   "body_lines": 32
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 3548,
+   "name": "_hidden_premises",
+   "body_lines": 29
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 3862,
+   "name": "get_attention_policy",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 3918,
+   "name": "migrate_v17_coordinates",
+   "body_lines": 39
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4074,
+   "name": "get_semantic_provider",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4185,
+   "name": "list_rejected_paths",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4212,
+   "name": "mark_rejected_path_consumed",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4217,
+   "name": "get_verifier_config",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4259,
+   "name": "list_verifier_standards",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4279,
+   "name": "list_escalation_points",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4282,
+   "name": "add_escalation_point",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4286,
+   "name": "set_escalation_enabled",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 4353,
+   "name": "export_trajectory",
+   "body_lines": 31
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/core.py",
+   "line": 4531,
+   "name": "session_summary",
+   "body_lines": 29
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4697,
+   "name": "stop_auto_decay",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4731,
+   "name": "get_stats",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4734,
+   "name": "close",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 729,
+   "name": "dfs",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 757,
+   "name": "dfs",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 837,
+   "name": "bigrams",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4122,
+   "name": "rows",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4451,
+   "name": "find",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4456,
+   "name": "union",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 4690,
+   "name": "loop",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1988,
+   "name": "collect",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/entities.py",
+   "line": 85,
+   "name": "get_entity",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/entities.py",
+   "line": 98,
+   "name": "list_entities",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/entities.py",
+   "line": 144,
+   "name": "update_confidence",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/flywheel.py",
+   "line": 118,
+   "name": "_cluster_to_patterns",
+   "body_lines": 40
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/flywheel.py",
+   "line": 320,
+   "name": "query_subgraph",
+   "body_lines": 41
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/flywheel.py",
+   "line": 129,
+   "name": "find",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/flywheel.py",
+   "line": 135,
+   "name": "union",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/lifecycle.py",
+   "line": 267,
+   "name": "loop",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/longterm_gate.py",
+   "line": 295,
+   "name": "promote_from_context",
+   "body_lines": 30
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/mcp/server.py",
+   "line": 38,
+   "name": "_serialize",
+   "body_lines": 29
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/mcp/server.py",
+   "line": 77,
+   "name": "_tools",
+   "body_lines": 460
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/mcp/server.py",
+   "line": 998,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/negative_routing.py",
+   "line": 62,
+   "name": "reset_stats",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/prediction.py",
+   "line": 329,
+   "name": "_auto_conditionize",
+   "body_lines": 44
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/prediction.py",
+   "line": 177,
+   "name": "dfs",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_chat.py",
+   "line": 647,
+   "name": "close",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_chat.py",
+   "line": 604,
+   "name": "bigrams",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_server.py",
+   "line": 144,
+   "name": "Handler",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_server.py",
+   "line": 179,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_server.py",
+   "line": 156,
+   "name": "do_OPTIONS",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_server.py",
+   "line": 163,
+   "name": "do_GET",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_server.py",
+   "line": 168,
+   "name": "do_POST",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_server.py",
+   "line": 173,
+   "name": "log_message",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_web.py",
+   "line": 331,
+   "name": "Handler",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_web.py",
+   "line": 539,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/roleplay_web.py",
+   "line": 539,
+   "name": "main",
+   "body_lines": 27
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_web.py",
+   "line": 350,
+   "name": "do_GET",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_web.py",
+   "line": 388,
+   "name": "do_POST",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_web.py",
+   "line": 533,
+   "name": "log_message",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/security/adversarial.py",
+   "line": 94,
+   "name": "in_cooldown",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/security/adversarial.py",
+   "line": 161,
+   "name": "events",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/security/adversarial.py",
+   "line": 164,
+   "name": "blocked_log",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/security/adversarial.py",
+   "line": 204,
+   "name": "recent",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/selfmod.py",
+   "line": 146,
+   "name": "save_baseline",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/selfmod.py",
+   "line": 207,
+   "name": "list_snapshots",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/server.py",
+   "line": 38,
+   "name": "_serialize",
+   "body_lines": 29
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/server.py",
+   "line": 77,
+   "name": "_tools",
+   "body_lines": 286
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/server.py",
+   "line": 697,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/seven_layer_loop.py",
+   "line": 72,
+   "name": "create_scene",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/seven_layer_loop.py",
+   "line": 75,
+   "name": "add_entity",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/seven_layer_loop.py",
+   "line": 81,
+   "name": "add_path",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/seven_layer_loop.py",
+   "line": 169,
+   "name": "report",
+   "body_lines": 28
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/seven_layer_loop.py",
+   "line": 202,
+   "name": "verify_state",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/seven_layer_loop.py",
+   "line": 206,
+   "name": "decision_state",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/seven_layer_loop.py",
+   "line": 211,
+   "name": "memory_state",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/seven_layer_loop.py",
+   "line": 216,
+   "name": "graph_state",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/seven_layer_loop.py",
+   "line": 221,
+   "name": "state",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/shapes.py",
+   "line": 132,
+   "name": "has_shape",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/stable_lease.py",
+   "line": 101,
+   "name": "state",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/event_bus.py",
+   "line": 268,
+   "name": "get",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/event_bus.py",
+   "line": 281,
+   "name": "stats",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/event_bus.py",
+   "line": 286,
+   "name": "close",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/instance_registry.py",
+   "line": 118,
+   "name": "is_active",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/instance_registry.py",
+   "line": 157,
+   "name": "assert_write",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/instance_registry.py",
+   "line": 167,
+   "name": "role",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/instance_registry.py",
+   "line": 170,
+   "name": "by_role",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/instance_registry.py",
+   "line": 173,
+   "name": "active_instances",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/instance_registry.py",
+   "line": 176,
+   "name": "summary",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/observer_isolation.py",
+   "line": 48,
+   "name": "close_channel",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/start_cluster.py",
+   "line": 25,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/start_self_sustaining.py",
+   "line": 29,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/swarm/survival.py",
+   "line": 97,
+   "name": "missing",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/api.py",
+   "line": 416,
+   "name": "condition_space_operate",
+   "body_lines": 74
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/examples/agent_integration.py",
+   "line": 44,
+   "name": "send",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/examples/agent_integration.py",
+   "line": 48,
+   "name": "recv",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/examples/quickstart.py",
+   "line": 12,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/agents/child.py",
+   "line": 106,
+   "name": "close",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/agents/supervisor.py",
+   "line": 64,
+   "name": "status",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/agents/supervisor.py",
+   "line": 68,
+   "name": "results",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/agents/supervisor.py",
+   "line": 110,
+   "name": "events",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/agents/supervisor.py",
+   "line": 115,
+   "name": "shutdown",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/agents/task.py",
+   "line": 33,
+   "name": "to_dict",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/agents/task.py",
+   "line": 37,
+   "name": "from_dict",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/coding/loop.py",
+   "line": 69,
+   "name": "stop",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/harness/coding/loop.py",
+   "line": 96,
+   "name": "_execute_tool",
+   "body_lines": 41
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/coding/manager.py",
+   "line": 24,
+   "name": "set_default_workspace",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/harness/coding/manager.py",
+   "line": 27,
+   "name": "submit",
+   "body_lines": 30
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/coding/manager.py",
+   "line": 58,
+   "name": "get",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/coding/manager.py",
+   "line": 62,
+   "name": "list_tasks",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/coding/workspace.py",
+   "line": 33,
+   "name": "read_file",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/coding/workspace.py",
+   "line": 56,
+   "name": "list_files",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/coding/workspace.py",
+   "line": 70,
+   "name": "exists",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/coding/workspace.py",
+   "line": 133,
+   "name": "list_snapshots",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/core/agent_pool.py",
+   "line": 36,
+   "name": "close",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/core/hub.py",
+   "line": 82,
+   "name": "history",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/core/session.py",
+   "line": 45,
+   "name": "add",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/core/session.py",
+   "line": 93,
+   "name": "clear",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/guardian.py",
+   "line": 142,
+   "name": "log_line",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/guardian.py",
+   "line": 254,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/inputs/terminal.py",
+   "line": 18,
+   "name": "stop",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/inputs/terminal.py",
+   "line": 21,
+   "name": "run",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/main.py",
+   "line": 32,
+   "name": "make_logger",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/main.py",
+   "line": 79,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/main.py",
+   "line": 36,
+   "name": "log",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/main.py",
+   "line": 167,
+   "name": "handle_input",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/main.py",
+   "line": 236,
+   "name": "consumer_loop",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/plugins/inject.py",
+   "line": 41,
+   "name": "is_external",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/plugins/inject.py",
+   "line": 61,
+   "name": "wrapped",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/plugins/manager.py",
+   "line": 89,
+   "name": "get",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/plugins/manager.py",
+   "line": 93,
+   "name": "names",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/plugins/manager.py",
+   "line": 97,
+   "name": "close_all",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/cron.py",
+   "line": 44,
+   "name": "parse_field",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/engine.py",
+   "line": 28,
+   "name": "stop",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/engine.py",
+   "line": 38,
+   "name": "run",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/store.py",
+   "line": 61,
+   "name": "add",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/store.py",
+   "line": 82,
+   "name": "list_all",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/store.py",
+   "line": 86,
+   "name": "get",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/store.py",
+   "line": 106,
+   "name": "set_enabled",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/store.py",
+   "line": 122,
+   "name": "delete",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/store.py",
+   "line": 126,
+   "name": "recent_runs",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/scheduler/store.py",
+   "line": 143,
+   "name": "close",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/harness/web/server.py",
+   "line": 23,
+   "name": "build_status",
+   "body_lines": 33
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/web/server.py",
+   "line": 58,
+   "name": "WebHandler",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/harness/web/server.py",
+   "line": 202,
+   "name": "start_web_server",
+   "body_lines": 30
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/web/server.py",
+   "line": 68,
+   "name": "log_message",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/web/server.py",
+   "line": 104,
+   "name": "do_GET",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/web/server.py",
+   "line": 151,
+   "name": "do_POST",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/harness/web/server.py",
+   "line": 151,
+   "name": "do_POST",
+   "body_lines": 49
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/harness/web/server.py",
+   "line": 221,
+   "name": "stop",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/migrate_memory.py",
+   "line": 65,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/migrate_memory.py",
+   "line": 65,
+   "name": "main",
+   "body_lines": 39
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/migrate_memory.py",
+   "line": 39,
+   "name": "flush",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/failure_mode_test.py",
+   "line": 24,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/failure_mode_test.py",
+   "line": 29,
+   "name": "fresh_cluster",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/fake_mcp_server.py",
+   "line": 28,
+   "name": "send",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/fake_mcp_server.py",
+   "line": 35,
+   "name": "read_line",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/fake_mcp_server.py",
+   "line": 40,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_accept_tiers.py",
+   "line": 11,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_adversarial.py",
+   "line": 25,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_adversarial.py",
+   "line": 37,
+   "name": "test_no_counterattack",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_adversarial.py",
+   "line": 58,
+   "name": "test_cooldown_rounds",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_adversarial.py",
+   "line": 73,
+   "name": "test_action_tiering",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_adversarial.py",
+   "line": 96,
+   "name": "test_trust_chain",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_adversarial.py",
+   "line": 108,
+   "name": "test_event_types",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_adversarial.py",
+   "line": 115,
+   "name": "test_event_trail",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_adversarial.py",
+   "line": 165,
+   "name": "test_tools_tier",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_adversarial.py",
+   "line": 185,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_aeis_package.py",
+   "line": 21,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_aeis_v112.py",
+   "line": 18,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 21,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 31,
+   "name": "fake_think",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 37,
+   "name": "test_task_model",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 47,
+   "name": "test_recursion_blocked",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 62,
+   "name": "test_child_identity_memory",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 89,
+   "name": "test_supervisor_concurrent",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 107,
+   "name": "test_supervisor_dispatch_timeout",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 130,
+   "name": "test_aggregate_and_report",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 157,
+   "name": "test_failure_propagation",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 174,
+   "name": "test_events_stream",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 183,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 112,
+   "name": "slow_think",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_agents.py",
+   "line": 162,
+   "name": "failing_think",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_ccg_triple.py",
+   "line": 11,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_channel_credibility.py",
+   "line": 13,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_coding.py",
+   "line": 25,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_coding.py",
+   "line": 35,
+   "name": "make_ws",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_coding.py",
+   "line": 135,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_condition_nodes.py",
+   "line": 18,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_confirmation.py",
+   "line": 11,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_gap_dual.py",
+   "line": 11,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_guardian_bidirectional.py",
+   "line": 25,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_guardian_bidirectional.py",
+   "line": 198,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 20,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 30,
+   "name": "test_config",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 46,
+   "name": "test_cron",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 64,
+   "name": "test_store",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 84,
+   "name": "test_engine",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 111,
+   "name": "test_tools_registry",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 120,
+   "name": "test_session",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 133,
+   "name": "test_main_import",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 138,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_harness.py",
+   "line": 91,
+   "name": "fake_task",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_jacobian_agent.py",
+   "line": 16,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_longterm.py",
+   "line": 19,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_longterm.py",
+   "line": 29,
+   "name": "make_env",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_longterm.py",
+   "line": 36,
+   "name": "test_evaluate_features",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_longterm.py",
+   "line": 56,
+   "name": "test_write_snapshot_long_term",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_longterm.py",
+   "line": 77,
+   "name": "test_duplicate_snapshot_promotes",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_longterm.py",
+   "line": 87,
+   "name": "test_promote_from_context",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_longterm.py",
+   "line": 103,
+   "name": "test_engine_integration",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_longterm.py",
+   "line": 112,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_mcp_smoke.py",
+   "line": 16,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_mcp_smoke.py",
+   "line": 21,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_mcp_smoke.py",
+   "line": 29,
+   "name": "send",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_mcp_smoke.py",
+   "line": 33,
+   "name": "recv",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_negative_routing.py",
+   "line": 11,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_obs_rev1.py",
+   "line": 25,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_obs_rev1.py",
+   "line": 35,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 22,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 32,
+   "name": "make_client",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 38,
+   "name": "test_handshake",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 47,
+   "name": "test_tools_discovery",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 56,
+   "name": "test_call_echo",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 64,
+   "name": "test_call_unknown_tool",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 72,
+   "name": "test_notification_ignored",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 83,
+   "name": "test_bad_json_skipped",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 92,
+   "name": "test_slow_timeout_rebuild",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 105,
+   "name": "test_stream_truncation",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 116,
+   "name": "test_unknown_method",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 126,
+   "name": "test_manager_config",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 141,
+   "name": "test_manager_start_and_inject",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 159,
+   "name": "test_external_tool_routing",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 178,
+   "name": "test_security_filter",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 189,
+   "name": "test_two_plugins_parallel",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_plugins.py",
+   "line": 206,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_reflect.py",
+   "line": 26,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_reflect.py",
+   "line": 36,
+   "name": "test_full_reflection",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_reflect.py",
+   "line": 61,
+   "name": "test_irreversible_escalation",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_reflect.py",
+   "line": 72,
+   "name": "test_reversible_no_escalation",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_reflect.py",
+   "line": 81,
+   "name": "test_recursion_limit",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/tests/test_reflect.py",
+   "line": 88,
+   "name": "test_mcp_tool",
+   "body_lines": 32
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_reflect.py",
+   "line": 122,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_reflect.py",
+   "line": 101,
+   "name": "send",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_reflect.py",
+   "line": 106,
+   "name": "notify",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_search.py",
+   "line": 19,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_search.py",
+   "line": 29,
+   "name": "test_synonym_expand",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_search.py",
+   "line": 81,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_stable_lease.py",
+   "line": 12,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_swarm.py",
+   "line": 25,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_template_catalog.py",
+   "line": 17,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 23,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 33,
+   "name": "http_get",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 38,
+   "name": "http_post",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 71,
+   "name": "test_static_page",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 78,
+   "name": "test_status",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 85,
+   "name": "test_chat_endpoint",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 92,
+   "name": "test_poll_incremental",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 101,
+   "name": "test_memory_search",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 111,
+   "name": "test_404",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 119,
+   "name": "test_agents_api",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_web.py",
+   "line": 125,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/tests/test_whitebox_purity.py",
+   "line": 17,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/chat_engine.py",
+   "line": 1488,
+   "name": "self_test",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/code_qa.py",
+   "line": 46,
+   "name": "code_qa",
+   "body_lines": 55
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/codegraph_white.py",
+   "line": 16,
+   "name": "extract_code_ir",
+   "body_lines": 43
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/codegraph_white.py",
+   "line": 99,
+   "name": "detect_cycles",
+   "body_lines": 35
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/codegraph_white.py",
+   "line": 108,
+   "name": "strongconnect",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/compose_engine.py",
+   "line": 1528,
+   "name": "bootstrap_report",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/condition_vm.py",
+   "line": 71,
+   "name": "run",
+   "body_lines": 26
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/core/compiler.py",
+   "line": 211,
+   "name": "_expr",
+   "body_lines": 29
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/core/condition_vm.py",
+   "line": 74,
+   "name": "run",
+   "body_lines": 31
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/core/parser.py",
+   "line": 745,
+   "name": "_parse_numeric_value",
+   "body_lines": 35
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/cspmn.py",
+   "line": 66,
+   "name": "load",
+   "body_lines": 27
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/csre.py",
+   "line": 144,
+   "name": "ensure_loaded",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/csre.py",
+   "line": 157,
+   "name": "save_index",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/danmaku_audit.py",
+   "line": 230,
+   "name": "self_test",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/danmaku_bridge.py",
+   "line": 80,
+   "name": "run_live",
+   "body_lines": 33
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/danmaku_bridge.py",
+   "line": 124,
+   "name": "run_demo",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/danmaku_bridge.py",
+   "line": 101,
+   "name": "on_danmaku",
+   "kind": "AsyncFunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/graph_qa.py",
+   "line": 48,
+   "name": "ask",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/migrate_wisdom.py",
+   "line": 63,
+   "name": "migrate_meta",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/migrate_wisdom.py",
+   "line": 200,
+   "name": "migrate_causal_edges",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/migrate_wisdom.py",
+   "line": 264,
+   "name": "migrate_meta_discipline_cards",
+   "body_lines": 79
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/migrate_wisdom.py",
+   "line": 222,
+   "name": "resolve",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/mini_python.py",
+   "line": 28,
+   "name": "tokenize",
+   "body_lines": 26
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/mini_python.py",
+   "line": 57,
+   "name": "Parser",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/mini_python.py",
+   "line": 145,
+   "name": "expect",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/mini_python.py",
+   "line": 151,
+   "name": "parse",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/mini_python.py",
+   "line": 516,
+   "name": "build",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/navigate.py",
+   "line": 70,
+   "name": "norm",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/pattern_separation.py",
+   "line": 205,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/scene_reconstruction.py",
+   "line": 134,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/semantic_translate.py",
+   "line": 4017,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/semantic_translate.py",
+   "line": 4017,
+   "name": "main",
+   "body_lines": 30
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/snr_dashboard.py",
+   "line": 69,
+   "name": "inject_quality",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/snr_dashboard.py",
+   "line": 101,
+   "name": "graph_snr",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/snr_dashboard.py",
+   "line": 121,
+   "name": "memory_purge",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/snr_dashboard.py",
+   "line": 177,
+   "name": "run",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/snr_dashboard.py",
+   "line": 177,
+   "name": "run",
+   "body_lines": 35
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/spatial_qa.py",
+   "line": 110,
+   "name": "grab",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/test_code_compose_domains.py",
+   "line": 393,
+   "name": "risky",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/test_ecosystem_assembly.py",
+   "line": 53,
+   "name": "get",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/test_navigate_self_bootstrap.py",
+   "line": 23,
+   "name": "check",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/test_python_self_bootstrap.py",
+   "line": 45,
+   "name": "risky",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/verifier.py",
+   "line": 863,
+   "name": "_audit_all",
+   "body_lines": 40
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/verifier.py",
+   "line": 905,
+   "name": "_cost_model",
+   "body_lines": 34
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/verifier.py",
+   "line": 941,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/verifier.py",
+   "line": 941,
+   "name": "main",
+   "body_lines": 45
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/verifier.py",
+   "line": 154,
+   "name": "summary",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/verifier.py",
+   "line": 241,
+   "name": "record_input",
+   "body_lines": 30
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 655,
+   "name": "ConditionDex",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2528,
+   "name": "smoke",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2528,
+   "name": "smoke",
+   "body_lines": 44
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 714,
+   "name": "seed_base",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 977,
+   "name": "dex_separate",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 1026,
+   "name": "dex_impact",
+   "body_lines": 52
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 1183,
+   "name": "dex_analyze",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 1183,
+   "name": "dex_analyze",
+   "body_lines": 29
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 1821,
+   "name": "_extract_premises",
+   "body_lines": 46
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 1868,
+   "name": "_condition_card",
+   "body_lines": 28
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2023,
+   "name": "dex_sandbox",
+   "body_lines": 50
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2119,
+   "name": "_probe",
+   "body_lines": 27
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2156,
+   "name": "dex_auto_test",
+   "body_lines": 54
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2237,
+   "name": "_derive_relations",
+   "body_lines": 36
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2335,
+   "name": "seed_history",
+   "body_lines": 26
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2362,
+   "name": "dex_homology",
+   "body_lines": 44
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2407,
+   "name": "dex_standard_battle",
+   "body_lines": 51
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2459,
+   "name": "dex_usage",
+   "body_lines": 32
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 1041,
+   "name": "walk",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 1148,
+   "name": "dfs",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 1310,
+   "name": "edges_of",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 1323,
+   "name": "dfs",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2213,
+   "name": "norm",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2391,
+   "name": "off",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_book.py",
+   "line": 2511,
+   "name": "bigrams",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/wisdom/wisdom_cloud.py",
+   "line": 46,
+   "name": "DexHandler",
+   "kind": "ClassDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/wisdom_cloud.py",
+   "line": 401,
+   "name": "_seed_cards",
+   "body_lines": 38
+  }
+ ]
+}
