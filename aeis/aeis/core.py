@@ -2124,6 +2124,7 @@ class SpacetimeMemoryEngine:
             self.add_edge(snapshot.id, link_to_node_id, EdgeType.CAUSAL, confidence=1.0)
 
     def get_self_model(self) -> SelfModel:
+        """取自认知模型（SelfModel：价值观/信任史/状态变更历史的聚合快照）。"""
         return self.self_model
 
     # ==================== 检索层（M1） ====================
