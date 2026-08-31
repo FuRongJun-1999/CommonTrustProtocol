@@ -125,6 +125,9 @@ SEED_MIN_ACCEPT_SCORE = 3  # 导航种子/常识播种卡：T8 复查实证分�
 def _accept_by_score(name: str, domain: str, score, coverage) -> bool:
     """M1.2 门槛按域分级 + 覆盖双维校准（T8 24 题，2026-08-30）。
 
+    口径溯源：coverage 即钉死批条款 1 的 dist_C 离散实现（dist_C := 1-cov），
+    连续条件偏序留 v2——见 docs/概念钉死批_GPT四点评审_v0.1.md 钉死 1。
+
     背景：一刀切 MIN_ACCEPT_SCORE=5 误杀正例——导航种子卡分数普遍 3-4
     （理财/宠物/拖延），计算机知识卡正例也有 3-4（TCP/复合赋值/print）。
     数据驱动规则（24 题校准：正例 22 全过、答非所问 2 + 域外 1 全拒）：
