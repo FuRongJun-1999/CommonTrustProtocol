@@ -653,6 +653,9 @@ PROTOCOL_LAYERS = {"存在论": "L0", "条件论": "L1", "负反馈系统": "L2"
 # ---------------------------------------------------------------------------
 
 class ConditionDex:
+    """条件论查询门面（Dex）：知识层为工作区——卡片种子导入、条件分离、
+    卡片四要素分析与路由验证的主入口对象。"""
+
     def __init__(self, db_path=None, fresh=False):
         """Dex 构造：复用或新建灵枢引擎，知识层为工作区。"""
         self.db_path = db_path or DEFAULT_DB
@@ -712,6 +715,7 @@ class ConditionDex:
     # ---- 基底装载（幂等：已播种则跳过） ----
 
     def seed_base(self):
+        """导入知识论种子卡（幂等：已存在 domain:存在论 标签则跳过）。"""
         existing = self.store.query_nodes(layer=MemoryLayer.KNOWLEDGE, limit=300)
         if any("domain:存在论" in (n.tags or []) for n in existing):
             return {"status": "already_seeded", "nodes": len(existing)}
@@ -975,6 +979,7 @@ class ConditionDex:
                 "note": "交汇处：共享标签即两条件空间叠加后的共同语义锚点"}
 
     def dex_separate(self, node_id):
+        """按节点查条件分离结果（名称/标签/条件要素的元数据视图）。"""
         n = self.store.get_node(node_id)
         if n is None:
             return {"error": "not_found"}
@@ -1181,6 +1186,8 @@ class ConditionDex:
     # ---- 外来知识分析 ----
 
     def dex_analyze(self, knowledge, limit=6):
+        """对知识文本做图鉴式四要素分析（观测位/观测工具/时间窗/存在约束），
+        返回未条件化的卡片草稿（limit=候选条件数上限）。"""
         card = {"observation_position": "外部输入（未声明）",
                 "observation_tool": "文本语义分析",
                 "time_window": "now",

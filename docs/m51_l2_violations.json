@@ -2,15 +2,15 @@
  "scan": "M5.1-L2 readability violations",
  "root": "aeis",
  "files_scanned": 184,
- "total": 391,
+ "total": 343,
  "by_rule": {
   "B_LONG_NO_COMMENT": 69,
-  "A_MISSING_DOCSTRING": 322
+  "A_MISSING_DOCSTRING": 274
  },
  "thresholds": {
   "long_body_lines": 25
  },
- "ts": "2026-08-31 15:34:41",
+ "ts": "2026-08-31 15:46:09",
  "violations": [
   {
    "rule": "B_LONG_NO_COMMENT",
@@ -546,62 +546,6 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 764,
-   "name": "dfs",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 792,
-   "name": "dfs",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 872,
-   "name": "bigrams",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 4161,
-   "name": "rows",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 4512,
-   "name": "find",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 4517,
-   "name": "union",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 4751,
-   "name": "loop",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 2027,
-   "name": "collect",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/entities.py",
    "line": 85,
    "name": "get_entity",
@@ -634,27 +578,6 @@
    "line": 326,
    "name": "query_subgraph",
    "body_lines": 41
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/flywheel.py",
-   "line": 135,
-   "name": "find",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/flywheel.py",
-   "line": 141,
-   "name": "union",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/lifecycle.py",
-   "line": 267,
-   "name": "loop",
-   "kind": "FunctionDef"
   },
   {
    "rule": "B_LONG_NO_COMMENT",
@@ -700,23 +623,9 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/prediction.py",
-   "line": 177,
-   "name": "dfs",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/roleplay_chat.py",
    "line": 647,
    "name": "close",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/roleplay_chat.py",
-   "line": 604,
-   "name": "bigrams",
    "kind": "FunctionDef"
   },
   {
@@ -725,13 +634,6 @@
    "line": 144,
    "name": "Handler",
    "kind": "ClassDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/roleplay_server.py",
-   "line": 179,
-   "name": "main",
-   "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
@@ -763,24 +665,17 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/roleplay_web.py",
-   "line": 331,
-   "name": "Handler",
-   "kind": "ClassDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/roleplay_web.py",
-   "line": 539,
+   "file": "aeis/aeis/roleplay_server.py",
+   "line": 179,
    "name": "main",
    "kind": "FunctionDef"
   },
   {
-   "rule": "B_LONG_NO_COMMENT",
+   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/roleplay_web.py",
-   "line": 539,
-   "name": "main",
-   "body_lines": 27
+   "line": 331,
+   "name": "Handler",
+   "kind": "ClassDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
@@ -802,6 +697,20 @@
    "line": 533,
    "name": "log_message",
    "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/roleplay_web.py",
+   "line": 539,
+   "name": "main",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/aeis/roleplay_web.py",
+   "line": 539,
+   "name": "main",
+   "body_lines": 27
   },
   {
    "rule": "A_MISSING_DOCSTRING",
@@ -1043,20 +952,6 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/examples/agent_integration.py",
-   "line": 44,
-   "name": "send",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/examples/agent_integration.py",
-   "line": 48,
-   "name": "recv",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/examples/quickstart.py",
    "line": 12,
    "name": "main",
@@ -1253,37 +1148,9 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/main.py",
-   "line": 36,
-   "name": "log",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/main.py",
-   "line": 167,
-   "name": "handle_input",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/main.py",
-   "line": 236,
-   "name": "consumer_loop",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/harness/plugins/inject.py",
    "line": 41,
    "name": "is_external",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/plugins/inject.py",
-   "line": 61,
-   "name": "wrapped",
    "kind": "FunctionDef"
   },
   {
@@ -1305,13 +1172,6 @@
    "file": "aeis/harness/plugins/manager.py",
    "line": 97,
    "name": "close_all",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/harness/scheduler/cron.py",
-   "line": 44,
-   "name": "parse_field",
    "kind": "FunctionDef"
   },
   {
@@ -1392,13 +1252,6 @@
    "kind": "ClassDef"
   },
   {
-   "rule": "B_LONG_NO_COMMENT",
-   "file": "aeis/harness/web/server.py",
-   "line": 202,
-   "name": "start_web_server",
-   "body_lines": 30
-  },
-  {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/harness/web/server.py",
    "line": 68,
@@ -1427,11 +1280,11 @@
    "body_lines": 49
   },
   {
-   "rule": "A_MISSING_DOCSTRING",
+   "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/harness/web/server.py",
-   "line": 221,
-   "name": "stop",
-   "kind": "FunctionDef"
+   "line": 202,
+   "name": "start_web_server",
+   "body_lines": 30
   },
   {
    "rule": "A_MISSING_DOCSTRING",
@@ -1446,13 +1299,6 @@
    "line": 65,
    "name": "main",
    "body_lines": 39
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/migrate_memory.py",
-   "line": 39,
-   "name": "flush",
-   "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
@@ -1652,20 +1498,6 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/tests/test_agents.py",
-   "line": 112,
-   "name": "slow_think",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/tests/test_agents.py",
-   "line": 162,
-   "name": "failing_think",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/tests/test_ccg_triple.py",
    "line": 11,
    "name": "check",
@@ -1799,13 +1631,6 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/tests/test_harness.py",
-   "line": 91,
-   "name": "fake_task",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/tests/test_jacobian_agent.py",
    "line": 16,
    "name": "check",
@@ -1879,20 +1704,6 @@
    "file": "aeis/tests/test_mcp_smoke.py",
    "line": 21,
    "name": "main",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/tests/test_mcp_smoke.py",
-   "line": 29,
-   "name": "send",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/tests/test_mcp_smoke.py",
-   "line": 33,
-   "name": "recv",
    "kind": "FunctionDef"
   },
   {
@@ -2086,20 +1897,6 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/tests/test_reflect.py",
-   "line": 101,
-   "name": "send",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/tests/test_reflect.py",
-   "line": 106,
-   "name": "notify",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/tests/test_search.py",
    "line": 19,
    "name": "check",
@@ -2254,13 +2051,6 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/codegraph_white.py",
-   "line": 108,
-   "name": "strongconnect",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/wisdom/compose_engine.py",
    "line": 1528,
    "name": "bootstrap_report",
@@ -2338,13 +2128,6 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/danmaku_bridge.py",
-   "line": 101,
-   "name": "on_danmaku",
-   "kind": "AsyncFunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/wisdom/graph_qa.py",
    "line": 48,
    "name": "ask",
@@ -2372,13 +2155,6 @@
    "body_lines": 79
   },
   {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/migrate_wisdom.py",
-   "line": 222,
-   "name": "resolve",
-   "kind": "FunctionDef"
-  },
-  {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/mini_python.py",
    "line": 28,
@@ -2404,20 +2180,6 @@
    "file": "aeis/wisdom/mini_python.py",
    "line": 151,
    "name": "parse",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/mini_python.py",
-   "line": 516,
-   "name": "build",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/navigate.py",
-   "line": 70,
-   "name": "norm",
    "kind": "FunctionDef"
   },
   {
@@ -2485,20 +2247,6 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/spatial_qa.py",
-   "line": 110,
-   "name": "grab",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/test_code_compose_domains.py",
-   "line": 393,
-   "name": "risky",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/wisdom/test_ecosystem_assembly.py",
    "line": 53,
    "name": "get",
@@ -2513,10 +2261,17 @@
   },
   {
    "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/test_python_self_bootstrap.py",
-   "line": 45,
-   "name": "risky",
+   "file": "aeis/wisdom/verifier.py",
+   "line": 154,
+   "name": "summary",
    "kind": "FunctionDef"
+  },
+  {
+   "rule": "B_LONG_NO_COMMENT",
+   "file": "aeis/wisdom/verifier.py",
+   "line": 241,
+   "name": "record_input",
+   "body_lines": 30
   },
   {
    "rule": "B_LONG_NO_COMMENT",
@@ -2547,193 +2302,102 @@
    "body_lines": 45
   },
   {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/verifier.py",
-   "line": 154,
-   "name": "summary",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "B_LONG_NO_COMMENT",
-   "file": "aeis/wisdom/verifier.py",
-   "line": 241,
-   "name": "record_input",
-   "body_lines": 30
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 655,
-   "name": "ConditionDex",
-   "kind": "ClassDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2528,
-   "name": "smoke",
-   "kind": "FunctionDef"
-  },
-  {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2528,
-   "name": "smoke",
-   "body_lines": 44
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 714,
-   "name": "seed_base",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 977,
-   "name": "dex_separate",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "B_LONG_NO_COMMENT",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 1026,
+   "line": 1031,
    "name": "dex_impact",
    "body_lines": 52
   },
   {
-   "rule": "A_MISSING_DOCSTRING",
+   "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 1183,
+   "line": 1188,
    "name": "dex_analyze",
-   "kind": "FunctionDef"
+   "body_lines": 31
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 1183,
-   "name": "dex_analyze",
-   "body_lines": 29
-  },
-  {
-   "rule": "B_LONG_NO_COMMENT",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 1821,
+   "line": 1828,
    "name": "_extract_premises",
    "body_lines": 46
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 1868,
+   "line": 1875,
    "name": "_condition_card",
    "body_lines": 28
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2023,
+   "line": 2030,
    "name": "dex_sandbox",
    "body_lines": 50
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2119,
+   "line": 2126,
    "name": "_probe",
    "body_lines": 27
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2156,
+   "line": 2163,
    "name": "dex_auto_test",
    "body_lines": 54
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2237,
+   "line": 2244,
    "name": "_derive_relations",
    "body_lines": 36
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2335,
+   "line": 2342,
    "name": "seed_history",
    "body_lines": 26
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2362,
+   "line": 2369,
    "name": "dex_homology",
    "body_lines": 44
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2407,
+   "line": 2414,
    "name": "dex_standard_battle",
    "body_lines": 51
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2459,
+   "line": 2466,
    "name": "dex_usage",
    "body_lines": 32
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 1041,
-   "name": "walk",
+   "line": 2535,
+   "name": "smoke",
    "kind": "FunctionDef"
   },
   {
-   "rule": "A_MISSING_DOCSTRING",
+   "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/wisdom/wisdom_book.py",
-   "line": 1148,
-   "name": "dfs",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 1310,
-   "name": "edges_of",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 1323,
-   "name": "dfs",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2213,
-   "name": "norm",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2391,
-   "name": "off",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/wisdom/wisdom_book.py",
-   "line": 2511,
-   "name": "bigrams",
-   "kind": "FunctionDef"
+   "line": 2535,
+   "name": "smoke",
+   "body_lines": 44
   },
   {
    "rule": "A_MISSING_DOCSTRING",

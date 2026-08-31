@@ -43,6 +43,18 @@ def inline_comment_count(source_lines, node) -> int:
     return n
 
 
+def iter_definitions(tree):
+    """定向遍历：模块顶层 + 类体直接定义（方法/嵌套类）。
+    不深入函数体内——方法内嵌闭包外部不可达，不属公开 API 口径。"""
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            yield node
+            if isinstance(node, ast.ClassDef):
+                for sub in node.body:
+                    if isinstance(sub, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                        yield sub
+
+
 def scan_file(path: Path, rel: str):
     src = path.read_text(encoding='utf-8', errors='replace')
     lines = src.splitlines()
@@ -51,7 +63,7 @@ def scan_file(path: Path, rel: str):
     except SyntaxError as e:
         return [{'rule': 'PARSE', 'file': rel, 'detail': f'syntax error: {e}'}]
     out = []
-    for node in ast.walk(tree):
+    for node in iter_definitions(tree):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
             if is_public(node.name):
                 if not ast.get_docstring(node):
