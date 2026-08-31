@@ -2028,6 +2028,7 @@ class SpacetimeMemoryEngine:
     def spatiotemporal_query(self, node_id: str, time_radius: float = 300.0,
                              space_metric: str = None, space_radius: float = 0.5,
                              max_results: int = 20) -> List[Tuple[STNode, float]]:
+        """时空联想查询：以节点为锚按时间+空间双半径加权取近邻（转发 store 层）。"""
         return self.store.spatiotemporal_query(node_id, time_radius, space_metric, space_radius, max_results)
 
     # ==================== 因果推理 ====================
