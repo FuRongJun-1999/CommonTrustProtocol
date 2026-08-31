@@ -304,6 +304,11 @@ class LayeredStore:
             try:
                 self.conn.execute("PRAGMA journal_mode=WAL")
                 self.conn.execute("PRAGMA busy_timeout=10000")
+                # v1.16 WAL 上限软引导（连接级，常驻连接自动带上，避免 limit 回默认 -1）
+                try:
+                    self.conn.execute("PRAGMA journal_size_limit=512000000")
+                except Exception:
+                    pass
             except Exception:
                 pass
         self._init_tables()
