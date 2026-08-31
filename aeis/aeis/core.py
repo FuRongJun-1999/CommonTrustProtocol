@@ -443,6 +443,13 @@ class LayeredStore:
                 key TEXT PRIMARY KEY, value TEXT
             )
         ''')
+        # P0-2 D 序列持久化（钉死批条款4：跨进程 d² 可回放）——滚动保留 2000 条
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS gap_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ts REAL, d_norm REAL
+            )
+        ''')
         self.conn.commit()
 
     # ---------- 节点操作 ----------
@@ -1633,7 +1640,7 @@ class SpacetimeMemoryEngine:
         self._setup_v13()
         # ---- v1.5 状态（A-1~A-5） ----
         self._verifier_config = {"dedup_static": 0.85, "deviation_threshold": 0.3}
-        self._gap_history: List[Dict] = []
+        self._gap_history: List[Dict] = self._load_gap_history()
         self._resource_history: List[Dict] = []
         self._seed_escalation_points()
         # ---- v1.6 状态（M11 语义空间 / M13 备份） ----
@@ -4313,10 +4320,32 @@ class SpacetimeMemoryEngine:
                       0.30 * connection_drift + 0.15 * prediction_error)
         if d_norm is None:
             return 0.0
-        self._gap_history.append({"ts": time.time(), "d_norm": max(0.0, min(1.0, d_norm))})
+        dn = max(0.0, min(1.0, d_norm))
+        self._gap_history.append({"ts": time.time(), "d_norm": dn})
         if len(self._gap_history) > 100:
             self._gap_history = self._gap_history[-100:]
+        # OBS-REV1 / 钉死批条款4：D 序列落库（跨进程 d² 可回放），尽力而为不阻断
+        try:
+            sc = self.store.conn.cursor()
+            sc.execute("INSERT INTO gap_history (ts, d_norm) VALUES (?,?)",
+                       (self._gap_history[-1]["ts"], dn))
+            sc.execute("DELETE FROM gap_history WHERE id NOT IN"
+                       " (SELECT id FROM gap_history ORDER BY id DESC LIMIT 2000)")
+            self.store.conn.commit()
+        except Exception:
+            pass
         return d_norm
+
+    def _load_gap_history(self) -> List[Dict]:
+        """D 序列跨进程恢复（OBS-REV1 / 钉死批条款4）：读库尾 100 条填内存
+        窗口，重启后 d²/趋势不断链；空表或旧库无表时返回空列表。"""
+        try:
+            c = self.store.conn.cursor()
+            c.execute("SELECT ts, d_norm FROM gap_history ORDER BY id DESC LIMIT 100")
+            rows = c.fetchall()
+            return [{"ts": ts, "d_norm": dn} for ts, dn in reversed(rows)]
+        except Exception:
+            return []
 
     def get_gap_trend(self, window: int = 30) -> Dict:
         """A-4：信息差收敛趋势（斜率=线性回归；独立于资源指标）"""
