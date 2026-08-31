@@ -670,15 +670,18 @@ class LayeredStore:
         return result[:max_nodes]
 
     def subgraph(self, root_id: str, max_depth: int = 3,
-                 relation_types: List[str] = None) -> Dict:
+                 relation_types: List[str] = None,
+                 direction: str = "out") -> Dict:
         """子图嵌套查询（图架构增强）：根节点 + 子节点递归 + 子图内部边。
         例：历史学（元学科）⊃ 初中历史/高中历史（hierarchical 归属嵌套）。
+        direction="out"（默认，根→子）；"in" 用于子指向父的层级边
+        （如 dsh 嵌套认知图 child→parent 语义，2026-08-31 接口对接）。
         返回 {root, node_count, edge_count, nodes: {id: {name, importance}}, edges}
         """
-        # ① 递归遍历收集子图节点（默认沿归属/因果/相似三类边向外扩展）
+        # ① 递归遍历收集子图节点（默认沿归属/因果/相似三类边向指定方向扩展）
         nodes = self.traverse(root_id, relation_types=relation_types or
                               ["hierarchical", "causal", "similar"],
-                              direction="out", max_depth=max_depth)
+                              direction=direction, max_depth=max_depth)
         node_ids = [root_id] + [r["node_id"] for r in nodes]
         c = self.conn.cursor()
         ph = ",".join("?" * len(node_ids))
