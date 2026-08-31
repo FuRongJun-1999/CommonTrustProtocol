@@ -24,6 +24,12 @@ try:
 except Exception:
     _SIMILAR_REL = None
 
+# 统一时间核（钉死批条款3：衰减核形状唯一，实现收口 aeis/time_core.py）
+try:
+    from .time_core import cred_factor
+except ImportError:  # 直跑 fallback（裸名互导）
+    from time_core import cred_factor
+
 
 class FlywheelEngine:
     """知识飞轮引擎：存→蒸馏→复用→验证→回写 的闭环执行器"""
@@ -415,7 +421,7 @@ class FlywheelEngine:
         n_eff = 30  # 2.9.2 观察窗口默认
         tau = n_eff / 3
         age_days = max(0.0, (time.time() - node.last_access) / 86400.0)
-        factor = max(0.2, min(1.0, math.exp(-age_days / tau)))
+        factor = cred_factor(gamma=1.0 / tau, dt=age_days, floor=0.2, ceil=1.0)
         self.engine.store.update_node_confidence(node_id, delta * factor)
         return True
 

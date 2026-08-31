@@ -2,20 +2,18 @@
  "scan": "E5 time-core lint (钉死批条款3机械化)",
  "kernel_clause": "X_i(t)=X_i,∞+(X_i,0-X_i,∞)·e^(-γ_i·t)；核形状唯一，γ_i按对象分层",
  "root": "aeis",
- "files_scanned": 183,
- "total_hits": 12,
+ "files_scanned": 184,
+ "total_hits": 10,
  "by_rule": {
   "NON_TIME_EXP": 1,
-  "DISCRETE_EXP": 2,
-  "CONTINUOUS_EXP": 1,
   "TTL_LEASE": 7,
-  "EMA": 1
+  "ALLOWLIST": 2
  },
- "kernel_compliant": 11,
+ "kernel_compliant": 7,
  "suspect_violations": 0,
  "e5_verdict": "PASS",
  "note": "就地实现清单=统一核函数cred()单点化的消号队列（非违规，形状均指数族）",
- "ts": "2026-08-31 14:54:37",
+ "ts": "2026-08-31 15:01:18",
  "hits": [
   {
    "rule": "NON_TIME_EXP",
@@ -23,27 +21,6 @@
    "line": 34,
    "verdict": "exp无时间参数(排除)",
    "code": "return 1.0 / (1.0 + math.exp(-x))"
-  },
-  {
-   "rule": "DISCRETE_EXP",
-   "file": "aeis/aeis/core.py",
-   "line": 807,
-   "verdict": "指数核(离散乘法)",
-   "code": "new_conf = edge.confidence * (1 - factor)"
-  },
-  {
-   "rule": "DISCRETE_EXP",
-   "file": "aeis/aeis/core.py",
-   "line": 821,
-   "verdict": "指数核(离散乘法)",
-   "code": "new_imp = imp * (1 - factor)"
-  },
-  {
-   "rule": "CONTINUOUS_EXP",
-   "file": "aeis/aeis/flywheel.py",
-   "line": 418,
-   "verdict": "指数核(连续)",
-   "code": "factor = max(0.2, min(1.0, math.exp(-age_days / tau)))"
   },
   {
    "rule": "TTL_LEASE",
@@ -81,6 +58,13 @@
    "code": "\"reason\": \"TTL 超时\" if expired else \"置信度衰减至弱阈值\","
   },
   {
+   "rule": "ALLOWLIST",
+   "file": "aeis/aeis/time_core.py",
+   "line": 8,
+   "verdict": "统一时间核本体（唯一合法实现点）",
+   "code": "（exp(-t/τ)、×(1-factor)、EMA 保持率）都是 bug——"
+  },
+  {
    "rule": "TTL_LEASE",
    "file": "aeis/wisdom/net_units.py",
    "line": 92,
@@ -88,10 +72,10 @@
    "code": "\"calibration\": \"对照：局域网发现——设备心跳在线判定（TTL 超时离线）\","
   },
   {
-   "rule": "EMA",
+   "rule": "ALLOWLIST",
    "file": "aeis/wisdom/net_units.py",
    "line": 2203,
-   "verdict": "指数平滑",
+   "verdict": "知识单元卡内嵌代码文本（数据非引擎代码）",
    "code": "\"        state['rtt'] = round((1 - alpha) * prev + alpha * sample, 2)\\n\""
   },
   {

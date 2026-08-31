@@ -23,6 +23,12 @@ import math
 import time
 from typing import Dict, List, Optional
 
+# 统一时间核（钉死批条款3：衰减核形状唯一，实现收口 aeis/time_core.py）
+try:
+    from .time_core import cred_blend
+except ImportError:  # 直跑 fallback（裸名互导）
+    from time_core import cred_blend
+
 
 class GapDual:
     """信息差双层度量（D_task / D_meta 分离）。
@@ -92,8 +98,9 @@ class GapDual:
         if blindspot:
             growth += 1.0                     # 盲区暴露 → 未建模总量增加
         growth += new_conditions_seen * 0.5   # 新条件暴露
-        # 衰减（不做功则增长；做了功才可维持/下降）
-        self._last_meta = max(0.0, self._last_meta * (1 - self.decay) + growth)
+        # 衰减（不做功则增长；做了功才可维持/下降）——统一时间核指数平滑
+        self._last_meta = max(0.0, cred_blend(self._last_meta, growth,
+                                              retain=1.0 - self.decay))
         self._meta_history.append(self._last_meta)
         if len(self._meta_history) > 1000:
             self._meta_history = self._meta_history[-1000:]

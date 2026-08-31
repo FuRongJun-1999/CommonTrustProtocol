@@ -28,6 +28,13 @@ from pathlib import Path
 DEFAULT_EXCLUDE = ('models/',)
 SKIP_DIRS = ('.git', '__pycache__', 'node_modules')
 
+# 白名单：核本体唯一合法实现点 / 知识单元卡内嵌代码文本（数据非引擎代码）
+# 格式 {(file后缀匹配, 行号或None)}: (file相对路径, line或None)
+ALLOWLIST = {
+    ('aeis/aeis/time_core.py', None): '统一时间核本体（唯一合法实现点）',
+    ('aeis/wisdom/net_units.py', 2203): '知识单元卡内嵌代码文本（数据非引擎代码）',
+}
+
 PATTERNS = [
     # (规则, 正则, 判定)
     ('CONTINUOUS_EXP', re.compile(r'exp\(\s*-\s*[\w.()]+\s*/\s*[\w.]+\s*\)'), '指数核(连续)'),
@@ -52,8 +59,14 @@ def scan_file(path: Path, rel: str):
         for rule, pat, verdict in PATTERNS:
             if pat.search(code):
                 # NON_TIME_EXP 只在无其他规则命中该行时记录（排除域，供确认）
-                out.append({'rule': rule, 'file': rel, 'line': i,
-                            'verdict': verdict, 'code': code.strip()[:100]})
+                for (wf, wl), reason in ALLOWLIST.items():
+                    if rel.endswith(wf) and wl in (None, i):
+                        out.append({'rule': 'ALLOWLIST', 'file': rel, 'line': i,
+                                    'verdict': reason, 'code': code.strip()[:100]})
+                        break
+                else:
+                    out.append({'rule': rule, 'file': rel, 'line': i,
+                                'verdict': verdict, 'code': code.strip()[:100]})
                 break
     return out
 

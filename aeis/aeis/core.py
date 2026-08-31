@@ -25,6 +25,12 @@ from typing import Optional, List, Dict, Any, Tuple, Set
 from dataclasses import dataclass, field, asdict
 from enum import Enum
 
+# 统一时间核（钉死批条款3：衰减核形状唯一，实现收口 aeis/time_core.py）
+try:
+    from .time_core import cred_step
+except ImportError:  # 直跑 fallback（裸名互导）
+    from time_core import cred_step
+
 
 # =============================================================================
 # 设计者认证（D-007 用户身份识别·最小版）
@@ -804,7 +810,7 @@ class LayeredStore:
             rows = c.fetchall()
             for row in rows:
                 edge = STEdge.from_row(tuple(row))
-                new_conf = edge.confidence * (1 - factor)
+                new_conf = cred_step(edge.confidence, factor)
                 if new_conf < min_confidence:
                     # 低于最小置信度，删除边
                     c.execute("DELETE FROM edges WHERE id=?", (edge.id,))
@@ -818,7 +824,7 @@ class LayeredStore:
                 WHERE layer='context' AND importance > ?
             ''', (min_confidence,))
             for nid, imp in c.fetchall():
-                new_imp = imp * (1 - factor)
+                new_imp = cred_step(imp, factor)
                 if new_imp < min_confidence:
                     c.execute("DELETE FROM nodes WHERE id=?", (nid,))
                     c.execute("DELETE FROM edges WHERE source_id=? OR target_id=?",
