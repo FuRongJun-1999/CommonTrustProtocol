@@ -119,6 +119,7 @@ class VerifyRequest:
     expected_structure: Dict[str, Any] = field(default_factory=dict)  # 规范约束
 
     def __post_init__(self) -> None:
+        """深拷贝防污染 + 指纹预计算（外部原地修改会让指纹漂移·缓存错配——P0 纪律）。"""
         # 深拷贝可变字段——防止被校验代码原地修改污染外部共享对象
         self.cases = copy.deepcopy(self.cases)
         self.deps = list(self.deps)
@@ -167,7 +168,10 @@ class VerifyResult:
 # 校验器规则版本：L1/L2/L3/规范/集成规则升级时必须 +1——
 # 旧版本缓存结果在规则已变的场景下不再可信，强制全部失效重验
 # （等价于「协议升级 → 相关缓存刷新」，GLM 建议的 protocol_version 落地）。
-VERIFIER_VERSION = 5
+# v6（2026-08-31）：cases 形态修复（list→tuple）后指纹归一化同值，旧 False
+# 条目对修复免疫；bump 版本作废全部旧缓存——长驻进程内存快照复活毒条目的
+# 终局解（版本不符整体清空，任何进程加载即重建）。
+VERIFIER_VERSION = 6
 _CACHE_VERSION_KEY = "_verifier_version"
 _STATS_KEY = "_stats"
 
@@ -214,6 +218,7 @@ class VerifyCache:
 
     def __init__(self, path: str = CACHE_FILE, version: int = VERIFIER_VERSION,
                  savings_log: Optional[str] = SAVINGS_LOG):
+        """组装：缓存句柄注入（默认新建；变异测试可传隔离缓存）。"""
         self.path = path
         self.version = version
         self.savings_log = savings_log
@@ -224,6 +229,7 @@ class VerifyCache:
         self._load()
 
     def _load(self) -> None:
+        """从磁盘回放缓存快照（版本不符整体作废防脏读）。"""
         try:
             if os.path.exists(self.path):
                 with open(self.path, "r", encoding="utf-8") as f:
@@ -292,6 +298,7 @@ class VerifyCache:
                 "saved_chars": total_chars, "saved_tokens": total_tokens}
 
     def get(self, fingerprint: str) -> Optional[VerifyResult]:
+        """按指纹取缓存校验结果：命中计 hits 并标记 cached=True；未命中计 misses 返回 None。"""
         entry = self._data.get(fingerprint)
         if entry is None:
             self.misses += 1
@@ -305,6 +312,7 @@ class VerifyCache:
         return r
 
     def put(self, result: VerifyResult) -> None:
+        """写入指纹→结果映射并落盘持久化（附版本键防跨版本脏读）。"""
         self._data[result.fingerprint] = {
             "ok": result.ok,
             "checks": result.checks,
@@ -316,14 +324,36 @@ class VerifyCache:
         self._flush()
 
     def _flush(self) -> None:
+        """内存态刷盘：读-合并-原子替换（多进程并发写友好）。
+
+        bootstrap 循环进程与交互进程共用同一缓存文件——先吸收磁盘上
+        他进程新增的条目再写，消除「整文件写覆盖」；临时文件+os.replace
+        原子替换，消除「读到半写状态」。残余窗口仅剩同指纹同时写的
+        几毫秒，缓存可重建（最坏=丢条目重跑 verify），工程可接受。
+        """
         try:
             os.makedirs(DATA_DIR, exist_ok=True)
-            with open(self.path, "w", encoding="utf-8") as f:
+            try:
+                if os.path.exists(self.path):
+                    with open(self.path, "r", encoding="utf-8") as f:
+                        disk = json.load(f)
+                    # 版本一致性守卫：磁盘条目版本与本实例不同 → 全部忽略
+                    # （版本 bump 即整体作废，不能被合并逻辑复活旧条目）
+                    if isinstance(disk, dict) and disk.get(_CACHE_VERSION_KEY) == self.version:
+                        for k, v in disk.items():
+                            if k not in self._data:
+                                self._data[k] = v
+            except Exception:
+                pass  # 磁盘半写/损坏 → 以内存为准
+            tmp = self.path + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(self._data, f, ensure_ascii=False, indent=1)
+            os.replace(tmp, self.path)
         except Exception:
             pass
 
     def stats(self) -> Dict[str, Any]:
+        """聚合统计：条目总数、通过数、命中率（hits/(hits+misses)）。"""
         entries = {k: v for k, v in self._data.items() if k != _CACHE_VERSION_KEY}
         n = len(entries)
         n_pass = sum(1 for v in entries.values() if v.get("ok"))
@@ -340,10 +370,14 @@ class Verifier:
     """本地校验器：六层校验链，零 LLM。"""
 
     def __init__(self, cache: Optional[VerifyCache] = None):
+        """组装：缓存句柄注入（默认新建；变异测试可传隔离缓存）。"""
         self.cache = cache or VerifyCache()
 
     # ---------- 主入口 ----------
     def verify(self, req: VerifyRequest) -> VerifyResult:
+        """六层校验入口：深拷贝请求→算指纹→命中直返；未命中逐层校验并记录 token 节省度量。
+        
+                （深拷贝防调用方原地修改污染指纹空间——见 P0 修复记录。）"""
         # 不可变快照：verify 内部运行样例可能原地修改输入（如排序
         # arr[j], arr[j+1] = ...），必须深拷贝防止污染原始 req 对象
         # （否则同一 req 第二次校验指纹变化，缓存失效）
