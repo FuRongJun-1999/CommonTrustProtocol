@@ -1018,6 +1018,7 @@ class LayeredStore:
         return bid
 
     def list_blindspots(self, status: str = None) -> List[Dict]:
+        """列出盲区记录（可按 status=open/resolved 过滤）。"""
         c = self.conn.cursor()
         if status:
             c.execute("SELECT * FROM blindspots WHERE status=?", (status,))
@@ -1035,6 +1036,7 @@ class LayeredStore:
         return result
 
     def resolve_blindspot(self, blindspot_id: str):
+        """消解盲区（status→resolved 并记 resolved_at）——盲区学习闭环终点。"""
         c = self.conn.cursor()
         c.execute("UPDATE blindspots SET status='resolved', resolved_at=? WHERE id=?",
                   (time.time(), blindspot_id))
@@ -1043,6 +1045,7 @@ class LayeredStore:
     # ==================== 技能记忆（M9） ====================
 
     def add_skill(self, name: str, description: str, procedure: str, confidence: float = 0.5) -> str:
+        """登记技能卡（名称/描述/步骤/初始置信度），返回技能 id。"""
         sid = f"sk_{uuid.uuid4().hex[:8]}"
         c = self.conn.cursor()
         c.execute("INSERT INTO skills VALUES (?,?,?,?,?,?,?,?)",
@@ -1051,6 +1054,7 @@ class LayeredStore:
         return sid
 
     def search_skills(self, query: str, limit: int = 10) -> List[Dict]:
+        """按关键词检索技能卡（名称+描述+步骤 LIKE 匹配，默认前 10）。"""
         q = query.strip()
         c = self.conn.cursor()
         if q:
@@ -1065,11 +1069,13 @@ class LayeredStore:
         return skills[:limit]
 
     def count_skills(self) -> int:
+        """技能卡总数。"""
         c = self.conn.cursor()
         c.execute("SELECT COUNT(*) FROM skills")
         return c.fetchone()[0]
 
     def update_skill_confidence(self, skill_id: str, delta: float):
+        """技能置信度增量更新（clamp 到 [0,1]，正=成功经验/负=失败经验）。"""
         c = self.conn.cursor()
         c.execute("UPDATE skills SET confidence = MIN(1.0, MAX(0.0, confidence + ?)), updated_at=? WHERE id=?",
                   (delta, time.time(), skill_id))
@@ -1078,6 +1084,7 @@ class LayeredStore:
     # ==================== 固化流水线（M6 · D-003 终裁门槛） ====================
 
     def add_promotion_proposal(self, node_id: str, requester: str, reason: str) -> str:
+        """提交层晋升提案（节点申请跨层升格，如 context→knowledge），返回提案 id。"""
         pid = f"pp_{uuid.uuid4().hex[:8]}"
         c = self.conn.cursor()
         c.execute("INSERT INTO promotion_proposals VALUES (?,?,?,?,?,?,?,?,?)",
@@ -1086,6 +1093,7 @@ class LayeredStore:
         return pid
 
     def verify_promotion(self, proposal_id: str, verified_by: str):
+        """复核晋升提案（status→verified 并记录复核人）——晋升双签制第二签。"""
         c = self.conn.cursor()
         c.execute("UPDATE promotion_proposals SET verified_by=?, status='verified' WHERE id=?",
                   (verified_by, proposal_id))

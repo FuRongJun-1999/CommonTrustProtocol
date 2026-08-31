@@ -2,15 +2,15 @@
  "scan": "M5.1-L2 readability violations",
  "root": "aeis",
  "files_scanned": 184,
- "total": 343,
+ "total": 335,
  "by_rule": {
   "B_LONG_NO_COMMENT": 69,
-  "A_MISSING_DOCSTRING": 274
+  "A_MISSING_DOCSTRING": 266
  },
  "thresholds": {
   "long_body_lines": 25
  },
- "ts": "2026-08-31 15:46:09",
+ "ts": "2026-08-31 15:57:02",
  "violations": [
   {
    "rule": "B_LONG_NO_COMMENT",
@@ -64,483 +64,427 @@
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1020,
-   "name": "list_blindspots",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 1037,
-   "name": "resolve_blindspot",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 1045,
-   "name": "add_skill",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 1053,
-   "name": "search_skills",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 1067,
-   "name": "count_skills",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 1072,
-   "name": "update_skill_confidence",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 1080,
-   "name": "add_promotion_proposal",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 1088,
-   "name": "verify_promotion",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 1128,
+   "line": 1136,
    "name": "get_protected_nodes",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1157,
+   "line": 1165,
    "name": "count_layer",
    "kind": "FunctionDef"
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 1390,
+   "line": 1398,
    "name": "insight_verify",
    "body_lines": 41
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 1432,
+   "line": 1440,
    "name": "insight_report",
    "body_lines": 48
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1512,
+   "line": 1520,
    "name": "add_rejected_path",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1521,
+   "line": 1529,
    "name": "list_rejected_paths",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1531,
+   "line": 1539,
    "name": "mark_rejected_path_consumed",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1537,
+   "line": 1545,
    "name": "add_verifier_standard",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1547,
+   "line": 1555,
    "name": "list_verifier_standards",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1601,
+   "line": 1609,
    "name": "list_escalation_points",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1611,
+   "line": 1619,
    "name": "add_escalation_point",
-   "kind": "FunctionDef"
-  },
-  {
-   "rule": "A_MISSING_DOCSTRING",
-   "file": "aeis/aeis/core.py",
-   "line": 1620,
-   "name": "set_escalation_enabled",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
    "line": 1628,
+   "name": "set_escalation_enabled",
+   "kind": "FunctionDef"
+  },
+  {
+   "rule": "A_MISSING_DOCSTRING",
+   "file": "aeis/aeis/core.py",
+   "line": 1636,
    "name": "get_stats",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1640,
+   "line": 1648,
    "name": "close",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 1937,
+   "line": 1945,
    "name": "get_anchors",
    "kind": "FunctionDef"
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 1968,
+   "line": 1976,
    "name": "add_edge",
    "body_lines": 29
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2004,
+   "line": 2012,
    "name": "spatiotemporal_query",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2098,
+   "line": 2106,
    "name": "get_self_model",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2103,
+   "line": 2111,
    "name": "search_content",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2177,
+   "line": 2185,
    "name": "list_blindspots",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2197,
+   "line": 2205,
    "name": "add_context",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2211,
+   "line": 2219,
    "name": "get_recent_context",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2214,
+   "line": 2222,
    "name": "set_context_cap",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2220,
+   "line": 2228,
    "name": "set_dedup_config",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2233,
+   "line": 2241,
    "name": "register_conflict",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2238,
+   "line": 2246,
    "name": "propose_promotion",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2280,
+   "line": 2288,
    "name": "get_protected_nodes",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2285,
+   "line": 2293,
    "name": "store_skill",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2288,
+   "line": 2296,
    "name": "recall_skill",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2295,
+   "line": 2303,
    "name": "update_skill_confidence",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2436,
+   "line": 2444,
    "name": "mark_contested",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2441,
+   "line": 2449,
    "name": "resolve_contested",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2446,
+   "line": 2454,
    "name": "mark_stale",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 2451,
+   "line": 2459,
    "name": "reverify",
    "kind": "FunctionDef"
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 2768,
+   "line": 2776,
    "name": "voxel_world",
    "body_lines": 39
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 2808,
+   "line": 2816,
    "name": "world_server",
    "body_lines": 53
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 2862,
+   "line": 2870,
    "name": "scene_simulator",
    "body_lines": 42
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 2905,
+   "line": 2913,
    "name": "spacetime_consistency",
    "body_lines": 72
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 2978,
+   "line": 2986,
    "name": "world_model",
    "body_lines": 69
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 3048,
+   "line": 3056,
    "name": "world_learner",
    "body_lines": 74
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 3123,
+   "line": 3131,
    "name": "curiosity_explorer",
    "body_lines": 75
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 3199,
+   "line": 3207,
    "name": "seven_layer_loop",
    "body_lines": 69
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 3269,
+   "line": 3277,
    "name": "world_generator",
    "body_lines": 53
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 3323,
+   "line": 3331,
    "name": "world_semantics",
    "body_lines": 45
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 3506,
+   "line": 3514,
    "name": "_vprim_context_for_claim",
    "body_lines": 32
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 3587,
+   "line": 3595,
    "name": "_hidden_premises",
    "body_lines": 29
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 3901,
+   "line": 3909,
    "name": "get_attention_policy",
    "kind": "FunctionDef"
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 3957,
+   "line": 3965,
    "name": "migrate_v17_coordinates",
    "body_lines": 39
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4113,
+   "line": 4121,
    "name": "get_semantic_provider",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4224,
+   "line": 4232,
    "name": "list_rejected_paths",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4251,
+   "line": 4259,
    "name": "mark_rejected_path_consumed",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4256,
+   "line": 4264,
    "name": "get_verifier_config",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4298,
+   "line": 4306,
    "name": "list_verifier_standards",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4318,
+   "line": 4326,
    "name": "list_escalation_points",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4321,
+   "line": 4329,
    "name": "add_escalation_point",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4325,
+   "line": 4333,
    "name": "set_escalation_enabled",
    "kind": "FunctionDef"
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 4414,
+   "line": 4422,
    "name": "export_trajectory",
    "body_lines": 31
   },
   {
    "rule": "B_LONG_NO_COMMENT",
    "file": "aeis/aeis/core.py",
-   "line": 4592,
+   "line": 4600,
    "name": "session_summary",
    "body_lines": 29
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4758,
+   "line": 4766,
    "name": "stop_auto_decay",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4792,
+   "line": 4800,
    "name": "get_stats",
    "kind": "FunctionDef"
   },
   {
    "rule": "A_MISSING_DOCSTRING",
    "file": "aeis/aeis/core.py",
-   "line": 4795,
+   "line": 4803,
    "name": "close",
    "kind": "FunctionDef"
   },
