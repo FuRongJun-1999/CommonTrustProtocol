@@ -98,9 +98,11 @@ class SelfCognitionEngine:
         if len(self.action_log) > self.ACTION_LOG_MAX:
             self.action_log = self.action_log[-self.ACTION_LOG_MAX:]
         # OBS-REV1：落库（跨进程保留），失败不阻断主流程
+        # T4 完善（2026-08-31）：审计落库改 best_effort（独立连接 timeout=0）——
+        # 外部写锁持有时立即放弃，不阻塞检索主流程 10s
         try:
             store = self.engine.store
-            store.conn.execute(
+            store.best_effort_write(
                 "INSERT INTO action_logs (ts, action_type, summary, node_ids, outcome, context)"
                 " VALUES (?,?,?,?,?,?)",
                 (entry["ts"], entry["action_type"], entry["summary"],
@@ -108,14 +110,11 @@ class SelfCognitionEngine:
                  json.dumps(entry["outcome"], ensure_ascii=False, default=str),
                  json.dumps(entry["context"], ensure_ascii=False, default=str)),
             )
-            store.conn.commit()
-            # 表只保留最近 2 倍缓冲上限，防无限增长
-            store.conn.execute(
+            store.best_effort_write(
                 "DELETE FROM action_logs WHERE id NOT IN"
                 " (SELECT id FROM action_logs ORDER BY id DESC LIMIT ?)",
                 (self.ACTION_LOG_MAX * 2,),
             )
-            store.conn.commit()
         except Exception:
             pass
         return entry
