@@ -64,10 +64,12 @@ class ConditionSpace:
     existence_constraint: str       # 存在约束
 
     def to_json(self) -> str:
+        """条件空间序列化为 JSON（节点/边落库时条件字段的标准形态）。"""
         return json.dumps(asdict(self))
 
     @classmethod
     def from_json(cls, s: str) -> 'ConditionSpace':
+        """从 JSON 反序列化条件空间；外部卡缺字段时补默认（v1.22 健壮性）。"""
         d = json.loads(s)
         # v1.22 健壮性：外部卡 condition_space 可能缺字段 → 补默认
         # （否则 KeyError/TypeError 崩掉整条检索链）
@@ -142,6 +144,7 @@ class STNode:
     entity_id: Optional[str] = None                            # v1.7：名词（实体挂接）
 
     def to_row(self) -> tuple:
+        """节点序列化为 SQLite 行元组（列序=nodes 表 schema）。"""
         return (
             self.id, self.content, self.modality,
             json.dumps(self.spatial_coordinates),
@@ -158,6 +161,7 @@ class STNode:
 
     @classmethod
     def from_row(cls, row: tuple) -> 'STNode':
+        """从 SQLite 行元组反序列化节点（from_row 惰性字段解析）。"""
         return cls(
             id=row[0], content=row[1], modality=row[2],
             spatial_coordinates=json.loads(row[3]),
@@ -193,6 +197,7 @@ class STEdge:
     source_evidence: str = "extracted"   # v1.11 P1-1：extracted/inferred/ambiguous
 
     def to_row(self) -> tuple:
+        """边序列化为 SQLite 行元组（列序=edges 表 schema）。"""
         return (
             self.id, self.source_id, self.target_id,
             self.relation_type.value,
@@ -205,6 +210,7 @@ class STEdge:
 
     @classmethod
     def from_row(cls, row: tuple) -> 'STEdge':
+        """从 SQLite 行元组反序列化边。"""
         return cls(
             id=row[0], source_id=row[1], target_id=row[2],
             relation_type=EdgeType(row[3]),
@@ -237,6 +243,7 @@ class SelfModel:
     TRUST_HISTORY_MAX = 30  # 对齐 2.9.2 观察窗口 N_effective
 
     def update(self, **kwargs):
+        """更新 SelfModel 字段并自动落变更历史（state 历史：时间戳+变更键值）。"""
         for k, v in kwargs.items():
             if hasattr(self, k):
                 setattr(self, k, v)
@@ -280,6 +287,7 @@ class SelfModel:
         return max(-1.0, min(1.0, smoothed))
 
     def to_dict(self) -> Dict:
+        """SelfModel 全量字段转字典（自认知快照/导出用）。"""
         return asdict(self)
 
 
