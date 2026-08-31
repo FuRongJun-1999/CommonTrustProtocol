@@ -53,6 +53,22 @@ def scan_route_gaps(limit_units: int | None = None) -> list:
                 gaps.append({"domain": dom, "unit": uid, "probe": probe, "error": "exc"})
                 continue
             if r.get("unit") != uid or not r.get("ok"):
+                # GAP_DEBUG=1：gap 判定现场落盘（r 全量+环境快照）——
+                # 「循环进程 gap=1 vs 交互进程同代码 True」非确定性排查取证点
+                if os.environ.get("GAP_DEBUG"):
+                    try:
+                        json.dump({
+                            "probe": probe, "result": r,
+                            "pid": os.getpid(),
+                            "sys_executable": sys.executable,
+                            "code_compose_file": getattr(__import__("code_compose"), "__file__", "?"),
+                            "cases_shape": type(unit.get("cases", [None])[0][0]).__name__ if unit.get("cases") else "?",
+                            "env": {k: v for k, v in os.environ.items()
+                                    if k.startswith(("PYTHON", "AEIS", "SYSTEMROOT", "PATH="))},
+                        }, open(os.path.join(HERE, "gap_debug.json"), "w",
+                                encoding="utf-8"), ensure_ascii=False, indent=1, default=str)
+                    except Exception:
+                        pass
                 gaps.append({"domain": dom, "unit": uid, "probe": probe,
                              "got": r.get("unit") or r.get("reason", "?")})
     return gaps
