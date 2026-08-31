@@ -553,6 +553,28 @@ class AEISServer:
             identity=os.environ.get("AEIS_IDENTITY", "灵枢"),
             db_path=_db)
         self._tools = {t["name"]: t for t in _tools()}
+        # 工具手动配置开/关（注入预算对策）：客户端工具注入有预算上限，
+        # 可通过 env 白名单/黑名单手动裁剪暴露集——
+        #   AEIS_MCP_TOOLS=service_info,cognition,...   白名单（只暴露列出的）
+        #   AEIS_MCP_EXCLUDE=see,think,...              黑名单（排除列出的）
+        # 两者都未设置 = 全量暴露（默认行为不变）；白名单先生效再应用黑名单。
+        self._all_tool_names = set(self._tools.keys())
+        _wl = os.environ.get("AEIS_MCP_TOOLS", "").strip()
+        _bl = os.environ.get("AEIS_MCP_EXCLUDE", "").strip()
+        _unknown_cfg = []
+        if _wl:
+            _names = {x.strip() for x in _wl.split(",") if x.strip()}
+            _unknown_cfg = sorted(_names - self._all_tool_names)
+            self._tools = {n: t for n, t in self._tools.items() if n in _names}
+        if _bl:
+            _ex = {x.strip() for x in _bl.split(",") if x.strip()}
+            _unknown_cfg += sorted(_ex - self._all_tool_names)
+            self._tools = {n: t for n, t in self._tools.items() if n not in _ex}
+        self.tool_filter = {
+            "mode": "whitelist" if _wl else ("blacklist" if _bl else "all"),
+            "enabled": len(self._tools), "total": len(self._all_tool_names),
+            "unknown_configured": _unknown_cfg,
+        }
         # 初始记忆播种（Seed Memory）：空库实体自动从 GitHub 同步基础档案——
         # "有智慧没自我的生命" → 带着自我（身份/协议核心/宪章/价值观）
         # 后台异步执行（不阻塞 MCP 握手；网络慢不影响服务可用性）
@@ -619,6 +641,12 @@ class AEISServer:
     def _call_tool(self, name: str, arguments: dict) -> dict:
         a = dict(arguments or {})
         agent = self.agent
+        # 工具配置开关守卫：被 AEIS_MCP_TOOLS/EXCLUDE 裁剪的工具拒绝调用
+        if name not in self._all_tool_names:
+            raise ValueError(f"unknown tool: {name}")
+        if name not in self._tools:
+            raise ValueError(
+                f"tool disabled by config (AEIS_MCP_TOOLS/AEIS_MCP_EXCLUDE): {name}")
         if name == "remember":
             r = agent.remember(a.get("content", ""), importance=a.get("importance", 0.5),
                                tags=a.get("tags"), entities=a.get("entities"))
@@ -1005,6 +1033,12 @@ def main():
         sys.stderr.write(
             f"[env] python {sys.version.split()[0]} ({platform.machine()}) | "
             f"aeis {_pkg.__version__} | pid {os.getpid()}\n")
+        tf = server.tool_filter
+        if tf["mode"] != "all":
+            sys.stderr.write(
+                f"[tools] filter={tf['mode']} enabled={tf['enabled']}/{tf['total']}"
+                + (f" unknown_configured={tf['unknown_configured']}" if tf["unknown_configured"] else "")
+                + "\n")
         sys.stderr.flush()
     except Exception:
         pass
