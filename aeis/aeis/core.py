@@ -497,6 +497,7 @@ class LayeredStore:
             self.conn.commit()
 
     def get_node(self, node_id: str) -> Optional[STNode]:
+        """按 id 取节点，不存在返回 None。"""
         c = self.conn.cursor()
         c.execute("SELECT * FROM nodes WHERE id=?", (node_id,))
         row = c.fetchone()
@@ -554,6 +555,7 @@ class LayeredStore:
         return edge.id
 
     def get_edge(self, edge_id: str) -> Optional[STEdge]:
+        """按 id 取边，不存在返回 None。"""
         c = self.conn.cursor()
         c.execute("SELECT * FROM edges WHERE id=?", (edge_id,))
         row = c.fetchone()
@@ -599,6 +601,7 @@ class LayeredStore:
         return [STNode.from_row(tuple(row)) for row in c.fetchall()]
 
     def get_layer_nodes(self, layer: MemoryLayer) -> List[STNode]:
+        """取指定记忆层的全部节点（query_nodes 的层过滤快捷入口）。"""
         return self.query_nodes(layer=layer)
 
     # ---------- v1.16 图架构增强：有界遍历 + 子图嵌套 ----------
@@ -725,11 +728,13 @@ class LayeredStore:
         return results[:max_results]
 
     def get_outgoing_edges(self, node_id: str) -> List[STEdge]:
+        """取节点全部出边（source=该节点的有向边）。"""
         c = self.conn.cursor()
         c.execute("SELECT * FROM edges WHERE source_id=?", (node_id,))
         return [STEdge.from_row(tuple(row)) for row in c.fetchall()]
 
     def get_incoming_edges(self, node_id: str) -> List[STEdge]:
+        """取节点全部入边（target=该节点的有向边）。"""
         c = self.conn.cursor()
         c.execute("SELECT * FROM edges WHERE target_id=?", (node_id,))
         return [STEdge.from_row(tuple(row)) for row in c.fetchall()]
@@ -964,6 +969,7 @@ class LayeredStore:
         return nodes
 
     def tag_node(self, node_id: str, tag: str):
+        """给节点追加标签（幂等：已含该标签则不重复写）。"""
         node = self.get_node(node_id)
         if node and tag not in node.tags:
             node.tags.append(tag)
@@ -983,6 +989,7 @@ class LayeredStore:
                 self.delete_node(nid)
 
     def get_recent_context(self, limit: int = 20) -> List[STNode]:
+        """取最近写入的情境层节点（短期记忆按时间倒序，默认 20 条）。"""
         c = self.conn.cursor()
         c.execute("SELECT * FROM nodes WHERE layer='context' ORDER BY created_at DESC LIMIT ?", (limit,))
         return [STNode.from_row(tuple(r)) for r in c.fetchall()]
@@ -992,6 +999,8 @@ class LayeredStore:
     def add_blindspot(self, code: str, description: str, severity: str = "medium",
                       category: str = "operational",
                       predictability: str = "pending_assessment") -> str:
+        """登记盲区（已知不可达的领域边界，返回盲区 id）——BLINDSPOT 判定的
+        结构化沉淀，供后续 resolve_blindspot 学习消解。"""
         bid = f"bs_{uuid.uuid4().hex[:8]}"
         c = self.conn.cursor()
         c.execute("INSERT INTO blindspots (id, code, description, severity, category, status, created_at, resolved_at, predictability) VALUES (?,?,?,?,?,?,?,?,?)",
