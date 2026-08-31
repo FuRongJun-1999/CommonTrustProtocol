@@ -87,6 +87,7 @@ class ConditionSpace:
 # =============================================================================
 
 class NodeType(Enum):
+    """节点类型（认知图实体分类）：实体/感知/概念/动作/状态/自我六类。"""
     ENTITY = "entity"
     PERCEPTION = "perception"
     CONCEPT = "concept"
@@ -95,6 +96,7 @@ class NodeType(Enum):
     SELF = "self"
 
 class EdgeType(Enum):
+    """边类型（认知图关系分类）：因果/时序/相关/循环/层级/空间三态/相似/相反/适用。"""
     CAUSAL = "causal"
     SEQUENTIAL = "sequential"
     CORRELATIONAL = "correlational"
@@ -108,6 +110,7 @@ class EdgeType(Enum):
     APPLIES_TO = "applies_to"   # v1.16（条件节点化）：条件 → 知识 的适用关系
 
 class MemoryLayer(Enum):
+    """记忆五层（遗忘纪律）：锚点/结构层不可遗忘；知识/情境层可衰减；自我层可更新。"""
     ANCHOR = "anchor"       # 不可遗忘
     STRUCTURE = "structure" # 不可遗忘
     KNOWLEDGE = "knowledge" # 可衰减
@@ -120,6 +123,7 @@ class MemoryLayer(Enum):
 
 @dataclass
 class STNode:
+    """时空节点（认知图顶点）：内容+模态+空间坐标+时间戳+条件空间五要素。"""
     id: str
     content: str
     modality: str                       # 模态：text, image, code, etc.
@@ -175,6 +179,7 @@ class STNode:
 
 @dataclass
 class STEdge:
+    """时空边（认知图有向边）：源→目标+关系类型+条件空间+置信度——条件挂在边上。"""
     id: str
     source_id: str
     target_id: str
@@ -455,6 +460,8 @@ class LayeredStore:
     # ---------- 节点操作 ----------
 
     def add_node(self, node: STNode) -> str:
+        """写入节点并返回 id。共享层（anchor/structure）仅 PRIMARY 角色可写，
+        其余角色写入即拒（PermissionError）——多角色写权限边界。"""
         if node.layer in self.IMMUTABLE_LAYERS and self.role != Role.PRIMARY:
             raise PermissionError(
                 f"role={self.role.value} 无权写入共享层（{node.layer.value}），共享层由父节点主控"
@@ -539,6 +546,7 @@ class LayeredStore:
     # ---------- 边操作 ----------
 
     def add_edge(self, edge: STEdge) -> str:
+        """写入有向边并返回 id（边的条件空间决定路由资格——条件挂在边上）。"""
         with self._lock:
             c = self.conn.cursor()
             c.execute('INSERT OR REPLACE INTO edges VALUES (?,?,?,?,?,?,?,?,?,?,?)', edge.to_row())
@@ -574,6 +582,7 @@ class LayeredStore:
 
     def query_nodes(self, layer: MemoryLayer = None, modality: str = None,
                     min_importance: float = 0.0, limit: int = 50) -> List[STNode]:
+        """按层/模态/最低重要性过滤查询节点（全部条件可选，默认前 50 条）。"""
         conditions = []
         params = []
         if layer is not None:
