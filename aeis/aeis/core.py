@@ -1562,6 +1562,7 @@ class LayeredStore:
         return vid
 
     def list_verifier_standards(self, status: str = None) -> List[Dict]:
+        """列出校验器标准提案（可按 status 过滤——阈值治理台账）。"""
         c = self.conn.cursor()
         if status:
             c.execute("SELECT * FROM verifier_standards WHERE status=?", (status,))
@@ -1616,6 +1617,7 @@ class LayeredStore:
         return {"id": row[0], "param": row[2], "value": row[3], "status": status}
 
     def list_escalation_points(self, enabled_only: bool = True) -> List[Dict]:
+        """列升级点（危机触发器清单，默认仅已启用的）。"""
         c = self.conn.cursor()
         if enabled_only:
             c.execute("SELECT * FROM escalation_points WHERE enabled=1")
@@ -1627,6 +1629,7 @@ class LayeredStore:
 
     def add_escalation_point(self, code: str, trigger: str, condition: str,
                              action: str, severity: str = "medium") -> str:
+        """登记升级点（危机触发器：触发条件→处置动作），返回 id。"""
         eid = f"esc_{uuid.uuid4().hex[:8]}"
         c = self.conn.cursor()
         c.execute("INSERT INTO escalation_points VALUES (?,?,?,?,?,?,?,?)",
@@ -1635,6 +1638,7 @@ class LayeredStore:
         return eid
 
     def set_escalation_enabled(self, escalation_id: str, enabled: bool):
+        """启用/停用升级点（危机响应开关）。"""
         c = self.conn.cursor()
         c.execute("UPDATE escalation_points SET enabled=? WHERE id=?",
                   (int(enabled), escalation_id))
