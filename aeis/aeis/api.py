@@ -555,10 +555,15 @@ class Agent:
         from .knowledge import ingest_search as _is
         return _is(self.engine, query, count, tags, importance)
 
-    def web_search(self, query: str, count: int = 5) -> Dict:
-        """博查实时搜索（不写入记忆，仅返回结果）。需要 BOCHA_API_KEY。"""
-        from .web import WebTool
-        return WebTool().search(query, count=count)
+    def web_search(self, query: str, count: int = 5,
+                   provider: Optional[str] = None) -> Dict:
+        """外部实时搜索（不写入记忆，仅返回结果）。
+
+        provider=None → AEIS_SEARCH_PROVIDER env → bocha（默认，向后兼容）。
+        可插拔引擎：aeis.search_providers（register_provider 注册自定义引擎）。
+        """
+        from .search_providers import get_provider
+        return get_provider(provider).search(query, count=count)
 
     def condition_space_operate(self, operation: str, theme: str = "",
                                 variants=None, candidates=None) -> Dict:

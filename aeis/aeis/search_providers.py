@@ -1,0 +1,109 @@
+# -*- coding: utf-8 -*-
+"""aeis.search_providers · 可插拔搜索引擎接口（2026-09-01 荣指令）
+
+需求：支持自定义搜索引擎——提供接口即可，不改动已有博查搜索实现。
+设计：
+  - SearchProvider 协议：search(query, count) → 统一结果结构
+      {"status": "ok"/"unavailable"/"error", "query", "count",
+       "results": [{name, url, snippet, summary, date}], "provider": <name>}
+  - 内置 bocha（默认，委托 aeis.web.WebTool——零改动复用）
+  - 内置 duckduckgo（可选依赖 duckduckgo_search，未装则 unavailable）
+  - register_provider(name, factory)：外部注册自定义引擎（提供接口的核心）
+  - get_provider(name=None)：按名取实例；None → AEIS_SEARCH_PROVIDER env → bocha
+
+向后兼容：不设置任何 env 时行为与博查单实现时期完全一致。
+"""
+
+import os
+from typing import Callable, Dict, Optional
+
+# 复用既有 web 模块的可选依赖探测（requests）
+try:
+    from .web import WebTool as _BochaWebTool
+    _BOCHA_OK = True
+except ImportError:  # 直跑 fallback
+    try:
+        from web import WebTool as _BochaWebTool  # type: ignore
+        _BOCHA_OK = True
+    except ImportError:
+        _BOCHA_OK = False
+
+
+class SearchProvider:
+    """搜索引擎 Provider 协议（子类实现 search 即可接入）。"""
+
+    name = "base"
+
+    def search(self, query: str, count: int = 5, **kwargs) -> Dict:
+        raise NotImplementedError
+
+
+class BochaProvider(SearchProvider):
+    """博查（默认）：委托既有 aeis.web.WebTool——不改其实现。"""
+
+    name = "bocha"
+
+    def __init__(self):
+        self._tool = _BochaWebTool() if _BOCHA_OK else None
+
+    def search(self, query: str, count: int = 5, **kwargs) -> Dict:
+        if self._tool is None:
+            return {"status": "unavailable", "reason": "aeis.web 不可用",
+                    "provider": self.name}
+        r = self._tool.search(query, count=count)
+        r.setdefault("provider", self.name)
+        return r
+
+
+class DuckDuckGoProvider(SearchProvider):
+    """DuckDuckGo（免 Key 示例）：可选依赖 duckduckgo_search。"""
+
+    name = "duckduckgo"
+
+    def search(self, query: str, count: int = 5, **kwargs) -> Dict:
+        try:
+            from duckduckgo_search import DDGS
+        except ImportError:
+            return {"status": "unavailable",
+                    "reason": "需要 duckduckgo_search（pip install duckduckgo-search）",
+                    "provider": self.name}
+        try:
+            out = []
+            with DDGS() as ddgs:
+                for r in ddgs.text(query, max_results=count):
+                    out.append({"name": r.get("title", ""),
+                                "url": r.get("href", ""),
+                                "snippet": r.get("body", ""),
+                                "summary": "",
+                                "date": ""})
+            return {"status": "ok", "query": query, "count": len(out),
+                    "results": out, "provider": self.name}
+        except Exception as e:
+            return {"status": "error", "reason": str(e), "provider": self.name}
+
+
+# ---- 注册表（提供接口的核心：外部引擎 register 即接入） ----
+
+_REGISTRY: Dict[str, Callable[[], SearchProvider]] = {
+    "bocha": BochaProvider,
+    "duckduckgo": DuckDuckGoProvider,
+}
+
+
+def register_provider(name: str, factory: Callable[[], SearchProvider]) -> None:
+    """注册自定义搜索引擎：factory() 须返回实现 search(query, count) 的对象。"""
+    _REGISTRY[name] = factory
+
+
+def available_providers() -> list:
+    """当前已注册的引擎名列表。"""
+    return sorted(_REGISTRY.keys())
+
+
+def get_provider(name: Optional[str] = None) -> SearchProvider:
+    """按名取 Provider 实例；None → AEIS_SEARCH_PROVIDER env → bocha（默认不变）。"""
+    picked = name or os.environ.get("AEIS_SEARCH_PROVIDER", "") or "bocha"
+    factory = _REGISTRY.get(picked)
+    if factory is None:
+        raise KeyError(f"未注册的搜索引擎: {picked}（可用: {available_providers()}）")
+    return factory()

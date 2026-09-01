@@ -407,10 +407,11 @@ def _tools():
                                         "designer_key": {"type": "string"}},
                          "required": ["action", "designer_key"]}},
         {"name": "web_search",
-         "description": "外部网络搜索（博查 API·实时，不写入记忆）：query → 结果列表（name/url/snippet/summary）。需要环境变量 BOCHA_API_KEY；未配置返回 status=unavailable。",
+         "description": "外部网络搜索（可插拔引擎，默认博查·实时，不写入记忆）：query → 结果列表（name/url/snippet/summary）。默认博查（需 BOCHA_API_KEY）；provider 可选（bocha/duckduckgo/自定义注册引擎，env AEIS_SEARCH_PROVIDER 可切默认）。",
          "inputSchema": {"type": "object",
                          "properties": {"query": {"type": "string"},
-                                        "count": {"type": "number"}},
+                                        "count": {"type": "number"},
+                                        "provider": {"type": "string", "description": "搜索引擎（可选，默认 bocha；可插拔）"}},
                          "required": ["query"]}},
         {"name": "web_ingest_search",
          "description": "外部搜索摄取（博查 API → 知识层）：搜索 query → 结果摘要写入灵枢记忆（自主学习外部摄取）。需要环境变量 BOCHA_API_KEY。",
@@ -882,7 +883,8 @@ class AEISServer:
                                                                     "designer_auth": "failed"})}],
                         "isError": True}
         if name == "web_search":
-            r = agent.web_search(a.get("query", ""), count=a.get("count", 5))
+            r = agent.web_search(a.get("query", ""), count=a.get("count", 5),
+                                 provider=a.get("provider"))
             return {"content": [{"type": "text", "text": _dump(r)}],
                     "isError": r.get("status") == "unavailable"}
         if name == "web_ingest_search":
