@@ -443,3 +443,83 @@
 {"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 00:43:18"}
 {"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 00:53:49"}
 {"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 00:53:49"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 01:04:19"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 01:04:19"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 01:14:49"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 01:14:49"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 01:25:20"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 01:25:20"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 01:35:52"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 01:35:52"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 01:46:20"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 01:46:20"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 01:56:52"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 01:56:52"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 02:07:20"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 02:07:20"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 02:17:54"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 02:17:54"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 02:28:26"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 02:28:26"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 02:38:56"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 02:38:56"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 02:49:25"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 02:49:25"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 02:59:54"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 02:59:54"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 03:10:23"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 03:10:23"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 03:20:55"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 03:20:55"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 03:31:26"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 03:31:26"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 03:41:54"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 03:41:54"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 03:52:27"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 03:52:27"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 04:03:02"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 04:03:02"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 04:13:33"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 04:13:33"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 04:24:03"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 04:24:03"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 04:34:31"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 04:34:31"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 04:45:01"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 04:45:01"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 04:55:31"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 04:55:31"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 05:06:03"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 05:06:03"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 05:16:31"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 05:16:31"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 05:27:05"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 05:27:05"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 05:37:34"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 05:37:34"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 05:48:02"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 05:48:02"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 05:58:34"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 05:58:34"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 06:09:02"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 06:09:02"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 06:19:31"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 06:19:31"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 06:30:00"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 06:30:00"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 06:40:35"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 06:40:35"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 06:51:03"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 06:51:03"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 07:01:36"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 07:01:36"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 07:12:06"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 07:12:06"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 07:22:38"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 07:22:38"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 07:33:11"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 07:33:11"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 07:43:43"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 07:43:43"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 07:54:10"}
+{"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 07:54:10"}
