@@ -233,6 +233,29 @@
     "response": {
      "direct": "按工作纪律第9条: 敏感信息隔离——含敏感/隐私内容只放私有库(AEIS)，不推公开库，推送描述不写敏感词。"
     }
+   },
+   {
+    "id": "discipline_image_source_guardrail",
+    "semantic": "10.图像选源护栏",
+    "content": "图像处理选源必须核对历史参考/既有管线产物；负路由：原图拒处理版(用原始全彩)、线稿拒实色线稿(用结构线稿canny_contour)、还原拒退化产物(用complete_restore)；未核对规范源→DEFER(未验证不写入)。",
+    "conditions": {
+     "apply": [
+      "构建图像四类图",
+      "选图像处理源"
+     ]
+    },
+    "negative": {
+     "reject": [
+      "已核对规范源",
+      "纯公开数据"
+     ]
+    },
+    "execution": {
+     "how": "选源→_guard_source 依kind判ACCEPT/REJECT/DEFER→未ACCEPT不构建"
+    },
+    "response": {
+     "direct": "按工作纪律第10条: 图像选源护栏——核对历史参考, 拒处理版/实色线稿/退化产物, 未验证不写入。"
+    }
    }
   ]
  }
