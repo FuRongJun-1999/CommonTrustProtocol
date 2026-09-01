@@ -992,6 +992,12 @@ class AEISServer:
             arguments = params.get("arguments", {})
             try:
                 result = self._call_tool(name, arguments)
+                # 悬挂读事务防线（2026-09-01）：每次工具调用后结束隐式事务，
+                # 防止长驻连接持有读快照阻塞 wal_checkpoint(TRUNCATE)
+                try:
+                    self.agent.engine.store.conn.commit()
+                except Exception:
+                    pass
             except Exception as e:  # 工具级错误 → JSON-RPC 错误响应
                 return {"jsonrpc": "2.0", "id": mid, "error": {
                     "code": -32000, "message": f"{name}: {e}"}}
