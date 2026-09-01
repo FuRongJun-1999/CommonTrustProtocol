@@ -122,12 +122,62 @@ class SearXNGProvider(SearchProvider):
             return {"status": "error", "reason": str(e), "provider": self.name}
 
 
+class TavilyProvider(SearchProvider):
+    """Tavily（专为 AI agent/RAG 设计 · 免费额度 1000 次/月 · issue #2 社区贡献）。
+
+    配置：env TAVILY_API_KEY = tvly- 前缀密钥（https://app.tavily.com 注册）。
+    API：POST https://api.tavily.com/search（Bearer 鉴权，search_depth=basic）。
+    """
+
+    name = "tavily"
+
+    def search(self, query: str, count: int = 5, **kwargs) -> Dict:
+        api_key = os.environ.get("TAVILY_API_KEY", "")
+        if not api_key:
+            return {"status": "unavailable",
+                    "reason": "需要 TAVILY_API_KEY（https://app.tavily.com 注册，tvly- 前缀）",
+                    "provider": self.name}
+        try:
+            import requests
+        except ImportError:
+            return {"status": "unavailable", "reason": "需要 requests",
+                    "provider": self.name}
+        try:
+            resp = requests.post(
+                "https://api.tavily.com/search",
+                headers={"Authorization": f"Bearer {api_key}",
+                         "Content-Type": "application/json"},
+                json={"query": query, "search_depth": "basic",
+                      "max_results": count, "include_answer": False,
+                      "include_raw_content": False, "include_images": False,
+                      "topic": "general"},
+                timeout=30)
+            resp.raise_for_status()
+            # 按 URL 去重（社区贡献实现要点）
+            seen, out = set(), []
+            for r in resp.json().get("results", []):
+                url = r.get("url", "")
+                if url in seen:
+                    continue
+                seen.add(url)
+                out.append({"name": r.get("title", ""),
+                            "url": url,
+                            "snippet": r.get("content", ""),
+                            "summary": "",
+                            "date": r.get("published_date", "") or ""})
+            return {"status": "ok", "query": query, "count": len(out),
+                    "results": out, "provider": self.name}
+        except Exception as e:
+            return {"status": "error", "reason": str(e), "provider": self.name}
+
+
 # ---- 注册表（提供接口的核心：外部引擎 register 即接入） ----
 
 _REGISTRY: Dict[str, Callable[[], SearchProvider]] = {
     "bocha": BochaProvider,
     "duckduckgo": DuckDuckGoProvider,
     "searxng": SearXNGProvider,
+    "tavily": TavilyProvider,
 }
 
 
