@@ -1,4 +1,3 @@
-# 构建残留（build.sh 生成）
-aeis_context/
+# aeis_context（灵枢对智能论的自身工程理解/引擎实现）已纳入版本管理，随理论版本同步更新
 __pycache__/
 *.pyc
