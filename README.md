@@ -218,7 +218,7 @@ python tools/run_whale_100.py                 # 100 轮长对话压力测试
 
 
 
-**当前版本**：**v3.3**（智能论3.3.md · LLM 工程条件空间扩展版 · v3.3-FINAL-EFFECTIVE）
+**当前版本**：**v3.4**（智能论3.4.md · 端口架构与锚定验证版 · v3.4-FINAL-EFFECTIVE）
 
 
 
