@@ -256,6 +256,29 @@
     "response": {
      "direct": "按工作纪律第10条: 图像选源护栏——核对历史参考, 拒处理版/实色线稿/退化产物, 未验证不写入。"
     }
+   },
+   {
+    "id": "discipline_record_first",
+    "semantic": "11.历史查询优先(先查记录再做)",
+    "content": "选算法/选源前必须查历史记录(产物图→记录(如ROUNDTRIP.md)→源码算法(darkline.py/linework.py/contour_semantics/linecolor.py))→用已走通算法+阈值；未找到记录→DEFER(不盲选/不调参)。线稿不适用 raw canny/zone_linework(碎/细+网格线)→用 darkline(Sobel+mag.mean+std*thr_mult, thr_mult=1.5最优)白底黑线。",
+    "conditions": {
+     "apply": [
+      "选图像/算法/源",
+      "复现已有能力"
+     ]
+    },
+    "negative": {
+     "reject": [
+      "已有记录且已核对",
+      "无历史可查的纯新算法"
+     ]
+    },
+    "execution": {
+     "how": "定位产物图→查记录→定位源码算法→确认阈值机制→用该算法生成；未找到→DEFER"
+    },
+    "response": {
+     "direct": "按工作纪律第11条: 历史查询优先——先查记录/源码用已走通算法, 未找到不盲选DEFER；线稿用darkline(Sobel+mean+std*1.5)白底黑线, 拒raw canny/zone_linework。"
+    }
    }
   ]
  }
