@@ -82,11 +82,52 @@ class DuckDuckGoProvider(SearchProvider):
             return {"status": "error", "reason": str(e), "provider": self.name}
 
 
+class SearXNGProvider(SearchProvider):
+    """SearXNG（自建元搜索引擎 · 免 Key · issue #1 诉求）。
+
+    配置：env AEIS_SEARXNG_URL = 实例地址（如 http://localhost:8888）。
+    使用 SearXNG JSON API：GET {base}/search?q=...&format=json
+    适用于：免费自部署 / 数据主权 / 企业内网搜索场景。
+    """
+
+    name = "searxng"
+
+    def search(self, query: str, count: int = 5, **kwargs) -> Dict:
+        base = os.environ.get("AEIS_SEARXNG_URL", "").rstrip("/")
+        if not base:
+            return {"status": "unavailable",
+                    "reason": "需要 AEIS_SEARXNG_URL（自建 SearXNG 实例地址）",
+                    "provider": self.name}
+        try:
+            import requests
+        except ImportError:
+            return {"status": "unavailable", "reason": "需要 requests",
+                    "provider": self.name}
+        try:
+            resp = requests.get(f"{base}/search",
+                                params={"q": query, "format": "json",
+                                        "language": "zh-CN"},
+                                headers={"User-Agent": "aeis-search/1.0"},
+                                timeout=30)
+            resp.raise_for_status()
+            out = [{"name": r.get("title", ""),
+                    "url": r.get("url", ""),
+                    "snippet": r.get("content", ""),
+                    "summary": "",
+                    "date": r.get("publishedDate", "") or ""}
+                   for r in resp.json().get("results", [])[:count]]
+            return {"status": "ok", "query": query, "count": len(out),
+                    "results": out, "provider": self.name}
+        except Exception as e:
+            return {"status": "error", "reason": str(e), "provider": self.name}
+
+
 # ---- 注册表（提供接口的核心：外部引擎 register 即接入） ----
 
 _REGISTRY: Dict[str, Callable[[], SearchProvider]] = {
     "bocha": BochaProvider,
     "duckduckgo": DuckDuckGoProvider,
+    "searxng": SearXNGProvider,
 }
 
 
