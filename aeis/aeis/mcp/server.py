@@ -406,6 +406,11 @@ def _tools():
                                         "actor": {"type": "string"},
                                         "designer_key": {"type": "string"}},
                          "required": ["action", "designer_key"]}},
+        {"name": "nightly_cleanup",
+         "description": "知识层夜间整理（荣指令）：分拣迁移无边孤岛到情境层 + 联想补边 + 情境层随机联想。dry_run=true 预演。每晚睡眠巩固自动调用。",
+         "inputSchema": {"type": "object",
+                         "properties": {"dry_run": {"type": "boolean", "description": "预演模式（不写库）"},
+                                        "sample_size": {"type": "number", "description": "情境层随机抽样数（默认 5）"}}}},
         {"name": "web_search",
          "description": "外部网络搜索（可插拔引擎，默认博查·实时，不写入记忆）：query → 结果列表（name/url/snippet/summary）。默认博查（需 BOCHA_API_KEY）；provider 可选（bocha/duckduckgo/自定义注册引擎，env AEIS_SEARCH_PROVIDER 可切默认）。",
          "inputSchema": {"type": "object",
@@ -882,6 +887,11 @@ class AEISServer:
                 return {"content": [{"type": "text", "text": _dump({"error": str(e),
                                                                     "designer_auth": "failed"})}],
                         "isError": True}
+        if name == "nightly_cleanup":
+            from .api import Agent as _A
+            r = agent.nightly_cleanup(dry_run=a.get("dry_run", False),
+                                      sample_size=a.get("sample_size", 5))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
         if name == "web_search":
             r = agent.web_search(a.get("query", ""), count=a.get("count", 5),
                                  provider=a.get("provider"))

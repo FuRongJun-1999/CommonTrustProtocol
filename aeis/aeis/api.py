@@ -555,6 +555,12 @@ class Agent:
         from .knowledge import ingest_search as _is
         return _is(self.engine, query, count, tags, importance)
 
+    def nightly_cleanup(self, dry_run: bool = False,
+                        sample_size: int = 5) -> Dict:
+        """知识层夜间整理：分拣迁移 + 联想补边 + 情境层随机联想。"""
+        from .nightly_cleanup import nightly_cleanup as _nc
+        return _nc(self, dry_run=dry_run, 联想_sample_size=sample_size)
+
     def web_search(self, query: str, count: int = 5,
                    provider: Optional[str] = None) -> Dict:
         """外部实时搜索（不写入记忆，仅返回结果）。
