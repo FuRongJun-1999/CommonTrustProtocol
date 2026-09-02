@@ -523,3 +523,355 @@
 {"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 07:43:43"}
 {"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "channel_b": {"generated": 0, "passed": 0, "failed": 0, "source": "llm_api"}, "ts": "2026-09-01 07:54:10"}
 {"round": "gap_watch", "pid": 21112, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-01 07:54:10"}
+{"round": "loop_start", "interval": 600, "channel_b": false, "ts": "2026-09-02 01:01:32"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 01:01:34"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 01:01:34"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 01:11:36"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 01:11:36"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 01:21:37"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 01:21:37"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 01:31:39"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 01:31:39"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 01:41:43"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 01:41:43"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 01:51:45"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 01:51:45"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 02:01:47"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 02:01:47"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 02:11:48"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 02:11:48"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 02:21:50"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 02:21:50"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 02:31:51"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 02:31:51"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 02:41:53"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 02:41:53"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 02:51:54"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 02:51:54"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 03:01:56"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 03:01:56"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 03:11:57"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 03:11:57"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 03:21:59"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 03:21:59"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 03:32:01"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 03:32:01"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 03:42:02"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 03:42:02"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 03:52:04"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 03:52:04"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 04:02:05"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 04:02:05"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 04:12:07"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 04:12:07"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 04:22:08"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 04:22:08"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 04:32:10"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 04:32:10"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 04:42:11"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 04:42:11"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 04:52:13"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 04:52:13"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 05:02:15"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 05:02:15"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 05:12:16"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 05:12:16"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 05:22:18"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 05:22:18"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 05:32:19"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 05:32:19"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 05:42:21"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 05:42:21"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 05:52:22"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 05:52:22"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 06:02:24"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 06:02:24"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 06:12:26"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 06:12:26"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 06:22:27"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 06:22:27"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 06:32:29"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 06:32:29"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 06:42:30"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 06:42:30"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 06:52:32"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 06:52:32"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 07:02:35"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 07:02:35"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 07:12:36"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 07:12:36"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 07:22:38"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 07:22:38"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 07:32:41"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 07:32:41"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 07:42:42"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 07:42:42"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 07:52:45"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 07:52:45"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 08:02:48"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 08:02:48"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 08:12:51"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 08:12:51"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 08:22:52"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 08:22:52"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 08:32:55"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 08:32:55"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 08:42:58"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 08:42:58"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 08:53:01"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 08:53:01"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 09:03:04"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 09:03:04"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 09:13:07"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 09:13:07"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 09:23:10"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 09:23:10"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 09:33:13"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 09:33:13"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 09:43:16"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 09:43:16"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 09:53:18"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 09:53:18"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 10:03:21"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 10:03:21"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 10:13:24"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 10:13:24"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 10:23:25"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 10:23:25"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 10:33:28"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 10:33:28"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 10:43:31"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 10:43:31"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 10:53:34"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 10:53:34"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 11:03:37"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 11:03:37"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 11:13:39"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 11:13:39"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 11:23:42"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 11:23:42"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 11:33:45"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 11:33:45"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 11:43:48"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 11:43:48"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 11:53:51"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 11:53:51"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 12:03:54"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 12:03:54"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 12:13:56"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 12:13:56"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 12:23:59"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 12:23:59"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 12:34:02"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 12:34:02"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 12:44:05"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 12:44:05"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 12:54:08"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 12:54:08"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 13:04:10"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 13:04:10"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 13:14:13"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 13:14:13"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 13:24:16"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 13:24:16"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 13:34:19"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 13:34:19"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 13:44:22"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 13:44:22"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 13:54:24"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 13:54:24"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 14:04:27"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 14:04:27"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 14:14:30"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 14:14:30"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 14:24:33"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 14:24:33"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 14:34:36"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 14:34:36"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 14:44:39"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 14:44:39"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 14:54:41"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 14:54:41"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 15:04:44"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 15:04:44"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 15:14:47"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 15:14:47"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 15:24:50"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 15:24:50"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 15:34:53"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 15:34:53"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 15:44:55"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 15:44:55"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 15:54:58"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 15:54:58"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 16:05:01"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 16:05:01"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 16:15:04"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 16:15:04"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 16:25:07"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 16:25:07"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 16:35:10"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 16:35:10"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 16:45:12"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 16:45:13"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 16:55:15"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 16:55:15"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 17:05:17"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 17:05:17"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 17:15:18"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 17:15:18"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 17:25:20"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 17:25:20"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 17:35:21"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 17:35:21"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 17:45:24"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 17:45:24"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 17:55:26"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 17:55:26"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 18:05:27"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 18:05:27"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 18:15:29"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 18:15:29"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 18:25:30"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 18:25:30"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 18:35:32"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 18:35:32"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 18:45:33"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 18:45:33"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 18:55:36"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 18:55:36"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 19:05:39"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 19:05:39"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 19:15:42"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 19:15:42"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 19:25:45"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 19:25:45"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 19:35:47"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 19:35:47"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 19:45:50"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 19:45:50"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 19:55:53"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 19:55:53"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 20:05:56"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 20:05:56"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 20:15:59"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 20:15:59"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 20:26:01"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 20:26:01"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 20:36:04"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 20:36:04"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 20:46:07"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 20:46:07"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 20:56:10"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 20:56:10"}
+{"round": "csre_rebuild", "units": 2939, "vocab": 5599, "ts": "2026-09-02 20:56:11"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 21:06:14"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 21:06:14"}
+{"round": "csre_rebuild", "units": 2943, "vocab": 5618, "ts": "2026-09-02 21:06:14"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 21:16:17"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 21:16:17"}
+{"round": "csre_rebuild", "units": 2947, "vocab": 5641, "ts": "2026-09-02 21:16:18"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 21:26:19"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 21:26:19"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 21:36:21"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 21:36:21"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 21:46:22"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 21:46:22"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 21:56:24"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 21:56:24"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 22:06:27"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 22:06:27"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 22:16:28"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 22:16:28"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 22:26:31"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 22:26:31"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 22:36:34"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 22:36:34"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 22:46:36"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 22:46:36"}
+{"round": "csre_rebuild", "units": 2955, "vocab": 5683, "ts": "2026-09-02 22:46:37"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 22:56:40"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 22:56:40"}
+{"round": "csre_rebuild", "units": 2959, "vocab": 5704, "ts": "2026-09-02 22:56:41"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 23:06:43"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 23:06:43"}
+{"round": "csre_rebuild", "units": 2963, "vocab": 5725, "ts": "2026-09-02 23:06:44"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 23:16:47"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 23:16:47"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 23:26:50"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 23:26:50"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 23:36:52"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 23:36:52"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 23:46:55"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 23:46:55"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-02 23:56:58"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-02 23:56:58"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 00:07:01"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 00:07:01"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 00:17:04"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 00:17:04"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 00:27:06"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 00:27:06"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 00:37:09"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 00:37:09"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 00:47:12"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 00:47:12"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 00:57:15"}
+{"round": "gap_watch", "pid": 12460, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 00:57:15"}
+{"round": "loop_start", "interval": 600, "channel_b": false, "ts": "2026-09-03 01:06:39"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 01:06:40"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 01:06:40"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 01:16:43"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 01:16:43"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 01:26:46"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 01:26:46"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 01:36:49"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 01:36:49"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 01:46:56"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 01:46:56"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 01:56:58"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 01:56:58"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 02:07:01"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 02:07:01"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 02:17:03"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 02:17:03"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 02:27:04"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 02:27:04"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 02:37:06"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 02:37:06"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 02:47:07"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 02:47:07"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 02:57:09"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 02:57:09"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 03:07:10"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 03:07:10"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 03:17:12"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 03:17:12"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 03:27:13"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 03:27:13"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 03:37:15"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 03:37:15"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 03:47:16"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 03:47:16"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 03:57:18"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 03:57:18"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 04:07:19"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 04:07:19"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 04:17:21"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 04:17:21"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 04:27:22"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 04:27:22"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 04:37:24"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 04:37:24"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 04:47:25"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 04:47:25"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 04:57:27"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 04:57:27"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 05:07:28"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 05:07:28"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 05:17:30"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 05:17:30"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 05:27:31"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 05:27:31"}
+{"round": "bootstrap_v2", "gaps": 0, "patches_applied": 0, "patches_verified": 0, "patches_failed": 0, "persisted_files": 0, "ts": "2026-09-03 05:37:33"}
+{"round": "gap_watch", "pid": 17640, "a866_ok": null, "a866_cached": false, "cache_entries": 0, "ts": "2026-09-03 05:37:33"}
