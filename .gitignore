@@ -32,3 +32,4 @@ aeis/tests/_tmp*.py
 
 # 运行产物临时文件
 aeis/tests/_tmp_*
+aeis/wisdom/snr_report.json
