@@ -76,7 +76,7 @@
 
 - **`aeis/skills/`**：Agent Plugins 1.0.0 兼容包（agent-plugins.org），**688 个 Agent Skills**（六域条件单元：compiler 116 / pylang 122 / graph 117 / os 112 / browser 104 / net 117）
 - **比标准 Agent Skills 多 KCCS 四要素**：每个技能带生效条件/子功能/执行/**不适用条件**（三通道：description「Not for」+ metadata.kccs.not_applicable + 正文克制条款）
-- **三层关系**：知识真源（`aeis/wisdom/*_code_units.py`）→ 说明书（本技能包）→ 执行（灵枢 MCP 77 工具·物理基底）
+- **三层关系**：知识真源（`aeis/wisdom/*_code_units.py`）→ 说明书（本技能包）→ 执行（灵枢 MCP 82 工具·物理基底）
 - 再生成：`tools/skill_export.py` + 发布门禁 `tools/skill_export_verify.py`（688/688 通过）
 - 详见 `aeis/skills/README.md`
 
