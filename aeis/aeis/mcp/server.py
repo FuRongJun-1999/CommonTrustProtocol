@@ -1060,9 +1060,11 @@ def main():
     except Exception:
         pass
     # 自主生命周期（v1.15 主动性）：MCP 启动即开始自发循环（感知→好奇→缩小信息差→巩固）
-    # 不依赖外部配置——「她自己醒来」；interval 可由 AEIS_LIFECYCLE_INTERVAL 覆盖，默认 120s
+    # 不依赖外部配置——「她自己醒来」；interval 可由 AEIS_LIFECYCLE_INTERVAL 覆盖。
+    # 默认 3600s（外部用户反馈修正：原 120s 默认在多引擎进程场景造成写库高频堆积
+    # ——与开发者侧 WAL 膨胀教训同根因；巩固价值保留，频率取保守默认，需要更密可 env 调低）
     try:
-        interval = float(os.environ.get("AEIS_LIFECYCLE_INTERVAL", "120"))
+        interval = float(os.environ.get("AEIS_LIFECYCLE_INTERVAL", "3600"))
         res = server.agent.start_lifecycle(interval=interval)
         sys.stderr.write(f"[lifecycle] 自主循环已启动 interval={interval}s → {res.get('status')}\n")
         sys.stderr.flush()
