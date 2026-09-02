@@ -888,7 +888,6 @@ class AEISServer:
                                                                     "designer_auth": "failed"})}],
                         "isError": True}
         if name == "nightly_cleanup":
-            from .api import Agent as _A
             r = agent.nightly_cleanup(dry_run=a.get("dry_run", False),
                                       sample_size=a.get("sample_size", 5))
             return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
