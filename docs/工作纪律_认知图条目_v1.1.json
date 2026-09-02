@@ -279,6 +279,28 @@
     "response": {
      "direct": "按工作纪律第11条: 历史查询优先——先查记录/源码用已走通算法, 未找到不盲选DEFER；线稿用darkline(Sobel+mean+std*1.5)白底黑线, 拒raw canny/zone_linework。"
     }
+   },
+   {
+    "id": "discipline_algorithm_authority",
+    "semantic": "12.算法权威唯一(根因纪律)",
+    "content": "选算法/算法标准以【唯一权威文档】为准(VISION_PIPELINE: 线稿=darkline.py Sobel+mean+std*1.5; 色块=contour_semantics); 选算法前先查文档(非记忆); 禁止遇问题临时切换算法; 换算法须先记录+更新文档(版本管理); 勿漂移。",
+    "conditions": {
+     "apply": [
+      "选图像/视觉算法",
+      "复现已有能力"
+     ]
+    },
+    "negative": {
+     "reject": [
+      "无对应权威文档的探索期"
+     ]
+    },
+    "execution": {
+     "how": "选算法→查唯一权威文档→用文档算法→若需换: 记录原因+更新文档后再换"
+    },
+    "response": {
+     "direct": "按工作纪律第12条: 算法权威唯一(线稿=darkline.py/色块=contour_semantics)——选算法查文档, 勿临时切换/漂移; 换算法须记录+更新文档。"
+    }
    }
   ]
  }
