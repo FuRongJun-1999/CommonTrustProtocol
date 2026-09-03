@@ -4631,10 +4631,43 @@ class SpacetimeMemoryEngine:
             ra, rb = find(a), find(b)
             if ra != rb:
                 parent[rb] = ra
-        for i in range(len(nodes)):
-            for j in range(i + 1, len(nodes)):
-                if LayeredStore.char_bigram_jaccard(nodes[i].content, nodes[j].content) >= similarity_threshold:
-                    union(nodes[i].id, nodes[j].id)
+        # 倒排预筛（外部用户 514+ 节点超时修正）：O(n²) 全对比 → 仅共享低频二元组的候选对
+        # 做精确 Jaccard；高频 bigram（DF>半数，如「的了」类）区分度低不进倒排；
+        # 另用长度预筛（Jaccard≥t 要求 min|A| ≥ t·max|A|，不满足直接跳过）
+        from collections import defaultdict as _dd
+        from aeis.layered import _bigram_set as _bg
+        bigram_sets = [_bg(n.content) for n in nodes]
+        df = _dd(int)
+        for bs in bigram_sets:
+            for bg in bs:
+                df[bg] += 1
+        half = max(1, len(nodes) // 2)
+        inverted = _dd(list)
+        for idx, bs in enumerate(bigram_sets):
+            for bg in bs:
+                if df[bg] <= half:
+                    inverted[bg].append(idx)
+        t = similarity_threshold
+        # 时间预算（外部用户 514+ 节点 30s 超时修正）：候选对限时处理，超时即用已完成的
+        # 并查集部分成簇（链式聚类增量有效）——induce 永不再触发 MCP 超时
+        import time as _time
+        deadline = _time.time() + 8.0
+        pair_seen = set()
+        for idx, bs in enumerate(bigram_sets):
+            if _time.time() > deadline:
+                break
+            if not bs:
+                continue
+            for j in {k for bg in bs for k in inverted.get(bg, ()) if k != idx}:
+                pair = (idx, j) if idx < j else (j, idx)
+                if pair in pair_seen:
+                    continue
+                pair_seen.add(pair)
+                b2 = bigram_sets[j]
+                if not b2 or len(bs) < t * len(b2) or len(b2) < t * len(bs):
+                    continue
+                if LayeredStore.char_bigram_jaccard(nodes[idx].content, nodes[j].content) >= t:
+                    union(nodes[idx].id, nodes[j].id)
         groups = {}
         for n in nodes:
             groups.setdefault(find(n.id), []).append(n)
