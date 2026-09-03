@@ -63,7 +63,25 @@ VS Code 的正确用法不是 `code` CLI 改文件，而是**写一个 VS Code �
 
 ---
 
-## 四、待荣拍板
+## 四、荣质疑后的修正结论（2026-09-03 10:25）
+
+荣指出方案 A 与既定原则冲突：「工具不应该越多，而是对已有功能进行优化」。
+**修正后路线（零新 MCP 工具）**：
+
+| 优先级 | 路线 | 载体 |
+|---|---|---|
+| 主 | **B：compile_exec 承载文件操作**——agent 生成 Python pathlib 代码执行 | 引擎已有能力（挂白名单=启用已有，非新增） |
+| 次 | **run_command 内置优化**——常用 bash→PowerShell 子集翻译（fauxnix 思路内置化，零第三方依赖） | 已有输出端口的功能优化 |
+| 缓 | A 六工具降级为可选后续：仅当 B 实践中模型写 Python 文件操作出错率高时再议，且届时做成引擎内部函数+白名单开关 | 缓议 |
+| 缓 | C VS Code 集成仍留作可选增值 | 待用户需求 |
+
+---
+
+## 四B、原推荐（修正前存档）
+
+1. 方案 A 是否立项（6 工具：read_file/write_file/edit_file/list_dir/glob_search/grep_content，沙箱限定）
+2. 方案 B 是否随行（compile_exec 复用）
+3. 方案 C 是否留作后续可选集成
 
 1. 方案 A 是否立项（6 工具：read_file/write_file/edit_file/list_dir/glob_search/grep_content，沙箱限定）
 2. 方案 B 是否随行（compile_exec 复用）
