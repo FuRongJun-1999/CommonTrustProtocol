@@ -1042,6 +1042,14 @@ class AEISServer:
 
 def main():
     server = AEISServer()
+    # stderr 强制 UTF-8（issue #9 cmd 乱码修正）：Windows 上 stderr 默认跟随控制台
+    # 代码页（GBK），中文日志被 GBK 编码后由宿主（dsh bridge 按 utf8 解码）读出即乱码；
+    # 入口处统一 reconfigure 为 utf-8（errors=replace 防极端字符崩日志），协议流
+    # （stdout.buffer 显式 utf-8）本就正确不受影响。直接在 cmd 看日志的场景建议 chcp 65001。
+    try:
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     # 环境摘要（issue #7 远程诊断）：启动即输出 python/aeis 版本——远程用户
     # 反馈问题时日志自带环境信息，免一轮来回追问
     try:
