@@ -6,7 +6,11 @@
 情境层随机联想——跨层探索不同条件下是否有有价值的联系。
 
 三步：
-  1. 分拣迁移：知识层无边孤岛（无结构性标签）→ 情境层
+  1. 分拣迁移：知识层 → 情境层，两条捕获规则：
+     ①无边孤岛（无结构标签）→ 情境层（原规则）
+     ②外部钩子噪声（有边但 content 命中运行态噪声前缀，或无结构标签且
+       importance<0.3）→ 情境层（外部用户反馈修正：dsh/user 自动钩子噪声
+       带 自动边 漏过孤岛规则；迁移只换层不删边，无数据丢失）
   2. 联想补边：有结构标签但无边的知识节点 → recall 找关联 → relate
   3. 情境层随机联想：情境层抽样 × 知识层抽样 → 跨层 relate 尝试
 
@@ -59,6 +63,7 @@ def nightly_cleanup(agent, dry_run: bool = False,
     }
 
     # ---- Phase 1: 分拣迁移 ----
+    # ① 无边孤岛（原规则）：知识层无边 + 无结构标签 → 情境层
     c.execute("""
         SELECT n.id, n.tags FROM nodes n WHERE n.layer='knowledge'
         AND NOT EXISTS (SELECT 1 FROM edges e WHERE e.source_id=n.id OR e.target_id=n.id)
@@ -72,6 +77,29 @@ def nightly_cleanup(agent, dry_run: bool = False,
         if not _has_keep_tag(tags):
             migrate_ids.append(nid)
     report['kept_structural'] = len(orphans) - len(migrate_ids)
+
+    # ② 外部钩子噪声迁移（外部用户反馈修正）：有边但满足噪声特征的知识节点
+    #    同样迁到情境层（边保留不删，仅换层）——覆盖 dsh/user 自动钩子产生、
+    #    带 自动边 所以漏过孤岛规则 的运行态噪声。两条捕获规则：
+    #    A. content 前缀命中 NOISE_PREFIXES（明确运行态噪声标识）
+    #    B. 无结构标签 + importance < 0.3（低质信号，钩子噪声普遍低重要度）
+    c.execute("""
+        SELECT n.id, n.tags, n.importance, n.content FROM nodes n WHERE n.layer='knowledge'
+        AND EXISTS (SELECT 1 FROM edges e WHERE e.source_id=n.id OR e.target_id=n.id)
+    """)
+    noisy = c.fetchall()
+    report['noisy_scanned'] = len(noisy)
+    noisy_migrated = 0
+    for nid, tags_str, importance, content in noisy:
+        tags = json.loads(tags_str) if tags_str else []
+        if _has_keep_tag(tags):
+            continue
+        is_noise_prefix = isinstance(content, str) and content.startswith(NOISE_PREFIXES)
+        is_low_value = (importance is None) or (importance < 0.3)
+        if is_noise_prefix or (is_low_value and not _has_keep_tag(tags)):
+            migrate_ids.append(nid)
+            noisy_migrated += 1
+    report['noisy_migrated'] = noisy_migrated
 
     if not dry_run and migrate_ids:
         for i in range(0, len(migrate_ids), 500):
