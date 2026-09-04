@@ -1,5 +1,5 @@
 {
- "version": "v1.19",
+ "version": "v1.20",
  "description": "白箱回答能力题库（荣指令 2026-08-31：多种对话问题测试白箱回答能力，提问收录入题库）",
  "usage": "keywords 供自动 key_hit 口径；type/domain 供分域统计；新增题 append 后跑评测脚本",
  "count": 200,
@@ -3104,6 +3104,55 @@
     "小水滴"
    ],
    "source": "通识拓展27",
+   "added": "2026-09-04"
+  },
+  {
+   "id": "QB-245",
+   "question": "自来水是怎么净化的",
+   "domain": "化学",
+   "type": "技术直答",
+   "keywords": [
+    "沉淀",
+    "过滤",
+    "消毒"
+   ],
+   "source": "通识拓展28",
+   "added": "2026-09-04"
+  },
+  {
+   "id": "QB-246",
+   "question": "世界最大的沙漠是哪个",
+   "domain": "地理学",
+   "type": "技术直答",
+   "keywords": [
+    "撒哈拉"
+   ],
+   "source": "通识拓展28",
+   "added": "2026-09-04"
+  },
+  {
+   "id": "QB-247",
+   "question": "ABO血型有哪几种",
+   "domain": "生物学",
+   "type": "技术直答",
+   "keywords": [
+    "A",
+    "B",
+    "AB",
+    "O"
+   ],
+   "source": "通识拓展28",
+   "added": "2026-09-04"
+  },
+  {
+   "id": "QB-248",
+   "question": "急刹车时乘客为什么前倾",
+   "domain": "物理学",
+   "type": "技术直答",
+   "keywords": [
+    "惯性"
+   ],
+   "source": "通识拓展28",
    "added": "2026-09-04"
   }
  ]
