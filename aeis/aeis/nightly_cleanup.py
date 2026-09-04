@@ -30,10 +30,14 @@ KEEP_TAGS = {
     'sleep_report', 'project_memory', 'migrated', 'protection',
     'sleep_consolidation', 'game_design', 'protocol', 'whitebox',
     'nightly_cleanup', 'subgraph_replace',
+    # v1.1 扩容（外部用户库实测反馈：KEEP_TAGS 过窄）：
+    'knowledge_point', 'file_mem', 'milestone', 'anchor', 'user_pinned',
+    'seed_knowledge', 'kccs',
 }
 
 # 运行态噪声模式（content 前缀匹配 → 迁移）
-NOISE_PREFIXES = ('[心跳]', '[distill', '[初始记忆播种]', '[对话assistant]')
+NOISE_PREFIXES = ('[心跳]', '[distill', '[初始记忆播种]', '[对话assistant]',
+                  '[对话user]')
 
 
 def _has_keep_tag(tags: List[str]) -> bool:
@@ -63,9 +67,12 @@ def nightly_cleanup(agent, dry_run: bool = False,
     }
 
     # ---- Phase 1: 分拣迁移 ----
-    # ① 无边孤岛（原规则）：知识层无边 + 无结构标签 → 情境层
+    # ① 无边孤岛（原规则+importance 下限 v1.1）：知识层无边 + 无结构标签
+    #    + importance < 0.5 → 情境层（外部用户反馈：高重要度孤岛可能是
+    #    尚未连线的核心知识，不迁）
     c.execute("""
         SELECT n.id, n.tags FROM nodes n WHERE n.layer='knowledge'
+        AND COALESCE(n.importance, 0) < 0.5
         AND NOT EXISTS (SELECT 1 FROM edges e WHERE e.source_id=n.id OR e.target_id=n.id)
     """)
     orphans = c.fetchall()
@@ -77,6 +84,7 @@ def nightly_cleanup(agent, dry_run: bool = False,
         if not _has_keep_tag(tags):
             migrate_ids.append(nid)
     report['kept_structural'] = len(orphans) - len(migrate_ids)
+    report['migrated'] = len(migrate_ids)  # v1.1 修正：恒 0 bug 根因=从未回写
 
     # ② 外部钩子噪声迁移（外部用户反馈修正）：有边但满足噪声特征的知识节点
     #    同样迁到情境层（边保留不删，仅换层）——覆盖 dsh/user 自动钩子产生、
