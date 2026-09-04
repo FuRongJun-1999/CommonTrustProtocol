@@ -34,3 +34,4 @@ aeis/tests/_tmp*.py
 aeis/tests/_tmp_*
 aeis/wisdom/snr_report.json
 aeis/dist/
+aeis/memory_v11.json
