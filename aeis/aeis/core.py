@@ -316,14 +316,14 @@ class LayeredStore:
         self.db_path = db_path
         self.role = role
         self.conn = sqlite3.connect(db_path, check_same_thread=False,
-                                    timeout=10)
+                                    timeout=30)
         self.conn.row_factory = sqlite3.Row
         # v1.16 图架构增强：WAL 模式（读写不互锁，MCP 长事务不再阻塞其他连接）
         # + busy_timeout（锁等待而非立即报错）
         if db_path != ":memory:":
             try:
                 self.conn.execute("PRAGMA journal_mode=WAL")
-                self.conn.execute("PRAGMA busy_timeout=10000")
+                self.conn.execute("PRAGMA busy_timeout=30000")
                 # v1.16 WAL 上限软引导（连接级，常驻连接自动带上，避免 limit 回默认 -1）
                 try:
                     self.conn.execute("PRAGMA journal_size_limit=512000000")
