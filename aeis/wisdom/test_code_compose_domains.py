@@ -4597,7 +4597,8 @@ for label, q in p13_qs.items():
           f'{r.get("unit")} | {(r.get("checks") or ["固化直出"])[0][:18]}')
 check('㋣b P线高级语法三单元全部生成', p13_ok == 3, f'{p13_ok}/3')
 
-# ㋣c 语法端到端：默认参数→关键字参数→多行字符串（缺省2 kw绑定 跨行串）
+# ㋣c 语法端到端：默认参数→关键字参数→多行字符串（V-P4 mini_bind 统一绑定 位置→关键字→默认值；
+# 旧「语法-默认参数/语法-关键字参数」二单元与 V-P4「参数-默认值与关键字绑定」功能重叠已合并删除）
 r_da = domain_route("写一个默认参数单元（缺省绑定）")
 r_kw = domain_route("写一个关键字参数单元（kw 绑定）")
 r_ms = domain_route("写一个多行字符串单元（三引号）")
@@ -4606,8 +4607,8 @@ try:
     exec(r_da["code"], ns_da)
     exec(r_kw["code"], ns_kw)
     exec(r_ms["code"], ns_ms)
-    da = ns_da["default_args"](['甲', '乙'], {'乙': 2}, ['x'])
-    kw = ns_kw["kwargs_bind"](['甲', '乙'], ['x'], {'乙': 'y'})
+    da = ns_da["mini_bind"]([('甲', None), ('乙', 2)], ['x'], {})
+    kw = ns_kw["mini_bind"]([('甲', None), ('乙', None)], ['x'], {'乙': 'y'})
     ms = ns_ms["multiline_str"]('"""你好\n世界"""', 0)
     check('㋣c 默认→关键字→多行字符串端到端（{甲:x,乙:2} {甲:x,乙:y} 跨行）',
           da == {'甲': 'x', '乙': 2} and kw == {'甲': 'x', '乙': 'y'}
@@ -4615,6 +4616,19 @@ try:
           f'default={da} kw={kw} multi={ms}')
 except Exception as ex:
     check('㋣c 默认→关键字→多行字符串端到端（{甲:x,乙:2} {甲:x,乙:y} 跨行）', False, str(ex)[:60])
+
+# ㋣d V-P4 in 运算符端到端：成员判断（dict 按键/序列相等/str 子串——CPython in 语义）
+try:
+    r_in = domain_route("写一个成员判断单元（in 运算符）")
+    ns_in = {}
+    exec(r_in["code"], ns_in)
+    mi = ns_in["mini_in"]
+    ok_in = (mi(2, [1, 2, 3]) is True and mi(9, [1, 2, 3]) is False
+             and mi('ell', 'hello') is True and mi('a', {'a': 1}) is True)
+    check('㋣d V-P4 in 成员判断端到端（序列 True/False dict键 str子串）', ok_in,
+          f'in={mi(2, [1, 2, 3])} not_in={mi(9, [1, 2, 3])} sub={mi("ell", "hello")} key={mi("a", {"a": 1})}')
+except Exception as ex:
+    check('㋣d V-P4 in 成员判断端到端（序列 True/False dict键 str子串）', False, str(ex)[:60])
 
 # ㋤ 目标4 深化：文件/存储（文件压缩/存储池/文件版本 经正式管线）
 o13_qs = {

@@ -5,10 +5,9 @@ import sys, os
 sys.stdout.reconfigure(encoding='utf-8')
 CTP = r'D:\Program Files\2_ai\CommonTrustProtocol'
 sys.path.insert(0, r'C:\Users\FuRongJun\AppData\Local\Programs\Python\Python310\lib\site-packages')
-sys.path.insert(0, CTP + r'\tools')
+sys.path.insert(0, CTP + r'\aeis\wisdom')
 sys.path.insert(0, CTP + r'\aeis')
 import wisdom.chat_engine as ce
-sys.path.insert(0, CTP + r'\tools')
 import compose_engine as cc
 from graph_qa import ConditionGraphQA
 

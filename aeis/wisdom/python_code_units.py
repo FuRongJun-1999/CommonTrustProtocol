@@ -1444,50 +1444,6 @@ PYTHON_UNITS = {
         "params": [],
         "calibration": "对照：Python statistics——mean/min/max（统计族）",
     },
-    "语法-默认参数": {
-        "task": "默认参数",
-        "pattern": (
-            "def default_args(params, defaults, call_args):\n"
-"    # 生效条件：参数 params/defaults/call_args 合法\n"
-"    # 子功能：① 调用 enumerate；② 调用 len\n"
-"    # 执行：循环迭代；顺序调用\n"
-"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
-            "    # 默认参数：参数绑定（缺省用默认值——函数调用语义）\n"
-            "    bound = {}\n"
-            "    for i, p in enumerate(params):\n"
-            "        bound[p] = call_args[i] if i < len(call_args) else defaults.get(p)\n"
-            "    return bound\n"),
-        "cases": [((['甲', '乙'], {'乙': 2}, ['x']), {'甲': 'x', '乙': 2}),
-                  ((['甲'], {}, ['x']), {'甲': 'x'}),
-                  ((['甲', '乙'], {'乙': 2}, ['x', 'y']),
-                   {'甲': 'x', '乙': 'y'})],
-        "params": [],
-        "calibration": "对照：Python 默认参数（缺省用默认值绑定）",
-    },
-    "语法-关键字参数": {
-        "task": "关键字参数",
-        "pattern": (
-            "def kwargs_bind(params, args, kwargs):\n"
-"    # 生效条件：参数 params/args/kwargs 合法\n"
-"    # 子功能：① 调用 enumerate；② 调用 len\n"
-"    # 执行：循环迭代；顺序调用\n"
-"    # 不适用条件：输入不满足生效条件时返回 None/不执行\n"
-            "    # 关键字参数：位置+关键字绑定（**kwargs 语义）\n"
-            "    bound = {}\n"
-            "    for i, p in enumerate(params):\n"
-            "        if p in kwargs:\n"
-            "            bound[p] = kwargs[p]\n"
-            "        elif i < len(args):\n"
-            "            bound[p] = args[i]\n"
-            "        else:\n"
-            "            bound[p] = None\n"
-            "    return bound\n"),
-        "cases": [((['甲', '乙'], ['x'], {'乙': 'y'}), {'甲': 'x', '乙': 'y'}),
-                  ((['甲', '乙'], [], {'甲': 'x'}), {'甲': 'x', '乙': None}),
-                  ((['甲'], ['x'], {}), {'甲': 'x'})],
-        "params": [],
-        "calibration": "对照：Python 关键字参数（关键字优先于位置绑定）",
-    },
     "语法-多行字符串": {
         "task": "多行字符串",
         "pattern": (

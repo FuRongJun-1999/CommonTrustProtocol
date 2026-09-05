@@ -3,7 +3,7 @@
 验证：①影响面查询 ②关系查询（路径存在）③路径枚举 ④未识别回落 ⑤诚实边界"""
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
-sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\tools')
+sys.path.insert(0, r'D:\Program Files\2_ai\CommonTrustProtocol\aeis\wisdom')
 import compose_engine as ce
 from graph_qa import ConditionGraphQA
 
