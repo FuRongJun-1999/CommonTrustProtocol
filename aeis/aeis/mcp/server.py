@@ -14,9 +14,11 @@ aeis.mcp.server · 灵枢 MCP server — 供其他智能体通过 MCP 协议调�
   python -m aeis.mcp.server            # 或安装后: aeis-mcp
   AEIS_DB=memory.db AEIS_IDENTITY=助手 aeis-mcp   # 持久化配置
 
-工具面（18 项）：记忆（remember/recall/search/timeline）· 关系（relate/reason/
-predict_routes）· 认知（blindspots/learn/induce）· 飞轮（distill/flywheel_metrics/
-transfer_test/calibrate）· 生命周期（lifecycle_step）· 元认知（self_check/gap_trend/export）
+工具面（82 项，2026-09-05 实测；R7 工具面有界——对已有功能补全不扩容）：
+记忆（remember/recall/search/timeline/context/ingest）· 访谈澄清（grill_* · 认知图
+工具的补全，与节点四要素同构）· 关系/认知/飞轮/生命周期/自我认知/元认知/世界模型族等。
+归并旧名（ingest_text/file/url、session_note/session_recall/compact_context）调用时
+自动映射到 ingest/context（R7 模块化·历史名下沉）。
 """
 
 import json
@@ -201,41 +203,61 @@ def _tools():
          "inputSchema": {"type": "object",
                          "properties": {"text": {"type": "string"}},
                          "required": ["text"]}},
-        {"name": "ingest_text",
-         "description": "外部知识摄取：文本 → 知识层（source 标签·分块·实体提取）。",
+        {"name": "ingest",
+         "description": "外部知识摄取（R7 归并：ingest_text/file/url 三合一，action 分发）：source_type=text（content 文本）| file（path 文件，按扩展名处理）| url（url 页面零依赖抓取+去标签）→ 知识层（source 标签·分块·实体提取）。",
          "inputSchema": {"type": "object",
-                         "properties": {"content": {"type": "string"},
+                         "properties": {"source_type": {"type": "string", "enum": ["text", "file", "url"]},
+                                        "content": {"type": "string"},
+                                        "path": {"type": "string"},
+                                        "url": {"type": "string"},
                                         "source": {"type": "string"},
                                         "tags": {"type": "array", "items": {"type": "string"}}},
-                         "required": ["content"]}},
-        {"name": "ingest_file",
-         "description": "外部知识摄取：文件（txt/md/json/代码等按扩展名处理）。",
+                         "required": ["source_type"]}},
+        {"name": "context",
+         "description": "上下文外部化（R7 归并：session_note/session_recall/compact_context 三合一，action 分发）：action=note（会话要点写入，key_points）| recall（按 session/语义检索恢复，query/limit）| compact（会话摘要节点，summary——超长会话恢复入口）。",
          "inputSchema": {"type": "object",
-                         "properties": {"path": {"type": "string"}},
-                         "required": ["path"]}},
-        {"name": "ingest_url",
-         "description": "外部知识摄取：URL 页面（零依赖抓取+去标签）。",
-         "inputSchema": {"type": "object",
-                         "properties": {"url": {"type": "string"}},
-                         "required": ["url"]}},
-        {"name": "session_note",
-         "description": "上下文外部化：会话要点写入灵枢（session 标签，可恢复）。",
-         "inputSchema": {"type": "object",
-                         "properties": {"session_id": {"type": "string"},
-                                        "key_points": {"type": "array", "items": {"type": "string"}}},
-                         "required": ["session_id", "key_points"]}},
-        {"name": "session_recall",
-         "description": "会话要点恢复：按 session 或语义检索灵枢中的会话记忆。",
-         "inputSchema": {"type": "object",
-                         "properties": {"session_id": {"type": "string"},
+                         "properties": {"action": {"type": "string", "enum": ["note", "recall", "compact"]},
+                                        "session_id": {"type": "string"},
+                                        "key_points": {"type": "array", "items": {"type": "string"}},
                                         "query": {"type": "string"},
-                                        "limit": {"type": "number"}}}},
-        {"name": "compact_context",
-         "description": "上下文压缩：生成会话摘要节点（超长会话恢复入口）。",
+                                        "limit": {"type": "number"},
+                                        "summary": {"type": "string"}},
+                         "required": ["action", "session_id"]}},
+        {"name": "grill_start",
+         "description": "访谈式需求澄清（grill · 认知图工具的补全，非独立新族）：工作开始前调用认知图进行功能识别——对条件进行确认、递归确认子内容、如何执行、不适用条件是什么，与认知图节点四要素完全同构。开访谈会话（design tree + frontier 轮次），返回访谈纪律与相关旧记忆。AI 先提问确认要做什么，全部决策落定后才固化入认知图。",
+         "inputSchema": {"type": "object",
+                         "properties": {"topic": {"type": "string"},
+                                        "context": {"type": "string"}},
+                         "required": ["topic"]}},
+        {"name": "grill_node",
+         "description": "grill 访谈节点操作（节点=认知图节点，四要素同构）：action=add 登记问题节点（title/question/kind[goal|decision|term|fact]/depends_on 递归子内容/conditions 生效条件/negative 不适用条件/execution 如何执行/recommended 推荐答案）；action=resolve 落定节点（node_id/answer/who[user|agent]）。固化时四要素齐全，先验证后写入。",
          "inputSchema": {"type": "object",
                          "properties": {"session_id": {"type": "string"},
-                                        "summary": {"type": "string"}},
-                         "required": ["session_id", "summary"]}},
+                                        "action": {"type": "string", "enum": ["add", "resolve"]},
+                                        "node_id": {"type": "string"},
+                                        "title": {"type": "string"},
+                                        "question": {"type": "string"},
+                                        "kind": {"type": "string"},
+                                        "depends_on": {"type": "array", "items": {"type": "string"}},
+                                        "conditions": {"type": "string"},
+                                        "negative": {"type": "string"},
+                                        "execution": {"type": "string"},
+                                        "recommended": {"type": "string"},
+                                        "answer": {"type": "string"},
+                                        "who": {"type": "string"}},
+                         "required": ["session_id", "action"]}},
+        {"name": "grill_frontier",
+         "description": "grill 当前 frontier：前置已全部落定的开放问题（本轮该问的）+ 统计 + done 判定（frontier 空=可固化）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"session_id": {"type": "string"}},
+                         "required": ["session_id"]}},
+        {"name": "grill_finish",
+         "description": "grill 收官：frontier 非空拒绝固化（不完全清楚就不固化——白箱 DEFER）；frontier 空则把全部决策/术语/事实固化入认知图（知识层 + hierarchical 决策树边）。abandon=true 放弃访谈（不固化，可逆）。",
+         "inputSchema": {"type": "object",
+                         "properties": {"session_id": {"type": "string"},
+                                        "summary": {"type": "string"},
+                                        "abandon": {"type": "boolean"}},
+                         "required": ["session_id"]}},
         {"name": "body",
          "description": "身体能力声明：感知模态（文本/图像）+ 工具 + 记忆；身体 = 自我的一部分。",
          "inputSchema": {"type": "object"}},
@@ -558,6 +580,9 @@ class AEISServer:
         self.agent = agent or Agent(
             identity=os.environ.get("AEIS_IDENTITY", "灵枢"),
             db_path=_db)
+        # grill · 访谈式需求澄清（design tree + frontier，共识固化入认知图）
+        from ..grill import GrillManager
+        self.grill = GrillManager(self.agent)
         self._tools = {t["name"]: t for t in _tools()}
         # 工具手动配置开/关（注入预算对策）：客户端工具注入有预算上限，
         # 可通过 env 白名单/黑名单手动裁剪暴露集——
@@ -567,13 +592,17 @@ class AEISServer:
         self._all_tool_names = set(self._tools.keys())
         _wl = os.environ.get("AEIS_MCP_TOOLS", "").strip()
         _bl = os.environ.get("AEIS_MCP_EXCLUDE", "").strip()
+        _legacy = self._LEGACY_TOOL_MAP
         _unknown_cfg = []
         if _wl:
-            _names = {x.strip() for x in _wl.split(",") if x.strip()}
+            # 配置里的归并旧名先映射为新名（老配置无缝兼容）
+            _names = {_legacy.get(x.strip(), (x.strip(),))[0]
+                      for x in _wl.split(",") if x.strip()}
             _unknown_cfg = sorted(_names - self._all_tool_names)
             self._tools = {n: t for n, t in self._tools.items() if n in _names}
         if _bl:
-            _ex = {x.strip() for x in _bl.split(",") if x.strip()}
+            _ex = {_legacy.get(x.strip(), (x.strip(),))[0]
+                   for x in _bl.split(",") if x.strip()}
             _unknown_cfg += sorted(_ex - self._all_tool_names)
             self._tools = {n: t for n, t in self._tools.items() if n not in _ex}
         self.tool_filter = {
@@ -644,9 +673,35 @@ class AEISServer:
 
     # ---- 工具分发 ----
 
+    # R7 模块化：归并工具的旧名下沉映射（tools/list 不暴露；调用自动映射到新工具）
+    _LEGACY_TOOL_MAP = {
+        "ingest_text": ("ingest", {"source_type": "text"}),
+        "ingest_file": ("ingest", {"source_type": "file"}),
+        "ingest_url": ("ingest", {"source_type": "url"}),
+        "session_note": ("context", {"action": "note"}),
+        "session_recall": ("context", {"action": "recall"}),
+        "compact_context": ("context", {"action": "compact"}),
+    }
+
     def _call_tool(self, name: str, arguments: dict) -> dict:
         a = dict(arguments or {})
         agent = self.agent
+        legacy = self._LEGACY_TOOL_MAP.get(name)
+        if legacy:
+            new_name, extra = legacy
+            merged = dict(extra)
+            merged.update(a)
+            result = self._call_tool(new_name, merged)
+            try:
+                payload = json.loads(result["content"][0]["text"])
+                if isinstance(payload, dict):
+                    payload["deprecated_notice"] = (
+                        f"工具 {name} 已归并为 {new_name}（R7 模块化·历史名下沉），"
+                        f"本次已自动映射，请改用 {new_name}")
+                    result["content"][0]["text"] = _dump(payload)
+            except Exception:
+                pass
+            return result
         # 工具配置开关守卫：被 AEIS_MCP_TOOLS/EXCLUDE 裁剪的工具拒绝调用
         if name not in self._all_tool_names:
             raise ValueError(f"unknown tool: {name}")
@@ -755,18 +810,47 @@ class AEISServer:
             return {"content": [{"type": "text", "text": _dump(agent.think(a.get("query", ""), limit=a.get("limit", 8)))}], "isError": False}
         if name == "preflight":
             return {"content": [{"type": "text", "text": _dump(agent.preflight(a.get("text", "")))}], "isError": False}
-        if name == "ingest_text":
-            return {"content": [{"type": "text", "text": _dump(agent.ingest_text(a.get("content", ""), source=a.get("source", "mcp"), tags=a.get("tags")))}], "isError": False}
-        if name == "ingest_file":
-            return {"content": [{"type": "text", "text": _dump(agent.ingest_file(a.get("path", "")))}], "isError": False}
-        if name == "ingest_url":
-            return {"content": [{"type": "text", "text": _dump(agent.ingest_url(a.get("url", "")))}], "isError": False}
-        if name == "session_note":
-            return {"content": [{"type": "text", "text": _dump(agent.session_note(a.get("session_id", "s"), a.get("key_points", [])))}], "isError": False}
-        if name == "session_recall":
-            return {"content": [{"type": "text", "text": _dump(agent.session_recall(session_id=a.get("session_id"), query=a.get("query"), limit=a.get("limit", 10)))}], "isError": False}
-        if name == "compact_context":
-            return {"content": [{"type": "text", "text": _dump(agent.compact_context(a.get("session_id", "s"), a.get("summary", "")))}], "isError": False}
+        if name == "ingest":
+            st = a.get("source_type", "text")
+            if st == "file":
+                r = agent.ingest_file(a.get("path", ""))
+            elif st == "url":
+                r = agent.ingest_url(a.get("url", ""))
+            else:
+                r = agent.ingest_text(a.get("content", ""), source=a.get("source", "mcp"), tags=a.get("tags"))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        # ---- grill · 访谈式需求澄清 ----
+        if name == "grill_start":
+            return {"content": [{"type": "text", "text": _dump(self.grill.start(
+                a.get("topic", ""), a.get("context", "")))}], "isError": False}
+        if name == "grill_node":
+            g = self.grill
+            if a.get("action") == "add":
+                r = g.node_add(a.get("session_id", ""), a.get("title", ""),
+                               a.get("question", ""), a.get("kind", "decision"),
+                               a.get("depends_on"), a.get("recommended", ""),
+                               a.get("conditions", ""), a.get("negative", ""),
+                               a.get("execution", ""))
+            else:
+                r = g.node_resolve(a.get("session_id", ""), a.get("node_id", ""),
+                                   a.get("answer", ""), a.get("who", "user"))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
+        if name == "grill_frontier":
+            return {"content": [{"type": "text", "text": _dump(self.grill.frontier(
+                a.get("session_id", "")))}], "isError": False}
+        if name == "grill_finish":
+            return {"content": [{"type": "text", "text": _dump(self.grill.finish(
+                a.get("session_id", ""), a.get("summary", ""),
+                abandon=bool(a.get("abandon"))))}], "isError": False}
+        if name == "context":
+            act = a.get("action", "note")
+            if act == "recall":
+                r = agent.session_recall(session_id=a.get("session_id"), query=a.get("query"), limit=a.get("limit", 10))
+            elif act == "compact":
+                r = agent.compact_context(a.get("session_id", "s"), a.get("summary", ""))
+            else:
+                r = agent.session_note(a.get("session_id", "s"), a.get("key_points", []))
+            return {"content": [{"type": "text", "text": _dump(r)}], "isError": False}
         if name == "body":
             return {"content": [{"type": "text", "text": _dump(agent.body())}], "isError": False}
         if name == "scene_simulator":
