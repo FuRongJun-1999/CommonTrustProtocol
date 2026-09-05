@@ -1,5 +1,5 @@
 {
- "version": "v3.1",
+ "version": "v3.2",
  "description": "白箱回答能力题库（荣指令 2026-08-31：多种对话问题测试白箱回答能力，提问收录入题库）",
  "usage": "keywords 供自动 key_hit 口径；type/domain 供分域统计；新增题 append 后跑评测脚本",
  "count": 200,
@@ -7441,6 +7441,40 @@
     "胎儿"
    ],
    "source": "通识拓展117",
+   "added": "2026-09-05"
+  },
+  {
+   "id": "QB-608",
+   "question": "超声波测距的原理",
+   "domain": "物理学",
+   "type": "技术直答",
+   "keywords": [
+    "回声",
+    "s=vt/2"
+   ],
+   "source": "通识拓展118",
+   "added": "2026-09-05"
+  },
+  {
+   "id": "QB-609",
+   "question": "国际禁毒日是哪一天",
+   "domain": "生物学",
+   "type": "技术直答",
+   "keywords": [
+    "6月26日"
+   ],
+   "source": "通识拓展118",
+   "added": "2026-09-05"
+  },
+  {
+   "id": "QB-610",
+   "question": "河北省会是哪个城市",
+   "domain": "地理学",
+   "type": "技术直答",
+   "keywords": [
+    "石家庄"
+   ],
+   "source": "通识拓展118",
    "added": "2026-09-05"
   }
  ]
