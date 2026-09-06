@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""seed_common_374_cards.py · 通识拓展批次374·存量卡补题·清单尾部（幂等）
+"""seed_common_374_cards.py · 通识拓展批次374·存量卡补题（幂等）
 
-374：2 张卡补 2 题（QB-1343~1344）——困倦与睡眠建议/累与休息恢复
-     清单尾部（索引2526-2528段）。预检已过（QB-1343/1344 可用）。
+374：3 张卡补 3 题（QB-1359~1361）——变分法/PN结/会计科目账户
+     清单中部（索引1204/1205/1207段）。预检已过（QB-1359~1361 可用）。
+     （本批次号曾被困倦睡眠重复题占用，2026-09-07 重写为真实新题。）
 """
 import json
 import os
@@ -17,7 +18,7 @@ WHITELIST = {"Havilland", "Maillard", "reaction", "CPAP", "OSA", "Mpemba",
              "CYP3A4", "ACID", "CNN", "RNN", "LSTM", "Krebs", "NADH",
              "FADH2", "Vmax", "Km", "RNA", "DNA", "mRNA", "KCL", "KVL",
              "BCS", "B2H6", "borrow", "Rust", "sin", "cos", "tan",
-             "Dijkstra", "Bellman", "Floyd", "logV"}
+             "Dijkstra", "Bellman", "Floyd", "logV", "LIGO"}
 
 
 def foreign_word_check(text: str) -> list:
@@ -32,10 +33,15 @@ def foreign_word_check(text: str) -> list:
 
 
 QUESTIONS = [
-    ("QB-1343", "白天犯困是什么原因？怎么提升精神状态？", "生活咨询", "情感陪伴",
-     ["困", "睡觉", "硬撑", "精神"], "通识拓展374·存量卡补题"),
-    ("QB-1344", "感觉累了怎么办？休息好为什么有精神？", "生活咨询", "情感陪伴",
-     ["累", "休息", "精神", "别硬撑"], "通识拓展374·存量卡补题"),
+    ("QB-1359", "变分法为什么能求基态能量？它给出的结果是精确值吗？",
+     "物理化学", "技术直答",
+     ["变分法", "波函数", "基态", "上界"], "通识拓展374·存量卡补题"),
+    ("QB-1360", "PN结为什么具有单向导电性？正偏和反偏有什么区别？",
+     "半导体物理", "技术直答",
+     ["PN结", "单向导电", "正偏", "反偏"], "通识拓展374·存量卡补题"),
+    ("QB-1361", "会计科目和账户有什么区别和联系？",
+     "会计基础", "技术直答",
+     ["会计科目", "账户", "分类", "记录"], "通识拓展374·存量卡补题"),
 ]
 
 
@@ -58,7 +64,7 @@ def ensure_seed() -> dict:
                    "type": qtype, "keywords": keywords, "source": source,
                    "added": "2026-09-07"})
         added += 1
-    bank["version"] = "v6.36"
+    bank["version"] = "v6.44"
     json.dump(bank, open(BANK, "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
     return {"questions_added": added, "total_questions": len(qs)}
