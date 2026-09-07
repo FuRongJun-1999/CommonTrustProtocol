@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""seed_common_376_cards.py · 通识拓展批次376·存量卡补题·清单尾部（幂等）
+"""seed_common_376_cards.py · 通识拓展批次376·存量卡补题（幂等）
 
-376：2 张卡补 2 题（QB-1345~1346）——困倦与睡眠建议/累与休息恢复
-     清单尾部（索引2526-2528段）。预检已过（QB-1345/1346 可用）。
+376：3 张卡补 3 题（QB-1366~1368）——三视图/分数/古书注解
+     清单索引800-816段。预检已过（QB-1366~1368 可用）。
+     （本批次号曾被困倦睡眠重复题占用，2026-09-07 重写为真实新题。）
 """
 import json
 import os
@@ -17,7 +18,7 @@ WHITELIST = {"Havilland", "Maillard", "reaction", "CPAP", "OSA", "Mpemba",
              "CYP3A4", "ACID", "CNN", "RNN", "LSTM", "Krebs", "NADH",
              "FADH2", "Vmax", "Km", "RNA", "DNA", "mRNA", "KCL", "KVL",
              "BCS", "B2H6", "borrow", "Rust", "sin", "cos", "tan",
-             "Dijkstra", "Bellman", "Floyd", "logV"}
+             "Dijkstra", "Bellman", "Floyd", "logV", "LIGO"}
 
 
 def foreign_word_check(text: str) -> list:
@@ -32,10 +33,15 @@ def foreign_word_check(text: str) -> list:
 
 
 QUESTIONS = [
-    ("QB-1345", "白天犯困是什么原因？怎么提升精神状态？", "生活咨询", "情感陪伴",
-     ["困", "睡觉", "硬撑", "精神"], "通识拓展376·存量卡补题"),
-    ("QB-1346", "感觉累了怎么办？休息好为什么有精神？", "生活咨询", "情感陪伴",
-     ["累", "休息", "精神", "别硬撑"], "通识拓展376·存量卡补题"),
+    ("QB-1366", "三视图是哪三个视图？它们之间的对应关系是什么？",
+     "工程制图", "技术直答",
+     ["三视图", "主视图", "俯视图", "左视图"], "通识拓展376·存量卡补题"),
+    ("QB-1367", "分数的分子和分母分别表示什么意思？",
+     "数学基础", "技术直答",
+     ["分数", "分子", "分母", "平均分"], "通识拓展376·存量卡补题"),
+    ("QB-1368", "古书注解里的「传」「注」「疏」分别是什么意思？",
+     "文史常识", "技术直答",
+     ["古书注解", "传注疏", "训诂", "句读"], "通识拓展376·存量卡补题"),
 ]
 
 
@@ -58,7 +64,7 @@ def ensure_seed() -> dict:
                    "type": qtype, "keywords": keywords, "source": source,
                    "added": "2026-09-07"})
         added += 1
-    bank["version"] = "v6.38"
+    bank["version"] = "v6.46"
     json.dump(bank, open(BANK, "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
     return {"questions_added": added, "total_questions": len(qs)}
