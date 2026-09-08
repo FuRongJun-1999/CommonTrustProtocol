@@ -51,14 +51,17 @@
 
 ---
 
-## 四、执行步骤（校对通过后）
+## 四、执行步骤（校对通过后执行；**现状：已全部落地，2026-09-08**）
 
-1. **建独立仓库**：GitHub 新建 `FuRongJun-1999/dsh-memory`（public, MIT）
-2. **迁移代码**：`plugins/dsh-memory/` 全部文件推送为新仓库初始 commit（含 README 更新：链接/徽章/独立仓库说明）
-3. **更新 package.json**：`repository.url` → 独立仓库地址；发 npm 0.2.3（或 0.3.0，若 dsh.bundle 已发 0.2.2）
-4. **更新 PR**：fork 中两条目替换为修订版（链接 + 描述）→ push（PR 自动更新）
-5. **主仓库处理**：CommonTrustProtocol 中保留副本，README 加"独立仓库地址"指引（避免双份漂移）
-6. **验证**：`dsh plugin add @furongjun1999/dsh-memory` 从 npm 安装（含 dsh.bundle）；e2e 回归
+> ✅ **已完成 / 已按新决定调整**：
+> 1. **建独立仓库**：`FuRongJun-1999/dsh-memory`（public, MIT）✅
+> 2. **迁移代码**：`plugins/dsh-memory/` 全部文件推送为新仓库初始 commit（含 README 更新）✅
+> 3. **更新 package.json**：`repository.url` → 独立仓库地址；发 npm 版本 ✅
+> 4. **更新 PR**：fork 中两条目替换为修订版（链接 + 描述）✅
+> 5. **主仓库处理**（2026-09-08 新决定）：**已从 CommonTrustProtocol 删除 `plugins/dsh-memory/`**——
+>    插件统一在独立仓库 `FuRongJun-1999/dsh-memory`（npm 包）维护，主仓库不再保留副本，
+>    避免多副本/不同步。**主仓库的灵枢本地工作区为 `D:\Program Files\2_ai\AEIS`**。
+> 6. **验证**：`dsh plugin add @furongjun1999/dsh-memory` 从 npm 安装（含 dsh.bundle）✅
 
 ---
 
@@ -66,5 +69,5 @@
 
 1. 独立仓库名：`dsh-memory`？（与 npm 包名 @furongjun1999/dsh-memory 一致）
 2. 描述草案是否准确表达灵枢？是否有更贴切的措辞？
-3. CommonTrustProtocol 中副本去留：保留 + 指引，还是删除避免漂移？
+3. CommonTrustProtocol 中副本去留：**已决定删除**（2026-09-08，避免多副本/不同步；插件统一在独立仓库维护）
 4. npm 版本号：0.2.2（dsh.bundle）是否已发布？独立仓库后发 0.2.3？
