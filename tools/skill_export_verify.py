@@ -8,9 +8,12 @@
 4. 不适用条件三通道：description「Not for」/ metadata.kccs.not_applicable / 正文克制条款章节
 5. plugin.json 合规：agent-plugins.org 关键字段 + extensions.condition-route
 
-用法：python tools/skill_export_verify.py [--limit N] [--out DIR]
+用法：python tools/skill_export_verify.py [--limit N] [--out DIR] [--no-clean]
+
+clean-room：默认在导出前清空 --out/skills 与 --out/plugin.json，确保校验只针对本次导出
+（历史残留目录——如旧版导出器的 unit-* ——不会被计入，避免假失败/假通过）。
 """
-import os, re, sys, json, argparse, datetime
+import os, re, sys, json, shutil, argparse, datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -45,7 +48,18 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", default=os.path.join(HERE, "skill-export-verify"))
+    ap.add_argument("--no-clean", action="store_true",
+                    help="保留输出目录已有内容（调试用）；默认导出前清空，保证 clean-room 校验")
     args = ap.parse_args()
+
+    # 0. clean-room：导出前清空输出目录，避免历史残留污染校验
+    skills_dir = os.path.join(args.out, "skills")
+    pj_old = os.path.join(args.out, "plugin.json")
+    if not args.no_clean:
+        if os.path.isdir(skills_dir):
+            shutil.rmtree(skills_dir, ignore_errors=True)
+        if os.path.exists(pj_old):
+            os.remove(pj_old)
 
     # 1. 全量导出
     import skill_export as se

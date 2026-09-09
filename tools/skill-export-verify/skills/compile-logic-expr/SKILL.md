@@ -1,7 +1,7 @@
 ---
 name: compile-logic-expr
 description: >-
-  逻辑表达式/编译-逻辑表达式。用户提到与「逻辑表达式」相关的能力时使用本技能。
+  逻辑表达式 / 编译-逻辑表达式 / 编译逻辑——且 / 或短路 / 逻辑表达式编译 / 且/或 → 短路跳转字节。用户提到这些词时使用本技能。
   场景：对照：编译逻辑——且/或短路（左操作数决定是否求右——短路求值语义）。
   【不适用】Not for 以下场景：op 非 {且} 时
 license: MIT
@@ -11,8 +11,9 @@ allowed-tools: Read Write Bash
 metadata:
   version: "1.0"
   skill-author: 灵枢（AEIS）
-  last-reviewed: "2026-08-29"
+  last-reviewed: "2026-09-10"
   kccs:
+    trigger_words: ["逻辑表达式", "编译-逻辑表达式", "编译逻辑——且", "或短路", "逻辑表达式编译", "且/或 → 短路跳转字节"]
     when: "op ∈ {且, 或}；left/right 为指令列表"
     sub: ["① 拼接左指令 ② 短路跳转 ③ 拼接右指令"]
     execute: "且→JUMP_IF_FALSE、或→JUMP_IF_TRUE（左短路）"

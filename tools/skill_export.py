@@ -223,7 +223,8 @@ metadata:
     return md
 
 def render_plugin(units_out, domains):
-    """渲染 plugin.json（agent-plugins.org 1.0.0 + extensions.condition-route 六域）。"""
+    """渲染 plugin.json（agent-plugins.org 1.0.0 + extensions.condition-route 六域 + meta-skill 元技能声明）。"""
+    unit_n = len(units_out)
     return {
         "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
         "name": "lingshu-skills",
@@ -244,6 +245,14 @@ def render_plugin(units_out, domains):
                     "kccs-version": "四要素（生效条件/子功能/执行/不适用条件）",
                     "negative-route": True,
                     "condition-space": "观测位置/观测工具/时间窗口/存在约束（D(C)）"
+                },
+                "meta-skill": {
+                    "name": "designer-perspective",
+                    "essence": "设计者视角元技能——不承担操作层执行，只赋予全局观测/结构识别/方向判断/资格裁决/条件层归因（《智能论3.4》1.4.2 视角层次）",
+                    "source-of-truth": "手写（真源即 skills/designer-perspective/SKILL.md）；不属于六域条件单元，不经 tools/skill_export.py 生成",
+                    "relation-to-condition-route": f"互补：{unit_n} 条件单元回答「怎么做」，本元技能回答「该不该做/为什么做/条件够不够」；condition-route.unit-count 仍为 {unit_n}（元技能单列）",
+                    "mcp": "只读接入 md_cg（dsh-memory）：mdcg_metacognition.self_check / mdcg_search 四态阶梯 / mdcg_evolution 账本；写操作须由 agent 显式发起",
+                    "self-test": "skills/designer-perspective/tests/selftest.py（认知能力验收用例集，输出逐项结果与通过率）"
                 },
                 "mcp": {
                     "relation": "技能为说明书（何时用/怎么用/克制什么），灵枢 MCP 77 工具为执行（物理基底）——技能 Verification 由 MCP 工具（编译/运行/断言）裁决",

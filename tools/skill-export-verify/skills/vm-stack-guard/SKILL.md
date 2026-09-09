@@ -1,7 +1,7 @@
 ---
 name: vm-stack-guard
 description: >-
-  栈保护/VM-栈保护。用户提到与「栈保护」相关的能力时使用本技能。
+  栈保护 / VM-栈保护 / VM 运 / 压栈前检查深度。用户提到这些词时使用本技能。
   场景：对照：VM 运行时——栈深度限制（防递归栈溢出）。
   【不适用】Not for 以下场景：条件不满足即不适用（负路由：输入不满足生效条件时返回 None/不执行）
 license: MIT
@@ -11,8 +11,9 @@ allowed-tools: Read Write Bash
 metadata:
   version: "1.0"
   skill-author: 灵枢（AEIS）
-  last-reviewed: "2026-08-29"
+  last-reviewed: "2026-09-10"
   kccs:
+    trigger_words: ["栈保护", "VM-栈保护", "VM 运", "压栈前检查深度"]
     when: "参数 stack/limit/value 合法"
     sub: ["① 调用 len"]
     execute: "顺序调用"

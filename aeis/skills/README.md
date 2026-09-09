@@ -8,17 +8,17 @@
 
 ## 这是什么
 
-一个 **Agent Plugins 1.0.0 兼容包**（agent-plugins.org），内含 **688 个 Agent Skills（六域条件单元）**：
+一个 **Agent Plugins 1.0.0 兼容包**（agent-plugins.org），内含 **686 个 Agent Skills（六域条件单元）+ 1 个元技能（设计者视角）**：
 
 | 域 | 单元数 | 内容 |
 |---|---|---|
 | compiler | 116 | 中文编译器（词法/语法/编译/VM/调试/分析）|
-| pylang | 122 | Python 语言机制（表达式/函数/类/闭包）|
+| pylang | 120 | Python 语言机制（表达式/函数/类/闭包）|
 | graph | 117 | 图算法与图数据库 |
 | os | 112 | 操作系统（进程/调度/文件系统）|
 | browser | 104 | 浏览器与网页 |
 | net | 117 | 网络（协议/传输/安全）|
-| **合计** | **688** | 白箱六域条件单元 |
+| **合计** | **686** | 白箱六域条件单元 |
 
 每个技能描述灵枢在**什么条件下**能做什么、**怎么执行**、**克制什么**——比标准 Agent Skills 多出
 **KCCS 四要素（生效条件/子功能/执行/不适用条件）** 与**不适用条件三通道**（description「Not for」+
@@ -36,11 +36,30 @@ MCP（灵枢 77 工具）             aeis-mcp（MCP stdio）· dsh-memory 插�
 
 | 层 | 是什么 | 作用 |
 |---|---|---|
-| 知识真源 | 条件单元库（681 单元）| 知道什么、条件是什么 |
+| 知识真源 | 条件单元库（686 单元）| 知道什么、条件是什么 |
 | **本技能包**（说明书）| SKILL.md 技能 | 告诉 agent 何时用、怎么用、克制什么（认知自身）|
 | MCP（执行）| 灵枢 77 工具 | 提供实际能力执行（编译/运行/断言 = 物理基底）|
 
 **技能包的 Verification 由灵枢 MCP 工具执行**——技能说「怎么验证」，MCP 负责「真去跑」。
+
+## 元技能层（设计者视角）
+
+除 686 个操作层条件单元外，本包含 1 个**元技能** `designer-perspective`：
+
+| 维度 | 说明 |
+|---|---|
+| 定位 | 不承担操作层执行，只赋予全局观测 / 结构识别 / 方向判断 / 资格裁决 / 条件层归因（《智能论3.4》1.4.2 视角层次）|
+| 与条件路由的关系 | 互补：686 条件单元回答「怎么做」，元技能回答「该不该做 / 为什么做 / 条件够不够」；`condition-route.unit-count` 仍为 686，元技能单列 |
+| 真源 | 手写（真源即 `skills/designer-perspective/SKILL.md`）；不属于六域条件单元，不经 `tools/skill_export.py` 生成 |
+| 认知图接入 | 只读调用 md_cg（dsh-memory）：`mdcg_metacognition.self_check`（回答前自检）/ `mdcg_search`（四态阶梯）/ `mdcg_evolution`（账本）；写操作须由 agent 显式发起 |
+| 自证 | `python skills/designer-perspective/tests/selftest.py` → 逐项结果 + 通过率 |
+
+```bash
+cd skills/designer-perspective
+python scripts/designer.py declare --position designer --space 观测工具=条件证据
+python scripts/designer.py judge --query "..." --conditions '{"观测位置":"操作层"}' --emit-mcp
+python tests/selftest.py            # 认知能力验收（17 条用例，输出通过率）
+```
 
 ## 为什么是「自我认知」
 
@@ -53,9 +72,14 @@ MCP（灵枢 77 工具）             aeis-mcp（MCP stdio）· dsh-memory 插�
 
 ```
 aeis/skills/
-├── plugin.json          # Agent Plugins manifest（含 extensions.lingshu：self-cognition/condition-route/mcp）
-├── skills/<slug>/       # 116 个技能
+├── plugin.json          # Agent Plugins manifest（含 extensions.lingshu：self-cognition/condition-route/meta-skill/mcp）
+├── skills/<slug>/       # 686 个条件单元技能
 │   └── SKILL.md         # frontmatter（name/description/compatibility/allowed-tools/metadata.kccs）+ 正文
+├── skills/designer-perspective/   # 元技能（手写真源）
+│   ├── SKILL.md         # 设计者视角主说明书（三通道负路由 + KCCS 四要素）
+│   ├── references/      # 5 份方法论（每条附《智能论3.4》行号锚点）
+│   ├── scripts/         # designer.py（声明/四态判定/五失配归因/蒸馏/--emit-mcp）
+│   └── tests/           # cases.jsonl + selftest.py（认知能力验收，输出通过率）
 └── README.md            # 本文件
 ```
 
@@ -64,13 +88,14 @@ aeis/skills/
 1. **作为 Agent Plugins 包**：任意符合 agentskills.io/agent-plugins.org 规范的 agent 可加载本包
 2. **配合灵枢 MCP**：技能的 Verification（物理基底）由灵枢 MCP 工具执行（aeis-mcp）
 3. **再生成**：改知识源（单元库）后运行 `tools/skill_export.py --out aeis/skills` 重新导出，
-   `tools/skill_export_verify.py` 作为发布门禁（验证全绿才允许提交）
+   `tools/skill_export_verify.py` 作为发布门禁（验证全绿才允许提交；默认 clean-room——导出前清空输出目录，历史残留不计入校验）
 
 ## 验证状态（发布门禁）
 
-- ✅ 688/688 单元通过格式 + 三通道校验（六域）
-- ✅ not_applicable / when / execute / 正文克制条款 全部 688/688
-- ✅ plugin.json 符合 agent-plugins.org schema（含 extensions 扩展：self-cognition/condition-route/mcp）
+- ✅ 686/686 单元通过格式 + 三通道校验（六域）
+- ✅ not_applicable / when / execute / 正文克制条款 全部 686/686
+- ✅ 元技能 designer-perspective 认知能力验收 17/17（tests/selftest.py）
+- ✅ plugin.json 符合 agent-plugins.org schema（含 extensions 扩展：self-cognition/condition-route/meta-skill/mcp）
 
 ## 与主仓库纪律
 
