@@ -33,3 +33,6 @@ aeis/tests/_tmp_*
 aeis/wisdom/snr_report.json
 aeis/dist/
 aeis/memory_v11.json
+
+# 发布门禁产物（由 tools/skill_export_verify.py 每次运行全量重建，属生成物，不入库）
+tools/skill-export-verify/
