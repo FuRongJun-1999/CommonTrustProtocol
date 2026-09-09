@@ -1,0 +1,156 @@
+{
+  "testset": "prior_trap_testset_v1",
+  "date": "2026-09-09",
+  "harness": "llm-adapter-poc/md_cg/bench_task_ab_llm.py（灵枢 dsh-memory）",
+  "reproduction_note": "公开 runner（run_prior_trap_v1.py）的 mem 臂只注入 lesson 文本，故其 avg_tokens 低于本文件记录值（本文件为原实验，注入 MdCGOS 召回包，含知识 + 负记忆）。content_acc / trap_rate / pos_dist 完全一致——已用本地 9B 实跑验证：none 20.0% (4/7/4) → mem 100.0% (5/5/5)，trap_rate 80% → 0%。",
+  "params": {
+    "perms": 3,
+    "samples_per_arm": 15,
+    "max_turns": 1,
+    "temperature": 0.0,
+    "max_tokens": 2000,
+    "recall_budget_tokens": 3000,
+    "variable": "仅记忆库（其余全同：同模型、同系统提示、同候选顺序）"
+  },
+  "runs": [
+    {
+      "label": "deepseek-v4.1-flash-expires-on-0910",
+      "model": "deepseek-v4.1-flash-expires-on-0910",
+      "endpoint": "https://api.deepseek.com/v1",
+      "kind": "cloud · reasoning",
+      "metrics": {
+        "none": {
+          "n": 15,
+          "content_acc": 0.0,
+          "trap_rate": 1.0,
+          "invalid_rate": 0.0,
+          "avg_tokens": 308.9,
+          "avg_latency_s": 5.60,
+          "pos_dist": [5, 5, 5]
+        },
+        "mem": {
+          "n": 15,
+          "content_acc": 1.0,
+          "trap_rate": 0.0,
+          "invalid_rate": 0.0,
+          "avg_tokens": 763.2,
+          "avg_latency_s": 5.58,
+          "recall_hit_rate": 1.0,
+          "pos_dist": [5, 5, 5]
+        }
+      },
+      "per_case": {
+        "p01": {"none": "0/3", "mem": "3/3"},
+        "p02": {"none": "0/3", "mem": "3/3"},
+        "p03": {"none": "0/3", "mem": "3/3"},
+        "p04": {"none": "0/3", "mem": "3/3"},
+        "p05": {"none": "0/3", "mem": "3/3"}
+      },
+      "rows": [
+        {"case": "p01", "arm": "none", "rotation": 0, "pick": 3, "kind": "trap", "correct": false, "tokens": 261, "latency": 5.2},
+        {"case": "p01", "arm": "none", "rotation": 1, "pick": 2, "kind": "trap", "correct": false, "tokens": 253, "latency": 5.3},
+        {"case": "p01", "arm": "none", "rotation": 2, "pick": 1, "kind": "trap", "correct": false, "tokens": 267, "latency": 6.6},
+        {"case": "p02", "arm": "none", "rotation": 0, "pick": 1, "kind": "trap", "correct": false, "tokens": 496, "latency": 6.4},
+        {"case": "p02", "arm": "none", "rotation": 1, "pick": 3, "kind": "trap", "correct": false, "tokens": 354, "latency": 5.7},
+        {"case": "p02", "arm": "none", "rotation": 2, "pick": 2, "kind": "trap", "correct": false, "tokens": 347, "latency": 5.5},
+        {"case": "p03", "arm": "none", "rotation": 0, "pick": 3, "kind": "trap", "correct": false, "tokens": 329, "latency": 5.6},
+        {"case": "p03", "arm": "none", "rotation": 1, "pick": 2, "kind": "trap", "correct": false, "tokens": 419, "latency": 5.8},
+        {"case": "p03", "arm": "none", "rotation": 2, "pick": 1, "kind": "trap", "correct": false, "tokens": 293, "latency": 5.3},
+        {"case": "p04", "arm": "none", "rotation": 0, "pick": 1, "kind": "trap", "correct": false, "tokens": 269, "latency": 5.7},
+        {"case": "p04", "arm": "none", "rotation": 1, "pick": 3, "kind": "trap", "correct": false, "tokens": 297, "latency": 5.5},
+        {"case": "p04", "arm": "none", "rotation": 2, "pick": 2, "kind": "trap", "correct": false, "tokens": 268, "latency": 5.5},
+        {"case": "p05", "arm": "none", "rotation": 0, "pick": 2, "kind": "trap", "correct": false, "tokens": 292, "latency": 5.5},
+        {"case": "p05", "arm": "none", "rotation": 1, "pick": 1, "kind": "trap", "correct": false, "tokens": 276, "latency": 5.2},
+        {"case": "p05", "arm": "none", "rotation": 2, "pick": 3, "kind": "trap", "correct": false, "tokens": 212, "latency": 5.2},
+
+        {"case": "p01", "arm": "mem", "rotation": 0, "pick": 1, "kind": "fix", "correct": true, "tokens": 697, "latency": 5.6},
+        {"case": "p01", "arm": "mem", "rotation": 1, "pick": 3, "kind": "fix", "correct": true, "tokens": 699, "latency": 5.1},
+        {"case": "p01", "arm": "mem", "rotation": 2, "pick": 2, "kind": "fix", "correct": true, "tokens": 697, "latency": 8.5},
+        {"case": "p02", "arm": "mem", "rotation": 0, "pick": 2, "kind": "fix", "correct": true, "tokens": 691, "latency": 5.2},
+        {"case": "p02", "arm": "mem", "rotation": 1, "pick": 1, "kind": "fix", "correct": true, "tokens": 694, "latency": 5.5},
+        {"case": "p02", "arm": "mem", "rotation": 2, "pick": 3, "kind": "fix", "correct": true, "tokens": 691, "latency": 5.4},
+        {"case": "p03", "arm": "mem", "rotation": 0, "pick": 1, "kind": "fix", "correct": true, "tokens": 892, "latency": 5.4},
+        {"case": "p03", "arm": "mem", "rotation": 1, "pick": 3, "kind": "fix", "correct": true, "tokens": 879, "latency": 6.3},
+        {"case": "p03", "arm": "mem", "rotation": 2, "pick": 2, "kind": "fix", "correct": true, "tokens": 900, "latency": 5.5},
+        {"case": "p04", "arm": "mem", "rotation": 0, "pick": 2, "kind": "fix", "correct": true, "tokens": 463, "latency": 5.3},
+        {"case": "p04", "arm": "mem", "rotation": 1, "pick": 1, "kind": "fix", "correct": true, "tokens": 467, "latency": 5.6},
+        {"case": "p04", "arm": "mem", "rotation": 2, "pick": 3, "kind": "fix", "correct": true, "tokens": 454, "latency": 5.1},
+        {"case": "p05", "arm": "mem", "rotation": 0, "pick": 3, "kind": "fix", "correct": true, "tokens": 1062, "latency": 5.0},
+        {"case": "p05", "arm": "mem", "rotation": 1, "pick": 2, "kind": "fix", "correct": true, "tokens": 1066, "latency": 5.1},
+        {"case": "p05", "arm": "mem", "rotation": 2, "pick": 1, "kind": "fix", "correct": true, "tokens": 1096, "latency": 5.3}
+      ]
+    },
+    {
+      "label": "local:smegmma-deluxe-9b-v1",
+      "model": "smegmma-deluxe-9b-v1",
+      "endpoint": "http://localhost:1234/v1 (LM Studio)",
+      "kind": "local · 9B",
+      "metrics": {
+        "none": {
+          "n": 15,
+          "content_acc": 0.2,
+          "trap_rate": 0.8,
+          "invalid_rate": 0.0,
+          "avg_tokens": 185.1,
+          "avg_latency_s": 3.01,
+          "pos_dist": [4, 7, 4]
+        },
+        "mem": {
+          "n": 15,
+          "content_acc": 1.0,
+          "trap_rate": 0.0,
+          "invalid_rate": 0.0,
+          "avg_tokens": 780.8,
+          "avg_latency_s": 3.19,
+          "recall_hit_rate": 1.0,
+          "pos_dist": [5, 5, 5]
+        }
+      },
+      "per_case": {
+        "p01": {"none": "0/3", "mem": "3/3"},
+        "p02": {"none": "2/3", "mem": "3/3"},
+        "p03": {"none": "0/3", "mem": "3/3"},
+        "p04": {"none": "0/3", "mem": "3/3"},
+        "p05": {"none": "1/3", "mem": "3/3"}
+      },
+      "rows": [
+        {"case": "p01", "arm": "none", "rotation": 0, "pick": 3, "kind": "trap", "correct": false, "tokens": 196, "latency": 2.9},
+        {"case": "p01", "arm": "none", "rotation": 1, "pick": 2, "kind": "trap", "correct": false, "tokens": 197, "latency": 2.6},
+        {"case": "p01", "arm": "none", "rotation": 2, "pick": 1, "kind": "trap", "correct": false, "tokens": 195, "latency": 2.6},
+        {"case": "p02", "arm": "none", "rotation": 0, "pick": 2, "kind": "fix", "correct": true, "tokens": 212, "latency": 3.1},
+        {"case": "p02", "arm": "none", "rotation": 1, "pick": 1, "kind": "fix", "correct": true, "tokens": 209, "latency": 3.3},
+        {"case": "p02", "arm": "none", "rotation": 2, "pick": 2, "kind": "trap", "correct": false, "tokens": 233, "latency": 3.5},
+        {"case": "p03", "arm": "none", "rotation": 0, "pick": 3, "kind": "trap", "correct": false, "tokens": 160, "latency": 2.9},
+        {"case": "p03", "arm": "none", "rotation": 1, "pick": 2, "kind": "trap", "correct": false, "tokens": 160, "latency": 3.4},
+        {"case": "p03", "arm": "none", "rotation": 2, "pick": 1, "kind": "trap", "correct": false, "tokens": 160, "latency": 3.3},
+        {"case": "p04", "arm": "none", "rotation": 0, "pick": 1, "kind": "trap", "correct": false, "tokens": 177, "latency": 3.4},
+        {"case": "p04", "arm": "none", "rotation": 1, "pick": 3, "kind": "trap", "correct": false, "tokens": 181, "latency": 2.7},
+        {"case": "p04", "arm": "none", "rotation": 2, "pick": 2, "kind": "trap", "correct": false, "tokens": 181, "latency": 2.7},
+        {"case": "p05", "arm": "none", "rotation": 0, "pick": 2, "kind": "trap", "correct": false, "tokens": 169, "latency": 2.5},
+        {"case": "p05", "arm": "none", "rotation": 1, "pick": 2, "kind": "fix", "correct": true, "tokens": 178, "latency": 3.2},
+        {"case": "p05", "arm": "none", "rotation": 2, "pick": 3, "kind": "trap", "correct": false, "tokens": 169, "latency": 2.9},
+
+        {"case": "p01", "arm": "mem", "rotation": 0, "pick": 1, "kind": "fix", "correct": true, "tokens": 734, "latency": 4.1},
+        {"case": "p01", "arm": "mem", "rotation": 1, "pick": 3, "kind": "fix", "correct": true, "tokens": 734, "latency": 3.4},
+        {"case": "p01", "arm": "mem", "rotation": 2, "pick": 2, "kind": "fix", "correct": true, "tokens": 734, "latency": 3.3},
+        {"case": "p02", "arm": "mem", "rotation": 0, "pick": 2, "kind": "fix", "correct": true, "tokens": 751, "latency": 3.3},
+        {"case": "p02", "arm": "mem", "rotation": 1, "pick": 1, "kind": "fix", "correct": true, "tokens": 751, "latency": 3.3},
+        {"case": "p02", "arm": "mem", "rotation": 2, "pick": 3, "kind": "fix", "correct": true, "tokens": 751, "latency": 3.3},
+        {"case": "p03", "arm": "mem", "rotation": 0, "pick": 1, "kind": "fix", "correct": true, "tokens": 923, "latency": 3.3},
+        {"case": "p03", "arm": "mem", "rotation": 1, "pick": 3, "kind": "fix", "correct": true, "tokens": 923, "latency": 3.3},
+        {"case": "p03", "arm": "mem", "rotation": 2, "pick": 2, "kind": "fix", "correct": true, "tokens": 923, "latency": 3.3},
+        {"case": "p04", "arm": "mem", "rotation": 0, "pick": 2, "kind": "fix", "correct": true, "tokens": 432, "latency": 2.7},
+        {"case": "p04", "arm": "mem", "rotation": 1, "pick": 1, "kind": "fix", "correct": true, "tokens": 432, "latency": 2.7},
+        {"case": "p04", "arm": "mem", "rotation": 2, "pick": 3, "kind": "fix", "correct": true, "tokens": 432, "latency": 2.7},
+        {"case": "p05", "arm": "mem", "rotation": 0, "pick": 3, "kind": "fix", "correct": true, "tokens": 1064, "latency": 3.1},
+        {"case": "p05", "arm": "mem", "rotation": 1, "pick": 2, "kind": "fix", "correct": true, "tokens": 1064, "latency": 3.1},
+        {"case": "p05", "arm": "mem", "rotation": 2, "pick": 1, "kind": "fix", "correct": true, "tokens": 1064, "latency": 3.1}
+      ]
+    }
+  ],
+  "conclusions": [
+    "记忆增益与模型强弱无关：两个模型加记忆后都是 15/15 全对，trap_rate 归零，召回命中 100%。",
+    "本地 9B 无记忆的 20% 基本是位置偏差（15 次里 7 次选了第 2 个选项），不是真懂；有记忆后位置分布回到均匀 5/5/5。",
+    "记忆的代价是每次多几百 token（本实验 +450~600），延迟基本不变。"
+  ]
+}

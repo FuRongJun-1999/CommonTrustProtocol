@@ -1,0 +1,116 @@
+{
+  "name": "prior_trap_testset_v1",
+  "version": "1.0",
+  "created": "2026-09-09",
+  "title": "先验陷阱测试集：无记忆 vs 有记忆（任务级 A/B）",
+  "source": "白箱智能系列·第五篇：让AI真正装上记忆 · 实证附录",
+  "license": "文档 CC BY 4.0 / 代码 MIT",
+
+  "purpose": "验证一个判断：所有的知识都有隐形的条件，只有具有完整的记忆才能发现哪些是当前不适用的知识。",
+
+  "design": {
+    "principle": "若题目的正确答案本就在模型先验里，无记忆臂也能答对，记忆的价值会被天花板效应遮住。因此每题都构造成「先验陷阱」。",
+    "trap": "通用最佳实践 / 教科书答案。模型会自信地选它。",
+    "fix": "本项目规范下的正确做法，与最佳实践相反，只有记忆里的隐性条件能推出。",
+    "decoy": "明显错误的做法。",
+    "anti_cheat": [
+      "措辞不同：记忆写「项目规范 + 原因」，候选写「具体动作」，模型须自行映射，不能照抄。",
+      "多排列去位置偏差：每例跑 3 种循环排列（rotation），使每个候选在 3 个位置上各出现一次；只有「按内容选」才能 3/3 全中，纯位置偏差只能 1/3。位置分布单列。"
+    ]
+  },
+
+  "protocol": {
+    "system_prompt": "你是本项目的资深工程师。用户给出一个工程场景和若干候选做法，你选一个最符合本项目既定规范的做法。\n只输出一行 JSON，不要解释、不要代码围栏，格式：\n{\"pick\": 2, \"reason\": \"本项目规范要求...\"}",
+    "user_prompt_template": "{memory_block}场景：\n{task}\n\n候选做法：\n1. {opt1}\n2. {opt2}\n3. {opt3}\n\n请选择最符合本项目规范的做法。",
+    "memory_block": "【本项目规范 / 历史经验（来自记忆库，请自行判断相关性）】\n{lesson}\n\n（仅 mem 臂注入；none 臂不含此段）",
+    "arms": {
+      "none": "裸模型，不注入任何记忆",
+      "mem": "在 user prompt 开头注入该用例的 lesson（隐性条件）"
+    },
+    "rotation": "对 case.base_order 做 3 次循环移位，得到 3 种候选顺序；correct_pos 为 fix 所在位置。",
+    "parse": "取模型输出 JSON 的 pick 字段（1..n）；解析失败则回退取第一个 1-9 数字；仍失败记为 invalid。",
+    "temperature": 0.0,
+    "metrics": {
+      "content_acc": "按内容选对的比例（主指标）",
+      "trap_rate": "选中 trap 的比例（无记忆臂应显著 > 0）",
+      "invalid_rate": "输出无法解析为候选编号的比例（不剔除，如实计入）",
+      "pos_dist": "选中位置分布（1/2/3），偏离均匀 = 位置偏差",
+      "avg_tokens": "每次调用总 token（记忆的代价）",
+      "recall_hit_rate": "mem 臂中召回文本确实包含该项目规范的比例"
+    },
+    "honest_boundary": [
+      "5 用例 × 3 排列 = 15 次/臂，样本很小，只作方向性验证。",
+      "陷阱是否真的骗到模型，由 trap_rate 实测决定；骗不到就如实报告「该题不成立」。",
+      "记忆能召回 ≠ 模型会用；hit 与 content_acc 分开统计正是为暴露这个差异。"
+    ]
+  },
+
+  "provenance": {
+    "harness": "llm-adapter-poc/md_cg/bench_task_ab_llm.py（灵枢插件仓库 dsh-memory）",
+    "memory_system": "灵枢 MdCGOS：mine_fix_pairs 写入知识 + 负记忆，recall 按 query 检索",
+    "note": "本测试集把 lesson 文本内联，使公开 runner 无需依赖 MdCGOS 即可复现 mem 臂（等价于原实验 recall_hit_rate=100% 的情形）。原实验的 hit 判定为「召回文本是否包含 lesson 前 12 字」。"
+  },
+
+  "cases": [
+    {
+      "id": "p01",
+      "task": "API 的参数校验失败了，应该怎么给客户端返回？",
+      "query": "API 参数校验失败 业务错误 返回 HTTP 状态码",
+      "lesson": "本项目 API 契约：所有业务错误（含参数校验失败）必须返回 HTTP 200，在 body 的 code 字段带业务错误码，禁止用 HTTP 4xx/5xx。原因：老旧移动端 SDK 把任何非 200 都当成网络故障无限重试。",
+      "base_order": ["fix", "decoy", "trap"],
+      "options": {
+        "fix": "返回 HTTP 200，body 的 code 字段带业务错误码",
+        "trap": "返回 HTTP 400，body 里写清楚校验失败详情",
+        "decoy": "返回 HTTP 500，让客户端稍后重试"
+      }
+    },
+    {
+      "id": "p02",
+      "task": "API 响应里要返回一个时间戳，用什么格式？",
+      "query": "API 时间戳 格式 ISO 毫秒 时区",
+      "lesson": "本项目 API 契约：所有时间戳统一返回 Unix 毫秒整数（int64），禁止 ISO 8601 字符串和本地时间字符串。原因：跨语言客户端解析不一致，历史事故是时区偏移导致订单时间错乱 8 小时。",
+      "base_order": ["trap", "fix", "decoy"],
+      "options": {
+        "fix": "返回 Unix 毫秒整数（int64）",
+        "trap": "返回 ISO 8601 字符串，如 2026-09-09T12:00:00Z",
+        "decoy": "返回本地时间字符串，如 '2026/9/9 12:00'"
+      }
+    },
+    {
+      "id": "p03",
+      "task": "校验请求参数 x 必须是整数，怎么写这个判断？",
+      "query": "校验 参数 整数 布尔 bool isinstance 精确类型",
+      "lesson": "本项目校验规范：需要精确类型时必须用 type(x) is int，禁止 isinstance。原因：bool 是 int 的子类，isinstance(True, int) 为真，历史事故是布尔值被当成整数接受，写进了金额字段。",
+      "base_order": ["fix", "decoy", "trap"],
+      "options": {
+        "fix": "用 type(x) is int 判断",
+        "trap": "用 isinstance(x, int) 判断",
+        "decoy": "用 x == int 判断"
+      }
+    },
+    {
+      "id": "p04",
+      "task": "从配置字典 cfg 里读一个可选字段的值，怎么写？",
+      "query": "配置 字典 可选字段 缺失 None get 默认值",
+      "lesson": "本项目配置规范：可选字段必须用 'key' in cfg 判断后再取值，禁止 .get()。原因：.get() 把「显式 None」和「未配置」混为一谈，历史事故是默认值覆盖了用户显式设置的空值。",
+      "base_order": ["trap", "fix", "decoy"],
+      "options": {
+        "fix": "用 'key' in cfg 判断后再取值",
+        "trap": "用 cfg.get('key', default) 取值",
+        "decoy": "用 cfg['key'] 直接索引"
+      }
+    },
+    {
+      "id": "p05",
+      "task": "线上要记录一条警告信息（比如缓存 miss），用哪个日志级别？",
+      "query": "日志 级别 警告 缓存 miss warning info 告警",
+      "lesson": "本项目日志规范：warning 及以上级别会触发 PagerDuty 告警；非故障类的警告必须用 info 级别并在消息里加 [WARN] 前缀，禁止直接用 warning。原因：历史事故是缓存 miss 的 warning 半夜触发全组告警。",
+      "base_order": ["decoy", "trap", "fix"],
+      "options": {
+        "fix": "用 logger.info(...) 并在消息里加 [WARN] 前缀",
+        "trap": "用 logger.warning(...) 记录",
+        "decoy": "用 logger.error(...) 记录"
+      }
+    }
+  ]
+}
