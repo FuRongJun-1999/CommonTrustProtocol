@@ -1,5 +1,0 @@
-{
- "_comment": "自举产物队列（已完成项标记 verified）",
- "_instructions": "bootstrap_loop 自动消化",
- "pending": []
-}

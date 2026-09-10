@@ -36,3 +36,7 @@ aeis/memory_v11.json
 
 # 发布门禁产物（由 tools/skill_export_verify.py 每次运行全量重建，属生成物，不入库）
 tools/skill-export-verify/
+
+# 历史归档目录（本地保留，不入库、不推 github —— 荣裁定 2026-09-10）
+# 已移出索引：git rm -r --cached historical/  （文件仍在；撤销：git reset -- historical/）
+/historical/
