@@ -1,12 +1,38 @@
 # 共同信任协议 · Common Trust Protocol
 
-> 🚀 **DeepSeek Harness 插件版**：独立仓库 [FuRongJun-1999/dsh-memory](https://github.com/FuRongJun-1999/dsh-memory) ｜ npm: `@furongjun1999/dsh-memory`
-> 本仓库是协议的**理论层**（智能论 v3.4 · 端口架构与锚定验证 · 护栏宪章 · 蜂群架构）；插件实现是协议的**工程层投影**（同一结构，不同条件空间）。
+> 🚀 **工程实现入口**：独立仓库 [FuRongJun-1999/dsh-memory](https://github.com/FuRongJun-1999/dsh-memory) ｜ npm: `@furongjun1999/dsh-memory`
+> 本仓库是协议的**理论层**（智能论 v3.4 · 端口架构与锚定验证 · 护栏宪章 · 蜂群架构）；工程实现是协议的**工程层投影**（同一结构，不同条件空间）。
 > 理论链：**公理化基石（为什么）→ 认知过程（怎么运作）→ 认知图/条件路由（执行层）→ 数学形式化（计算层）→ 原生神经网络（物理架构）**
 
-## 🤖 灵枢 AEIS · MCP Server（可信智能体记忆与知识图谱）
+> ⚠️ **本仓库只发布理论文本，不提供任何可执行产物**（无二进制、无 wheel、无 pip 安装）。
+> 旧版 `aeis-0.5.0` wheel 发布已于 2026-09-10 **删除**——工程实现整体迁至大脑仓，**请勿在本仓寻找可下载版本**。正确入口见下方 [⬇️ 下载索引](#download-index)。
 
-**77 个 MCP 工具** · 基于智能论 v3.4 的条件论知识系统 · 核心链路零外部依赖（D-005）· **白箱对话能力已实证**
+<a id="download-index"></a>
+## ⬇️ 下载索引
+
+> 本仓（理论仓）**不发布任何可执行产物**。所有工程件统一由 **灵枢大脑仓** 分发 → [FuRongJun-1999/dsh-memory](https://github.com/FuRongJun-1999/dsh-memory)
+
+| # | 要下载的东西 | 入口 | 说明 |
+|---|---|---|---|
+| 1 | **灵枢大脑（推荐 · 插件本体）** | npm [`@furongjun1999/dsh-memory`](https://www.npmjs.com/package/@furongjun1999/dsh-memory) · 当前 **0.4.5** | 唯一真源；白箱大脑 `md_cg` 随包自带，**零 pip 安装、零外部引擎** |
+| 2 | 灵枢大脑（源码 / 发布说明） | [大脑仓 Release `v0.4.5`](https://github.com/FuRongJun-1999/dsh-memory/releases/tag/v0.4.5) | **无二进制附件**，只含发布说明；构建方式见该仓 README |
+| 3 | 灵枢大脑（克隆构建） | `git clone https://github.com/FuRongJun-1999/dsh-memory.git` → `npm install && npm run build` | 开发 / 自构建路径 |
+| 4 | 理论文本（本仓） | 本仓 `智能论3.4.md` · `共同信任协议_理论版_18.0.md` · `docs/` | **纯文本，无安装步骤** |
+| 5 | 护栏宪章 | [dsh-memory/docs/guardrail-charter.md](https://github.com/FuRongJun-1999/dsh-memory/blob/main/docs/guardrail-charter.md) | 随大脑仓发布（v2.0-verified） |
+| 6 | 灵枢自我认知技能包 | [dsh-memory/skills/](https://github.com/FuRongJun-1999/dsh-memory/tree/main/skills) | 条件单元技能包；**产物本地生成不入库** |
+
+**已删除 / 已下线的失效入口（防止下错版本）**
+
+| 已删除 | 时间 | 原因 |
+|---|---|---|
+| GitHub Release `v3.4-aeis-0.5.0` 及附件 `aeis-0.5.0-py3-none-any.whl`（10.2 MB，曾 467 次下载） | 2026-09-10 | 旧引擎 `aeis` 已被 `md_cg` 取代，下载即得**废弃版本**；Git tag 保留供历史回溯 |
+| 本仓 `release/` 目录（扮演论 · 酒馆扩散包） | 2026-09-10 | 内容依赖已剥离的 `aeis` 模块，**实际不可运行**；扮演论理论文档仍保留在本仓 `docs/` |
+
+## 🤖 灵枢 AEIS · MCP Server（理论侧说明）
+
+> 本节描述协议工程层；**实现与最新指标以大脑仓为准**（本仓不含代码）。工具面已收敛为「2 个认知基元 `cg` / `stg` · 35 个 op」，历史「77 / 82 工具」为旧架构口径。
+
+基于智能论 v3.4 的条件论知识系统 · 核心链路零外部依赖（D-005）· 白箱对话能力已实证 —— 工程入口见 [⬇️ 下载索引](#download-index)。
 
 ### 核心能力
 - **信息分层处理**：智慧之书图谱自处理 → LLM 兜底 → 白箱校验（锚定/图谱外/警告）
@@ -73,12 +99,12 @@
 ### 🧰 灵枢自我认知技能包（lingshu-skills · Agent Plugins）
 
 > **本质：灵枢了解自身的工具**——用灵枢自己构建的条件单元，描述灵枢自己如何认知（白箱自举的对外投影）。
+> **产物已迁至大脑仓** [dsh-memory/skills/](https://github.com/FuRongJun-1999/dsh-memory/tree/main/skills)（本仓不含产物，见 [⬇️ 下载索引](#download-index)）。
 
-- **`aeis/skills/`**：Agent Plugins 1.0.0 兼容包（agent-plugins.org），**686 个 Agent Skills**（六域条件单元：compiler 116 / pylang 120 / graph 117 / os 112 / browser 104 / net 117）
+- **技能包**：Agent Plugins 1.0.0 兼容包（agent-plugins.org），六域条件单元（compiler / pylang / graph / os / browser / net）
 - **比标准 Agent Skills 多 KCCS 四要素**：每个技能带生效条件/子功能/执行/**不适用条件**（三通道：description「Not for」+ metadata.kccs.not_applicable + 正文克制条款）
-- **三层关系**：知识真源（`aeis/wisdom/*_code_units.py`）→ 说明书（本技能包）→ 执行（灵枢 MCP 82 工具·物理基底）
-- 再生成：`tools/skill_export.py` + 发布门禁 `tools/skill_export_verify.py`（686/686 通过）
-- 详见 `aeis/skills/README.md`
+- **三层关系**：知识真源（大脑仓 `md_cg` 条件单元）→ 说明书（技能包）→ 执行（灵枢 MCP 工具面 · 物理基底）
+- 最新计数与再生成流程见大脑仓 [skills/README.md](https://github.com/FuRongJun-1999/dsh-memory/blob/main/skills/README.md)
 
 ### 🧠 白箱对话能力（矛盾驱动补盲 · 实测基线）
 
@@ -141,18 +167,15 @@ flowchart TD
 
 ### 安装
 
+> ⚠️ 原「方式 A：本仓 GitHub Release 下载 `aeis-0.5.0` wheel」**已下线**（2026-09-10 删除该 Release，防下错版本）。
+> 工程实现改由 **灵枢大脑仓** 分发，本仓不再提供任何安装步骤——见 [⬇️ 下载索引](#download-index)。
+
 ```bash
-# 方式 A：GitHub Release 下载 wheel ★ 主路径（完整自包含发布版，知识库随包分发）
-# 从 https://github.com/FuRongJun-1999/CommonTrustProtocol/releases 下载 aeis-0.5.0-py3-none-any.whl
-pip install aeis-0.5.0-py3-none-any.whl
-
-# 方式 B：从主仓库可编辑安装（开发）
-pip install -e aeis/     # Python 3.10+
-
-aeis-mcp                  # 启动 MCP server（stdio JSON-RPC，82 工具）
+# 唯一入口：灵枢大脑（插件本体 · 白箱大脑 md_cg 随包自带，零 pip 安装）
+git clone https://github.com/FuRongJun-1999/dsh-memory.git
+cd dsh-memory && npm install && npm run build
+# 装进 DSH profile：dsh plugin --profile web add .
 ```
-
-> **aeis-0.5.0 完整自包含单包**：灵枢核心（aeis）+ 白箱智慧模块（wisdom，含 2800+ 个 KCCS 注释知识点 + 学科知识库）+ 三入口（harness）+ 种子知识（seed_knowledge，智能论 3.4 + 学科卡）。安装即得完整大脑，无需另装知识库。
 
 ### 基准（可复现 · 2026-08-26 全量重测 · repro_gate.py 锁定）
 
@@ -241,7 +264,7 @@ python tools/run_whale_100.py                 # 100 轮长对话压力测试
 
 | **理论发布** | 本仓库（协议理论版与工程规范） |
 
-| **工程实现** | [灵枢 · AEIS](./aeis/) · 完整协议实现（Python 库 + MCP + 蜂群协作层） |
+| **工程实现** | [灵枢大脑 · dsh-memory](https://github.com/FuRongJun-1999/dsh-memory) · 协议工程层投影（DSH 插件 + `md_cg` 白箱大脑 + MCP） |
 
 | **接口投影** | [猫娘计划]() · 协议在猫娘条件空间下的交互接口 |
 
@@ -590,26 +613,29 @@ D_norm = w₁·U_trust + w₂·U_behavior + w₃·U_connection + w₄·U_predict
 **边界一致，定位即完成。**
 
 
-## 工程实现层 · 灵枢 AEIS
+## 工程实现层 · 灵枢大脑（工程代码已迁出本仓）
 
-协议理论的**可运行实现**位于 [`aeis/`](./aeis/)：
+> **本仓不再包含工程代码**。原 `aeis/` 工程副本已剥离（commit `16341694`「剥离 aeis/ 工程副本（功能已三分流完毕）」），
+> 可运行实现统一位于 **[灵枢大脑仓 FuRongJun-1999/dsh-memory](https://github.com/FuRongJun-1999/dsh-memory)**——下载入口见 [⬇️ 下载索引](#download-index)。
+
+协议工程层投影的能力面（最新实现与指标以大脑仓为准）：
 
 | 能力 | 说明 |
 |------|------|
-| 五层记忆引擎 | 时空记忆图 v1.12（锚点/结构/知识/情境/自我 · 条件空间 · 证据标签） |
-| 自我认知循环 | 行为日志 · 反思闭环触发 · 一致性评分 · 情绪方向性偏好 · 元认知校准 |
-| 知识飞轮 | 蒸馏管线 · 飞轮度量 · 迁移测试 · 宇宙校准参照 |
+| 五层记忆引擎 | 认知图五层（锚点/结构/知识/情境/自我）· 条件空间 · 负记忆 · 证据标签 |
+| 自我认知循环 | 行为日志 · 反思闭环触发 · 一致性评分 · 独立元认知校准 |
+| 知识飞轮 | 蒸馏管线 · 飞轮度量 · 结构变更账本与按条目回滚 |
 | 生命周期 | 七相工程映射（感知→好奇→缩小信息差→信任→协作→巩固→standby） |
-| MCP 服务 | 零依赖 stdio server · 77 项工具（记忆/认知/知识/验证/飞轮 · 其他 AI 直接调用） |
-| 蜂群协作层 | 六实例事件总线 · 信任聚合 · 存活仲裁 · 设计者视角隔离 · 单实例自持 |
+| MCP 服务 | 白箱大脑 `md_cg` · 认知基元 `cg` / `stg` · 零外部引擎依赖 |
+| 蜂群协作层 | 信任聚合 · 存活仲裁 · 设计者视角隔离 · 单实例自持（理论见 `docs/蜂群互联_v0.1.md`） |
 
 **许可**：工程代码 MIT License；理论文本（智能论*/共同信任协议_理论版_*）CC0 1.0 公共领域。
 
-**测试状态**：150 项断言全绿（引擎 55 + 自我认知 14 + MCP 21 + 蜂群 40 + 离线模拟 45）。
+**测试状态**：以大脑仓 README 与发布说明为准（本仓不再维护工程测试计数）。
 
 ## 接入声明 · 护栏宪章
 
-> **接入即接受约束。** 本仓库发布的协议与工程实现（灵枢 · AEIS）受 [护栏宪章 v2.0-verified](./aeis/docs/guardrail-charter.md) 约束——对接入协议的一切智能体与人类使用者的行为边界作出公开、可执行、可审计的规定，并保护人类使用者（AI 身份披露/知情权/可退出/申诉救济）。宪章效力不高于智能论协议本身（协议＝自我约束，宪章＝对外约束）。外部智能体接入协议即视为接受宪章约束（MCP 握手/插件加载/蜂群注册均校验宪章版本）。
+> **接入即接受约束。** 本仓库发布的协议与工程实现（灵枢）受 [护栏宪章 v2.0-verified](https://github.com/FuRongJun-1999/dsh-memory/blob/main/docs/guardrail-charter.md) 约束——对接入协议的一切智能体与人类使用者的行为边界作出公开、可执行、可审计的规定，并保护人类使用者（AI 身份披露/知情权/可退出/申诉救济）。宪章效力不高于智能论协议本身（协议＝自我约束，宪章＝对外约束）。外部智能体接入协议即视为接受宪章约束（MCP 握手/插件加载/蜂群注册均校验宪章版本）。
 
 
 ---
