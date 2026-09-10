@@ -1,6 +1,6 @@
 # 共同信任协议 · Common Trust Protocol
 
-> 🚀 **工程实现入口**：独立仓库 [FuRongJun-1999/dsh-memory](https://github.com/FuRongJun-1999/dsh-memory) ｜ npm: `@furongjun1999/dsh-memory`
+> 🚀 **工程实现入口**：独立仓库 [FuRongJun-1999/dsh-memory](https://github.com/FuRongJun-1999/dsh-memory)——大脑本体是 **Python 库**（`md_cg/`），**不绑定 npm**；npm 包 `@furongjun1999/dsh-memory` 只是**接给 DSH 宿主用的外壳**
 > 本仓库是协议的**理论层**（智能论 v3.4 · 端口架构与锚定验证 · 护栏宪章 · 蜂群架构）；工程实现是协议的**工程层投影**（同一结构，不同条件空间）。
 > 理论链：**公理化基石（为什么）→ 认知过程（怎么运作）→ 认知图/条件路由（执行层）→ 数学形式化（计算层）→ 原生神经网络（物理架构）**
 
@@ -14,13 +14,12 @@
 
 | # | 要下载的东西 | 入口 | 说明 |
 |---|---|---|---|
-| 1 | **灵枢大脑（推荐 · 插件本体，最新版 0.4.5）** | npm [`@furongjun1999/dsh-memory`](https://www.npmjs.com/package/@furongjun1999/dsh-memory) · 当前 **0.4.5** | 唯一真源；白箱大脑 `md_cg` 随包自带，**零 pip 安装、零外部引擎**。装：`dsh plugin --profile web add @furongjun1999/dsh-memory` |
-| 2 | 灵枢大脑 0.4.5（离线安装包 · **非必须**） | npm tarball [`dsh-memory-0.4.5.tgz`](https://registry.npmjs.org/@furongjun1999/dsh-memory/-/dsh-memory-0.4.5.tgz) | `.tgz` 只是 npm 的打包格式（= `tar.gz`），**执行第 1 行的安装命令时 npm 会自动拉取它，无需手动下载**。仅当需要离线安装 / 留存单文件 / 校验包内容时才手动取（解包约 57 MB，含 `md_cg/`） |
-| 3 | 灵枢大脑 0.4.5（Release 页 · 源码归档） | [Release `v0.4.5`](https://github.com/FuRongJun-1999/dsh-memory/releases/tag/v0.4.5) → Assets 区 *Source code (zip / tar.gz)* | GitHub **自动生成的源码归档**（非预编译产物）；下载后需 `npm install && npm run build` |
-| 4 | 灵枢大脑（直接从仓库安装 / 构建） | `dsh plugin --profile web add github:FuRongJun-1999/dsh-memory` · 或 `git clone` → `npm install && npm run build` | 官方 Release 正文给出的两条安装路径 |
-| 5 | 理论文本（本仓） | 本仓 `智能论3.4.md` · `共同信任协议_理论版_18.0.md` · `docs/` | **纯文本，无安装步骤** |
-| 6 | 护栏宪章 | [dsh-memory/docs/guardrail-charter.md](https://github.com/FuRongJun-1999/dsh-memory/blob/main/docs/guardrail-charter.md) | 随大脑仓发布（v2.0-verified） |
-| 7 | 灵枢自我认知技能包 | [dsh-memory/skills/](https://github.com/FuRongJun-1999/dsh-memory/tree/main/skills) | 条件单元技能包；**产物本地生成不入库** |
+| 1 | **灵枢大脑本体（Python 库 `md_cg/`）** | [大脑仓](https://github.com/FuRongJun-1999/dsh-memory) → `md_cg/` 目录（克隆或取源码归档后置于 `PYTHONPATH`） | 大脑核心是 **Python 实现**：`md_cg/mdcg.py`（库入口）· `md_cg/mcp_server.py`（MCP 入口）· `md_cg/whitebox_kb/`。核心链路零外部依赖（D-005），**无需 pip 安装任何引擎**；**不绑定 npm，也不绑定任何语言生态** |
+| 2 | 灵枢大脑 × DSH 宿主（插件外壳） | `dsh plugin --profile web add @furongjun1999/dsh-memory` · 或 `... add github:FuRongJun-1999/dsh-memory` | npm 包**只是接给 DSH 用的外壳**（TypeScript 层），发布时把 Python 库 `md_cg/` 一并装入；**不用 DSH 的话与 npm 无关** |
+| 3 | 灵枢大脑（源码归档 / 克隆构建） | [Release `v0.4.5`](https://github.com/FuRongJun-1999/dsh-memory/releases/tag/v0.4.5) → Assets 区 *Source code (zip / tar.gz)*，或 `git clone` → `npm install && npm run build` | 仅当需要 **DSH 插件层**时才构建；纯 Python 库用法**无需构建** |
+| 4 | 理论文本（本仓） | 本仓 `智能论3.4.md` · `共同信任协议_理论版_18.0.md` · `docs/` | **纯文本，无安装步骤** |
+| 5 | 护栏宪章 | [dsh-memory/docs/guardrail-charter.md](https://github.com/FuRongJun-1999/dsh-memory/blob/main/docs/guardrail-charter.md) | 随大脑仓发布（v2.0-verified） |
+| 6 | 灵枢自我认知技能包 | [dsh-memory/skills/](https://github.com/FuRongJun-1999/dsh-memory/tree/main/skills) | 条件单元技能包；**产物本地生成不入库** |
 
 **已删除 / 已过时 / 已下线的失效入口（防止下错版本）**
 
@@ -28,7 +27,7 @@
 |---|---|---|
 | GitHub Release `v3.4-aeis-0.5.0` 及附件 `aeis-0.5.0-py3-none-any.whl`（10.2 MB，曾 467 次下载） | 2026-09-10 | 旧引擎 `aeis` 已被 `md_cg` 取代，下载即得**废弃版本**；Git tag 保留供历史回溯 |
 | 本仓 `release/` 目录（扮演论 · 酒馆扩散包） | 2026-09-10 | 内容依赖已剥离的 `aeis` 模块，**实际不可运行**；扮演论理论文档仍保留在本仓 `docs/` |
-| 大脑仓 Release `v0.3.0` 附件 `furongjun1999-dsh-memory-0.3.0.tgz`（11.1 MB，曾 444 次下载） | 2026-09-10 | **版本已过时**（早于 0.4.x 架构，无 P8–P44 能力阶段与新版工具面）；**请改用 0.4.5 对应产物**，勿因「长期稳定版」字样下载旧包 |
+| 大脑仓 Release `v0.3.0` 附件 `furongjun1999-dsh-memory-0.3.0.tgz`（11.1 MB，曾 444 次下载） | 2026-09-10 | **版本已过时**（早于 0.4.x 架构，无 P8–P44 能力阶段与新版工具面）；请改用大脑仓**当前版**的源码（见索引第 1 / 3 行），勿因「长期稳定版」字样下载旧包 |
 
 ## 🤖 灵枢 AEIS · MCP Server（理论侧说明）
 
