@@ -15,7 +15,7 @@
 | # | 要下载的东西 | 入口 | 说明 |
 |---|---|---|---|
 | 1 | **灵枢大脑（推荐 · 插件本体，最新版 0.4.5）** | npm [`@furongjun1999/dsh-memory`](https://www.npmjs.com/package/@furongjun1999/dsh-memory) · 当前 **0.4.5** | 唯一真源；白箱大脑 `md_cg` 随包自带，**零 pip 安装、零外部引擎**。装：`dsh plugin --profile web add @furongjun1999/dsh-memory` |
-| 2 | **灵枢大脑 0.4.5（单文件打包产物）** | npm tarball [`dsh-memory-0.4.5.tgz`](https://registry.npmjs.org/@furongjun1999/dsh-memory/-/dsh-memory-0.4.5.tgz) | 与 **0.4.5 版本严格对应**的可下载产物；解包约 57 MB（含 `md_cg/`）。地址已实测可达 |
+| 2 | 灵枢大脑 0.4.5（离线安装包 · **非必须**） | npm tarball [`dsh-memory-0.4.5.tgz`](https://registry.npmjs.org/@furongjun1999/dsh-memory/-/dsh-memory-0.4.5.tgz) | `.tgz` 只是 npm 的打包格式（= `tar.gz`），**执行第 1 行的安装命令时 npm 会自动拉取它，无需手动下载**。仅当需要离线安装 / 留存单文件 / 校验包内容时才手动取（解包约 57 MB，含 `md_cg/`） |
 | 3 | 灵枢大脑 0.4.5（Release 页 · 源码归档） | [Release `v0.4.5`](https://github.com/FuRongJun-1999/dsh-memory/releases/tag/v0.4.5) → Assets 区 *Source code (zip / tar.gz)* | GitHub **自动生成的源码归档**（非预编译产物）；下载后需 `npm install && npm run build` |
 | 4 | 灵枢大脑（直接从仓库安装 / 构建） | `dsh plugin --profile web add github:FuRongJun-1999/dsh-memory` · 或 `git clone` → `npm install && npm run build` | 官方 Release 正文给出的两条安装路径 |
 | 5 | 理论文本（本仓） | 本仓 `智能论3.4.md` · `共同信任协议_理论版_18.0.md` · `docs/` | **纯文本，无安装步骤** |
