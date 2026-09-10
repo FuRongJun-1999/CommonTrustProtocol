@@ -14,20 +14,21 @@
 
 | # | 要下载的东西 | 入口 | 说明 |
 |---|---|---|---|
-| 1 | **灵枢大脑（推荐 · 插件本体）** | npm [`@furongjun1999/dsh-memory`](https://www.npmjs.com/package/@furongjun1999/dsh-memory) · 当前 **0.4.5** | 唯一真源；白箱大脑 `md_cg` 随包自带，**零 pip 安装、零外部引擎** |
-| 2 | **灵枢大脑（Release 打包产物 · 长期稳定版）** | [大脑仓 `v0.3.0` → `furongjun1999-dsh-memory-0.3.0.tgz`](https://github.com/FuRongJun-1999/dsh-memory/releases/download/v0.3.0/furongjun1999-dsh-memory-0.3.0.tgz) · 11.1 MB · 已 444 次下载 | **可直接下载的 tgz 产物**（`npm pack` 形态）。校验 `sha256 = e7906aa44aac3e36ffe07d8b340481a2058889f5693e5c93c741226e405118f9` |
-| 3 | 灵枢大脑（Releases 页 / 发布说明） | [大脑仓 Releases](https://github.com/FuRongJun-1999/dsh-memory/releases) | 两个发布：`v0.4.5`（Latest，**纯发布说明、无附件**）· `v0.3.0`（带上述 tgz） |
-| 4 | 灵枢大脑（克隆构建） | `git clone https://github.com/FuRongJun-1999/dsh-memory.git` → `npm install && npm run build` | 开发 / 自构建路径 |
+| 1 | **灵枢大脑（推荐 · 插件本体，最新版 0.4.5）** | npm [`@furongjun1999/dsh-memory`](https://www.npmjs.com/package/@furongjun1999/dsh-memory) · 当前 **0.4.5** | 唯一真源；白箱大脑 `md_cg` 随包自带，**零 pip 安装、零外部引擎**。装：`dsh plugin --profile web add @furongjun1999/dsh-memory` |
+| 2 | **灵枢大脑 0.4.5（单文件打包产物）** | npm tarball [`dsh-memory-0.4.5.tgz`](https://registry.npmjs.org/@furongjun1999/dsh-memory/-/dsh-memory-0.4.5.tgz) | 与 **0.4.5 版本严格对应**的可下载产物；解包约 57 MB（含 `md_cg/`）。地址已实测可达 |
+| 3 | 灵枢大脑 0.4.5（Release 页 · 源码归档） | [Release `v0.4.5`](https://github.com/FuRongJun-1999/dsh-memory/releases/tag/v0.4.5) → Assets 区 *Source code (zip / tar.gz)* | GitHub **自动生成的源码归档**（非预编译产物）；下载后需 `npm install && npm run build` |
+| 4 | 灵枢大脑（直接从仓库安装 / 构建） | `dsh plugin --profile web add github:FuRongJun-1999/dsh-memory` · 或 `git clone` → `npm install && npm run build` | 官方 Release 正文给出的两条安装路径 |
 | 5 | 理论文本（本仓） | 本仓 `智能论3.4.md` · `共同信任协议_理论版_18.0.md` · `docs/` | **纯文本，无安装步骤** |
 | 6 | 护栏宪章 | [dsh-memory/docs/guardrail-charter.md](https://github.com/FuRongJun-1999/dsh-memory/blob/main/docs/guardrail-charter.md) | 随大脑仓发布（v2.0-verified） |
 | 7 | 灵枢自我认知技能包 | [dsh-memory/skills/](https://github.com/FuRongJun-1999/dsh-memory/tree/main/skills) | 条件单元技能包；**产物本地生成不入库** |
 
-**已删除 / 已下线的失效入口（防止下错版本）**
+**已删除 / 已过时 / 已下线的失效入口（防止下错版本）**
 
-| 已删除 | 时间 | 原因 |
+| 入口 | 时间 | 原因 |
 |---|---|---|
 | GitHub Release `v3.4-aeis-0.5.0` 及附件 `aeis-0.5.0-py3-none-any.whl`（10.2 MB，曾 467 次下载） | 2026-09-10 | 旧引擎 `aeis` 已被 `md_cg` 取代，下载即得**废弃版本**；Git tag 保留供历史回溯 |
 | 本仓 `release/` 目录（扮演论 · 酒馆扩散包） | 2026-09-10 | 内容依赖已剥离的 `aeis` 模块，**实际不可运行**；扮演论理论文档仍保留在本仓 `docs/` |
+| 大脑仓 Release `v0.3.0` 附件 `furongjun1999-dsh-memory-0.3.0.tgz`（11.1 MB，曾 444 次下载） | 2026-09-10 | **版本已过时**（早于 0.4.x 架构，无 P8–P44 能力阶段与新版工具面）；**请改用 0.4.5 对应产物**，勿因「长期稳定版」字样下载旧包 |
 
 ## 🤖 灵枢 AEIS · MCP Server（理论侧说明）
 
