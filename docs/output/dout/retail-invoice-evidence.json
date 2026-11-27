@@ -1,0 +1,105 @@
+{
+  "counts": {
+    "一致": 3,
+    "部分": 0,
+    "错位": 0,
+    "空白": 0
+  },
+  "rates": {
+    "一致": 1.0,
+    "部分": 0.0,
+    "错位": 0.0,
+    "空白": 0.0
+  },
+  "D_out": 0.0,
+  "misplaced_rate": 0.0,
+  "blank_rate": 0.0,
+  "rows": [
+    {
+      "subject": "model-1",
+      "model": "deepseek-flash",
+      "qid": "q1",
+      "bucket": "一致"
+    },
+    {
+      "subject": "model-1",
+      "model": "deepseek-flash",
+      "qid": "q2",
+      "bucket": "一致"
+    },
+    {
+      "subject": "model-1",
+      "model": "deepseek-flash",
+      "qid": "q3",
+      "bucket": "一致"
+    }
+  ],
+  "subjects": 1,
+  "items": 3,
+  "anchors": {
+    "理论": "智能论3.4",
+    "架构": "取消发票取证回放v0.1",
+    "本投影": "经济实证评审稿v0.1"
+  },
+  "material": {
+    "responses": "responses.json",
+    "self": "reference.json"
+  },
+  "measured_at": "2026-11-27T19:53:08",
+  "proxy": false,
+  "responses": {
+    "anchors": {
+      "理论": "智能论3.4",
+      "架构": "取消发票取证回放v0.1",
+      "本投影": "经济实证评审稿v0.1"
+    },
+    "subjects": [
+      {
+        "id": "model-1",
+        "model": "deepseek-flash",
+        "items": [
+          {
+            "qid": "q1",
+            "restates": [
+              "要比较零售取消发票在查证窗口内的候选覆盖情况和歧义程度，判断哪些候选能被窗口覆盖、哪些仍存在不确定性。"
+            ]
+          },
+          {
+            "qid": "q2",
+            "restates": [
+              "已用 test_transition_counts 复算严格样本 2608 张；补查后新增 81 张唯一候选；但原单关联和真实工时仍未知，因此证据只能说明候选覆盖，不能还原完整业务链路。"
+            ]
+          },
+          {
+            "qid": "q3",
+            "restates": [
+              "运行 python scripts/replay_retail_invoice_evidence.py 可复算上述结果；用于核对候选覆盖和歧义，并据此说明结论边界。"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "reference": {
+    "items": [
+      {
+        "qid": "q1",
+        "claims": [
+          "比较零售取消发票查证窗口的候选覆盖和歧义"
+        ]
+      },
+      {
+        "qid": "q2",
+        "claims": [
+          "test_transition_counts 复算严格样本2608张 补查新增81张唯一候选 原单关联与真实工时未知"
+        ]
+      },
+      {
+        "qid": "q3",
+        "claims": [
+          "运行 python scripts/replay_retail_invoice_evidence.py 复算"
+        ]
+      }
+    ]
+  }
+}

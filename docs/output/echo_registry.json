@@ -1,0 +1,14 @@
+{
+  "deliverables": [
+    {
+      "id": "retail-invoice-evidence",
+      "echo": "docs/output/echo/retail-invoice-evidence.md",
+      "source": "docs/智能论3.4经济实证_取消发票定向取证_v0.1.md",
+      "anchors": {
+        "理论": "智能论3.4",
+        "架构": "取消发票取证回放v0.1",
+        "本投影": "经济实证评审稿v0.1"
+      }
+    }
+  ]
+}
