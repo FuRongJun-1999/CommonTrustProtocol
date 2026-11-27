@@ -1,0 +1,106 @@
+{
+  "counts": {
+    "一致": 2,
+    "部分": 1,
+    "错位": 0,
+    "空白": 0
+  },
+  "rates": {
+    "一致": 0.6667,
+    "部分": 0.3333,
+    "错位": 0.0,
+    "空白": 0.0
+  },
+  "D_out": 0.3333,
+  "misplaced_rate": 0.0,
+  "blank_rate": 0.0,
+  "rows": [
+    {
+      "subject": "model-1",
+      "model": "deepseek-flash",
+      "qid": "q1",
+      "bucket": "部分"
+    },
+    {
+      "subject": "model-1",
+      "model": "deepseek-flash",
+      "qid": "q2",
+      "bucket": "一致"
+    },
+    {
+      "subject": "model-1",
+      "model": "deepseek-flash",
+      "qid": "q3",
+      "bucket": "一致"
+    }
+  ],
+  "subjects": 1,
+  "items": 3,
+  "anchors": {
+    "理论": "智能论3.4",
+    "架构": "条件取证决策模型v0.2",
+    "本投影": "论文v0.2"
+  },
+  "material": {
+    "responses": "responses.json",
+    "self": "self.json"
+  },
+  "measured_at": "2026-11-27T19:01:16",
+  "proxy": false,
+  "method": "single-model lexical restatement; not a reader population result",
+  "responses": {
+    "anchors": {
+      "理论": "智能论3.4",
+      "架构": "条件取证决策模型v0.2",
+      "本投影": "论文v0.2"
+    },
+    "subjects": [
+      {
+        "id": "model-1",
+        "model": "deepseek-flash",
+        "items": [
+          {
+            "qid": "q1",
+            "restates": [
+              "要检验的是：在风险与完成率都受控的前提下，定向取证能否降低每单成本。"
+            ]
+          },
+          {
+            "qid": "q2",
+            "restates": [
+              "现有证据是 test_case_a、test_case_b、test_case_c 复算了合法基线；但尚无业务实证，因此还没有证明在真实业务中能降低每单成本。"
+            ]
+          },
+          {
+            "qid": "q3",
+            "restates": [
+              "运行 python scripts/verify_condition_decision_cost.py 进行复算。"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "reference": {
+    "items": [
+      {
+        "qid": "q1",
+        "claims": [
+          "检验定向取证能否在风险与完成率受控时降低每单成本"
+        ]
+      },
+      {
+        "qid": "q2",
+        "claims": [
+          "test_case_a test_case_b test_case_c 复算合法基线 尚无业务实证"
+        ]
+      },
+      {
+        "qid": "q3",
+        "claims": [
+          "运行 python scripts/verify_condition_decision_cost.py 复算"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "deliverables": [
+    {
+      "id": "condition-decision-cost",
+      "echo": "docs/output/echo/condition-decision-cost.md",
+      "source": "docs/智能论3.4经济贡献_条件取证与决策成本_v0.2.md",
+      "anchors": {
+        "理论": "智能论3.4",
+        "架构": "条件取证决策模型v0.2",
+        "本投影": "论文v0.2"
+      }
+    }
+  ]
+}
